@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+</body>
+<script>
+    var xx =  [
+            {
+                "id": 1,
+                "name": "1号大知识点",
+                "groups": [
+                    {
+                        "id": -1,
+                        "name": "其他",
+                        "achive_score": 106.599998,
+                        "reachAvgClassRate": 106.599998
+                    },
+                    {
+                        "id": 5,
+                        "name": "二班二组",
+                        "achive_score": 105.099998,
+                        "reachAvgClassRate": 106.599998
+                    },
+                    {
+                        "id": 6,
+                        "name": "二班三组",
+                        "achive_score": 108.099998,
+                        "reachAvgClassRate": 106.599998
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "name": "2号大知识点",
+                "groups": [
+                    {
+                        "id": -1,
+                        "name": "其他",
+                        "achive_score": 46.599998,
+                        "reachAvgClassRate": 46.599999
+                    },
+                    {
+                        "id": 5,
+                        "name": "二班二组",
+                        "achive_score": 60.099998,
+                        "reachAvgClassRate": 46.599999
+                    },
+                    {
+                        "id": 6,
+                        "name": "二班三组",
+                        "achive_score": 33.099999,
+                        "reachAvgClassRate": 46.599999
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "name": "3号大知识点",
+                "groups": [
+                    {
+                        "id": -1,
+                        "name": "其他",
+                        "achive_score": 465.600006,
+                        "reachAvgClassRate": 461.999994
+                    },
+                    {
+                        "id": 5,
+                        "name": "二班二组",
+                        "achive_score": 590.099976,
+                        "reachAvgClassRate": 461.999994
+                    },
+                    {
+                        "id": 6,
+                        "name": "二班三组",
+                        "achive_score": 332.100006,
+                        "reachAvgClassRate": 461.999994
+                    }
+                ]
+            },
+            {
+                "id": 4,
+                "name": "4号大知识点",
+                "groups": [
+                    {
+                        "id": -1,
+                        "name": "其他",
+                        "achive_score": 435.600006,
+                        "reachAvgClassRate": 408
+                    },
+                    {
+                        "id": 5,
+                        "name": "二班二组",
+                        "achive_score": 540.099991,
+                        "reachAvgClassRate": 408
+                    },
+                    {
+                        "id": 6,
+                        "name": "二班三组",
+                        "achive_score": 262.100006,
+                        "reachAvgClassRate": 408
+                    }
+                ]
+            }
+        ]
+
+            var average =[] //平均
+            var kno1 =[] //知识点1
+            var kno2 =[] //知识点1
+            var kno3 =[] //知识点1
+            var total =[]
+            var obj = {}
+            var score_list = []
+            for(var i=0;i<xx.length;i++) {
+                var aa = xx[i]
+                for(var j=0;j<aa.groups.length;j++) {
+                    var ww = aa.groups[j].achive_score
+                    var rr = aa.groups[j].reachAvgClassRate
+                }
+                    average.push(rr)   
+                    kno1.push(ww)   
+                    kno2.push(ww)   
+                    kno3.push(ww)   
+            }
+            var name_list=[]
+            var legend_list=[]
+             for (var i = 0; i < xx.length; i++) { //遍历knowledges数组 
+                    var s_name = xx[i].name   //取出name的值
+                    var s_groups =xx[0].groups  //取出group的值                                                    
+                    name_list.push(s_name)
+                }
+                console.log(xx[0].groups)
+                for (var i = 0; i < s_groups.length; i++) {  //遍历groups数组
+                    var leg = s_groups[i].name
+                    legend_list.push(leg)
+                }
+                legend_list.unshift('平均')
+
+
+            for(var x=0;x<legend_list.length;x++) {
+                obj.name = legend_list[x]
+                console.log(obj)
+                total.push(obj)
+            }
+            console.log(total)
+            
+</script>
+</html>
