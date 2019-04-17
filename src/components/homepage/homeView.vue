@@ -4,7 +4,7 @@
         <div class='big-bg'>
             <div class="logo_name">北京伊顿教育集团管理系统</div>
         </div>
-        <div class="wrap clearfix" style="min-width:1500px">
+        <div class="wrap clearfix" style="min-width:1200px">
             <div class="user_search_wrap left">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="学生查询" name="first">

@@ -26,7 +26,7 @@
   height: 20px;
   color: rgba(160, 160, 160, 1);
   font-size: 14px;
-  text-align: left;
+  /* text-align: left; */
   font-family: SourceHanSansSC-regular;
 }
 </style>
