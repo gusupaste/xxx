@@ -233,7 +233,7 @@
     }
     .homeView .user_search_wrap {
         height: 200px;
-        width: 75%;
+        width: 70%;
         text-align: left;
         /* border: 1px solid red; */
     }
@@ -242,7 +242,7 @@
     }
     .homeView .school_calendar {
         text-align: left;
-        margin-left: 4%;
+        margin-left: 5%;
         width: 300px;
         /* height: 400px; */
         /* border: 1px dashed red; */
