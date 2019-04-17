@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/homepage/home'
 import login from '@/components/login/login'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
+import Schoollist from '@/components/school/schoollist/list'
 
 Vue.use(Router)
 
@@ -18,6 +19,15 @@ export default new Router({
       path: '/systemmanagement/brand-management',/*品牌管理*/
       name: 'brand-management',
       component: Brandmanagement,
+      meta: { auth: false, keepAlive: false },
+      children:[
+
+      ]
+    },
+    {
+      path: '/school/school-list',/*校园列表*/
+      name: 'school-list',
+      component: Schoollist,
       meta: { auth: false, keepAlive: false },
       children:[
 
