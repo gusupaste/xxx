@@ -1,5 +1,6 @@
 <template>
     <div class='brandmanagement'>
+      <home></home>
       <p>YOU ARE HERE : 系统管理 >> 品牌管理</p>
       <div class="conter">
 
@@ -18,12 +19,16 @@
   }
 </style>
 <script>
+import Home from '@/components/homepage/home'
   export default {
     data() {
       return {
         activeIndex: '1',
         activeIndex2: '1'
       };
+    },
+    components:{
+      Home
     },
     methods: {
       handleSelect(key, keyPath) {

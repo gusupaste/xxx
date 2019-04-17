@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'vue-event-calendar/dist/style.css' ;
+import vueEventCalendar from 'vue-event-calendar';
 import App from './App';
 import router from './router/router';
 import store from './store/store';
@@ -10,6 +12,7 @@ import axios from 'axios';
 
 
 Vue.use(ElementUI);
+Vue.use(vueEventCalendar, {locale: 'en',color: '#4fc08d'});
 Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false

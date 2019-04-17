@@ -11,7 +11,9 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
-            <el-menu-item index="1">首页</el-menu-item>
+            <el-menu-item index="1">
+              <router-link to="/home">首页</router-link>
+            </el-menu-item>
             <el-submenu index="2">
                 <template slot="title">校园</template>
                 <el-menu-item index="2-1">城际列表</el-menu-item>
@@ -34,7 +36,9 @@
             </el-submenu>
             <el-submenu index="7">
               <template slot="title">系统管理</template>
-              <el-menu-item index="7-1">品牌管理</el-menu-item>
+              <el-menu-item index="7-1">
+                <router-link to="/systemmanagement/brand-management">品牌管理</router-link>
+              </el-menu-item>
               <el-menu-item index="7-2">学年定义</el-menu-item>
               <el-menu-item index="7-3">结算区间定义</el-menu-item>
               <el-menu-item index="7-4">流程定义</el-menu-item>
@@ -49,6 +53,7 @@
             </div>
           </div>
         </div>
+          <!-- <router-view></router-view> -->
     </div>
 </template>
 <style lang="">
@@ -96,6 +101,9 @@
     border-bottom: none !important;
     color:#fff !important;
   }
+  a {
+    color: #fff !important;
+  }
   /* .el-menu--popup-bottom-start {
     margin-top:0 !important;
     background-color: #fff !important;
@@ -111,7 +119,9 @@
   } */
 </style>
 <script>
+
   export default {
+    name:'Home',
     data() {
       return {
         activeIndex: '1',

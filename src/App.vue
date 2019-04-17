@@ -28,6 +28,19 @@ html {
   height: 100%;
   min-width: 1200px;
 }
+.clearfix:after{
+  content:".";
+  display:block;
+  height:0;
+  clear:both;
+  visibility:hidden
+  }
+.wrap {
+  width: 90%;
+  min-width: 1200px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
 .btn {
   width:84px;
   height:36px;
@@ -62,14 +75,17 @@ html {
 .mt26 {
     margin-top:26px;
   }
-.clearfix:after{
-  content:".";
-  display:block;
-  height:0;
-  clear:both;
-  visibility:hidden
-  }
-  .orange {
-    color:#f17128;
-  }
+.orange {
+  color:#f17128;
+}
+a {
+  text-decoration: none;
+}
+.el-pagination {
+  text-align: center;
+  margin-top: 10px;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #f17128;
+}
 </style>

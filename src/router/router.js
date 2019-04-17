@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/homepage/home'
+import Home from '@/components/homepage/homeView'
 import login from '@/components/login/login'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 
