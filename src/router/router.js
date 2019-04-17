@@ -41,13 +41,11 @@ export default new Router({
           path: '/school/school-list',
           name: 'school-list',
           component: Schoollist,
-          children:[
-            {
-              path: '/school/school-detail',
-              name: 'school-detail',
-              component: Schooldetail
-            }
-          ]
+        },
+        {
+          path: '/school/school-detail',
+          name: 'school-detail',
+          component: Schooldetail
         }
       ]
     },
