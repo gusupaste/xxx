@@ -5,6 +5,7 @@ import login from '@/components/login/login'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import School from '@/components/school/index'
 import Schoollist from '@/components/school/schoollist/list'
+import Schooldetail from '@/components/school/schoollist/detail'
 import Intercitylist from '@/components/school/intercitylist/list'
 
 Vue.use(Router)
@@ -39,7 +40,14 @@ export default new Router({
         {
           path: '/school/school-list',
           name: 'school-list',
-          component: Schoollist
+          component: Schoollist,
+          children:[
+            {
+              path: '/school/school-detail',
+              name: 'school-detail',
+              component: Schooldetail
+            }
+          ]
         }
       ]
     },

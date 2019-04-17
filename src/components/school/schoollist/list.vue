@@ -1,5 +1,4 @@
 <template>
-
   <div class="schoollist">
     <div class="content">
       <p>YOU ARE HERE : 校园 >> <span>校园列表</span></p>
@@ -49,6 +48,10 @@
           prop="name"
           label="校园名称"
           width="180">
+          <template slot-scope="scope">
+              <router-link :to="{name: 'school-detail'}">{{ scope.row.name }}</router-link>
+          </template>
+
         </el-table-column>
         <el-table-column
           prop="intercity"
