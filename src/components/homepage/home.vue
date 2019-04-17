@@ -14,8 +14,8 @@
             <el-menu-item index="1">首页</el-menu-item>
             <el-submenu index="2">
                 <template slot="title">校园</template>
-                <el-menu-item index="2-1">城际列表</el-menu-item>
-                <el-menu-item index="2-2">校园列表</el-menu-item>
+                <el-menu-item index="2-1"><router-link to="/intercity-list">城际列表</router-link></el-menu-item>
+                <el-menu-item index="2-2"><router-link to="/school-list">校园列表</router-link></el-menu-item>
                 <el-menu-item index="2-3">校园折扣预算</el-menu-item>
                 <el-menu-item index="2-4">校园招生目标数</el-menu-item>
                 <el-menu-item index="2-5">校园收入目标</el-menu-item>
@@ -43,7 +43,7 @@
               <el-menu-item index="7-7">校日历管理</el-menu-item>
             </el-submenu>
             </el-menu>
-            <div class="userInfo"> 
+            <div class="userInfo">
               <span>集团端XXX，你好</span>
               <i class="orange el-icon-remove-outline"></i>
             </div>
