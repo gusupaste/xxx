@@ -32,22 +32,16 @@ export default new Router({
       component: School,
       children:[
         {
-          path: '/intercity-list',
+          path: '/school/intercity-list',
           name: 'intercity-list',
           component: Intercitylist
         },
         {
-          path: '/school-list',
+          path: '/school/school-list',
           name: 'school-list',
           component: Schoollist
         }
       ]
-    },
-    {
-      path: '/school/school-list',
-      name: 'school-list',
-      component: Schoollist,
-      meta: { auth: false, keepAlive: false },
     },
     {
       path: '/home',

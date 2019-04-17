@@ -1,6 +1,5 @@
 <template>
     <div class="schoollist">
-      <homepage></homepage>
       <div class="content">
       <p>YOU ARE HERE : 校园 >> <span>校园列表</span></p>
       <p class="bold">伊顿旗下的校园列表，你可以选择查看某个区域或城市下的校园信息。</p>
@@ -80,10 +79,8 @@
 </template>
 
 <script>
-    import homepage from '../../homepage/home.vue';
     export default {
       components: {
-        homepage,
       },
       data() {
         return {
