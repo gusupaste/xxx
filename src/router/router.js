@@ -6,6 +6,7 @@ import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import School from '@/components/school/index'
 import Schoollist from '@/components/school/schoollist/list'
 import Schooldetail from '@/components/school/schoollist/detail'
+import Schooladd from '@/components/school/schoollist/add'
 import Intercitylist from '@/components/school/intercitylist/list'
 
 Vue.use(Router)
@@ -46,6 +47,11 @@ export default new Router({
           path: '/school/school-detail',
           name: 'school-detail',
           component: Schooldetail
+        },
+        {
+          path: '/school/school-add',
+          name: 'school-add',
+          component: Schooladd
         }
       ]
     },
