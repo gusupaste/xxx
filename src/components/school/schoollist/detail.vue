@@ -1,8 +1,7 @@
 <template>
   <div class="schooldetail">
     <div class="content">
-      <p>YOU ARE HERE : 校园 >> <span>校园列表</span></p>
-      <p class="bold">伊顿旗下的校园列表，你可以选择查看某个区域或城市下的校园信息。</p>
+      <p>YOU ARE HERE : 校园 >> 校园列表 >> 校园概况</p>
     </div>
   </div>
 </template>
