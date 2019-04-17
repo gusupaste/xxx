@@ -102,6 +102,10 @@
     margin: 10px;
   }
 
+  .schoollist a{
+    color: blue !important;
+  }
+
   .schoollist {
     color: rgba(160, 160, 160, 1);
     text-align: left;

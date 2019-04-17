@@ -87,9 +87,6 @@ html {
 .mt26 {
     margin-top:26px;
   }
-.orange {
-  color:#f17128;
-}
 a {
   text-decoration: none;
 }
@@ -100,4 +97,21 @@ a {
 .el-pagination.is-background .el-pager li:not(.disabled).active {
   background-color: #f17128;
 }
+.clearfix:after{
+  content:".";
+  display:block;
+  height:0;
+  clear:both;
+  visibility:hidden
+}
+.orange {
+  color:#f17128;
+}
+.font-cl-blue{
+  color: #0b6289;
+}
+.font-size-5{
+  font-size: 5px;
+}
+
 </style>
