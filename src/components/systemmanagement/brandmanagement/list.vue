@@ -20,7 +20,7 @@
 </template>
 <style scoped>
   .brandmanagement-content{
-    padding: 10px 25px;
+    padding: 10px 40px;
     margin: 0;
   }
   .brandmanagement-content p{
