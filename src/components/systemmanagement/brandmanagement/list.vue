@@ -1,6 +1,5 @@
 <template>
     <div class='brandmanagement'>
-      <homepage></homepage>
       <div class="brandmanagement-content">
         <p>YOU ARE HERE : 系统管理 >> 品牌管理</p>
         <div class="content-top">
@@ -55,10 +54,8 @@
   }
 </style>
 <script>
-  import homepage from '../../homepage/home.vue';
   export default {
     components: {
-      homepage,
     },
     data() {
       return {
