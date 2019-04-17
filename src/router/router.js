@@ -3,6 +3,10 @@ import Router from 'vue-router'
 import Home from '@/components/homepage/homeView'
 import login from '@/components/login/login'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
+import School from '@/components/school/index'
+import Schoollist from '@/components/school/schoollist/list'
+import Schooldetail from '@/components/school/schoollist/detail'
+import Intercitylist from '@/components/school/intercitylist/list'
 
 Vue.use(Router)
 
@@ -21,6 +25,30 @@ export default new Router({
       meta: { auth: false, keepAlive: false },
       children:[
 
+      ]
+    },
+    {
+      path: '/school',/*校园*/
+      name: 'school',
+      component: School,
+      children:[
+        {
+          path: '/school/intercity-list',
+          name: 'intercity-list',
+          component: Intercitylist
+        },
+        {
+          path: '/school/school-list',
+          name: 'school-list',
+          component: Schoollist,
+          children:[
+            {
+              path: '/school/school-detail',
+              name: 'school-detail',
+              component: Schooldetail
+            }
+          ]
+        }
       ]
     },
     {
