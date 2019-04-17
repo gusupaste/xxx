@@ -102,9 +102,14 @@ export default {
         _this.loading = false;
           if(res.status == 200) {
             console.log(res)
+            _this.$store.state.user_Info = res.data.user;
+            _this.$store.state.user_Token = res.data.token;
+            localStorage.setItem('user_Info',JSON.stringify(res.data.user));
+            localStorage.setItem('user_Token',JSON.stringify(res.data.token));
             _this.$router.push('/home');
           }
       }).catch(err=>{
+        console.log(err)
         _this.loading = false;
         _this.$message({
           type:'error',

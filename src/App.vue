@@ -6,7 +6,19 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  mounted(){
+    this.user_info();
+  },
+  methods:{
+    user_info(){
+        var pk = this.$store.state.user_Info.pk;
+        if(!pk){
+          this.$store.state.user_Info = JSON.parse(localStorage.getItem('user_Info'));
+          this.$store.state.user_Token = localStorage.getItem('user_Token');
+        }
+      }
+  }
 }
 </script>
 

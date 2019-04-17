@@ -48,8 +48,8 @@
             </el-submenu>
             </el-menu>
             <div class="userInfo">
-              <span>集团端XXX，你好</span>
-              <i class="orange el-icon-remove-outline"></i>
+              <span>集团端{{$store.state.user_Info.fullname}}，你好</span>
+              <i style="cursor:pointer" class="orange el-icon-remove-outline" @click="logout"></i>
             </div>
           </div>
         </div>
@@ -119,7 +119,6 @@
   } */
 </style>
 <script>
-
   export default {
     name:'Home',
     data() {
@@ -128,10 +127,20 @@
         activeIndex2: '1'
       };
     },
+    mounted(){
+      
+    },
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
-      }
-    }
+      },
+      logout(){
+        localStorage.removeItem('user_Info');
+        localStorage.removeItem('user_Token');
+        this.$router.push('/login');
+      },
+    
+    },
+
   }
 </script>
