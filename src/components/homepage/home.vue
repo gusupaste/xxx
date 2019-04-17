@@ -8,16 +8,17 @@
                 class="el-menu-demo"
                 mode="horizontal"
                 @select="handleSelect"
-                background-color="#545c64"
+                background-color="#0b6289"
                 text-color="#fff"
-                active-text-color="#ffd04b">
-            <el-menu-item index="1">
-              <router-link to="/home">首页</router-link>
+                active-text-color="#fff"
+                router>
+            <el-menu-item index="1" route="/home" >
+              首页
             </el-menu-item>
             <el-submenu index="2">
                 <template slot="title">校园</template>
-                <el-menu-item index="2-1"><router-link to="/school/intercity-list">城际列表</router-link></el-menu-item>
-                <el-menu-item index="2-2"><router-link to="/school/school-list">校园列表</router-link></el-menu-item>
+                <el-menu-item index="2-1" route="/school/intercity-list">城际列表</el-menu-item>
+                <el-menu-item index="2-2" route="/school/school-list">校园列表</el-menu-item>
                 <el-menu-item index="2-3">校园折扣预算</el-menu-item>
                 <el-menu-item index="2-4">校园招生目标数</el-menu-item>
                 <el-menu-item index="2-5">校园收入目标</el-menu-item>
@@ -36,8 +37,8 @@
             </el-submenu>
             <el-submenu index="7">
               <template slot="title">系统管理</template>
-              <el-menu-item index="7-1">
-                <router-link to="/systemmanagement/brand-management">品牌管理</router-link>
+              <el-menu-item index="7-1" route="/systemmanagement/brand-management">
+                品牌管理
               </el-menu-item>
               <el-menu-item index="7-2">学年定义</el-menu-item>
               <el-menu-item index="7-3">结算区间定义</el-menu-item>
@@ -53,7 +54,7 @@
             </div>
           </div>
         </div>
-          <!-- <router-view></router-view> -->
+          <router-view></router-view>
     </div>
 </template>
 <style lang="">
@@ -73,16 +74,14 @@
   }
   .homePage_menu .el-menu.el-menu--horizontal {
     border-bottom:none;
-    background-color: #0b6289 !important;
     position: absolute;
     left: 180px;
   }
-  .homePage_menu .el-menu-item {
-    background-color: #0b6289 !important;
+  .homePage_menu .el-menu-item ,.el-submenu{
     width: 100px;
   }
-  .homePage_menu .el-submenu__title {
-    background-color: #0b6289 !important;
+  .el-submenu__icon-arrow , .el-icon-arrow-down {
+    display: none;
   }
   .homePage_menu .userInfo {
     color: #fff;
@@ -94,17 +93,12 @@
   .homePage_menu .is-active {
     background-color: #f17128 !important;
     border-bottom: none !important;
-    color:#fff !important;
   }
   .homePage_menu .is-active .el-submenu__title {
     background-color: #f17128 !important;
     border-bottom: none !important;
-    color:#fff !important;
   }
-  a {
-    color: #fff !important;
-  }
-  /* .el-menu--popup-bottom-start {
+  .el-menu--popup-bottom-start {
     margin-top:0 !important;
     background-color: #fff !important;
     border:1px solid #f17128 !important;
@@ -116,7 +110,13 @@
     color:#101010 !important;
     text-align: center;
     border-bottom: 1px solid #bbb;
-  } */
+  }
+  .el-menu--horizontal .el-menu .el-menu-item.is-active, .el-menu--horizontal .el-menu .el-submenu.is-active>.el-submenu__title {
+    color:#f17128 !important;
+  }
+  .el-menu--collapse .el-menu .el-submenu, .el-menu--popup {
+    min-width: 0;
+  }
 </style>
 <script>
   export default {
@@ -132,6 +132,7 @@
     },
     methods: {
       handleSelect(key, keyPath) {
+        console.log()
         console.log(key, keyPath);
       },
       logout(){
