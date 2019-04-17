@@ -87,9 +87,6 @@ html {
 .mt26 {
     margin-top:26px;
   }
-.orange {
-  color:#f17128;
-}
 a {
   text-decoration: none;
 }
