@@ -82,28 +82,16 @@
                   <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
                   <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
                   <el-checkbox label="地推活动" name="type"></el-checkbox>
-                  <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                  <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-                  <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                  <el-checkbox label="地推活动" name="type"></el-checkbox>
-                  <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                  <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                </el-checkbox-group>
+                <el-checkbox-group v-model="type" v-for="school in selectSchool" :key="school.id" >
+                  <el-checkbox name="type">{{ school.name }}</el-checkbox>
                 </el-checkbox-group>
               </div>
             </div>
             <div class="item-div2">
               <p>已选学校</p>
               <div class="item-div2-span">
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
-                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p v-for="unschool in UNSelectSchool" :key="unschool.id">{{ unschool.name }}<span class="el-icon-delete"></span></p>
               </div>
             </div>
           </el-form-item>
@@ -179,7 +167,40 @@
           { name: "Juan", id: 5 },
           { name: "Edgard", id: 6 },
           { name: "Johnson", id: 7 }
-        ]
+        ],
+        list2: [
+          { name: "Juan", id: 5 },
+          { name: "Edgard", id: 6 },
+          { name: "Johnson", id: 7 }
+        ],
+        selectSchool: [
+          {
+            name: "幼儿园1",
+            id: 1,
+          },
+          {
+            name: "幼儿园2",
+            id: 2
+          },
+          {
+            name: "幼儿园3",
+            id: 3
+          }
+        ],
+        UNSelectSchool: [
+          {
+            name: "幼儿园4",
+            id: 4,
+          },
+          {
+            name: "幼儿园5",
+            id: 5
+          },
+          {
+            name: "幼儿园6",
+            id: 6
+          }
+        ],
       };
     },
     methods: {
@@ -285,5 +306,8 @@
   }
   .intercitylist .el-checkbox-group{
     width: 220px;
+  }
+  .intercitylist .el-checkbox{
+    display: block;
   }
 </style>
