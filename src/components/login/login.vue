@@ -91,6 +91,9 @@ export default {
 
   },
   methods:{
+    changeType(){
+      this.inputtype = this.inputtype === 'password' ? 'text' : 'password';
+    },
     login(){
       var _this = this;
       _this.loading = true;

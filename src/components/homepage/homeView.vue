@@ -10,7 +10,7 @@
                         <div>
                             <label for="" style="margin-left:0">城际：</label>
                             <el-select v-model="intercity" placeholder="-请选择-">
-            
+                                
                             </el-select>
                             <label for="">区域：</label>
                             <el-select v-model="area" placeholder="-请选择-">

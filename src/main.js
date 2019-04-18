@@ -9,7 +9,8 @@ import App from './App';
 import router from './router/router';
 import store from './store/store';
 import axios from 'axios';
-import '../static/css/main.css'
+import '../static/css/main.css';
+import 'font-awesome/css/font-awesome.min.css'
 
 
 Vue.use(ElementUI);
