@@ -8,21 +8,23 @@
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="学生查询" name="first">
                         <div>
-                            <label for="" style="margin-left:0">城际：</label>
-                            <el-select v-model="intercity" placeholder="-请选择-">
-                                
-                            </el-select>
-                            <label for="">区域：</label>
-                            <el-select v-model="area" placeholder="-请选择-">
-        
-                            </el-select>
-                            <label for="">校园：</label>
-                            <el-select v-model="campus" placeholder="-请选择-">
-                
-                            </el-select>
-                            <label for="">搜索：</label>
-                            <el-input style="width:250px" v-model="search" placeholder="请输入关键字"></el-input>
-                            <button class="btn bg-blue">搜索</button>
+                            <div style="line-height:50px">
+                                <label for="" style="margin-left:0">城际：</label>
+                                <el-select v-model="intercity" placeholder="-请选择-">
+                                    
+                                </el-select>
+                                <label for="">区域：</label>
+                                <el-select v-model="area" placeholder="-请选择-">
+            
+                                </el-select>
+                                <label for="">校园：</label>
+                                <el-select v-model="campus" placeholder="-请选择-">
+                    
+                                </el-select>
+                                <label for="">搜索：</label>
+                                <el-input style="width:250px" v-model="search" placeholder="请输入关键字"></el-input>
+                                <button class="btn bg-blue">搜索</button>
+                            </div>
                             <div>
                                 <el-table
                                     :data="studentList.slice((StudentcurrentPage-1)*Studentpagesize,StudentcurrentPage*Studentpagesize)"
@@ -70,29 +72,31 @@
                         <div class="to_do-list">
                                 <p style="font-size:14px;font-weight:600">待办事项</p>
                                 <div style="margin-top:20px">
-                                    <label for="" style="margin-left:0">城际：</label>
-                                    <el-select v-model="intercity" placeholder="-请选择-">
+                                    <div style="line-height:50px">
+                                        <label for="" style="margin-left:0">城际：</label>
+                                        <el-select v-model="intercity" placeholder="-请选择-">
+                        
+                                        </el-select>
+                                        <label for="">区域：</label>
+                                        <el-select v-model="area" placeholder="-请选择-">
                     
-                                    </el-select>
-                                    <label for="">区域：</label>
-                                    <el-select v-model="area" placeholder="-请选择-">
-                
-                                    </el-select>
-                                    <label for="">校园：</label>
-                                    <el-select v-model="campus" placeholder="-请选择-">
-                        
-                                    </el-select>
-                                    <label for="">类型：</label>
-                                    <el-select v-model="campus" placeholder="-请选择-">
-                        
-                                    </el-select>
-                                    <el-select v-model="campus" placeholder="-请选择-">
-                        
-                                    </el-select>
-                                    <br>
-                                    <label for="" >搜索：</label>
-                                    <el-input style="width:250px;margin-top:10px" v-model="search" placeholder="请输入关键字"></el-input>
-                                    <button class="btn bg-blue">搜索</button>
+                                        </el-select>
+                                        <label for="">校园：</label>
+                                        <el-select v-model="campus" placeholder="-请选择-">
+                            
+                                        </el-select>
+                                        <label for="">类型：</label>
+                                        <el-select v-model="campus" placeholder="-请选择-">
+                            
+                                        </el-select>
+                                        <el-select v-model="campus" placeholder="-请选择-">
+                            
+                                        </el-select>
+                                        <br>
+                                        <label for="" >搜索：</label>
+                                        <el-input style="width:250px;" v-model="search" placeholder="请输入关键字"></el-input>
+                                        <button class="btn bg-blue">搜索</button>
+                                    </div>
                                     <div>
                                         <el-table
                                             :data="thingsList.slice((ThingscurrentPage-1)*Thingspagesize,ThingscurrentPage*Thingspagesize)"

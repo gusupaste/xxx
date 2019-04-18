@@ -92,7 +92,10 @@ export default {
     login(){
       var _this = this;
       _this.loading = true;
-      // _this.inputtype = 'text';
+      if(_this.checked) {
+        localStorage.setItem('user_password',this.password);
+        localStorage.setItem('user_name',this.username);
+      }
       _this.$axios.post('http://192.168.50.232:8000/jwt-token-auth/',{
         username:_this.username,
         password:_this.password

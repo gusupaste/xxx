@@ -5,7 +5,7 @@
           <div class="head-menu">
             <img src="/static/img/logo.png" alt="">
             <el-menu
-                :default-active="activeIndex2"
+                :default-active="$route.path"
                 class="el-menu-demo"
                 mode="horizontal"
                 @select="handleSelect"
@@ -13,13 +13,13 @@
                 text-color="#fff"
                 active-text-color="#fff"
                 router>
-            <el-menu-item index="1" route="/home" >
+            <el-menu-item index="/home" route="/home" >
               首页
             </el-menu-item>
             <el-submenu index="2">
                 <template slot="title">校园</template>
-                <el-menu-item index="2-1" route="/school/intercity-list">城际列表</el-menu-item>
-                <el-menu-item index="2-2" route="/school/school-list">校园列表</el-menu-item>
+                <el-menu-item index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
+                <el-menu-item index="/school/school-list" route="/school/school-list">校园列表</el-menu-item>
                 <el-menu-item index="2-3">校园折扣预算</el-menu-item>
                 <el-menu-item index="2-4">校园招生目标数</el-menu-item>
                 <el-menu-item index="2-5">校园收入目标</el-menu-item>
@@ -38,7 +38,7 @@
             </el-submenu>
             <el-submenu index="7">
               <template slot="title">系统管理</template>
-              <el-menu-item index="7-1" route="/systemmanagement/brand-management">
+              <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">
                 品牌管理
               </el-menu-item>
               <el-menu-item index="7-2">学年定义</el-menu-item>
@@ -65,8 +65,6 @@ export default {
   name: 'App',
   data(){
     return {
-      activeIndex: '1',
-      activeIndex2: '1',
       isNeedHead:true
     }
   },
