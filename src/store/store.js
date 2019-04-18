@@ -9,25 +9,34 @@ const store = new Vuex.Store({
 
         },
         user_Token:"",
+        area:{
+            
+        }
     },
 
     // 获取属性的状态
     getters: {
         isLoggedIn(){
             return true
+        },
+        getArea(){
+            return state.area
         }
     },
 
     // 设置属性状态
     mutations: {
-        //保存登录状态
-
+        newArea(state){
+            state.area = {x:1,b:2}
+        }
     },
 
     // 应用mutations
     actions: {
         //获取登录状态
-        
+        getArea(context) {
+            context.commit('newArea')
+        }
     }
 })
 export default store

@@ -96,7 +96,7 @@ export default {
         localStorage.setItem('user_password',this.password);
         localStorage.setItem('user_name',this.username);
       }
-      _this.$axios.post('http://192.168.50.232:8000/jwt-token-auth/',{
+      _this.$axios.post('http://134.175.93.59:8000/jwt-token-auth/',{
         username:_this.username,
         password:_this.password
       }).then(res=>{
@@ -110,6 +110,7 @@ export default {
             localStorage.setItem('user_password',_this.password);
             localStorage.setItem('user_Token',JSON.stringify(res.data.token));
             _this.$router.push('/home');
+            _this.$emit('success',999)
           }
       }).catch(err=>{
         console.log(err)

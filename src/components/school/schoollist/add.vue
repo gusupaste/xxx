@@ -235,13 +235,13 @@
     display: inline-flex;
   }
   .schooladd .span-color{
-    color: orange;
+    color: #f17128;
     text-align: left;
     margin: 1% 7%;
     position: absolute;
   }
   .schooladd .icon-circle-add{
-    color: orange;
+    color: #f17128;
   }
   .schooladd .el-textarea__inner{
     width: 93%;

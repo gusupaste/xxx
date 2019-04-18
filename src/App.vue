@@ -4,11 +4,11 @@
         <div class="clearfix" style="background-color: #0b6289">
           <div class="head-menu">
             <img src="/static/img/logo.png" alt="">
+
             <el-menu
                 :default-active="$route.path"
                 class="el-menu-demo"
                 mode="horizontal"
-                @select="handleSelect"
                 background-color="#0b6289"
                 text-color="#fff"
                 active-text-color="#fff"
@@ -16,7 +16,7 @@
             <el-menu-item index="/home" route="/home" >
               首页
             </el-menu-item>
-            <el-submenu index="2" v-if="premission==1">
+            <el-submenu index="/school" > 
                 <template slot="title">校园</template>
                 <el-menu-item index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
                 <el-menu-item index="/school/school-list" route="/school/school-list">校园列表</el-menu-item>
@@ -65,7 +65,7 @@ export default {
   name: 'App',
   data(){
     return {
-      premission:this.$store.state.user_Info.type
+      premission: 8,
     }
   },
   mounted(){
@@ -80,14 +80,15 @@ export default {
           this.premission = this.$store.state.user_Info.type;
         }
       },
-      handleSelect(key, keyPath) {
-        console.log()
-        console.log(key, keyPath);
-      },
+
       logout(){
         localStorage.removeItem('user_Info');
         localStorage.removeItem('user_Token');
         this.$router.push('/login');
+      },
+      success(res){
+        alert(999)
+        this.premission = res;
       }
   }
 }
