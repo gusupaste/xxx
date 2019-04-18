@@ -78,8 +78,8 @@
 export default {
   data (){
     return {
-      username:'' ,
-      password:'' ,
+      username:'' || localStorage.getItem('user_name'),
+      password:'' || localStorage.getItem('user_password'),
       checked: JSON.parse(localStorage.getItem('checked')),
       loading:false,
       inputtype:'password'
