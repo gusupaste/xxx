@@ -82,7 +82,7 @@
           label="操作"
           min-width="30">
           <template slot-scope="scope">
-            <el-button class="red" type="text" size="small">编辑</el-button>
+            <el-button @click="editSchool" class="red" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -225,6 +225,9 @@
       addSchool:function () {
         this.$router.push({name: 'school-add'});
         /*this.$router.push({name: 'school/school-add',params:{ id:'1'}});*/
+      },
+      editSchool:function () {
+        this.$router.push({name: 'school-edit'});
       }
     }
   }

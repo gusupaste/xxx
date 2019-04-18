@@ -7,6 +7,7 @@ import School from '@/components/school/index'
 import Schoollist from '@/components/school/schoollist/list'
 import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
+import Schooledit from '@/components/school/schoollist/edit'
 import Intercitylist from '@/components/school/intercitylist/list'
 
 Vue.use(Router)
@@ -14,8 +15,8 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    { 
-      path: '/', 
+    {
+      path: '/',
       redirect: '/login'
     },
     {
@@ -56,6 +57,11 @@ export default new Router({
           path: '/school/school-add',
           name: 'school-add',
           component: Schooladd
+        },
+        {
+          path: '/school/school-edit',
+          name: 'school-edit',
+          component: Schooledit
         }
       ]
     },
