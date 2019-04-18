@@ -153,10 +153,10 @@
           <el-form-item label="备注:">
             <el-input type="textarea" v-model="formInline.user"></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
-          </el-form-item>
+          <div>
+            <el-button type="info">取消</el-button>
+            <el-button type="success">保存</el-button>
+          </div>
         </el-form>
       </div>
     </div>
@@ -242,5 +242,8 @@
   }
   .schooladd .icon-circle-add{
     color: orange;
+  }
+  .schooladd .el-textarea__inner{
+    width: 93%;
   }
 </style>
