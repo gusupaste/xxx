@@ -1,7 +1,7 @@
 <template>
   <div class="schoollist">
     <div class="content">
-      <p>YOU ARE HERE : 校园 >> <span>校园列表</span></p>
+      <p>YOU ARE HERE : 校园 >> <span class="font-cl-blue">校园列表</span></p>
       <p class="bold">伊顿旗下的校园列表，你可以选择查看某个区域或城市下的校园信息。</p>
       <p><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
@@ -31,7 +31,7 @@
           </el-option>
         </el-select>
         <span class="padding-30"><el-button type="primary">搜索</el-button></span>
-        <span class="right"><el-button type="text" @click="addSchool">新增校园</el-button></span>
+        <span class="right"><el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button></span>
       </p>
       <el-table
         :data="tableData"
@@ -103,7 +103,7 @@
   }
 
   .schoollist a{
-    color: blue !important;
+    color: #0b6289 !important;
   }
 
   .schoollist {

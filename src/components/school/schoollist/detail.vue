@@ -1,7 +1,7 @@
 <template>
   <div class="schooldetail">
     <div class="content">
-      <p>YOU ARE HERE : 校园 >> 校园列表 >> 校园概况</p>
+      <p>YOU ARE HERE : 校园 >> 校园列表 >> <span class="font-cl-blue">校园概况</span></p>
       <div class="content-top">北京理都校园</div>
       <el-col :span="24">
         <el-card shadow="always">
