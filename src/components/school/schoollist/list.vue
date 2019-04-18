@@ -88,10 +88,12 @@
       </el-table>
       <el-pagination
         background
-        layout="prev, pager, next, jumper"
+        layout="prev, pager, next, slot"
         prev-text="上一页"
         next-text="下一页"
         :total="1000" class="page">
+          <!--<el-input class="page-input"></el-input>-->
+        <div class="div-page"><input class="el-input__inner input-page" type="text"/><div class="div-page-sure">确定</div></div>
       </el-pagination>
     </div>
   </div>
@@ -153,6 +155,39 @@
   }
   .schoollist .el-pagination.is-background .el-pager li:not(.disabled).active{
     background-color: orange;
+  }
+  .schoollist .div-page{
+    display: -webkit-inline-box;
+    width: 70px;
+    text-align: left;
+    height: auto;
+    margin-left: 5px;
+  }
+  .schoollist .div-page .input-page{
+    height: 28px;
+    width: 60%;
+    padding: 0;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .schoollist .div-page .div-page-sure{
+    height: 26px;
+    line-height: 26px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    margin-left: -32px;
+    color: #606266;
+    font-size: 12px;
+    border-radius: 2px;
+  }
+  .schoollist .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
+    border: 1px solid #ccc;
+    background-color: white;
+  }
+  .schoollist .el-pagination button, .el-pagination span:not([class*=suffix]) {
+    padding: 0 10px;
   }
 </style>
 
