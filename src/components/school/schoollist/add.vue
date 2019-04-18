@@ -4,7 +4,7 @@
       <p>YOU ARE HERE : 校园 >> 校园列表 >> <span class="font-cl-blue">新增校园</span></p>
       <p class="bold">请输入新校园的相关系统,并保存提交,带*号的为必填字段。</p>
       <div class="body-content">
-        <div class="vertical-bar">基础信息</div>
+        <div class="vertical-bar">&nbsp;&nbsp;&nbsp;基础信息</div>
         <hr class="line-solid">
         <el-form :inline="true" :label-position="labelPosition" label-width="120px" :model="formInline" class="demo-form-inline ">
           <el-form-item label="校园名称(中文):">
@@ -19,11 +19,114 @@
           <el-form-item label="简称(英文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="简称(中文):">
+          <el-form-item label="校园类型:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="简称(中文):">
+          <el-form-item label="园长:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="开园日期:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="当前状态:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="地址:">
+            <el-select class="select-region" v-model="formInline.region" placeholder="省">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+            <el-select class="select-region" v-model="formInline.region" placeholder="市">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+            <el-select class="select-region" v-model="formInline.region" placeholder="区">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+            <el-input v-model="formInline.user" placeholder="请输入详细地址"></el-input>
+          </el-form-item>
+          <el-form-item label="邮政编码:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="所属城际:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="联系电话:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="传真:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="网址:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="电子邮件:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="纬度:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="经度:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+        </el-form>
+
+        <div class="vertical-bar">&nbsp;&nbsp;&nbsp;基础设备信息</div>
+        <hr class="line-solid">
+        <el-form :inline="true" :label-position="labelPosition" label-width="120px" :model="formInline" class="demo-form-inline ">
+          <el-form-item label="最大班级数:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="满园学生数:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="建筑面积:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="使用面积:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="是否自建:">
+            <el-select v-model="formInline.region" placeholder="省">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="产权:">
+            <el-select v-model="formInline.region" placeholder="省">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+
+        <div class="vertical-bar">&nbsp;&nbsp;&nbsp;银行账户</div>
+        <hr class="line-solid">
+        <el-form :inline="true" :label-position="labelPosition" label-width="120px" :model="formInline" class="demo-form-inline ">
+          <el-form-item label="最大班级数:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="满园学生数:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="建筑面积:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="使用面积:">
+            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+          </el-form-item>
+          <el-form-item label="是否自建:">
+            <el-select v-model="formInline.region" placeholder="省">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="产权:">
+            <el-select v-model="formInline.region" placeholder="省">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>
@@ -73,10 +176,9 @@
     text-align: left;
   }
   .schooladd .vertical-bar{
-    width: 65px;
+    width: 100px;
     height: 16px;
     color: #0b6289;
-    text-align: right;
     margin-left: 10px;
     border-left: 4px solid #0b6289;
   }
@@ -92,5 +194,15 @@
   }
   .schooladd .demo-form-inline{
     text-align: center;
+  }
+  .schooladd .el-form-item{
+    margin: 0.2rem 3.7rem;
+  }
+  .schooladd .select-region .el-input__inner{
+    width: 164px;
+    height: 36px;
+  }
+  .schooladd .el-form--inline .el-form-item__content{
+    display: inline-flex;
   }
 </style>
