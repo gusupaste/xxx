@@ -1,6 +1,6 @@
 <template>
-  <div class="schooldetail">
-    <div class="content">
+  <div class="schooldetail clearfix">
+    <div class="content clearfix">
       <p>YOU ARE HERE : 校园 >> 校园列表 >> <span class="font-cl-blue">校园概况</span></p>
       <div class="content-top">北京理都校园</div>
       <el-col :span="24">
@@ -26,6 +26,13 @@
           </p>
         </el-card>
       </el-col>
+    </div>
+    <div>
+        <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
+          <el-tab-pane label="开班情况" name="first">开班情况</el-tab-pane>
+          <el-tab-pane label="基础设施" name="second">基础设施</el-tab-pane>
+          <el-tab-pane label="银行账户" name="third">银行账户</el-tab-pane>
+        </el-tabs>
     </div>
   </div>
 </template>
@@ -70,12 +77,16 @@
     },
     data() {
       return {
+        activeName: 'second'
       };
     },
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
-      }
+      },
+      handleClick(tab, event) {
+      console.log(tab, event);
+    }
     }
   }
 </script>

@@ -34,13 +34,13 @@
         <span class="right"><el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button></span>
       </p>
       <el-table
-        :data="tableData"
+        :data="schoolList"
         border
         stripe
         show-header
         style="width: 100%">
         <el-table-column
-          prop="index"
+          prop="code"
           label="编号"
           min-width="30">
         </el-table-column>
@@ -58,11 +58,11 @@
           label="所属城际">
         </el-table-column>
         <el-table-column
-          prop="brand"
+          prop="hq"
           label="品牌">
         </el-table-column>
         <el-table-column
-          prop="date"
+          prop="opening_date"
           label="开园日期">
         </el-table-column>
         <el-table-column
@@ -70,7 +70,7 @@
           label="园长">
         </el-table-column>
         <el-table-column
-          prop="phone"
+          prop="telephone"
           label="联系电话">
         </el-table-column>
         <el-table-column
@@ -82,16 +82,16 @@
           label="操作"
           min-width="30">
           <template slot-scope="scope">
-            <el-button @click="editSchool" class="red" type="text" size="small">编辑</el-button>
+            <el-button @click="editSchool(scope.row)" class="red" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
         background
-        layout="prev, pager, next, jumper"
-        prev-text="上一页"
+        layout="pager, next, jumper"
         next-text="下一页"
-        :total="1000" class="page">
+        :page-size="20"
+        :total="schoolList.length" class="page">
       </el-pagination>
     </div>
   </div>
@@ -179,46 +179,29 @@
           label: '北京烤鸭'
         }],
         value: '全部',
-        tableData: [{
-          index: '1001',
-          name: '北京首府校园',
-          intercity: '城际1',
-          brand: '双语',
-          date: '2019/11/01',
-          leader: '朱园长',
-          phone: '18809876543',
-          status: '开园'
-        }, {
-          index: '1002',
-          name: '北京首府校园',
-          intercity: '城际2',
-          brand: '双语',
-          date: '2019/11/01',
-          leader: '朱园长',
-          phone: '18809876543',
-          status: '开园'
-        }, {
-          index: '1003',
-          name: '北京首府校园',
-          intercity: '城际3',
-          brand: '双语',
-          date: '2019/11/01',
-          leader: '朱园长',
-          phone: '18809876543',
-          status: '开园'
-        }, {
-          index: '1004',
-          name: '北京首府校园',
-          intercity: '城际4',
-          brand: '双语',
-          date: '2019/11/01',
-          leader: '朱园长',
-          phone: '18809876543',
-          status: '开园'
-        }]
+        schoolList: []
       };
     },
+    created(){
+      this.getSchoolList();
+    },
     methods: {
+      getSchoolList(){
+        var _this = this;
+        _this.$axios.get('http://192.168.51.29:8000/api/center/center/',{
+          headers:{
+            Authorization:"jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6InRhaWRpaV9lZCIsImV4cCI6MTU2MzE3ODk1NiwiZW1haWwiOiJjaGVuc2h1YWlAdGFpZGlpLmNvbSJ9.xPqGqO2JDd9eBH4bOJJF8EdovCsWS29v93RDz-S3J8o"
+          },
+          params:{
+            username:_this.username,
+            password:_this.password
+        }
+      }).then(res=>{
+        _this.schoolList = res.data.center_list;
+      }).catch(err=>{
+        console.log(err)
+      })
+      },
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
@@ -226,8 +209,8 @@
         this.$router.push({name: 'school-add'});
         /*this.$router.push({name: 'school/school-add',params:{ id:'1'}});*/
       },
-      editSchool:function () {
-        this.$router.push({name: 'school-edit'});
+      editSchool:function (param) {
+        this.$router.push('/school/school-edit/'+param.id);
       }
     }
   }

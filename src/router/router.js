@@ -59,7 +59,7 @@ export default new Router({
           component: Schooladd
         },
         {
-          path: '/school/school-edit',
+          path: '/school/school-edit/:id',
           name: 'school-edit',
           component: Schooledit
         }
