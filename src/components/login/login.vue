@@ -6,22 +6,21 @@
     <div class="logo_name">北京伊顿教育集团管理系统</div>
     <div class="login-wrap" v-loading="loading">
         <div style="margin-top:20px;color:#666;font-size:16px">登录</div>
-         <el-input class="mt26"
+          <el-input class="mt26"
             placeholder="请输入用户名"
-            prefix-icon=""
-            suffix-icon="el-icon-circle-close-outline"
+            clearable
+            prefix-icon="fa fa-user-o"
             v-model="username">
-        </el-input>
-        <el-input class="mt26"
-            :type="inputtype"
-            placeholder="请输入密码"
-            prefix-icon=""
-            suffix-icon="el-icon-view"
-            v-model="password">
-        </el-input>
+          </el-input>
+          <el-input 
+            placeholder="请输入密码" 
+            v-model="password" 
+            prefix-icon="fa fa-lock"
+            show-password style="margin-top:26px">
+          </el-input>
         <el-checkbox v-model="checked" class="mt10">记住密码</el-checkbox>
         <div>
-          <el-button class="login-submit" @click="login">登录</el-button>
+          <button class="login-submit btn" @click="login" :class="{'bg-grey':!logStatus,'bg-orange':logStatus}" :disabled='!logStatus'>登录</button>
         </div>
     </div>
   </div>
@@ -71,7 +70,6 @@
   .login-page .login-submit {
     width: 100%;
     color:#fff;
-    background-color: #f16f26;
     margin-top: 56px;
     height: 44px;
   }
@@ -80,9 +78,9 @@
 export default {
   data (){
     return {
-      username:'',
-      password:'',
-      checked:true,
+      username:'' ,
+      password:'' ,
+      checked: JSON.parse(localStorage.getItem('checked')),
       loading:false,
       inputtype:'password'
     }
@@ -91,9 +89,6 @@ export default {
 
   },
   methods:{
-    changeType(){
-      this.inputtype = this.inputtype === 'password' ? 'text' : 'password';
-    },
     login(){
       var _this = this;
       _this.loading = true;
@@ -108,6 +103,8 @@ export default {
             _this.$store.state.user_Info = res.data.user;
             _this.$store.state.user_Token = res.data.token;
             localStorage.setItem('user_Info',JSON.stringify(res.data.user));
+            localStorage.setItem('user_name',_this.username);
+            localStorage.setItem('user_password',_this.password);
             localStorage.setItem('user_Token',JSON.stringify(res.data.token));
             _this.$router.push('/home');
           }
@@ -119,6 +116,30 @@ export default {
           message:'用户名或密码错误'
         })
       })
+    }
+  },
+  computed:{
+    logStatus:function(){
+     var status =  this.password !=="" && this.username !== "" ? true : false;
+     return status;
+    }
+  },
+  watch:{
+    password:function(){
+      this.logStatus;
+    },
+    username:function(){
+      this.logStatus;
+    },
+    checked:function(val){
+      localStorage.setItem('checked',val);
+      if(val)  {
+          localStorage.setItem('user_password',this.password);
+          localStorage.setItem('user_name',this.username);
+      } else {
+          localStorage.removeItem('user_password');
+          localStorage.removeItem('user_name');
+      }
     }
   }
 }
