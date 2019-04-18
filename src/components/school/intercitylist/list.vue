@@ -75,23 +75,15 @@
             <div class="item-div1">
               <p>无归属城际的学校</p>
               <div class="item-div2-span">
-                <el-checkbox-group v-model="type">
-                  <el-checkbox label="美食/餐厅线上活动/餐厅线上活动/餐厅线上活动/餐厅线上活动" name="type"></el-checkbox>
-                  <el-checkbox label="地推活动" name="type"></el-checkbox>
-                  <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                  <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-                  <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                  <el-checkbox label="地推活动" name="type"></el-checkbox>
-                </el-checkbox-group>
-                <el-checkbox-group v-model="type" v-for="school in selectSchool" :key="school.id" >
-                  <el-checkbox name="type">{{ school.name }}</el-checkbox>
+                <el-checkbox-group v-model="schoolType">
+                  <el-checkbox v-for="school in selectSchool" :key="school.id" :label="school.name"></el-checkbox>
                 </el-checkbox-group>
               </div>
             </div>
             <div class="item-div2">
               <p>已选学校</p>
               <div class="item-div2-span">
-                <p v-for="unschool in UNSelectSchool" :key="unschool.id">{{ unschool.name }}<span class="el-icon-delete"></span></p>
+                <p v-for="unschool in UNSelectSchool" :key="unschool.id">{{ unschool.name }}<span class="el-icon-delete" @click="selectFun(unschool)"></span></p>
               </div>
             </div>
           </el-form-item>
@@ -142,7 +134,7 @@
           code: '',
           person:'',
         },
-        type:[],
+        schoolType:[],
         rules: {
           name: [
             {required: true, message: '请输入活动名称', trigger: 'blur'},
@@ -221,6 +213,9 @@
       handleClose (){
 
       },
+      selectFun: function(obj) {
+        console.log(obj);
+      }
     }
   }
 </script>
@@ -295,10 +290,12 @@
     border-bottom: 1px solid #ddd;
   }
   .intercitylist .item-div2 span{
-    margin-left: 60px;
+    margin-right: 5px;
     color: red;
     font-size: 18px;
     cursor: pointer;
+    float: right;
+    margin-top: 10px;
   }
   .intercitylist .item-div1-span,.intercitylist .item-div2-span{
     height: 300px;
