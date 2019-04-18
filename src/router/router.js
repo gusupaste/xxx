@@ -49,7 +49,7 @@ export default new Router({
           component: Schoollist,
         },
         {
-          path: '/school/school-detail',
+          path: '/school/school-detail/:id',
           name: 'school-detail',
           component: Schooldetail
         },

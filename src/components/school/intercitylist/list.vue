@@ -1,5 +1,5 @@
 <template>
-    <div class="intercitylist">
+    <div class="intercitylist wrap">
       <div class="header">
         <p>YOU ARE HERE : 校园 >> <span>城际列表</span></p>
         <p class="bold">伊顿国际教育集团大城际分布</p>
@@ -225,7 +225,6 @@
     margin: 10px 0px;
   }
   .intercitylist{
-    padding: 0px 40px;
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }

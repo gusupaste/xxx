@@ -1,5 +1,5 @@
 <template>
-  <div class="schooladd">
+  <div class="schooladd wrap">
     <div class="content">
       <p>YOU ARE HERE : 校园 >> 校园列表 >> <span class="font-cl-blue">新增校园</span></p>
       <p class="bold">请输入新校园的相关系统,并保存提交,带*号的为必填字段。</p>

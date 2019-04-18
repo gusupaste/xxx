@@ -1,5 +1,5 @@
 <template>
-  <div class="schoollist">
+  <div class="schoollist wrap">
     <div class="content">
       <p>YOU ARE HERE : 校园 >> <span class="font-cl-blue">校园列表</span></p>
       <p class="bold">伊顿旗下的校园列表，你可以选择查看某个区域或城市下的校园信息。</p>
@@ -34,7 +34,7 @@
         <span class="right"><el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button></span>
       </p>
       <el-table
-        :data="schoolList"
+        :data="schoolList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         border
         stripe
         show-header
@@ -49,16 +49,16 @@
           label="校园名称"
           width="180">
           <template slot-scope="scope">
-              <router-link :to="{name:'school-detail'}">{{ scope.row.name }}</router-link>
+              <router-link :to="{path:'/school/school-detail/'+scope.row.id}">{{ scope.row.name }}</router-link>
           </template>
 
         </el-table-column>
         <el-table-column
-          prop="intercity"
+          prop="intercity_name"
           label="所属城际">
         </el-table-column>
         <el-table-column
-          prop="hq"
+          prop="hq_name"
           label="品牌">
         </el-table-column>
         <el-table-column
@@ -74,7 +74,7 @@
           label="联系电话">
         </el-table-column>
         <el-table-column
-          prop="status"
+          prop="status_name"
           label="状态">
         </el-table-column>
         <el-table-column
@@ -87,10 +87,13 @@
         </el-table-column>
       </el-table>
       <el-pagination
+      v-if="schoolList.length>0"
         background
         layout="pager, next, jumper"
         next-text="下一页"
-        :page-size="20"
+        :page-size="pagesize"
+        @size-change="handleSizeChange" 
+        @current-change="handleCurrentChange"
         :total="schoolList.length" class="page">
       </el-pagination>
     </div>
@@ -116,10 +119,6 @@
     color: black;
   }
 
-  .schoollist .content {
-    padding: 20px 70px 50px 70px;
-  }
-
   .schoollist .padding-30 {
     padding-left: 30px;
   }
@@ -141,6 +140,9 @@
   }
   .schoollist .el-table th{
     background-color: #f5f5f5;
+  }
+  .schoollist .el-table_1_column_2  {
+    font-weight: 600;
   }
 
   .schoollist .red {
@@ -194,6 +196,8 @@
     },
     data() {
       return {
+        currentPage:1,
+        pagesize:20,  
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -236,6 +240,12 @@
       },
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+      },
+      handleSizeChange:function(size){
+          this.pagesize=size;
+      },
+      handleCurrentChange:function(currentPage){
+          this.currentPage=currentPage;
       },
       addSchool:function () {
         this.$router.push({name: 'school-add'});
