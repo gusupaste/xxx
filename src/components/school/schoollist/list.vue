@@ -139,8 +139,7 @@
   .el-icon-arrow-down {
     font-size: 12px;
   }
-
-  .el-table >>> th {
+  .schoollist .el-table th{
     background-color: #f5f5f5;
   }
 
@@ -153,6 +152,39 @@
   }
   .schoollist .el-pagination.is-background .el-pager li:not(.disabled).active{
     background-color: orange;
+  }
+  .schoollist .div-page{
+    display: -webkit-inline-box;
+    width: 70px;
+    text-align: left;
+    height: auto;
+    margin-left: 5px;
+  }
+  .schoollist .div-page .input-page{
+    height: 28px;
+    width: 60%;
+    padding: 0;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .schoollist .div-page .div-page-sure{
+    height: 26px;
+    line-height: 26px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    margin-left: -32px;
+    color: #606266;
+    font-size: 12px;
+    border-radius: 2px;
+  }
+  .schoollist .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
+    border: 1px solid #ccc;
+    background-color: white;
+  }
+  .schoollist .el-pagination button, .el-pagination span:not([class*=suffix]) {
+    padding: 0 10px;
   }
 </style>
 
