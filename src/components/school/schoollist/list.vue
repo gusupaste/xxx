@@ -31,7 +31,7 @@
           </el-option>
         </el-select>
         <span class="padding-30"><el-button type="primary">搜索</el-button></span>
-        <span class="right"><el-button type="text">新增校园</el-button></span>
+        <span class="right"><el-button type="text" @click="addSchool">新增校园</el-button></span>
       </p>
       <el-table
         :data="tableData"
@@ -221,6 +221,10 @@
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+      },
+      addSchool:function () {
+        this.$router.push({name: 'school-add'});
+        /*this.$router.push({name: 'school/school-add',params:{ id:'1'}});*/
       }
     }
   }

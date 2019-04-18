@@ -15,7 +15,7 @@
             <div slot="header" class="clearfix">
               <span class="city-name font-cl-blue">城际名称1</span>
               <span class="font-size-5">负责人：张兰</span>
-              <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="editintercityVisible = true">编辑</el-button>
             </div>
             <draggable class="list-group" :list="list1" group="people" @change="log">
               <div class="list-group-item intercity-li"
@@ -31,7 +31,7 @@
             <div slot="header" class="clearfix">
               <span class="city-name font-cl-blue">城际名称1</span>
               <span class="font-size-5">负责人：张兰</span>
-              <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+              <el-button style="float: right; padding: 3px 0" type="text" @click="editintercityVisible = true">编辑</el-button>
             </div>
             <draggable class="list-group" :list="list2" group="people" @change="log">
               <div class="list-group-item  intercity-li"
@@ -42,9 +42,6 @@
             </draggable>
           </el-card>
         </div>
-
-        <!-- 未收藏 -->
-
       </div>
       <el-dialog title="新增城际" :visible.sync="addintercityVisible" width="50%" :before-close="handleClose">
         <el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -63,6 +60,59 @@
           <el-button type="success" @click="addintercityVisible = false">保 存</el-button>
         </span>
       </el-dialog>
+      <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" :before-close="handleClose">
+        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+          <el-form-item label="城际名称" prop="name">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="城际代码" prop="code">
+            <el-input v-model="form.code"></el-input>
+          </el-form-item>
+          <el-form-item label="负责人" prop="person">
+            <el-input v-model="form.person"></el-input>
+          </el-form-item>
+          <el-form-item label="学校">
+            <div class="item-div1">
+              <p>无归属城际的学校</p>
+              <div class="item-div2-span">
+                <el-checkbox-group v-model="type">
+                  <el-checkbox label="美食/餐厅线上活动/餐厅线上活动/餐厅线上活动/餐厅线上活动" name="type"></el-checkbox>
+                  <el-checkbox label="地推活动" name="type"></el-checkbox>
+                  <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                  <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                  <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
+                  <el-checkbox label="地推活动" name="type"></el-checkbox>
+                  <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                  <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                  <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
+                  <el-checkbox label="地推活动" name="type"></el-checkbox>
+                  <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                  <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                </el-checkbox-group>
+              </div>
+            </div>
+            <div class="item-div2">
+              <p>已选学校</p>
+              <div class="item-div2-span">
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+                <p>美食/餐厅线上活动<span class="el-icon-delete"></span></p>
+              </div>
+            </div>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editintercityVisible = false">取 消</el-button>
+          <el-button type="success" @click="editintercityVisible = false">保 存</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 
@@ -73,8 +123,22 @@
       draggable
     },
     data() {
+      const generateData = _ => {
+        const data = [];
+        for (let i = 1; i <= 15; i++) {
+          data.push({
+            key: i,
+            label: `备选项 ${ i }`,
+            disabled: i % 4 === 0
+          });
+        }
+        return data;
+      };
       return {
+        data: generateData(),
+        value1: [1, 4],
         addintercityVisible : false,
+        editintercityVisible : false,
         balls: [
           {
             id:1,
@@ -90,6 +154,7 @@
           code: '',
           person:'',
         },
+        type:[],
         rules: {
           name: [
             {required: true, message: '请输入活动名称', trigger: 'blur'},
@@ -196,5 +261,29 @@
   }
   .intercitylist .el-dialog__footer{
     text-align: center;
+  }
+  .intercitylist .item-div1,.intercitylist .item-div2{
+    width: 220px;
+    height: 350px;
+    padding-left: 20px;
+    border: 1px solid #ddd;
+    margin-right: 20px;
+    display: inline-table;
+  }
+  .intercitylist .item-div2 p{
+    border-bottom: 1px solid #ddd;
+  }
+  .intercitylist .item-div2 span{
+    margin-left: 60px;
+    color: red;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .intercitylist .item-div1-span,.intercitylist .item-div2-span{
+    height: 300px;
+    overflow: auto;
+  }
+  .intercitylist .el-checkbox-group{
+    width: 220px;
   }
 </style>
