@@ -141,8 +141,7 @@
   .el-icon-arrow-down {
     font-size: 12px;
   }
-
-  .el-table >>> th {
+  .schoollist .el-table th{
     background-color: #f5f5f5;
   }
 
