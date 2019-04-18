@@ -1,6 +1,5 @@
 <template>
     <div class="homeView">
-        <home></home>
         <div class='big-bg'>
             <div class="logo_name">北京伊顿教育集团管理系统</div>
         </div>
@@ -335,7 +334,6 @@
     }
 </style>
 <script>
-import home from '@/components/homepage/home'
 import Calendar from '@/components/homepage/calendar'
 export default {
     data() {
@@ -510,7 +508,6 @@ export default {
         }
     },
     components:{
-        home,
         Calendar
     }
 }

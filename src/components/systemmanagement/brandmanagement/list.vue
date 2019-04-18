@@ -54,7 +54,6 @@
   }
 </style>
 <script>
-import Home from '@/components/homepage/home'
   export default {
     components: {
     },
@@ -64,7 +63,6 @@ import Home from '@/components/homepage/home'
       };
     },
     components:{
-      Home
     },
     methods: {
       handleSelect(key, keyPath) {

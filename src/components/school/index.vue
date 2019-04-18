@@ -1,15 +1,12 @@
 <template>
     <div class="ilist">
-      <homepage></homepage>
       <router-view></router-view>
     </div>
 </template>
 
 <script>
-  import homepage from '../homepage/home.vue';
   export default {
     components: {
-      homepage,
     },
     methods: {
       handleSelect(key, keyPath) {
