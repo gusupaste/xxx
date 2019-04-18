@@ -69,7 +69,7 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: Home,
-      meta: { auth: false, keepAlive: false },
+      meta: { requiresAuth: true, keepAlive: false },
       children:[
 
       ]

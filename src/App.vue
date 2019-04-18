@@ -16,7 +16,7 @@
             <el-menu-item index="/home" route="/home" >
               首页
             </el-menu-item>
-            <el-submenu index="2">
+            <el-submenu index="2" v-if="premission==1">
                 <template slot="title">校园</template>
                 <el-menu-item index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
                 <el-menu-item index="/school/school-list" route="/school/school-list">校园列表</el-menu-item>
@@ -65,7 +65,7 @@ export default {
   name: 'App',
   data(){
     return {
-      isNeedHead:true
+      premission:this.$store.state.user_Info.type
     }
   },
   mounted(){
@@ -77,6 +77,7 @@ export default {
         if(!pk){
           this.$store.state.user_Info = JSON.parse(localStorage.getItem('user_Info'));
           this.$store.state.user_Token = localStorage.getItem('user_Token');
+          this.premission = this.$store.state.user_Info.type;
         }
       },
       handleSelect(key, keyPath) {

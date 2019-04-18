@@ -10,9 +10,12 @@ import router from './router/router';
 import store from './store/store';
 import axios from 'axios';
 import '../static/css/main.css';
-import 'font-awesome/css/font-awesome.min.css'
+import 'font-awesome/css/font-awesome.min.css';
+import * as custom from '../static/js/filter.js';
 
-
+Object.keys(custom).forEach(key => {
+  Vue.filter(key, custom[key])
+})
 Vue.use(ElementUI);
 Vue.use(vueEventCalendar, {locale: 'en',color: '#4fc08d'});
 Vue.prototype.$axios = axios;

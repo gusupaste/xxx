@@ -82,7 +82,7 @@ export default {
       password:'' || localStorage.getItem('user_password'),
       checked: JSON.parse(localStorage.getItem('checked')),
       loading:false,
-      inputtype:'password'
+      inputtype:'password',
     }
   },
   created(){
@@ -123,7 +123,7 @@ export default {
   },
   computed:{
     logStatus:function(){
-     var status =  this.password !=="" && this.username !== "" ? true : false;
+     var status =  this.password !=="" && this.password !== null && this.username !== "" && this.username !== null  ? true : false;
      return status;
     }
   },

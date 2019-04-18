@@ -13,7 +13,9 @@ const store = new Vuex.Store({
 
     // 获取属性的状态
     getters: {
-        
+        isLoggedIn(){
+            return true
+        }
     },
 
     // 设置属性状态
