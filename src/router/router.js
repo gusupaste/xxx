@@ -16,6 +16,7 @@ import addNewTemplate from '@/components/systemmanagement/SchoolCalendar/addNewT
 import editTemplate from '@/components/systemmanagement/SchoolCalendar/editTemplate'
 import Settlementarea from '@/components/systemmanagement/settlementarea/list'
 import EditSettlementarea from '@/components/systemmanagement/settlementarea/edit'
+import Addsettlementarea from '@/components/systemmanagement/settlementarea/add'
 
 Vue.use(Router)
 
@@ -52,10 +53,15 @@ export default new Router({
           component: Settlementarea
         },
         {
-          path: '/systemmanagement/edit-settlement-area',
+          path: '/systemmanagement/edit-settlement-area/:id',
           name: 'edit-settlement-area',
           component: EditSettlementarea
-        }
+        },
+        {
+          path: '/systemmanagement/addsettlementarea',
+          name: 'Addsettlementarea',
+          component: Addsettlementarea
+        },
       ]
     },
     {

@@ -1,29 +1,35 @@
 <template>
 <div class="settlementArea wrap">
   <div class="header">
-    <p>YOU ARE HERE : 系统管理 >> <span>品牌管理</span></p>
+    <p>YOU ARE HERE : 系统管理 >> <span>结算区间定义</span></p>
   </div>
   <div class="settlementArea-content">
     <div class="content">
-      <div class="header-select">
-        <span>学年：</span>
-        <el-select v-model="yearSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <span style="margin-left: 30px">模版名称：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+      <div class="header-select clearfix">
+        <span class="left">
+          <span>学年：</span>
+          <el-select v-model="yearSelect" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <span style="margin-left: 30px">模版名称：</span>
+          <el-select v-model="nameSelect" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </span>
+        <span class="right" style="cursor:pointer" @click="addNewTemplate">
+            <i class="icon-font fa fa-calendar-plus-o"></i>
+            <span class="font-cl-blue font-size-14" >新增结算定义模板</span>
+        </span>
       </div>
       <div class="table-content">
         <el-table
@@ -61,7 +67,7 @@
             label="操作"
             min-width="30">
             <template slot-scope="scope">
-              <router-link :to="{path:'/systemmanagement/edit-settlement-area'}">
+              <router-link :to="{path:'/systemmanagement/edit-settlement-area/'+scope.row.id}">
               <el-button class="red" type="text" size="small">
                 <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
               </el-button></router-link>
@@ -173,6 +179,9 @@
       handleCurrentChange:function(currentPage){
         this.currentPage=currentPage;
       },
+      addNewTemplate(){
+            this.$router.push('/systemmanagement/addsettlementarea');
+        },
     }
   }
 </script>
