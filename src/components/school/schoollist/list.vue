@@ -51,7 +51,6 @@
           <template slot-scope="scope">
               <router-link :to="{path:'/school/school-detail/'+scope.row.id}">{{ scope.row.name }}</router-link>
           </template>
-
         </el-table-column>
         <el-table-column
           prop="intercity_name"

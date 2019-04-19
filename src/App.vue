@@ -44,7 +44,9 @@
               <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">
                 学年定义
               </el-menu-item>
-              <el-menu-item index="7-3">结算区间定义</el-menu-item>
+              <el-menu-item index="/systemmanagement/settlement-area" route="/systemmanagement/settlement-area">
+                结算区间定义
+              </el-menu-item>
               <el-menu-item index="7-4">流程定义</el-menu-item>
               <el-menu-item index="7-5">用户管理</el-menu-item>
               <el-menu-item index="7-6">角色管理</el-menu-item>
