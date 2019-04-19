@@ -232,9 +232,6 @@
     font-weight: bold;
     color: black;
   }
-  .intercitylist .content{
-
-  }
   .intercitylist .intercity-list{
     width: 210px;
     height: 300px;

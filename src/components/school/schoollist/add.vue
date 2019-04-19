@@ -100,7 +100,6 @@
             </el-select>
           </el-form-item>
         </el-form>
-
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;银行账户</div>
         <hr class="line-solid">
         <el-form :inline="true" :label-position="labelPosition" label-width="120px" :model="formInline" class="demo-form-inline ">
@@ -123,30 +122,32 @@
           <el-form-item label="开户银行(英文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
-          <!--点击添加账户，需要添加的内容-->
-          <div class="mt26"></div>
-          <div class="span-color">账户2:</div>
-          <el-form-item label="账号:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="账户名称(中文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="SWIFT代码:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="账户名称(英文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="开户银行(中文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="开户银行(英文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <div class="span-color" style="margin: 0 7%"><a class="icon-circle-add"><i class="fa fa-plus-circle"></i> 新增账户</a></div>
+          <!--定义一组组件-->
+          <div v-for="(item,index) in items">
+            <div class="mt26"></div>
+            <div class="span-color">账户{{index+2}}:</div>
+            <el-form-item label="账号:">
+              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="账户名称(中文):">
+              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="SWIFT代码:">
+              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="账户名称(英文):">
+              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="开户银行(中文):">
+              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item label="开户银行(英文):">
+              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            </el-form-item>
+          </div>
+          <div class="span-color"><a class="icon-circle-add" @click="add_Account"><i class="fa fa-plus-circle"></i> 新增账户</a></div>
         </el-form>
-        <div class="mt26"></div>
+        <div style="margin-top: 50px"></div>
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;备注说明</div>
         <hr class="line-solid">
         <el-form :label-position="labelPosition" label-width="18%" :model="formInline" class="demo-form-inline ">
@@ -168,11 +169,18 @@
   export default {
     data() {
       return {
+        text:0,
+        items:[],
         labelPosition: 'right',
         formInline: {
           user: '',
           region: ''
         }
+      }
+    },
+    methods:{
+      add_Account:function () {
+        this.items.push(this.text++)
       }
     }
   }
@@ -225,11 +233,12 @@
     text-align: center;
   }
   .schooladd .el-form-item{
-    margin: 0.2rem 3.7rem;
+    margin: 0.2rem;
   }
   .schooladd .select-region .el-input__inner{
-    width: 164px;
+    width: 122px;
     height: 36px;
+    margin: 0.2rem;
   }
   .schooladd .el-form--inline .el-form-item__content{
     display: inline-flex;
@@ -244,6 +253,6 @@
     color: #f17128;
   }
   .schooladd .el-textarea__inner{
-    width: 93%;
+    width: 87%;
   }
 </style>

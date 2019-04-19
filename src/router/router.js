@@ -2,8 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/homepage/homeView'
 import login from '@/components/login/login'
+import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
+import Academicyear from '@/components/systemmanagement/academicyear/list'
 import School from '@/components/school/index'
+import Intercitylist from '@/components/school/intercitylist/list'
 import Schoollist from '@/components/school/schoollist/list'
 import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
@@ -26,19 +29,27 @@ export default new Router({
       component: login
     },
     {
-      path: '/systemmanagement/brand-management',/*品牌管理*/
-      name: 'brand-management',
-      component: Brandmanagement,
-      meta: { auth: false, keepAlive: false },
-      children:[
-
+      path: '/systemmanagement',/*系统管理*/
+      name: 'systemmanagement',
+      component: Systemmanagement,
+      children: [
+        {
+          path: '/systemmanagement/brand-management',
+          name: 'brand-management',
+          component: Brandmanagement
+        },
+        {
+          path: '/systemmanagement/academic-year',
+          name: 'academic-year',
+          component: Academicyear
+        }
       ]
     },
     {
       path: '/school',/*校园*/
       name: 'school',
       component: School,
-      children:[
+      children: [
         {
           path: '/school/intercity-list',
           name: 'intercity-list',
@@ -47,7 +58,7 @@ export default new Router({
         {
           path: '/school/school-list',
           name: 'school-list',
-          component: Schoollist,
+          component: Schoollist
         },
         {
           path: '/school/school-detail/:id',
@@ -70,10 +81,8 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: Home,
-      meta: { requiresAuth: true, keepAlive: false },
-      children:[
-
-      ]
+      meta: {requiresAuth: true, keepAlive: false},
+      children: []
     },
     {
       path: '/schoolCalendarList',
