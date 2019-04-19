@@ -11,6 +11,7 @@ import Schoollist from '@/components/school/schoollist/list'
 import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
 import Schooledit from '@/components/school/schoollist/edit'
+import Discountbudget from '@/components/school/discountbudget/list'
 import SchoolCalendarList from '@/components/systemmanagement/SchoolCalendar/list'
 import addNewTemplate from '@/components/systemmanagement/SchoolCalendar/addNewTemplate'
 import editTemplate from '@/components/systemmanagement/SchoolCalendar/editTemplate'
@@ -93,6 +94,11 @@ export default new Router({
           path: '/school/school-edit/:id',
           name: 'school-edit',
           component: Schooledit
+        },
+        {
+          path: '/school/discountbudget-list',
+          name: 'discountbudget-list',
+          component: Discountbudget
         }
       ]
     },
@@ -109,7 +115,7 @@ export default new Router({
       component: SchoolCalendarList,
       meta: { requiresAuth: true, keepAlive: false },
       children:[
-        
+
       ]
     },
     {

@@ -20,7 +20,7 @@
                 <template slot="title">校园</template>
                 <el-menu-item index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
                 <el-menu-item index="/school/school-list" route="/school/school-list">校园列表</el-menu-item>
-                <el-menu-item index="2-3">校园折扣预算</el-menu-item>
+                <el-menu-item index="/school/discountbudget-list" route="/school/discountbudget-list">校园折扣预算</el-menu-item>
                 <el-menu-item index="2-4">校园招生目标数</el-menu-item>
                 <el-menu-item index="2-5">校园收入目标</el-menu-item>
             </el-submenu>
