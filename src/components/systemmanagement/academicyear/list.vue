@@ -6,7 +6,7 @@
     <div class="content">
       <el-col class="box-margin" :span="7">
         <el-card shadow="always">
-          <div class="div-add-button" @click="addDialog">
+          <div class="div-add-button" @click="addDialog(0)">
             <br><span class="el-icon-circle-plus-outline"></span><p>新增学年</p>
             </div>
         </el-card>
@@ -14,7 +14,7 @@
       <el-col class="box-margin" :span="7">
         <el-card shadow="always">
           <div class="div-box-term">
-            <p class="font-cl-blue">2020——2021学年<i class="fa fa-pencil-square-o orange right"></i></p>
+            <p class="font-cl-blue">2020——2021学年<i class="fa fa-pencil-square-o orange right" @click="addDialog(1)"></i></p>
             <p class="font-size-12">2020-01-01——2021-01-01</p>
             <hr class="line-solid"/>
             <ul class="ul-color">
@@ -69,12 +69,12 @@
       </el-col>
     </div>
     <!--新增学年 弹框-->
-    <el-dialog title="新增学年" :visible.sync="addacademicYear" width="50%" style="padding: 30px 60px;">
+    <el-dialog :title="title" :visible.sync="addacademicYear" width="50%" style="padding: 30px 60px;">
       <el-form label-width="80px">
-        <el-form-item label="学年名称">
+        <el-form-item label="学年名:">
           <el-input placeholder="请输入" maxlength="15" style="width: 60%"></el-input>
         </el-form-item>
-        <el-form-item label="上学期">
+        <el-form-item label="上学期:">
           <el-col :span="8">
             <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
           </el-col>
@@ -83,7 +83,7 @@
             <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
           </el-col>
         </el-form-item>
-        <el-form-item label="下学期">
+        <el-form-item label="下学期:">
           <el-col :span="8">
             <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
           </el-col>
@@ -107,6 +107,7 @@
     },
     data() {
       return {
+        title:'新增学年',
         addacademicYear: false,
       };
     },
@@ -114,8 +115,13 @@
       handleSelect (key, keyPath) {
         console.log(key, keyPath);
       },
-      addDialog: function () {
-        this.addacademicYear = true;
+      addDialog: function (num) {
+        if(num === 0){
+          this.title = '新增学年'
+        }else{
+          this.title = '编辑学年'
+        }
+          this.addacademicYear = true;
       }
     }
   }
