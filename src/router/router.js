@@ -6,11 +6,11 @@ import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
 import School from '@/components/school/index'
+import Intercitylist from '@/components/school/intercitylist/list'
 import Schoollist from '@/components/school/schoollist/list'
 import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
 import Schooledit from '@/components/school/schoollist/edit'
-import Intercitylist from '@/components/school/intercitylist/list'
 
 Vue.use(Router)
 
