@@ -12,7 +12,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-30">区域：</span>
+        <span class="padding-left-30">区域：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -21,7 +21,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-30">省市：</span>
+        <span class="padding-left-30">省市：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -30,7 +30,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-30"><el-button type="primary">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
         <span class="right"><el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button></span>
       </p>
       <el-table
@@ -92,7 +92,7 @@
         layout="pager, next, jumper"
         next-text="下一页"
         :page-size="pagesize"
-        @size-change="handleSizeChange" 
+        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :total="schoolList.length" class="page">
       </el-pagination>
@@ -123,10 +123,6 @@
     padding-left: 30px;
   }
 
-  .schoollist .right {
-    float: right;
-  }
-
   .el-dropdown {
     vertical-align: top;
   }
@@ -145,9 +141,6 @@
     font-weight: 600;
   }
 
-  .schoollist .red {
-    color: red;
-  }
   .schoollist .page{
     text-align: center;
     padding: 30px;
@@ -197,7 +190,7 @@
     data() {
       return {
         currentPage:1,
-        pagesize:20,  
+        pagesize:20,
         options: [{
           value: '选项1',
           label: '黄金糕'
