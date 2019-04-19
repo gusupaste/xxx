@@ -57,15 +57,14 @@
           style="width: 100%">
           <el-table-column
             :label="columnLabel1"
-            width="155">
+            width="220">
             <template slot-scope="scope">
               <el-input v-model="scope.row.no" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
               <span v-if="scope.row.edit === true">{{ scope.row.name }}</span>
             </template>
           </el-table-column>
           <el-table-column
-            :label="columnLabel2"
-            width="220">
+            :label="columnLabel2">
             <template slot-scope="scope">
               <el-input v-model="scope.row.name" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
               <span v-if="scope.row.edit === true">{{ scope.row.name }}</span>
@@ -73,7 +72,8 @@
           </el-table-column>
           <el-table-column
             prop="address"
-            label="操作">
+            label="操作"
+            width="220">
             <template slot-scope="scope">
               <el-button v-show="scope.row.id" @click="editManage(scope.row)" type="text" size="small"><span class="el-icon-edit"></span></el-button>
               <el-button @click="deleteButton(scope.row)" type="text" size="small"><span class="el-icon-delete"></span></el-button>
@@ -307,7 +307,6 @@
           name: '王小虎',
           address: '上海市普陀区金沙江路 1518 弄',
           edit: true,
-          che:[],
           type:[{
             id:7,
             checkName:'checkbox7',
