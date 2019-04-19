@@ -99,7 +99,7 @@
     font-size: 70px;
   }
   .academicyear .box-margin{
-    margin: 20px;
+    margin: 10px 50px 20px 0;
   }
   .academicyear .div-box-term{
     width: 100%;
