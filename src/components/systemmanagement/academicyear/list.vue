@@ -6,7 +6,7 @@
     <div class="content">
       <el-col class="box-margin" :span="7">
         <el-card shadow="always">
-          <div class="div-add-button">
+          <div class="div-add-button" @click="addDialog">
             <br><span class="el-icon-circle-plus-outline"></span><p>新增学年</p>
             </div>
         </el-card>
@@ -68,25 +68,67 @@
         </el-card>
       </el-col>
     </div>
+    <!--新增学年 弹框-->
+    <el-dialog title="新增学年" :visible.sync="addacademicYear" width="50%" style="padding: 30px 60px;">
+      <el-form label-width="80px">
+        <el-form-item label="学年名称">
+          <el-input placeholder="请输入" maxlength="15" style="width: 60%"></el-input>
+        </el-form-item>
+        <el-form-item label="上学期">
+          <el-col :span="8">
+            <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
+          </el-col>
+          <el-col class="line text-align-center" :span="2">-</el-col>
+          <el-col :span="8">
+            <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="下学期">
+          <el-col :span="8">
+            <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
+          </el-col>
+          <el-col class="line text-align-center" :span="2">-</el-col>
+          <el-col :span="8">
+            <el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>
+          </el-col>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer text-align-center">
+          <el-button @click="addacademicYear = false">取 消</el-button>
+          <el-button type="success" @click="addacademicYear = false">保 存</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'list'
+    components: {
+    },
+    data() {
+      return {
+        addacademicYear: false,
+      };
+    },
+    methods: {
+      handleSelect (key, keyPath) {
+        console.log(key, keyPath);
+      },
+      addDialog: function () {
+        this.addacademicYear = true;
+      }
+    }
   }
 </script>
 
-<style scoped>
+<style>
   .academicyear {
-    padding: 0px 40px;
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
 
   .academicyear .header p {
     font-size: 14px;
-    margin: 10px 0px;
   }
   .academicyear .div-add-button{
     cursor: pointer;
@@ -118,6 +160,9 @@
   }
   .academicyear .ul-color span{
     color: black;
+  }
+  .academicyear .el-dialog__footer{
+    text-align: center;
   }
 
 </style>
