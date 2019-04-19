@@ -287,26 +287,10 @@
     .new-calendar-modal .el-table td, .el-table th.is-leaf {
         border-bottom: 1px solid #bbb;
     }
-    .new-calendar-modal .scrollbar{
-        width: 30px;
-        height: 300px;
-        margin: 0 auto;
-    }
-    .el-table::-webkit-scrollbar {
-            width: 15px;     
-            height: 1px;
-        }
-    .el-table::-webkit-scrollbar-thumb {
-            -webkit-box-shadow: inset 0 0 5px #aaa;
-            background: #bbb;
-        }
-    .el-table::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-            background: #EDEDED;
-    }
     .new-calendar-modal .school-calendar {
         padding: 10px 10px 10px 100px;
     }
+    /* 日历样式 */
     .new-calendar-modal .wh_container {
         width: 20%;
         margin-right: 4%;
@@ -333,15 +317,18 @@
     .new-calendar-modal .wh_content {
        padding: 0;
     }
+    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] li{
+        color:#101010;
+        font-size: 12px;
+    }
+
+    
     .new-calendar-modal .calendar-suqre {
        display: inline-block;
        width:10px;
        height:10px;
     }
-    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] li{
-        color:#101010;
-        font-size: 12px;
-    }
+    
     .new-calendar-modal .el-icon-close{
         color:#101010;
         font-size: 20px;

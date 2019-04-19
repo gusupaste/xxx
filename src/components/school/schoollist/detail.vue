@@ -32,10 +32,10 @@
           <el-tab-pane label="开班情况" name="first">
             <div class="firstTab">
               <span class="className">双语班</span>
-              <span>
+              <span style="cursor:pointer" @click="viewSchoolCalendar">
                 <i class="icon-font fa fa-calendar-minus-o"></i>校日历
               </span>
-              <span>
+              <span style="cursor:pointer" @click="dialogFormVisible=true">
                 <i class="icon-font el-icon-circle-plus-outline"></i>新增班级
               </span>
             </div>
@@ -88,10 +88,10 @@
             </div>
             <div class="firstTab">
               <span class="className">国际班</span>
-              <span>
+              <span style="cursor:pointer"  @click="viewSchoolCalendar">
                 <i class="icon-font fa fa-calendar-minus-o"></i>校日历
               </span>
-              <span>
+              <span style="cursor:pointer" @click="dialogFormVisible=true">
                 <i class="icon-font el-icon-circle-plus-outline"></i>新增班级
               </span>
             </div>
@@ -143,14 +143,145 @@
               </el-table>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="基础设施" name="second">基础设施</el-tab-pane>
-          <el-tab-pane label="银行账户" name="third">银行账户</el-tab-pane>
+          <el-tab-pane label="基础设施" name="second">
+              <div style="padding:0 20px">
+                  <p>校园建筑面积：<span class="orange">756.00</span>平方米</p>
+                  <p>使用面积：<span>756.00</span>平方米</p>
+                  <p>产权：开发商</p>
+                  <p>是否自建：否</p>
+                  <p>经度：116.777922</p>
+                  <p>维度：39.975796</p>
+                  <p>最大开班数：4</p>
+                  <p>当前开班数：6</p>
+              </div>
+          </el-tab-pane>
+          <el-tab-pane label="银行账户" name="third">
+              <div style="padding:0 20px">
+                  <p>账号：— —</p>
+                  <p>账号名称（中文）：北京伊顿国际幼儿园有限公司</p>
+                  <p>SWIFT代码：— —</p>
+                  <p>账号名称（英文）：— —</p>
+                  <p>开户银行（中文）：— —</p>
+                  <p>开户银行（英文）：— —</p>
+              </div>
+          </el-tab-pane>
         </el-tabs>
     </div>
+    <el-dialog title="新增班级" :visible.sync="dialogFormVisible"
+      width="70%"
+    >
+      <el-form :model="form" :inline="true">
+        <el-form-item label="新增方式：" :label-width="formLabelWidth">
+          <el-input v-model="form.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <br>
+        <el-form-item label="中文名称：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="昵称：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="英文名称：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <br>
+          <el-form-item label="班级类型：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="年级：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <br>
+          <el-form-item label="开设时间：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="班级状态：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <br>
+          <el-form-item label="满班学生数：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="师资标配数：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <br>
+          <el-form-item label="是否需要家具：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="是否需要教具：" :label-width="formLabelWidth">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+          </el-form-item>
+          <br>
+          <el-form-item label="班级描述：" :label-width="formLabelWidth" style="width:100%">
+            <el-input type="textarea" v-model="form.desc" style="min-width:600px"></el-input>
+          </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer" style="margin-top:0">
+          <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
+          <el-button type="primary" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <style>
+    .schooldetail .el-dialog__header{
+        background-color: #f5f5f5;
+        padding: 15px;
+        font-size: 12px !important;
+        border-bottom: 1px solid #d5d5d5;
+    }
+    .schooldetail  .header p{
+        font-size: 14px;
+        margin: 10px 0px;
+    }
+    .schooldetail .el-dialog__title{
+        font-size: 14px;
+    }
+    .schooldetaill .el-dialog{
+        min-width: 600px;
+    }
+    .schooldetail .school-wrap{
+        border: 1px solid #bbb;
+    }
+    .schooldetail .dialog-footer{
+        margin-top: 50px;
+        text-align: center;
+    }
   .schooldetail p {
     margin: 10px;
   }
@@ -236,7 +367,18 @@
     },
     data() {
       return {
+        dialogFormVisible:false,
         activeName: 'first',
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
         tableData: [{
           date: '2016-05-03',
           name: '王小虎',
@@ -275,6 +417,7 @@
           stu:''
         }],
         tableData2: [],
+        formLabelWidth: '120px'
       };
     },
     methods: {
@@ -282,8 +425,11 @@
         console.log(key, keyPath);
       },
       handleClick(tab, event) {
-      console.log(tab, event);
-    }
+        console.log(tab, event);
+      },
+      viewSchoolCalendar(){
+        this.$router.push('/school/SchoolViewClendar/1')
+      }
     }
   }
 </script>

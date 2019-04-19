@@ -8,6 +8,7 @@ import Academicyear from '@/components/systemmanagement/academicyear/list'
 import School from '@/components/school/index'
 import Intercitylist from '@/components/school/intercitylist/list'
 import Schoollist from '@/components/school/schoollist/list'
+import SchoolViewClendar from '@/components/school/schoollist/viewClendar'
 import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
 import Schooledit from '@/components/school/schoollist/edit'
@@ -26,6 +27,13 @@ export default new Router({
     {
       path: '/',
       redirect: '/login'
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: Home,
+      meta: {requiresAuth: true, keepAlive: false},
+      children: []
     },
     {
       path: '/login',
@@ -93,24 +101,20 @@ export default new Router({
           path: '/school/school-edit/:id',
           name: 'school-edit',
           component: Schooledit
+        },
+        {
+          path: '/school/SchoolViewClendar/:id',
+          name: 'SchoolViewClendar',
+          component: SchoolViewClendar
         }
       ]
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: Home,
-      meta: {requiresAuth: true, keepAlive: false},
-      children: []
     },
     {
       path: '/schoolCalendarList',
       name: 'schoolCalendarList',
       component: SchoolCalendarList,
       meta: { requiresAuth: true, keepAlive: false },
-      children:[
-        
-      ]
+
     },
     {
       path: '/schoolCalendarList/addNewTemplate',
