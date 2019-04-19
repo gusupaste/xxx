@@ -32,7 +32,7 @@
                 <li v-for="o in 2" :key="o" style="border-bottom: 1px solid #ddd;line-height: 60px;">
                   <div class="card-li-div">
                     <span class="el-card-li">班级项目：<span>国际班</span></span><br>
-                    <span class="el-card-li">双语班；智慧版</span>
+                    <span class="el-card-li" style="textOverflow: ellipsis;whiteSpace: nowrap;">双语班；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版</span>
                   </div>
                 </li>
               </ul>
@@ -234,6 +234,9 @@
   .brandmanagement .el-card-li{
     font-size: 8px;
     color: #A0A0A0;
+    display :inline-block ;
+    width: 100%;
+    overflow: hidden;
   }
   .brandmanagement .el-card-li span{
     color: #333333;
