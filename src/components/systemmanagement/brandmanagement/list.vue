@@ -19,21 +19,37 @@
         <div class="content">
           <div class="intercity-list">
             <el-card class="box-card">
-              <span class="el-icon-circle-plus-outline span-button" @click="addDialog"></span>
+              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
             </el-card>
           </div>
           <div class="intercity-list">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span class="city-name font-cl-blue">智慧班</span>
-                <el-button type="text" @click="editbrandVisible = true">编辑</el-button>
+                <span class="city-name font-cl-blue" style="line-height: 32px">智慧班</span>
+                <el-button type="text" @click="addAndEditBrand(1,1)">
+                  <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
+                </el-button>
               </div>
-              <ul>
-                <li v-for="o in 2" :key="o" style="border-bottom: 1px solid #ddd;line-height: 60px;">
+              <!--<ul>
+                <li style="border-bottom: 1px solid #ddd;line-height: 60px;">
                   <div class="card-li-div">
                     <span class="el-card-li">班级项目：<span>国际班</span></span><br>
                     <span class="el-card-li" style="textOverflow: ellipsis;whiteSpace: nowrap;">双语班；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版</span>
                   </div>
+                </li>
+                <li style="border-bottom: 1px solid #ddd;line-height: 60px;">
+                  <div class="card-li-div">
+                    <span class="el-card-li">年级项目：<span>国际班</span></span><br>
+                    <span class="el-card-li" style="textOverflow: ellipsis;whiteSpace: nowrap;">双语班；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版</span>
+                  </div>
+                </li>
+              </ul>-->
+              <ul>
+                <li>
+                  <span class="el-card-li">班级项目：<span>国际班</span></span><br>
+                </li>
+                <li>
+                  <span class="el-card-li">年级项目：大班，中班，小班</span><br>
                 </li>
               </ul>
             </el-card>
@@ -94,36 +110,21 @@
         </span>
       </el-dialog>
 
-      <el-dialog title="编辑品牌" :visible.sync="editbrandVisible" width="70%">
+      <el-dialog :title="brandName" :visible.sync="editbrandVisible" width="70%">
         <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
           <el-form-item label="品牌名称">
             <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
           </el-form-item>
-          <el-table
-            border
-            ref="multipleTable"
-            :data="tableData"
-            tooltip-effect="dark"
-            style="width: 100%"
-            @selection-change="handleSelectionChange">
-            <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
-            <el-table-column
-              label="班级项目"
-              width="150">
-              <template slot-scope="scope">{{ scope.row.name }}</template>
-            </el-table-column>
-            <el-table-column
-              label="年级项目">
-              <template slot-scope="scope">
-                <el-checkbox-group v-model="typeChebox" style="text-align: left;padding-left: 5px;">
-                  <el-checkbox v-for="(ty,index) in scope.row.type" :key="index" :label="ty.checkName"></el-checkbox>
-                </el-checkbox-group>
-              </template>
-            </el-table-column>
-          </el-table>
+          <el-form-item label="班级项目">
+            <el-checkbox-group v-model="editForm.klass" style="text-align: left;padding-left: 5px;">
+              <el-checkbox v-for="type1 in klassType" :key="index" :label="type1.name"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+          <el-form-item label="年级项目">
+            <el-checkbox-group v-model="editForm.grade" style="text-align: left;padding-left: 5px;">
+              <el-checkbox v-for="type2 in gradeType" :key="index" :label="type2.name"></el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editbrandVisible = false">取 消</el-button>
@@ -180,7 +181,7 @@
   }
   .brandmanagement .el-card{
     width: 180px;
-    height: 280px;
+    height: 160px;
     padding: 0 20px;
   }
   .brandmanagement .el-card .el-button--text{
@@ -200,13 +201,16 @@
     color: #A0A0A0;
     list-style: inside;
   }
-  .brandmanagement .el-card__body ul li{
+  .brandmanagement .el-card__body ul li:first-child{
     border-bottom:1px solid #ddd;
+  }
+  .brandmanagement .el-card__body ul li{
+    padding: 15px 0px;
   }
   .brandmanagement .span-button{
     font-size: 70px;
     text-align: center;
-    margin-top: 80px;
+    margin-top: 40px;
     margin-left: 55px;
     cursor: pointer;
   }
@@ -228,7 +232,6 @@
   .brandmanagement .el-card-li{
     font-size: 8px;
     color: #A0A0A0;
-    display :inline-block ;
     width: 100%;
     overflow: hidden;
   }
@@ -267,6 +270,7 @@
     },
     data() {
       return {
+        brandName:'添加品牌',
         klass:'',
         addbrandVisible: false,
         editbrandVisible: false,
@@ -275,8 +279,8 @@
         editForm:{
           id:'',
           name:'',
-          klass:'',
-          grade:'',
+          klass:[],
+          grade:[],
         },
         rules: {
           name: [
@@ -286,6 +290,34 @@
         },
         manageTitle:'班级管理',
         typeChebox:[],
+        klassType:[
+          {
+            name: "幼儿园1",
+            id: 1,
+          },
+          {
+            name: "幼儿园2",
+            id: 2
+          },
+          {
+            name: "幼儿园3",
+            id: 3
+          }
+        ],
+        gradeType:[
+          {
+            name: "幼儿园1",
+            id: 1,
+          },
+          {
+            name: "幼儿园2",
+            id: 2
+          },
+          {
+            name: "幼儿园3",
+            id: 3
+          }
+        ],
         type:[
           {
             name: "幼儿园1",
@@ -429,6 +461,14 @@
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
+      },
+      addAndEditBrand:function(num,id){
+        this.editbrandVisible = true;
+        if(num === -1){
+          this.brandName = '添加品牌';
+        }else{
+          this.brandName = '编辑品牌';
+        }
       },
       handleClick(row) {
         console.log(row);
