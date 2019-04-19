@@ -9,6 +9,7 @@ import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
 import Schooledit from '@/components/school/schoollist/edit'
 import Intercitylist from '@/components/school/intercitylist/list'
+import SchoolCalendarList from '@/components/systemmanagement/SchoolCalendar/list'
 
 Vue.use(Router)
 
@@ -69,6 +70,15 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: Home,
+      meta: { requiresAuth: true, keepAlive: false },
+      children:[
+
+      ]
+    },
+    {
+      path: '/schoolCalendarList',
+      name: 'schoolCalendarList',
+      component: SchoolCalendarList,
       meta: { requiresAuth: true, keepAlive: false },
       children:[
 

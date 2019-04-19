@@ -46,7 +46,7 @@
               <el-menu-item index="7-4">流程定义</el-menu-item>
               <el-menu-item index="7-5">用户管理</el-menu-item>
               <el-menu-item index="7-6">角色管理</el-menu-item>
-              <el-menu-item index="7-7">校日历管理</el-menu-item>
+              <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
             </el-menu>
             <div class="userInfo">

@@ -181,11 +181,6 @@
   .schooldetail .content {
     padding: 20px 70px 50px 70px;
   }
-  .schooldetail .el-table__empty-text {
-        color:#E51C23;
-        width: 98%;
-        text-align: left;
-    }
   .schooldetail .icon-font {
     color:#f17128;
     font-size: 20px;
