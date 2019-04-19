@@ -11,7 +11,6 @@ import Schoollist from '@/components/school/schoollist/list'
 import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
 import Schooledit from '@/components/school/schoollist/edit'
-import Intercitylist from '@/components/school/intercitylist/list'
 import SchoolCalendarList from '@/components/systemmanagement/SchoolCalendar/list'
 
 Vue.use(Router)

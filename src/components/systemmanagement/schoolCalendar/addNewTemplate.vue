@@ -62,13 +62,11 @@
                         <p style="color:#999;font-size:12px">新增的日期类型将在下方日历表中以色块的方式区分类别展示，可点击相应区块修改或删除</p>
                         <div class="calendar-list">
                             <Calendar
+                                v-for="(i,index) in list"
+                                :key='index'
                                 v-on:choseDay="clickDay"
                                 v-on:changeMonth="changeDate"
                                 v-on:isToday="clickToday"
-                                :markDate=arr 
-                                :markDateMore=arr 
-                                :agoDayHide='1514937600' 
-                                :futureDayHide='1525104000' 
                                 :sundayStart="true"
                                 ></Calendar>
                         </div>
@@ -133,6 +131,26 @@
     .new-calendar-modal .school-calendar {
         padding: 10px 10px 10px 100px;
     }
+    .new-calendar-modal .wh_container {
+        width: 20%;
+        margin-right: 10px;
+        margin-top: 20px;
+        display: inline-block;
+        border: 1px solid #d9d9d9;
+        padding: 5px;
+    }
+    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] {
+        background-color: #fff;
+    }
+    .new-calendar-modal .wh_item_date {
+       color:#101010;
+    }
+    .new-calendar-modal .wh_content_item {
+       color:#101010;
+    }
+    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] li{
+        color:#101010;
+    }
 </style>
 <script>
 import Calendar from 'vue-calendar-component';
@@ -140,6 +158,7 @@ export default {
     props:['dialogFormVisible'],
     data() {
         return {
+            list:[1,2,3,4,5,6,7,8,9,10,11,12],
             form: {
                 name: '',
                 region: '',
@@ -194,6 +213,12 @@ export default {
     },
     clickToday(data) {
       console.log(data); //跳到了本月
+    },
+    handleSelectionChange(){
+        
+    },
+    arr(){
+        
     }
     },
     components: {
