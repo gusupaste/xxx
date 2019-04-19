@@ -34,7 +34,6 @@
         <span class="right"><el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button></span>
       </p>
       <el-table
-        :data="schoolList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         border
         stripe
         show-header
@@ -122,17 +121,6 @@
     padding-left: 30px;
   }
 
-  .el-dropdown {
-    vertical-align: top;
-  }
-
-  .el-dropdown + .el-dropdown {
-    margin-left: 15px;
-  }
-
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
   .schoollist .el-table th{
     background-color: #f5f5f5;
   }
