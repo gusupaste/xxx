@@ -13,6 +13,7 @@ import Schooladd from '@/components/school/schoollist/add'
 import Schooledit from '@/components/school/schoollist/edit'
 import SchoolCalendarList from '@/components/systemmanagement/SchoolCalendar/list'
 import addNewTemplate from '@/components/systemmanagement/SchoolCalendar/addNewTemplate'
+import editTemplate from '@/components/systemmanagement/SchoolCalendar/editTemplate'
 
 Vue.use(Router)
 
@@ -97,6 +98,12 @@ export default new Router({
       path: '/schoolCalendarList/addNewTemplate',
       name: 'addNewTemplate',
       component: addNewTemplate,
+      meta: { requiresAuth: true, keepAlive: false },
+    },
+    {
+      path: '/schoolCalendarList/editTemplate/:id',
+      name: 'editTemplate',
+      component: editTemplate,
       meta: { requiresAuth: true, keepAlive: false },
     }
   ]

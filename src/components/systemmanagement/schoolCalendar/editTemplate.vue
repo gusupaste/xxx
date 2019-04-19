@@ -1,7 +1,7 @@
 <template>
     <div class="new-calendar-modal wrap" style="text-align:left">
             <div class="header">
-                <p>You Are Here  ：系统管理  > 校日历管理  > <span class="font-cl-blue">新增校日历</span></p>
+                <p>You Are Here  ：系统管理  > 校日历管理  > <span class="font-cl-blue">编辑校日历</span></p>
             </div>
             <el-form :model="form" style="margin-top:20px">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth">

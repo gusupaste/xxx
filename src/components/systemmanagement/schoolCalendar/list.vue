@@ -44,7 +44,7 @@
                 <el-table-column
                   label="操作">
                   <template slot-scope="scope">
-                        <i class="fa fa-edit icon-font"></i>
+                        <i class="fa fa-edit icon-font" style="cursor:pointer" @click="editSchoolCalendar(scope.row)"></i>
                   </template>
                 </el-table-column>
               </el-table>
@@ -75,36 +75,45 @@ export default {
                 date:'2019',
                 name:'1111',
                 province:'sss',
-                city:'22222'
+                city:'22222',
+                id:1
             },{
                 date:'2019',
                 name:'1111',
                 province:'sss',
-                city:'22222'
+                city:'22222',
+                id:2
             },
             {
                 date:'2019',
                 name:'1111',
                 province:'sss',
-                city:'22222'
+                city:'22222',
+                id:3
             },{
                 date:'2019',
                 name:'1111',
                 province:'sss',
-                city:'22222'
+                city:'22222',
+                id:4
             },
             {
                 date:'2019',
                 name:'1111',
                 province:'sss',
-                city:'22222'
+                city:'22222',
+                id:5
             }]
         }
     },
     methods:{
         addNewTemplate(){
             this.$router.push('/schoolCalendarList/addNewTemplate');
-        }
+        },
+        editSchoolCalendar(data){
+            console.log(data)
+            this.$router.push('/schoolCalendarList/editTemplate/'+data.id);
+        },
         
     },
     components:{
