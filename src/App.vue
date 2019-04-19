@@ -16,7 +16,7 @@
             <el-menu-item index="/home" route="/home" >
               首页
             </el-menu-item>
-            <el-submenu index="/school" > 
+            <el-submenu index="/school" >
                 <template slot="title">校园</template>
                 <el-menu-item index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
                 <el-menu-item index="/school/school-list" route="/school/school-list">校园列表</el-menu-item>
@@ -41,7 +41,9 @@
               <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">
                 品牌管理
               </el-menu-item>
-              <el-menu-item index="7-2">学年定义</el-menu-item>
+              <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">
+                学年定义
+              </el-menu-item>
               <el-menu-item index="7-3">结算区间定义</el-menu-item>
               <el-menu-item index="7-4">流程定义</el-menu-item>
               <el-menu-item index="7-5">用户管理</el-menu-item>
