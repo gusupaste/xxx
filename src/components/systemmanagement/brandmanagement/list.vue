@@ -29,9 +29,11 @@
                 <el-button type="text" @click="editbrandVisible = true">编辑</el-button>
               </div>
               <ul>
-                <li v-for="o in 2" :key="o" style="border-bottom: 1px solid #ddd">
-                    <span class="el-card-li">班级项目：<span>国际班</span></span>
+                <li v-for="o in 2" :key="o" style="border-bottom: 1px solid #ddd;line-height: 60px;">
+                  <div class="card-li-div">
+                    <span class="el-card-li">班级项目：<span>国际班</span></span><br>
                     <span class="el-card-li">双语班；智慧版</span>
+                  </div>
                 </li>
               </ul>
             </el-card>
@@ -236,6 +238,7 @@
   .brandmanagement .el-card-li span{
     color: #333333;
     font-weight: bold;
+    line-height: 20px !important;
   }
   .brandmanagement .el-table--enable-row-transition .el-table__body td,.brandmanagement .el-table th>.cell{
     text-align: center;
@@ -252,6 +255,14 @@
   .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
    padding: 0 !important;
   }
+  .brandmanagement .card-li-div{
+    width: 155px;
+    height: 58px;
+    position: absolute;
+    display: inline;
+    line-height: 20px;
+    padding-top: 10px;
+  }
 </style>
 <script>
   export default {
@@ -264,15 +275,6 @@
         editbrandVisible: false,
         brandManageVisible: false,
         brandName: '',
-        editStyleObj:{
-          background: '#ffffff',
-          border: '0px'
-        },
-        unEditStyleObj:{
-          background: '#f5f7fa',
-          border: '1px solid #E4E7ED',
-          color: '#C0C4CC',
-        },
         editForm:{
           id:'',
           name:'',
