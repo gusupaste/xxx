@@ -70,12 +70,16 @@
                                 :sundayStart="true"
                                 ></Calendar>
                         </div>
+                        <div>
+                            <p>校日历日期说明</p>
+                            
+                        </div>
                     </div>
                 </div>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="cancelModal">取 消</el-button>
-                <el-button type="primary" @click="cancelModal">确 定</el-button>
+                <el-button @click="cancelModal" style="background-color:#bbb;color:#fff">取 消</el-button>
+                <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
             </div>
         </el-dialog>
     </div>
@@ -92,6 +96,9 @@
     }
     .new-calendar-modal .school-wrap{
         border: 1px solid #bbb;
+    }
+    .new-calendar-modal .dialog-footer{
+        text-align: center;
     }
     .new-calendar-modal .school-wrap_head{
         border-bottom: 1px solid #bbb;
@@ -137,7 +144,11 @@
         margin-top: 20px;
         display: inline-block;
         border: 1px solid #d9d9d9;
-        padding: 5px;
+        /* padding: 5px; */
+    }
+    .new-calendar-modal .wh_content:nth-child(2) {
+        background-color: #f7f7f7;
+        border: 1px solid #d9d9d9;
     }
     .new-calendar-modal .wh_content_all[data-v-2ebcbc83] {
         background-color: #fff;
