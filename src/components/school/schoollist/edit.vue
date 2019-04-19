@@ -144,7 +144,7 @@
           <el-form-item label="开户银行(英文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
-          <div class="span-color" style="margin: 0 7%"><a class="icon-circle-add"><i class="fa fa-plus-circle"></i> 新增账户</a></div>
+          <div class="span-color"><a class="icon-circle-add"><i class="fa fa-plus-circle"></i> 新增账户</a></div>
         </el-form>
         <div class="mt26"></div>
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;备注说明</div>
@@ -225,11 +225,12 @@
     text-align: center;
   }
   .schooledit .el-form-item{
-    margin: 0.2rem 3.7rem;
+    margin: 0.2rem;
   }
   .schooledit .select-region .el-input__inner{
-    width: 164px;
+    width: 122px;
     height: 36px;
+    margin: 0.2rem;
   }
   .schooledit .el-form--inline .el-form-item__content{
     display: inline-flex;
@@ -244,6 +245,6 @@
     color: orange;
   }
   .schooledit .el-textarea__inner{
-    width: 93%;
+    width: 87%;
   }
 </style>
