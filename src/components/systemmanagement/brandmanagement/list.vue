@@ -117,9 +117,12 @@
               <el-button @click="deleteButton(scope.row)" type="text" size="small"><span class="el-icon-delete"></span></el-button>
             </template>
           </el-table-column>
+          <el-th class="addClassButton">
+            <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton" style="padding: 15px;">&nbsp;&nbsp;新增班级类型</i>
+          </el-th>
         </el-table>
         <div class="addClassButton">
-          <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton">&nbsp;&nbsp;新增班级类型</i>
+          <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton" style="padding: 15px;">&nbsp;&nbsp;新增班级类型</i>
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="brandManageVisible = false">取 消</el-button>
@@ -239,8 +242,7 @@
     text-align: center;
   }
   .brandmanagement .addClassButton{
-    width: 443px;
-    padding: 15px;
+    width: 99.7%;
     border-top: 0px !important;
     border: 1px solid #EBEEF5;
     color: #ED6C2E;
