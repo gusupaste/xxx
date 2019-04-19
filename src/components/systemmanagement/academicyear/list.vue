@@ -1,5 +1,5 @@
 <template>
-  <div class='academicyear'>
+  <div class='academicyear wrap'>
     <div class="header">
       <p>YOU ARE HERE : 系统管理 >> <span class="font-cl-blue">学年定义</span></p>
     </div>
