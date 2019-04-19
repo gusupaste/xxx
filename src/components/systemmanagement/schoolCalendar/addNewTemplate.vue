@@ -29,19 +29,18 @@
                                 <el-table-column
                                 prop="name"
                                 label="校园"
-                                width="120">
+                              >
                                 </el-table-column>
                                 <el-table-column
                                 prop="address"
                                 label="班级项目"
-                                
                                 show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column
-                                width="80"
+                              
                                 label="操作">
                                 <template slot-scope="scope">
-                                        <i class="orange fa fa-trash-o" style="font-size:20px"></i>
+                                        <i @click="delete_dialogVisible=true" class="orange fa fa-trash-o" style="font-size:20px;cursor:pointer"></i>
                                 </template>
                                 </el-table-column>
                             </el-table>
@@ -126,8 +125,22 @@
                     </div>
                     
                 </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="cancelModal" style="background-color:#bbb;color:#fff">取 消</el-button>
+                <div slot="footer" class="dialog-footer" style="margin-top:20px">
+                    <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
+                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                </div>
+            </el-dialog>
+            <!-- 删除学校 -->
+            <el-dialog
+                class="delete-dialog"
+                title="删除校园"
+                :visible.sync="delete_dialogVisible"
+                width="30%"
+                >
+                <p>是否确定删除此条校园记录？</p>
+                <p class="font-cl-blue">北京朝阳区xxx幼儿园（双语班，国际班）</p>
+                <div slot="footer" class="dialog-footer" style="margin-top:0">
+                    <el-button @click="delete_dialogVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
                     <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
                 </div>
             </el-dialog>
@@ -234,6 +247,14 @@
         color:#101010;
         font-size: 12px;
     }
+    .new-calendar-modal .el-icon-close{
+        color:#101010;
+        font-size: 20px;
+    }
+    .delete-dialog .el-dialog__body {
+        line-height: 50px;
+        text-align: center;
+    }
 </style>
 <script>
 import Calendar from 'vue-calendar-component';
@@ -242,6 +263,7 @@ export default {
         return {
             list:[1,2,3,4,5,6,7,8,9,10,11,12],
             dialogFormVisible:false,
+            delete_dialogVisible:false,
             form: {
                 name: '',
                 region: '',
