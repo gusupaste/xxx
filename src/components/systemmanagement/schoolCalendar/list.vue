@@ -55,7 +55,6 @@
               </el-pagination>
             </div>
         </div>
-        <add-new-template :dialogFormVisible="dialogFormVisible" @closeDialog="closeDialog"></add-new-template>
     </div>
 </template>
 <style lang="">
@@ -67,11 +66,9 @@
     }
 </style>
 <script>
-import addNewTemplate from '@/components/systemmanagement/SchoolCalendar/addNewTemplate'
 export default {
     data(){
         return {
-            dialogFormVisible:true,
             year:2018,
             template_name:'你好',
             tableData:[{
@@ -106,16 +103,12 @@ export default {
     },
     methods:{
         addNewTemplate(){
-            this.dialogFormVisible = true;
-        },
-        closeDialog(res){
-            console.log(res)
-            this.dialogFormVisible = res;
-        },
+            this.$router.push('/schoolCalendarList/addNewTemplate');
+        }
         
     },
     components:{
-        addNewTemplate
+    
     }
 }
 </script>

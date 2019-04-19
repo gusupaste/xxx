@@ -26,7 +26,8 @@
     width: 90%;
     min-width: 1200px;
     margin: 0 auto;
-    padding-top: 20px;
+    padding: 20px 0;
+    font-size: 14px;
   }
   .btn {
     width:84px;
@@ -53,6 +54,9 @@
   .bg-orange {
     background-color:#f17128;
   }
+  .green {
+    color:#8BC34A;
+  }
   .left {
     float: left;
   }
@@ -64,7 +68,10 @@
   }
   .mt26 {
       margin-top:26px;
-    }
+  }
+  .mr26 {
+      margin-right:26px;
+  }
   a {
     text-decoration: none;
   }

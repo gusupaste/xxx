@@ -1,7 +1,9 @@
 <template>
-    <div class="new-calendar-modal">
-        <el-dialog title="收货地址" :visible.sync="dialogFormVisible" width="80%" style="min-width:1200px">
-            <el-form :model="form">
+    <div class="new-calendar-modal wrap" style="text-align:left">
+            <div class="header">
+                <p>You Are Here  ：系统管理  > 校日历管理  > <span class="font-cl-blue">新增校日历</span></p>
+            </div>
+            <el-form :model="form" style="margin-top:20px">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth">
                     <el-input v-model="form.name" auto-complete="off"></el-input>
                 </el-form-item>
@@ -12,32 +14,18 @@
                 </el-select>
                 </el-form-item>
                 <el-form-item label="学校：" :label-width="formLabelWidth">
+                   <span style="cursor:pointer" @click="dialogFormVisible= true">
+                        <i class="green fa fa-plus-square" style="font-size:18px"></i> <span class="green"> 添加校园</span>
+                   </span>
                     <div class="school-wrap">
-                        <div class="school-wrap_head">
-                            <span>城际：</span>
-                            <el-select v-model="form.region" placeholder="请选择活动区域">
-                                    <el-option label="区域一" value="shanghai"></el-option>
-                                    <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                            <span style="margin-left:20px">区域：</span>
-                            <el-select v-model="form.region" placeholder="请选择活动区域">
-                                    <el-option label="区域一" value="shanghai"></el-option>
-                                    <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
-                        </div>
                         <div>
                             <el-table
-                                max-height="250"
                                 ref="multipleTable"
                                 :data="tableData3"
                                 tooltip-effect="dark"
                                 style="width: 100%"
                                 border=""
                                 @selection-change="handleSelectionChange">
-                                <el-table-column
-                                type="selection"
-                                width="55">
-                                </el-table-column>
                                 <el-table-column
                                 prop="name"
                                 label="校园"
@@ -46,7 +34,15 @@
                                 <el-table-column
                                 prop="address"
                                 label="班级项目"
+                                
                                 show-overflow-tooltip>
+                                </el-table-column>
+                                <el-table-column
+                                width="80"
+                                label="操作">
+                                <template slot-scope="scope">
+                                        <i class="orange fa fa-trash-o" style="font-size:20px"></i>
+                                </template>
                                 </el-table-column>
                             </el-table>
                         </div>
@@ -55,9 +51,9 @@
                 <div>
                     <p>开始定义校日历</p>
                     <div class="school-calendar">
-                        <span style="background-color:#f17128;color:#fff;padding:10px;display:inline-block">
+                        <span style="color:#f17128;padding:10px;display:inline-block">
                             <i class="fa fa-plus-square-o"></i>
-                            为指定的日期范围设定校日历
+                            设定校日历
                         </span>
                         <p style="color:#999;font-size:12px">新增的日期类型将在下方日历表中以色块的方式区分类别展示，可点击相应区块修改或删除</p>
                         <div class="calendar-list">
@@ -70,9 +66,16 @@
                                 :sundayStart="true"
                                 ></Calendar>
                         </div>
-                        <div>
+                        <div class="calendar-datail">
                             <p>校日历日期说明</p>
-                            
+                            <div>
+                                <span style="background-color:#e51c23" class="calendar-suqre"></span>
+                                <span class="mr26">休息日</span>
+                                <span style="background-color:#ff9800" class="calendar-suqre"></span>
+                                <span class="mr26">职业发展日</span>
+                                <span style="background-color:#8BC34A" class="calendar-suqre"></span>
+                                <span class="mr26">寒暑假</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,7 +84,53 @@
                 <el-button @click="cancelModal" style="background-color:#bbb;color:#fff">取 消</el-button>
                 <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
             </div>
-        </el-dialog>
+            <!-- 添加学校 -->
+            <el-dialog title="添加学校" :visible.sync="dialogFormVisible">
+                <el-form :model="form">
+                    <div class="school-wrap_head">
+                            <span>城际：</span>
+                            <el-select v-model="form.region" placeholder="请选择活动区域">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                            </el-select>
+                            <span style="margin-left:20px">区域：</span>
+                            <el-select v-model="form.region" placeholder="请选择活动区域">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                    <el-option label="区域二" value="beijing"></el-option>
+                            </el-select>
+                    </div>
+                    <div class="school-wrap" style="">
+                        <el-table
+                        ref="multipleTable"
+                        :data="tableData3"
+                        max-height="300"
+                        tooltip-effect="dark"
+                        style="width: 100%"
+                        border
+                        @selection-change="handleSelectionChange">
+                        <el-table-column
+                        type="selection"
+                        width="">
+                        </el-table-column>
+                        <el-table-column
+                        label="校园"
+                        width="">
+                        <template slot-scope="scope">{{ scope.row.date }}</template>
+                        </el-table-column>
+                        <el-table-column
+                        prop="name"
+                        label="班级项目"
+                        width="">
+                        </el-table-column>
+                    </el-table>
+                    </div>
+                    
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="cancelModal" style="background-color:#bbb;color:#fff">取 消</el-button>
+                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                </div>
+            </el-dialog>
     </div>
 </template>
 <style lang="">
@@ -91,6 +140,10 @@
         font-size: 12px !important;
         border-bottom: 1px solid #d5d5d5;
     }
+    .new-calendar-modal  .header p{
+        font-size: 14px;
+        margin: 10px 0px;
+    }
     .new-calendar-modal .el-dialog__title{
         font-size: 14px;
     }
@@ -98,14 +151,22 @@
         border: 1px solid #bbb;
     }
     .new-calendar-modal .dialog-footer{
+        margin-top: 50px;
         text-align: center;
     }
-    .new-calendar-modal .school-wrap_head{
-        border-bottom: 1px solid #bbb;
+    .new-calendar-modal .calendar-datail{
+        border: 1px solid #bbb;
+        margin-top: 20px;
         padding: 10px;
     }
-    .new-calendar-modal .el-table th{
+    .new-calendar-modal .school-wrap_head{
+        border: 1px solid #bbb;
+        border-bottom: none;
+        padding: 10px;
+    }
+    .new-calendar-modal .el-table th,.el-table td{
         background-color: #fff;
+        text-align: center;
     }
     .new-calendar-modal  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
         border-color: #ED6C2E;
@@ -155,21 +216,32 @@
     }
     .new-calendar-modal .wh_item_date {
        color:#101010;
+       font-size: 12px;
     }
     .new-calendar-modal .wh_content_item {
        color:#101010;
+       font-size: 12px;
+    }
+    .new-calendar-modal .wh_content {
+       padding: 0;
+    }
+    .new-calendar-modal .calendar-suqre {
+       display: inline-block;
+       width:10px;
+       height:10px;
     }
     .new-calendar-modal .wh_content_all[data-v-2ebcbc83] li{
         color:#101010;
+        font-size: 12px;
     }
 </style>
 <script>
 import Calendar from 'vue-calendar-component';
 export default {
-    props:['dialogFormVisible'],
     data() {
         return {
             list:[1,2,3,4,5,6,7,8,9,10,11,12],
+            dialogFormVisible:false,
             form: {
                 name: '',
                 region: '',

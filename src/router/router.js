@@ -12,6 +12,7 @@ import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
 import Schooledit from '@/components/school/schoollist/edit'
 import SchoolCalendarList from '@/components/systemmanagement/SchoolCalendar/list'
+import addNewTemplate from '@/components/systemmanagement/SchoolCalendar/addNewTemplate'
 
 Vue.use(Router)
 
@@ -89,8 +90,14 @@ export default new Router({
       component: SchoolCalendarList,
       meta: { requiresAuth: true, keepAlive: false },
       children:[
-
+        
       ]
     },
+    {
+      path: '/schoolCalendarList/addNewTemplate',
+      name: 'addNewTemplate',
+      component: addNewTemplate,
+      meta: { requiresAuth: true, keepAlive: false },
+    }
   ]
 })
