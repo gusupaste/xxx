@@ -50,44 +50,6 @@
         </span>
       </el-dialog>
 
-      <el-dialog title="编辑品牌" :visible.sync="editbrandVisible" width="70%">
-        <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
-          <el-form-item label="品牌名称">
-            <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-          </el-form-item>
-          <el-table
-            border
-            ref="multipleTable"
-            :data="tableData"
-            tooltip-effect="dark"
-            style="width: 100%"
-            @selection-change="handleSelectionChange">
-            <el-table-column
-              type="selection"
-              width="55">
-            </el-table-column>
-            <el-table-column
-              label="日期"
-              width="120">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              label="姓名"
-              width="120">
-            </el-table-column>
-            <el-table-column
-              prop="address"
-              label="地址"
-              show-overflow-tooltip>
-            </el-table-column>
-          </el-table>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="editbrandVisible = false">取 消</el-button>
-          <el-button type="success" @click="editbrandVisible = false">保 存</el-button>
-        </span>
-      </el-dialog>
       <el-dialog :title="manageTitle" :visible.sync="brandManageVisible" width="70%">
         <el-table
           :data="tableData"
@@ -127,6 +89,43 @@
         <span slot="footer" class="dialog-footer">
           <el-button @click="brandManageVisible = false">取 消</el-button>
           <el-button type="success" @click="brandManageVisible = false">保 存</el-button>
+        </span>
+      </el-dialog>
+
+      <el-dialog title="编辑品牌" :visible.sync="editbrandVisible" width="70%">
+        <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
+          <el-form-item label="品牌名称">
+            <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
+          </el-form-item>
+          <el-table
+            border
+            ref="multipleTable"
+            :data="tableData"
+            tooltip-effect="dark"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
+            <el-table-column
+              type="selection"
+              width="55">
+            </el-table-column>
+            <el-table-column
+              label="班级项目"
+              width="150">
+              <template slot-scope="scope">{{ scope.row.name }}</template>
+            </el-table-column>
+            <el-table-column
+              label="年级项目">
+              <template slot-scope="scope">
+                <el-checkbox-group v-model="typeChebox" style="text-align: left;padding-left: 5px;">
+                  <el-checkbox v-for="(ty,index) in scope.row.type" :key="index" :label="ty.checkName"></el-checkbox>
+                </el-checkbox-group>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editbrandVisible = false">取 消</el-button>
+          <el-button type="success" @click="editbrandVisible = false">保 存</el-button>
         </span>
       </el-dialog>
     </div>
@@ -287,30 +286,97 @@
           ]
         },
         manageTitle:'班级管理',
+        typeChebox:[],
+        type:[
+          {
+            name: "幼儿园1",
+            id: 1,
+          },
+          {
+            name: "幼儿园2",
+            id: 2
+          },
+          {
+            name: "幼儿园3",
+            id: 3
+          }
+        ],
         tableData: [{
           id: 1,
           no:'1',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1518 弄',
           edit: true,
-        }, {
+          che:[],
+          type:[{
+            id:7,
+            checkName:'checkbox7',
+          },
+            {
+              id:7,
+              checkName:'checkbox7',
+            },
+            {
+              id:7,
+              checkName:'checkbox7',
+            }],
+          },{
           id: 2,
           no:'2',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1517 弄',
           edit: true,
+          che:[],
+          type:[{
+            id:7,
+            checkName:'checkbox7',
+          },
+            {
+              id:7,
+              checkName:'checkbox7',
+            },
+            {
+              id:7,
+              checkName:'checkbox7',
+            }],
         }, {
           id: 3,
           no:'3',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1519 弄',
           edit: true,
+          che:[],
+          type:[{
+            id:7,
+            checkName:'checkbox7',
+          },
+            {
+              id:7,
+              checkName:'checkbox7',
+            },
+            {
+              id:7,
+              checkName:'checkbox7',
+            }],
         }, {
           id: 4,
           no:'4',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄',
           edit: true,
+          che:[],
+          type:[{
+            id:1,
+            checkName:'checkbox1',
+          },
+          {
+            id:2,
+            checkName:'checkbox2',
+          },
+          {
+            id:3,
+            checkName:'checkbox3',
+          }],
         }],
         columnLabel1:'班级类型编码',
         columnLabel2:'班级类型',
