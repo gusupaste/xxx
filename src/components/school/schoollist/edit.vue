@@ -146,7 +146,7 @@
           </el-form-item>
           <div class="span-color"><a class="icon-circle-add"><i class="fa fa-plus-circle"></i> 新增账户</a></div>
         </el-form>
-        <div class="mt26"></div>
+        <div style="margin-top: 50px"></div>
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;备注说明</div>
         <hr class="line-solid">
         <el-form :label-position="labelPosition" label-width="18%" :model="formInline" class="demo-form-inline ">
