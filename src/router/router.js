@@ -38,6 +38,7 @@ import DiscountPass from '@/components/finance/discount/pass'
 import DiscountApproval from '@/components/finance/discount/approval'
 import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
+import ParentInfo from '@/components/parentinfo/list'
 
 Vue.use(Router)
 
@@ -112,6 +113,11 @@ export default new Router({
         },
         
       ]
+    },
+    {
+      path: '/parentInfo',/*系统管理*/
+      name: 'parentInfo',
+      component: ParentInfo,
     },
     {
       path: '/school',/*校园*/

@@ -60,56 +60,100 @@
           prop="month_1"
           label="2018/09"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_2"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_2}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_2"
           label="2018/10"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_2"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_2}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_3"
           label="2018/10"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_3"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_3}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_4"
           label="2018/11"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_4"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_4}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_5"
           label="2018/12"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_5"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_5}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_6"
           label="2019/1"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_6"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_6}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_7"
           label="2019/2"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_7"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_7}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_8"
           label="2019/3"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_8"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_8}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_9"
           label="2019/4"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_9"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_9}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_10"
           label="2019/5"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_10"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_10}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_11"
           label="2019/6"
           min-width="60">
+          <template slot-scope="{row,$index}">
+            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_11"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_11}}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="month_total"
@@ -119,9 +163,10 @@
         <el-table-column
           fixed="right"
           label="操作"
-          min-width="30">
-          <template slot-scope="scope">
-            <i @click="editDialog" class="fa fa-pencil-square-o orange"></i>
+          min-width="40">
+          <template slot-scope="{row,$index}">
+            <i @click="handleEdit($index, row)"  v-if="!showBtn[$index]" class="fa fa-pencil-square-o orange"></i>
+            <i @click="handleUpdate($index, row)" v-if="showBtn[$index]" class="fa fa-check-circle" ></i><i @click="handleCancel($index, row)"  v-if="showBtn[$index]" class="fa fa-times-circle"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -134,39 +179,6 @@
         <div class="div-page"><input class="el-input__inner input-page" type="text"/><div class="div-page-sure">确定</div></div>
       </el-pagination>
     </div>
-    <!--编辑 弹框-->
-    <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;">
-      <el-form label-width="120px" :model="formLabelAlign">
-        <el-form-item label="学年:">
-          <!--<el-input v-model="formLabelAlign.year" maxlength="15" style="width: 60%" readonly=""></el-input>-->
-          <span>{{formLabelAlign.year}}</span>
-        </el-form-item>
-        <el-form-item label="校园编码:">
-          <!--<el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>-->
-          <span>{{formLabelAlign.code}}</span>
-        </el-form-item>
-        <el-form-item label="学校名称:">
-          <span>{{formLabelAlign.schoolName}}</span>
-        </el-form-item>
-        <el-form-item label="折扣类型:">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="折扣预算:">
-          <el-input type="text" ></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="editDiscount = false">取 消</el-button>
-          <el-button type="success" @click="editDiscount = false">保 存</el-button>
-        </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -174,6 +186,9 @@
   export default {
     data () {
       return {
+        showEdit: [], //显示编辑框
+        showBtn: [],
+        showBtnOrdinary: true,
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -222,21 +237,22 @@
             month_10: '5',
             month_11: '15',
             month_total: '110'
-          }],
-        editDiscount: false,
-        formLabelAlign: {
-          year:'2018-01-01',
-          code:'1001',
-          schoolName:'XXXXXXXXXXXXX'
-        }
+          }]
       }
     },
-    methods:{
-      editSchool:function () {
+    methods: {
+      handleEdit(index, row) {
+        this.showEdit[index] = true;
+        this.showBtn[index] = true;
+        this.$set(this.showEdit,row,true)
+        this.$set(this.showBtn,row,true)
+      },
+      handleUpdate(index, row){
 
       },
-      editDialog: function () {
-        this.editDiscount = true;
+      handleCancel(index, row){
+        this.showEdit[index] = false;
+        this.showBtn[index] = false;
       }
     }
   }
@@ -305,6 +321,10 @@
   }
   .enrollmentnumber .el-dialog__footer{
     text-align: center;
+  }
+  .enrollmentnumber .el-table .el-input__inner{
+    height: auto;
+    line-height: inherit;
   }
 
 </style>
