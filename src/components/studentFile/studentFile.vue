@@ -46,7 +46,7 @@
             </el-col>
           </el-form-item>
           <el-form-item label="搜索：">
-            <el-input></el-input>
+            <el-input placeholder="输入学号、学生姓名或者学生卡号"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" >搜索</el-button>

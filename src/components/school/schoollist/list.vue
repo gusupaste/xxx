@@ -34,6 +34,7 @@
         <span class="right"><el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button></span>
       </p>
       <el-table
+        :data="schoolList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         border
         stripe
         show-header

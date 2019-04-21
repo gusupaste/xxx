@@ -27,6 +27,8 @@ import PendingApproval from '@/components/finance/charge/pendingApproval'
 import Refund from '@/components/finance/refund/list'
 import PendingApprovalRecord from '@/components/finance/reserveFund/pendingApprovalRecord'
 import UsageRecord from '@/components/finance/reserveFund/usageRecord'
+import Discount from '@/components/finance/discount/list'
+import DiscountDetail from '@/components/finance/discount/detail'
 
 Vue.use(Router)
 
@@ -167,6 +169,16 @@ export default new Router({
           name: 'usageRecord',
           component: UsageRecord
         },
+        {
+          path: '/financemanagement/discount',
+          name: 'discount',
+          component: Discount
+        },
+        {
+          path: '/financemanagement/discountDetail/:id',
+          name: 'discountDetail',
+          component: DiscountDetail
+        }
       ]
     },
     {
