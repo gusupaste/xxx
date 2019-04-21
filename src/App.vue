@@ -25,7 +25,7 @@
                 <el-menu-item index="/school/revenuetarget-list" route="/school/revenuetarget-list">校园收入目标</el-menu-item>
             </el-submenu>
             <el-menu-item index="/studentFile" route="/studentFile">学生档案</el-menu-item>
-            <el-menu-item index="4">家长信息</el-menu-item>
+            <el-menu-item index="/parentInfo" route="/parentInfo">家长信息</el-menu-item>
             <el-menu-item index="5">学生考勤</el-menu-item>
             <el-submenu index="6">
               <template slot="title">财务处理</template>
