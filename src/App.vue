@@ -32,7 +32,7 @@
               <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">
                 收费账单
               </el-menu-item>
-              <el-menu-item index="/financemanagement/refund" route="/financemanagement/charge">
+              <el-menu-item index="/financemanagement/refund" route="/financemanagement/refund">
                 退费账单
               </el-menu-item>
               <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">

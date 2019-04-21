@@ -44,67 +44,183 @@
         <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
       </div>
       <div class="list-content">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-          <el-menu-item index="1" style="margin-left: -250px;">审核通过</el-menu-item>
-          <el-menu-item index="2">审核中</el-menu-item>
-          <el-menu-item index="3">被驳回</el-menu-item>
-        </el-menu>
-        <el-table
-          :data="chargeTableDate"
-          border
-          stripe
-          show-header
-          style="width: 100%;margin-top: 10px;">
-          <el-table-column
-            prop="code"
-            label="账单号"
-            width="150">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="学生姓名"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="intercity_name"
-            label="所在班级"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="hq_name"
-            label="账单类型"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="opening_date"
-            label="实际应收"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="leader"
-            label="实际实收"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="telephone"
-            label="制单人"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="status_name"
-            label="制单日期">
-          </el-table-column>
-          <el-table-column
-            fixed="right"
-            label="操作"
-            min-width="30">
-            <template slot-scope="scope">
-              <el-button class="red" type="text" size="small">
-                <router-link to="/financemanagement/discountpass/9">折扣详情</router-link>
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="审核通过" name="first">
+            <el-table
+              :data="chargeTableDate"
+              border
+              stripe
+              show-header
+              style="width: 100%;margin-top: 10px;">
+              <el-table-column
+                prop="code"
+                label="账单号"
+                width="150">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="学生姓名"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="intercity_name"
+                label="所在班级"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="hq_name"
+                label="账单类型"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="opening_date"
+                label="实际应收"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="leader"
+                label="实际实收"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="telephone"
+                label="制单人"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="status_name"
+                label="制单日期">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                min-width="30">
+                <template slot-scope="scope">
+                  <el-button class="red" type="text" size="small">
+                    <router-link to="/financemanagement/discountDetail/9">折扣详情</router-link>
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="审核中" name="second">
+            <el-table
+              :data="chargeTableDate"
+              border
+              stripe
+              show-header
+              style="width: 100%;margin-top: 10px;">
+              <el-table-column
+                prop="code"
+                label="账单号"
+                width="150">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="学生姓名"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="intercity_name"
+                label="所在班级"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="hq_name"
+                label="账单类型"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="opening_date"
+                label="实际应收"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="leader"
+                label="实际实收"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="telephone"
+                label="制单人"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="status_name"
+                label="制单日期">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                min-width="30">
+                <template slot-scope="scope">
+                  <el-button class="red" type="text" size="small">
+                    <router-link to="/financemanagement/discountDetail/9">折扣详情</router-link>
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+          <el-tab-pane label="被驳回" name="second">
+            <el-table
+              :data="chargeTableDate"
+              border
+              stripe
+              show-header
+              style="width: 100%;margin-top: 10px;">
+              <el-table-column
+                prop="code"
+                label="账单号"
+                width="150">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="学生姓名"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="intercity_name"
+                label="所在班级"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="hq_name"
+                label="账单类型"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="opening_date"
+                label="实际应收"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="leader"
+                label="实际实收"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="telephone"
+                label="制单人"
+                width="130">
+              </el-table-column>
+              <el-table-column
+                prop="status_name"
+                label="制单日期">
+              </el-table-column>
+              <el-table-column
+                fixed="right"
+                label="操作"
+                min-width="30">
+                <template slot-scope="scope">
+                  <el-button class="red" type="text" size="small">
+                    <router-link to="/financemanagement/discountDetail/9">折扣详情</router-link>
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+        </el-tabs>
+
       </div>
     </div>
   </div>
@@ -134,6 +250,7 @@
         value1:'',
         value2:'',
         input:'',
+        activeName:'',
         activeIndex:'1',
         chargeTableDate:[
           {
@@ -190,10 +307,8 @@
   .discountlist .el-select{
     width: 10%;
   }
-  .discountlist .list-content .el-menu--horizontal>.el-menu-item{
-    float: none;
+  .discountlist .el-tabs__item{
     width: 150px;
-    display: inline-block;
     text-align: center;
     color: #ED6C2E;
   }
@@ -208,5 +323,24 @@
   }
   .discountlist .new-calendar-modal .el-table td, .el-table th.is-leaf{
     border-bottom: none !important;
+  }
+  .discountlist .el-tabs__active-bar{
+    background-color: #ED6C2E;
+    width: 0px !important;
+  }
+  .discountlist .el-tabs__item:hover{
+    color:#ED6C2E;
+  }
+  .discountlist .el-tabs__item{
+    padding: 0 0 !important;
+  }
+  .discountlist .el-tabs__nav-scroll{
+    padding-left: 50%;
+  }
+  .discountlist #tab-first{
+    margin-left: -150px;
+  }
+  .discountlist .el-tabs__active-bar is-top{
+    width: 0px !important;
   }
 </style>

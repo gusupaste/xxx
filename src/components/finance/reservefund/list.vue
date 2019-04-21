@@ -96,8 +96,10 @@
             label="操作"
             width="180">
             <template slot-scope="scope">
-              <el-button type="text" size="small">特批记录</el-button>&nbsp;&nbsp;&nbsp;|
-              <el-button type="text" size="small">使用记录</el-button>
+              <el-button type="text" size="small" @click="editSchool(scope.row,0)">
+                待批记录
+                </el-button>&nbsp;&nbsp;&nbsp;|
+              <el-button type="text" size="small" @click="editSchool(scope.row,1)">使用记录</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -161,6 +163,13 @@
       },
       searchList: function() {
 
+      },
+      editSchool:function (param,index) {
+        if(index === 0){
+          this.$router.push('/financemanagement/pendingApprovalRecord');
+        }else{
+          this.$router.push('/financemanagement/usageRecord');
+        }
       }
     }
   }

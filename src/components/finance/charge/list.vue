@@ -78,56 +78,104 @@
           <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
         </div>
         <div class="list-content">
-          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1" style="margin-left: -150px;">确认账单</el-menu-item>
-            <el-menu-item index="2">待审核账单</el-menu-item>
-          </el-menu>
-          <el-table
-            :data="chargeTableDate"
-            border
-            stripe
-            show-header
-            style="width: 100%;margin-top: 10px;">
-            <el-table-column
-              prop="code"
-              label="账单号"
-              width="150">
-            </el-table-column>
-            <el-table-column
-              prop="name"
-              label="学生姓名"
-              width="130">
-            </el-table-column>
-            <el-table-column
-              prop="intercity_name"
-              label="所在班级"
-              width="130">
-            </el-table-column>
-            <el-table-column
-              prop="hq_name"
-              label="账单类型"
-              width="130">
-            </el-table-column>
-            <el-table-column
-              prop="opening_date"
-              label="实际应收"
-              width="130">
-            </el-table-column>
-            <el-table-column
-              prop="leader"
-              label="实际实收"
-              width="130">
-            </el-table-column>
-            <el-table-column
-              prop="telephone"
-              label="制单人"
-              width="130">
-            </el-table-column>
-            <el-table-column
-              prop="status_name"
-              label="制单日期">
-            </el-table-column>
-          </el-table>
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="确认账单" name="first">
+              <el-table
+                :data="chargeTableDate"
+                border
+                stripe
+                show-header
+                style="width: 100%;margin-top: 10px;">
+                <el-table-column
+                  prop="code"
+                  label="账单号"
+                  width="150">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="学生姓名"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="intercity_name"
+                  label="所在班级"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="hq_name"
+                  label="账单类型"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="opening_date"
+                  label="实际应收"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="leader"
+                  label="实际实收"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="telephone"
+                  label="制单人"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="status_name"
+                  label="制单日期">
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="待审核账单" name="second">
+              <el-table
+                :data="chargeTableDate"
+                border
+                stripe
+                show-header
+                style="width: 100%;margin-top: 10px;">
+                <el-table-column
+                  prop="code"
+                  label="账单号"
+                  width="150">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="学生姓名"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="intercity_name"
+                  label="所在班级"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="hq_name"
+                  label="账单类型"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="opening_date"
+                  label="实际应收"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="leader"
+                  label="实际实收"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="telephone"
+                  label="制单人"
+                  width="130">
+                </el-table-column>
+                <el-table-column
+                  prop="status_name"
+                  label="制单日期">
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
         </div>
       </div>
     </div>
@@ -157,7 +205,7 @@
         value1:'',
         value2:'',
         input:'',
-        activeIndex:'1',
+        activeName:'first',
         chargeTableDate:[
           {
             code:'xxxxxxxxxxxx',
@@ -188,6 +236,9 @@
       },
       searchList: function() {
 
+      },
+      editSchool:function (param) {
+        this.$router.push('/school/school-edit/'+param.id);
       }
     }
   }
@@ -210,12 +261,14 @@
   .chargelist .el-select{
     width: 10%;
   }
-  .chargelist .list-content .el-menu--horizontal>.el-menu-item{
-    float: none;
+  .chargelist .el-tabs__item{
     width: 150px;
-    display: inline-block;
     text-align: center;
     color: #ED6C2E;
+  }
+  .chargelist .el-tabs__item.is-active{
+    color: #ED6C2E;
+    border-bottom: 2px solid #ED6C2E !important;
   }
   .chargelist .el-table td, .el-table th{
     text-align: center;
@@ -225,5 +278,24 @@
   }
   .chargelist .el-menu.el-menu--horizontal{
     padding-left: 50%;
+  }
+  .chargelist .el-tabs__active-bar{
+    background-color: #ED6C2E;
+    width: 0px !important;
+  }
+  .chargelist .el-tabs__item:hover{
+    color:#ED6C2E;
+  }
+  .chargelist .el-tabs__item{
+    padding: 0 0 !important;
+  }
+  .chargelist .el-tabs__nav-scroll{
+    padding-left: 50%;
+  }
+  .chargelist #tab-first{
+    margin-left: -150px;
+  }
+  .chargelist .el-tabs__active-bar is-top{
+    width: 0px !important;
   }
 </style>
