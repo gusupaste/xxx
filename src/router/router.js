@@ -14,6 +14,8 @@ import Schooldetail from '@/components/school/schoollist/detail'
 import Schooladd from '@/components/school/schoollist/add'
 import Schooledit from '@/components/school/schoollist/edit'
 import Discountbudget from '@/components/school/discountbudget/list'
+import Enrollmentnumber from '@/components/school/enrollmentnumber/list'
+import Revenuetarget from '@/components/school/revenuetarget/list'
 import SchoolCalendarList from '@/components/systemmanagement/SchoolCalendar/list'
 import addNewTemplate from '@/components/systemmanagement/SchoolCalendar/addNewTemplate'
 import editTemplate from '@/components/systemmanagement/SchoolCalendar/editTemplate'
@@ -133,6 +135,16 @@ export default new Router({
           name: 'discountbudget-list',
           component: Discountbudget
         },
+        {
+          path: '/school/enrollmentnumber-list',
+          name: 'enrollmentnumber-list',
+          component: Enrollmentnumber
+        },
+        {
+          path: '/school/revenuetarget-list',
+          name: 'revenuetarget-list',
+          component: Revenuetarget
+        }
       ]
     },
     {

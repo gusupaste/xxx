@@ -21,8 +21,8 @@
                 <el-menu-item index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
                 <el-menu-item index="/school/school-list" route="/school/school-list">校园列表</el-menu-item>
                 <el-menu-item index="/school/discountbudget-list" route="/school/discountbudget-list">校园折扣预算</el-menu-item>
-                <el-menu-item index="2-4">校园招生目标数</el-menu-item>
-                <el-menu-item index="2-5">校园收入目标</el-menu-item>
+                <el-menu-item index="/school/enrollmentnumber-list" route="/school/enrollmentnumber-list">校园招生目标数</el-menu-item>
+                <el-menu-item index="/school/revenuetarget-list" route="/school/revenuetarget-list">校园收入目标</el-menu-item>
             </el-submenu>
             <el-menu-item index="/studentFile" route="/studentFile">学生档案</el-menu-item>
             <el-menu-item index="4">家长信息</el-menu-item>
