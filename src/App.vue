@@ -32,7 +32,9 @@
               <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">
                 收费账单
               </el-menu-item>
-              <el-menu-item index="6-2">退费账单</el-menu-item>
+              <el-menu-item index="/financemanagement/refund" route="/financemanagement/charge">
+                退费账单
+              </el-menu-item>
               <el-menu-item index="6-3">备用金管理</el-menu-item>
               <el-menu-item index="6-4">学生折扣</el-menu-item>
               <el-menu-item index="6-5">家长业务申请查询</el-menu-item>

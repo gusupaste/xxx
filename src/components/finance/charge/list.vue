@@ -60,28 +60,82 @@
             </el-option>
           </el-select>
         </div>
+        <div class="select-header">
+          <span>开始日期</span>
+          <el-date-picker
+            v-model="value1"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+          <span style="margin-left: 20px">结束日期</span>
+          <el-date-picker
+            v-model="value2"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+          <span style="margin-left: 20px">学生信息</span>
+          <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" style="width: 25%;"></el-input>
+          <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+        </div>
+        <div class="list-content">
+          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu-item index="1" style="margin-left: -150px;">确认账单</el-menu-item>
+            <el-menu-item index="2">待审核账单</el-menu-item>
+          </el-menu>
+          <el-table
+            :data="chargeTableDate"
+            border
+            stripe
+            show-header
+            style="width: 100%;margin-top: 10px;">
+            <el-table-column
+              prop="code"
+              label="账单号"
+              width="150">
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              label="学生姓名"
+              width="130">
+            </el-table-column>
+            <el-table-column
+              prop="intercity_name"
+              label="所在班级"
+              width="130">
+            </el-table-column>
+            <el-table-column
+              prop="hq_name"
+              label="账单类型"
+              width="130">
+            </el-table-column>
+            <el-table-column
+              prop="opening_date"
+              label="实际应收"
+              width="130">
+            </el-table-column>
+            <el-table-column
+              prop="leader"
+              label="实际实收"
+              width="130">
+            </el-table-column>
+            <el-table-column
+              prop="telephone"
+              label="制单人"
+              width="130">
+            </el-table-column>
+            <el-table-column
+              prop="status_name"
+              label="制单日期">
+            </el-table-column>
+          </el-table>
+        </div>
       </div>
     </div>
 </template>
 
 <script>
-  import draggable from 'vuedraggable';
   export default {
-    components: {
-      draggable
-    },
     data() {
-      const generateData = _ => {
-        const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            key: i,
-            label: `备选项 ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
-        return data;
-      };
       return {
         nameSelect:[],
         options: [{
@@ -100,28 +154,40 @@
           value: '选项5',
           label: '北京烤鸭'
         }],
+        value1:'',
+        value2:'',
+        input:'',
+        activeIndex:'1',
+        chargeTableDate:[
+          {
+            code:'xxxxxxxxxxxx',
+            name:'31231231',
+            intercity_name:'312313',
+            hq_name:'31231',
+            opening_date:'31231',
+            leader:'31231',
+            telephone:'312312',
+            status_name:'12312313',
+          },
+          {
+            code:'xxxxxxxxxxxx',
+            name:'31231231',
+            intercity_name:'312313',
+            hq_name:'31231',
+            opening_date:'31231',
+            leader:'31231',
+            telephone:'312312',
+            status_name:'12312313',
+          }
+        ]
       };
     },
     methods: {
-      add: function() {
-        this.list.push({ name: "Juan" });
-      },
-      replace: function() {
-        this.list = [{ name: "Edgard" }];
-      },
-      clone: function(el) {
-        return {
-          name: el.name + " cloned"
-        };
-      },
-      log: function(evt) {
-        window.console.log(evt);
-      },
       handleClose (){
 
       },
-      selectFun: function(obj) {
-        console.log(obj);
+      searchList: function() {
+
       }
     }
   }
@@ -136,12 +202,28 @@
     font-weight: bold;
     color: black;
   }
-  .chargelist .select-header{
+  .chargelist .select-header,.chargelist .list-content{
     width: 100%;
     min-height: 50px;
     margin-top: 20px;
   }
   .chargelist .el-select{
     width: 10%;
+  }
+  .chargelist .list-content .el-menu--horizontal>.el-menu-item{
+    float: none;
+    width: 150px;
+    display: inline-block;
+    text-align: center;
+    color: #ED6C2E;
+  }
+  .chargelist .el-table td, .el-table th{
+    text-align: center;
+  }
+  .chargelist .el-menu--horizontal>.el-menu-item.is-active{
+    border-bottom: 2px solid #ED6C2E !important;
+  }
+  .chargelist .el-menu.el-menu--horizontal{
+    padding-left: 50%;
   }
 </style>
