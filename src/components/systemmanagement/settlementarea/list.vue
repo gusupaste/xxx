@@ -186,7 +186,7 @@
   }
 </script>
 
-<style>
+<style  scoped>
  .settlementArea .header p{
    font-size: 14px;
  }
