@@ -29,6 +29,7 @@ import PendingApprovalRecord from '@/components/finance/reserveFund/pendingAppro
 import UsageRecord from '@/components/finance/reserveFund/usageRecord'
 import Discount from '@/components/finance/discount/list'
 import DiscountDetail from '@/components/finance/discount/detail'
+import Reservefund from '@/components/finance/reservefund/list'
 
 Vue.use(Router)
 
@@ -178,6 +179,12 @@ export default new Router({
           path: '/financemanagement/discountDetail/:id',
           name: 'discountDetail',
           component: DiscountDetail
+          
+        },
+        {
+          path: '/financemanagement/reservefund',
+          name: 'Reservefund',
+          component: Reservefund
         }
       ]
     },

@@ -35,7 +35,9 @@
               <el-menu-item index="/financemanagement/refund" route="/financemanagement/charge">
                 退费账单
               </el-menu-item>
-              <el-menu-item index="6-3">备用金管理</el-menu-item>
+              <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">
+                备用金管理
+              </el-menu-item>
               <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">
                 学生折扣
               </el-menu-item>
