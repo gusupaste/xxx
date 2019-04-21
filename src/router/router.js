@@ -25,6 +25,7 @@ import Charge from '@/components/finance/charge/list'
 import BillDetail from '@/components/finance/charge/billDetail'
 import PendingApproval from '@/components/finance/charge/pendingApproval'
 import Refund from '@/components/finance/refund/list'
+import Discount from '@/components/finance/discount/list'
 
 Vue.use(Router)
 
@@ -154,6 +155,11 @@ export default new Router({
           path: '/financemanagement/refund',
           name: 'refund',
           component: Refund
+        },
+        {
+          path: '/financemanagement/discount',
+          name: 'discount',
+          component: Discount
         }
       ]
     },
