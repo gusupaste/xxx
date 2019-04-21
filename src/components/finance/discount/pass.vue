@@ -21,16 +21,21 @@
                                 <el-col :span="10"><div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div></el-col>
                             </el-row>
                             <el-row :gutter="20">
-                                <el-col :span="5"><div class="grid-content bg-purple">学生姓名：学生A</div></el-col>
-                                <el-col :span="5"><div class="grid-content bg-purple">所在校园：合肥玉龙校园</div></el-col>
-                                <el-col :span="5"><div class="grid-content bg-purple">所在班级：大二班</div></el-col>
+                                <el-col :span="5"><div class="grid-content bg-purple">申请折扣：20%</div></el-col>
+                                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：10000元</div></el-col>
+                                <el-col :span="5"><div class="grid-content bg-purple">优惠金额：2000元</div></el-col>
+                                <el-col :span="5"><div class="grid-content bg-purple">折后总额：8000元</div></el-col>
+                            </el-row>
+                            <el-row :gutter="20">
+                                <el-col :span="5"><div class="grid-content bg-purple">备注：— —/03/01</div></el-col>
                             </el-row>
                         </p>
                         <p>
                             <el-row :gutter="20">
-                                <el-col :span="5"><div class="grid-content bg-purple">入学日期：2019/03/01</div></el-col>
-                                <el-col :span="5"><div class="grid-content bg-purple">缴费账期：2018-2019学年</div></el-col>
-                                <el-col :span="5"><div class="grid-content bg-purple">费用应缴日期：2019/01/30</div></el-col>
+                                <el-col :span="5"><div class="grid-content bg-purple">相关附件：</div></el-col>
+                            </el-row>
+                            <el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
+                                <el-col :span="5"><a download="download" class="grid-content bg-purple" href="/static/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
                             </el-row>
                         </p>
                     </div>

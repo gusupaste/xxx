@@ -100,7 +100,7 @@
             min-width="30">
             <template slot-scope="scope">
               <el-button class="red" type="text" size="small">
-                <router-link to="/financemanagement/discountDetail/9">折扣详情</router-link>
+                <router-link to="/financemanagement/discountpass/9">折扣详情</router-link>
               </el-button>
             </template>
           </el-table-column>
