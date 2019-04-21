@@ -6,6 +6,7 @@ import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
 import School from '@/components/school/index'
+import StudentFile from '@/components/studentFile/studentFile'
 import Intercitylist from '@/components/school/intercitylist/list'
 import Schoollist from '@/components/school/schoollist/list'
 import SchoolViewClendar from '@/components/school/schoollist/viewClendar'
@@ -71,6 +72,14 @@ export default new Router({
           name: 'Addsettlementarea',
           component: Addsettlementarea
         },
+      ]
+    },
+    {
+      path: '/studentFile',/*系统管理*/
+      name: 'studentFile',
+      component: StudentFile,
+      children: [
+
       ]
     },
     {

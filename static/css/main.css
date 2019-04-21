@@ -78,7 +78,9 @@ html {
 .right {
   float: right;
 }
-
+.inline-block {
+  display: inline-block;
+}
 .mt10 {
   margin-top: 10px;
 }
