@@ -20,6 +20,9 @@ import editTemplate from '@/components/systemmanagement/SchoolCalendar/editTempl
 import Settlementarea from '@/components/systemmanagement/settlementarea/list'
 import EditSettlementarea from '@/components/systemmanagement/settlementarea/edit'
 import Addsettlementarea from '@/components/systemmanagement/settlementarea/add'
+import Financemanagement from '@/components/finance/index'
+import Charge from '@/components/finance/charge/list'
+import Refund from '@/components/finance/refund/list'
 
 Vue.use(Router)
 
@@ -116,13 +119,30 @@ export default new Router({
           path: '/school/SchoolViewClendar/:id',
           name: 'SchoolViewClendar',
           component: SchoolViewClendar
-          
+
         },
         {
           path: '/school/discountbudget-list',
           name: 'discountbudget-list',
           component: Discountbudget
         },
+      ]
+    },
+    {
+      path: '/financemanagement',/*财务管理*/
+      name: 'financemanagement',
+      component: Financemanagement,
+      children: [
+        {/*收费账单*/
+          path: '/financemanagement/charge',
+          name: 'charge',
+          component: Charge
+        },
+        {
+          path: '/financemanagement/refund',
+          name: 'refund',
+          component: Refund
+        }
       ]
     },
     {
