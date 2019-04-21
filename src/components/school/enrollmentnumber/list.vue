@@ -61,7 +61,7 @@
           label="2018/09"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_2"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_2"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_2}}</span>
           </template>
         </el-table-column>
@@ -70,7 +70,7 @@
           label="2018/10"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_2"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_2"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_2}}</span>
           </template>
         </el-table-column>
@@ -79,7 +79,7 @@
           label="2018/10"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_3"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_3"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_3}}</span>
           </template>
         </el-table-column>
@@ -88,7 +88,7 @@
           label="2018/11"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_4"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_4"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_4}}</span>
           </template>
         </el-table-column>
@@ -97,7 +97,7 @@
           label="2018/12"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_5"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_5"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_5}}</span>
           </template>
         </el-table-column>
@@ -106,7 +106,7 @@
           label="2019/1"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_6"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_6"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_6}}</span>
           </template>
         </el-table-column>
@@ -115,7 +115,7 @@
           label="2019/2"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_7"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_7"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_7}}</span>
           </template>
         </el-table-column>
@@ -124,7 +124,7 @@
           label="2019/3"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_8"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_8"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_8}}</span>
           </template>
         </el-table-column>
@@ -133,7 +133,7 @@
           label="2019/4"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_9"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_9"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_9}}</span>
           </template>
         </el-table-column>
@@ -142,7 +142,7 @@
           label="2019/5"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_10"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_10"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_10}}</span>
           </template>
         </el-table-column>
@@ -151,7 +151,7 @@
           label="2019/6"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input style="width: 100%" class="edit-cell" v-if="showEdit[$index]" v-model="row.month_11"></el-input>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_11"></el-input>
             <span v-if="!showEdit[$index]">{{row.month_11}}</span>
           </template>
         </el-table-column>
@@ -165,8 +165,8 @@
           label="操作"
           min-width="40">
           <template slot-scope="{row,$index}">
-            <i @click="handleEdit($index, row)"  v-if="!showBtn[$index]" class="fa fa-pencil-square-o orange"></i>
-            <i @click="handleUpdate($index, row)" v-if="showBtn[$index]" class="fa fa-check-circle" ></i><i @click="handleCancel($index, row)"  v-if="showBtn[$index]" class="fa fa-times-circle"></i>
+            <i v-if="!showEdit[$index]" class="fa fa-pencil-square-o orange" @click="handleEdit($index, row)"></i>
+            <i v-if="showEdit[$index]" class="fa fa-check-circle green" @click="handleUpdate($index, row)"></i>&nbsp;<i v-if="showEdit[$index]" class="fa fa-times-circle red" @click="handleCancel($index, row)"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -243,16 +243,12 @@
     methods: {
       handleEdit(index, row) {
         this.showEdit[index] = true;
-        this.showBtn[index] = true;
-        this.$set(this.showEdit,row,true)
-        this.$set(this.showBtn,row,true)
       },
       handleUpdate(index, row){
-
+        this.showEdit[index] = false;
       },
       handleCancel(index, row){
         this.showEdit[index] = false;
-        this.showBtn[index] = false;
       }
     }
   }
