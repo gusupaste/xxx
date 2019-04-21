@@ -25,6 +25,8 @@ import Charge from '@/components/finance/charge/list'
 import BillDetail from '@/components/finance/charge/billDetail'
 import PendingApproval from '@/components/finance/charge/pendingApproval'
 import Refund from '@/components/finance/refund/list'
+import PendingApprovalRecord from '@/components/finance/reserveFund/pendingApprovalRecord'
+import UsageRecord from '@/components/finance/reserveFund/usageRecord'
 
 Vue.use(Router)
 
@@ -154,7 +156,17 @@ export default new Router({
           path: '/financemanagement/refund',
           name: 'refund',
           component: Refund
-        }
+        },
+        {
+          path: '/financemanagement/pendingApprovalRecord',
+          name: 'pendingApprovalRecord',
+          component: PendingApprovalRecord
+        },
+        {
+          path: '/financemanagement/usageRecord',
+          name: 'usageRecord',
+          component: UsageRecord
+        },
       ]
     },
     {

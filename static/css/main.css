@@ -101,6 +101,11 @@ html {
   text-align: center;
 }
 
+.title-style {
+  font-size: 16px;
+  color:#101010;
+  font-weight: 600;
+}
 a {
   text-decoration: none;
 }
