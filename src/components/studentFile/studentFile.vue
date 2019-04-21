@@ -74,7 +74,7 @@
             <div class="card-footer clearfix">
                 <span class="left" style="border-right: 1px solid #fff;">
                     <p>入学日期</p>
-                    <p>1027</p>
+                    <p>2017/09/09</p>
                 </span>
                 <span class="left" style="border-right: 1px solid #fff;">
                     <p>入学日期</p>
@@ -97,10 +97,10 @@
     margin-top: 20px;
   }
   .studentFile .studentFileCard {
-    margin-right: 40px;
+    margin-right: 5%;
     margin-bottom: 40px;
     border: 1px solid #bbb;
-    width: 30%;
+    width: 27%;
     font-size: 12px;
     -webkit-box-shadow: rgba(11,98,137,.2) 0px 0px 4px; 
     -moz-box-shadow: rgba(11,98,137,.2) 0px 0px 4px; 
@@ -127,6 +127,7 @@
     display: inline-block;
     text-align: center;
     width: 33%;
+    line-height: 17px;
   }
   .studentFile .studentFileCard  img{
     width: 100px;
