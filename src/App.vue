@@ -24,7 +24,7 @@
                 <el-menu-item index="/school/enrollmentnumber-list" route="/school/enrollmentnumber-list">校园招生目标数</el-menu-item>
                 <el-menu-item index="/school/revenuetarget-list" route="/school/revenuetarget-list">校园收入目标</el-menu-item>
             </el-submenu>
-            <el-menu-item index="/studentFile" route="/studentFile">学生档案</el-menu-item>
+            <el-menu-item index="/studentFile/studentFileList" route="/studentFile/studentFileList">学生档案</el-menu-item>
             <el-menu-item index="4">家长信息</el-menu-item>
             <el-menu-item index="5">学生考勤</el-menu-item>
             <el-submenu index="6">

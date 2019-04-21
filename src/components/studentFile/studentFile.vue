@@ -55,7 +55,7 @@
         
       </div>
       <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item , index) in list " :key="index">
+          <div class="studentFileCard left" v-for="(item , index) in list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
             <div style="padding:20px">
               <div class="avatar inline-block">
                 <img src="/static/img/logo.png" alt="">
@@ -97,6 +97,7 @@
     margin-top: 20px;
   }
   .studentFile .studentFileCard {
+    cursor: pointer;
     margin-right: 5%;
     margin-bottom: 40px;
     border: 1px solid #bbb;

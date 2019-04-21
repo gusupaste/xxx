@@ -6,7 +6,11 @@ import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
 import School from '@/components/school/index'
-import StudentFile from '@/components/studentFile/studentFile'
+/**学生档案 */
+import StudentFile from '@/components/studentFile/index'
+import StudentFileList from '@/components/studentFile/studentFile'
+import StudentFileDetail from '@/components/studentFile/fileDetail'
+
 import Intercitylist from '@/components/school/intercitylist/list'
 import Schoollist from '@/components/school/schoollist/list'
 import SchoolViewClendar from '@/components/school/schoollist/viewClendar'
@@ -89,11 +93,24 @@ export default new Router({
       ]
     },
     {
-      path: '/studentFile',/*系统管理*/
+      path: '/studentFile',/*学生档案*/
       name: 'studentFile',
       component: StudentFile,
       children: [
-
+        {
+          path: '/studentFile/studentFileList',/*学生档案列表*/
+          name: 'StudentFileList',
+          component: StudentFileList,
+        },
+        {
+          path: '/studentFile/studentFileDetail/:id',/*学生档案详情*/
+          name: 'studentFileDetail',
+          component: StudentFileDetail,
+          children:[
+  
+          ]
+        },
+        
       ]
     },
     {
