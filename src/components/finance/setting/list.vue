@@ -48,14 +48,14 @@
                   <template slot-scope="scope">
                     <el-button type="text" size="small" @click="addNewTemplate(1)">编辑</el-button>
                     <span style="color: #999999">|</span>
-                    <el-button class="red" type="text" size="small">删除</el-button>
+                    <el-button class="red" type="text" size="small" @click="deleteFeeVisible = true">删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
             </el-tab-pane>
             <el-tab-pane label="折扣设置" name="second">
               <div class="select-header" style="min-height: 35px;">
-                <span class="right" style="cursor:pointer" @click="addNewTemplate(1)">
+                <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
                   <i class="icon-font fa fa-calendar-plus-o"></i>
                   <span class="font-cl-blue font-size-14" >新增折扣类型</span>
               </span>
@@ -105,13 +105,9 @@
                   label="操作"
                   width="120">
                   <template slot-scope="scope">
-                    <router-link :to="{path:'/systemmanagement/edit-settlement-area/'+scope.row.id}">
-                      <el-button type="text" size="small">查看详情</el-button>
-                    </router-link>
+                    <el-button type="text" size="small">查看详情</el-button>
                     <span style="color: #999999">|</span>
-                    <router-link :to="{path:'/systemmanagement/edit-settlement-area/'+scope.row.id}">
-                      <el-button style="color: orange" type="text" size="small">编辑</el-button>
-                    </router-link>
+                    <el-button style="color: orange" type="text" size="small" @click="addNewDiscount(1)">编辑</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -312,6 +308,155 @@
           <el-button type="success" @click="addFeeVisible = false">保 存</el-button>
         </span>
       </el-dialog>
+      <el-dialog title="删除费用科目" :visible.sync="deleteFeeVisible" width="40%" class="deleteFee">
+        <span>是否确认删除费用科目<span style="color:#006287">【学费】</span>？</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="deleteFeeVisible = false">取 消</el-button>
+          <el-button type="success" @click="deleteFeeVisible = false">保 存</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="55%" class="discountDialog">
+        <el-form ref="discountForm" :model="discountForm" :rules="rules" label-width="80px">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="折扣名称">
+                <el-input v-model="discountForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="属性">
+                <el-input v-model="discountForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="折扣生效日期" label-width="100">
+                <el-date-picker
+                  v-model="value1"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="折扣失效日期" label-width="100">
+                <el-date-picker
+                  v-model="value2"
+                  type="date"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="16">
+              <el-form-item label="缴费区间">
+                <el-date-picker
+                  v-model="value9"
+                  type="daterange"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  default-value="2010-10-01">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="适用校园">
+                <span>品牌：</span>
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <span>城际：</span>
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item>
+                <el-table
+                  :data="templateList"
+                  border
+                  :show-header="false"
+                  style="width: 95%;margin-top: 20px;">
+                  <el-table-column
+                    prop="id"
+                    width="50">
+                    <el-checkbox v-model="checked"></el-checkbox>
+                  </el-table-column>
+                  <el-table-column
+                    prop="sname">
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="判定条件">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 100%;">
+                  <el-option
+                    v-for="item in options1"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item>
+                <el-table
+                  :data="templateList"
+                  border
+                  :show-header="false"
+                  style="width: 95%;margin-top: 20px;">
+                  <el-table-column
+                    prop="id"
+                    width="50">
+                    <el-checkbox v-model="checked"></el-checkbox>
+                  </el-table-column>
+                  <el-table-column
+                    prop="sname">
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="可叠加折扣" label-width="82">
+                <el-checkbox-group v-model="discountForm.select">
+                  <el-checkbox v-for="se in selectCheckbox" :label="se.name" :key="se.id" name="type"></el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="addDiscountVisible = false">取 消</el-button>
+          <el-button type="success" @click="addDiscountVisible = false">保 存</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 
@@ -320,6 +465,16 @@
     data() {
       return {
         nameSelect:[],
+        options1:[{
+          value: 'all',
+          label: '所有'
+        },{
+          value: '选项4',
+          label: '折扣率'
+        }, {
+          value: '选项5',
+          label: '折扣金额'
+        }],
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -338,6 +493,7 @@
         }],
         value1:'',
         value2:'',
+        value9:'',
         input:'',
         activeName:'first',
         chargeTableDate:[
@@ -363,7 +519,17 @@
           }
         ],
         addFeeVisible:false,
+        deleteFeeVisible:false,
+        addDiscountVisible:false,
+        discountName:'新增折扣类型',
         feeName:'新增费用项目',
+        discountForm:{
+          id:'',
+          name:'',
+          remarks:'',
+          resource:'',
+          select:[],
+        },
         feeForm:{
           id:'',
           name:'',
@@ -381,6 +547,32 @@
             pname:'家长姓名2',
             sname:'学生姓名2',
           }
+        ],
+        selectCheckbox:[
+          {
+            id:1,
+            name:'员工子女折扣',
+          },
+          {
+            id:2,
+            name:'园长折扣',
+          },
+          {
+            id:3,
+            name:'事业部拓展折扣',
+          },
+          {
+            id:4,
+            name:'兄弟姐妹折扣',
+          },
+          {
+            id:5,
+            name:'总经理折扣',
+          },
+          {
+            id:6,
+            name:'其他折扣',
+          },
         ],
       };
     },
@@ -401,6 +593,14 @@
           this.feeName = '编辑费用科目';
         }
         this.addFeeVisible = true;
+      },
+      addNewDiscount:function (flag) {
+        if(flag === 0){
+          this.discountName = '新增折扣类型';
+        }else{
+          this.discountName = '编辑折扣类型';
+        }
+        this.addDiscountVisible = true;
       },
     },
     watch:{
@@ -475,5 +675,11 @@
   }
   .settinglist .el-dialog__footer{
     text-align: center;
+  }
+  .settinglist .deleteFee .el-dialog__body{
+    text-align: center;
+  }
+  .settinglist .discountDialog .el-checkbox-group{
+    display: -webkit-box;
   }
 </style>
