@@ -5,6 +5,7 @@ import login from '@/components/login/login'
 import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
+import Usermanagement from '@/components/systemmanagement/usermanagement/list'
 import School from '@/components/school/index'
 /**学生档案 */
 import StudentFile from '@/components/studentFile/index'
@@ -77,6 +78,11 @@ export default new Router({
           path: '/systemmanagement/academic-year',
           name: 'academic-year',
           component: Academicyear
+        },
+        {
+          path: '/systemmanagement/usermanagement',
+          name: 'usermanagement',
+          component: Usermanagement
         },
         {
           path: '/systemmanagement/settlement-area',

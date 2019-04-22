@@ -58,7 +58,7 @@
                 结算区间定义
               </el-menu-item>
               <el-menu-item index="7-4">流程定义</el-menu-item>
-              <el-menu-item index="7-5">用户管理</el-menu-item>
+              <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
               <el-menu-item index="7-6">角色管理</el-menu-item>
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
