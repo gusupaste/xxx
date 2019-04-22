@@ -121,7 +121,7 @@
           label="操作"
           min-width="30">
           <template slot-scope="scope">
-            <i @click="editNumber" class="fa fa-pencil-square-o orange"></i>
+            <i class="fa fa-pencil-square-o orange"></i>
           </template>
         </el-table-column>
       </el-table>

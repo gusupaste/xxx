@@ -61,8 +61,8 @@
           label="2018/09"
           min-width="60">
           <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_2"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_2}}</span>
+            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_1"></el-input>
+            <span v-if="!showEdit[$index]">{{row.month_1}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -187,8 +187,6 @@
     data () {
       return {
         showEdit: [], //显示编辑框
-        showBtn: [],
-        showBtnOrdinary: true,
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -246,6 +244,7 @@
       },
       handleUpdate(index, row){
         this.showEdit[index] = false;
+        console.log(row)
       },
       handleCancel(index, row){
         this.showEdit[index] = false;
