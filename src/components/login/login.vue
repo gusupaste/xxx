@@ -1,7 +1,7 @@
 <template>
   <div class="login-page" >
     <div class="login-logo">
-      <img src="/static/img/logo.png" alt="">
+      <img src="../../assets/img/logo.png" alt="">
     </div>
     <div class="logo_name">北京伊顿教育集团管理系统</div>
     <div class="login-wrap" v-loading="loading">
@@ -27,7 +27,7 @@
 </template>
 <style lang="">
   .login-page {
-    background:url('/static/img/login-bg.png') no-repeat;
+    background:url('../../assets/img/login-bg.png') no-repeat;
     width:100%;
     background-size:100%;
     height:70%;

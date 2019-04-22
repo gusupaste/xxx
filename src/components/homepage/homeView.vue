@@ -211,7 +211,7 @@
                 <p style="font-size:14px;font-weight:600">校日历</p>
                 <div class="calendar_border">
                     <div style="padding: 20px 20px 0 20px;">
-                        <img src="/static/img/login-bg.png" alt="">
+                        <img src="../../assets/img/logo.png" alt="">
                         <div class="calendarYear">{{year}}</div>
                         <div class="calendarMonth">— &nbsp;&nbsp;{{month}}&nbsp;&nbsp; —</div>
                         <calendar></calendar>
@@ -224,7 +224,7 @@
 </template>
 <style lang="">
     .homeView .big-bg {
-        background:url('/static/img/login-bg.png') no-repeat;
+        background:url('../../assets/img/login-bg.png') no-repeat;
         width: 100%;
         height: 150px;
         background-position:0 -374px;

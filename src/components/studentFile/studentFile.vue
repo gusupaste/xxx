@@ -58,7 +58,7 @@
           <div class="studentFileCard left" v-for="(item , index) in list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
             <div style="padding:20px">
               <div class="avatar inline-block">
-                <img src="/static/img/logo.png" alt="">
+                <img src="../../assets/img/logo.png" alt="">
               </div>
               <div class="card-content inline-block">
                   <p>
