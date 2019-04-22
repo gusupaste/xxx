@@ -6,7 +6,8 @@
             <img src="./assets/img/logo.png" alt="">
 
             <el-menu
-                :default-active="$route.path"
+                :default-active="active"
+                @select="handleSelect"
                 class="el-menu-demo"
                 mode="horizontal"
                 background-color="#0b6289"
@@ -79,6 +80,7 @@ export default {
   name: 'App',
   data(){
     return {
+      active:localStorage.getItem('active') || '/home',
       premission: 8,
     }
   },
@@ -103,6 +105,11 @@ export default {
       success(res){
         alert(999)
         this.premission = res;
+      },
+       handleSelect(key, keyPath) {
+         localStorage.removeItem('tabName');
+         localStorage.setItem('active',key);
+        console.log(key, keyPath);
       }
   }
 }
