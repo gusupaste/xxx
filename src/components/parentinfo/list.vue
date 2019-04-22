@@ -221,19 +221,19 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <hr>
+        <hr><br>
         <el-row>
           <el-col :span="24">
             <el-checkbox v-model="checked">设置账号</el-checkbox>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="账号">
-              <span v-model="editForm.pname">123567125647154（默认手机号）</span>
+          <el-col :span="8">
+            <el-form-item label="账号" label-width="40">
+              <span v-model="editForm.pname">123567125647154(默认手机号)</span>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="密码">
               <span v-model="editForm.pname">123456</span>
             </el-form-item>
