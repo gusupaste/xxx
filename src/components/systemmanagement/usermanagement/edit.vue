@@ -1,7 +1,7 @@
 <template>
-  <div class="addusermanagement wrap">
+  <div class="editusermanagement wrap">
     <div class="header">
-      <p>YOU ARE HERE : 系统管理 >> <span class="font-cl-blue">新增用户</span></p>
+      <p>YOU ARE HERE : 系统管理 >> <span class="font-cl-blue">修改用户</span></p>
       <div>
         <p class="bold_black">账号设置：</p>
         <div class="content">
@@ -146,42 +146,42 @@
 </script>
 
 <style>
-  .addusermanagement {
+  .editusermanagement {
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
-  .addusermanagement p {
+  .editusermanagement p {
     margin: 10px;
   }
-  .addusermanagement .header p {
+  .editusermanagement .header p {
     font-size: 14px;
   }
-  .addusermanagement .content{
+  .editusermanagement .content{
     border: 1px solid #ccc;
   }
-  .addusermanagement .account_set .el-form-item{
+  .editusermanagement .account_set .el-form-item{
     margin-bottom: 10px;
   }
-  .addusermanagement .el-table_1_column_3 .cell{
+  .editusermanagement .el-table_1_column_3 .cell{
     text-align: left;
     padding-left: 40px;
   }
-  .addusermanagement .el-table td,.addusermanagement .el-table th{
+  .editusermanagement .el-table td,.editusermanagement .el-table th{
     text-align: center;
   }
-  .addusermanagement .el-dialog__footer{
+  .editusermanagement .el-dialog__footer{
     text-align: center;
   }
-  .addusermanagement .padding-20{
+  .editusermanagement .padding-20{
     padding: 40px;
   }
-  .addusermanagement .margin-10{
+  .editusermanagement .margin-10{
     margin: 10px;
   }
-  .addusermanagement .footer-btn{
+  .editusermanagement .footer-btn{
     text-align: center;
   }
-  .addusermanagement .content_top{
+  .editusermanagement .content_top{
     margin-top: 40px;
   }
 </style>
