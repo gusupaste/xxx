@@ -14,6 +14,7 @@
         <span class="padding-left-30">搜索：</span>
         <el-input style="width: 250px" type="text" placeholder="请输入"></el-input>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
+        <span class="right"><el-button class="orange" type="text" @click="addUser"><i class="fa fa-plus-square"></i>&nbsp;新增用户</el-button></span>
       </p>
       <el-table
         :data="tableList"
@@ -76,6 +77,11 @@
             role: '第二个角色',
           }
         ]
+      }
+    },
+    methods: {
+      addUser:function () {
+        this.$router.push({name: 'usermanagement-add'});
       }
     }
   }
