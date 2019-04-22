@@ -40,6 +40,7 @@ import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import ParentInfo from '@/components/parentinfo/list'
+import Setting from '@/components/finance/setting/list'
 
 Vue.use(Router)
 
@@ -238,6 +239,12 @@ export default new Router({
           name: 'parentbusinessapplication',
           component: Parentbusinessapplication
         }
+        },
+        {
+          path: '/financemanagement/setting',
+          name: 'Setting',
+          component: Setting
+        },
       ]
     },
     {
