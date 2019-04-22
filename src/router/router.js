@@ -44,7 +44,7 @@ import ParentInfo from '@/components/parentinfo/list'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',
