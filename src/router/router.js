@@ -38,6 +38,7 @@ import DiscountPass from '@/components/finance/discount/pass'
 import DiscountApproval from '@/components/finance/discount/approval'
 import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
+import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import ParentInfo from '@/components/parentinfo/list'
 
 Vue.use(Router)
@@ -108,10 +109,10 @@ export default new Router({
           name: 'studentFileDetail',
           component: StudentFileDetail,
           children:[
-  
+
           ]
         },
-        
+
       ]
     },
     {
@@ -231,6 +232,11 @@ export default new Router({
           path: '/financemanagement/reservefund',
           name: 'Reservefund',
           component: Reservefund
+        },
+        {
+          path: '/financemanagement/parentbusinessapplication',
+          name: 'parentbusinessapplication',
+          component: Parentbusinessapplication
         }
       ]
     },

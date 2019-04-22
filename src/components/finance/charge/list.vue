@@ -75,7 +75,8 @@
           </el-date-picker>
           <span style="margin-left: 20px">学生信息</span>
           <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" style="width: 25%;"></el-input>
-          <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+          <span class="padding-left-30">
+            <el-button type="primary" @click="searchList">搜索</el-button></span>
         </div>
         <div class="list-content">
           <el-tabs v-model="activeName" @tab-click="handleClick">
