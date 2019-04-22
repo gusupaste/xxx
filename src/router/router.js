@@ -238,7 +238,6 @@ export default new Router({
           path: '/financemanagement/parentbusinessapplication',
           name: 'parentbusinessapplication',
           component: Parentbusinessapplication
-        }
         },
         {
           path: '/financemanagement/setting',
