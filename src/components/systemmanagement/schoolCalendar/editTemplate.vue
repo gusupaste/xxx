@@ -3,17 +3,22 @@
             <div class="header">
                 <p>You Are Here  ：系统管理  > 校日历管理  > <span class="font-cl-blue">编辑校日历</span></p>
             </div>
-            <el-form :model="form" style="margin-top:20px">
-                <el-form-item label="模板名称：" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" auto-complete="off"></el-input>
+            <el-form :model="form" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
+                <el-form-item label="模板名称：" :label-width="formLabelWidth" style="margin-bottom:0;font-weight:600">
+                    <!-- <el-input v-model="form.name" auto-complete="off"></el-input> -->
+                    <span>模板一</span>
+                    <i class="fa fa-edit icon-font" @click="addtmp=true" style="cursor:pointer"></i>
                 </el-form-item>
-                <el-form-item label="学年：" :label-width="formLabelWidth">
-                <el-select v-model="form.region" placeholder="请选择活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
+                <el-form-item label="学年：" :label-width="formLabelWidth" style="margin-bottom:0">
+                    2018-2019学年
+                    <!-- <el-select v-model="form.region" placeholder="请选择活动区域">
+                        
+                        <el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+                    </el-select> -->
                 </el-form-item>
-                <el-form-item label="学校：" :label-width="formLabelWidth">
+            </el-form>
+                <!-- <el-form-item label="学校：" :label-width="formLabelWidth">
                    <span style="cursor:pointer" @click="dialogFormVisible= true">
                         <i class="green fa fa-plus-square" style="font-size:18px"></i> <span class="green"> 添加校园</span>
                    </span>
@@ -46,14 +51,15 @@
                             </el-table>
                         </div>
                     </div>
-                </el-form-item>
-                <div>
-                    <p>开始定义校日历：</p>
-                    <div class="school-calendar">
-                        <span style="color:#f17128;padding:10px;display:inline-block">
+                </el-form-item> -->
+                <div class="mt26">
+                    <span>定义校日历：</span>
+                    <span style="color:#f17128;padding:10px;display:inline-block;cursor:pointer" @click="add_Calendar=true">
                             <i class="fa fa-plus-square-o"></i>
                             设定校日历
-                        </span>
+                    </span>
+                    <div class="school-calendar">
+                        
                         <p style="color:#999;font-size:12px">新增的日期类型将在下方日历表中以色块的方式区分类别展示，可点击相应区块修改或删除</p>
                         <div class="calendar-list">
                             <Calendar
@@ -78,7 +84,11 @@
                         </div>
                     </div>
                 </div>
-            </el-form>
+            
+            <div>
+                <span style="display:inline-block;width:100px;vertical-align:top">备注：</span>
+                <el-input type="textarea" style="width:92%;height:100px"></el-input>
+            </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="cancelModal" style="background-color:#bbb;color:#fff">取 消</el-button>
                 <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
@@ -236,6 +246,24 @@
                     <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
                 </div>
             </el-dialog>
+            <!-- 新增校日历模板 -->
+            <el-dialog title="新增校日历模版" :visible.sync="addtmp">
+                <el-form :model="form">
+                    <el-form-item label="模板名称：" :label-width="formLabelWidth">
+                        <el-input v-model="form.name" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="学年：" :label-width="formLabelWidth">
+                        <el-select v-model="form.region" placeholder="请选择活动区域">
+                            <el-option label="区域一" value="shanghai"></el-option>
+                            <el-option label="区域二" value="beijing"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer" style="margin-top:0">
+                    <el-button @click="addtmp=false" style="background-color:#bbb;color:#fff">取 消</el-button>
+                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">确 定</el-button>
+                </div>
+            </el-dialog>
     </div>
 </template>
 <style lang="">
@@ -346,11 +374,11 @@
         color:#101010;
         font-size: 20px;
     }
-    .delete-dialog .el-dialog__body {
+    .new-calendar-modal .delete-dialog .el-dialog__body {
         line-height: 50px;
         text-align: center;
     }
-    .delete-dialog .addcalendar-dialog .el-dialog__body {
+    .new-calendar-modal .delete-dialog .addcalendar-dialog .el-dialog__body {
         text-align: left;
     }
 </style>
@@ -359,6 +387,7 @@ import Calendar from 'vue-calendar-component';
 export default {
     data() {
         return {
+            addtmp:false,
             list:[1,2,3,4,5,6,7,8,9,10,11,12],
             dialogFormVisible:false,
             delete_dialogVisible:false,
