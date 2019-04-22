@@ -42,7 +42,7 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <i @click="editDialog" class="fa fa-pencil-square-o orange"></i>
+            <i @click="editUser" class="fa fa-pencil-square-o orange"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -82,6 +82,9 @@
     methods: {
       addUser:function () {
         this.$router.push({name: 'usermanagement-add'});
+      },
+      editUser:function () {
+        this.$router.push({name: 'usermanagement-edit'});
       }
     }
   }
