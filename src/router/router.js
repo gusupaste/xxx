@@ -49,6 +49,7 @@ Vue.use(Router)
 
 export default new Router({
   // mode: 'history',
+  base:'/var/lib/jenkins/jobs/etonkids-web/workspace/',
   routes: [
     {
       path: '/',
