@@ -65,6 +65,26 @@
     .fileDetail .el-tabs__header {
         border-bottom: 2px solid #dedede;
     }
+    .fileDetail .enroll-info .el-input__inner {
+        padding: 0 18px;
+    }
+    .fileDetail .speciality .el-textarea__inner {
+        width: 630px;
+        min-height: 150px !important;
+    }
+    .fileDetail .el-input__inner {
+        padding: 0 30px;
+    }
+    .fileDetail th ,.fileDetail td {
+        text-align: center !important;
+    }
+    .fileDetail .recordHead {
+        border-bottom: 1px solid #bbb;
+        color:#101010;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px;
+    }
 </style>
 <script>
 import AllergyRecord from './allergyRecord';
@@ -77,7 +97,7 @@ import Enclosure from './enclosure';
 export default {
     data(){
         return {
-            activeName: 'first'
+            activeName: localStorage.getItem('tabName') || 'first'
         }
     },
     components:{
@@ -91,7 +111,7 @@ export default {
     },
     methods:{
         handleClick(tab, event) {
-            console.log(tab)
+            localStorage.setItem('tabName',tab.name);
         // this.$router.push('/studentFile/studentFileDetail/9/basicInfo/')
       }
     }
