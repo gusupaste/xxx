@@ -3,7 +3,7 @@
     <div class='homePage_menu' v-if="this.$route.name !== 'login'">
         <div class="clearfix" style="background-color: #0b6289">
           <div class="head-menu">
-            <img src="/static/img/logo.png" alt="">
+            <img src="./assets/img/logo.png" alt="">
 
             <el-menu
                 :default-active="$route.path"

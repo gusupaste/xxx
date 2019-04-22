@@ -35,7 +35,7 @@
                                 <el-col :span="5"><div class="grid-content bg-purple">相关附件：</div></el-col>
                             </el-row>
                             <el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
-                                <el-col :span="5"><a download="download" class="grid-content bg-purple" href="/static/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
+                                <el-col :span="5"><a download="download" class="grid-content bg-purple" href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
                             </el-row>
                         </p>
                     </div>

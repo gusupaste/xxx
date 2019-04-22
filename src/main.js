@@ -9,9 +9,9 @@ import App from './App';
 import router from './router/router';
 import store from './store/store';
 import axios from 'axios';
-import '../static/css/main.css';
+import './assets/css/main.css';
 import 'font-awesome/css/font-awesome.min.css';
-import * as custom from '../static/js/filter.js';
+import * as custom from './assets/js/filter';
 
 Object.keys(custom).forEach(key => {
   Vue.filter(key, custom[key])
