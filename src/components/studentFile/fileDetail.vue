@@ -4,25 +4,25 @@
         <div class="mt26">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="基本信息" name="first">
-
+                    <basic-info></basic-info>
                 </el-tab-pane>
                 <el-tab-pane label="家长信息" name="second">
-                    
+                    <parent-info></parent-info>
                 </el-tab-pane>
                 <el-tab-pane label="免役记录" name="third">
-                    
+                    <immunological-record></immunological-record>
                 </el-tab-pane>
                 <el-tab-pane label="医疗病史" name="fourth">
-                    
+                    <medical-history></medical-history>
                 </el-tab-pane>
                 <el-tab-pane label="学生账单" name="fifth">
-                    
+                    <student-discount></student-discount>
                 </el-tab-pane>
                 <el-tab-pane label="过敏记录" name="sixth">
-                    
+                    <allergy-record></allergy-record>
                 </el-tab-pane>
                 <el-tab-pane label="附件" name="seventh">
-                    
+                    <enclosure></enclosure>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -41,9 +41,9 @@
         background-color:#f17128;
         height: 3px;;
     }
-    .fileDetail .el-tabs__content {
+    /* .fileDetail .el-tabs__content {
         display: none;
-    }
+    } */
     .fileDetail .el-tabs__item.is-active {
         color:#f17128;
         font-weight: 600;
@@ -67,11 +67,27 @@
     }
 </style>
 <script>
+import AllergyRecord from './allergyRecord';
+import BasicInfo from './basicInfo';
+import ParentInfo from './parentInfo';
+import ImmunologicalRecord from './immunologicalRecord';
+import MedicalHistory from './medicalHistory';
+import StudentDiscount from './studentDiscount';
+import Enclosure from './enclosure';
 export default {
     data(){
         return {
             activeName: 'first'
         }
+    },
+    components:{
+        AllergyRecord,
+        BasicInfo,
+        ParentInfo,
+        ImmunologicalRecord,
+        MedicalHistory,
+        StudentDiscount,
+        Enclosure
     },
     methods:{
         handleClick(tab, event) {
