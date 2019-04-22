@@ -1,7 +1,7 @@
 <template>
   <div class="parentbusinessapplication wrap">
     <div class="header">
-      <p>YOU ARE HERE : 校园 >> <span class="font-cl-blue">校园招生目标数</span></p>
+      <p>YOU ARE HERE : 财务处理 >> <span class="font-cl-blue">校园招生目标数</span></p>
       <p><span>城际：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
@@ -52,7 +52,7 @@
           </el-option>
         </el-select>
         <span>学生信息：</span>
-        <el-input style="width: 200px" type="text" aria-placeholder="请输入"></el-input>
+        <el-input style="width: 200px" type="text" placeholder="请输入"></el-input>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
       </p>
       <el-table
