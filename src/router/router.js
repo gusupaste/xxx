@@ -5,6 +5,7 @@ import login from '@/components/login/login'
 import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
+import Usermanagement from '@/components/systemmanagement/usermanagement/list'
 import School from '@/components/school/index'
 /**学生档案 */
 import StudentFile from '@/components/studentFile/index'
@@ -40,6 +41,7 @@ import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import ParentInfo from '@/components/parentinfo/list'
+import Setting from '@/components/finance/setting/list'
 
 Vue.use(Router)
 
@@ -76,6 +78,11 @@ export default new Router({
           path: '/systemmanagement/academic-year',
           name: 'academic-year',
           component: Academicyear
+        },
+        {
+          path: '/systemmanagement/usermanagement',
+          name: 'usermanagement',
+          component: Usermanagement
         },
         {
           path: '/systemmanagement/settlement-area',
@@ -237,7 +244,12 @@ export default new Router({
           path: '/financemanagement/parentbusinessapplication',
           name: 'parentbusinessapplication',
           component: Parentbusinessapplication
-        }
+        },
+        {
+          path: '/financemanagement/setting',
+          name: 'Setting',
+          component: Setting
+        },
       ]
     },
     {

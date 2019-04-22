@@ -101,9 +101,10 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="applicationDetail(scope.row)" class="font-cl-blue" type="text" size="small">详情</el-button>
+            <el-button @click="applicationDetail(scope.row)" class="font-cl-blue" type="text" size="small">详情
+            </el-button>
             <span style="color: #EBEEF5">|</span>
-            <el-button @click="editSchool(scope.row)" class="orange" type="text" size="small">作废</el-button>
+            <el-button @click="applicationCancel(scope.row)" class="orange" type="text" size="small">作废</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -156,7 +157,8 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="applicationDetail(scope.row)" class="font-cl-blue" type="text" size="small">详情</el-button>
+            <el-button @click="applicationDetail(scope.row)" class="font-cl-blue" type="text" size="small">详情
+            </el-button>
             <span style="color: #EBEEF5">|</span>
             <el-button @click="editSchool(scope.row)" class="orange" type="text" size="small">作废</el-button>
           </template>
@@ -165,6 +167,16 @@
       <span slot="footer" class="dialog-footer text-align-center">
           <el-button @click="detaildialog = false">取 消</el-button>
           <el-button type="success" @click="detaildialog = false">保 存</el-button>
+        </span>
+    </el-dialog>
+    <!--作废 弹框-->
+    <el-dialog title="作废业务申请" :visible.sync="canceldialog" width="50%" style="padding: 30px 60px;">
+      <div class="text-align-center">
+        <span>是否确定要作废此业务申请？</span>
+      </div>
+      <span slot="footer" class="dialog-footer text-align-center">
+          <el-button @click="canceldialog = false">取 消</el-button>
+          <el-button type="success" @click="canceldialog = false">确 定</el-button>
         </span>
     </el-dialog>
   </div>
@@ -176,6 +188,7 @@
       return {
         value: '-所有-',
         detaildialog: false,
+        canceldialog: false,
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -232,8 +245,11 @@
       }
     },
     methods: {
-      applicationDetail:function () {
-        this.detaildialog=true
+      applicationDetail: function () {
+        this.detaildialog = true
+      },
+      applicationCancel: function () {
+        this.canceldialog = true
       }
     }
   }
@@ -260,11 +276,13 @@
   .parentbusinessapplication .date_style {
     width: 140px;
   }
+
   /*表格内容居中*/
-  .parentbusinessapplication .el-table td,.parentbusinessapplication .el-table th{
+  .parentbusinessapplication .el-table td, .parentbusinessapplication .el-table th {
     text-align: center;
   }
-  .parentbusinessapplication .el-dialog__footer{
+
+  .parentbusinessapplication .el-dialog__footer {
     text-align: center;
   }
 </style>

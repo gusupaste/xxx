@@ -42,7 +42,9 @@
                 学生折扣
               </el-menu-item>
               <el-menu-item index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
-              <el-menu-item index="6-6">财务设置</el-menu-item>
+              <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">
+                财务设置
+              </el-menu-item>
             </el-submenu>
             <el-submenu index="7">
               <template slot="title">系统管理</template>
@@ -56,7 +58,7 @@
                 结算区间定义
               </el-menu-item>
               <el-menu-item index="7-4">流程定义</el-menu-item>
-              <el-menu-item index="7-5">用户管理</el-menu-item>
+              <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
               <el-menu-item index="7-6">角色管理</el-menu-item>
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
