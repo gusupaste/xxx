@@ -37,6 +37,9 @@
         <el-table-column
           prop="role"
           label="所属角色">
+          <template slot-scope="scope">
+            <a class="font-cl-blue" @click="assignPermissions">{{scope.row.role}}</a>
+          </template>
         </el-table-column>
         <el-table-column
           fixed="right"
@@ -46,15 +49,53 @@
           </template>
         </el-table-column>
       </el-table>
+      <!--角色权限分配 弹框-->
+      <el-dialog class="assign-permissions" title="角色权限分配" :visible.sync="assignpermissions" width="50%">
+        <div>
+          <p><span>角色名称:</span><span>hjsakfhdgjsakdbhaj</span></p>
+          <p><span>角色描述:</span><span>园长助理/行政助理</span></p>
+          <hr class="line-solid">
+          <p>被赋予该角色的系统用户：</p>
+          <template>
+            <el-table
+              :data="tableData"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="username"
+                label="用户名">
+              </el-table-column>
+              <el-table-column
+                prop="account"
+                label="登陆账号">
+              </el-table-column>
+            </el-table>
+          </template>
+          <p>该角色所需的系统权限：</p>
+          <ul style="padding: 0 30px">
+            <li>总部学生档案</li>
+            <li>潜在生管理</li>
+            <li>校园预备生管理</li>
+            <li>入学申请列表</li>
+            <li>招生入学首页</li>
+            <li>毕业离园生管理</li>
+            <li>校园学生管理</li>
+          </ul>
+        </div>
+        <span slot="footer" class="dialog-footer text-align-center">
+          <el-button @click="assignpermissions = false">取 消</el-button>
+          <el-button type="success" @click="assignpermissions = false">保 存</el-button>
+        </span>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    data(){
-      return{
-        class:'',
+    data () {
+      return {
+        assignpermissions: false,
         tableList: [{
           id: '1',
           username: '用户1',
@@ -76,15 +117,29 @@
             organization: '教育机构',
             role: '第二个角色',
           }
+        ],
+        tableData: [
+          {
+            id: '1',
+            username: 'ly',
+            account: 'www@hungjkhb.com'
+          }, {
+            id: '2',
+            username: 'cs',
+            account: 'www@hungjkhb.com'
+          }
         ]
       }
     },
     methods: {
-      addUser:function () {
-        this.$router.push({name: 'usermanagement-add'});
+      addUser: function () {
+        this.$router.push({name: 'usermanagement-add'})
       },
-      editUser:function () {
-        this.$router.push({name: 'usermanagement-edit'});
+      editUser: function () {
+        this.$router.push({name: 'usermanagement-edit'})
+      },
+      assignPermissions: function () {
+        this.assignpermissions = true
       }
     }
   }
@@ -103,10 +158,21 @@
   .usermanagement .header p {
     font-size: 14px;
   }
-  .usermanagement .el-table td,.usermanagement .el-table th{
+
+  .usermanagement .el-table td, .usermanagement .el-table th {
     text-align: center;
   }
-  .usermanagement .el-dialog__footer{
+
+  .usermanagement .el-dialog__footer {
     text-align: center;
+  }
+
+  .usermanagement .line-solid {
+    width: 100%;
+    text-align: center;
+    color: #ccc;
+  }
+  .usermanagement .assign-permissions .el-dialog__body{
+    padding: 0 20px;
   }
 </style>
