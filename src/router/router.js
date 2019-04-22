@@ -46,11 +46,11 @@ import Setting from '@/components/finance/setting/list'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/login  '
     },
     {
       path: '/home',

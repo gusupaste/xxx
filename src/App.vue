@@ -91,7 +91,7 @@ export default {
         if(!pk){
           this.$store.state.user_Info = JSON.parse(localStorage.getItem('user_Info'));
           this.$store.state.user_Token = localStorage.getItem('user_Token');
-          this.premission = this.$store.state.user_Info.type;
+          // this.premission = this.$store.state.user_Info.type;
         }
       },
 
