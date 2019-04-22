@@ -242,16 +242,14 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="应用范围">
-                <el-radio-group v-model="feeForm.resource">
-                  <el-radio label="所有校园"></el-radio><br>
-                  <el-radio label="指定校园"></el-radio><br><br><br>
-                </el-radio-group>
+                  <el-radio v-model="radio" label="1" @change="changeRadio(1)">所有校园</el-radio><br>
+                  <el-radio v-model="radio" label="2" @change="changeRadio(2)">指定校园</el-radio>
               </el-form-item>
             </el-col>
             <el-col :span="16">
               <el-form-item style="margin-left:-80px;padding-top: 50px;">
                 <span>品牌：</span>
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;" v-bind:disabled="disabledSelect">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -260,7 +258,7 @@
                   </el-option>
                 </el-select>
                 <span>城际：</span>
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;" v-bind:disabled="disabledSelect">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -282,7 +280,7 @@
                   <el-table-column
                     prop="id"
                     width="50">
-                    <el-checkbox v-model="checked"></el-checkbox>
+                    <el-checkbox v-model="checked" v-bind:disabled="disabledSelect"></el-checkbox>
                   </el-table-column>
                   <el-table-column
                     prop="sname">
@@ -491,11 +489,22 @@
           value: '选项5',
           label: '北京烤鸭'
         }],
+        operation:[
+          {
+            id:1,
+            name:'所有学校',
+          },
+          {
+            id:2,
+            name:'指定校园',
+          }
+        ],
         value1:'',
         value2:'',
         value9:'',
         input:'',
         activeName:'first',
+        disabledSelect:false,
         chargeTableDate:[
           {
             code:'xxxxxxxxxxxx',
@@ -527,15 +536,16 @@
           id:'',
           name:'',
           remarks:'',
-          resource:'',
+          resource:1,
           select:[],
         },
         feeForm:{
           id:'',
           name:'',
           remarks:'',
-          resource:'',
+          resource:'1',
         },
+        radio:'1',
         templateList: [
           {
             id:1,
@@ -602,15 +612,26 @@
         }
         this.addDiscountVisible = true;
       },
+      changeRadio:function (flag) {
+        if(flag === 1){
+          this.disabledSelect = true;
+        }else{
+          this.disabledSelect = false;
+        }
+      }
     },
     watch:{
-      feeForm:{//深度监听，可监听到对象、数组的变化
-        handler(val, oldVal){
-          console.log("b.resource: "+val.resource, oldVal.resource);
+      disabledSelect: {
+        handler:function (newName, oldName){
+          if(this.radio === '1'){
+            this.disabledSelect = true;
+          }else{
+            this.disabledSelect = false;
+          }
         },
-        deep:true
-      }
-    }
+        immediate:true
+      },
+    },
   }
 </script>
 
