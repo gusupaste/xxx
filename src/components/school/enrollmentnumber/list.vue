@@ -60,99 +60,99 @@
           prop="month_1"
           label="2018/09"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_1"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_1}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_1" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_1 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_2"
           label="2018/10"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_2"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_2}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_2" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_2 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_3"
           label="2018/10"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_3"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_3}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_3" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_3 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_4"
           label="2018/11"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_4"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_4}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_4" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_4 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_5"
           label="2018/12"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_5"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_5}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_5" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_5 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_6"
           label="2019/1"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_6"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_6}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_6" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_6 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_7"
           label="2019/2"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_7"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_7}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_7" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_7 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_8"
           label="2019/3"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_8"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_8}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_8" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_8 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_9"
           label="2019/4"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_9"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_9}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_9" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_9 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_10"
           label="2019/5"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_10"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_10}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_10" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_10 }}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="month_11"
           label="2019/6"
           min-width="60">
-          <template slot-scope="{row,$index}">
-            <el-input v-if="showEdit[$index]" style="width: 100%" v-model="row.month_11"></el-input>
-            <span v-if="!showEdit[$index]">{{row.month_11}}</span>
+          <template slot-scope="scope">
+            <el-input v-model="scope.row.month_11" v-if="scope.row.edit === false"></el-input>
+            <span v-if="scope.row.edit === true">{{ scope.row.month_11 }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -164,9 +164,9 @@
           fixed="right"
           label="操作"
           min-width="40">
-          <template slot-scope="{row,$index}">
-            <i v-if="!showEdit[$index]" class="fa fa-pencil-square-o orange" @click="handleEdit($index, row)"></i>
-            <i v-if="showEdit[$index]" class="fa fa-check-circle green" @click="handleUpdate($index, row)"></i>&nbsp;<i v-if="showEdit[$index]" class="fa fa-times-circle red" @click="handleCancel($index, row)"></i>
+          <template slot-scope="scope">
+            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange" @click="handleEdit(scope.row)"></i>
+            <i v-if="scope.row.edit === false" class="fa fa-check-circle green" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red" @click="handleCancel(scope.row)"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -186,7 +186,6 @@
   export default {
     data () {
       return {
-        showEdit: [], //显示编辑框
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -205,6 +204,7 @@
         }],
         value: '-所有-',
         tableData: [{
+          id:'1',
           code: '1001',
           name: '北京首府校园',
           month_1: '10',
@@ -218,9 +218,11 @@
           month_9: '17',
           month_10: '5',
           month_11: '15',
-          month_total: '110'
+          month_total: '110',
+          edit: true
         },
           {
+            id:'2',
             code: '1001',
             name: '北京首府校园',
             month_1: '10',
@@ -234,20 +236,23 @@
             month_9: '17',
             month_10: '5',
             month_11: '15',
-            month_total: '110'
+            month_total: '110',
+            edit: true
           }]
       }
     },
     methods: {
-      handleEdit(index, row) {
-        this.showEdit[index] = true;
+      handleEdit(row) {
+        const index = this.tableData.findIndex(item => item.id === row.id);
+        this.tableData[index].edit = false;
       },
-      handleUpdate(index, row){
-        this.showEdit[index] = false;
-        console.log(row)
+      handleUpdate(row){
+        const index = this.tableData.findIndex(item => item.id === row.id);
+        this.tableData[index].edit = true;
       },
-      handleCancel(index, row){
-        this.showEdit[index] = false;
+      handleCancel(row){
+        const index = this.tableData.findIndex(item => item.id === row.id);
+        this.tableData[index].edit = true;
       }
     }
   }
