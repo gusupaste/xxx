@@ -100,10 +100,6 @@
 </template>
 
 <style scoped>
-  .schoollist p {
-    margin: 10px;
-  }
-
   .schoollist a{
     color: #0b6289 !important;
   }
