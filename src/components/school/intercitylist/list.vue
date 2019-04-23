@@ -247,10 +247,6 @@
         font-size: 12px !important;
         border-bottom: 1px solid #d5d5d5;
     }
-  .intercitylist  >>> .header p{
-        font-size: 14px;
-        margin: 10px 0px;
-    }
   .intercitylist >>> .el-dialog__title{
         font-size: 14px;
     }

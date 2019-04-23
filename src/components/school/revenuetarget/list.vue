@@ -263,11 +263,6 @@
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
-
-  .revenuetarget p {
-    margin: 10px;
-  }
-
   .revenuetarget .header p {
     font-size: 14px;
   }

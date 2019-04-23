@@ -193,10 +193,6 @@
 </script>
 
 <style scoped>
-  .schooledit p {
-    margin: 10px;
-  }
-
   .schooledit {
     color: rgba(160, 160, 160, 1);
     text-align: left;

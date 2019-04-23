@@ -187,10 +187,6 @@
     text-align: left;
   }
 
-  .discountbudget p {
-    margin: 10px;
-  }
-
   .discountbudget .header p {
     font-size: 14px;
   }

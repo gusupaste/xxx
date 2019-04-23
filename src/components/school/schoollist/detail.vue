@@ -275,9 +275,6 @@
         margin-top: 50px;
         text-align: center;
     }
-    .schooldetail p {
-      margin: 10px;
-    }
     .schooldetail {
       color: rgba(160, 160, 160, 1);
       text-align: left;
