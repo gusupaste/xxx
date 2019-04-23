@@ -2,19 +2,26 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/homepage/homeView'
 import login from '@/components/login/login'
+
+/**系统管理 */
 import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
-
-/**系统管理--用户管理 */
 import Usermanagement from '@/components/systemmanagement/usermanagement/list'
 import Usermanagementadd from '@/components/systemmanagement/usermanagement/add'
 import Usermanagementedit from '@/components/systemmanagement/usermanagement/edit'
+import SchoolCalendarList from '@/components/systemmanagement/schoolCalendar/list'
+import addNewTemplate from '@/components/systemmanagement/schoolCalendar/addNewTemplate'
+import editTemplate from '@/components/systemmanagement/schoolCalendar/editTemplate'
+import Settlementarea from '@/components/systemmanagement/settlementarea/list'
+import EditSettlementarea from '@/components/systemmanagement/settlementarea/edit'
+import Addsettlementarea from '@/components/systemmanagement/settlementarea/add'
 
 /**学生档案 */
 import StudentFile from '@/components/studentFile/index'
 import StudentFileList from '@/components/studentFile/studentFile'
 import StudentFileDetail from '@/components/studentFile/fileDetail'
+
 /**校园 */
 import School from '@/components/school/index'
 import Intercitylist from '@/components/school/intercitylist/list'
@@ -26,12 +33,9 @@ import Schooledit from '@/components/school/schoollist/edit'
 import Discountbudget from '@/components/school/discountbudget/list'
 import Enrollmentnumber from '@/components/school/enrollmentnumber/list'
 import Revenuetarget from '@/components/school/revenuetarget/list'
-import SchoolCalendarList from '@/components/systemmanagement/schoolCalendar/list'
-import addNewTemplate from '@/components/systemmanagement/schoolCalendar/addNewTemplate'
-import editTemplate from '@/components/systemmanagement/schoolCalendar/editTemplate'
-import Settlementarea from '@/components/systemmanagement/settlementarea/list'
-import EditSettlementarea from '@/components/systemmanagement/settlementarea/edit'
-import Addsettlementarea from '@/components/systemmanagement/settlementarea/add'
+
+/**财务处理 */
+import Setting from '@/components/finance/setting/list'
 import Financemanagement from '@/components/finance/index'
 import Charge from '@/components/finance/charge/list'
 import BillDetail from '@/components/finance/charge/billDetail'
@@ -45,8 +49,10 @@ import DiscountApproval from '@/components/finance/discount/approval'
 import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
+
+/**家长信息 */
 import ParentInfo from '@/components/parentinfo/list'
-import Setting from '@/components/finance/setting/list'
+
 
 Vue.use(Router)
 

@@ -1,7 +1,7 @@
 <template>
     <div class="intercitylist wrap">
       <div class="header">
-        <p>YOU ARE HERE : 校园 >> <span>城际列表</span></p>
+        <p class="">YOU ARE HERE : 校园 >> <span>城际列表</span></p>
         <p class="bold">伊顿国际教育集团大城际分布</p>
       </div>
       <div class="content">
@@ -221,9 +221,6 @@
 </script>
 
 <style scoped>
-  .intercitylist .header p{
-    margin: 10px 0px;
-  }
   .intercitylist{
     color: rgba(160, 160, 160, 1);
     text-align: left;
