@@ -3,7 +3,7 @@
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">用户管理</span></p>
       <p><span>角色：</span>
-        <el-select style="width: 150px" v-model="value" placeholder="请选择">
+        <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -12,7 +12,7 @@
           </el-option>
         </el-select>
         <span class="padding-left-30">搜索：</span>
-        <el-input style="width: 250px" type="text" placeholder="请输入"></el-input>
+        <el-input type="text" placeholder="请输入"></el-input>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
         <span class="right"><el-button class="orange" type="text" @click="addUser"><i class="fa fa-plus-square"></i>&nbsp;新增用户</el-button></span>
       </p>
@@ -242,7 +242,6 @@
         this.assignpermissions = true
       },
       handleChange: function (val) {
-
         var liList = document.getElementsByName('selectColor');
         for (var i = 0; i < liList.length; i++) {
           liList[i].style.color = '';
@@ -253,16 +252,6 @@
             }
           }
         }
-
-        /*console.log(val)
-        console.log(this.$refs.selectColor.innerText);*/
-        //this.$refs.selectColor.style.color = 'red';// 修改html样式
-        /*let li = this.$refs.selectColor;
-        console.log(li)*/
-        /*for(let i =0;i<this.val.length;i++){
-
-        }*/
-
       }
     }
   }
@@ -286,8 +275,12 @@
     text-align: center;
   }
 
-  .usermanagement .el-dialog__footer {
+  .usermanagement >>> .el-dialog__footer {
     text-align: center;
+  }
+  .usermanagement >>> .el-input{
+    width: 164px;
+    height: 36px;
   }
 
   .usermanagement .line-solid {
@@ -296,26 +289,26 @@
     color: #ccc;
   }
 
-  .usermanagement .assign-permissions .el-dialog__body {
+  .usermanagement .assign-permissions >>> .el-dialog__body {
     padding: 0 20px;
   }
 
   /*手风琴样式*/
-  .usermanagement .el-collapse-item__arrow {
+  .usermanagement >>> .el-collapse-item__arrow {
     display: none;
   }
 
-  .usermanagement .el-collapse-item__header {
+  .usermanagement >>> .el-collapse-item__header {
     height: 30px;
     border: 0;
   }
 
-  .usermanagement .el-collapse {
+  .usermanagement >>> .el-collapse {
     margin: 0 20px;
     border: 0;
   }
 
-  .usermanagement .el-collapse-item__wrap {
+  .usermanagement >>> .el-collapse-item__wrap {
     border: 0;
   }
 
