@@ -65,7 +65,9 @@
             </el-submenu>
             </el-menu>
             <div class="userInfo">
-              <span>集团端{{$store.state.user_Info.fullname}}，你好</span>
+              <span>集团端
+                <!-- {{$store.state.user_Info.fullname}} -->
+                ，你好</span>
               <i style="cursor:pointer" class="orange el-icon-remove-outline" @click="logout"></i>
             </div>
           </div>
