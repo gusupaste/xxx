@@ -36,50 +36,59 @@ html {
   text-align: left;
 }
 
-.btn {
-  width: 84px;
-  height: 36px;
-  line-height: 36px;
-  border-radius: 2px;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-}
 
+/* 公共背景色 颜色*/
 .bg-grey {
   background-color: #999;
 }
-
 .bg-green {
   background-color: #8bc34a;
 }
-
 .bg-dark-blue {
   background-color: #0b6289;
 }
-
 .bg-blue {
   background-color: #54a3e2;
 }
-
 .bg-orange {
   background-color: #f17128;
 }
-
 .green {
   color: #8BC34A;
 }
-
+.orange {
+  color: #f17128;
+}
+.red {
+  color: red;
+}
+.font-cl-blue {
+  color: #0b6289;
+}
+.white{
+  color: white;
+}
+/* 其他 */
 .left {
   float: left;
 }
-
 .right {
   float: right;
 }
+.text-align-center {
+  text-align: center;
+}
 .inline-block {
   display: inline-block;
+}
+.title-style {
+  font-size: 16px;
+  color:#101010;
+  font-weight: 600;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
 }
 .mt10 {
   margin-top: 10px;
@@ -97,53 +106,8 @@ html {
   padding-left: 30px;
 }
 
-.text-align-center {
-  text-align: center;
-}
 
-.title-style {
-  font-size: 16px;
-  color:#101010;
-  font-weight: 600;
-}
-a {
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.el-pagination {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.el-pagination.is-background .el-pager li:not(.disabled).active {
-  background-color: #fd8300;
-}
-
-.clearfix:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden
-}
-
-.orange {
-  color: #f17128;
-}
-
-.red {
-  color: red;
-}
-
-.font-cl-blue {
-  color: #0b6289;
-}
-
-.white{
-  color: white;
-}
-
+/* 字号公共样式 */
 .font-size-5 {
   font-size: 5px;
 }
@@ -179,8 +143,58 @@ a {
   font-weight: bold;
   color: black;
 }
-/* input select  textarea公共样式 */
+
+/*button input select  textarea公共样式 */
+.el-button {
+  height: 36px;
+  line-height: 0;
+}
 .el-input__inner {
   width: 164px;
   height: 36px;
+}
+.btn {
+  width: 84px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 2px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+.w250_input .el-input__inner {
+  width: 250px;
+}
+/* tabs公共样式 */
+.el-tabs__item.is-active {
+  color:#f17128 !important;
+}
+.el-tabs__active-bar {
+  background-color:#f17128 !important;
+}
+.el-tabs__nav-wrap::after {
+  background-color:#fff !important;
+}
+.el-tabs__item {
+  font-weight: 600;
+}
+/* 分页公共样式 */
+.el-pagination {
+  text-align: center;
+  margin-top: 10px;
+}
+.el-pager .number {
+  font-size: 12px;
+  background-color:#fff !important;
+  color: #666;
+  border: 1px solid #dcdcdc;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #fd8300 !important;
+  border: 1px solid #fd8300;
+  font-size: 12px;
+}
+.el-pager li.active+li {
+  border: 1px solid #dcdcdc;
 }
