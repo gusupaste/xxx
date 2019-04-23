@@ -163,11 +163,12 @@ export default {
     background-color: #fff !important;
     border:1px solid #f17128 !important;
     color:#fff !important;
+    border-top: 0 !important;
   }
   .el-menu--popup-bottom-start li{
     margin-top:0 !important;
     background-color: #fff !important;
-    color:#101010 !important;
+    color:#666 !important;
     text-align: center;
     border-bottom: 1px solid #bbb;
   }
