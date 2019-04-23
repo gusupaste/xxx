@@ -36,7 +36,19 @@ html {
   font-size: 14px;
   text-align: left;
 }
-
+.circle{
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-color: #f2b804;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100px;
+  color:#006287;
+  border: 2px solid #006287;
+  font-size: 100px;
+  cursor: pointer;
+}
 .school-name {
   font-size: 18px;
   color:#101010;

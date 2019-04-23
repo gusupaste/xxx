@@ -2,20 +2,29 @@
     <div class="intercitylist wrap">
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">城际列表</span></p>
-        <p class="bold">伊顿国际教育集团大城际分布</p>
+        <p class="bold mt10">伊顿国际教育集团大城际分布</p>
       </div>
-      <div class="content">
+      <div class="content mt26">
         <div class="intercity-list">
-          <el-card class="box-card">
-            <span class="el-icon-circle-plus-outline span-button" @click="addintercityVisible = true"></span>
+          <el-card class="box-card" style="line-height:280px;text-align:center">
+            <span class="circle" @click="addintercityVisible = true"> 
+              +
+            </span>
           </el-card>
         </div>
         <div class="intercity-list">
-          <el-card class="box-card">
+          <el-card class="box-card" >
             <div slot="header" class="clearfix">
-              <span class="city-name font-cl-blue">城际名称1</span>
-              <span class="font-size-5">负责人：张兰</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="editintercityVisible = true">编辑</el-button>
+              <div style="width:80%;line-height:1" class="left">
+                <span class="city-name font-cl-blue">城际名称1</span>
+                <br>
+                <span class="font-size-5">负责人：张兰</span>
+              </div>
+              <div class="left" style="width:15%">
+                  <el-button type="text" @click="editintercityVisible = true">
+                  <i class="fa fa-edit icon-font"></i>
+                </el-button>
+              </div>
             </div>
             <draggable class="list-group" :list="list1" group="people" @change="log">
               <div class="list-group-item intercity-li"
@@ -29,9 +38,16 @@
         <div class="intercity-list">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
-              <span class="city-name font-cl-blue">城际名称1</span>
-              <span class="font-size-5">负责人：张兰</span>
-              <el-button style="float: right; padding: 3px 0" type="text" @click="editintercityVisible = true">编辑</el-button>
+              <div style="width:80%;line-height:1" class="left">
+                <span class="city-name font-cl-blue">城际名称1</span>
+                <br>
+                <span class="font-size-5">负责人：张兰</span>
+              </div>
+              <div class="left" style="width:15%">
+                  <el-button type="text" @click="editintercityVisible = true">
+                  <i class="fa fa-edit icon-font"></i>
+                </el-button>
+              </div>
             </div>
             <draggable class="list-group" :list="list2" group="people" @change="log">
               <div class="list-group-item  intercity-li"
@@ -239,13 +255,15 @@
     margin-right: 0;
   }
   .intercitylist .city-name{
-    display: block;;
+    font-weight: 600;
+    display: block;
+    font-size: 16px;
   }
   .intercitylist .intercity-li{
     border: 1px solid #ddd;
     padding: 5px 20px;
-    border-radius: 50px;
-    background-color: #ddd;
+    border-radius: 20px;
+    background-color: #fafafa;
     margin-bottom: 5px;
     cursor: pointer;
   }
