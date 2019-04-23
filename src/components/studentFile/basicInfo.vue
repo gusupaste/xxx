@@ -1,8 +1,24 @@
 <template>
     <div class="basicInfo  clearfix">
         <div class="clearfix">
-            <div style="width:70%;" class="text-align-center left">
+            <div  class="text-align-center left">
+                <div class="" style="width:30%">
+
+                </div>
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" inline="" style="text-align:left">
+                    <el-form-item label="头像：" prop="name" label-width="150px" >
+                        <el-upload
+                            class="avatar-uploader"
+                            style="vertical-align:middle"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </el-form-item>
+                    <br>
                     <el-form-item label="姓名：" prop="name" label-width="150px" >
                         <el-input v-model="ruleForm.name" placeholder="请填写姓名"></el-input>
                     </el-form-item>
@@ -11,6 +27,7 @@
 
                         </el-input>
                     </el-form-item>
+                    <br>
                     <el-form-item label="证件类型：" prop="region" label-width="150px">
                         <el-select v-model="ruleForm.region" placeholder="请选择证件类型">
 
@@ -21,6 +38,7 @@
 
                         </el-input>
                     </el-form-item>
+                    <br>
                     <el-form-item label=" " prop="type"  label-width="150px">
                         <el-checkbox-group v-model="ruleForm.type">
                         <el-checkbox label="转园生" name="type"></el-checkbox>
@@ -39,6 +57,7 @@
 
                         </el-select>
                     </el-form-item>
+                    <br>
                     <el-form-item label="出生日期：" prop="date1" label-width="150px">
                             <el-date-picker type="date" placeholder="请选择出生日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
                     </el-form-item>
@@ -47,6 +66,7 @@
 
                         </el-select>
                     </el-form-item>
+                    <br>
                     <el-form-item label="意向入学讯息：" prop="region" label-width="150px" class="enroll-info">
                         <el-select v-model="ruleForm.region" placeholder="">
 
@@ -64,6 +84,7 @@
                     <el-form-item label="拟入学日期：" prop="date1" label-width="150px">
                             <el-date-picker type="date" placeholder="请选择拟入学日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
                     </el-form-item>
+                    <br>
                     <el-form-item label="学生第一语言：" prop="date1" label-width="150px">
                             <el-select v-model="ruleForm.region" placeholder="请选择学生第一语言">
 
@@ -83,20 +104,7 @@
                     </el-form-item>
                 </el-form>
             </div>
-            <div class="right" style="width:30%">
-                <el-upload
-                    class="avatar-uploader"
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-                <div>
-                    <el-button>upload</el-button>
-                </div>
-            </div>
+            
         </div>
 
         <div class="mt26 text-align-center">
