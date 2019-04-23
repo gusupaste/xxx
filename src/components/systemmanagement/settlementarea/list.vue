@@ -214,6 +214,9 @@
  .settlementArea .el-pagination.is-background .el-pager li:not(.disabled).active{
    background-color: orange;
  }
+ .settlementArea >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+   text-align: center !important;
+ }
  .settlementArea .div-page{
    display: -webkit-inline-box;
    width: 70px;

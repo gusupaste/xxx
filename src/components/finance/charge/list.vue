@@ -254,49 +254,48 @@
     font-weight: bold;
     color: black;
   }
-  .chargelist .select-header,.chargelist .list-content{
+  .chargelist >>> .select-header,.chargelist .list-content{
     width: 100%;
     min-height: 50px;
     margin-top: 20px;
   }
-  .chargelist .el-select{
+  .chargelist >>> .el-select{
     width: 10%;
   }
-  .chargelist .el-tabs__item{
+  .chargelist >>> .el-tabs__item{
     width: 150px;
     text-align: center;
-    color: #ED6C2E;
   }
-  .chargelist .el-tabs__item.is-active{
+  .chargelist >>> .el-tabs__item.is-active{
     color: #ED6C2E;
     border-bottom: 2px solid #ED6C2E !important;
   }
-  .chargelist .el-table td, .el-table th{
+  .chargelist >>> .el-table td, .el-table th{
     text-align: center;
   }
-  .chargelist .el-menu--horizontal>.el-menu-item.is-active{
-    border-bottom: 2px solid #ED6C2E !important;
-  }
-  .chargelist .el-menu.el-menu--horizontal{
-    padding-left: 50%;
-  }
-  .chargelist .el-tabs__active-bar{
+  .chargelist >>> .el-tabs__active-bar{
     background-color: #ED6C2E;
     width: 0px !important;
   }
-  .chargelist .el-tabs__item:hover{
+  .chargelist >>> .el-tabs__item:hover{
     color:#ED6C2E;
   }
-  .chargelist .el-tabs__item{
+  .chargelist >>> .el-tabs__item{
     padding: 0 0 !important;
   }
-  .chargelist .el-tabs__nav-scroll{
+  .chargelist >>> .el-tabs__nav-scroll{
     padding-left: 50%;
   }
-  .chargelist #tab-first{
+  .chargelist >>> #tab-first{
     margin-left: -150px;
   }
   .chargelist .el-tabs__active-bar is-top{
     width: 0px !important;
+  }
+  .chargelist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+    text-align: center !important;
+  }
+  .chargelist >>> .el-input__inner{
+
   }
 </style>
