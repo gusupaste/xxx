@@ -283,7 +283,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="16">
-              <el-form-item style="margin-left:-80px;padding-top: 50px;">
+              <el-form-item style="margin-left:-80px;padding-top: 40px;">
                 <span>品牌：</span>
                 <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;" v-bind:disabled="disabledSelect">
                   <el-option
@@ -600,7 +600,7 @@
                 <span>有效期</span>
               </el-col>
               <el-col :span="3">
-                <el-button class="button_color" @click="innerVisible = true">复制</el-button>
+                <el-button class="button_color" @click="innerVisible = true" style="height: auto;">复制</el-button>
               </el-col>
             </el-row>
             <br><hr><br>
@@ -640,7 +640,7 @@
           </div>
         </el-form>
       </el-dialog>
-      <el-dialog title="复制政策" :visible.sync="innerVisible" width="55%" class="copyPolicyShow">
+      <el-dialog title="复制政策" :visible.sync="innerVisible" width="650px" class="copyPolicyShow">
         <el-form ref="policyForm" :model="policyForm" :rules="rules" label-width="80px">
           <div class="policyClass">
             <p>复制的政策：{{ policyForm.title }}</p>
@@ -692,8 +692,7 @@
                   :show-header="false"
                   style="width: 92%;">
                   <el-table-column
-                    prop="code"
-                    label="费用项目">
+                    prop="code" style="text-align: left">
                     <template slot-scope="scope">
                       <el-checkbox v-model="scope.row.checked">{{ scope.row.code }}</el-checkbox>
                     </template>
@@ -776,7 +775,7 @@
                     <el-checkbox v-model="checked">【2015】金华家园</el-checkbox>
                   </el-table-column>
                   <el-table-column>
-                    <el-checkbox-group v-model="type">
+                    <el-checkbox-group v-model="type" style="text-align: left">
                       <el-checkbox label="美食" name="type"></el-checkbox>
                       <el-checkbox label="地推" name="type"></el-checkbox>
                       <el-checkbox label="线下" name="type"></el-checkbox>
@@ -1059,44 +1058,37 @@
     width: 100%;
     min-height: 50px;
   }
-  .settinglist .el-select{
-    width: 25%;
-  }
-  .settinglist .el-tabs__item{
+  .settinglist >>> .el-tabs__item{
     width: 150px;
     text-align: center;
-    color: #ED6C2E;
   }
-  .settinglist .el-tabs__item.is-active{
+  .settinglist >>> .el-tabs__item.is-active{
     color: #ED6C2E;
     border-bottom: 2px solid #ED6C2E !important;
   }
-  .settinglist .el-table td, .el-table th{
-    text-align: center;
-  }
-  .settinglist .el-menu--horizontal>.el-menu-item.is-active{
+  .settinglist >>> .el-menu--horizontal>.el-menu-item.is-active{
     border-bottom: 2px solid #ED6C2E !important;
   }
-  .settinglist .el-menu.el-menu--horizontal{
+  .settinglist >>> .el-menu.el-menu--horizontal{
     padding-left: 50%;
   }
-  .settinglist .el-tabs__active-bar{
+  .settinglist >>> .el-tabs__active-bar{
     background-color: #ED6C2E;
     width: 0px !important;
   }
-  .settinglist .el-tabs__item:hover{
+  .settinglist >>> .el-tabs__item:hover{
     color:#ED6C2E;
   }
-  .settinglist .el-tabs__item{
+  .settinglist >>> .el-tabs__item{
     padding: 0 0 !important;
   }
-  .settinglist .el-tabs__nav-scroll{
+  .settinglist >>> .el-tabs__nav-scroll{
     padding-left: 50%;
   }
-  .settinglist #tab-first{
+  .settinglist >>> #tab-first{
     margin-left: -300px;
   }
-  .settinglist .el-tabs__active-bar is-top{
+  .settinglist >>> .el-tabs__active-bar is-top{
     width: 0px !important;
   }
   .settinglist .el-textarea{
@@ -1105,10 +1097,10 @@
   .settinglist .el-radio__input{
     line-height: 3.5 !important;
   }
-  .settinglist .el-dialog__footer{
+  .settinglist >>> .el-dialog__footer{
     text-align: center;
   }
-  .settinglist .deleteFee .el-dialog__body{
+  .settinglist .deleteFee >>> .el-dialog__body{
     text-align: center;
   }
   .settinglist .discountDialog .el-checkbox-group{
@@ -1120,15 +1112,12 @@
   .settinglist .discountShow .el-form-item__label{
     width: 120px !important;
   }
-  .settinglist .discountShow .el-form-item__content{
+  .settinglist .discountShow >>> .el-form-item__content{
     display: -webkit-box;
     margin-left: 120px !important;
   }
-  .settinglist .discountShow .el-dialog__body{
+  .settinglist >>> .discountShow .el-dialog__body{
     padding-top: 5px !important;
-  }
-  .settinglist .select-length .el-select{
-    width: 15%;
   }
   .settinglist .select-header, .chargelist .list-content{
     min-height: 50px;
@@ -1147,13 +1136,19 @@
     font-size: 10px;
   }
   .settinglist .policyClass .button_color{
-    padding: 5px 20px;
     border-color: #006287;
-  }
-  .settinglist .policyClass .button_color span{
-    color: #006287 !important;
+    color: #006287;
   }
   .settinglist .copyPolicyShow .el-select{
     width: 80%;
+  }
+  .settinglist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+    text-align: center;
+  }
+  .settinglist >>> .el-input__inner {
+    width: -webkit-fill-available;
+  }
+  .settinglist >>> .el-tabs__nav-wrap {
+    border-bottom: 1px solid #e6e6e6;
   }
 </style>

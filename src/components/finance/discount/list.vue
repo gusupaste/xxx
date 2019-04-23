@@ -306,37 +306,39 @@
   .discountlist .el-select{
     width: 10%;
   }
-  .discountlist .el-tabs__item{
+  .discountlist >>> .el-tabs__item{
     width: 150px;
     text-align: center;
-    color: #ED6C2E;
   }
-  .discountlist .el-table td, .el-table th{
-    text-align: center;
-  }
-  .discountlist .el-tabs__item.is-active{
+  .discountlist >>> .el-tabs__item.is-active{
     border-bottom: 2px solid #ED6C2E !important;
   }
-  .discountlist .new-calendar-modal .el-table td, .el-table th.is-leaf{
+  .discountlist >>> .new-calendar-modal .el-table td, .el-table th.is-leaf{
     border-bottom: none !important;
   }
-  .discountlist .el-tabs__active-bar{
+  .discountlist >>> .el-tabs__active-bar{
     background-color: #ED6C2E;
     width: 0px !important;
   }
-  .discountlist .el-tabs__item:hover{
+  .discountlist >>> .el-tabs__item:hover{
     color:#ED6C2E;
   }
-  .discountlist .el-tabs__item{
+  .discountlist >>> .el-tabs__item{
     padding: 0 0 !important;
   }
-  .discountlist .el-tabs__nav-scroll{
+  .discountlist >>> .el-tabs__nav-scroll{
     padding-left: 50%;
   }
-  .discountlist #tab-first{
-    margin-left: -150px;
+  .discountlist >>> #tab-first{
+    margin-left: -200px;
   }
-  .discountlist .el-tabs__active-bar is-top{
+  .discountlist >>> .el-tabs__active-bar is-top{
     width: 0px !important;
+  }
+  .discountlist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+    text-align: center !important;
+  }
+  .discountlist >>> .el-input__inner {
+    width: -webkit-fill-available;
   }
 </style>

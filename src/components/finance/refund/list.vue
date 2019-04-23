@@ -208,23 +208,26 @@
     min-height: 50px;
     margin-top: 20px;
   }
-  .refundlist .el-select{
+  .refundlist >>> .el-select{
     width: 10%;
   }
-  .refundlist .list-content .el-menu--horizontal>.el-menu-item{
+  .refundlist >>> .list-content .el-menu--horizontal>.el-menu-item{
     float: none;
     width: 150px;
     display: inline-block;
     text-align: center;
+  }
+  .refundlist >>> .el-menu--horizontal>.el-menu-item.is-active{
+    border-bottom: 2px solid #ED6C2E !important;
     color: #ED6C2E;
   }
-  .refundlist .el-table td, .el-table th{
-    text-align: center;
-  }
-  .refundlist .el-menu--horizontal>.el-menu-item.is-active{
-    border-bottom: 2px solid #ED6C2E !important;
-  }
-  .refundlist .el-menu.el-menu--horizontal{
+  .refundlist >>> .el-menu.el-menu--horizontal{
     padding-left: 50%;
+  }
+  .refundlist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+    text-align: center !important;
+  }
+  .refundlist >>> .el-input__inner {
+    width: -webkit-fill-available;
   }
 </style>

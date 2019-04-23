@@ -266,7 +266,7 @@
   .parentinfo .select-header{
     margin-bottom: 20px;
   }
-  .parentinfo .el-table td, .el-table th{
+  .parentinfo >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
     text-align: center;
   }
   .parentinfo .el-input{

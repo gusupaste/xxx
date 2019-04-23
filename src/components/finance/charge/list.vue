@@ -292,10 +292,10 @@
   .chargelist .el-tabs__active-bar is-top{
     width: 0px !important;
   }
+  .chargelist >>> .el-tabs__nav-wrap {
+    border-bottom: 1px solid #e6e6e6;
+  }
   .chargelist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
     text-align: center !important;
-  }
-  .chargelist >>> .el-input__inner{
-
   }
 </style>
