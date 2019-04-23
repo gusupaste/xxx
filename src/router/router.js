@@ -5,15 +5,18 @@ import login from '@/components/login/login'
 import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
+
+/**系统管理--用户管理 */
 import Usermanagement from '@/components/systemmanagement/usermanagement/list'
 import Usermanagementadd from '@/components/systemmanagement/usermanagement/add'
 import Usermanagementedit from '@/components/systemmanagement/usermanagement/edit'
-import School from '@/components/school/index'
+
 /**学生档案 */
 import StudentFile from '@/components/studentFile/index'
 import StudentFileList from '@/components/studentFile/studentFile'
 import StudentFileDetail from '@/components/studentFile/fileDetail'
-
+/**校园 */
+import School from '@/components/school/index'
 import Intercitylist from '@/components/school/intercitylist/list'
 import Schoollist from '@/components/school/schoollist/list'
 import SchoolViewClendar from '@/components/school/schoollist/viewClendar'

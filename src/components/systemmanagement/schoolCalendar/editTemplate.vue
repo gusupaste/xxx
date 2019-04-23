@@ -1,7 +1,7 @@
 <template>
     <div class="new-calendar-modal wrap" style="text-align:left">
             <div class="header">
-                <p>You Are Here  ：系统管理  > 校日历管理  > <span class="font-cl-blue">编辑校日历</span></p>
+                <p class="local_path_style">You Are Here  ：系统管理  > 校日历管理  > <span class="font-cl-blue">编辑校日历</span></p>
             </div>
             <el-form :model="form" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth" style="margin-bottom:0;font-weight:600">
@@ -11,47 +11,8 @@
                 </el-form-item>
                 <el-form-item label="学年：" :label-width="formLabelWidth" style="margin-bottom:0">
                     2018-2019学年
-                    <!-- <el-select v-model="form.region" placeholder="请选择活动区域">
-                        
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select> -->
                 </el-form-item>
             </el-form>
-                <!-- <el-form-item label="学校：" :label-width="formLabelWidth">
-                   <span style="cursor:pointer" @click="dialogFormVisible= true">
-                        <i class="green fa fa-plus-square" style="font-size:18px"></i> <span class="green"> 添加校园</span>
-                   </span>
-                    <div class="school-wrap">
-                        <div>
-                            <el-table
-                                ref="multipleTable"
-                                :data="tableData3"
-                                tooltip-effect="dark"
-                                style="width: 100%"
-                                border=""
-                                @selection-change="handleSelectionChange">
-                                <el-table-column
-                                prop="name"
-                                label="校园"
-                              >
-                                </el-table-column>
-                                <el-table-column
-                                prop="address"
-                                label="班级项目"
-                                show-overflow-tooltip>
-                                </el-table-column>
-                                <el-table-column
-                              
-                                label="操作">
-                                <template slot-scope="scope">
-                                        <i @click="delete_dialogVisible=true" class="orange fa fa-trash-o" style="font-size:20px;cursor:pointer"></i>
-                                </template>
-                                </el-table-column>
-                            </el-table>
-                        </div>
-                    </div>
-                </el-form-item> -->
                 <div class="mt26">
                     <span>定义校日历：</span>
                     <span style="color:#f17128;padding:10px;display:inline-block;cursor:pointer" @click="add_Calendar=true">
@@ -250,7 +211,7 @@
             <el-dialog title="新增校日历模版" :visible.sync="addtmp">
                 <el-form :model="form">
                     <el-form-item label="模板名称：" :label-width="formLabelWidth">
-                        <el-input v-model="form.name" auto-complete="off"></el-input>
+                        <el-input v-model="form.name" auto-complete="off" class="w250_input"></el-input>
                     </el-form-item>
                     <el-form-item label="学年：" :label-width="formLabelWidth">
                         <el-select v-model="form.region" placeholder="请选择活动区域">

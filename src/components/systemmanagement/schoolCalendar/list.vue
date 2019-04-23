@@ -156,10 +156,10 @@
     .schoolCalendarList >>> .el-dialog{
         min-width: 600px;
     }
-    .schoolCalendarList {
+    /* .schoolCalendarList {
         text-align: left;
-    }
-    .schoolCalendarList table td,th{
+    } */
+    .schoolCalendarList >>> table td,.schoolCalendarList >>> table th{
         text-align: center !important;
     }
     .schoolCalendarList .school-wrap{
