@@ -66,7 +66,7 @@
             </el-menu>
             <div class="userInfo">
               <span>集团端
-                <!-- {{$store.state.user_Info.fullname}} -->
+                {{premission}}
                 ，你好</span>
               <i style="cursor:pointer" class="orange el-icon-remove-outline" @click="logout"></i>
             </div>
@@ -95,7 +95,7 @@ export default {
         if(!pk){
           this.$store.state.user_Info = JSON.parse(localStorage.getItem('user_Info'));
           this.$store.state.user_Token = localStorage.getItem('user_Token');
-          // this.premission = this.$store.state.user_Info.type;
+          this.premission = this.$store.state.user_Info.type;
         }
       },
 
@@ -110,7 +110,7 @@ export default {
       },
        handleSelect(key, keyPath) {
          localStorage.removeItem('tabName');
-         localStorage.setItem('active',key);
+        //  localStorage.setItem('active',key);
         console.log(key, keyPath);
       }
   }
