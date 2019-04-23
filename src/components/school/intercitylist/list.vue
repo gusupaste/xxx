@@ -60,34 +60,34 @@
         </div>
       </div>
       <el-dialog title="新增城际" :visible.sync="addintercityVisible" width="50%" :before-close="handleClose">
-        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-          <el-form-item label="城际名称" prop="name">
+        <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+          <el-form-item label="城际名称：" prop="name" class="w250_input">
             <el-input v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="城际代码" prop="code">
+          <el-form-item label="城际代码：" prop="code">
             <el-input v-model="form.code"></el-input>
           </el-form-item>
-          <el-form-item label="负责人" prop="person">
+          <el-form-item label="负责人：" prop="person">
             <el-input v-model="form.person"></el-input>
           </el-form-item>
         </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="addintercityVisible = false">取 消</el-button>
+        <div slot="footer" class="dialog-footer text-align-center">
+          <el-button @click="addintercityVisible = false" class="bg-grey white">取 消</el-button>
           <el-button type="success" @click="addintercityVisible = false">保 存</el-button>
-        </span>
+        </div>
       </el-dialog>
       <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" :before-close="handleClose">
-        <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-          <el-form-item label="城际名称" prop="name">
-            <el-input v-model="form.name"></el-input>
+        <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+          <el-form-item label="城际名称：" prop="name">
+            <el-input v-model="form.name" class="w250_input"></el-input>
           </el-form-item>
-          <el-form-item label="城际代码" prop="code">
+          <el-form-item label="城际代码：" prop="code">
             <el-input v-model="form.code"></el-input>
           </el-form-item>
-          <el-form-item label="负责人" prop="person">
+          <el-form-item label="负责人：" prop="person">
             <el-input v-model="form.person"></el-input>
           </el-form-item>
-          <el-form-item label="学校">
+          <el-form-item label="学校：">
             <div class="item-div1">
               <p>无归属城际的学校</p>
               <div class="item-div2-span">
@@ -105,7 +105,7 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="editintercityVisible = false">取 消</el-button>
+          <el-button @click="editintercityVisible = false" class="bg-grey white">取 消</el-button>
           <el-button type="success" @click="editintercityVisible = false">保 存</el-button>
         </span>
       </el-dialog>
@@ -241,6 +241,19 @@
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
+  .intercitylist >>> .el-dialog__header{
+        background-color: #f5f5f5;
+        padding: 15px;
+        font-size: 12px !important;
+        border-bottom: 1px solid #d5d5d5;
+    }
+  .intercitylist  >>> .header p{
+        font-size: 14px;
+        margin: 10px 0px;
+    }
+  .intercitylist >>> .el-dialog__title{
+        font-size: 14px;
+    }
   .intercitylist .bold{
     font-weight: bold;
     color: black;

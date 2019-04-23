@@ -83,7 +83,7 @@ html {
   color: #0b6289;
 }
 .white{
-  color: white;
+  color: #fff;
 }
 /* 其他 */
 .left {
@@ -220,4 +220,13 @@ a {
   color: rgba(160, 160, 160, 1);
   font-size: 14px;
   font-family: SourceHanSansSC-regular;
+}
+/* checkbox 公共样式 */
+.el-checkbox__label {
+  font-size: 12px;
+  color:#666 !important;
+}
+.is-checked .el-checkbox__inner {
+  border-color:#f16f26 !important;
+  background-color: #f16f26 !important;
 }
