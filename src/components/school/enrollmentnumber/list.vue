@@ -4,7 +4,7 @@
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园招生目标数</span></p>
     </div>
     <div class="header-top">
-      <p><span>城际：</span>
+      <p class="mt10"><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -13,7 +13,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">区域：</span>
+        <span>区域：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -22,7 +22,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">校园：</span>
+        <span>校园：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -31,7 +31,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">学年：</span>
+        <span>学年：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -168,8 +168,8 @@
           label="操作"
           min-width="40">
           <template slot-scope="scope">
-            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange font-size-20" @click="handleEdit(scope.row)"></i>
-            <i v-if="scope.row.edit === false" class="fa fa-check-circle green font-size-20" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red font-size-20" @click="handleCancel(scope.row)"></i>
+            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange font-size-14" @click="handleEdit(scope.row)"></i>
+            <i v-if="scope.row.edit === false" class="fa fa-check-circle green font-size-14" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red font-size-14" @click="handleCancel(scope.row)"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -274,7 +274,7 @@
     font-size: 14px;
   }
 
-  .enrollmentnumber .el-button--text {
+  .enrollmentnumber >>> .el-button--text {
     background: 0 0;
     padding: 10px;
     border-radius: 25px;
@@ -318,15 +318,16 @@
     border-radius: 2px;
   }
   /*表格内容居中*/
-  .enrollmentnumber .el-table td,.enrollmentnumber .el-table th{
+  .enrollmentnumber >>> .el-table td,.enrollmentnumber >>> .el-table th{
     text-align: center;
   }
-  .enrollmentnumber .el-dialog__footer{
+  .enrollmentnumber >>> .el-dialog__footer{
     text-align: center;
   }
-  .enrollmentnumber .el-table .el-input__inner{
+  .enrollmentnumber >>> .el-table .el-input__inner{
     height: auto;
     line-height: inherit;
+    width: 50px;
   }
 
 </style>

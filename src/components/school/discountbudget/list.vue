@@ -12,7 +12,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">区域：</span>
+        <span>区域：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -21,7 +21,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">品牌：</span>
+        <span>品牌：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -30,7 +30,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">学年：</span>
+        <span>学年：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -39,7 +39,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">折扣类型：</span>
+        <span>折扣类型：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -49,9 +49,9 @@
           </el-option>
         </el-select>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
-        <!-- <span class="right"><el-button type="text" @click="addSchool"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;&nbsp;导出</el-button></span>
-        <span class="right"><el-button type="text" @click="addSchool"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;导入</el-button></span> -->
-      </p>
+        <!--<span class="right mt10"><el-button type="text" @click="addSchool"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;&nbsp;导出</el-button></span>
+        <span class="right mt10"><el-button type="text" @click="addSchool"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;导入</el-button></span>
+    -->  </p>
       <el-table
       class="mt26"
         :data="tableData"
@@ -97,7 +97,7 @@
     </div>
     <!--编辑 弹框-->
     <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;">
-      <el-form label-width="120px" :model="formLabelAlign">
+      <el-form class="edit-discount" label-width="120px" :model="formLabelAlign">
         <el-form-item label="学年:">
           <!--<el-input v-model="formLabelAlign.year" maxlength="15" style="width: 60%" readonly=""></el-input>-->
           <span>{{formLabelAlign.year}}</span>
@@ -197,7 +197,7 @@
     font-size: 14px;
   }
 
-  .discountbudget .el-button--text {
+  .discountbudget >>> .el-button--text {
     background: 0 0;
     padding: 10px;
     border-radius: 25px;
@@ -241,11 +241,14 @@
     border-radius: 2px;
   }
   /*表格内容居中*/
-  .discountbudget .el-table td,.discountbudget .el-table th{
+  .discountbudget >>> .el-table td,.discountbudget >>> .el-table th{
     text-align: center;
   }
-  .discountbudget .el-dialog__footer{
+  .discountbudget >>> .el-dialog__footer{
     text-align: center;
+  }
+  .discountbudget .edit-discount .el-form-item{
+    margin-bottom: 1px;
   }
 
 </style>
