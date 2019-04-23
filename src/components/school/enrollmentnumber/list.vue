@@ -13,7 +13,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">区域：</span>
+        <span>区域：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -22,7 +22,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">校园：</span>
+        <span>校园：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -31,7 +31,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">学年：</span>
+        <span>学年：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -274,7 +274,7 @@
     font-size: 14px;
   }
 
-  .enrollmentnumber .el-button--text {
+  .enrollmentnumber >>> .el-button--text {
     background: 0 0;
     padding: 10px;
     border-radius: 25px;
@@ -318,15 +318,18 @@
     border-radius: 2px;
   }
   /*表格内容居中*/
-  .enrollmentnumber .el-table td,.enrollmentnumber .el-table th{
+  .enrollmentnumber >>> .el-table td,.enrollmentnumber >>> .el-table th{
     text-align: center;
   }
-  .enrollmentnumber .el-dialog__footer{
+  .enrollmentnumber >>> .el-dialog__footer{
     text-align: center;
   }
-  .enrollmentnumber .el-table .el-input__inner{
+  .enrollmentnumber >>> .el-table .el-input__inner{
     height: auto;
     line-height: inherit;
+  }
+  .enrollmentnumber >>> .el-input--suffix .el-input__inner{
+    margin-bottom: 10px;
   }
 
 </style>

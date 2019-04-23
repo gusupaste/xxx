@@ -53,9 +53,12 @@
       </el-table>
       <!--角色权限分配 弹框-->
       <el-dialog class="assign-permissions" title="角色权限分配" :visible.sync="assignpermissions" width="50%">
-        <div>
-          <p><span>角色名称:</span><span>hjsakfhdgjsakdbhaj</span></p>
-          <p><span>角色描述:</span><span>园长助理/行政助理</span></p>
+        <div class="dialog_content">
+          <p>
+            <span>角色名称：</span><span>hjsakfhdgjsakdbhaj</span>
+            <hr hidden>
+            <span>角色描述：</span><span>园长助理/行政助理</span>
+          </p>
           <hr class="line-solid">
           <p>被赋予该角色的系统用户：</p>
           <template>
@@ -94,6 +97,8 @@
             </div>
           </el-collapse>
         </div>
+        <span slot="footer" class="dialog-footer text-align-center">
+        </span>
       </el-dialog>
     </div>
   </div>
@@ -273,6 +278,10 @@
     font-size: 14px;
   }
 
+  .usermanagement .dialog_content p{
+    padding: 10px 0;
+  }
+
   .usermanagement .el-table td, .usermanagement .el-table th {
     text-align: center;
   }
@@ -283,6 +292,9 @@
   .usermanagement >>> .el-input{
     width: 164px;
     height: 36px;
+  }
+  .usermanagement >>> .el-select{
+    margin-bottom: 10px;
   }
 
   .usermanagement .line-solid {
@@ -316,5 +328,10 @@
 
   .usermanagement .active {
     color: orange;
+  }
+
+  /*表格内容居中*/
+  .usermanagement >>> .el-table td, .usermanagement >>> .el-table th {
+    text-align: center;
   }
 </style>

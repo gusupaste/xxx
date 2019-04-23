@@ -13,7 +13,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">区域：</span>
+        <span>区域：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -22,7 +22,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">校园：</span>
+        <span>校园：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -31,7 +31,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">学年：</span>
+        <span>学年：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -275,7 +275,7 @@
     font-size: 14px;
   }
 
-  .revenuetarget .el-button--text {
+  .revenuetarget >>> .el-button--text {
     background: 0 0;
     padding: 10px;
     border-radius: 25px;
@@ -319,11 +319,18 @@
     border-radius: 2px;
   }
   /*表格内容居中*/
-  .revenuetarget .el-table td,.revenuetarget .el-table th{
+  .revenuetarget >>> .el-table td,.revenuetarget >>> .el-table th{
     text-align: center;
   }
-  .revenuetarget .el-dialog__footer{
+  .revenuetarget >>> .el-dialog__footer{
     text-align: center;
+  }
+  .revenuetarget >>> .el-table .el-input__inner{
+    height: auto;
+    line-height: inherit;
+  }
+  .revenuetarget >>> .el-input--suffix .el-input__inner{
+    margin-bottom: 10px;
   }
 
 </style>

@@ -12,7 +12,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">区域：</span>
+        <span>区域：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -21,7 +21,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">品牌：</span>
+        <span>品牌：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -30,7 +30,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">学年：</span>
+        <span>学年：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -39,7 +39,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span class="padding-left-30">折扣类型：</span>
+        <span>折扣类型：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -197,7 +197,7 @@
     font-size: 14px;
   }
 
-  .discountbudget .el-button--text {
+  .discountbudget >>> .el-button--text {
     background: 0 0;
     padding: 10px;
     border-radius: 25px;
@@ -241,11 +241,14 @@
     border-radius: 2px;
   }
   /*表格内容居中*/
-  .discountbudget .el-table td,.discountbudget .el-table th{
+  .discountbudget >>> .el-table td,.discountbudget >>> .el-table th{
     text-align: center;
   }
-  .discountbudget .el-dialog__footer{
+  .discountbudget >>> .el-dialog__footer{
     text-align: center;
+  }
+  .discountbudget .el-form-item{
+    margin-bottom: 1px;
   }
 
 </style>

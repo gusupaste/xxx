@@ -277,17 +277,17 @@
   .parentbusinessapplication >>> .el-input--suffix .el-input__inner{
     margin-bottom: 10px;
   }
-  .parentbusinessapplication .el-input{
+  .parentbusinessapplication >>> .el-input{
     width: 164px;
     height: 36px;
   }
 
   /*表格内容居中*/
-  .parentbusinessapplication .el-table td, .parentbusinessapplication .el-table th {
+  .parentbusinessapplication >>> .el-table td, .parentbusinessapplication >>> .el-table th {
     text-align: center;
   }
 
-  .parentbusinessapplication .el-dialog__footer {
+  .parentbusinessapplication >>> .el-dialog__footer {
     text-align: center;
   }
 </style>

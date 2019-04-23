@@ -167,7 +167,7 @@
   .academicyear .ul-color span{
     color: black;
   }
-  .academicyear .el-dialog__footer{
+  .academicyear >>>.el-dialog__footer{
     text-align: center;
   }
 
