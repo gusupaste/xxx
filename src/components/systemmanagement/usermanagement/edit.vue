@@ -3,7 +3,7 @@
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">修改用户</span></p>
     </div>
-    <div class="header">
+    <div class="header-top">
       <div>
         <p class="bold_black">账号设置：</p>
         <div class="content">
@@ -152,10 +152,10 @@
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
-  .editusermanagement p {
-    margin: 10px;
+  .editusermanagement .header-top{
+    margin-top: 10px;
   }
-  .editusermanagement .header p {
+  .editusermanagement .header-top p {
     font-size: 14px;
   }
   .editusermanagement .content{

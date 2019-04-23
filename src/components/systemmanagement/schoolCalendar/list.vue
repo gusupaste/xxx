@@ -149,8 +149,7 @@
         border-bottom: 1px solid #d5d5d5;
     }
     .schoolCalendarList  >>> .header p{
-        font-size: 14px;
-        margin: 10px 0px;
+        font-size: 14px
     }
     .schoolCalendarList >>> .el-dialog__title{
         font-size: 14px;

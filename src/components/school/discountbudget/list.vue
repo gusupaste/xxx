@@ -3,7 +3,7 @@
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园折扣预算</span></p>
     </div>
-    <div class="header">
+    <div class="header-top">
       <p><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
@@ -189,7 +189,11 @@
     text-align: left;
   }
 
-  .discountbudget .header p {
+  .discountbudget .header-top {
+    margin-top: 10px;
+  }
+
+  .discountbudget .header-top p {
     font-size: 14px;
   }
 

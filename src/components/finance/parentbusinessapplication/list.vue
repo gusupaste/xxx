@@ -3,7 +3,7 @@
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">校园招生目标数</span></p>
     </div>
-    <div class="header">
+    <div class="header-top">
       <p><span>城际：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
@@ -263,11 +263,11 @@
     text-align: left;
   }
 
-  .parentbusinessapplication p {
-    margin: 10px;
+  .parentbusinessapplication .header-top {
+    margin-top: 10px;
   }
 
-  .parentbusinessapplication .header p {
+  .parentbusinessapplication .header-top p {
     font-size: 14px;
   }
   .parentbusinessapplication >>> .el-date-editor.el-input,.parentbusinessapplication >>> .el-date-editor.el-input__inner{

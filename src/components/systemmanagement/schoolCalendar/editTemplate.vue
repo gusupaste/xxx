@@ -236,7 +236,6 @@
     }
     .new-calendar-modal  .header p{
         font-size: 14px;
-        margin: 10px 0px;
     }
     .new-calendar-modal >>> .el-dialog__title{
         font-size: 14px;
