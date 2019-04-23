@@ -1,6 +1,8 @@
 <template>
     <div class="schoolCalendarList wrap">
+      <div class="header">
         <p class="local_path_style">YOU ARE HERE : 系统管理 > <span  class="font-cl-blue">校日历管理</span></p>
+      </div>
         <div style="margin-top:20px">
             <div class="clearfix">
                 <span class="left">
@@ -147,8 +149,7 @@
         border-bottom: 1px solid #d5d5d5;
     }
     .schoolCalendarList  >>> .header p{
-        font-size: 14px;
-        margin: 10px 0px;
+        font-size: 14px
     }
     .schoolCalendarList >>> .el-dialog__title{
         font-size: 14px;

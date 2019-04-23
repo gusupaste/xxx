@@ -189,7 +189,11 @@
     text-align: left;
   }
 
-  .discountbudget .header p {
+  .discountbudget .header-top {
+    margin-top: 10px;
+  }
+
+  .discountbudget .header-top p {
     font-size: 14px;
   }
 

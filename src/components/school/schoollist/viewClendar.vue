@@ -1,7 +1,9 @@
 <template>
     <div class="wrap viewClendar">
         <div class="header">
-            <p class="local_path_style">You Are Here  ：校园 > 校园列表 > 开班概况 > <span class="font-cl-blue">查看校日历</span></p>
+            <p class="local_path_style">YOU ARE HERE : 校园 > 校园列表 > 开班概况 > <span class="font-cl-blue">查看校日历</span></p>
+        </div>
+        <div class="header">
         </div>
         <div class="school-name mt10">
             校园名称：北京朝阳幼儿园

@@ -1,8 +1,8 @@
 <template>
     <div class="new-calendar-modal wrap" style="text-align:left">
-            <div class="header">
-                <p class="local_path_style">You Are Here  ：系统管理 > 校日历管理 > <span class="font-cl-blue">编辑校日历</span></p>
-            </div>
+      <div class="header">
+        <p class="local_path_style">YOU ARE HERE : 系统管理 > 校日历管理 > <span class="font-cl-blue">编辑校日历</span></p>
+      </div>
             <el-form :model="form" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth" style="margin-bottom:0;font-weight:600">
                     <!-- <el-input v-model="form.name" auto-complete="off"></el-input> -->

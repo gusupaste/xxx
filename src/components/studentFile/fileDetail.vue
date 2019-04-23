@@ -1,6 +1,8 @@
 <template>
     <div class="wrap fileDetail">
-        <p class="local_path_style">You Are Here  ：学生档案 > <span class="font-cl-blue">档案详情</span></p>
+      <div class="header">
+        <p class="local_path_style">YOU ARE HERE : 学生档案 > <span class="font-cl-blue">档案详情</span></p>
+      </div>
         <div class="mt26">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="基本信息" name="first">

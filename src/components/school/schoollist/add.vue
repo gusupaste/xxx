@@ -1,7 +1,9 @@
 <template>
   <div class="schooladd wrap">
-    <div class="content">
+    <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > 校园列表 > <span class="font-cl-blue">新增校园</span></p>
+    </div>
+    <div class="content">
       <p class="bold mt10">请输入新校园的相关系统,并保存提交,带*号的为必填字段。</p>
       <div class="body-content">
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;基础信息</div>

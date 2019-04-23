@@ -2,6 +2,8 @@
   <div class="parentbusinessapplication wrap">
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">校园招生目标数</span></p>
+    </div>
+    <div class="header-top">
       <p><span>城际：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
@@ -52,7 +54,7 @@
           </el-option>
         </el-select>
         <span>学生信息：</span>
-        <el-input style="width: 200px" type="text" placeholder="请输入"></el-input>
+        <el-input type="text" placeholder="请输入"></el-input>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
       </p>
       <el-table
@@ -110,7 +112,7 @@
       </el-table>
     </div>
     <!--编辑 弹框-->
-    <el-dialog :visible.sync="detaildialog" width="50%" style="padding: 30px 60px;">
+    <el-dialog title="详情页面" :visible.sync="detaildialog" width="50%">
       <el-table
         :data="tableList"
         border
@@ -170,7 +172,7 @@
         </span>
     </el-dialog>
     <!--作废 弹框-->
-    <el-dialog title="作废业务申请" :visible.sync="canceldialog" width="50%" style="padding: 30px 60px;">
+    <el-dialog title="作废业务申请" :visible.sync="canceldialog" width="50%">
       <div class="text-align-center">
         <span>是否确定要作废此业务申请？</span>
       </div>
@@ -261,20 +263,23 @@
     text-align: left;
   }
 
-  .parentbusinessapplication p {
-    margin: 10px;
+  .parentbusinessapplication .header-top {
+    margin-top: 10px;
   }
 
-  .parentbusinessapplication .header p {
+  .parentbusinessapplication .header-top p {
     font-size: 14px;
   }
-
-  .parentbusinessapplication .select_lip {
-    width: 120px;
+  .parentbusinessapplication >>> .el-date-editor.el-input,.parentbusinessapplication >>> .el-date-editor.el-input__inner{
+    width: 164px;
+    height: 36px;
   }
-
-  .parentbusinessapplication .date_style {
-    width: 140px;
+  .parentbusinessapplication >>> .el-input--suffix .el-input__inner{
+    margin-bottom: 10px;
+  }
+  .parentbusinessapplication .el-input{
+    width: 164px;
+    height: 36px;
   }
 
   /*表格内容居中*/

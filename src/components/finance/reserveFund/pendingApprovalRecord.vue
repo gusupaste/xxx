@@ -1,6 +1,8 @@
 <template>
     <div class="wrap pendingApprovalRecord">
-        <p class="local_path_style">You Are Here  ：财务处理 > 备用金管理 > <span class="font-cl-blue">待批记录</span></p>
+      <div class="header">
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > 备用金管理 > <span class="font-cl-blue">待批记录</span></p>
+      </div>
         <div class="mt26">
             <p class="title-style">
                 <span class="mr26">学生姓名：张三</span>
