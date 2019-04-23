@@ -2,7 +2,7 @@
   <div class='enrollmentnumber wrap'>
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园招生目标数</span></p>
-      <p><span>城际：</span>
+      <p class="mt10"><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -41,6 +41,7 @@
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
       </p>
       <el-table
+      class="mt26"
         :data="tableData"
         border
         show-header
@@ -165,18 +166,17 @@
           label="操作"
           min-width="40">
           <template slot-scope="scope">
-            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange" @click="handleEdit(scope.row)"></i>
-            <i v-if="scope.row.edit === false" class="fa fa-check-circle green" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red" @click="handleCancel(scope.row)"></i>
+            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange font-size-20" @click="handleEdit(scope.row)"></i>
+            <i v-if="scope.row.edit === false" class="fa fa-check-circle green font-size-20" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red font-size-20" @click="handleCancel(scope.row)"></i>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
         background
-        layout="prev, pager, next, slot"
-        prev-text="上一页"
+        layout="pager, next, slot,jumper"
         next-text="下一页"
         :total="1000" class="page">
-        <div class="div-page"><input class="el-input__inner input-page" type="text"/><div class="div-page-sure">确定</div></div>
+        <!-- <div class="div-page"><input class="el-input__inner input-page" type="text"/><div class="div-page-sure">确定</div></div> -->
       </el-pagination>
     </div>
   </div>
@@ -212,7 +212,7 @@
           month_3: '7',
           month_4: '8',
           month_5: '12',
-          month_6: '10',
+          month_6: '19',
           month_7: '10',
           month_8: '3',
           month_9: '17',

@@ -2,7 +2,7 @@
   <div class='revenuetarget wrap'>
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园收入目标</span></p>
-      <p><span>城际：</span>
+      <p class="mt10"><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -41,6 +41,7 @@
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
       </p>
       <el-table
+      class="mt26"
         :data="tableData"
         border
         show-header
@@ -165,8 +166,8 @@
           label="操作"
           min-width="40">
           <template slot-scope="scope">
-            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange" @click="handleEdit(scope.row)"></i>
-            <i v-if="scope.row.edit === false" class="fa fa-check-circle green" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red" @click="handleCancel(scope.row)"></i>
+            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange font-size-20" @click="handleEdit(scope.row)"></i>
+            <i v-if="scope.row.edit === false" class="fa fa-check-circle green font-size-20" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red font-size-20" @click="handleCancel(scope.row)"></i>
           </template>
         </el-table-column>
       </el-table>

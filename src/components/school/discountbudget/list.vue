@@ -2,7 +2,8 @@
   <div class='discountbudget wrap'>
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园折扣预算</span></p>
-      <p><span>城际：</span>
+      <p class="mt10">
+        <span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -48,10 +49,11 @@
           </el-option>
         </el-select>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
-        <span class="right"><el-button type="text" @click="addSchool"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;&nbsp;导出</el-button></span>
-        <span class="right"><el-button type="text" @click="addSchool"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;导入</el-button></span>
+        <!-- <span class="right"><el-button type="text" @click="addSchool"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;&nbsp;导出</el-button></span>
+        <span class="right"><el-button type="text" @click="addSchool"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;导入</el-button></span> -->
       </p>
       <el-table
+      class="mt26"
         :data="tableData"
         border
         stripe

@@ -137,6 +137,10 @@ a {
   font-size: 14px;
 }
 
+.font-size-20 {
+  font-size: 20px !important;
+}
+
 /* 图标公共样式 */
 .icon-font {
   color: #f17128;
@@ -201,11 +205,17 @@ a {
   text-align: center;
   margin-top: 10px;
 }
-.el-pager .number {
+.is-in-pagination .el-input__inner {
+  width: 50px;
+}
+.el-pager .number ,.btn-next span{
   font-size: 12px;
   background-color:#fff !important;
   color: #666;
   border: 1px solid #dcdcdc;
+}
+.btn-next span {
+  padding: 0 10px;
 }
 .el-pagination.is-background .el-pager li:not(.disabled).active {
   background-color: #fd8300 !important;
