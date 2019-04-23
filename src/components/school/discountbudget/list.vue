@@ -97,7 +97,7 @@
     </div>
     <!--编辑 弹框-->
     <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;">
-      <el-form label-width="120px" :model="formLabelAlign">
+      <el-form class="edit-discount" label-width="120px" :model="formLabelAlign">
         <el-form-item label="学年:">
           <!--<el-input v-model="formLabelAlign.year" maxlength="15" style="width: 60%" readonly=""></el-input>-->
           <span>{{formLabelAlign.year}}</span>
@@ -246,6 +246,9 @@
   }
   .discountbudget >>> .el-dialog__footer{
     text-align: center;
+  }
+  .discountbudget .edit-discount .el-form-item{
+    margin-bottom: 1px;
   }
 
 </style>
