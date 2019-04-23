@@ -1,7 +1,7 @@
 <template>
     <div class='brandmanagement wrap'>
       <div class="header">
-        <p>YOU ARE HERE : 系统管理 >> <span>品牌管理</span></p>
+        <p>YOU ARE HERE : 系统管理 >> <span class="font-cl-blue">品牌管理</span></p>
       </div>
       <div class="brandmanagement-content">
         <div class="content-top">
@@ -133,7 +133,7 @@
       </el-dialog>
     </div>
 </template>
-<style>
+<style scoped>
   .brandmanagement .header p{
     font-size: 14px;
   }

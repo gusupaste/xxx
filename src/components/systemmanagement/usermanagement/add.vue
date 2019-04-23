@@ -145,7 +145,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .addusermanagement {
     color: rgba(160, 160, 160, 1);
     text-align: left;

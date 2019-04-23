@@ -1,7 +1,7 @@
 <template>
   <div class="refundlist wrap">
     <div class="header">
-      <p>YOU ARE HERE : 财务处理 >> <span>退费账单</span></p>
+      <p>YOU ARE HERE : 财务处理 >> <span class="font-cl-blue">退费账单</span></p>
     </div>
     <div class="content">
       <div class="select-header">
@@ -194,7 +194,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .refundlist{
     color: rgba(160, 160, 160, 1);
     text-align: left;

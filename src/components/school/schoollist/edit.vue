@@ -178,7 +178,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .schooledit p {
     margin: 10px;
   }

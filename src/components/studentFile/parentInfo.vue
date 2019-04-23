@@ -52,7 +52,7 @@
             label="删除">
             </el-table-column>
         </el-table>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm mt26" inline="" style="text-align:left" > 
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm mt26" inline="" style="text-align:left" >
             <el-form-item label="家长姓名：" prop="name" label-width="150px" >
                 <el-input v-model="ruleForm.name" placeholder="请填写姓名"></el-input>
             </el-form-item>
@@ -118,7 +118,7 @@
                     <el-select v-model="ruleForm.region" placeholder="请选择学生第一语言">
 
                     </el-select>
-            </el-form-item>      
+            </el-form-item>
         </el-form>
         <div class="mt26 text-align-center">
             <button class="btn bg-grey mr26">取消</button>
@@ -126,7 +126,7 @@
         </div>
     </div>
 </template>
-<style lang="">
+<style scoped>
         .parentInfo th ,.parentInfo td {
             text-align: center !important;
         }

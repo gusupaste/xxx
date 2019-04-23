@@ -186,7 +186,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .schooladd p {
     margin: 10px;
   }

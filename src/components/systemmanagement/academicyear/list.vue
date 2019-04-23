@@ -127,7 +127,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .academicyear {
     color: rgba(160, 160, 160, 1);
     text-align: left;

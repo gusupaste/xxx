@@ -99,7 +99,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
   .schoollist p {
     margin: 10px;
   }

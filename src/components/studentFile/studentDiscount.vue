@@ -149,7 +149,7 @@
         </el-tabs>
     </div>
 </template>
-<style>
+<style scoped>
     .studentDiscount .el-tabs__nav-wrap {
         /* margin:0; */
     }

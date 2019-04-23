@@ -258,7 +258,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
     .schooldetail .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;

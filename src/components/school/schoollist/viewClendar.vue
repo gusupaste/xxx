@@ -44,7 +44,7 @@
         </div>
     </div>
 </template>
-<style>
+<style scoped>
     .viewClendar .wh_container {
         width: 20%;
         margin-right: 4%;

@@ -111,7 +111,7 @@
         </div>
     </div>
 </template>
-<style lang="">
+<style scoped>
   .billDetail .content-top{
     font-weight: 600;
     background-color: #DCECF3;

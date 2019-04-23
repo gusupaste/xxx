@@ -73,7 +73,7 @@
                                 v-if="studentList.length>0"
                                     background
                                     :page-size="2"
-                                    @size-change="handleSizeChange" 
+                                    @size-change="handleSizeChange"
                                     @current-change="handleCurrentChange"
                                     layout="prev, pager, next"
                                     :total="studentList.length">
@@ -158,7 +158,7 @@
                                         v-if="thingsList.length>0"
                                             background
                                             :page-size="2"
-                                            @size-change="handleSizeChangeThings" 
+                                            @size-change="handleSizeChangeThings"
                                             @current-change="handleCurrentChangeThings"
                                             layout="prev, pager, next"
                                             :total="thingsList.length">
@@ -234,7 +234,7 @@
                                 v-if="ParentsList.length>0"
                                     background
                                     :page-size="2"
-                                    @size-change="handleSizeChangeParents" 
+                                    @size-change="handleSizeChangeParents"
                                     @current-change="handleCurrentChangeParents"
                                     layout="prev, pager, next"
                                     :total="ParentsList.length">
@@ -259,7 +259,7 @@
         </div>
     </div>
 </template>
-<style lang="" scoped>
+<style scoped>
     .homeView .big-bg {
         background:url('../../assets/img/login-bg.png') no-repeat;
         width: 100%;
@@ -284,7 +284,7 @@
     .homeView .viewAll{
         text-align: center;
         height: 36px;
-        line-height: 36px;  
+        line-height: 36px;
         background-color: #fafafa;
         border-top: 1px solid #ccc;
         cursor: pointer;
@@ -294,9 +294,9 @@
     }
     .homeView >>> .calendar_border{
         border: 1px solid #ccc;
-        -webkit-box-shadow: #ccc 0px 0px 3px; 
-        -moz-box-shadow: #ccc 0px 0px 3px; 
-        box-shadow: #ccc 0px 0px 3px; 
+        -webkit-box-shadow: #ccc 0px 0px 3px;
+        -moz-box-shadow: #ccc 0px 0px 3px;
+        box-shadow: #ccc 0px 0px 3px;
         margin-top: 20px;
         font-size: 12px !important;
     }
@@ -363,11 +363,11 @@ export default {
             },
             activeName: 'first',
             StudentcurrentPage:1,
-            Studentpagesize:2,    
+            Studentpagesize:2,
             ParentscurrentPage:1,
-            Parentspagesize:2, 
-            ThingscurrentPage:1,   
-            Thingspagesize:2,   
+            Parentspagesize:2,
+            ThingscurrentPage:1,
+            Thingspagesize:2,
             intercity:'',
             area:'',
             campus:'',
@@ -542,7 +542,7 @@ export default {
       }
     },
     components:{
-        
+
     }
 }
 </script>

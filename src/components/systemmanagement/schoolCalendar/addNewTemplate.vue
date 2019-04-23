@@ -12,7 +12,7 @@
                 <el-form-item label="学年：" :label-width="formLabelWidth" style="margin-bottom:0">
                     2018-2019学年
                     <!-- <el-select v-model="form.region" placeholder="请选择活动区域">
-                        
+
                         <el-option label="区域一" value="shanghai"></el-option>
                         <el-option label="区域二" value="beijing"></el-option>
                     </el-select> -->
@@ -42,7 +42,7 @@
                                 show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column
-                              
+
                                 label="操作">
                                 <template slot-scope="scope">
                                         <i @click="delete_dialogVisible=true" class="orange fa fa-trash-o" style="font-size:20px;cursor:pointer"></i>
@@ -59,7 +59,7 @@
                             设定校日历
                     </span>
                     <div class="school-calendar">
-                        
+
                         <p style="color:#999;font-size:12px">新增的日期类型将在下方日历表中以色块的方式区分类别展示，可点击相应区块修改或删除</p>
                         <div class="calendar-list">
                             <Calendar
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-            
+
             <div>
                 <span style="display:inline-block;width:100px;vertical-align:top">备注：</span>
                 <el-input type="textarea" style="width:92%;height:100px"></el-input>
@@ -133,7 +133,7 @@
                         </el-table-column>
                     </el-table>
                     </div>
-                    
+
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:20px">
                     <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
@@ -266,7 +266,7 @@
             </el-dialog>
     </div>
 </template>
-<style lang="">
+<style scoped>
     .new-calendar-modal .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;
@@ -321,7 +321,7 @@
         margin: 0 auto;
     }
     .el-table::-webkit-scrollbar {
-            width: 15px;     
+            width: 15px;
             height: 1px;
         }
     .el-table::-webkit-scrollbar-thumb {
@@ -451,10 +451,10 @@ export default {
       console.log(data); //跳到了本月
     },
     handleSelectionChange(){
-        
+
     },
     arr(){
-        
+
     }
     },
     components: {

@@ -64,7 +64,7 @@
                 <el-form>
                     <el-form-item label="模板名称：" :label-width="formLabelWidth">
                         <el-input v-model="name" class="w250_input" placeholder="请选择活动区域">
-                          
+
                         </el-input>
                     </el-form-item>
                     <el-form-item label="学年：" :label-width="formLabelWidth">
@@ -119,7 +119,7 @@
                         </el-table-column>
                     </el-table>
                     </div>
-                    
+
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:20px">
                     <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
@@ -139,7 +139,7 @@
             </el-dialog>
     </div>
 </template>
-<style lang="" scoped>
+<style scoped>
     .schoolCalendarList >>> .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;
@@ -324,15 +324,15 @@ export default {
             this.$router.push('/schoolCalendarList/editTemplate/'+data.id);
         },
         handleSelectionChange(){
-        
+
         },
         cancelModal(){
         this.$emit('closeDialog', false);
         },
-        
+
     },
     components:{
-    
+
     }
 }
 </script>

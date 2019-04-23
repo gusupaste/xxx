@@ -29,7 +29,7 @@
         <router-view></router-view>
     </div>
 </template>
-<style lang="">
+<style scoped>
     .fileDetail .el-tabs__nav-wrap {
         width: 50%;
         margin:0 auto;

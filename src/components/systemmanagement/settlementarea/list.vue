@@ -1,7 +1,7 @@
 <template>
 <div class="settlementArea wrap">
   <div class="header">
-    <p>YOU ARE HERE : 系统管理 >> <span>结算区间定义</span></p>
+    <p>YOU ARE HERE : 系统管理 >> <span class="font-cl-blue">结算区间定义</span></p>
   </div>
   <div class="settlementArea-content">
     <div class="content">

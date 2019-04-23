@@ -1,7 +1,7 @@
 <template>
     <div class="intercitylist wrap">
       <div class="header">
-        <p>YOU ARE HERE : 校园 >> <span>城际列表</span></p>
+        <p>YOU ARE HERE : 校园 >> <span class="font-cl-blue">城际列表</span></p>
         <p class="bold">伊顿国际教育集团大城际分布</p>
       </div>
       <div class="content">
