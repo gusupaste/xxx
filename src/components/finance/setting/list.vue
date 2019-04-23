@@ -162,6 +162,9 @@
                   prop="code"
                   label="收费政策"
                   width="250">
+                  <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="showPolicyVisible = true">{{ scope.row.code }}</el-button>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="name"
@@ -191,12 +194,19 @@
                   label="操作"
                   width="80">
                   <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="showDiscountVisible = true" style="color: #ED6C2E">复制</el-button>
+                    <el-button type="text" size="small" @click="innerVisible = true" style="color: #ED6C2E">复制</el-button>
                   </template>
                 </el-table-column>
               </el-table>
             </el-tab-pane>
             <el-tab-pane label="备用金" name="fore">
+              <p>
+                <span class="font-cl-blue">退费：</span>
+                <span style="cursor:pointer;color:#ED6C2E" @click="addNewReservefund(0)">
+                  <i class="icon-font fa fa-calendar-plus-o" style="font-size: 15px !important;"></i>
+                  <span class="font-size-14">添加学校</span>
+                </span>
+              </p>
               <el-table
                 :data="chargeTableDate"
                 border
@@ -205,42 +215,32 @@
                 style="width: 100%;margin-top: 10px;">
                 <el-table-column
                   prop="code"
-                  label="账单号"
-                  width="150">
+                  label="学校"
+                  width="180">
                 </el-table-column>
                 <el-table-column
                   prop="name"
-                  label="学生姓名"
-                  width="130">
+                  label="班级项目"
+                  width="180">
                 </el-table-column>
                 <el-table-column
                   prop="intercity_name"
-                  label="所在班级"
-                  width="130">
+                  label="退费费用科目">
+                  <template slot-scope="scope">
+                    <el-checkbox-group v-model="type" style="text-align: left !important;">
+                      <el-checkbox label="美食" name="type"></el-checkbox>
+                      <el-checkbox label="地推" name="type"></el-checkbox>
+                      <el-checkbox label="线下" name="type"></el-checkbox>
+                      <el-checkbox label="单纯" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                  </template>
                 </el-table-column>
                 <el-table-column
-                  prop="hq_name"
-                  label="账单类型"
+                  label="操作"
                   width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="opening_date"
-                  label="实际应收"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="leader"
-                  label="实际实收"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="telephone"
-                  label="制单人"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="status_name"
-                  label="制单日期">
+                  <template slot-scope="scope">
+                    <el-button type="text" size="small"  @click="addNewReservefund(1)" style="color: #0b6289">编辑</el-button>
+                  </template>
                 </el-table-column>
               </el-table>
             </el-tab-pane>
@@ -585,6 +585,214 @@
           <el-button type="success" @click="showDiscountVisible = false">保 存</el-button>
         </span>
       </el-dialog>
+      <el-dialog title="政策详情" :visible.sync="showPolicyVisible" width="55%" class="policyShow">
+        <el-form ref="policyForm" :model="policyForm" :rules="rules" label-width="80px">
+          <div class="policyClass">
+            <p>政策标题：{{ policyForm.title }}</p>
+            <el-row>
+              <el-col :span="7">
+                <span>适用校园</span>
+              </el-col>
+              <el-col :span="7">
+                <span>适用学年</span>
+              </el-col>
+              <el-col :span="7">
+                <span>有效期</span>
+              </el-col>
+              <el-col :span="3">
+                <el-button class="button_color" @click="innerVisible = true">复制</el-button>
+              </el-col>
+            </el-row>
+            <br><hr><br>
+            <el-table
+              :data="chargeFunTableDate"
+              border
+              show-header
+              style="width: 100%;">
+              <el-table-column
+                prop="code"
+                label="费用项目"
+                width="100">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="班级类型"
+                width="100">
+              </el-table-column>
+              <el-table-column
+                prop="intercity_name"
+                label="缴费方式"
+                width="100">
+              </el-table-column>
+              <el-table-column
+                prop="hq_name"
+                label="适用范围">
+              </el-table-column>
+              <el-table-column
+                prop="opening_date"
+                label="价格">
+              </el-table-column>
+              <el-table-column
+                prop="leader"
+                label="备注">
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-form>
+      </el-dialog>
+      <el-dialog title="复制政策" :visible.sync="innerVisible" width="55%" class="copyPolicyShow">
+        <el-form ref="policyForm" :model="policyForm" :rules="rules" label-width="80px">
+          <div class="policyClass">
+            <p>复制的政策：{{ policyForm.title }}</p>
+          </div>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="学年" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="城际" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="区域" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="学校" label-width="40">
+                <el-table
+                  :data="chargeFunTableDate"
+                  border
+                  :show-header="false"
+                  style="width: 92%;">
+                  <el-table-column
+                    prop="code"
+                    label="费用项目">
+                    <template slot-scope="scope">
+                      <el-checkbox v-model="scope.row.checked">{{ scope.row.code }}</el-checkbox>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="showDiscountVisible = false">取 消</el-button>
+          <el-button type="success" @click="showDiscountVisible = false">保 存</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog :title="reservefundName" :visible.sync="reservefundVisible" width="700px">
+        <el-form ref="reserveForm" :model="reserveForm" :rules="rules" label-width="80px">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="城际" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="区域" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="省份" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="城市" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="学校" label-width="40">
+                <el-table
+                  :data="templateList"
+                  border
+                  :show-header="false"
+                  style="width: 610px;margin-top: 20px;">
+                  <el-table-column
+                    prop="id"
+                    width="180">
+                    <el-checkbox v-model="checked">【2015】金华家园</el-checkbox>
+                  </el-table-column>
+                  <el-table-column>
+                    <el-checkbox-group v-model="type">
+                      <el-checkbox label="美食" name="type"></el-checkbox>
+                      <el-checkbox label="地推" name="type"></el-checkbox>
+                      <el-checkbox label="线下" name="type"></el-checkbox>
+                      <el-checkbox label="单纯" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="addFeeVisible = false">取 消</el-button>
+          <el-button type="success" @click="addFeeVisible = false">保 存</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 
@@ -667,6 +875,7 @@
             leader:'31231',
             telephone:'312312',
             status_name:'12312313',
+            checked:'',
           },
           {
             code:'xxxxxxxxxxxx',
@@ -677,23 +886,43 @@
             leader:'31231',
             telephone:'312312',
             status_name:'12312313',
+            checked:'',
           }
         ],
         addFeeVisible:false,
         deleteFeeVisible:false,
         addDiscountVisible:false,
         showDiscountVisible:false,
+        showPolicyVisible:false,
+        innerVisible:false,
+        reservefundVisible:false,
         discountName:'新增折扣类型',
         feeName:'新增费用项目',
+        reservefundName:'添加校园',
         type:[],
         discountForm:{
+          id:1,
+          name:'合肥御龙湾校园',
+          schools:[],
+
+          resource:1,
+          select:[],
+        },
+        policyForm:{
           id:'',
+          title:'合肥御龙湾校园2009-2010学年收费政策',
           name:'',
           remarks:'',
           resource:1,
           select:[],
         },
         feeForm:{
+          id:'',
+          name:'',
+          remarks:'',
+          resource:'1',
+        },
+        reserveForm:{
           id:'',
           name:'',
           remarks:'',
@@ -793,6 +1022,14 @@
         }
         this.templateList.push(newObj);
       },
+      addNewReservefund:function (flag) {
+        if(flag === 0){
+          this.reservefundName = '添加校园';
+        }else{
+          this.reservefundName = '编辑校园';
+        }
+        this.reservefundVisible = true;
+      }
     },
     watch:{
       disabledSelect: {
@@ -892,5 +1129,31 @@
   }
   .settinglist .select-length .el-select{
     width: 15%;
+  }
+  .settinglist .select-header, .chargelist .list-content{
+    min-height: 50px;
+  }
+  .settinglist .policyClass{
+    width: 100%;
+    min-height: 50px;
+  }
+  .settinglist .policyClass p{
+    color: #333333;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .settinglist .policyClass span{
+    color: #bbbbbb;
+    font-size: 10px;
+  }
+  .settinglist .policyClass .button_color{
+    padding: 5px 20px;
+    border-color: #006287;
+  }
+  .settinglist .policyClass .button_color span{
+    color: #006287 !important;
+  }
+  .settinglist .copyPolicyShow .el-select{
+    width: 80%;
   }
 </style>
