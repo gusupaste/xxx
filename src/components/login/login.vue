@@ -56,14 +56,15 @@
     padding:40px;
     text-align: left;
   }
-  .login-page .el-input__inner {
+  .login-page >>> .el-input__inner {
     color: #333;
+    width: 100%;
   }
-  .login-page .el-checkbox__label {
+  .login-page >>> .el-checkbox__label {
     font-size: 12px;
     color:#666 !important;
   }
-  .login-page .is-checked .el-checkbox__inner {
+  .login-page >>> .is-checked .el-checkbox__inner {
     border-color:#f16f26 !important;
     background-color: #f16f26 !important;
   }

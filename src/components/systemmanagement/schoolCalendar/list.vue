@@ -146,7 +146,7 @@
         font-size: 12px !important;
         border-bottom: 1px solid #d5d5d5;
     }
-    .schoolCalendarList  .header p{
+    .schoolCalendarList  >>> .header p{
         font-size: 14px;
         margin: 10px 0px;
     }
@@ -162,7 +162,7 @@
     .schoolCalendarList >>> table td,.schoolCalendarList >>> table th{
         text-align: center !important;
     }
-    .schoolCalendarList .school-wrap{
+    .schoolCalendarList >>> .school-wrap{
         border: 1px solid #bbb;
     }
     .schoolCalendarList >>> .el-card{
@@ -204,13 +204,6 @@
     .schoolCalendarList  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
         border-color: #ED6C2E;
         background-color: #ED6C2E;
-    }
-    .schoolCalendarList .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
-        border-right: 1px solid #bbb;
-        border-bottom: 1px solid #bbb;
-    }
-    .schoolCalendarList .el-table td, .el-table th.is-leaf {
-        border-bottom: 1px solid #bbb;
     }
     .schoolCalendarList .circle{
         display: inline-block;

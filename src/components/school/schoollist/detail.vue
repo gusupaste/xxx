@@ -27,7 +27,7 @@
         </el-card>
       </el-col>
     </div>
-    <div>
+    <div class="mt26">
         <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
           <el-tab-pane label="开班情况" name="first">
             <div class="firstTab">
@@ -259,107 +259,97 @@
 </template>
 
 <style scoped>
-    .schooldetail .el-dialog__header{
+    .schooldetail >>> .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;
         font-size: 12px !important;
         border-bottom: 1px solid #d5d5d5;
     }
-    .schooldetail  .header p{
-        font-size: 14px;
-        margin: 10px 0px;
-    }
-    .schooldetail .el-dialog__title{
+    .schooldetail >>> .el-dialog__title{
         font-size: 14px;
     }
-    .schooldetaill .el-dialog{
+    .schooldetaill >>> .el-dialog{
         min-width: 600px;
     }
-    .schooldetail .school-wrap{
-        border: 1px solid #bbb;
-    }
-    .schooldetail .dialog-footer{
+    .schooldetail >>> .dialog-footer{
         margin-top: 50px;
         text-align: center;
     }
-  .schooldetail p {
-    margin: 10px;
-  }
-
-  .schooldetail {
-    color: rgba(160, 160, 160, 1);
-    text-align: left;
-  }
-
-  .schooldetail .bold {
-    font-weight: bold;
-    color: black;
-  }
-  .schooldetail .firstTab {
-    margin-top: 10px;
-    height: 40px;
-    line-height: 40px;
-  }
-  .schooldetail .className {
-    padding:6px 16px;
-    font-size: 16px;
-    font-weight: 600;
-    color:#3683a0;
-    border: 2px solid #3683a0;
-    border-radius: 20px;
-  }
-
-  .schooldetail .content {
-    padding: 20px 70px 50px 70px;
-  }
-  .schooldetail .icon-font {
-    color:#f17128;
-    font-size: 20px;
-    margin-left: 20px;
-    margin-right: 5px;
-    font-weight: 600;
-  }
-  .schooldetail .el-tabs__nav-wrap {
-    width: 50%;
-    margin:0 auto;
-  }
-  .schooldetail .has-gutter th {
-      background-color: #f5f5f5 !important;
+    .schooldetail p {
+      margin: 10px;
     }
-  .schooldetail .el-tabs__active-bar {
-    background-color:#f17128;
-    height: 3px;;
-  }
-  .schooldetail .el-tabs__item.is-active {
-    color:#f17128;
-    font-weight: 600;
-  }
-  .schooldetail .el-tabs__item:hover {
-    color:#f17128;
-    font-weight: 600;
-  }
-  .schooldetail .el-tabs__nav-wrap::after {
-    display: none;
-  }
-  .schooldetail .el-tabs__header {
-    border-bottom: 2px solid #dedede;
-  }
+    .schooldetail {
+      color: rgba(160, 160, 160, 1);
+      text-align: left;
+    }
+    .schooldetail .bold {
+      font-weight: bold;
+      color: black;
+    }
+    .schooldetail .firstTab {
+      margin-top: 10px;
+      height: 40px;
+      line-height: 40px;
+    }
+    .schooldetail .className {
+      padding:6px 16px;
+      font-size: 16px;
+      font-weight: 600;
+      color:#3683a0;
+      border: 2px solid #3683a0;
+      border-radius: 20px;
+    }
+    .schooldetail .content {
+      /* padding: 20px 70px 50px 70px; */
+    }
+    .schooldetail .icon-font {
+      color:#f17128;
+      font-size: 20px;
+      margin-left: 20px;
+      margin-right: 5px;
+      font-weight: 600;
+    }
+    .schooldetail >>> .el-tabs__nav-wrap {
+      width: 50%;
+      margin:0 auto;
+    }
+    .schooldetail >>> .has-gutter th {
+        background-color: #f5f5f5 !important;
+      }
+    .schooldetail >>> .el-tabs__active-bar {
+      background-color:#f17128;
+      height: 3px;;
+    }
+    .schooldetail >>> .el-tabs__item.is-active {
+      color:#f17128;
+      font-weight: 600;
+    }
+    .schooldetail >>> .el-tabs__item:hover {
+      color:#f17128;
+      font-weight: 600;
+    }
+    .schooldetail >>> .el-tabs__nav-wrap::after {
+      display: none;
+    }
+    .schooldetail >>> .el-tabs__header {
+      border-bottom: 2px solid #dedede;
+    }
 
-  .schooldetail .content-top{
-    font-weight: 600;
-    background-color: #DCECF3;
-    width: 15%;
-    padding: 10px 0 10px 20px;
-    position: relative;
-    top: 20px;
-    left: -5px;
-    border-radius: 3px;
-    color: #3E7193;
-  }
-  .schooldetail .content-margin{
-    margin-left: 15%;
-  }
-</style>
+    .schooldetail .content-top{
+      font-weight: 600;
+      background-color: #DCECF3;
+      width: 15%;
+      padding: 10px 0 10px 20px;
+      position: relative;
+      top: 20px;
+      left: -5px;
+      border-radius: 3px;
+      color: #3E7193;
+    }
+    .schooldetail .content-margin{
+      margin-left: 15%;
+    }
+  </style>
 
 <script>
   export default {

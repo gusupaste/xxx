@@ -32,12 +32,16 @@ html {
   width: 90%;
   min-width: 1200px;
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 20px 0 30px 0;
   font-size: 14px;
   text-align: left;
 }
 
-
+.school-name {
+  font-size: 18px;
+  color:#101010;
+  font-weight: 600;
+}
 /* 公共背景色 颜色*/
 .bg-grey {
   background-color: #999;

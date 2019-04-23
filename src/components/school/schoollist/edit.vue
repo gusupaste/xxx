@@ -13,24 +13,28 @@
           <el-form-item label="简称(中文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="校园名称(英文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="简称(英文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="校园类型:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="园长:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="开园日期:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="当前状态:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="地址:">
             <el-select class="select-region" v-model="formInline.region" placeholder="省">
               <el-option label="区域一" value="shanghai"></el-option>
@@ -46,24 +50,28 @@
             </el-select>
             <el-input v-model="formInline.user" placeholder="请输入详细地址"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="邮政编码:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="所属城际:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="联系电话:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="传真:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="网址:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="电子邮件:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="纬度:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
@@ -81,12 +89,14 @@
           <el-form-item label="满园学生数:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="建筑面积:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="使用面积:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="是否自建:">
             <el-select v-model="formInline.region" placeholder="省">
               <el-option label="区域一" value="shanghai"></el-option>
@@ -111,12 +121,14 @@
           <el-form-item label="账户名称(中文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="SWIFT代码:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="账户名称(英文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="开户银行(中文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
@@ -132,12 +144,14 @@
           <el-form-item label="账户名称(中文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="SWIFT代码:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="账户名称(英文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="开户银行(中文):">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>

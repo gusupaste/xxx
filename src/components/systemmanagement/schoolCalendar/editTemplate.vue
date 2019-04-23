@@ -228,7 +228,7 @@
     </div>
 </template>
 <style scoped>
-    .new-calendar-modal .el-dialog__header{
+    .new-calendar-modal >>> .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;
         font-size: 12px !important;
@@ -238,42 +238,42 @@
         font-size: 14px;
         margin: 10px 0px;
     }
-    .new-calendar-modal .el-dialog__title{
+    .new-calendar-modal >>> .el-dialog__title{
         font-size: 14px;
     }
-    .new-calendar-modal .el-dialog{
+    .new-calendar-modal >>> .el-dialog{
         min-width: 600px;
     }
     .new-calendar-modal .school-wrap{
         border: 1px solid #bbb;
     }
-    .new-calendar-modal .dialog-footer{
+    .new-calendar-modal >>> .dialog-footer{
         margin-top: 50px;
         text-align: center;
     }
-    .new-calendar-modal .calendar-datail{
+    .new-calendar-modal >>> .calendar-datail{
         border: 1px solid #bbb;
         margin-top: 20px;
         padding: 10px;
     }
-    .new-calendar-modal .school-wrap_head{
+    .new-calendar-modal >>> .school-wrap_head{
         border: 1px solid #bbb;
         border-bottom: none;
         padding: 10px;
     }
-    .new-calendar-modal .el-table th,.el-table td{
+    .new-calendar-modal >>> .el-table th,..new-calendar-modal >>> .el-table td{
         background-color: #fff;
         text-align: center;
     }
-    .new-calendar-modal  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    .new-calendar-modal  >>> .el-checkbox__input.is-checked .el-checkbox__inner, .new-calendar-modal  >>> .el-checkbox__input.is-indeterminate .el-checkbox__inner {
         border-color: #ED6C2E;
         background-color: #ED6C2E;
     }
-    .new-calendar-modal .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    .new-calendar-modal >>> .el-table--border td, .new-calendar-modal >>> .el-table--border th, .new-calendar-modal >>> .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
         border-right: 1px solid #bbb;
         border-bottom: 1px solid #bbb;
     }
-    .new-calendar-modal .el-table td, .el-table th.is-leaf {
+    .new-calendar-modal >>>.el-table td, .new-calendar-modal >>> .el-table th.is-leaf {
         border-bottom: 1px solid #bbb;
     }
     .new-calendar-modal .scrollbar{
@@ -281,22 +281,10 @@
         height: 300px;
         margin: 0 auto;
     }
-    .el-table::-webkit-scrollbar {
-            width: 15px;
-            height: 1px;
-        }
-    .el-table::-webkit-scrollbar-thumb {
-            -webkit-box-shadow: inset 0 0 5px #aaa;
-            background: #bbb;
-        }
-    .el-table::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-            background: #EDEDED;
-    }
-    .new-calendar-modal .school-calendar {
+    .new-calendar-modal >>> .school-calendar {
         padding: 10px 10px 10px 100px;
     }
-    .new-calendar-modal .wh_container {
+    .new-calendar-modal >>> .wh_container {
         width: 20%;
         margin-right: 4%;
         margin-top: 20px;
@@ -304,42 +292,42 @@
         border: 1px solid #d9d9d9;
         /* padding: 5px; */
     }
-    .new-calendar-modal .wh_content:nth-child(2) {
+    .new-calendar-modal >>> .wh_content:nth-child(2) {
         background-color: #f7f7f7;
         border: 1px solid #d9d9d9;
     }
-    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] {
+    .new-calendar-modal >>> .wh_content_all[data-v-2ebcbc83] {
         background-color: #fff;
     }
-    .new-calendar-modal .wh_item_date {
+    .new-calendar-modal >>> .wh_item_date {
        color:#101010;
        font-size: 12px;
     }
-    .new-calendar-modal .wh_content_item {
+    .new-calendar-modal >>> .wh_content_item {
        color:#101010;
        font-size: 12px;
     }
-    .new-calendar-modal .wh_content {
+    .new-calendar-modal >>> .wh_content {
        padding: 0;
     }
-    .new-calendar-modal .calendar-suqre {
+    .new-calendar-modal >>> .calendar-suqre {
        display: inline-block;
        width:10px;
        height:10px;
     }
-    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] li{
+    .new-calendar-modal >>> .wh_content_all[data-v-2ebcbc83] li{
         color:#101010;
         font-size: 12px;
     }
-    .new-calendar-modal .el-icon-close{
+    .new-calendar-modal >>> .el-icon-close{
         color:#101010;
         font-size: 20px;
     }
-    .new-calendar-modal .delete-dialog .el-dialog__body {
+    .new-calendar-modal >>> .delete-dialog .el-dialog__body {
         line-height: 50px;
         text-align: center;
     }
-    .new-calendar-modal .delete-dialog .addcalendar-dialog .el-dialog__body {
+    .new-calendar-modal >>> .delete-dialog .addcalendar-dialog .el-dialog__body {
         text-align: left;
     }
 </style>

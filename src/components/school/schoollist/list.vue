@@ -2,8 +2,8 @@
   <div class="schoollist wrap">
     <div class="content">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园列表</span></p>
-      <p class="bold">伊顿旗下的校园列表，你可以选择查看某个区域或城市下的校园信息。</p>
-      <p><span>城际：</span>
+      <p class="bold mt10">伊顿旗下的校园列表，你可以选择查看某个区域或城市下的校园信息。</p>
+      <p class="mt10"><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -31,9 +31,13 @@
           </el-option>
         </el-select>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
-        <span class="right"><el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button></span>
+        <span class="right">
+          <i class="fa fa-plus icon-font"></i>
+          <el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button>
+        </span>
       </p>
       <el-table
+      class="mt10"
         :data="schoolList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         border
         stripe

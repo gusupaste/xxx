@@ -272,7 +272,6 @@
         letter-spacing: 5px;
     }
     .homeView .user_search_wrap {
-        height: 200px;
         width: 70%;
         text-align: left;
     }

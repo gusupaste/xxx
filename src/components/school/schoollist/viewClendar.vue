@@ -3,11 +3,11 @@
         <div class="header">
             <p class="local_path_style">You Are Here  ：校园 > 校园列表 > 开班概况 > <span class="font-cl-blue">查看校日历</span></p>
         </div>
-        <div>
+        <div class="school-name mt10">
             校园名称：北京朝阳幼儿园
         </div>
         <div style="margin-top:20px">
-            <span>品牌：</span>
+            <span>班级类型：</span>
             <el-select v-model="value" placeholder="请选择活动区域">
                     <el-option label="区域一" value="shanghai"></el-option>
                     <el-option label="区域二" value="beijing"></el-option>
@@ -45,7 +45,7 @@
     </div>
 </template>
 <style scoped>
-    .viewClendar .wh_container {
+    .viewClendar >>> .wh_container {
         width: 20%;
         margin-right: 4%;
         margin-top: 20px;
@@ -53,36 +53,34 @@
         border: 1px solid #d9d9d9;
         /* padding: 5px; */
     }
-    .viewClendar .wh_content:nth-child(2) {
+    .viewClendar >>> .wh_content:nth-child(2) {
         background-color: #f7f7f7;
         border: 1px solid #d9d9d9;
     }
-    .viewClendar .wh_content_all[data-v-2ebcbc83] {
+    .viewClendar >>> .wh_content_all[data-v-2ebcbc83] {
         background-color: #fff;
     }
-    .viewClendar .wh_item_date {
+    .viewClendar >>> .wh_item_date {
        color:#101010;
        font-size: 12px;
     }
-    .viewClendar .wh_content_item {
+    .viewClendar >>> .wh_content_item {
        color:#101010;
        font-size: 12px;
     }
-    .viewClendar .wh_content {
+    .viewClendar >>> .wh_content {
        padding: 0;
     }
-    .viewClendar .wh_content_all[data-v-2ebcbc83] li{
+    .viewClendar >>> .wh_content_all[data-v-2ebcbc83] li{
         color:#101010;
         font-size: 12px;
     }
-
-
-    .viewClendar .calendar-datail{
+    .viewClendar >>> .calendar-datail{
         border: 1px solid #bbb;
         margin-top: 20px;
         padding: 10px;
     }
-    .viewClendar .calendar-suqre {
+    .viewClendar >>> .calendar-suqre {
        display: inline-block;
        width:10px;
        height:10px;
