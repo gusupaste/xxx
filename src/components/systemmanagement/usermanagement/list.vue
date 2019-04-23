@@ -72,20 +72,163 @@
             </el-table>
           </template>
           <p>该角色所需的系统权限：</p>
-          <ul style="padding: 0 30px">
-            <li>总部学生档案</li>
-            <li>潜在生管理</li>
-            <li>校园预备生管理</li>
-            <li>入学申请列表</li>
-            <li>招生入学首页</li>
-            <li>毕业离园生管理</li>
-            <li>校园学生管理</li>
-          </ul>
+          <el-collapse @change="handleChange">
+            <el-collapse-item name="1">
+              <template slot="title">
+                <li :class="colorBox">总部学生档案</li>
+              </template>
+              <el-table
+                :data="headquartersStudentArchives"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="permissions"
+                  label="权限">
+                </el-table-column>
+                <el-table-column
+                  prop="apply"
+                  label="申明">
+                </el-table-column>
+                <el-table-column
+                  prop="allow"
+                  label="允许">
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+            <el-collapse-item name="2">
+              <template slot="title">
+                <li :class="colorBox">潜在生管理</li>
+              </template>
+              <el-table
+                :data="potentialStudentManagement"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="permissions"
+                  label="权限">
+                </el-table-column>
+                <el-table-column
+                  prop="apply"
+                  label="申明">
+                </el-table-column>
+                <el-table-column
+                  prop="allow"
+                  label="允许">
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+            <el-collapse-item name="3">
+              <template slot="title">
+                <li :class="colorBox">校园预备生管理</li>
+              </template>
+              <el-table
+                :data="preparatoryStudentOnCampus"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="permissions"
+                  label="权限">
+                </el-table-column>
+                <el-table-column
+                  prop="apply"
+                  label="申明">
+                </el-table-column>
+                <el-table-column
+                  prop="allow"
+                  label="允许">
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+            <el-collapse-item name="4">
+              <template slot="title">
+                <li :class="colorBox">入学申请列表</li>
+              </template>
+              <el-table
+                :data="applicationsForAdmission"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="permissions"
+                  label="权限">
+                </el-table-column>
+                <el-table-column
+                  prop="apply"
+                  label="申明">
+                </el-table-column>
+                <el-table-column
+                  prop="allow"
+                  label="允许">
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+            <el-collapse-item name="5">
+              <template slot="title">
+                <li :class="colorBox">招生入学首页</li>
+              </template>
+              <el-table
+                :data="enrollmentHomePage"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="permissions"
+                  label="权限">
+                </el-table-column>
+                <el-table-column
+                  prop="apply"
+                  label="申明">
+                </el-table-column>
+                <el-table-column
+                  prop="allow"
+                  label="允许">
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+            <el-collapse-item name="6">
+              <template slot="title">
+                <li :class="colorBox">毕业离园生管理</li>
+              </template>
+              <el-table
+                :data="graduatesLeavingSchool"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="permissions"
+                  label="权限">
+                </el-table-column>
+                <el-table-column
+                  prop="apply"
+                  label="申明">
+                </el-table-column>
+                <el-table-column
+                  prop="allow"
+                  label="允许">
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+            <el-collapse-item name="7">
+              <template slot="title">
+                <li :class="colorBox">校园学生管理</li>
+              </template>
+              <el-table
+                :data="campusStudentManagement"
+                border
+                style="width: 100%">
+                <el-table-column
+                  prop="permissions"
+                  label="权限">
+                </el-table-column>
+                <el-table-column
+                  prop="apply"
+                  label="申明">
+                </el-table-column>
+                <el-table-column
+                  prop="allow"
+                  label="允许">
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+          </el-collapse>
         </div>
-        <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="assignpermissions = false">取 消</el-button>
-          <el-button type="success" @click="assignpermissions = false">保 存</el-button>
-        </span>
       </el-dialog>
     </div>
   </div>
@@ -95,6 +238,15 @@
   export default {
     data () {
       return {
+        value:'-所有-',
+        colorBox:'grey',
+        options:[{
+          label:'选项1',
+          value:'1'
+        },{
+          label:'选项2',
+          value:'2'
+        }],
         assignpermissions: false,
         tableList: [{
           id: '1',
@@ -128,7 +280,72 @@
             username: 'cs',
             account: 'www@hungjkhb.com'
           }
-        ]
+        ],
+        headquartersStudentArchives: [{
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        },
+          {
+            permissions: 'a',
+            apply: 'b',
+            allow: 'c'
+          }
+        ],
+        potentialStudentManagement: [{
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }, {
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }],
+        preparatoryStudentOnCampus: [{
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }, {
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }],
+        applicationsForAdmission: [{
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }, {
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }],
+        enrollmentHomePage: [{
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }, {
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }],
+        graduatesLeavingSchool: [{
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }, {
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }],
+        campusStudentManagement: [{
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }, {
+          permissions: 'a',
+          apply: 'b',
+          allow: 'c'
+        }]
       }
     },
     methods: {
@@ -140,6 +357,13 @@
       },
       assignPermissions: function () {
         this.assignpermissions = true
+      },
+      handleChange: function (val) {
+        console.log(val)
+        for(let i =0;i<this.val.length;i++){
+          let index = val[i];
+          this.colorBox='orange';
+        }
       }
     }
   }
@@ -172,7 +396,24 @@
     text-align: center;
     color: #ccc;
   }
-  .usermanagement .assign-permissions .el-dialog__body{
+
+  .usermanagement .assign-permissions .el-dialog__body {
     padding: 0 20px;
+  }
+
+  /*手风琴样式*/
+  .usermanagement .el-collapse-item__arrow {
+    display: none;
+  }
+
+  .usermanagement .el-collapse-item__header {
+    height: 30px;
+  }
+
+  .usermanagement .el-collapse {
+    margin: 0 20px;
+  }
+  .usermanagement .grey{
+    color: #606266;
   }
 </style>
