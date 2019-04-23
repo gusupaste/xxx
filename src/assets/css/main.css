@@ -1,3 +1,4 @@
+/* main */
 * {
   margin: 0;
   padding: 0;
@@ -197,4 +198,10 @@ a {
 }
 .el-pager li.active+li {
   border: 1px solid #dcdcdc;
+}
+/* 子菜单导航样式 */
+.local_path_style {
+  color: rgba(160, 160, 160, 1);
+  font-size: 14px;
+  font-family: SourceHanSansSC-regular;
 }

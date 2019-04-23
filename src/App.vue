@@ -6,7 +6,7 @@
             <img src="./assets/img/logo.png" alt="">
 
             <el-menu
-                :default-active="active"
+                :default-active="$route.path"
                 @select="handleSelect"
                 class="el-menu-demo"
                 mode="horizontal"
@@ -164,13 +164,14 @@ export default {
     border:1px solid #f17128 !important;
     color:#fff !important;
     border-top: 0 !important;
+    padding: 0 10px;
   }
   .el-menu--popup-bottom-start li{
     margin-top:0 !important;
     background-color: #fff !important;
     color:#666 !important;
     text-align: center;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #ccc;
   }
   .el-menu--horizontal .el-menu .el-menu-item.is-active, .el-menu--horizontal .el-menu .el-submenu.is-active>.el-submenu__title {
     color:#f17128 !important;

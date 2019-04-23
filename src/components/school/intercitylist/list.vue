@@ -220,7 +220,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .intercitylist .header p{
     margin: 10px 0px;
   }

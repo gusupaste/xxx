@@ -1,6 +1,6 @@
 <template>
     <div class="schoolCalendarList wrap">
-        <p>YOU ARE HERE : 系统管理 >> <span  class="font-cl-blue">校日历管理</span></p>
+        <p class="local_path_style">YOU ARE HERE : 系统管理 >> <span  class="font-cl-blue">校日历管理</span></p>
         <div style="margin-top:20px">
             <div class="clearfix">
                 <span class="left">
@@ -19,7 +19,7 @@
                 </span> -->
             </div>
             <div class="clearfix">
-                <el-card class="box-card" style="height:215px;text-align:center;">
+                <el-card class="box-card" style="height:225px;text-align:center;">
                     <div style="cursor:pointer" @click="add_dialogVisible=true">
                         <span class="circle">
                             +
@@ -63,7 +63,7 @@
                 >
                 <el-form>
                     <el-form-item label="模板名称：" :label-width="formLabelWidth">
-                        <el-input v-model="name" placeholder="请选择活动区域" style="width:300px">
+                        <el-input v-model="name" class="w250_input" placeholder="请选择活动区域">
                           
                         </el-input>
                     </el-form-item>
@@ -84,7 +84,7 @@
                 <el-form :model="form">
                     <div class="school-wrap_head">
                             <span>城际：</span>
-                            <el-select v-model="form.region" placeholder="请选择活动区域">
+                            <el-select  v-model="form.region" placeholder="请选择活动区域">
                                     <el-option label="区域一" value="shanghai"></el-option>
                                     <el-option label="区域二" value="beijing"></el-option>
                             </el-select>
@@ -139,8 +139,8 @@
             </el-dialog>
     </div>
 </template>
-<style lang="">
-    .schoolCalendarList .el-dialog__header{
+<style lang="" scoped>
+    .schoolCalendarList >>> .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;
         font-size: 12px !important;
@@ -150,10 +150,10 @@
         font-size: 14px;
         margin: 10px 0px;
     }
-    .schoolCalendarList .el-dialog__title{
+    .schoolCalendarList >>> .el-dialog__title{
         font-size: 14px;
     }
-    .schoolCalendarList .el-dialog{
+    .schoolCalendarList >>> .el-dialog{
         min-width: 600px;
     }
     .schoolCalendarList {
@@ -165,7 +165,7 @@
     .schoolCalendarList .school-wrap{
         border: 1px solid #bbb;
     }
-    .schoolCalendarList .el-card{
+    .schoolCalendarList >>> .el-card{
         margin-right: 4%;
         margin-top: 30px;
         float: left;
@@ -173,13 +173,15 @@
         width: 25%;
         padding:0 1%;
     }
-    .schoolCalendarList .el-card__body{
+    .schoolCalendarList >>> .el-card__body{
         padding: 50px
     }
-    .schoolCalendarList .box-card .el-button{
+    .schoolCalendarList >>> .box-card .el-button{
        border: 1px solid #006287;
        color:#006287;
-       border-radius: 20px;
+       border-radius: 50px;
+       width: 160px;
+       height: 50px;
     }
     .schoolCalendarList .canlendar-title{
         font-size: 14px;
