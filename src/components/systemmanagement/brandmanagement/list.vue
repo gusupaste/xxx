@@ -25,7 +25,7 @@
           <div class="intercity-list">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span class="city-name font-cl-blue" style="line-height: 32px">智慧班</span>
+                <span class="city-name font-cl-blue" style="line-height: 40px">智慧班</span>
                 <el-button type="text" @click="addAndEditBrand(1,1)">
                   <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
                 </el-button>
@@ -42,7 +42,7 @@
           </div>
         </div>
       </div>
-      <el-dialog title="新增品牌" :visible.sync="addbrandVisible" width="50%" style="padding: 30px 60px;">
+      <el-dialog title="新增品牌" :visible.sync="addbrandVisible" width="500px" style="padding: 30px 60px;">
         <el-form label-width="80px">
           <el-form-item label="品牌名称">
             <el-input v-model="brandName" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
@@ -54,11 +54,11 @@
         </span>
       </el-dialog>
 
-      <el-dialog :title="manageTitle" :visible.sync="brandManageVisible" width="70%">
+      <el-dialog :title="manageTitle" :visible.sync="brandManageVisible" min-width="600px">
         <el-table
           :data="tableData"
           border
-          style="width: 100%">
+          style="width: 100%;text-align: center !important;">
           <el-table-column
             :label="columnLabel1"
             width="220">
@@ -77,7 +77,7 @@
           <el-table-column
             prop="address"
             label="操作"
-            width="220">
+            width="80">
             <template slot-scope="scope">
               <el-button v-show="scope.row.id" @click="editManage(scope.row)" type="text" size="small"><span class="el-icon-edit"></span></el-button>
               <el-button @click="deleteButton(scope.row)" type="text" size="small"><span class="el-icon-delete"></span></el-button>
@@ -96,7 +96,7 @@
         </span>
       </el-dialog>
 
-      <el-dialog :title="brandName" :visible.sync="editbrandVisible" width="70%">
+      <el-dialog :title="brandName" :visible.sync="editbrandVisible" min-width="600px">
         <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
           <el-form-item label="品牌名称">
             <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
@@ -142,14 +142,14 @@
     font-size: 10px;
     line-height: 40px;
   }
-  .brandmanagement .content-top .el-button{
-    padding: 5px 10px;
+  .brandmanagement >>> .content-top .el-button{
+    height: 0 !important;
     font-size: 10px;
     background-color: #ED6C2E;
     border-color: #ED6C2E;
   }
-  .brandmanagement .intercity-list{
-    width: 210px;
+  .brandmanagement >>> .intercity-list{
+    width: 220px;
     height: 300px;
     display: inline-block;
     margin-right: 2%;
@@ -167,18 +167,21 @@
   }
   .brandmanagement .el-card{
     width: 180px;
-    height: 160px;
+    height: 170px;
     padding: 0 20px;
   }
-  .brandmanagement .el-card .el-button--text{
+  .brandmanagement >>> .el-card .el-button--text{
     float: right;
-    margin-top: 5px;
+    /*margin-top: 5px;*/
     padding: 0;
   }
-  .brandmanagement .el-card__header{
+  .brandmanagement >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+    text-align: center !important;
+  }
+  .brandmanagement >>> .el-card__header{
     padding: 10px 0px;
   }
-  .brandmanagement .el-card__body {
+  .brandmanagement >>> .el-card__body {
     padding: 0px 0px;
     overflow: auto;
     height: 185px;
@@ -207,7 +210,7 @@
   .brandmanagement .el-input__inner{
     width: 80%;
   }
-  .brandmanagement .el-dialog__footer{
+  .brandmanagement >>> .el-dialog__footer{
     text-align: center;
   }
   .brandmanagement .e-card-p{
