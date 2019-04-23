@@ -4,7 +4,7 @@
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园招生目标数</span></p>
     </div>
     <div class="header-top">
-      <p><span>城际：</span>
+      <p class="mt10"><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -327,9 +327,6 @@
   .enrollmentnumber >>> .el-table .el-input__inner{
     height: auto;
     line-height: inherit;
-  }
-  .enrollmentnumber >>> .el-input--suffix .el-input__inner{
-    margin-bottom: 10px;
   }
 
 </style>

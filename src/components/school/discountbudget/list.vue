@@ -247,8 +247,5 @@
   .discountbudget >>> .el-dialog__footer{
     text-align: center;
   }
-  .discountbudget .el-form-item{
-    margin-bottom: 1px;
-  }
 
 </style>

@@ -274,7 +274,7 @@
     width: 164px;
     height: 36px;
   }
-  .parentbusinessapplication >>> .el-input--suffix .el-input__inner{
+  .parentbusinessapplication >>> .el-select{
     margin-bottom: 10px;
   }
   .parentbusinessapplication >>> .el-input{
