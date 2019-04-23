@@ -1,7 +1,7 @@
 <template>
   <div class='academicyear wrap'>
     <div class="header">
-      <p>YOU ARE HERE : 系统管理 >> <span class="font-cl-blue">学年定义</span></p>
+      <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">学年定义</span></p>
     </div>
     <div class="content">
       <el-col class="box-margin" :span="7">
@@ -127,7 +127,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .academicyear {
     color: rgba(160, 160, 160, 1);
     text-align: left;

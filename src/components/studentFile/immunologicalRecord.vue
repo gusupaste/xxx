@@ -59,7 +59,7 @@
         </div>
     </div>
 </template>
-<style lang="">
+<style scoped>
     .immunologicalRecord .recordHead {
         border-bottom: 1px solid #bbb;
         color:#101010;

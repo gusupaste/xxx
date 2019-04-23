@@ -55,7 +55,7 @@
         </div>
     </div>
 </template>
-<style lang="">
+<style scoped>
 
 </style>
 <script>

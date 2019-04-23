@@ -1,7 +1,7 @@
 <template>
   <div class="parentinfo wrap">
     <div class="header">
-      <p>YOU ARE HERE :<span>家长信息</span></p>
+      <p class="local_path_style">YOU ARE HERE :<span class="font-cl-blue">家长信息</span></p>
     </div>
     <div class="content">
       <div class="select-header">
@@ -247,7 +247,7 @@
     </el-dialog>
   </div>
 </template>
-<style lang="">
+<style scoped>
   .parentinfo .header p{
     font-size: 14px;
   }

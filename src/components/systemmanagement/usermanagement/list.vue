@@ -1,7 +1,7 @@
 <template>
   <div class="usermanagement wrap">
     <div class="header">
-      <p>YOU ARE HERE : 系统管理 >> <span class="font-cl-blue">用户管理</span></p>
+      <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">用户管理</span></p>
       <p><span>角色：</span>
         <el-select style="width: 150px" v-model="value" placeholder="请选择">
           <el-option
@@ -369,7 +369,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .usermanagement {
     color: rgba(160, 160, 160, 1);
     text-align: left;

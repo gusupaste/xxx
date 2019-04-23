@@ -12,9 +12,9 @@
             prefix-icon="fa fa-user-o"
             v-model="username">
           </el-input>
-          <el-input 
-            placeholder="请输入密码" 
-            v-model="password" 
+          <el-input
+            placeholder="请输入密码"
+            v-model="password"
             prefix-icon="fa fa-lock"
             show-password style="margin-top:26px">
           </el-input>
@@ -25,7 +25,7 @@
     </div>
   </div>
 </template>
-<style lang="">
+<style scoped>
   .login-page {
     background:url('../../assets/img/login-bg.png') no-repeat;
     width:100%;

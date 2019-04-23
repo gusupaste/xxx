@@ -1,7 +1,7 @@
 <template>
     <div class='brandmanagement wrap'>
       <div class="header">
-        <p>YOU ARE HERE : 系统管理 >> <span>品牌管理</span></p>
+        <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">品牌管理</span></p>
       </div>
       <div class="brandmanagement-content">
         <div class="content-top">
@@ -30,20 +30,6 @@
                   <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
                 </el-button>
               </div>
-              <!--<ul>
-                <li style="border-bottom: 1px solid #ddd;line-height: 60px;">
-                  <div class="card-li-div">
-                    <span class="el-card-li">班级项目：<span>国际班</span></span><br>
-                    <span class="el-card-li" style="textOverflow: ellipsis;whiteSpace: nowrap;">双语班；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版</span>
-                  </div>
-                </li>
-                <li style="border-bottom: 1px solid #ddd;line-height: 60px;">
-                  <div class="card-li-div">
-                    <span class="el-card-li">年级项目：<span>国际班</span></span><br>
-                    <span class="el-card-li" style="textOverflow: ellipsis;whiteSpace: nowrap;">双语班；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版</span>
-                  </div>
-                </li>
-              </ul>-->
               <ul>
                 <li>
                   <span class="el-card-li">班级项目：<span>国际班</span></span><br>
@@ -133,7 +119,7 @@
       </el-dialog>
     </div>
 </template>
-<style>
+<style scoped>
   .brandmanagement .header p{
     font-size: 14px;
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="schooldetail clearfix wrap">
     <div class="content clearfix">
-      <p>YOU ARE HERE : 校园 >> 校园列表 >> <span class="font-cl-blue">校园概况</span></p>
+      <p class="local_path_style">YOU ARE HERE : 校园 > 校园列表 > <span class="font-cl-blue">校园概况</span></p>
       <div class="content-top">北京理都校园</div>
       <el-col :span="24">
         <el-card shadow="always">
@@ -258,7 +258,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
     .schooldetail .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;

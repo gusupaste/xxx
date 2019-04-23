@@ -1,7 +1,7 @@
 <template>
   <div class="editusermanagement wrap">
     <div class="header">
-      <p>YOU ARE HERE : 系统管理 >> <span class="font-cl-blue">修改用户</span></p>
+      <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">修改用户</span></p>
       <div>
         <p class="bold_black">账号设置：</p>
         <div class="content">
@@ -145,7 +145,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .editusermanagement {
     color: rgba(160, 160, 160, 1);
     text-align: left;

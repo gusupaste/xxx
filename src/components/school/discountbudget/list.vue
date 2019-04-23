@@ -1,7 +1,7 @@
 <template>
   <div class='discountbudget wrap'>
     <div class="header">
-      <p>YOU ARE HERE : 校园 >> <span class="font-cl-blue">校园折扣预算</span></p>
+      <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园折扣预算</span></p>
       <p><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
@@ -181,7 +181,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .discountbudget {
     color: rgba(160, 160, 160, 1);
     text-align: left;

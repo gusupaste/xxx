@@ -2,7 +2,7 @@
     <div class="basicInfo wrap clearfix">
         <div class="clearfix">
             <div style="width:70%;" class="text-align-center left">
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" inline="" style="text-align:left"> 
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" inline="" style="text-align:left">
                     <el-form-item label="姓名：" prop="name" label-width="150px" >
                         <el-input v-model="ruleForm.name" placeholder="请填写姓名"></el-input>
                     </el-form-item>
@@ -98,14 +98,14 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="mt26 text-align-center">
             <button class="btn bg-grey mr26">取消</button>
             <button class="btn bg-green" @click="submitForm('ruleForm')">保存</button>
         </div>
     </div>
 </template>
-<style lang="">
+<style scoped>
     .basicInfo .el-input__inner {
         padding: 0 30px;
     }

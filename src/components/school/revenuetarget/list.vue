@@ -1,7 +1,7 @@
 <template>
   <div class='revenuetarget wrap'>
     <div class="header">
-      <p>YOU ARE HERE : 校园 >> <span class="font-cl-blue">校园收入目标</span></p>
+      <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园收入目标</span></p>
       <p><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
@@ -182,7 +182,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
   export default {
     data () {
       return {

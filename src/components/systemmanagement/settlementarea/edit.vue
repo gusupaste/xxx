@@ -1,7 +1,7 @@
 <template>
     <div class="new-calendar-modal wrap" style="text-align:left">
             <div class="header">
-                <p>You Are Here  ：系统管理  > 结算区间定义  > <span class="font-cl-blue">编辑结算区间定义</span></p>
+                <p class="local_path_style">You Are Here  ：系统管理 > 结算区间定义 > <span class="font-cl-blue">编辑结算区间定义</span></p>
             </div>
             <el-form :model="form" style="margin-top:20px">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth">
@@ -37,7 +37,7 @@
                                 show-overflow-tooltip>
                                 </el-table-column>
                                 <el-table-column
-                              
+
                                 label="操作">
                                 <template slot-scope="scope">
                                         <i @click="delete_dialogVisible=true" class="orange fa fa-trash-o" style="font-size:20px;cursor:pointer"></i>
@@ -78,7 +78,7 @@
                                 </template>
                                 </el-table-column>
                                 <el-table-column
-                              
+
                                 label="结束时间">
                                 <template slot-scope="scope">
                                         <el-date-picker
@@ -100,7 +100,7 @@
                 <el-button @click="cancelModal" style="background-color:#bbb;color:#fff">取 消</el-button>
                 <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
             </div>
-            
+
             <!-- 添加学校 -->
             <el-dialog title="添加学校" :visible.sync="dialogFormVisible">
                 <el-form :model="form">
@@ -141,7 +141,7 @@
                         </el-table-column>
                     </el-table>
                     </div>
-                    
+
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:20px">
                     <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
@@ -164,7 +164,7 @@
             </el-dialog>
     </div>
 </template>
-<style lang="">
+<style scoped>
     .new-calendar-modal .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;
@@ -298,10 +298,10 @@ export default {
       console.log(data); //跳到了本月
     },
     handleSelectionChange(){
-        
+
     },
     arr(){
-        
+
     }
     },
     components: {

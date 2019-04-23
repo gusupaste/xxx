@@ -1,6 +1,6 @@
 <template>
   <div class="studentFile wrap">
-      <p>YOU ARE HERE : <span class="font-cl-blue">学生档案</span></p>
+      <p class="local_path_style">YOU ARE HERE : <span class="font-cl-blue">学生档案</span></p>
       <div class="formwrap">
         <el-form ref="form" :model="form" label-width="100px" inline>
           <el-form-item label="学生类型：">
@@ -52,7 +52,7 @@
             <el-button type="primary" >搜索</el-button>
           </el-form-item>
         </el-form>
-        
+
       </div>
       <div class="studentFileList">
           <div class="studentFileCard left" v-for="(item , index) in list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
@@ -89,7 +89,7 @@
       </div>
   </div>
 </template>
-<style lang="">
+<style scoped>
   .studentFile .formwrap {
     margin-top: 20px;
   }
@@ -103,9 +103,9 @@
     border: 1px solid #bbb;
     width: 27%;
     font-size: 12px;
-    -webkit-box-shadow: rgba(11,98,137,.2) 0px 0px 4px; 
-    -moz-box-shadow: rgba(11,98,137,.2) 0px 0px 4px; 
-    box-shadow: rgba(11,98,137,.2) 0px 0px 4px; 
+    -webkit-box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
+    -moz-box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
+    box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
   }
   .studentFile .studentFileCard .card-content{
     margin-left: 20px;

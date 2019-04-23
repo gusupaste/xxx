@@ -1,7 +1,7 @@
 <template>
   <div class="parentbusinessapplication wrap">
     <div class="header">
-      <p>YOU ARE HERE : 财务处理 >> <span class="font-cl-blue">校园招生目标数</span></p>
+      <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">校园招生目标数</span></p>
       <p><span>城际：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
@@ -255,7 +255,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .parentbusinessapplication {
     color: rgba(160, 160, 160, 1);
     text-align: left;

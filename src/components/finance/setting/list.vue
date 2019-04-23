@@ -1,7 +1,7 @@
 <template>
     <div class="settinglist wrap">
       <div class="header">
-        <p>YOU ARE HERE : 财务处理 >> <span>财务设置</span></p>
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">财务设置</span></p>
       </div>
       <div class="content">
         <div class="list-content">
@@ -1046,7 +1046,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .settinglist{
     color: rgba(160, 160, 160, 1);
     text-align: left;
