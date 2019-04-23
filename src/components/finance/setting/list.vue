@@ -8,6 +8,15 @@
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="费用科目" name="first">
               <div class="select-header">
+                <span>科目属性</span>
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 20%;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
                 <span>搜索科目</span>
                 <el-input v-model="input" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
                 <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
@@ -38,6 +47,11 @@
                   min-width="180">
                 </el-table-column>
                 <el-table-column
+                  prop="intercity_name"
+                  label="科目属性"
+                  min-width="180">
+                </el-table-column>
+                <el-table-column
                   prop="hq_name"
                   label="备注"
                   min-width="180">
@@ -53,8 +67,47 @@
                 </el-table-column>
               </el-table>
             </el-tab-pane>
-            <el-tab-pane label="折扣设置" name="second">
+            <el-tab-pane label="普通折扣" name="second">
               <div class="select-header" style="min-height: 35px;">
+                <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
+                  <i class="icon-font fa fa-calendar-plus-o"></i>
+                  <span class="font-cl-blue font-size-14" >新增折扣类型</span>
+              </span>
+              </div>
+              <el-table
+                :data="chargeTableDate"
+                border
+                stripe
+                show-header
+                style="width: 100%;">
+                <el-table-column
+                  prop="code"
+                  label="折扣类型"
+                  width="220">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="适用校园">
+                </el-table-column>
+                <el-table-column
+                  prop="intercity_name"
+                  label="互斥折扣"
+                  width="300">
+                </el-table-column>
+                <el-table-column
+                  fixed="right"
+                  label="操作"
+                  width="120">
+                  <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="showDiscountVisible = true">查看详情</el-button>
+                    <span style="color: #999999">|</span>
+                    <el-button style="color: orange" type="text" size="small" @click="addNewDiscount(1)">编辑</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="招生折扣" name="third">
+              <div class="select-header" style="min-height: 35px;line-height: 35px;margin-bottom: 10px;">
                 <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
                   <i class="icon-font fa fa-calendar-plus-o"></i>
                   <span class="font-cl-blue font-size-14" >新增折扣类型</span>
@@ -72,18 +125,13 @@
                   width="140">
                 </el-table-column>
                 <el-table-column
-                  prop="name"
-                  label="属性"
-                  width="140">
-                </el-table-column>
-                <el-table-column
                   prop="intercity_name"
-                  label="开始日期"
+                  label="生效日期"
                   width="160">
                 </el-table-column>
                 <el-table-column
                   prop="hq_name"
-                  label="截止日期"
+                  label="失效日期"
                   width="160">
                 </el-table-column>
                 <el-table-column
@@ -93,12 +141,12 @@
                 </el-table-column>
                 <el-table-column
                   prop="hq_name"
-                  label="适用校园"
-                  min-width="120">
+                  label="适用校园">
                 </el-table-column>
                 <el-table-column
                   prop="hq_name"
-                  label="备注">
+                  label="互斥折扣"
+                  min-width="160">
                 </el-table-column>
                 <el-table-column
                   fixed="right"
@@ -112,7 +160,7 @@
                 </el-table-column>
               </el-table>
             </el-tab-pane>
-            <el-tab-pane label="收费政策" name="third">
+            <el-tab-pane label="收费政策" name="fore">
               <div class="select-header select-length">
                 <span>城际：</span>
                 <el-select v-model="nameSelect" placeholder="--区域--">
@@ -199,7 +247,7 @@
                 </el-table-column>
               </el-table>
             </el-tab-pane>
-            <el-tab-pane label="备用金" name="fore">
+            <el-tab-pane label="退费政策" name="five">
               <p>
                 <span class="font-cl-blue">退费：</span>
                 <span style="cursor:pointer;color:#ED6C2E" @click="addNewReservefund(0)">
@@ -247,12 +295,24 @@
           </el-tabs>
         </div>
       </div>
-      <el-dialog :title="feeName" :visible.sync="addFeeVisible" width="50%">
+      <el-dialog :title="feeName" :visible.sync="addFeeVisible" width="600px">
         <el-form ref="feeForm" :model="feeForm" :rules="rules" label-width="80px">
           <el-row>
             <el-col :span="12">
               <el-form-item label="科目名称">
                 <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="科目属性">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 100%;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -342,14 +402,14 @@
           <el-button type="success" @click="addFeeVisible = false">保 存</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="删除费用科目" :visible.sync="deleteFeeVisible" width="40%" class="deleteFee">
+      <el-dialog title="删除费用科目" :visible.sync="deleteFeeVisible" width="450" class="deleteFee">
         <span>是否确认删除费用科目<span style="color:#006287">【学费】</span>？</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="deleteFeeVisible = false">取 消</el-button>
           <el-button type="success" @click="deleteFeeVisible = false">保 存</el-button>
         </span>
       </el-dialog>
-      <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="70%" class="discountDialog">
+      <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="700px" class="discountDialog">
         <el-form ref="discountForm" :model="discountForm" :rules="rules" label-width="80px">
           <el-row>
             <el-col :span="12">
@@ -524,7 +584,7 @@
           <el-button type="success" @click="addDiscountVisible = false">保 存</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="折扣详情预览" :visible.sync="showDiscountVisible" width="55%" class="discountShow">
+      <el-dialog title="折扣详情预览" :visible.sync="showDiscountVisible" width="600px" class="discountShow">
         <el-form ref="discountForm" :model="discountForm" :rules="rules" label-width="80px">
           <el-row>
             <el-col :span="24">
@@ -585,7 +645,7 @@
           <el-button type="success" @click="showDiscountVisible = false">保 存</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="政策详情" :visible.sync="showPolicyVisible" width="55%" class="policyShow">
+      <el-dialog title="政策详情" :visible.sync="showPolicyVisible" width="600px" class="policyShow">
         <el-form ref="policyForm" :model="policyForm" :rules="rules" label-width="80px">
           <div class="policyClass">
             <p>政策标题：{{ policyForm.title }}</p>
@@ -1086,7 +1146,7 @@
     padding-left: 50%;
   }
   .settinglist >>> #tab-first{
-    margin-left: -300px;
+    margin-left: -350px;
   }
   .settinglist >>> .el-tabs__active-bar is-top{
     width: 0px !important;
@@ -1119,7 +1179,7 @@
   .settinglist >>> .discountShow .el-dialog__body{
     padding-top: 5px !important;
   }
-  .settinglist .select-header, .chargelist .list-content{
+  .settinglist .select-header, .settinglist .list-content{
     min-height: 50px;
   }
   .settinglist .policyClass{
