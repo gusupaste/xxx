@@ -1,5 +1,5 @@
 <template>
-    <div class="basicInfo wrap clearfix">
+    <div class="basicInfo  clearfix">
         <div class="clearfix">
             <div style="width:70%;" class="text-align-center left">
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" inline="" style="text-align:left">

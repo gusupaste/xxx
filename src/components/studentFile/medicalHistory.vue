@@ -1,5 +1,5 @@
 <template>
-    <div class="immunologicalRecord wrap">
+    <div class="immunologicalRecord">
         <el-table
             :data="tableData"
             border

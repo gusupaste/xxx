@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap allergyRecord">
+    <div class="allergyRecord">
        <el-table
             class=""
             :data="tableData"

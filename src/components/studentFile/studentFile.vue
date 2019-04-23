@@ -98,6 +98,9 @@
   .studentFile .studentFileList {
     margin-top: 20px;
   }
+  .studentFile .el-form-item {
+    margin-bottom: 10px;
+  }
   .studentFile .studentFileCard {
     cursor: pointer;
     margin-right: 5%;

@@ -150,8 +150,26 @@
     </div>
 </template>
 <style scoped>
-    .studentDiscount .el-tabs__nav-wrap {
-        /* margin:0; */
+    .studentDiscount >>> .el-tabs__active-bar {
+        background-color:#f17128 !important; 
+        height: 3px;
+    }
+    .studentDiscount >>> .el-tabs__item {
+        height: 40px;
+    }
+    .studentDiscount >>> .el-tabs__header {
+        border-bottom: 2px solid #ccc;
+    }
+    .studentDiscount >>> .el-tabs__nav-wrap {
+        width: 50%;
+        margin: 0 auto;
+    }
+    .studentDiscount >>> .el-tab-pane {
+        border: none;
+    }
+    .studentDiscount >>> .el-tabs__nav {
+        /* width: 100%;
+        text-align: center; */
     }
 </style>
 <script>
