@@ -2,6 +2,8 @@
   <div class="parentbusinessapplication wrap">
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">校园招生目标数</span></p>
+    </div>
+    <div class="header">
       <p><span>城际：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option

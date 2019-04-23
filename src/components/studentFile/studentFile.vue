@@ -1,6 +1,8 @@
 <template>
   <div class="studentFile wrap">
+    <div class="header">
       <p class="local_path_style">YOU ARE HERE : <span class="font-cl-blue">学生档案</span></p>
+    </div>
       <div class="formwrap">
         <el-form ref="form" :model="form" label-width="100px" inline>
           <el-form-item label="学生类型：">

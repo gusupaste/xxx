@@ -1,6 +1,8 @@
 <template>
     <div class="approval wrap">
-        <p class="local_path_style">You Are Here  ：财务处理 > 学生折扣 > <span class="font-cl-blue">折扣详情</span></p>
+      <div class="header">
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > 学生折扣 > <span class="font-cl-blue">折扣详情</span></p>
+      </div>
         <div class="content-top">员工子女折扣</div>
         <div class="clearfix">
 

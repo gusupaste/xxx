@@ -1,6 +1,8 @@
 <template>
     <div class="schoolCalendarList wrap">
+      <div class="header">
         <p class="local_path_style">YOU ARE HERE : 系统管理 > <span  class="font-cl-blue">校日历管理</span></p>
+      </div>
         <div style="margin-top:20px">
             <div class="clearfix">
                 <span class="left">

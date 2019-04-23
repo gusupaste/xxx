@@ -1,7 +1,7 @@
 <template>
     <div class="new-calendar-modal wrap" style="text-align:left">
             <div class="header">
-                <p class="local_path_style">You Are Here  ：系统管理 > 结算区间定义 > <span class="font-cl-blue">新增结算区间定义</span></p>
+                <p class="local_path_style">YOU ARE HERE : 系统管理 > 结算区间定义 > <span class="font-cl-blue">新增结算区间定义</span></p>
             </div>
             <el-form :model="form" style="margin-top:20px">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth">

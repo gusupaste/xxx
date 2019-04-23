@@ -2,6 +2,8 @@
   <div class='revenuetarget wrap'>
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园收入目标</span></p>
+    </div>
+    <div class="header">
       <p><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">
           <el-option
@@ -263,6 +265,7 @@
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
+
   .revenuetarget .header p {
     font-size: 14px;
   }

@@ -91,6 +91,9 @@
                   prop="code"
                   label="账单号"
                   width="150">
+                  <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="editSchool(scope.row,1)">{{scope.row.code}}</el-button>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="name"
@@ -139,6 +142,9 @@
                   prop="code"
                   label="账单号"
                   width="150">
+                  <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="editSchool(scope.row,1)">{{scope.row.code}}</el-button>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="name"
@@ -238,8 +244,8 @@
       searchList: function() {
 
       },
-      editSchool:function (param) {
-        this.$router.push('/school/school-edit/'+param.id);
+      editSchool:function (param,index) {
+          this.$router.push('/financemanagement/billDetail');
       }
     }
   }
@@ -297,5 +303,8 @@
   }
   .chargelist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
     text-align: center !important;
+  }
+  .chargelist >>> .el-input__inner {
+    width: -webkit-fill-available;
   }
 </style>

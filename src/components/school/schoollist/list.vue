@@ -1,7 +1,9 @@
 <template>
   <div class="schoollist wrap">
-    <div class="content">
+    <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园列表</span></p>
+    </div>
+    <div class="content">
       <p class="bold mt10">伊顿旗下的校园列表，你可以选择查看某个区域或城市下的校园信息。</p>
       <p class="mt10"><span>城际：</span>
         <el-select v-model="value" placeholder="请选择">

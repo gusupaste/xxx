@@ -2,6 +2,8 @@
   <div class="editusermanagement wrap">
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">修改用户</span></p>
+    </div>
+    <div class="header">
       <div>
         <p class="bold_black">账号设置：</p>
         <div class="content">
