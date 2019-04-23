@@ -44,7 +44,7 @@
         <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
       </div>
       <div class="list-content">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName">
           <el-tab-pane label="审核通过" name="first">
             <el-table
               :data="chargeTableDate"
@@ -97,7 +97,7 @@
                 min-width="30">
                 <template slot-scope="scope">
                   <el-button class="red" type="text" size="small">
-                    <router-link to="/financemanagement/discountDetail/9">折扣详情</router-link>
+                    <router-link to="/financemanagement/dismissed/9">折扣详情</router-link>
                   </el-button>
                 </template>
               </el-table-column>
@@ -155,13 +155,13 @@
                 min-width="30">
                 <template slot-scope="scope">
                   <el-button class="red" type="text" size="small">
-                    <router-link to="/financemanagement/discountDetail/9">折扣详情</router-link>
+                    <router-link to="/financemanagement/dismissed/9">折扣详情</router-link>
                   </el-button>
                 </template>
               </el-table-column>
             </el-table>
           </el-tab-pane>
-          <el-tab-pane label="被驳回" name="second">
+          <el-tab-pane label="被驳回" name="third">
             <el-table
               :data="chargeTableDate"
               border
@@ -213,14 +213,13 @@
                 min-width="30">
                 <template slot-scope="scope">
                   <el-button class="red" type="text" size="small">
-                    <router-link to="/financemanagement/discountDetail/9">折扣详情</router-link>
+                    <router-link to="/financemanagement/dismissed/9">折扣详情</router-link>
                   </el-button>
                 </template>
               </el-table-column>
             </el-table>
           </el-tab-pane>
         </el-tabs>
-
       </div>
     </div>
   </div>
@@ -250,7 +249,7 @@
         value1:'',
         value2:'',
         input:'',
-        activeName:'',
+        activeName:'first',
         activeIndex:'1',
         chargeTableDate:[
           {
@@ -315,11 +314,8 @@
   .discountlist .el-table td, .el-table th{
     text-align: center;
   }
-  .discountlist .el-menu--horizontal>.el-menu-item.is-active{
+  .discountlist .el-tabs__item.is-active{
     border-bottom: 2px solid #ED6C2E !important;
-  }
-  .discountlist .el-menu.el-menu--horizontal{
-    padding-left: 50%;
   }
   .discountlist .new-calendar-modal .el-table td, .el-table th.is-leaf{
     border-bottom: none !important;
