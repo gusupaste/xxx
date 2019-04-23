@@ -49,8 +49,8 @@
           </el-option>
         </el-select>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
-        <!-- <span class="right"><el-button type="text" @click="addSchool"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;&nbsp;导出</el-button></span>
-        <span class="right"><el-button type="text" @click="addSchool"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;导入</el-button></span> -->
+        <span class="right mt10"><el-button type="text" @click="addSchool"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;&nbsp;导出</el-button></span>
+        <span class="right mt10"><el-button type="text" @click="addSchool"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;导入</el-button></span>
       </p>
       <el-table
       class="mt26"
