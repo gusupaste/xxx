@@ -19,6 +19,11 @@ import Settlementarea from '@/components/systemmanagement/settlementarea/list'
 import EditSettlementarea from '@/components/systemmanagement/settlementarea/edit'
 import Addsettlementarea from '@/components/systemmanagement/settlementarea/add'
 
+/**入学管理 */
+import EntranceManage from '@/components/entranceManage/index'
+import IntentionalAdmission from '@/components/entranceManage/intentionaladmission/list'
+import AdmissionRegistration from '@/components/entranceManage/admissionregistration/list'
+
 /**学生档案 */
 import StudentFile from '@/components/studentFile/index'
 import StudentFileList from '@/components/studentFile/studentFile'
@@ -212,6 +217,23 @@ export default new Router({
           name: 'revenuetarget-list',
           component: Revenuetarget
         }
+      ]
+    },
+    {
+      path: '/entranceManage',/*入园管理*/
+      name: 'entranceManage',
+      component: EntranceManage,
+      children: [
+        {
+          path: '/entranceManage/intentional-admission',
+          name: 'intentional-admission',
+          component: IntentionalAdmission
+        },
+        {
+          path: '/entranceManage/admission-registration',
+          name: 'admission-registration',
+          component: AdmissionRegistration
+        },
       ]
     },
     {
