@@ -52,6 +52,13 @@
         </div>
       </el-collapse>
     </div>
+    <!--添加 弹框-->
+    <el-dialog title="添加用户" :visible.sync="adduser" width="50%" style="padding: 30px 60px;">
+      <span slot="footer" class="dialog-footer text-align-center">
+          <el-button @click="adduser = false">取 消</el-button>
+          <el-button type="success" @click="adduser = false">保 存</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -59,6 +66,7 @@
   export default {
     data() {
       return{
+        adduser:false,
         tableData: [
           {
             id: '1',
@@ -160,7 +168,7 @@
     },
     methods:{
       addUser:function(){
-
+        this.adduser=true
       },
       handleChange: function (val) {
         var liList = document.getElementsByName('selectColor')
