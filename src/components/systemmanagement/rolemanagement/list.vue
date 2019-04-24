@@ -74,7 +74,7 @@
         </template>
         <p>该角色所需的系统权限：</p>
         <el-collapse :data="boxData" @change="handleChange">
-          <div v-for="(item,index) in boxData">
+          <div v-for="(item,index) in boxData" :key="index">
             <el-collapse-item :name="index">
               <template slot="title">
                 <li style="line-height: 0" name="selectColor">{{item.name}}</li>
