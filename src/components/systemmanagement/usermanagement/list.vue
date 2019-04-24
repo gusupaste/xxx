@@ -310,6 +310,9 @@
     padding: 0 20px;
   }
 
+  .usermanagement i{
+    cursor: pointer;
+  }
   /*手风琴样式*/
   .usermanagement >>> .el-collapse-item__arrow {
     display: none;
