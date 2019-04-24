@@ -90,6 +90,9 @@
                     <el-table-column prop="apply" label="申明">
                     </el-table-column>
                     <el-table-column prop="allow" label="允许">
+                      <template>
+                        <el-checkbox></el-checkbox>
+                      </template>
                     </el-table-column>
                   </el-table>
                 </div>

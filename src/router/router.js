@@ -8,6 +8,7 @@ import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
 import Usermanagement from '@/components/systemmanagement/usermanagement/list'
+import Rolemanagement from '@/components/systemmanagement/rolemanagement/list'
 import Usermanagementadd from '@/components/systemmanagement/usermanagement/add'
 import Usermanagementedit from '@/components/systemmanagement/usermanagement/edit'
 import SchoolCalendarList from '@/components/systemmanagement/schoolCalendar/list'
@@ -100,6 +101,11 @@ export default new Router({
           path: '/systemmanagement/usermanagement-add',
           name: 'usermanagement-add',
           component: Usermanagementadd
+        },
+        {
+          path: '/systemmanagement/rolemanagement',
+          name: 'rolemanagement',
+          component: Rolemanagement
         },
         {
           path: '/systemmanagement/usermanagement-edit',

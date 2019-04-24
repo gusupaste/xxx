@@ -60,7 +60,7 @@
               </el-menu-item>
               <el-menu-item index="7-4">流程定义</el-menu-item>
               <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
-              <el-menu-item index="7-6">角色管理</el-menu-item>
+              <el-menu-item index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
             </el-menu>
