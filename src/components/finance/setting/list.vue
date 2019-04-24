@@ -1114,7 +1114,7 @@
     font-weight: bold;
     color: black;
   }
-  .settinglist .select-header,.chargelist .list-content{
+  .settinglist .select-header,.settinglist .list-content{
     width: 100%;
     min-height: 50px;
   }
@@ -1128,9 +1128,6 @@
   }
   .settinglist >>> .el-menu--horizontal>.el-menu-item.is-active{
     border-bottom: 2px solid #ED6C2E !important;
-  }
-  .settinglist >>> .el-menu.el-menu--horizontal{
-    padding-left: 50%;
   }
   .settinglist >>> .el-tabs__active-bar{
     background-color: #ED6C2E;
@@ -1146,8 +1143,8 @@
     padding-left: 50%;
   }
   .settinglist >>> #tab-first{
-    margin-left: -350px;
-  }
+     margin-left: -350px;
+   }
   .settinglist >>> .el-tabs__active-bar is-top{
     width: 0px !important;
   }

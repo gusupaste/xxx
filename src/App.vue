@@ -51,6 +51,7 @@
                 财务设置
               </el-menu-item>
             </el-submenu>
+            <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
             <el-submenu index="7">
               <template slot="title">系统管理</template>
               <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">

@@ -57,6 +57,9 @@ import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 
+/**工作流 */
+import Workflow from '@/components/workflow/list'
+
 /**家长信息 */
 import ParentInfo from '@/components/parentinfo/list'
 
@@ -235,6 +238,11 @@ export default new Router({
           component: AdmissionRegistration
         },
       ]
+    },
+    {
+      path: '/workflow',/*工作流*/
+      name: 'workflow',
+      component: Workflow,
     },
     {
       path: '/financemanagement',/*财务管理*/
