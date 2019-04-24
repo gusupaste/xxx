@@ -4,7 +4,7 @@
       <p class="local_path_style">YOU ARE HERE : 校园 > 校园列表 > <span class="font-cl-blue">编辑校园</span></p>
     </div>
     <div class="content">
-      <p class="bold">请输入新校园的相关系统,并保存提交,带*号的为必填字段。</p>
+      <p class="bold mt10">请输入新校园的相关系统,并保存提交,带*号的为必填字段。</p>
       <div class="body-content">
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;基础信息</div>
         <hr class="line-solid">
@@ -116,51 +116,40 @@
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;银行账户</div>
         <hr class="line-solid">
         <el-form :inline="true" :label-position="labelPosition" label-width="120px" :model="formInline" class="demo-form-inline ">
-          <div class="span-color">账户1:</div>
-          <el-form-item label="账号:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="账户名称(中文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <br>
-          <el-form-item label="SWIFT代码:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="账户名称(英文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <br>
-          <el-form-item label="开户银行(中文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="开户银行(英文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <!--点击添加账户，需要添加的内容-->
-          <div class="mt26"></div>
-          <div class="span-color">账户2:</div>
-          <el-form-item label="账号:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="账户名称(中文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <br>
-          <el-form-item label="SWIFT代码:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="账户名称(英文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <br>
-          <el-form-item label="开户银行(中文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="开户银行(英文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <div class="span-color"><a class="icon-circle-add"><i class="fa fa-plus-circle"></i> 新增账户</a></div>
+          <!--定义一组组件-->
+          <div v-for="(item,index) in items" :key="index" class="count-list">
+            <div>
+                <div class="mt26"></div>
+                <div class="span-color">账户{{index+1}}:</div>
+                <el-form-item label="账号:">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <el-form-item label="账户名称(中文):">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item label="SWIFT代码:">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <el-form-item label="账户名称(英文):">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item label="开户银行(中文):">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <el-form-item label="开户银行(英文):">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <div class="delete_count">
+                    <i class="fa fa-trash red font-size-20 " @click.prevent="removeDomain(item)"></i>
+                </div>
+            </div>
+            <div>
+                
+            </div>
+          </div>
+          <div class="span-color"><a class="icon-circle-add" @click="add_Account"><i class="fa fa-plus-circle"></i> 新增账户</a></div>
         </el-form>
         <div style="margin-top: 50px"></div>
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;备注说明</div>
@@ -169,7 +158,7 @@
           <el-form-item label="备注:">
             <el-input type="textarea" v-model="formInline.user"></el-input>
           </el-form-item>
-          <div>
+          <div class="mt26">
             <el-button type="info">取消</el-button>
             <el-button type="success">保存</el-button>
           </div>
@@ -181,21 +170,38 @@
 </template>
 
 <script>
-  export default {
+   export default {
     data() {
       return {
+        text:0,
+        items:[{
+          user:''
+        }],
         labelPosition: 'right',
         formInline: {
           user: '',
           region: ''
         }
       }
+    },
+    methods:{
+      add_Account:function () {
+        this.items.push(this.text++)
+      },
+      removeDomain(item) {
+        var index = this.items.indexOf(item);
+        if(this.items.length > 1) {
+            if (index != -1) {
+            this.items.splice(index, 1)
+          }
+        }
+      },
     }
   }
 </script>
 
 <style scoped>
-  .schooledit {
+   .schooledit {
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
@@ -204,21 +210,18 @@
     font-weight: bold;
     color: black;
   }
-
-  .schooledit .content {
-    padding: 20px 70px 50px 70px;
-  }
-
   .schooledit .body-content{
     min-height: 120px;
     border: 1px solid #ddd;
-    margin: 10px;
+    margin-top: 10px;
     padding: 20px 50px;
     text-align: left;
   }
   .schooledit .vertical-bar{
     width: 100px;
     height: 16px;
+    line-height: 16px;
+    font-weight: 600;
     color: #0b6289;
     margin-left: 10px;
     border-left: 4px solid #0b6289;
@@ -229,34 +232,45 @@
     margin: 10px 0;
     color: #ccc;
   }
-  .schooledit .el-input__inner{
+  .schooledit >>> .el-input__inner{
     width: 250px;
     height: 36px;
   }
   .schooledit .demo-form-inline{
     text-align: center;
   }
-  .schooledit .el-form-item{
+  .schooledit >>> .el-form-item{
     margin: 0.2rem;
   }
-  .schooledit .select-region .el-input__inner{
+  .schooledit >>> .select-region .el-input__inner{
     width: 122px;
     height: 36px;
     margin: 0.2rem;
   }
-  .schooledit .el-form--inline .el-form-item__content{
+  .schooledit >>> .el-form--inline .el-form-item__content{
     display: inline-flex;
   }
   .schooledit .span-color{
-    color: orange;
+    color: #f17128;
     text-align: left;
     margin: 1% 7%;
     position: absolute;
   }
   .schooledit .icon-circle-add{
-    color: orange;
+    color: #f17128;
   }
-  .schooledit .el-textarea__inner{
+  .schooledit >>> .el-textarea__inner{
     width: 87%;
+  }
+  .schooledit >>> .count-list{
+    position: relative;
+  }
+  .schooledit >>> .delete_count{
+    position: absolute;
+    right: 10%;
+    top: 0;
+    height: 100%;
+    line-height: 150px;
+    height: 150px;
   }
 </style>

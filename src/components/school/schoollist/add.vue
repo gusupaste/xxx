@@ -36,6 +36,7 @@
           <el-form-item label="当前状态:">
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
+          <br>
           <el-form-item label="地址:">
             <el-select class="select-region" v-model="formInline.region" placeholder="省">
               <el-option label="区域一" value="shanghai"></el-option>
@@ -114,51 +115,38 @@
         <div class="vertical-bar">&nbsp;&nbsp;&nbsp;银行账户</div>
         <hr class="line-solid">
         <el-form :inline="true" :label-position="labelPosition" label-width="120px" :model="formInline" class="demo-form-inline ">
-          <div class="span-color">账户1:</div>
-          <el-form-item label="账号:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="账户名称(中文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <br>
-          <el-form-item label="SWIFT代码:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="账户名称(英文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <br>
-          <el-form-item label="开户银行(中文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
-          <el-form-item label="开户银行(英文):">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-          </el-form-item>
           <!--定义一组组件-->
-          <div v-for="(item,index) in items">
-            <div class="mt26"></div>
-            <div class="span-color">账户{{index+2}}:</div>
-            <el-form-item label="账号:">
-              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-            </el-form-item>
-            <el-form-item label="账户名称(中文):">
-              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item label="SWIFT代码:">
-              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-            </el-form-item>
-            <el-form-item label="账户名称(英文):">
-              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-            </el-form-item>
-            <br>
-            <el-form-item label="开户银行(中文):">
-              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-            </el-form-item>
-            <el-form-item label="开户银行(英文):">
-              <el-input v-model="formInline.user" placeholder="请输入"></el-input>
-            </el-form-item>
+          <div v-for="(item,index) in items" :key="index" class="count-list">
+            <div>
+                <div class="mt26"></div>
+                <div class="span-color">账户{{index+1}}:</div>
+                <el-form-item label="账号:">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <el-form-item label="账户名称(中文):">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item label="SWIFT代码:">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <el-form-item label="账户名称(英文):">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <br>
+                <el-form-item label="开户银行(中文):">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <el-form-item label="开户银行(英文):">
+                  <el-input v-model="item.user" placeholder="请输入"></el-input>
+                </el-form-item>
+                <div class="delete_count">
+                    <i class="fa fa-trash red font-size-20 " @click.prevent="removeDomain(item)"></i>
+                </div>
+            </div>
+            <div>
+                
+            </div>
           </div>
           <div class="span-color"><a class="icon-circle-add" @click="add_Account"><i class="fa fa-plus-circle"></i> 新增账户</a></div>
         </el-form>
@@ -185,7 +173,9 @@
     data() {
       return {
         text:0,
-        items:[],
+        items:[{
+          user:''
+        }],
         labelPosition: 'right',
         formInline: {
           user: '',
@@ -196,7 +186,15 @@
     methods:{
       add_Account:function () {
         this.items.push(this.text++)
-      }
+      },
+      removeDomain(item) {
+        var index = this.items.indexOf(item);
+        if(this.items.length > 1) {
+            if (index != -1) {
+            this.items.splice(index, 1)
+          }
+        }
+      },
     }
   }
 </script>
@@ -262,5 +260,16 @@
   }
   .schooladd >>> .el-textarea__inner{
     width: 87%;
+  }
+  .schooladd >>> .count-list{
+    position: relative;
+  }
+  .schooladd >>> .delete_count{
+    position: absolute;
+    right: 10%;
+    top: 0;
+    height: 100%;
+    line-height: 150px;
+    height: 150px;
   }
 </style>

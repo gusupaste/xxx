@@ -5,7 +5,7 @@
             </div>
             <el-form :model="form" style="margin-top:20px">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" auto-complete="off"></el-input>
+                    <el-input v-model="form.name" auto-complete="off" class="w250_input" placeholder="请输入"></el-input>
                 </el-form-item>
                 <el-form-item label="学年：" :label-width="formLabelWidth">
                 <el-select v-model="form.region" placeholder="请选择活动区域">

@@ -76,7 +76,7 @@
                                     @size-change="handleSizeChange"
                                     @current-change="handleCurrentChange"
                                     layout="prev, pager, next"
-                                    :total="studentList.length">
+                                    :total="30000">
                                 </el-pagination>
                             </div>
                         </div>

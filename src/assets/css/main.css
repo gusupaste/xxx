@@ -258,6 +258,10 @@ a {
   border-color:#f16f26 !important;
   background-color: #f16f26 !important;
 }
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color:#f17128;
+  border-color:#f17128;
+}
 /* dialog样式 */
 .el-dialog__headerbtn .el-dialog__close {
   color:#101010;
