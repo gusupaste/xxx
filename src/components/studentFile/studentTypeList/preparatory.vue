@@ -42,7 +42,7 @@
             </el-col>
           </el-form-item>
           <el-form-item label="搜索：">
-            <el-input placeholder="输入学号、学生姓名或者学生卡号"></el-input>
+            <el-input placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" >搜索</el-button>
@@ -52,7 +52,7 @@
       </div>
       <div class="studentFileList">
           <div class="studentFileCard left" v-for="(item , index) in list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
-            <div style="padding:20px">
+            <div style="padding:30px 20px">
               <div class="avatar inline-block">
                 <img src="../../../assets/img/logo.png" alt="">
               </div>
@@ -60,26 +60,12 @@
                   <p>
                     <span style="font-size:15px;font-weight:600">学生A</span>
                     <i style="font-size:15px;color:#ff7f7f" class="fa fa-times-circle"></i>
-                    <span class="studentType">预备生</span>
                   </p>
                   <p>出生日期：1020/11/09</p>
-                  <p>学号：00000</p>
-                  <p>所在校园：北京校园</p>
+                  <p>意向学生：00000</p>
+                  <p>意向信息：北京丽都校园 双语小二班 </p>
+                  <p>拟入学日期：2019/04/01</p>
               </div>
-            </div>
-            <div class="card-footer clearfix">
-                <span class="left" style="border-right: 1px solid #fff;">
-                    <p>入学日期</p>
-                    <p>2017/09/09</p>
-                </span>
-                <span class="left" style="border-right: 1px solid #fff;">
-                    <p>入学日期</p>
-                    <p>1027</p>
-                </span>
-                <span class="left">
-                    <p>入学日期</p>
-                    <p>1027</p>
-                </span>
             </div>
           </div>
       </div>
@@ -117,25 +103,13 @@
     color: #fff;
     padding: 2px 5px;
   }
-  .studentFile .studentFileCard .card-footer{
-    background-color: #999;
-    padding: 10px;
-    font-size: 12px;
-    color:#fff;
-  }
-  .studentFile .studentFileCard .card-footer span {
-    display: inline-block;
-    text-align: center;
-    width: 33%;
-    line-height: 17px;
-  }
   .studentFile .studentFileCard  img{
     width: 100px;
     height: 100px;
   }
   .studentDiscount >>> .el-tabs__active-bar {
-        background-color:#f17128 !important; 
-        height: 3px;
+      background-color:#f17128 !important; 
+      height: 3px;
   }
   .studentDiscount >>> .el-tabs__item {
       height: 40px;

@@ -41,10 +41,7 @@
   .studentFile >>> .el-tabs__header {
       border-bottom: 2px solid #ccc;
   }
-  /* .studentFile >>> .el-tabs__nav-wrap {
-      width: 80%;
-      margin: 0 auto;
-  } */
+  
   .studentFile >>> .el-tab-pane {
       border: none;
   }
@@ -81,7 +78,7 @@ export default {
   },
   methods:{
     handleClick(tab, event) {
-        console.log(tab, event);
+        // console.log(tab, event);
       }
   }
 }
