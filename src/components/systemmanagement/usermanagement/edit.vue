@@ -168,6 +168,9 @@
     text-align: left;
     padding-left: 40px;
   }
+  .editusermanagement i{
+    cursor: pointer;
+  }
   .editusermanagement .el-table td,.editusermanagement .el-table th{
     text-align: center;
   }

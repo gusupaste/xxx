@@ -102,7 +102,7 @@
         </el-table>
       </div>
     </div>
-    <el-dialog title="修改家长资料" :visible.sync="editbrandVisible" width="70%" class="editParent">
+    <el-dialog title="修改家长资料" :visible.sync="editbrandVisible" width="780px" class="editParent">
       <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="8">
@@ -271,6 +271,9 @@
   }
   .parentinfo .el-input{
     width: 180px;
+  }
+  .parentinfo >>> .el-dialog__footer{
+    text-align: center;
   }
 </style>
 <script>

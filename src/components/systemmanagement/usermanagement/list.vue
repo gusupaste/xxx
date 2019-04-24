@@ -78,7 +78,7 @@
           </template>
           <p>该角色所需的系统权限：</p>
           <el-collapse :data="boxData" @change="handleChange">
-            <div v-for="(item,index) in boxData">
+            <div v-for="(item,index) in boxData" :key="index">
               <el-collapse-item :name="index">
                 <template slot="title">
                   <li style="line-height: 0" name="selectColor">{{item.name}}</li>
@@ -90,6 +90,9 @@
                     <el-table-column prop="apply" label="申明">
                     </el-table-column>
                     <el-table-column prop="allow" label="允许">
+                      <template>
+                        <el-checkbox></el-checkbox>
+                      </template>
                     </el-table-column>
                   </el-table>
                 </div>
@@ -307,6 +310,9 @@
     padding: 0 20px;
   }
 
+  .usermanagement i{
+    cursor: pointer;
+  }
   /*手风琴样式*/
   .usermanagement >>> .el-collapse-item__arrow {
     display: none;

@@ -171,6 +171,9 @@
   .addusermanagement .el-table td,.addusermanagement .el-table th{
     text-align: center;
   }
+  .addusermanagement i{
+    cursor: pointer;
+  }
   .addusermanagement .el-dialog__footer{
     text-align: center;
   }

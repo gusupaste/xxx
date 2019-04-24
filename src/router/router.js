@@ -8,6 +8,8 @@ import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
 import Usermanagement from '@/components/systemmanagement/usermanagement/list'
+import Rolemanagement from '@/components/systemmanagement/rolemanagement/list'
+import Rolemanagementadd from '@/components/systemmanagement/rolemanagement/add'
 import Usermanagementadd from '@/components/systemmanagement/usermanagement/add'
 import Usermanagementedit from '@/components/systemmanagement/usermanagement/edit'
 import SchoolCalendarList from '@/components/systemmanagement/schoolCalendar/list'
@@ -16,6 +18,11 @@ import editTemplate from '@/components/systemmanagement/schoolCalendar/editTempl
 import Settlementarea from '@/components/systemmanagement/settlementarea/list'
 import EditSettlementarea from '@/components/systemmanagement/settlementarea/edit'
 import Addsettlementarea from '@/components/systemmanagement/settlementarea/add'
+
+/**入学管理 */
+import EntranceManage from '@/components/entranceManage/index'
+import IntentionalAdmission from '@/components/entranceManage/intentionaladmission/list'
+import AdmissionRegistration from '@/components/entranceManage/admissionregistration/list'
 
 /**学生档案 */
 import StudentFile from '@/components/studentFile/index'
@@ -100,6 +107,16 @@ export default new Router({
           path: '/systemmanagement/usermanagement-add',
           name: 'usermanagement-add',
           component: Usermanagementadd
+        },
+        {
+          path: '/systemmanagement/rolemanagement',
+          name: 'rolemanagement',
+          component: Rolemanagement
+        },
+        {
+          path: '/systemmanagement/rolemanagement-add',
+          name: 'rolemanagement-add',
+          component: Rolemanagementadd
         },
         {
           path: '/systemmanagement/usermanagement-edit',
@@ -200,6 +217,23 @@ export default new Router({
           name: 'revenuetarget-list',
           component: Revenuetarget
         }
+      ]
+    },
+    {
+      path: '/entranceManage',/*入园管理*/
+      name: 'entranceManage',
+      component: EntranceManage,
+      children: [
+        {
+          path: '/entranceManage/intentional-admission',
+          name: 'intentional-admission',
+          component: IntentionalAdmission
+        },
+        {
+          path: '/entranceManage/admission-registration',
+          name: 'admission-registration',
+          component: AdmissionRegistration
+        },
       ]
     },
     {

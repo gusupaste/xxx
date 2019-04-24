@@ -4,7 +4,6 @@
         <div class="clearfix" style="background-color: #0b6289">
           <div class="head-menu">
             <img src="./assets/img/logo.png" alt="">
-
             <el-menu
                 :default-active="$route.path"
                 @select="handleSelect"
@@ -17,6 +16,11 @@
             <el-menu-item index="/home" route="/home" >
               首页
             </el-menu-item>
+            <el-submenu index="/entranceManage" >
+              <template slot="title">入学管理</template>
+              <el-menu-item index="/entranceManage/intentional-admission" route="/entranceManage/intentional-admission">意向入学缴费</el-menu-item>
+              <el-menu-item index="/entranceManage/admission-registration" route="/entranceManage/admission-registration">预备生入园登记</el-menu-item>
+            </el-submenu>
             <el-submenu index="/school" >
                 <template slot="title">校园</template>
                 <el-menu-item index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
@@ -60,7 +64,7 @@
               </el-menu-item>
               <el-menu-item index="7-4">流程定义</el-menu-item>
               <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
-              <el-menu-item index="7-6">角色管理</el-menu-item>
+              <el-menu-item index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
             </el-menu>
