@@ -8,6 +8,9 @@
                 <el-tab-pane :label="activeList.basic_info" name="first">
                     <basic-info></basic-info>
                 </el-tab-pane>
+                <el-tab-pane :label="activeList.year_history" name="ninth">
+                    <year-history></year-history>
+                </el-tab-pane>
                 <el-tab-pane :label="activeList.parent_info" name="second">
                     <parent-info></parent-info>
                 </el-tab-pane>
@@ -24,33 +27,30 @@
                     <allergy-record></allergy-record>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.attendance" name="seventh">
-                    <allergy-record></allergy-record>
+                    <attendance></attendance>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.enclosure" name="eigth">
                     <enclosure></enclosure>
                 </el-tab-pane>
             </el-tabs>
         </div>
-        <router-view></router-view>
     </div>
 </template>
 <style scoped>
-    .fileDetail .el-tabs__nav-wrap {
-        width: 50%;
-        margin:0 auto;
-    }
+    
     .fileDetail .has-gutter th {
         background-color: #f5f5f5 !important;
         }
     .fileDetail >>> .el-tabs__active-bar {
         background-color:#fff !important; 
     }
-    /* .fileDetail .el-tabs__content {
-        display: none;
-    } */
     .fileDetail >>> .el-tabs__item.is-active {
         color:#fff;
         font-weight: 600;
+    }
+    .fileDetail .el-tabs__nav-wrap {
+        width: 50%;
+        margin:0 auto;
     }
     .fileDetail >>> .el-tabs__item {
         width: 150px;
@@ -97,13 +97,15 @@
     }
 </style>
 <script>
-import AllergyRecord from './allergyRecord';
-import BasicInfo from './basicInfo';
-import ParentInfo from './parentInfo';
-import ImmunologicalRecord from './immunologicalRecord';
-import MedicalHistory from './medicalHistory';
-import StudentDiscount from './studentDiscount';
-import Enclosure from './enclosure';
+import AllergyRecord from './fileDetai/allergyRecord';
+import BasicInfo from './fileDetai/basicInfo';
+import ParentInfo from './fileDetai/parentInfo';
+import ImmunologicalRecord from './fileDetai/immunologicalRecord';
+import MedicalHistory from './fileDetai/medicalHistory';
+import StudentDiscount from './fileDetai/studentDiscount';
+import Enclosure from './fileDetai/enclosure';
+import YearHistory from './fileDetai/year_history';
+import Attendance from './fileDetai/attendance';
 export default {
     data(){
         return {
@@ -116,6 +118,7 @@ export default {
                 student_discount:'学生账单',
                 allergy_record:'过敏记录',
                 enclosure:'附件',
+                year_history:'学年历史'
             },
             activeName: localStorage.getItem('tabName') || 'first'
         }
@@ -127,7 +130,9 @@ export default {
         ImmunologicalRecord,
         MedicalHistory,
         StudentDiscount,
-        Enclosure
+        Enclosure,
+        YearHistory,
+        Attendance
     },
     methods:{
         handleClick(tab, event) {

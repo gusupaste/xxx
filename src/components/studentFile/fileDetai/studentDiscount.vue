@@ -2,7 +2,7 @@
     <div class="studentDiscount">
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="收费账单" name="first">
-                <div class="wrap">
+                <div class="">
                     <el-select v-model="value">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -92,7 +92,7 @@
                 </div>
             </el-tab-pane>
             <el-tab-pane label="退费账单" name="second">
-                <div class="wrap">
+                <div class="">
                     <el-select v-model="value">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -156,6 +156,12 @@
     }
     .studentDiscount >>> .el-tabs__item {
         height: 40px;
+    }
+    .studentDiscount >>> .el-tabs__nav {
+        float: none;
+        width: 50%;
+        margin: 0 auto;
+
     }
     .studentDiscount >>> .el-tabs__header {
         border-bottom: 2px solid #ccc;

@@ -205,6 +205,7 @@ a {
 }
 .el-tabs__item {
   font-weight: 600;
+  /* width: 100% !important; */
 }
 /* 分页公共样式 */
 .el-pagination {
@@ -245,4 +246,20 @@ a {
 .is-checked .el-checkbox__inner {
   border-color:#f16f26 !important;
   background-color: #f16f26 !important;
+}
+/* dialog样式 */
+.el-dialog__headerbtn .el-dialog__close {
+  color:#101010;
+}
+.el-dialog__header{
+  background-color: #f5f5f5;
+  padding: 15px;
+  font-size: 12px !important;
+  border-bottom: 1px solid #d5d5d5;
+}
+.el-dialog__title{
+  font-size: 14px;
+}
+.el-dialog{
+  min-width: 600px;
 }

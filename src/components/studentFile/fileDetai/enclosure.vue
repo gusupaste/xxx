@@ -1,7 +1,8 @@
 <template>
     <div class=" allergyRecord">
+        <p>附件列表：</p>
        <el-table
-            class=""
+            class="mt26"
             :data="tableData"
             border
             style="width: 100%">

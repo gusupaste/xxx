@@ -82,7 +82,7 @@
           label="操作"
           min-width="30">
           <template slot-scope="scope">
-            <i @click="editDialog" class="fa fa-pencil-square-o orange"></i>
+            <i @click="editDialog" class="fa fa-pencil-square-o orange font-size-20"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -120,7 +120,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="折扣预算:">
-          <el-input type="text" ></el-input>
+          <el-input type="text" class="w250_input"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer text-align-center">
@@ -189,14 +189,28 @@
     text-align: left;
   }
 
-  .discountbudget .header-top {
-    margin-top: 10px;
+  .discountbudget >>> .el-dialog__header{
+      background-color: #f5f5f5;
+      padding: 15px;
+      font-size: 12px !important;
+      border-bottom: 1px solid #d5d5d5;
   }
-
-  .discountbudget .header-top p {
-    font-size: 14px;
+  .discountbudget  .header p{
+      font-size: 14px;
   }
-
+  .discountbudget >>> .el-dialog__title{
+      font-size: 14px;
+  }
+  .discountbudget >>> .el-dialog{
+      min-width: 600px;
+  }
+  .discountbudget .school-wrap{
+      border: 1px solid #bbb;
+  }
+  .discountbudget >>> .dialog-footer{
+      margin-top: 50px;
+      text-align: center;
+  }
   .discountbudget >>> .el-button--text {
     background: 0 0;
     padding: 10px;

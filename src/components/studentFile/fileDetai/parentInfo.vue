@@ -1,15 +1,11 @@
 <template>
     <div class="parentInfo">
+        <p>家长信息：</p>
         <el-table
+            class="mt26"
             :data="tableData"
             border
             style="width: 100%">
-            <el-table-column
-            type="selection"
-            prop="date"
-            label="选中"
-            width="180">
-            </el-table-column>
             <el-table-column
             prop="name"
             label="家长姓名"
@@ -49,7 +45,7 @@
             </el-table-column>
             <el-table-column
             prop="address"
-            label="删除">
+            label="操作">
             </el-table-column>
         </el-table>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm mt26" inline="" style="text-align:left" >

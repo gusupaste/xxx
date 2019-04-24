@@ -168,8 +168,8 @@
           label="操作"
           min-width="40">
           <template slot-scope="scope">
-            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange font-size-14" @click="handleEdit(scope.row)"></i>
-            <i v-if="scope.row.edit === false" class="fa fa-check-circle green font-size-14" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red font-size-14" @click="handleCancel(scope.row)"></i>
+            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange font-size-20" @click="handleEdit(scope.row)"></i>
+            <i v-if="scope.row.edit === false" class="fa fa-check-circle green font-size-20" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red font-size-14" @click="handleCancel(scope.row)"></i>
           </template>
         </el-table-column>
       </el-table>

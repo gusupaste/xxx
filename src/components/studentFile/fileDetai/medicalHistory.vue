@@ -1,38 +1,53 @@
 <template>
-    <div class="allergyRecord">
-       <el-table
-            class=""
+    <div class="immunologicalRecord">
+        <p>医疗病史：</p>
+        <el-table
+        class="mt26"
             :data="tableData"
             border
             style="width: 100%">
             <el-table-column
             prop="date"
-            label="过敏类型："
+            label="疾病名称"
             width="180">
             </el-table-column>
             <el-table-column
             prop="name"
-            label="医疗建议/说明"
+            label="患病日期"
             width="180">
             </el-table-column>
             <el-table-column
             prop="address"
-            label="处理建议">
+            label="医疗建议/说明">
+            </el-table-column>
+            <el-table-column
+            prop="address"
+            label="家庭医生">
+            </el-table-column>
+            <el-table-column
+            prop="address"
+            label="联系电话">
             </el-table-column>
         </el-table>
         <div class="mt26">
-            <p class="recordHead">添加过敏记录</p>
+            <p class="recordHead">如果孩子有下列疾病，请详细填写相关信息</p>
             <el-form v-model="form" class="mt26">
-                <el-form-item label="过敏类型：" prop="region" label-width="150px">
+                <el-form-item label="疾病名称：" prop="region" label-width="150px">
                     <el-select v-model="form.region" placeholder="请选择性别">
 
                     </el-select>
                 </el-form-item>
-                <el-form-item label="症状说明：" prop="desc" label-width="150px" style="width:100%" class="speciality">
-                        <el-input type="textarea" v-model="form.region"></el-input>
+                 <el-form-item label="患病/诊断日期：" prop="date1" label-width="150px" style="text-align:left">
+                    <el-date-picker type="date" placeholder="选择首次缴费日期" v-model="form.date1"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="处理建议：" prop="desc" label-width="150px" style="width:100%" class="speciality">
+                <el-form-item label="医疗建议/说明：" prop="desc" label-width="150px" style="width:100%" class="speciality">
                         <el-input type="textarea" v-model="form.region"></el-input>
+                    </el-form-item>
+                 <el-form-item label="家庭/主治医师：" prop="date1" label-width="150px" style="text-align:left">
+                     <el-input v-model="form.region" style="width:20%"></el-input>
+                </el-form-item>
+                 <el-form-item label="联系电话：" prop="date1" label-width="150px" style="text-align:left">
+                     <el-input v-model="form.region" style="width:20%"></el-input>
                 </el-form-item>
             </el-form>
         </div>
@@ -72,6 +87,9 @@ export default {
                 radio:"1"
             }
         }
+    },
+    methods:{
+
     }
 }
 </script>
