@@ -122,11 +122,18 @@ a {
 .mt10{
   margin-bottom: 10px;
 }
+.ml10{
+  margin-left: 10px;
+}
 .padding-left-30 {
   padding-left: 30px;
 }
-
-
+.cur {
+  cursor: pointer;
+}
+.udline {
+  text-decoration: underline;
+}
 /* 字号公共样式 */
 .font-size-5 {
   font-size: 5px;
@@ -207,6 +214,10 @@ a {
   font-weight: 600;
   /* width: 100% !important; */
 }
+.el-tabs__item:hover {
+  color:#f17128;
+  font-weight: 600;
+}
 /* 分页公共样式 */
 .el-pagination {
   text-align: center;
@@ -262,4 +273,5 @@ a {
 }
 .el-dialog{
   min-width: 600px;
+  max-width: 1000px;
 }
