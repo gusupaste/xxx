@@ -38,6 +38,8 @@
             <el-submenu index="6">
               <template slot="title">财务处理</template>
               <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">收费账单</el-menu-item>
+              <el-menu-item index="/financemanagement/policy" route="/financemanagement/policy">收费政策</el-menu-item>
+              <el-menu-item index="/financemanagement/billMaking" route="/financemanagement/billMaking">账单制作</el-menu-item>
               <el-menu-item index="/financemanagement/refund" route="/financemanagement/refund">退费账单</el-menu-item>
               <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">备用金管理</el-menu-item>
               <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
@@ -50,7 +52,7 @@
               <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">品牌管理</el-menu-item>
               <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">学年定义</el-menu-item>
               <el-menu-item index="/systemmanagement/settlement-area" route="/systemmanagement/settlement-area">结算区间定义</el-menu-item>
-              <el-menu-item index="7-4">流程定义</el-menu-item>
+              <el-menu-item index="/systemmanagement/processDefinition" route="/systemmanagement/processDefinition">流程定义</el-menu-item>
               <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
               <el-menu-item index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>

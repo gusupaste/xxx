@@ -18,6 +18,7 @@ import editTemplate from '@/components/systemmanagement/schoolCalendar/editTempl
 import Settlementarea from '@/components/systemmanagement/settlementarea/list'
 import EditSettlementarea from '@/components/systemmanagement/settlementarea/edit'
 import Addsettlementarea from '@/components/systemmanagement/settlementarea/add'
+import ProcessDefinition from '@/components/systemmanagement/processDefinition/processDefinition'
 
 /**入学管理 */
 import EntranceManage from '@/components/entranceManage/index'
@@ -46,6 +47,10 @@ import Setting from '@/components/finance/setting/list'
 import Financemanagement from '@/components/finance/index'
 import Charge from '@/components/finance/charge/list'
 import BillDetail from '@/components/finance/charge/billDetail'
+import BillMaking from '@/components/finance/billMaking/billMaking'
+import Costpremium from '@/components/finance/billMaking/costpremium'
+import CreateDiscount from '@/components/finance/billMaking/createDiscount'
+import Policy from '@/components/finance/policy/policy'
 import PendingApproval from '@/components/finance/charge/pendingApproval'
 import Refund from '@/components/finance/refund/list'
 import PendingApprovalRecord from '@/components/finance/reserveFund/pendingApprovalRecord'
@@ -146,6 +151,11 @@ export default new Router({
           path: '/systemmanagement/addsettlementarea',
           name: 'Addsettlementarea',
           component: Addsettlementarea
+        },
+        {
+          path: '/systemmanagement/processDefinition',
+          name: 'ProcessDefinition',
+          component: ProcessDefinition
         },
       ]
     },
@@ -351,6 +361,26 @@ export default new Router({
           path: '/financemanagement/setting',
           name: 'Setting',
           component: Setting
+        },
+        {
+          path: '/financemanagement/billMaking',
+          name: 'BillMaking',
+          component: BillMaking
+        },
+        {
+          path: '/financemanagement/policy',
+          name: 'Policy',
+          component: Policy
+        },
+        {
+          path: '/financemanagement/costpremium',
+          name: 'costpremium',
+          component: Costpremium
+        },
+        {
+          path: '/financemanagement/createDiscount',
+          name: 'createDiscount',
+          component: CreateDiscount
         },
       ]
     },
