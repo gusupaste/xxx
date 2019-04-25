@@ -42,7 +42,7 @@
         show-header
         style="width: 100%">
         <el-table-column
-          prop="code"
+          prop="no"
           label="学号"
           min-width="30">
         </el-table-column>
@@ -52,30 +52,30 @@
           width="180">
         </el-table-column>
         <el-table-column
-          prop="discount_type"
+          prop="class"
           label="班级">
         </el-table-column>
         <el-table-column
-          prop="discount_budget"
+          prop="day_1"
           label="应出勤天数">
         </el-table-column>
         <el-table-column
-          prop="discount_budget"
+          prop="day_2"
           label="实际出勤天数">
         </el-table-column><el-table-column
-        prop="discount_budget"
+        prop="famliyLeave"
         label="事假">
       </el-table-column><el-table-column
-        prop="discount_budget"
+        prop="sickLeave"
         label="病假">
       </el-table-column>
         <el-table-column
-          prop="discount_budget"
+          prop="schoolLeave"
           label="休学">
         </el-table-column>
         <el-table-column
-          prop="出勤率"
-          label="应出勤天数">
+          prop="rate"
+          label="出勤率">
         </el-table-column>
       </el-table>
     </template>
@@ -97,11 +97,27 @@
           value: '456',
           label: '666'
         }],
-        formLabelAlign: {
-          year: '2018-01',
-          region: '',
-          type: ''
-        }
+        tableData: [{
+          no: '1001',
+          name: 'rthj',
+          class: '（1）',
+          day_1: '13',
+          day_2: '23',
+          famliyLeave: '2',
+          sickLeave: '3',
+          schoolLeave: '1',
+          rate: '77%'
+        },{
+          no: '1002',
+          name: 'ruk',
+          class: '（2）',
+          day_1: '13',
+          day_2: '23',
+          famliyLeave: '2',
+          sickLeave: '3',
+          schoolLeave: '1',
+          rate: '100%'
+        }]
       }
     },
     methods: {
