@@ -6,10 +6,10 @@
     <div class="content">
       <p>
         <span>角色名称：</span>
-        <el-input type="text" placeholder="请输入"></el-input>
+        <el-input v-model="rolename" placeholder="请输入"></el-input>
         <hr hidden>
         <span>角色描述：</span>
-        <el-input type="text" placeholder="请输入"></el-input>
+        <el-input v-model="roledesc" placeholder="请输入"></el-input>
       </p>
       <hr class="line-solid">
       <p>被赋予该角色的系统用户：<a class="orange " @click="addUser"><i class="fa fa-plus"></i>&nbsp;添加用户</a></p>
@@ -67,6 +67,8 @@
     data() {
       return{
         adduser:false,
+        rolename:'',
+        roledesc:'',
         tableData: [
           {
             id: '1',
@@ -193,10 +195,6 @@
     text-align: center;
     color: #ccc;
   }
-  .rolemanagementadd .assign-permissions >>> .el-dialog__body {
-    padding: 0 20px;
-  }
-
   .rolemanagementadd .content p{
     padding: 10px 0;
   }
@@ -219,9 +217,6 @@
     border: 0;
   }
 
-  .rolemanagementadd .active {
-    color: orange;
-  }
   .rolemanagementadd .content >>> .el-input{
     width: 164px;
   }
