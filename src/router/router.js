@@ -68,6 +68,7 @@ import StudentAttendance from "@/components/StudentAttendance/index"
 import AttendanceSurvey from "@/components/StudentAttendance/group/attendanceSurvey"
 import AttendanceDetail from "@/components/StudentAttendance/group/attendanceDetail"
 import AttendanceSurveySchool from "@/components/StudentAttendance/school/attendanceSurvey"
+import AttendanceStatistics from "@/components/StudentAttendance/school/attendanceStatistics"
 
 Vue.use(Router)
 
@@ -260,19 +261,24 @@ export default new Router({
           component: AttendanceSurvey
         },
         {
-          path:'/studentattendance/survey',
-          name:'studentattendanceSurvey',
-          component:AttendanceSurvey
+          path: '/studentattendance/survey',
+          name: 'studentattendanceSurvey',
+          component: AttendanceSurvey
         },
         {
-          path:'/studentattendance/detail/:id',
-          name:'attendancedetail',
-          component:AttendanceDetail
+          path: '/studentattendance/detail/:id',
+          name: 'attendancedetail',
+          component: AttendanceDetail
         },
         {
-          path:'/studentattendance/survey-school',
+          path: '/studentattendance/survey-school',
           name: 'survey-school',
           component: AttendanceSurveySchool
+        },
+        {
+          path: '/studentattendance/attendanceStatistics',
+          name: 'attendanceStatistics',
+          component: AttendanceStatistics
         }
       ]
     },
