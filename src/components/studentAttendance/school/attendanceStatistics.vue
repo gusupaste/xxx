@@ -117,7 +117,51 @@
           sickLeave: '3',
           schoolLeave: '1',
           rate: '100%'
-        }]
+        },{
+          no: '1003',
+          name: 'ruk',
+          class: '（3）',
+          day_1: '13',
+          day_2: '23',
+          famliyLeave: '2',
+          sickLeave: '3',
+          schoolLeave: '1',
+          rate: '100%'
+        },
+          {
+            no: '1004',
+            name: 'ruk',
+            class: '（4）',
+            day_1: '13',
+            day_2: '23',
+            famliyLeave: '2',
+            sickLeave: '3',
+            schoolLeave: '1',
+            rate: '100%'
+          },
+          {
+            no: '1005',
+            name: 'ruk',
+            class: '（2）',
+            day_1: '13',
+            day_2: '23',
+            famliyLeave: '2',
+            sickLeave: '3',
+            schoolLeave: '1',
+            rate: '100%'
+          },
+          {
+            no: '1006',
+            name: 'ruk',
+            class: '（5）',
+            day_1: '13',
+            day_2: '23',
+            famliyLeave: '2',
+            sickLeave: '3',
+            schoolLeave: '1',
+            rate: '100%'
+          }
+        ]
       }
     },
     methods: {
