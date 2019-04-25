@@ -8,12 +8,16 @@
           <div class="top">
             <span class="top-span">班级项目：</span>
             <el-button class="el-button" type="primary" @click="manageBrand(-1)">管理</el-button><br>
-            <span class="top-span-bot">双语班 ； 国际班 ； 慧智班 ； 慧乐班 ；慧智双语班级 ； 慧智普通班  </span>
+            <span v-model="class_type" class="top-span-bot">
+              <span v-for="klass in class_type" :key="klass.id">{{klass.name}};&nbsp;&nbsp;</span>
+            </span>
           </div>
           <div class="top">
             <span class="top-span">年级项目：</span>
             <el-button class="el-button" type="primary" @click="manageBrand(0)">管理</el-button><br>
-            <span class="top-span-bot">国际班；双语班；</span>
+            <span v-model="grade_type" class="top-span-bot">
+              <span v-for="grade in grade_type" :key="grade.id">{{grade.name}};&nbsp;&nbsp;</span>
+            </span>
           </div>
         </div>
         <div class="content">
@@ -103,18 +107,18 @@
           </el-form-item>
           <el-form-item label="班级项目">
             <el-checkbox-group v-model="editForm.klass" style="text-align: left;padding-left: 5px;">
-              <el-checkbox v-for="type1 in klassType" :key="index" :label="type1.name"></el-checkbox>
+              <el-checkbox v-for="(klass,index) in class_type" :key="index" :label="klass.id">{{ klass.name }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="年级项目">
             <el-checkbox-group v-model="editForm.grade" style="text-align: left;padding-left: 5px;">
-              <el-checkbox v-for="type2 in gradeType" :key="index" :label="type2.name"></el-checkbox>
+              <el-checkbox v-for="(grade,ind) in grade_type" :key="ind" :label="grade.id">{{grade.name}}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editbrandVisible = false">取 消</el-button>
-          <el-button type="success" @click="editbrandVisible = false">保 存</el-button>
+          <el-button type="success" @click="saveBrand">保 存</el-button>
         </span>
       </el-dialog>
     </div>
@@ -259,6 +263,8 @@
     },
     data() {
       return {
+        class_type:[],
+        grade_type:[],
         brandName:'添加品牌',
         klass:'',
         addbrandVisible: false,
@@ -402,6 +408,10 @@
         multipleSelection:'',
       };
     },
+    mounted:function(){
+      this.getClassType();
+      this.getGradeType();
+    },
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
@@ -461,6 +471,60 @@
       },
       handleClick(row) {
         console.log(row);
+      },
+      getClassType: function () {
+        var _this = this;
+        _this.loading = true;
+        var url = 'http://134.175.93.59:8000/api/common/class_type';
+        _this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
+          }
+        }).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            this.class_type = res.data.results;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getGradeType:function () {
+        var _this = this;
+        _this.loading = true;
+        var url = 'http://134.175.93.59:8000/api/common/grade_type/';
+        _this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
+          }
+        }).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            this.grade_type = res.data.results;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      saveBrand:function () {
+        var _this = this;
+        _this.loading = true;
+        var url = 'http://134.175.93.59:8000/api/hq/hq/';
+        _this.$axios.post(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
+          },
+          name:_this.editForm.name,
+          class_types:_this.editForm.klass,
+          grade_types:_this.editForm.grade,
+        }).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            alert('保存成功');
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
       }
     }
   }
