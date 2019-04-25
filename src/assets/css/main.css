@@ -73,11 +73,20 @@ html {
 .bg-orange {
   background-color: #f17128;
 }
+.bg-dark-orange {
+  background-color: #F6691E;
+}
 .green {
   color: #8BC34A;
 }
 .orange {
   color: #f17128;
+}
+.blue {
+  color: #54a3e2;
+}
+.black {
+  color: #101010 !important;
 }
 .red {
   color: red;
@@ -136,6 +145,9 @@ a {
 }
 .udline {
   text-decoration: underline;
+}
+.bold {
+  font-weight: 600;
 }
 /* 字号公共样式 */
 .font-size-5 {

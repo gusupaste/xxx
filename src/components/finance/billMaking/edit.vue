@@ -1,15 +1,18 @@
 <template>
     <div class="createDiscount wrap">
       <div class="header">
-        <p class="local_path_style">YOU ARE HERE : 财务处理 > 账单制作 > <span class="font-cl-blue">创建缴费账单</span></p>
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > 账单制作 > <span class="font-cl-blue">编辑缴费账单</span></p>
       </div>
-        <div class="content-top mt26">创建缴费账单</div>
+        <div class="content-top mt26">编辑缴费账单</div>
         <div class="clearfix mt10">
             <el-form inline>
                 <el-form-item label="学生：">
-                    <el-button style="border-raius:20px">
+                    <el-button style="border-raius:20px;border:1px solid #54a3e2" class="blue">
                         <i class="fa fa-search"></i>添加
                     </el-button>
+                </el-form-item>
+                <el-form-item label="" style="width:800px">
+                    <span v-for="(item,index) in list" :key="index">学生姓名：  学生A</span>
                 </el-form-item>
                 <el-form-item label="制单日期：">
                     2019/02/27
@@ -47,6 +50,8 @@
                     </el-button>
                     <button class="btn bg-light-grey black" style="border:1px solid #686868">学费</button>
                     <button class="btn bg-light-grey black" style="border:1px solid #686868">餐费</button>
+                    <button class="btn bg-light-grey black" style="border:1px solid #686868">校车<i class="fa fa-minus-circle red font-size-14"></i></button>
+                    <button class="btn bg-light-grey black" style="border:1px solid #686868">校服<i class="fa fa-minus-circle red font-size-14"></i></button>
                 </el-form-item>
             </el-form>
         </div>
@@ -102,7 +107,7 @@
             </el-table>
         </div>
         <div class="mt26" style="text-align:right">
-            补缴合计：<span class="red bold">— —</span>
+            合计：<span class="red bold font-size-20">245090</span>
         </div>
         <div class="mt26 text-align-center">
             <button class="btn bg-grey">返回</button>
@@ -150,6 +155,7 @@
 export default {
     data(){
         return {
+            list:[1,2,3,4,5,6,7,7,7,],
             value1:'2000-09-09',
             tableData: [{
                 date: '2016-05-02',

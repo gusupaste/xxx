@@ -49,6 +49,9 @@ import Charge from '@/components/finance/charge/list'
 import BillDetail from '@/components/finance/charge/billDetail'
 import BillMaking from '@/components/finance/billMaking/billMaking'
 import Costpremium from '@/components/finance/billMaking/costpremium'
+import BillMakingDetail from '@/components/finance/billMaking/detail'
+import BillMakingEdit from '@/components/finance/billMaking/edit'
+import BillMakingDollar from '@/components/finance/billMaking/dollar'
 import CreateDiscount from '@/components/finance/billMaking/createDiscount'
 import Policy from '@/components/finance/policy/policy'
 import PendingApproval from '@/components/finance/charge/pendingApproval'
@@ -381,6 +384,21 @@ export default new Router({
           path: '/financemanagement/createDiscount',
           name: 'createDiscount',
           component: CreateDiscount
+        },
+        {
+          path: '/financemanagement/billMakingDetail/:id',
+          name: 'BillMakingDetail',
+          component: BillMakingDetail
+        },
+        {
+          path: '/financemanagement/edit/:id',
+          name: 'BillMakingEdit',
+          component: BillMakingEdit
+        },
+        {
+          path: '/financemanagement/dollar/:id',
+          name: 'BillMakingDollar',
+          component: BillMakingDollar
         },
       ]
     },

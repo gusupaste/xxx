@@ -53,7 +53,11 @@
             prop="date"
             label="账单号"
             width="180">
+            <template slot-scope="scope">
+                <router-link to="/financemanagement/billMakingDetail/9">111111</router-link>
+            </template>
             </el-table-column>
+            
             <el-table-column
             prop="name"
             label="学生姓名"
@@ -93,13 +97,18 @@
             prop="name"
             label="实际应收"
             >
-            <template>
-                <span style="padding:0 20px;border-right:1px solid #e3e3e3">
-                    <i class="fa fa-pencil font-size-20 orange"></i>
-                </span>
-                <span style="padding:0 20px;">
-                    <i class="fa fa-dollar font-size-20 green"></i>
-                </span>
+            <template slot-scope="scope">
+                <router-link to="/financemanagement/edit/9">
+                    <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 orange"></i>
+                    </span>
+                </router-link>
+                <router-link to="/financemanagement/dollar/9">
+                    <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 green"></i>
+                    </span>
+                </router-link>
+                
             </template>
             </el-table-column>
         </el-table>
