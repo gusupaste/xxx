@@ -13,9 +13,7 @@
                 text-color="#fff"
                 active-text-color="#fff"
                 router>
-            <el-menu-item index="/home" route="/home" >
-              首页
-            </el-menu-item>
+              <el-menu-item index="/home" route="/home" >首页</el-menu-item>
             <el-submenu index="/entranceManage" >
               <template slot="title">入学管理</template>
               <el-menu-item index="/entranceManage/intentional-admission" route="/entranceManage/intentional-admission">意向入学缴费</el-menu-item>
@@ -29,40 +27,29 @@
                 <el-menu-item index="/school/enrollmentnumber-list" route="/school/enrollmentnumber-list">校园招生目标数</el-menu-item>
                 <el-menu-item index="/school/revenuetarget-list" route="/school/revenuetarget-list">校园收入目标</el-menu-item>
             </el-submenu>
-            <el-menu-item index="/studentFile/studentFileList" route="/studentFile/studentFileList">学生档案</el-menu-item>
-            <el-menu-item index="/parentInfo" route="/parentInfo">家长信息</el-menu-item>
-            <el-menu-item index="/studentattendance/survey" route="/studentattendance/survey">学生考勤</el-menu-item>
+              <el-menu-item index="/studentFile/studentFileList" route="/studentFile/studentFileList">学生档案</el-menu-item>
+              <el-menu-item index="/parentInfo" route="/parentInfo">家长信息</el-menu-item>
+              <el-menu-item index="/studentattendance/survey" route="/studentattendance/survey">学生考勤</el-menu-item>
+            <el-submenu index="5">
+              <template slot="title">学生考勤(2)</template>
+              <el-menu-item index="/studentattendance/survey-school" route="/studentattendance/survey-school">每日考勤</el-menu-item>
+              <el-menu-item index="1">考勤统计</el-menu-item>
+            </el-submenu>
             <el-submenu index="6">
               <template slot="title">财务处理</template>
-              <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">
-                收费账单
-              </el-menu-item>
-              <el-menu-item index="/financemanagement/refund" route="/financemanagement/refund">
-                退费账单
-              </el-menu-item>
-              <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">
-                备用金管理
-              </el-menu-item>
-              <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">
-                学生折扣
-              </el-menu-item>
+              <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">收费账单</el-menu-item>
+              <el-menu-item index="/financemanagement/refund" route="/financemanagement/refund">退费账单</el-menu-item>
+              <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">备用金管理</el-menu-item>
+              <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
               <el-menu-item index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
-              <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">
-                财务设置
-              </el-menu-item>
+              <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
             </el-submenu>
-            <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
+              <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
             <el-submenu index="7">
               <template slot="title">系统管理</template>
-              <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">
-                品牌管理
-              </el-menu-item>
-              <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">
-                学年定义
-              </el-menu-item>
-              <el-menu-item index="/systemmanagement/settlement-area" route="/systemmanagement/settlement-area">
-                结算区间定义
-              </el-menu-item>
+              <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">品牌管理</el-menu-item>
+              <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">学年定义</el-menu-item>
+              <el-menu-item index="/systemmanagement/settlement-area" route="/systemmanagement/settlement-area">结算区间定义</el-menu-item>
               <el-menu-item index="7-4">流程定义</el-menu-item>
               <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
               <el-menu-item index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>

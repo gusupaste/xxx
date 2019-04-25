@@ -64,8 +64,9 @@ import Workflow from '@/components/workflow/list'
 import ParentInfo from '@/components/parentinfo/list'
 
 /**学生考勤 */
-import StudentAttendance from "@/components/StudentAttendance/index"
-import AttendanceSurvey from "@/components/StudentAttendance/group/attendanceSurvey"
+import StudentAttendance from "@/components/studentAttendance/index"
+import AttendanceSurvey from "@/components/studentAttendance/group/attendanceSurvey"
+import AttendanceSurveySchool from "@/components/StudentAttendance/school/attendanceSurvey"
 
 Vue.use(Router)
 
@@ -160,7 +161,7 @@ export default new Router({
           path: '/studentFile/studentFileDetail/:id',/*学生档案详情*/
           name: 'studentFileDetail',
           component: StudentFileDetail,
-          children:[
+          children: [
 
           ]
         },
@@ -251,11 +252,16 @@ export default new Router({
       path: '/studentattendance',/*学生考勤*/
       name: 'studentattendance',
       component: StudentAttendance,
-      children:[
+      children: [
         {
-          path:'/studentattendance/survey',
-          name:'studentattendanceSurvey',
-          component:AttendanceSurvey
+          path: '/studentattendance/survey',
+          name: 'studentattendanceSurvey',
+          component: AttendanceSurvey
+        },
+        {
+          path: '/studentattendance/survey-school',
+          name: 'survey-school',
+          component: AttendanceSurveySchool
         }
       ]
     },
@@ -337,7 +343,7 @@ export default new Router({
       component: SchoolCalendarList,
       meta: { requiresAuth: true, keepAlive: false },
 
-      children:[
+      children: [
 
       ]
     },
