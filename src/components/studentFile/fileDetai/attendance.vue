@@ -67,6 +67,9 @@
     .school-attendance  >>> .wh_content {
        padding: 0;
     }
+    .school-attendance >>> .wh_top_changge li {
+        color:#101010;
+    }
 </style>
 <script>
 import Calendar from 'vue-calendar-component';

@@ -66,6 +66,7 @@ import ParentInfo from '@/components/parentinfo/list'
 /**学生考勤 */
 import StudentAttendance from "@/components/StudentAttendance/index"
 import AttendanceSurvey from "@/components/StudentAttendance/group/attendanceSurvey"
+import AttendanceDetail from "@/components/StudentAttendance/group/attendanceDetail"
 
 Vue.use(Router)
 
@@ -256,7 +257,12 @@ export default new Router({
           path:'/studentattendance/survey',
           name:'studentattendanceSurvey',
           component:AttendanceSurvey
-        }
+        },
+        {
+          path:'/studentattendance/detail/:id',
+          name:'attendancedetail',
+          component:AttendanceDetail
+        },
       ]
     },
     {
