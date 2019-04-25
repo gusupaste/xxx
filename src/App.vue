@@ -33,7 +33,7 @@
             <el-submenu index="5">
               <template slot="title">学生考勤(2)</template>
               <el-menu-item index="/studentattendance/survey-school" route="/studentattendance/survey-school">每日考勤</el-menu-item>
-              <el-menu-item index="1">考勤统计</el-menu-item>
+              <el-menu-item index="/studentattendance/attendanceStatistics" route="/studentattendance/attendanceStatistics">考勤统计</el-menu-item>
             </el-submenu>
             <el-submenu index="6">
               <template slot="title">财务处理</template>
