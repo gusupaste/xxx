@@ -154,7 +154,6 @@
   }
   .brandmanagement >>> .intercity-list{
     width: 220px;
-    height: 300px;
     display: inline-block;
     margin-right: 2%;
   }
