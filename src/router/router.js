@@ -65,7 +65,7 @@ import ParentInfo from '@/components/parentinfo/list'
 
 /**学生考勤 */
 import StudentAttendance from "@/components/StudentAttendance/index"
-import AttendanceSurvey from "@/components/StudentAttendance/attendanceSurvey"
+import AttendanceSurvey from "@/components/StudentAttendance/group/attendanceSurvey"
 
 Vue.use(Router)
 
