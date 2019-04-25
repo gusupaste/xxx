@@ -63,6 +63,9 @@ import Workflow from '@/components/workflow/list'
 /**家长信息 */
 import ParentInfo from '@/components/parentinfo/list'
 
+/**学生考勤 */
+import StudentAttendance from "@/components/StudentAttendance/index"
+import AttendanceSurvey from "@/components/StudentAttendance/attendanceSurvey"
 
 Vue.use(Router)
 
@@ -165,7 +168,7 @@ export default new Router({
       ]
     },
     {
-      path: '/parentInfo',/*系统管理*/
+      path: '/parentInfo',/*家长信息*/
       name: 'parentInfo',
       component: ParentInfo,
     },
@@ -243,6 +246,18 @@ export default new Router({
       path: '/workflow',/*工作流*/
       name: 'workflow',
       component: Workflow,
+    },
+    {
+      path: '/studentattendance',/*学生考勤*/
+      name: 'studentattendance',
+      component: StudentAttendance,
+      children:[
+        {
+          path:'/studentattendance/survey',
+          name:'studentattendanceSurvey',
+          component:AttendanceSurvey
+        }
+      ]
     },
     {
       path: '/financemanagement',/*财务管理*/

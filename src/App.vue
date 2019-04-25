@@ -31,7 +31,7 @@
             </el-submenu>
             <el-menu-item index="/studentFile/studentFileList" route="/studentFile/studentFileList">学生档案</el-menu-item>
             <el-menu-item index="/parentInfo" route="/parentInfo">家长信息</el-menu-item>
-            <el-menu-item index="5">学生考勤</el-menu-item>
+            <el-menu-item index="/studentattendance/survey" route="/studentattendance/survey">学生考勤</el-menu-item>
             <el-submenu index="6">
               <template slot="title">财务处理</template>
               <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">
