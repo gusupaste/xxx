@@ -1,5 +1,5 @@
 <template>
-    <div class="payBillInfo wrap">
+    <div class="payBillDetail wrap">
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 财务处理 > 缴费处理 > <span class="font-cl-blue">缴费</span></p>
       </div>
