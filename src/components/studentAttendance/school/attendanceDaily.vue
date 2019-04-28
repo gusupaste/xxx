@@ -112,7 +112,7 @@
     border: 1px solid #e3e3e3;
   }
 
-  .attendanceDaily >>> .el-button {
+  .attendanceDaily .local-month >>> .el-button {
     height: 0;
     float: right;
   }
