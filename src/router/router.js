@@ -75,8 +75,8 @@ import ParentInfo from '@/components/parentinfo/list'
 import StudentAttendance from "@/components/studentAttendance/index"
 import AttendanceSurvey from "@/components/studentAttendance/group/attendanceSurvey"
 import AttendanceDetail from "@/components/studentAttendance/group/attendanceDetail"
-import AttendanceSurveySchool from "@/components/studentAttendance/school/attendanceSurvey"
 import AttendanceStatistics from "@/components/studentAttendance/school/attendanceStatistics"
+import AttendanceDaily from "@/components/studentAttendance/school/attendanceDaily"
 
 Vue.use(Router)
 
@@ -284,14 +284,14 @@ export default new Router({
           component: AttendanceDetail
         },
         {
-          path: '/studentattendance/survey-school',
-          name: 'survey-school',
-          component: AttendanceSurveySchool
-        },
-        {
           path: '/studentattendance/attendanceStatistics',
           name: 'attendanceStatistics',
           component: AttendanceStatistics
+        },
+        {
+          path: '/studentattendance/attendanceDaily',
+          name: 'attendanceDaily',
+          component: AttendanceDaily
         }
       ]
     },

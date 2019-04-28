@@ -32,7 +32,7 @@
         </el-option>
       </el-select>
       <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
-     </p>
+    </p>
     <template>
       <el-table
         class="mt26"
@@ -65,13 +65,15 @@
         <el-table-column
           prop="day_2"
           label="实际出勤天数">
-        </el-table-column><el-table-column
-        prop="famliyLeave"
-        label="事假">
-      </el-table-column><el-table-column
-        prop="sickLeave"
-        label="病假">
-      </el-table-column>
+        </el-table-column>
+        <el-table-column
+          prop="famliyLeave"
+          label="事假">
+        </el-table-column>
+        <el-table-column
+          prop="sickLeave"
+          label="病假">
+        </el-table-column>
         <el-table-column
           prop="schoolLeave"
           label="休学">
@@ -84,9 +86,30 @@
     </template>
     <!--  弹框  -->
     <el-dialog class="assign-permissions" title="考勤详细概况" :visible.sync="detail" width="50%">
-      <div class="local-month mt10">
-        当月出勤率：<span class="red">0%   </span> ； 4月已过 <span class="red">16 </span> 个工作日   ；  当月有 <span class="red">21  </span> 个工作日
-      </div>
+      <el-container class="school-attendance">
+        <el-aside width="100%">
+          <div class="local-month">
+            <span> 学生A </span><span style="margin: 10px">|</span>应出勤天数：<span class="red">20</span>个工作日 ； 4月已过 <span class="red">16 </span> 个工作日 ； 当月有 <span
+            class="red">21  </span> 个工作日
+          </div>
+          <div style="width:80%;margin:0 auto">
+            <div class="mt10 text-align-center">
+              <calendar></calendar>
+            </div>
+            <div class="calendar-datail">
+              <p>考勤日期说明</p>
+              <div>
+                <span style="background-color:#e51c23" class="calendar-suqre"></span>
+                <span class="mr26">请假</span>
+                <span style="background-color:#ff9800" class="calendar-suqre"></span>
+                <span class="mr26">补登</span>
+                <span style="background-color:#8BC34A" class="calendar-suqre"></span>
+                <span class="mr26">正常出勤</span>
+              </div>
+            </div>
+          </div>
+        </el-aside>
+      </el-container>
       <span slot="footer" class="dialog-footer text-align-center">
         <el-button @click="detail = false">取 消</el-button>
           <el-button type="success" @click="detail = false">保 存</el-button>
@@ -96,27 +119,80 @@
 </template>
 <style scoped>
   /*表格内容居中*/
-  .attendanceStatistics >>> .el-table td,.attendanceStatistics >>> .el-table th{
+  .attendanceStatistics >>> .el-table td, .attendanceStatistics >>> .el-table th {
     text-align: center;
   }
-  .attendanceStatistics >>> .el-dialog__footer{
+  .attendanceStatistics >>> .el-dialog__footer {
     text-align: center;
+  }
+  .attendanceStatistics .local-month {
+    background-color:rgba(255, 152, 0, 0.14);
+    padding: 15px;
+    color:#101010;
+    border: 1px solid #e3e3e3;
+  }
+  .attendanceStatistics  .calendar-datail{
+    border: 1px solid #bbb;
+    color: #101010;
+    margin-top: 20px;
+    padding: 10px;
+  }
+  .attendanceStatistics .calendar-suqre {
+    display: inline-block;
+    width:10px;
+    height:10px;
+  }
+  .attendanceStatistics .new-calendar-modal >>> .school-calendar {
+    padding: 10px 10px 10px 100px;
+  }
+  .attendanceStatistics  >>> .wh_container {
+    width: 100%;
+    display: inline-block;
+    margin: 0 auto;
+    border: 1px solid #d9d9d9;
+  }
+  .attendanceStatistics >>> .wh_content:nth-child(2) {
+    background-color: #f7f7f7;
+    border: 1px solid #d9d9d9;
+  }
+  .attendanceStatistics  >>> .wh_content_all[data-v-2ebcbc83] {
+    background-color: #fff;
+  }
+  .attendanceStatistics  >>> .wh_item_date {
+    color:#101010;
+    font-size: 12px;
+  }
+  .attendanceStatistics  >>> .wh_content_item {
+    color:#101010;
+    font-size: 12px;
+  }
+  .attendanceStatistics  >>> .wh_content {
+    padding: 0;
+  }
+  .attendanceStatistics >>> .wh_top_changge li {
+    color:#101010;
+  }
+  .attendanceStatistics >>> .wh_container {
+    max-width: 100%;
   }
 
 </style>
 <script>
+  import Calendar from 'vue-calendar-component';
+
   export default {
-    data () {
+    data() {
       return {
         value: '-所有-',
         detail: false,
-         options: [{
+        options: [{
           value: '123',
           label: '333'
-        },{
-          value: '456',
-          label: '666'
-        }],
+        },
+          {
+            value: '456',
+            label: '666'
+          }],
         tableData: [{
           no: '1001',
           name: 'rthj',
@@ -127,7 +203,7 @@
           sickLeave: '3',
           schoolLeave: '1',
           rate: '77%'
-        },{
+        }, {
           no: '1002',
           name: 'ruk',
           class: '（2）',
@@ -137,7 +213,7 @@
           sickLeave: '3',
           schoolLeave: '1',
           rate: '100%'
-        },{
+        }, {
           no: '1003',
           name: 'ruk',
           class: '（3）',
@@ -195,8 +271,11 @@
         ]
       }
     },
+    components: {
+      Calendar
+    },
     methods: {
-      onSubmit () {
+      onSubmit() {
         console.log('submit!')
       },
       attendanceDetail: function () {
