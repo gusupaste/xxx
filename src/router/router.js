@@ -72,11 +72,11 @@ import Workflow from '@/components/workflow/list'
 import ParentInfo from '@/components/parentinfo/list'
 
 /**学生考勤 */
-import StudentAttendance from "@/components/StudentAttendance/index"
-import AttendanceSurvey from "@/components/StudentAttendance/group/attendanceSurvey"
-import AttendanceDetail from "@/components/StudentAttendance/group/attendanceDetail"
-import AttendanceSurveySchool from "@/components/StudentAttendance/school/attendanceSurvey"
-import AttendanceStatistics from "@/components/StudentAttendance/school/attendanceStatistics"
+import StudentAttendance from "@/components/studentAttendance/index"
+import AttendanceSurvey from "@/components/studentAttendance/group/attendanceSurvey"
+import AttendanceDetail from "@/components/studentAttendance/group/attendanceDetail"
+import AttendanceSurveySchool from "@/components/studentAttendance/school/attendanceSurvey"
+import AttendanceStatistics from "@/components/studentAttendance/school/attendanceStatistics"
 
 Vue.use(Router)
 
