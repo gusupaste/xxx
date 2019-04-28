@@ -351,6 +351,7 @@
     }
 </style>
 <script>
+import { mapGetters,mapActions } from "vuex";
 export default {
     data() {
         return {
@@ -511,6 +512,9 @@ export default {
             }],
         }
     },
+    created () {
+
+    },
     methods:{
         handleClick(tab, event) {
         // console.log(tab, event);
@@ -542,6 +546,9 @@ export default {
     },
     components:{
 
+    },
+    computed: {
+        // ...mapGetters(['getArea']),
     }
 }
 </script>

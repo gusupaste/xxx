@@ -64,6 +64,8 @@ import DiscountApproval from '@/components/finance/discount/approval'
 import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
+import DiscountApplication from '@/components/finance/discountApplication/list'
+import AdddiscountApplication from '@/components/finance/discountApplication/add'
 
 /**工作流 */
 import Workflow from '@/components/workflow/list'
@@ -399,6 +401,16 @@ export default new Router({
           path: '/financemanagement/dollar/:id',
           name: 'BillMakingDollar',
           component: BillMakingDollar
+        },
+        {
+          path: '/financemanagement/discountApplication',
+          name: 'DiscountApplication',
+          component: DiscountApplication
+        },
+        {
+          path: '/financemanagement/adddiscountApplication',
+          name: 'AdddiscountApplication',
+          component: AdddiscountApplication
         },
       ]
     },
