@@ -96,12 +96,11 @@ export default {
       },
 
       logout(){
-        localStorage.removeItem('user_Info');
-        localStorage.removeItem('user_Token');
+        this.$cookies.remove('token');
+        this.$cookies.remove('userInfo');
         this.$router.push('/login');
       },
       success(res){
-        alert(999)
         this.premission = res;
       },
        handleSelect(key, keyPath) {

@@ -202,16 +202,13 @@
     methods: {
       getSchoolList(){
         var _this = this;
-        _this.$axios.get('http://192.168.51.29:8000/api/center/center/',{
-          headers:{
-            Authorization:"jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6InRhaWRpaV9lZCIsImV4cCI6MTU2MzE3ODk1NiwiZW1haWwiOiJjaGVuc2h1YWlAdGFpZGlpLmNvbSJ9.xPqGqO2JDd9eBH4bOJJF8EdovCsWS29v93RDz-S3J8o"
-          },
+        _this.$axios.get('http://192.168.1.197:8000/api/center/center/',{
           params:{
             username:_this.username,
             password:_this.password
         }
       }).then(res=>{
-        _this.schoolList = res.data.center_list;
+        _this.schoolList = res.data.paginated_dict.results;
       }).catch(err=>{
         console.log(err)
       })
