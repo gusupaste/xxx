@@ -1,7 +1,7 @@
 <template>
   <div class="rolemanagementadd wrap">
     <div class="header">
-      <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">新增用户</span></p>
+      <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">新增角色</span></p>
     </div>
     <div class="content">
       <p>
@@ -51,6 +51,10 @@
           </el-collapse-item>
         </div>
       </el-collapse>
+      <div class="footer-btn">
+        <button class="btn bg-grey" style="margin: 50px">取消</button>
+        <button class="btn bg-green" @click="saveRole">保存</button>
+      </div>
     </div>
     <!--添加 弹框-->
     <el-dialog title="添加用户" :visible.sync="adduser" width="50%" style="padding: 30px 60px;">
@@ -168,9 +172,9 @@
           }]
       }
     },
-    methods:{
-      addUser:function(){
-        this.adduser=true
+    methods: {
+      addUser: function() {
+        this.adduser = true
       },
       handleChange: function (val) {
         var liList = document.getElementsByName('selectColor')
@@ -183,6 +187,27 @@
             }
           }
         }
+      },
+      saveRole: function () {
+        var _this = this;
+        _this.loading = true;
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/';
+        _this.$axios.post(url, {
+          name:_this.rolename,
+          description:_this.roledesc,
+          status:0,
+        },{
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            alert('保存成功');
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
       }
     }
   }
@@ -222,6 +247,10 @@
   }
   /*表格内容居中*/
   .rolemanagementadd >>> .el-table td, .rolemanagementadd >>> .el-table th {
+    text-align: center;
+  }
+
+  .rolemanagementadd .footer-btn{
     text-align: center;
   }
 </style>
