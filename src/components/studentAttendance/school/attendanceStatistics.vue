@@ -1,7 +1,7 @@
 <template>
   <div class="wrap attendanceStatistics">
     <div class="header">
-      <p class="local_path_style">YOU ARE HERE : > 学生考勤<span class="font-cl-blue">考勤统计</span></p>
+      <p class="local_path_style">YOU ARE HERE : > 学生考勤 > <span class="font-cl-blue">考勤统计</span></p>
     </div>
     <p class="mt10">
       <span>学年：</span>
@@ -50,6 +50,9 @@
           prop="name"
           label="学生姓名"
           width="180">
+          <template slot-scope="scope">
+            <a class="font-cl-blue" @click="attendanceDetail">{{ scope.row.name }}</a>
+          </template>
         </el-table-column>
         <el-table-column
           prop="class"
@@ -79,10 +82,26 @@
         </el-table-column>
       </el-table>
     </template>
+    <!--  弹框  -->
+    <el-dialog class="assign-permissions" title="考勤详细概况" :visible.sync="detail" width="50%">
+      <div class="local-month mt10">
+        当月出勤率：<span class="red">0%   </span> ； 4月已过 <span class="red">16 </span> 个工作日   ；  当月有 <span class="red">21  </span> 个工作日
+      </div>
+      <span slot="footer" class="dialog-footer text-align-center">
+        <el-button @click="detail = false">取 消</el-button>
+          <el-button type="success" @click="detail = false">保 存</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 <style scoped>
-
+  /*表格内容居中*/
+  .attendanceStatistics >>> .el-table td,.attendanceStatistics >>> .el-table th{
+    text-align: center;
+  }
+  .attendanceStatistics >>> .el-dialog__footer{
+    text-align: center;
+  }
 
 </style>
 <script>
@@ -90,6 +109,7 @@
     data () {
       return {
         value: '-所有-',
+        detail: false,
          options: [{
           value: '123',
           label: '333'
@@ -160,6 +180,17 @@
             sickLeave: '3',
             schoolLeave: '1',
             rate: '100%'
+          },
+          {
+            no: '1007',
+            name: 'ruk',
+            class: '（5）',
+            day_1: '13',
+            day_2: '23',
+            famliyLeave: '2',
+            sickLeave: '3',
+            schoolLeave: '1',
+            rate: '100%'
           }
         ]
       }
@@ -167,6 +198,9 @@
     methods: {
       onSubmit () {
         console.log('submit!')
+      },
+      attendanceDetail: function () {
+        this.detail = true
       }
     }
   }
