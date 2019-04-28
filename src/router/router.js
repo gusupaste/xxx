@@ -64,6 +64,9 @@ import DiscountApproval from '@/components/finance/discount/approval'
 import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
+import Paymentprocessing from '@/components/finance/paymentprocessing/list'
+import PayBillDetail from '@/components/finance/paymentprocessing/billDetail'
+import BillInfo from '@/components/finance/paymentprocessing/billInfo'
 
 /**工作流 */
 import Workflow from '@/components/workflow/list'
@@ -359,6 +362,21 @@ export default new Router({
           path: '/financemanagement/parentbusinessapplication',
           name: 'parentbusinessapplication',
           component: Parentbusinessapplication
+        },
+        {
+          path: '/financemanagement/paymentprocessing',
+          name: 'paymentprocessing',
+          component: Paymentprocessing
+        },
+        {
+          path: '/financemanagement/payBillDetail',
+          name: 'payBillDetail',
+          component: PayBillDetail
+        },
+        {
+          path: '/financemanagement/billInfo',
+          name: 'billInfo',
+          component: BillInfo
         },
         {
           path: '/financemanagement/setting',

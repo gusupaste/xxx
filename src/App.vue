@@ -38,8 +38,9 @@
             <el-submenu index="6">
               <template slot="title">财务处理</template>
               <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">收费账单</el-menu-item>
-              <el-menu-item index="/financemanagement/policy" route="/financemanagement/policy">收费政策</el-menu-item>
-              <el-menu-item index="/financemanagement/billMaking" route="/financemanagement/billMaking">账单制作</el-menu-item>
+              <el-menu-item index="/financemanagement/policy" route="/financemanagement/policy">收费政策(校园)</el-menu-item>
+              <el-menu-item index="/financemanagement/billMaking" route="/financemanagement/billMaking">账单制作(校园)</el-menu-item>
+              <el-menu-item index="/financemanagement/paymentprocessing" route="/financemanagement/paymentprocessing">缴费处理(校园)</el-menu-item>
               <el-menu-item index="/financemanagement/refund" route="/financemanagement/refund">退费账单</el-menu-item>
               <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">备用金管理</el-menu-item>
               <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
