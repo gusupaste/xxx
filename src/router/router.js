@@ -66,6 +66,9 @@ import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import DiscountApplication from '@/components/finance/discountApplication/list'
 import AdddiscountApplication from '@/components/finance/discountApplication/add'
+import Paymentprocessing from '@/components/finance/paymentprocessing/list'
+import PayBillDetail from '@/components/finance/paymentprocessing/billDetail'
+import BillInfo from '@/components/finance/paymentprocessing/billInfo'
 
 /**工作流 */
 import Workflow from '@/components/workflow/list'
@@ -77,8 +80,8 @@ import ParentInfo from '@/components/parentinfo/list'
 import StudentAttendance from "@/components/studentAttendance/index"
 import AttendanceSurvey from "@/components/studentAttendance/group/attendanceSurvey"
 import AttendanceDetail from "@/components/studentAttendance/group/attendanceDetail"
-import AttendanceSurveySchool from "@/components/studentAttendance/school/attendanceSurvey"
 import AttendanceStatistics from "@/components/studentAttendance/school/attendanceStatistics"
+import AttendanceDaily from "@/components/studentAttendance/school/attendanceDaily"
 
 Vue.use(Router)
 
@@ -286,14 +289,14 @@ export default new Router({
           component: AttendanceDetail
         },
         {
-          path: '/studentattendance/survey-school',
-          name: 'survey-school',
-          component: AttendanceSurveySchool
-        },
-        {
           path: '/studentattendance/attendanceStatistics',
           name: 'attendanceStatistics',
           component: AttendanceStatistics
+        },
+        {
+          path: '/studentattendance/attendanceDaily',
+          name: 'attendanceDaily',
+          component: AttendanceDaily
         }
       ]
     },
@@ -361,6 +364,21 @@ export default new Router({
           path: '/financemanagement/parentbusinessapplication',
           name: 'parentbusinessapplication',
           component: Parentbusinessapplication
+        },
+        {
+          path: '/financemanagement/paymentprocessing',
+          name: 'paymentprocessing',
+          component: Paymentprocessing
+        },
+        {
+          path: '/financemanagement/payBillDetail',
+          name: 'payBillDetail',
+          component: PayBillDetail
+        },
+        {
+          path: '/financemanagement/billInfo',
+          name: 'billInfo',
+          component: BillInfo
         },
         {
           path: '/financemanagement/setting',
