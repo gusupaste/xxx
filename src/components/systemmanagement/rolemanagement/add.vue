@@ -36,13 +36,14 @@
               <li style="line-height: 0" name="selectColor">{{item.name}}</li>
             </template>
             <div>
-              <el-table :data="item.table" border style="width: 100%">
-                <el-table-column prop="permissions" label="权限">
+              <el-table :data="item.permissions" border style="width: 100%">
+                <el-table-column prop="name" label="权限">
                 </el-table-column>
-                <el-table-column prop="apply" label="申明">
+                <el-table-column prop="description" label="申明">
                 </el-table-column>
-                <el-table-column prop="allow" label="允许">
-                  <template>
+                <el-table-column label="允许">
+                  <template slot-scope="scope">
+                    <span hidden>{{scope.row.id}}</span>
                     <el-checkbox></el-checkbox>
                   </template>
                 </el-table-column>
@@ -58,6 +59,15 @@
     </div>
     <!--添加 弹框-->
     <el-dialog title="添加用户" :visible.sync="adduser" width="50%" style="padding: 30px 60px;">
+      <div>
+        <template>
+          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+          <div style="margin: 15px 0;"></div>
+          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+          </el-checkbox-group>
+        </template>
+      </div>
       <span slot="footer" class="dialog-footer text-align-center">
           <el-button @click="adduser = false">取 消</el-button>
           <el-button type="success" @click="adduser = false">保 存</el-button>
@@ -73,6 +83,10 @@
         adduser:false,
         rolename:'',
         roledesc:'',
+        checkAll: false,
+        checkedCities: ['上海', '北京'],
+        cities: ['上海', '北京', '广州', '深圳'],
+        isIndeterminate: true,
         tableData: [
           {
             id: '1',
@@ -84,95 +98,32 @@
             account: 'www@hungjkhb.com'
           }
         ],
-        boxData: [{
-          name: '总部学生档案',
-          table: [{
-            permissions: 'a',
-            apply: 'b',
-            allow: 'c'
-          }, {
-            permissions: 'a',
-            apply: 'b',
-            allow: 'c'
-          }
-          ]
-        },
-          {
-            name: '潜在生管理',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '校园预备生管理',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '入学申请列表',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '招生入学首页',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '毕业离园生管理',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '校园学生管理',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }]
+        boxData: []
       }
     },
+    mounted:function(){
+      this.getSystemPermission();
+    },
     methods: {
+      getSystemPermission: function(){
+        var _this = this;
+        _this.loading = true;
+        var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
+        _this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res=>{
+          _this.loading = false;
+          if(res.data.status == 1) {
+            this.boxData = res.data.data;
+            console.log(this.boxData)
+            //this.class_type = res.data.results;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       addUser: function() {
         this.adduser = true
       },
@@ -187,6 +138,15 @@
             }
           }
         }
+      },
+      handleCheckAllChange(val) {
+        this.checkedCities = val ? this.cities : [];
+        this.isIndeterminate = false;
+      },
+      handleCheckedCitiesChange(value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.cities.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
       },
       saveRole: function () {
         var _this = this;
