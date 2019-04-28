@@ -111,7 +111,6 @@ export default {
             localStorage.setItem('user_password',_this.password);
             localStorage.setItem('user_Token',JSON.stringify(res.data.token));
             _this.$router.push('/home');
-            _this.$emit('success',999)
           }
       }).catch(err=>{
         console.log(err)

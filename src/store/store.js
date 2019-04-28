@@ -5,9 +5,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     // 设置属性
     state: {
-        user_Info: {
-
-        },
+        user_Info: {},
         user_Token:"",
         area:{
             

@@ -12,12 +12,13 @@ import axios from 'axios';
 import './assets/css/main.css';
 import 'font-awesome/css/font-awesome.min.css';
 import * as custom from './assets/js/filter';
-
+import VueCookies from 'vue-cookies'
 Object.keys(custom).forEach(key => {
   Vue.filter(key, custom[key])
 })
 Vue.use(ElementUI);
 Vue.use(vueEventCalendar, {locale: 'en',color: '#4fc08d'});
+Vue.use(VueCookies)
 Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false
