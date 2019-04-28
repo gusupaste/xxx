@@ -14,7 +14,7 @@
                 </el-form-item>
                 <br>
                 <el-form-item label="学生：" label-width="120px">
-                    <el-button style="border-raius:20px">
+                    <el-button style="border-raius:20px" @click="dialogTableVisible=true">
                         <i class="fa fa-search"></i>添加
                     </el-button>
                 </el-form-item>
@@ -135,14 +135,35 @@
                 </el-button>
             </el-form-item>
         </el-form>
-        <div class="mt26" style="text-align:right">
-            补缴合计：<span class="red bold">— —</span>
-        </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey">返回</button>
-            <button class="btn bg-green">保存</button>
-            <button class="btn bg-dark-orange">缴费</button>
+            <button class="btn bg-grey">取消</button>
+            <button class="btn bg-green">提交</button>
         </div>
+        <el-dialog title="添加学生" :visible.sync="dialogTableVisible">
+            <p>合肥御龙湾幼儿园</p>
+            <el-form inline style="border:none" class="mt10">
+                <el-form-item  label="搜索：">
+                    <el-input class="w250_input" placeholder="输入学号、学生姓名或家长姓名"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary">搜索</el-button>
+                </el-form-item>
+            </el-form>
+            <el-table :data="tableData">
+                <el-table-column property="date" label="学生姓名" width="150"></el-table-column>
+                <el-table-column property="name" label="学号" width="200"></el-table-column>
+                <el-table-column property="address" label="联系人"></el-table-column>
+            </el-table>
+            <p class="mt10 ml20">
+                <ul>
+                    <li class="red">学生不可多选，折扣不支持批量创建</li>
+                </ul>
+            </p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogTableVisible = false"  class="bg-grey white bd-grey">取 消</el-button>
+                <el-button type="primary" @click="dialogTableVisible = false" class="bg-green white bd-green">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <style scoped>
@@ -195,6 +216,7 @@
 export default {
     data(){
         return {
+            dialogTableVisible:false,
             value1:'2000-09-09',
             fileList:[],
             tableData: [{

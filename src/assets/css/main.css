@@ -97,6 +97,12 @@ html {
 .white{
   color: #fff;
 }
+.bd-green {
+  border:1px solid #8bc34a;
+}
+.bd-grey {
+  border:1px solid #999;
+}
 /* 其他 */
 .left {
   float: left;
@@ -136,6 +142,9 @@ a {
 }
 .ml10{
   margin-left: 10px;
+}
+.ml20{
+  margin-left: 20px;
 }
 .padding-left-30 {
   padding-left: 30px;
@@ -212,6 +221,16 @@ a {
   border: none;
   cursor: pointer;
   font-size: 14px;
+}
+.dialog-footer .bg-green:hover {
+  color:#fff;
+  border:1px solid #8bc34a;
+  background-color:#8bc34a;
+}
+.dialog-footer .bg-grey:hover {
+  color:#fff;
+  border:1px solid #999;
+  background-color:#999;
 }
 /* .el-form-item {
   margin-bottom: 10px !important;
@@ -297,4 +316,7 @@ a {
 .el-dialog{
   min-width: 600px;
   max-width: 1000px;
+}
+.el-dialog__footer {
+  text-align: center;
 }

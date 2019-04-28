@@ -73,7 +73,7 @@
             label="操作">
             <template slot-scope="slote">
                 <i class="fa fa-pencil-square-o orange font-size-20 cur"></i>
-                <i class="fa fa-search orange font-size-20 ml10 cur"></i>
+                <i class="fa fa-search orange font-size-20 ml10 cur" @click="$router.push('/financemanagement/discountApplicationDetail')"></i>
                 <i class="fa fa-print green font-size-20 ml10 cur"></i>
             </template>
             </el-table-column>

@@ -66,6 +66,7 @@ import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import DiscountApplication from '@/components/finance/discountApplication/list'
 import AdddiscountApplication from '@/components/finance/discountApplication/add'
+import DiscountApplicationDetail from '@/components/finance/discountApplication/detail'
 import Paymentprocessing from '@/components/finance/paymentprocessing/list'
 import PayBillDetail from '@/components/finance/paymentprocessing/billDetail'
 import BillInfo from '@/components/finance/paymentprocessing/billInfo'
@@ -429,6 +430,11 @@ export default new Router({
           path: '/financemanagement/adddiscountApplication',
           name: 'AdddiscountApplication',
           component: AdddiscountApplication
+        },
+        {
+          path: '/financemanagement/discountApplicationDetail',
+          name: 'DiscountApplicationDetail',
+          component: DiscountApplicationDetail
         },
       ]
     },
