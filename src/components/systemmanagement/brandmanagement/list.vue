@@ -26,10 +26,10 @@
               <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
             </el-card>
           </div>
-          <div class="intercity-list">
+          <div class="intercity-list"  v-for="(card,index) in cardList" :key="index">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span class="city-name font-cl-blue" style="line-height: 40px">智慧班</span>
+                <span class="city-name font-cl-blue" style="line-height: 40px">{{ card.name }}</span>
                 <el-button type="text" @click="addAndEditBrand(1,1)">
                   <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
                 </el-button>
@@ -172,6 +172,7 @@
     width: 180px;
     height: 170px;
     padding: 0 20px;
+    margin-bottom: 20px;
   }
   .brandmanagement >>> .el-card .el-button--text{
     float: right;
@@ -265,6 +266,7 @@
         class_type:[],
         grade_type:[],
         brandName:'添加品牌',
+        cardList:[],
         klass:'',
         addbrandVisible: false,
         editbrandVisible: false,
@@ -410,6 +412,7 @@
     mounted:function(){
       this.getClassType();
       this.getGradeType();
+      this.getBrandList();
     },
     methods: {
       handleSelect(key, keyPath) {
@@ -505,17 +508,36 @@
           console.log(err)
         })
       },
+      getBrandList:function () {
+        var _this = this;
+        _this.loading = true;
+        var url = 'http://134.175.93.59:8000/api/hq/hq/';
+        _this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
+          }
+        }).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            this.cardList = res.data;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       saveBrand:function () {
         var _this = this;
         _this.loading = true;
         var url = 'http://134.175.93.59:8000/api/hq/hq/';
+        var formData = new FormData();
         _this.$axios.post(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
-          },
           name:_this.editForm.name,
           class_types:_this.editForm.klass,
           grade_types:_this.editForm.grade,
+        },{
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
+          }
         }).then(res=>{
           _this.loading = false;
           if(res.status == 200) {

@@ -409,7 +409,7 @@
           <el-button type="success" @click="deleteFeeVisible = false">保 存</el-button>
         </span>
       </el-dialog>
-      <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="700px" class="discountDialog">
+      <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="780px" class="discountDialog">
         <el-form ref="discountForm" :model="discountForm" :rules="rules" label-width="80px">
           <el-row>
             <el-col :span="12">
@@ -524,36 +524,47 @@
           <el-row>
             <el-col :span="24">
               <el-form-item>
-                <el-table
+                <!--<el-table
                   :data="templateList"
                   border
                   :show-header="false"
                   style="width: 95%;margin-top: 20px;">
                   <el-table-column
-                    prop="id"
-                    width="350">
+                    prop="id">
                     <template slot-scope="scope">
-                      <el-select v-model="scope.row.select" style="width: 100px;">
+                      <el-select v-model="scope.row.select" style="width: 90px;">
                         <el-option>大于</el-option>
                         <el-option>小于</el-option>
                         <el-option>大于等于</el-option>
                         <el-option>小于等于</el-option>
                         <el-option>等于</el-option>
                       </el-select>
-                      <el-input v-model="scope.row.input" style="width: 90px;"></el-input>
-                      <el-select v-model="scope.row.select2" style="width: 100px;">
+                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                      <el-select v-model="scope.row.select2" style="width: 90px;">
+                        <el-option>或</el-option>
+                        <el-option>且</el-option>
+                      </el-select>
+                      <el-select v-model="scope.row.select" style="width: 90px;">
+                        <el-option>大于</el-option>
+                        <el-option>小于</el-option>
+                        <el-option>大于等于</el-option>
+                        <el-option>小于等于</el-option>
+                        <el-option>等于</el-option>
+                      </el-select>
+                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                      <el-select v-model="scope.row.select2" style="width: 90px;">
                         <el-option>或</el-option>
                         <el-option>且</el-option>
                       </el-select>
                     </template>
                     <el-checkbox v-model="checked"></el-checkbox>
                   </el-table-column>
-                  <el-table-column>
+                  &lt;!&ndash;<el-table-column>
                     <template slot-scope="scope">
                       <span v-if="scope.row.id">{{ scope.row.sname }}</span>
                       <el-input v-model="scope.row.sname" v-show="scope.row.id === ''"></el-input>
                     </template>
-                  </el-table-column>
+                  </el-table-column>&ndash;&gt;
                   <el-table-column width="50">
                     <template slot-scope="scope">
                       <el-button class="red" type="text" size="small" @click="deleteList(scope.row)">
@@ -561,7 +572,88 @@
                       </el-button>
                     </template>
                   </el-table-column>
-                </el-table>
+                </el-table>-->
+                <table style="width: 95%;margin-top: 20px;">
+                  <tr>
+                    <td>条件</td>
+                    <td>
+                      <template slot-scope="scope">
+                        <el-select v-model="scope.row.select" style="width: 90px;">
+                          <el-option>大于</el-option>
+                          <el-option>小于</el-option>
+                          <el-option>大于等于</el-option>
+                          <el-option>小于等于</el-option>
+                          <el-option>等于</el-option>
+                        </el-select>
+                        <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                        <el-select v-model="scope.row.select2" style="width: 90px;">
+                          <el-option>或</el-option>
+                          <el-option>且</el-option>
+                        </el-select>
+                        <el-select v-model="scope.row.select" style="width: 90px;">
+                          <el-option>大于</el-option>
+                          <el-option>小于</el-option>
+                          <el-option>大于等于</el-option>
+                          <el-option>小于等于</el-option>
+                          <el-option>等于</el-option>
+                        </el-select>
+                        <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                        <el-select v-model="scope.row.select2" style="width: 90px;">
+                          <el-option>或</el-option>
+                          <el-option>且</el-option>
+                        </el-select>
+                      </template>
+                      <el-checkbox v-model="checked"></el-checkbox>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <template slot-scope="scope">
+                        <el-select v-model="scope.row.select" style="width: 90px;">
+                          <el-option>大于</el-option>
+                          <el-option>小于</el-option>
+                          <el-option>大于等于</el-option>
+                          <el-option>小于等于</el-option>
+                          <el-option>等于</el-option>
+                        </el-select>
+                        <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                        <el-select v-model="scope.row.select2" style="width: 90px;">
+                          <el-option>或</el-option>
+                          <el-option>且</el-option>
+                        </el-select>
+                        <el-select v-model="scope.row.select" style="width: 90px;">
+                          <el-option>大于</el-option>
+                          <el-option>小于</el-option>
+                          <el-option>大于等于</el-option>
+                          <el-option>小于等于</el-option>
+                          <el-option>等于</el-option>
+                        </el-select>
+                        <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                        <el-select v-model="scope.row.select2" style="width: 90px;">
+                          <el-option>或</el-option>
+                          <el-option>且</el-option>
+                        </el-select>
+                      </template>
+                      <el-checkbox v-model="checked"></el-checkbox>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <!--<el-table-column>
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.id">{{ scope.row.sname }}</span>
+                      <el-input v-model="scope.row.sname" v-show="scope.row.id === ''"></el-input>
+                    </template>
+                  </el-table-column>-->
+                  <el-table-column width="50">
+                    <template slot-scope="scope">
+                      <el-button class="red" type="text" size="small" @click="deleteList(scope.row)">
+                        <span class="el-icon-delete" style="font-size: 20px;color: #ED6C2E;"></span>
+                      </el-button>
+                    </template>
+                  </el-table-column>
+                </table>
                 <span style="cursor:pointer;color: #ED6C2E;" @click="addIfElse">
                   <i class="icon-font fa fa-calendar-plus-o"></i>
                   <span class="font-size-14" >添加判断条件</span>
@@ -642,7 +734,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="showDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="showDiscountVisible = false">保 存</el-button>
+          <el-button type="success" @click="showDiscountVisible = false">修 改</el-button>
         </span>
       </el-dialog>
       <el-dialog title="政策详情" :visible.sync="showPolicyVisible" width="600px" class="policyShow">
