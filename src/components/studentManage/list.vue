@@ -125,102 +125,9 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="毕业生" name="second">
-            <div class="select-header" style="min-height: 35px;">
-                <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
-                  <i class="icon-font fa fa-calendar-plus-o"></i>
-                  <span class="font-cl-blue font-size-14" >新增折扣类型</span>
-              </span>
-            </div>
-            <el-table
-              :data="chargeTableDate"
-              border
-              stripe
-              show-header
-              style="width: 100%;">
-              <el-table-column
-                prop="code"
-                label="折扣类型"
-                width="220">
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                label="适用校园">
-              </el-table-column>
-              <el-table-column
-                prop="intercity_name"
-                label="互斥折扣"
-                width="300">
-              </el-table-column>
-              <el-table-column
-                fixed="right"
-                label="操作"
-                width="120">
-                <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="showDiscountVisible = true">查看详情</el-button>
-                  <span style="color: #999999">|</span>
-                  <el-button style="color: orange" type="text" size="small" @click="addNewDiscount(1)">编辑</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="离园生" name="third">
-            <div class="select-header" style="min-height: 35px;line-height: 35px;margin-bottom: 10px;">
-                <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
-                  <i class="icon-font fa fa-calendar-plus-o"></i>
-                  <span class="font-cl-blue font-size-14" >新增折扣类型</span>
-              </span>
-            </div>
-            <el-table
-              :data="chargeTableDate"
-              border
-              stripe
-              show-header
-              style="width: 100%;">
-              <el-table-column
-                prop="code"
-                label="折扣类型"
-                width="140">
-              </el-table-column>
-              <el-table-column
-                prop="intercity_name"
-                label="生效日期"
-                width="160">
-              </el-table-column>
-              <el-table-column
-                prop="hq_name"
-                label="失效日期"
-                width="160">
-              </el-table-column>
-              <el-table-column
-                prop="hq_name"
-                label="缴费区间"
-                min-width="160">
-              </el-table-column>
-              <el-table-column
-                prop="hq_name"
-                label="适用校园">
-              </el-table-column>
-              <el-table-column
-                prop="hq_name"
-                label="互斥折扣"
-                min-width="160">
-              </el-table-column>
-              <el-table-column
-                fixed="right"
-                label="操作"
-                width="120">
-                <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="showDiscountVisible = true">查看详情</el-button>
-                  <span style="color: #999999">|</span>
-                  <el-button style="color: orange" type="text" size="small" @click="addNewDiscount(1)">编辑</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-tab-pane>
-          <el-tab-pane label="毕业班学生" name="fore">
-            <div class="select-header select-length">
-              <span>城际：</span>
-              <el-select v-model="nameSelect" placeholder="--区域--">
+            <div class="select-header">
+              <span>城际</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -228,8 +135,8 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-              <span style="margin-left: 10px">区域：</span>
-              <el-select v-model="nameSelect" placeholder="请选择">
+              <span>区域</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -237,8 +144,8 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-              <span style="margin-left: 10px">校园：</span>
-              <el-select v-model="nameSelect" placeholder="请选择">
+              <span>省市</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -246,8 +153,8 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-              <span style="margin-left: 10px">学年：</span>
-              <el-select v-model="nameSelect" placeholder="请选择">
+              <span>品牌</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
                 <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -255,99 +162,364 @@
                   :value="item.value">
                 </el-option>
               </el-select>
+              <span>校园</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>班级</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>学生性别</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>类型</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>入学日期</span>
+              <el-date-picker
+                v-model="value9"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                default-value="2010-10-01">
+              </el-date-picker>
+              <span>搜索</span>
+              <el-input v-model="input" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
               <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
             </div>
-            <el-table
-              :data="chargeFunTableDate"
-              border
-              stripe
-              show-header
-              style="width: 100%;margin-top: 10px;">
-              <el-table-column
-                prop="code"
-                label="收费政策"
-                width="250">
-                <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="showPolicyVisible = true">{{ scope.row.code }}</el-button>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                label="适用校园">
-              </el-table-column>
-              <el-table-column
-                prop="intercity_name"
-                label="学年"
-                width="130">
-              </el-table-column>
-              <el-table-column
-                prop="hq_name"
-                label="有效期"
-                width="130">
-              </el-table-column>
-              <el-table-column
-                prop="opening_date"
-                label="发布日期"
-                width="130">
-              </el-table-column>
-              <el-table-column
-                prop="leader"
-                label="备注">
-              </el-table-column>
-              <el-table-column
-                fixed="right"
-                label="操作"
-                width="80">
-                <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="innerVisible = true" style="color: #ED6C2E">复制</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
+            <div class="list-content">
+              <div class="studentFileCard left" v-for="(item , index) in list " :key="index">
+                <div style="padding:20px" @click="$router.push('/studentFile/studentFileDetail/9')">
+                  <div class="avatar inline-block">
+                    <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o" aria-hidden="true"></i>
+                  </div>
+                  <div class="card-content inline-block">
+                    <p>
+                      <span style="font-size:15px;font-weight:600">学生A</span>
+                      <!--<i style="font-size:15px;color:#ff7f7f;" class="fa fa-mars" aria-hidden="true"></i>-->
+                      <i style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
+                    </p>
+                    <p>出生日期：1020/11/09</p>
+                    <p>意向学年：00000</p>
+                    <p>意向信息：北京校园</p>
+                    <p>拟入学日期：1020/11/09</p>
+                  </div>
+                </div>
+                <div class="card-footer clearfix">
+                  <span>执行操作</span>
+                  <el-select v-model="nameSelect" @change="operationSelect(nameSelect)" placeholder="--请选择--">
+                    <el-option
+                      v-for="item in operations"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="离园生" name="third">
+            <div class="select-header">
+              <span>城际</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>区域</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>省市</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>品牌</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>校园</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>班级</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>学生性别</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>类型</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>入学日期</span>
+              <el-date-picker
+                v-model="value9"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                default-value="2010-10-01">
+              </el-date-picker>
+              <span>搜索</span>
+              <el-input v-model="input" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
+              <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+            </div>
+            <div class="list-content">
+              <div class="studentFileCard left" v-for="(item , index) in list " :key="index">
+                <div style="padding:20px" @click="$router.push('/studentFile/studentFileDetail/9')">
+                  <div class="avatar inline-block">
+                    <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o" aria-hidden="true"></i>
+                  </div>
+                  <div class="card-content inline-block">
+                    <p>
+                      <span style="font-size:15px;font-weight:600">学生A</span>
+                      <!--<i style="font-size:15px;color:#ff7f7f;" class="fa fa-mars" aria-hidden="true"></i>-->
+                      <i style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
+                    </p>
+                    <p>出生日期：1020/11/09</p>
+                    <p>意向学年：00000</p>
+                    <p>意向信息：北京校园</p>
+                    <p>拟入学日期：1020/11/09</p>
+                  </div>
+                </div>
+                <div class="card-footer clearfix">
+                  <span>执行操作</span>
+                  <el-select v-model="nameSelect" @change="operationSelect(nameSelect)" placeholder="--请选择--">
+                    <el-option
+                      v-for="item in operations"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="毕业班学生" name="fore">
+            <div class="select-header">
+              <span>城际</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>区域</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>省市</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>品牌</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>校园</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>班级</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>学生性别</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>类型</span>
+              <el-select v-model="nameSelect" placeholder="--请选择--">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+              <span>入学日期</span>
+              <el-date-picker
+                v-model="value9"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                default-value="2010-10-01">
+              </el-date-picker>
+              <span>搜索</span>
+              <el-input v-model="input" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
+              <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+            </div>
+            <div class="list-content">
+              <div class="studentFileCard left" v-for="(item , index) in list " :key="index">
+                <div style="padding:20px" @click="$router.push('/studentFile/studentFileDetail/9')">
+                  <div class="avatar inline-block">
+                    <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o" aria-hidden="true"></i>
+                  </div>
+                  <div class="card-content inline-block">
+                    <p>
+                      <span style="font-size:15px;font-weight:600">学生A</span>
+                      <!--<i style="font-size:15px;color:#ff7f7f;" class="fa fa-mars" aria-hidden="true"></i>-->
+                      <i style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
+                    </p>
+                    <p>出生日期：1020/11/09</p>
+                    <p>意向学年：00000</p>
+                    <p>意向信息：北京校园</p>
+                    <p>拟入学日期：1020/11/09</p>
+                  </div>
+                </div>
+                <div class="card-footer clearfix">
+                  <span>执行操作</span>
+                  <el-select v-model="nameSelect" @change="operationSelect(nameSelect)" placeholder="--请选择--">
+                    <el-option
+                      v-for="item in operations"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="学生统计" name="five">
-            <p>
-              <span class="font-cl-blue">退费：</span>
-              <span style="cursor:pointer;color:#ED6C2E" @click="addNewReservefund(0)">
-                  <i class="icon-font fa fa-calendar-plus-o" style="font-size: 15px !important;"></i>
-                  <span class="font-size-14">添加学校</span>
-                </span>
-            </p>
-            <el-table
-              :data="chargeTableDate"
-              border
-              stripe
-              show-header
-              style="width: 100%;margin-top: 10px;">
-              <el-table-column
-                prop="code"
-                label="学校"
-                width="180">
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                label="班级项目"
-                width="180">
-              </el-table-column>
-              <el-table-column
-                prop="intercity_name"
-                label="退费费用科目">
-                <template slot-scope="scope">
-                  <el-checkbox-group v-model="type" style="text-align: left !important;">
-                    <el-checkbox label="美食" name="type"></el-checkbox>
-                    <el-checkbox label="地推" name="type"></el-checkbox>
-                    <el-checkbox label="线下" name="type"></el-checkbox>
-                    <el-checkbox label="单纯" name="type"></el-checkbox>
-                  </el-checkbox-group>
-                </template>
-              </el-table-column>
-              <el-table-column
-                label="操作"
-                width="130">
-                <template slot-scope="scope">
-                  <el-button type="text" size="small"  @click="addNewReservefund(1)" style="color: #0b6289">编辑</el-button>
-                </template>
-              </el-table-column>
-            </el-table>
+            <div class="left" style="width:29%">
+              <p>在校生情况</p>
+              <div class="studentInfo">
+                <p>当前在校生人数：<span>28900</span></p>
+                <p>预备生人数：<span>28900</span></p>
+                <p>满园率（包含预备生）：<span>28900</span></p>
+              </div>
+              <p style="margin-top: 15px">性别分布图（包含预备生）</p>
+              <div class="studentInfo">
+                <chart ref="chart1" :options="orgOptions"></chart>
+              </div>
+            </div>
+            <div class="right" style="width:70%">
+              <el-table
+                :data="chargeTableDate"
+                border
+                stripe
+                show-header
+                style="width: 100%;margin-top: 35px;">
+                <el-table-column
+                  prop="code"
+                  label="班级名称">
+                </el-table-column>
+                <el-table-column
+                  prop="name"
+                  label="满班学生数">
+                </el-table-column>
+                <el-table-column
+                  prop="intercity_name"
+                  label="当前在校生人数">
+                </el-table-column>
+                <el-table-column
+                  prop="intercity_name"
+                  label="预备生人数">
+                </el-table-column>
+                <el-table-column
+                  prop="hq_name"
+                  label="满班率（含预备生）">
+                </el-table-column>
+              </el-table>
+            </div>
           </el-tab-pane>
         </el-tabs>
         <!--<el-table
@@ -662,13 +834,24 @@
     width: 100px;
     height: 100px;
   }
+  .studengManage .studentInfo{
+    border: 1px solid #ddd;
+    width: 90%;
+    padding: 20px;
+    margin-top: 15px;
+  }
+  .studengManage .studentInfo p{
+    line-height: 40px;
+  }
 </style>
 <script>
+
 export default {
   data(){
     return {
       activeName:'first',
       editbrandVisible:false,
+      orgOptions: {},
        list:[1,2,3,4,5,6,7,81,],
        form: {
         name: '',
@@ -727,6 +910,21 @@ export default {
           setting:'----',
         },
       ],
+    }
+  },
+  mounted() {
+    this.orgOptions = {
+      series : [
+        {
+          type: 'pie',
+          radius : '40%',
+          center: ['27%', '25%'],
+          data:[
+            {value:335, name:'直接访问'},
+            {value:310, name:'邮件营销'},
+          ],
+        }
+      ]
     }
   }
 }

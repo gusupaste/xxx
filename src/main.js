@@ -2,6 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import ElementUI from 'element-ui';
+// 导入vue-echarts插件
+import ECharts from 'vue-echarts/components/ECharts'
 import 'element-ui/lib/theme-chalk/index.css';
 import 'vue-event-calendar/dist/style.css' ;
 import vueEventCalendar from 'vue-event-calendar';
@@ -13,6 +15,8 @@ import './assets/css/main.css';
 import 'font-awesome/css/font-awesome.min.css';
 import * as custom from './assets/js/filter';
 import VueCookies from 'vue-cookies'
+import 'echarts/lib/chart/pie'
+Vue.component('chart', ECharts)
 Object.keys(custom).forEach(key => {
   Vue.filter(key, custom[key])
 })
@@ -45,7 +49,7 @@ router.beforeEach((to, from, next) => {
       // 未登录则跳转到登录界面
       next('/login');
     }
-   
+
   } else {
     next()
   }
