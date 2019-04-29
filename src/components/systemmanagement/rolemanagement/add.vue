@@ -195,7 +195,7 @@
         if (this.$route.query.id === 0) {
           url = 'http://134.175.93.59:8000/api/user/roles_management/'
         } else {
-          url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id
+          url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id + '/update_role/'
         }
         this.$axios.post(url, {
           name: this.rolename,
