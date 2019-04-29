@@ -7,9 +7,9 @@
       <p>
         <span>角色名称：</span>
         <el-input v-model="rolename" placeholder="请输入"></el-input>
-        <hr hidden>
-        <span>角色描述：</span>
-        <el-input v-model="roledesc" placeholder="请输入"></el-input>
+      <hr hidden>
+      <span>角色描述：</span>
+      <el-input v-model="roledesc" placeholder="请输入"></el-input>
       </p>
       <hr class="line-solid">
       <p>被赋予该角色的系统用户：<a class="orange " @click="addUser"><i class="fa fa-plus"></i>&nbsp;添加用户</a></p>
@@ -43,8 +43,7 @@
                 </el-table-column>
                 <el-table-column label="允许">
                   <template slot-scope="scope">
-                    <span hidden>{{scope.row.id}}</span>
-                    <el-checkbox></el-checkbox>
+                    <input type="checkbox" v-model="checkedValue" :value="scope.row.id"/>
                   </template>
                 </el-table-column>
               </el-table>
@@ -59,15 +58,31 @@
     </div>
     <!--添加 弹框-->
     <el-dialog title="添加用户" :visible.sync="adduser" width="50%" style="padding: 30px 60px;">
-      <div>
-        <template>
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-          <div style="margin: 15px 0;"></div>
-          <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-          </el-checkbox-group>
-        </template>
-      </div>
+      <p class="dialog-title">
+      <span>员工姓名：</span>
+      <el-input type="text" v-model="display_name" placeholder="请输入"></el-input>
+        <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span></p>
+      <template>
+        <el-table
+          :data="userList"
+          style="width: 100%">
+          <el-table-column
+            width="55">
+            <template slot-scope="scope">
+              <input type="checkbox" :value="scope.row.id"/>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="display_name"
+            label="员工姓名"
+            width="120">
+          </el-table-column>
+          <el-table-column
+            prop="email"
+            label="邮箱">
+          </el-table-column>
+        </el-table>
+      </template>
       <span slot="footer" class="dialog-footer text-align-center">
           <el-button @click="adduser = false">取 消</el-button>
           <el-button type="success" @click="adduser = false">保 存</el-button>
@@ -79,14 +94,13 @@
 <script>
   export default {
     data() {
-      return{
-        adduser:false,
-        rolename:'',
-        roledesc:'',
-        checkAll: false,
-        checkedCities: ['上海', '北京'],
-        cities: ['上海', '北京', '广州', '深圳'],
-        isIndeterminate: true,
+      return {
+        adduser: false,
+        rolename: '',
+        roledesc: '',
+        checkedValue: [],
+        permissions_ids: [],
+        display_name:'',
         tableData: [
           {
             id: '1',
@@ -98,34 +112,58 @@
             account: 'www@hungjkhb.com'
           }
         ],
+        userList: [],
         boxData: []
       }
     },
-    mounted:function(){
+    mounted: function () {
       this.getSystemPermission();
     },
+    watch: {
+      checkedValue: function (new_v, old_v) {
+        this.permissions_ids = this.checkedValue;
+      }
+    },
     methods: {
-      getSystemPermission: function(){
-        var _this = this;
-        _this.loading = true;
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
+      getSystemPermission: function () {
+        this.loading = true;
         var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
-        _this.$axios.get(url, {
+        this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
           }
-        }).then(res=>{
-          _this.loading = false;
-          if(res.data.status == 1) {
+        }).then(res => {
+          this.loading = false;
+          if (res.data.status == 1) {
             this.boxData = res.data.data;
-            console.log(this.boxData)
-            //this.class_type = res.data.results;
           }
-        }).catch(err=>{
+        }).catch(err => {
           console.log(err)
         })
       },
-      addUser: function() {
-        this.adduser = true
+      addUser: function () {
+        this.adduser = true;
+        this.searchList();
+      },
+      searchList: function () {
+        this.loading = true;
+        var url = 'http://134.175.93.59:8000/api/user/users_management/all_users/?display_name=' + this.display_name;
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false;
+          if (res.data.status == 1) {
+            this.userList = res.data.data;
+            console.log(this.userList)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       },
       handleChange: function (val) {
         var liList = document.getElementsByName('selectColor')
@@ -139,33 +177,25 @@
           }
         }
       },
-      handleCheckAllChange(val) {
-        this.checkedCities = val ? this.cities : [];
-        this.isIndeterminate = false;
-      },
-      handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-      },
       saveRole: function () {
-        var _this = this;
-        _this.loading = true;
+        this.loading = true;
         var url = 'http://134.175.93.59:8000/api/user/roles_management/';
-        _this.$axios.post(url, {
-          name:_this.rolename,
-          description:_this.roledesc,
-          status:0,
-        },{
+        this.$axios.post(url, {
+          name: this.rolename,
+          description: this.roledesc,
+          status: this.$route.query.status,
+          user_ids: [],
+          permissions_ids: this.permissions_ids,
+        }, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
           }
-        }).then(res=>{
-          _this.loading = false;
-          if(res.status == 200) {
+        }).then(res => {
+          this.loading = false;
+          if (res.status == 200) {
             alert('保存成功');
           }
-        }).catch(err=>{
+        }).catch(err => {
           console.log(err)
         })
       }
@@ -180,9 +210,11 @@
     text-align: center;
     color: #ccc;
   }
-  .rolemanagementadd .content p{
+
+  .rolemanagementadd p {
     padding: 10px 0;
   }
+
   /*手风琴样式*/
   .rolemanagementadd >>> .el-collapse-item__arrow {
     display: none;
@@ -201,16 +233,16 @@
   .rolemanagementadd >>> .el-collapse-item__wrap {
     border: 0;
   }
-
-  .rolemanagementadd .content >>> .el-input{
-    width: 164px;
-  }
   /*表格内容居中*/
   .rolemanagementadd >>> .el-table td, .rolemanagementadd >>> .el-table th {
     text-align: center;
   }
 
-  .rolemanagementadd .footer-btn{
+  .rolemanagementadd .footer-btn {
     text-align: center;
+  }
+
+  .rolemanagementadd >>> .el-input{
+    width: 164px;
   }
 </style>
