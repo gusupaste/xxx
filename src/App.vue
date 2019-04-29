@@ -49,6 +49,7 @@
               <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
             </el-submenu>
               <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
+              <el-menu-item index="/studentManage/student-list" route="/studentManage/student-list">学生管理</el-menu-item>
             <el-submenu index="7">
               <template slot="title">系统管理</template>
               <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">品牌管理</el-menu-item>
@@ -96,12 +97,11 @@ export default {
       },
 
       logout(){
-        localStorage.removeItem('user_Info');
-        localStorage.removeItem('user_Token');
+        this.$cookies.remove('token');
+        this.$cookies.remove('userInfo');
         this.$router.push('/login');
       },
       success(res){
-        alert(999)
         this.premission = res;
       },
        handleSelect(key, keyPath) {

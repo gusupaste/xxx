@@ -563,49 +563,4 @@
     line-height: 120px;
     margin-left: 80px;
   }
-  /*.intentionalAdmissionlist >>> .select-header,.intentionalAdmissionlist .list-content{
-    width: 100%;
-    min-height: 50px;
-    margin-top: 20px;
-  }
-  .intentionalAdmissionlist >>> .el-select{
-    width: 10%;
-  }
-  .intentionalAdmissionlist >>> .el-tabs__item{
-    width: 150px;
-    text-align: center;
-  }
-  .intentionalAdmissionlist >>> .el-tabs__item.is-active{
-    color: #ED6C2E;
-    border-bottom: 2px solid #ED6C2E !important;
-  }
-  .intentionalAdmissionlist >>> .el-table td, .el-table th{
-    text-align: center;
-  }
-  .intentionalAdmissionlist >>> .el-tabs__active-bar{
-    background-color: #ED6C2E;
-    width: 0px !important;
-  }
-  .intentionalAdmissionlist >>> .el-tabs__item:hover{
-    color:#ED6C2E;
-  }
-  .intentionalAdmissionlist >>> .el-tabs__item{
-    padding: 0 0 !important;
-  }
-  .intentionalAdmissionlist >>> .el-tabs__nav-scroll{
-    padding-left: 50%;
-  }
-  .intentionalAdmissionlist >>> #tab-first{
-    margin-left: -150px;
-  }
-  .intentionalAdmissionlist .el-tabs__active-bar is-top{
-    width: 0px !important;
-  }
-  .intentionalAdmissionlist >>> .el-tabs__nav-wrap {
-    border-bottom: 1px solid #e6e6e6;
-  }
-  .intentionalAdmissionlist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
-    text-align: center !important;
-  }
-  */
 </style>

@@ -27,6 +27,9 @@
             prop="name"
             label="收费政策"
             >
+            <template slot-scope="scope">
+                <span class="cur" @click="dialogTableVisible=true">xxxx</span>
+            </template>
             </el-table-column>
             <el-table-column
             prop="name"
@@ -58,6 +61,23 @@
             <el-table :data="gridData">
                 <el-table-column property="date" label="费用项目" ></el-table-column>
                 <el-table-column property="name" label="班级类型" ></el-table-column>
+                <el-table-column property="address" label="缴费方式"></el-table-column>
+                <el-table-column property="address" label="适用范围"></el-table-column>
+                <el-table-column property="address" label="价格"></el-table-column>
+                <el-table-column property="address" label="备注"></el-table-column>
+            </el-table>
+        </el-dialog>
+        <!-- 弹框 -->
+        <el-dialog title="政策详情" :visible.sync="dialogTableVisible">
+            <p class="title-style">政策标题：合肥御龙湾校园2009-2010学年收费政策</p>
+            <p class="mt10" style="padding-bottom:20px;border-bottom:1px solid #ccc">
+                <span>适用校园：北京CBD世贸校园</span>
+                <span class="ml20">适用学年：2018-2019</span>
+                <span class="ml20">有效期：2018/09/11-2019/02/10</span>
+            </p>
+            <el-table :data="gridData" class="mt26">
+                <el-table-column property="date" label="费用项目" width=""></el-table-column>
+                <el-table-column property="name" label="班级类型" width=""></el-table-column>
                 <el-table-column property="address" label="缴费方式"></el-table-column>
                 <el-table-column property="address" label="适用范围"></el-table-column>
                 <el-table-column property="address" label="价格"></el-table-column>

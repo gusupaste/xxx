@@ -34,7 +34,11 @@
             <el-input v-model="formInline.user" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="当前状态:">
-            <el-input v-model="formInline.user" placeholder="请输入"></el-input>
+            <el-select v-model="formInline.user" placeholder="请选择">
+                <el-option label="筹备中" value="0">筹备中</el-option>
+                <el-option label="开园" value="1">开园</el-option>
+                <el-option label="关园" value="2">关园</el-option>
+            </el-select>
           </el-form-item>
           <br>
           <el-form-item label="地址:">
@@ -100,15 +104,17 @@
           </el-form-item>
           <br>
           <el-form-item label="是否自建:">
-            <el-select v-model="formInline.region" placeholder="省">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="formInline.region" placeholder="请选择">
+              <el-option label="自建" value="0"></el-option>
+              <el-option label="收购" value="1"></el-option>
+              <el-option label="租赁" value="2"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="产权:">
-            <el-select v-model="formInline.region" placeholder="省">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="formInline.region" placeholder="请选择">
+              <el-option label="开发商" value="0"></el-option>
+              <el-option label="教委" value="1"></el-option>
+              <el-option label="其他" value="2"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -141,7 +147,7 @@
                   <el-input v-model="item.user" placeholder="请输入"></el-input>
                 </el-form-item>
                 <div class="delete_count">
-                    <i class="fa fa-trash red font-size-20 " @click.prevent="removeDomain(item)"></i>
+                    <i class="fa fa-trash red font-size-20 cur" @click.prevent="removeDomain(item)"></i>
                 </div>
             </div>
             <div>

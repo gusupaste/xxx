@@ -30,6 +30,11 @@ import StudentFile from '@/components/studentFile/index'
 import StudentFileList from '@/components/studentFile/studentFile'
 import StudentFileDetail from '@/components/studentFile/fileDetail'
 
+/**校园端   学生管理 */
+import StudentManage from '@/components/studentManage/index'
+import StudentList from '@/components/studentManage/list'
+import StudentDetail from '@/components/studentManage/fileDetail'
+
 /**校园 */
 import School from '@/components/school/index'
 import Intercitylist from '@/components/school/intercitylist/list'
@@ -66,6 +71,7 @@ import Reservefund from '@/components/finance/reservefund/list'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import DiscountApplication from '@/components/finance/discountApplication/list'
 import AdddiscountApplication from '@/components/finance/discountApplication/add'
+import DiscountApplicationDetail from '@/components/finance/discountApplication/detail'
 import Paymentprocessing from '@/components/finance/paymentprocessing/list'
 import PayBillDetail from '@/components/finance/paymentprocessing/billDetail'
 import BillInfo from '@/components/finance/paymentprocessing/billInfo'
@@ -192,6 +198,23 @@ export default new Router({
       path: '/parentInfo',/*家长信息*/
       name: 'parentInfo',
       component: ParentInfo,
+    },
+    {
+      path: '/studentManage',/*家长信息*/
+      name: 'studentManage',
+      component: StudentManage,
+      children: [
+        {
+          path: '/studentManage/student-list',
+          name: 'student-list',
+          component: StudentList
+        },
+        {
+          path: '/studentManage/student-detail/:id',
+          name: 'student-detail',
+          component: StudentDetail
+        },
+      ]
     },
     {
       path: '/school',/*校园*/
@@ -429,6 +452,11 @@ export default new Router({
           path: '/financemanagement/adddiscountApplication',
           name: 'AdddiscountApplication',
           component: AdddiscountApplication
+        },
+        {
+          path: '/financemanagement/discountApplicationDetail',
+          name: 'DiscountApplicationDetail',
+          component: DiscountApplicationDetail
         },
       ]
     },

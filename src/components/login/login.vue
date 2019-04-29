@@ -103,13 +103,14 @@ export default {
       }).then(res=>{
         _this.loading = false;
           if(res.status == 200) {
-            console.log(res)
-            _this.$store.state.user_Info = res.data.user;
-            _this.$store.state.user_Token = res.data.token;
-            localStorage.setItem('user_Info',JSON.stringify(res.data.user));
-            localStorage.setItem('user_name',_this.username);
-            localStorage.setItem('user_password',_this.password);
-            localStorage.setItem('user_Token',JSON.stringify(res.data.token));
+            _this.$cookies.set('token',res.data.token);
+            // console.log(res)
+            // _this.$store.state.user_Info = res.data.user;
+            // _this.$store.state.user_Token = res.data.token;
+            // localStorage.setItem('user_Info',JSON.stringify(res.data.user));
+            // localStorage.setItem('user_name',_this.username);
+            // localStorage.setItem('user_password',_this.password);
+            // localStorage.setItem('user_Token',JSON.stringify(res.data.token));
             _this.$router.push('/home');
           }
       }).catch(err=>{
