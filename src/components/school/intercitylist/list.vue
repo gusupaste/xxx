@@ -12,13 +12,13 @@
             </span>
           </el-card>
         </div>
-        <div class="intercity-list">
+        <div class="intercity-list" v-for="(item,index) in intercityList" :key="index">
           <el-card class="box-card" >
             <div slot="header" class="clearfix">
               <div style="width:80%;line-height:1" class="left">
-                <span class="city-name font-cl-blue">城际名称1</span>
+                <span class="city-name font-cl-blue">{{item.dept_name}}</span>
                 <br>
-                <span class="font-size-5">负责人：张兰</span>
+                <span class="font-size-5">负责人：{{item.manager}}</span>
               </div>
               <div class="left" style="width:15%">
                   <el-button type="text" @click="editintercityVisible = true">
@@ -29,29 +29,6 @@
             <draggable class="list-group" :list="list1" group="people" @change="log">
               <div class="list-group-item intercity-li"
                    v-for="(element, index) in list1"
-                   :key="element.name">
-                {{ element.name }} {{ index }}
-              </div>
-            </draggable>
-          </el-card>
-        </div>
-        <div class="intercity-list">
-          <el-card class="box-card">
-            <div slot="header" class="clearfix">
-              <div style="width:80%;line-height:1" class="left">
-                <span class="city-name font-cl-blue">城际名称1</span>
-                <br>
-                <span class="font-size-5">负责人：张兰</span>
-              </div>
-              <div class="left" style="width:15%">
-                  <el-button type="text" @click="editintercityVisible = true">
-                  <i class="fa fa-edit icon-font"></i>
-                </el-button>
-              </div>
-            </div>
-            <draggable class="list-group" :list="list2" group="people" @change="log">
-              <div class="list-group-item  intercity-li"
-                   v-for="(element, index) in list2"
                    :key="element.name">
                 {{ element.name }} {{ index }}
               </div>
@@ -71,18 +48,16 @@
             <el-button type="primary" @click="getPerson">查询</el-button>
           </p>
           <el-table
-            class="mt26"
+            class="mt10"
             ref="singleTable"
             :data="personTable"
-            highlight-current-row
-            @current-change="handleCurrentChange"
             style="width: 100%">
             <el-table-column
               type="选择"
               label="选择"
-              width="50">
+              width="100">
               <template slot-scope="scope">
-                <el-radio></el-radio>
+                <el-radio v-model="choosePerson" @change="checkedPerson(scope.row)"></el-radio>
               </template>
             </el-table-column>
             <el-table-column
@@ -91,7 +66,7 @@
               width="120">
             </el-table-column>
             <el-table-column
-              property="address"
+              property="email"
               label="邮箱">
             </el-table-column>
           </el-table>
@@ -112,8 +87,10 @@
             <el-input v-model="form.code"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
-            <el-input v-model="form.person"></el-input>
-            <el-button type="primary" @click="addinnerVisible = true">打开内层 Dialog</el-button>
+            <el-input v-model="form.person.name" disabled style="width:164px"></el-input>
+            <el-button type="primary" @click="addinnerVisible = true">
+              <i class="fa fa-search"></i>
+            </el-button>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer text-align-center">
@@ -130,7 +107,7 @@
             <el-input v-model="form.code"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
-            <el-input v-model="form.person"></el-input>
+            <el-input v-model="form.person.name"></el-input>
           </el-form-item>
           <el-form-item label="学校：">
             <div class="item-div1">
@@ -178,14 +155,15 @@
       return {
         searchPerson:"",
         personTable:[],
+        choosePerson:Number,
         /**分页数据 */
         count:1,
         currentPage:1,
         pagesize:1,
         data: generateData(),
         value1: [1, 4],
-        addintercityVisible : true,
-        addinnerVisible : true,
+        addintercityVisible : false,
+        addinnerVisible : false,
         editintercityVisible : false,
         balls: [
           {
@@ -200,21 +178,21 @@
         form: {
           name: '',
           code: '',
-          person:'',
+          person:{},
         },
+        intercityList:[],
         schoolType:[],
         rules: {
           name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+            {required: true, message: '请输入城际名称', trigger: 'blur'},
+            {min:1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
           ],
           code: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+            {required: true, message: '请输入城际代码', trigger: 'blur'},
+            {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'}
           ],
           person: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+            {required: true, message: '请输入负责人名称', trigger: 'blur'},
           ],
         },
         list1: [
@@ -265,19 +243,34 @@
     },
     created () {
       this.getPerson();
+      this.getIntercity();
     },
     methods: {
       addIntercity(){
           var _this = this;
           this.$axios.post('http://192.168.1.197:8000/api/common/intercity/',{
-            params:{
               dept_name:_this.form.name,
               dept_code:_this.form.code,
-              manager_id:_this.form.person,
-            }
+              manager_id:_this.form.person.id,
           }).then(res=>{
-            _this.schoolType = res.data.results;
-            console.log(res);
+            _this.$message({
+              type:'success',
+              message:'新增城际成功'
+            })
+            console.log(res.data);
+            _this.addintercityVisible = false;
+          }).catch(err=>{
+            _this.$message({
+              type:'error',
+              message:'新增失败'
+            });
+            _this.addintercityVisible = false;
+        })
+      },
+      getIntercity(){
+          var _this = this;
+          this.$axios.get('http://192.168.1.197:8000/api/common/intercity/',).then(res=>{
+            _this.intercityList = res.data.intercity_list;
             _this.addintercityVisible = false;
           }).catch(err=>{
           console.log(err)
@@ -294,7 +287,6 @@
           }).then(res=>{
             _this.personTable = res.data.results.results;
             _this.count = res.data.results.page_number;
-            console.log(_this.personTable);
             // _this.addintercityVisible = false;
           }).catch(err=>{
           console.log(err)
@@ -304,8 +296,8 @@
         this.currentPage = val;
         console.log(this.currentPage)
       },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+      checkedPerson(val) {
+        this.form.person = val;
       },
       add: function() {
         this.list.push({ name: "Juan" });
@@ -426,5 +418,8 @@
   }
   .intercitylist .el-checkbox{
     display: block;
+  }
+  .intercitylist >>> .el-table td{
+    padding: 5px 0 !important;
   }
 </style>
