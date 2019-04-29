@@ -7,7 +7,7 @@
       <div class="list-content">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="总部" name="first">
-            <span class="right"><el-button class="orange" type="text" @click="addRole"><i
+            <span class="right"><el-button class="orange" type="text" @click="addRole(0)"><i
               class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
             <el-table
               :data="roleList"
@@ -23,13 +23,13 @@
                 prop="description"
                 label="角色描述">
                 <template slot-scope="scope">
-                  <a class="font-cl-blue" @click="editRole">{{scope.row.description}}</a>
+                  <a class="font-cl-blue" @click="addRole(scope.row.id)">{{scope.row.description}}</a>
                 </template>
               </el-table-column>
             </el-table>
           </el-tab-pane>
           <el-tab-pane label="校园" name="second">
-            <span class="right"><el-button class="orange" type="text" @click="addRole"><i
+            <span class="right"><el-button class="orange" type="text" @click="addRole(0)"><i
               class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
             <el-table
               :data="roleList"
@@ -45,7 +45,7 @@
                 prop="description"
                 label="角色描述">
                 <template slot-scope="scope">
-                  <a class="font-cl-blue" @click="editRole">{{scope.row.description}}</a>
+                  <a class="font-cl-blue" @click="addRole(scope.row.id)">{{scope.row.description}}</a>
                 </template>
               </el-table-column>
             </el-table>
@@ -69,8 +69,8 @@
       this.getRoleList()
     },
     methods: {
-      addRole: function () {
-        this.$router.push({name: 'rolemanagement-add', query: {status: this.status}})
+      addRole: function ( id ) {
+        this.$router.push({name: 'rolemanagement-add', query: {status: this.status,id: id}})
       },
       getRoleList: function () {
         this.loading = true;
