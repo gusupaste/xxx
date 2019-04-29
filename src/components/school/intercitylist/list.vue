@@ -60,16 +60,16 @@
       <!-- 编辑城际 -->
       <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" >
         <el-form  :model="checkedItem" :rules="rules2" ref="checkedItem" label-width="100px">
-          <el-form-item label="城际名称：" prop="name">
+          <el-form-item label="城际名称：" prop="dept_name">
             <el-input v-model="checkedItem.dept_name" class="w250_input" style="width:250px"></el-input>
-            <span class="cur red ml10" @click="deleteDialog=true">删除此城际？</span>
+            <span class="cur red ml10" @click="deleteThisIntercity">删除此城际？</span>
           </el-form-item>
-          <el-form-item label="城际代码：" prop="code">
+          <el-form-item label="城际代码：" prop="dept_code">
             <el-input v-model="checkedItem.dept_code"></el-input>
           </el-form-item>
-          <el-form-item label="负责人：" prop="person">
+          <el-form-item label="负责人：" prop="manager_name">
             <el-input v-model="checkedItem.manager_name" disabled style="width:164px"></el-input>
-            <el-button type="primary" @click="addinnerVisible = true">
+            <el-button type="primary" @click="addinnerVisible = true" style="height:40px">
               <i class="fa fa-search"></i>
             </el-button>
           </el-form-item>
@@ -77,9 +77,15 @@
             <div class="item-div1">
               <p>无归属城际的学校</p>
               <div class="item-div2-span">
-                <el-checkbox-group v-model="UNSelectSchool" @change="changeSchool">
+                <!-- <el-checkbox-group v-model="UNSelectSchool" @change="changeSchool">
                   <el-checkbox v-for="school in checkedItem.available_centers" :key="school.id" :label="school">{{school.name}}</el-checkbox>
-                </el-checkbox-group>
+                </el-checkbox-group> -->
+                <div v-for="school in checkedItem.available_centers" :key="school.id" class="clearfix cur" @click="addChooseSchool(school)">
+                  <span class="left">{{school.name}}</span>
+                  <span class="right">
+                    <i class="fa fa-plus"></i>
+                  </span>
+                </div>
               </div>
             </div>
             <div class="item-div2">
@@ -217,7 +223,7 @@
   .intercitylist .item-div1,.intercitylist .item-div2{
     width: 220px;
     height: 350px;
-    padding-left: 20px;
+    padding:0 20px;
     border: 1px solid #ddd;
     margin-right: 20px;
     display: inline-table;
@@ -303,16 +309,16 @@
           ],
         },
         rules2: {
-          name: [
+          dept_name: [
             {required: true, message: '请输入城际名称', trigger: 'blur'},
             {min:1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
           ],
-          code: [
+          dept_code: [
             {required: true, message: '请输入城际代码', trigger: 'blur'},
             {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'},
             
           ],
-          person: [
+          manager_name: [
             {required: true, message: '请输入负责人名称', trigger: 'blur'},
           ],
         },
@@ -440,12 +446,24 @@
       changeSchool(val){
         console.log(val)
       },
+      deleteThisIntercity(){
+        if(this.checkedItem.center_list.length>0){
+          this.deleteDialog = true;
+        } else {
+          this.deleteIntercity()
+        }
+      },
       handleCurrentChange(val) {
         this.currentPage = val;
       },
       checkedPerson() {
-        this.form.person = this.choosePerson;
-        this.addinnerVisible = false;
+        if(this.addintercityVisible) {
+          this.form.person = this.choosePerson;
+        } else {
+          this.checkedItem.manager_name = this.choosePerson.name;
+          this.checkedItem.manager_id = this.choosePerson.id;
+        }
+          this.addinnerVisible = false;
       },
       add: function() {
         this.list.push({ name: "Juan" });
@@ -461,9 +479,15 @@
       log: function(evt) {
         window.console.log(evt);
       },
-      selectFun: function(obj) {
+      selectFun(obj) {
         var index = this.UNSelectSchool.indexOf(obj);
         this.UNSelectSchool.splice(index, 1);
+        this.checkedItem.available_centers.push(obj);
+      },
+      addChooseSchool(obj){
+        var index = this.checkedItem.available_centers.indexOf(obj);
+        this.checkedItem.available_centers.splice(index, 1);
+        this.UNSelectSchool.push(obj);
       }
     },
     watch: {
