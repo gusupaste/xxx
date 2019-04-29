@@ -18,7 +18,7 @@
               <div style="width:80%;line-height:1" class="left">
                 <span class="city-name font-cl-blue">{{item.dept_name}}</span>
                 <br>
-                <span class="font-size-5">负责人：{{item.manager}}</span>
+                <span class="font-size-5">负责人：{{item.manager_name}}</span>
               </div>
               <div class="left" style="width:15%">
                   <el-button type="text" @click="editIntercity(item)">
@@ -36,8 +36,80 @@
           </el-card>
         </div>
       </div>
+      <!-- 新增城际 -->
       <el-dialog title="新增城际" :visible.sync="addintercityVisible" width="50%" >
-        <el-dialog
+        <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+          <el-form-item label="城际名称：" prop="name" class="w250_input">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="城际代码：" prop="code">
+            <el-input v-model="form.code"></el-input>
+          </el-form-item>
+          <el-form-item label="负责人：" prop="person">
+            <el-input v-model="form.person.name" disabled style="width:164px"></el-input>
+            <el-button type="primary" @click="addinnerVisible = true">
+              <i class="fa fa-search"></i>
+            </el-button>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer text-align-center">
+          <el-button @click="addintercityVisible = false" class="bg-grey white">取 消</el-button>
+          <el-button type="success" @click="addIntercity('form')">保 存</el-button>
+        </div>
+      </el-dialog>
+      <!-- 编辑城际 -->
+      <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" >
+        <el-form ref="form" :model="checkedItem" :rules="rules" label-width="100px">
+          <el-form-item label="城际名称：" prop="name">
+            <el-input v-model="checkedItem.dept_name" class="w250_input" style="width:250px"></el-input>
+            <span class="cur red ml10" @click="deleteDialog=true">删除此城际？</span>
+          </el-form-item>
+          <el-form-item label="城际代码：" prop="code">
+            <el-input v-model="checkedItem.dept_code"></el-input>
+          </el-form-item>
+          <el-form-item label="负责人：" prop="person">
+            <el-input v-model="checkedItem.manager_name" disabled style="width:164px"></el-input>
+            <el-button type="primary" @click="addinnerVisible = true">
+              <i class="fa fa-search"></i>
+            </el-button>
+          </el-form-item>
+          <el-form-item label="学校：">
+            <div class="item-div1">
+              <p>无归属城际的学校</p>
+              <div class="item-div2-span">
+                <el-checkbox-group v-model="UNSelectSchool" @change="changeSchool">
+                  <el-checkbox v-for="school in checkedItem.available_centers" :key="school.id" :label="school">{{school.name}}</el-checkbox>
+                </el-checkbox-group>
+              </div>
+            </div>
+            <div class="item-div2">
+              <p>已选学校</p>
+              <div class="item-div2-span">
+                <p v-for="unschool in UNSelectSchool" :key="unschool.id">{{ unschool.name }}<span class="el-icon-delete" @click="selectFun(unschool)"></span></p>
+              </div>
+            </div>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editintercityVisible = false" class="bg-grey white">取 消</el-button>
+          <el-button type="success" @click="editintercityVisible = false">保 存</el-button>
+        </span>
+      </el-dialog>
+      <!-- 删除城际 -->
+      <el-dialog
+        title="删除城际"
+        :visible.sync="deleteDialog"
+        width="30%">
+        <span class="text-align-center" style="width:100%;display:inline-block;height:50px;line-height:50px">
+          【<span class="font-cl-blue udline">{{checkedItem.dept_name}}</span>】
+          下已关联校园，一旦删除，数据将不可恢复。是否确定删除？</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="bg-grey bd-grey white" @click="deleteDialog = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="primary" @click="deleteIntercity">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 选择负责人 -->
+      <el-dialog
           width="30%"
           title="选择负责人"
           :visible.sync="addinnerVisible"
@@ -79,72 +151,6 @@
             :total="count">
           </el-pagination>
         </el-dialog>
-        <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-          <el-form-item label="城际名称：" prop="name" class="w250_input">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-          <el-form-item label="城际代码：" prop="code">
-            <el-input v-model="form.code"></el-input>
-          </el-form-item>
-          <el-form-item label="负责人：" prop="person">
-            <el-input v-model="form.person.name" disabled style="width:164px"></el-input>
-            <el-button type="primary" @click="addinnerVisible = true">
-              <i class="fa fa-search"></i>
-            </el-button>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="addintercityVisible = false" class="bg-grey white">取 消</el-button>
-          <el-button type="success" @click="addIntercity('form')">保 存</el-button>
-        </div>
-      </el-dialog>
-      <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" >
-        <el-form ref="form" :model="checkedItem" :rules="rules" label-width="100px">
-          <el-form-item label="城际名称：" prop="name">
-            <el-input v-model="checkedItem.dept_name" class="w250_input" style="width:250px"></el-input>
-            <span class="cur red ml10" @click="deleteDialog=true">删除此城际？</span>
-          </el-form-item>
-          <el-form-item label="城际代码：" prop="code">
-            <el-input v-model="checkedItem.dept_code"></el-input>
-          </el-form-item>
-          <el-form-item label="负责人：" prop="person">
-            <el-input v-model="checkedItem.manager"></el-input>
-          </el-form-item>
-          <el-form-item label="学校：">
-            <div class="item-div1">
-              <p>无归属城际的学校</p>
-              <div class="item-div2-span">
-                <el-checkbox-group v-model="schoolType">
-                  <el-checkbox v-for="school in selectSchool" :key="school.id" :label="school.name"></el-checkbox>
-                </el-checkbox-group>
-              </div>
-            </div>
-            <div class="item-div2">
-              <p>已选学校</p>
-              <div class="item-div2-span">
-                <p v-for="unschool in UNSelectSchool" :key="unschool.id">{{ unschool.name }}<span class="el-icon-delete" @click="selectFun(unschool)"></span></p>
-              </div>
-            </div>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="editintercityVisible = false" class="bg-grey white">取 消</el-button>
-          <el-button type="success" @click="editintercityVisible = false">保 存</el-button>
-        </span>
-      </el-dialog>
-      <!-- 删除城际 -->
-      <el-dialog
-        title="删除城际"
-        :visible.sync="deleteDialog"
-        width="30%">
-        <span class="text-align-center" style="width:100%;display:inline-block;height:50px;line-height:50px">
-          【<span class="font-cl-blue udline">{{checkedItem.dept_name}}</span>】
-          下已关联校园，一旦删除，数据将不可恢复。是否确定删除？</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button class="bg-grey bd-grey white" @click="deleteDialog = false">取 消</el-button>
-          <el-button class="bg-green bd-green white" type="primary" @click="deleteIntercity">确 定</el-button>
-        </span>
-      </el-dialog>
     </div>
 </template>
 
@@ -242,20 +248,7 @@
             id: 3
           }
         ],
-        UNSelectSchool: [
-          {
-            name: "幼儿园4",
-            id: 4,
-          },
-          {
-            name: "幼儿园5",
-            id: 5
-          },
-          {
-            name: "幼儿园6",
-            id: 6
-          }
-        ],
+        UNSelectSchool: [],
       };
     },
     created () {
@@ -295,7 +288,15 @@
       },
       editIntercity(val){
         console.log(val)
-        this.checkedItem = val;
+        // 
+        var _this = this;
+          this.$axios.get('http://192.168.1.197:8000/api/common/intercity/'+val.id+'/view_detail/',)
+          .then(res=>{
+            _this.checkedItem = res.data.detail;
+            console.log(res)
+          }).catch(err=>{
+
+        })
         this.editintercityVisible = true;
       },
       deleteIntercity(){
@@ -341,6 +342,9 @@
           console.log(err)
         })
       },
+      changeSchool(val){
+        console.log(val)
+      },
       handleCurrentChange(val) {
         this.currentPage = val;
         console.log(this.currentPage)
@@ -362,11 +366,10 @@
       log: function(evt) {
         window.console.log(evt);
       },
-      // handleCurrentChange(val) {
-      //   this.currentRow = val;
-      // },
       selectFun: function(obj) {
         console.log(obj);
+        var index = this.UNSelectSchool.indexOf(obj);
+        this.UNSelectSchool.splice(index, 1);
       }
     },
     watch: {
