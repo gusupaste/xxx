@@ -59,7 +59,51 @@
           </el-card>
         </div>
       </div>
-      <el-dialog title="新增城际" :visible.sync="addintercityVisible" width="50%" :before-close="handleClose">
+      <el-dialog title="新增城际" :visible.sync="addintercityVisible" width="50%" >
+        <el-dialog
+          width="30%"
+          title="选择负责人"
+          :visible.sync="addinnerVisible"
+          append-to-body>
+          <p>
+            <span>员工姓名：</span>
+            <el-input v-model="searchPerson" style="width:164px"></el-input>
+            <el-button type="primary" @click="getPerson">查询</el-button>
+          </p>
+          <el-table
+            class="mt26"
+            ref="singleTable"
+            :data="personTable"
+            highlight-current-row
+            @current-change="handleCurrentChange"
+            style="width: 100%">
+            <el-table-column
+              type="选择"
+              label="选择"
+              width="50">
+              <template slot-scope="scope">
+                <el-radio></el-radio>
+              </template>
+            </el-table-column>
+            <el-table-column
+              property="name"
+              label="员工姓名"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              property="address"
+              label="邮箱">
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            background
+           @current-change="handleCurrentChange"
+            layout="prev, pager, next, jumper"
+            :page-size="1"
+            :current-page="currentPage"
+            :total="count">
+          </el-pagination>
+        </el-dialog>
         <el-form ref="form" :model="form" :rules="rules" label-width="100px">
           <el-form-item label="城际名称：" prop="name" class="w250_input">
             <el-input v-model="form.name"></el-input>
@@ -69,14 +113,15 @@
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
             <el-input v-model="form.person"></el-input>
+            <el-button type="primary" @click="addinnerVisible = true">打开内层 Dialog</el-button>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer text-align-center">
           <el-button @click="addintercityVisible = false" class="bg-grey white">取 消</el-button>
-          <el-button type="success" @click="addintercityVisible = false">保 存</el-button>
+          <el-button type="success" @click="addIntercity">保 存</el-button>
         </div>
       </el-dialog>
-      <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" :before-close="handleClose">
+      <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" >
         <el-form ref="form" :model="form" :rules="rules" label-width="100px">
           <el-form-item label="城际名称：" prop="name">
             <el-input v-model="form.name" class="w250_input"></el-input>
@@ -131,9 +176,16 @@
         return data;
       };
       return {
+        searchPerson:"",
+        personTable:[],
+        /**分页数据 */
+        count:1,
+        currentPage:1,
+        pagesize:1,
         data: generateData(),
         value1: [1, 4],
-        addintercityVisible : false,
+        addintercityVisible : true,
+        addinnerVisible : true,
         editintercityVisible : false,
         balls: [
           {
@@ -211,7 +263,50 @@
         ],
       };
     },
+    created () {
+      this.getPerson();
+    },
     methods: {
+      addIntercity(){
+          var _this = this;
+          this.$axios.post('http://192.168.1.197:8000/api/common/intercity/',{
+            params:{
+              dept_name:_this.form.name,
+              dept_code:_this.form.code,
+              manager_id:_this.form.person,
+            }
+          }).then(res=>{
+            _this.schoolType = res.data.results;
+            console.log(res);
+            _this.addintercityVisible = false;
+          }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getPerson(){
+          var _this = this;
+          this.$axios.get('http://192.168.1.197:8000/api/common/select/user_list/',{
+            params:{
+              user_name:_this.searchPerson,
+              page:_this.currentPage,
+              size:10
+            }
+          }).then(res=>{
+            _this.personTable = res.data.results.results;
+            _this.count = res.data.results.page_number;
+            console.log(_this.personTable);
+            // _this.addintercityVisible = false;
+          }).catch(err=>{
+          console.log(err)
+        })
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        console.log(this.currentPage)
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
       add: function() {
         this.list.push({ name: "Juan" });
       },
@@ -226,11 +321,16 @@
       log: function(evt) {
         window.console.log(evt);
       },
-      handleClose (){
-
-      },
+      // handleCurrentChange(val) {
+      //   this.currentRow = val;
+      // },
       selectFun: function(obj) {
         console.log(obj);
+      }
+    },
+    watch: {
+      currentPage:function(){
+        this.getPerson();
       }
     }
   }
