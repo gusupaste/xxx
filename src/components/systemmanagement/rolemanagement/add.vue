@@ -53,7 +53,7 @@
         </div>
       </el-collapse>
       <div class="footer-btn">
-        <button class="btn bg-grey" style="margin: 50px" @click="this.$router.go(-1)">取消</button>
+        <button class="btn bg-grey" style="margin: 50px" @click="back">取消</button>
         <button class="btn bg-green" @click="saveRole">保存</button>
       </div>
     </div>
@@ -200,6 +200,9 @@
             }
           }
         }
+      },
+      back: function () {
+        this.$router.push({name: 'rolemanagement'})
       }
     }
   }

@@ -69,13 +69,13 @@
         ]
       }
     },
+    mounted: function () {
+      this.getSystemPermission();
+    },
     methods: {
       addRole: function (status) {
         this.$router.push({name: 'rolemanagement-add', query: {status: status}})
       },
-      handleClick: function () {
-
-      }
     }
   }
 </script>

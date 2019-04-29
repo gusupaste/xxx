@@ -35,7 +35,7 @@
               <el-menu-item index="/studentattendance/attendanceDaily" route="/studentattendance/attendanceDaily">每日考勤</el-menu-item>
               <el-menu-item index="/studentattendance/attendanceStatistics" route="/studentattendance/attendanceStatistics">考勤统计</el-menu-item>
             </el-submenu>
-            <el-submenu index="6">
+            <!--<el-submenu index="6">
               <template slot="title">财务处理</template>
               <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">收费账单</el-menu-item>
               <el-menu-item index="/financemanagement/policy" route="/financemanagement/policy">收费政策(校园)</el-menu-item>
@@ -47,7 +47,7 @@
               <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
               <el-menu-item index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
               <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
-            </el-submenu>
+            </el-submenu>-->
               <!--<el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>-->
               <el-menu-item index="/studentManage/student-list" route="/studentManage/student-list">学生管理</el-menu-item>
             <!--<el-submenu index="7">
@@ -59,7 +59,7 @@
               <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
               <el-menu-item index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
-            </el-submenu>-->
+            </el-submenu>
             </el-menu>
             <div class="userInfo">
               <span>集团端
