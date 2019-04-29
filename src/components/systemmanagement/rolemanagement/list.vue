@@ -7,42 +7,46 @@
       <div class="list-content">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="总部" name="first">
-            <span class="right"><el-button class="orange" type="text" @click="addRole(0)"><i
+            <span class="right"><el-button class="orange" type="text" @click="addRole"><i
               class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
             <el-table
-              :data="chargeTableDate"
+              :data="roleList"
               border
               stripe
               show-header
               style="width: 100%;margin-top: 10px;">
               <el-table-column
                 prop="name"
-                label="角色名称"
-                width="250">
+                label="角色名称">
               </el-table-column>
               <el-table-column
-                prop="desc"
+                prop="description"
                 label="角色描述">
+                <template slot-scope="scope">
+                  <a class="font-cl-blue" @click="editRole">{{scope.row.description}}</a>
+                </template>
               </el-table-column>
             </el-table>
           </el-tab-pane>
           <el-tab-pane label="校园" name="second">
-            <span class="right"><el-button class="orange" type="text" @click="addRole(1)"><i
+            <span class="right"><el-button class="orange" type="text" @click="addRole"><i
               class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
             <el-table
-              :data="chargeTableDate"
+              :data="roleList"
               border
               stripe
               show-header
               style="width: 100%;margin-top: 10px;">
               <el-table-column
                 prop="name"
-                label="角色名称"
-                width="250">
+                label="角色名称">
               </el-table-column>
               <el-table-column
-                prop="desc"
+                prop="description"
                 label="角色描述">
+                <template slot-scope="scope">
+                  <a class="font-cl-blue" @click="editRole">{{scope.row.description}}</a>
+                </template>
               </el-table-column>
             </el-table>
           </el-tab-pane>
@@ -57,25 +61,38 @@
     data() {
       return {
         activeName: 'first',
-        chargeTableDate: [
-          {
-            name: 'tom',
-            desc: '客服主管'
-          },
-          {
-            name: 'role',
-            desc: 'dghjasgdjhad',
-          }
-        ]
+        status: 0,
+        roleList: [],
       }
     },
     mounted: function () {
-      this.getSystemPermission();
+      this.getRoleList()
     },
     methods: {
-      addRole: function (status) {
-        this.$router.push({name: 'rolemanagement-add', query: {status: status}})
+      addRole: function () {
+        this.$router.push({name: 'rolemanagement-add', query: {status: this.status}})
       },
+      getRoleList: function () {
+        this.loading = true;
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/?status=' + this.status;
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.roleList = res.data.data
+            console.log(this.roleList)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      handleClick: function (obj) {
+        this.status = obj.index
+        this.getRoleList()
+      }
     }
   }
 </script>

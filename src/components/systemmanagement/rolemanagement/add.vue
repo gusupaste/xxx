@@ -159,31 +159,32 @@
         })
       },
       checkedUser: function () {
-        this.adduser = false;
-        this.userCheckList = this.userCheckListVal;
+        this.adduser = false
+        this.userCheckList = this.userCheckListVal
       },
       saveRole: function () {
         this.loading = true
-        var new_user_check_list = []
-        var user_check_list = this.userCheckList
-        for (var i = 0; i < user_check_list.length; i++) {
-          new_user_check_list.push(user_check_list[i].id)
+        let newList = []
+        var oldList = this.userCheckList
+        for (var i = 0; i < oldList.length; i++) {
+          newList.push(oldList[i].id)
         }
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/';
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/'
         this.$axios.post(url, {
           name: this.rolename,
           description: this.roledesc,
           status: this.$route.query.status,
-          user_ids: new_user_check_list,
-          permissions_ids: this.permissions_ids,
+          user_ids: newList,
+          permissions_ids: this.permissions_ids
         }, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
           }
         }).then(res => {
-          this.loading = false;
-          if (res.status == 200) {
-            alert('保存成功');
+          this.loading = false
+          if (res.status === 200) {
+            alert('保存成功')
+            this.back()
           }
         }).catch(err => {
           console.log(err)
