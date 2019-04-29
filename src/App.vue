@@ -48,8 +48,9 @@
               <el-menu-item index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
               <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
             </el-submenu>
-              <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
-            <el-submenu index="7">
+              <!--<el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>-->
+              <el-menu-item index="/studentManage" route="/studentManage">学生管理</el-menu-item>
+            <!--<el-submenu index="7">
               <template slot="title">系统管理</template>
               <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">品牌管理</el-menu-item>
               <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">学年定义</el-menu-item>
@@ -58,7 +59,7 @@
               <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
               <el-menu-item index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
-            </el-submenu>
+            </el-submenu>-->
             </el-menu>
             <div class="userInfo">
               <span>集团端
