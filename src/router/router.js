@@ -30,6 +30,9 @@ import StudentFile from '@/components/studentFile/index'
 import StudentFileList from '@/components/studentFile/studentFile'
 import StudentFileDetail from '@/components/studentFile/fileDetail'
 
+/**校园端   学生管理 */
+import StudentManage from '@/components/studentManage/list'
+
 /**校园 */
 import School from '@/components/school/index'
 import Intercitylist from '@/components/school/intercitylist/list'
@@ -193,6 +196,11 @@ export default new Router({
       path: '/parentInfo',/*家长信息*/
       name: 'parentInfo',
       component: ParentInfo,
+    },
+    {
+      path: '/studentManage',/*家长信息*/
+      name: 'studentManage',
+      component: StudentManage,
     },
     {
       path: '/school',/*校园*/
