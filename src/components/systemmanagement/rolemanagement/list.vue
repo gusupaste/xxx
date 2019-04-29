@@ -7,7 +7,8 @@
       <div class="list-content">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="总部" name="first">
-              <span class="right"><el-button class="orange" type="text" @click="addRole"><i class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
+            <span class="right"><el-button class="orange" type="text" @click="addRole(0)"><i
+              class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
             <el-table
               :data="chargeTableDate"
               border
@@ -26,7 +27,8 @@
             </el-table>
           </el-tab-pane>
           <el-tab-pane label="校园" name="second">
-            <span class="right"><el-button class="orange" type="text" @click="addRole"><i class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
+            <span class="right"><el-button class="orange" type="text" @click="addRole(1)"><i
+              class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
             <el-table
               :data="chargeTableDate"
               border
@@ -52,26 +54,26 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
-        activeName:'first',
-        chargeTableDate:[
+        activeName: 'first',
+        chargeTableDate: [
           {
-            name:'tom',
-            desc:'客服主管'
+            name: 'tom',
+            desc: '客服主管'
           },
           {
-            name:'role',
-            desc:'dghjasgdjhad',
+            name: 'role',
+            desc: 'dghjasgdjhad',
           }
         ]
       }
     },
     methods: {
-      addRole:function(){
-        this.$router.push({name: 'rolemanagement-add'})
+      addRole: function (status) {
+        this.$router.push({name: 'rolemanagement-add', query: {status: status}})
       },
-      handleClick : function(){
+      handleClick: function () {
 
       }
     }
@@ -79,54 +81,68 @@
 </script>
 
 <style scoped>
-  .rolemanagement{
+  .rolemanagement {
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
-  .rolemanagement >>> .select-header,.rolemanagement .list-content{
+
+  .rolemanagement >>> .select-header, .rolemanagement .list-content {
     width: 100%;
     min-height: 50px;
     margin-top: 20px;
   }
-  .rolemanagement >>> .el-select{
+
+  .rolemanagement >>> .el-select {
     width: 10%;
   }
-  .rolemanagement >>> .el-tabs__item{
+
+  .rolemanagement >>> .el-tabs__item {
     width: 150px;
     text-align: center;
   }
-  .rolemanagement >>> .el-tabs__item.is-active{
+
+  .rolemanagement >>> .el-tabs__item.is-active {
     color: #ED6C2E;
     border-bottom: 2px solid #ED6C2E !important;
   }
-  .rolemanagement >>> .el-table td, .el-table th{
+
+  .rolemanagement >>> .el-table td, .el-table th {
     text-align: center;
   }
-  .rolemanagement >>> .el-tabs__active-bar{
+
+  .rolemanagement >>> .el-tabs__active-bar {
     background-color: #ED6C2E;
     width: 0px !important;
   }
-  .rolemanagement >>> .el-tabs__item:hover{
-    color:#ED6C2E;
+
+  .rolemanagement >>> .el-tabs__item:hover {
+    color: #ED6C2E;
   }
-  .rolemanagement >>> .el-tabs__item{
+
+  .rolemanagement >>> .el-tabs__item {
     padding: 0 0 !important;
   }
-  .rolemanagement >>> .el-tabs__nav-scroll{
+
+  .rolemanagement >>> .el-tabs__nav-scroll {
     padding-left: 50%;
   }
-  .rolemanagement >>> #tab-first{
+
+  .rolemanagement >>> #tab-first {
     margin-left: -150px;
   }
-  .rolemanagement .el-tabs__active-bar is-top{
+
+  .rolemanagement .el-tabs__active-bar is-top {
     width: 0px !important;
   }
+
   .rolemanagement >>> .el-tabs__nav-wrap {
     border-bottom: 1px solid #e6e6e6;
   }
-  .rolemanagement >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+
+  .rolemanagement >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
     text-align: center !important;
   }
+
   .rolemanagement >>> .el-input__inner {
     width: -webkit-fill-available;
   }
