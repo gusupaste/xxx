@@ -21,7 +21,7 @@
                 <span class="font-size-5">负责人：{{item.manager}}</span>
               </div>
               <div class="left" style="width:15%">
-                  <el-button type="text" @click="editintercityVisible = true">
+                  <el-button type="text" @click="editIntercity(item)">
                   <i class="fa fa-edit icon-font"></i>
                 </el-button>
               </div>
@@ -95,19 +95,20 @@
         </el-form>
         <div slot="footer" class="dialog-footer text-align-center">
           <el-button @click="addintercityVisible = false" class="bg-grey white">取 消</el-button>
-          <el-button type="success" @click="addIntercity">保 存</el-button>
+          <el-button type="success" @click="addIntercity('form')">保 存</el-button>
         </div>
       </el-dialog>
       <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" >
-        <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-form ref="form" :model="checkedItem" :rules="rules" label-width="100px">
           <el-form-item label="城际名称：" prop="name">
-            <el-input v-model="form.name" class="w250_input"></el-input>
+            <el-input v-model="checkedItem.dept_name" class="w250_input" style="width:250px"></el-input>
+            <span class="cur red ml10" @click="deleteDialog=true">删除此城际？</span>
           </el-form-item>
           <el-form-item label="城际代码：" prop="code">
-            <el-input v-model="form.code"></el-input>
+            <el-input v-model="checkedItem.dept_code"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
-            <el-input v-model="form.person.name"></el-input>
+            <el-input v-model="checkedItem.manager"></el-input>
           </el-form-item>
           <el-form-item label="学校：">
             <div class="item-div1">
@@ -129,6 +130,19 @@
         <span slot="footer" class="dialog-footer">
           <el-button @click="editintercityVisible = false" class="bg-grey white">取 消</el-button>
           <el-button type="success" @click="editintercityVisible = false">保 存</el-button>
+        </span>
+      </el-dialog>
+      <!-- 删除城际 -->
+      <el-dialog
+        title="删除城际"
+        :visible.sync="deleteDialog"
+        width="30%">
+        <span class="text-align-center" style="width:100%;display:inline-block;height:50px;line-height:50px">
+          【<span class="font-cl-blue udline">{{checkedItem.dept_name}}</span>】
+          下已关联校园，一旦删除，数据将不可恢复。是否确定删除？</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="bg-grey bd-grey white" @click="deleteDialog = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="primary" @click="deleteIntercity">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -162,9 +176,11 @@
         pagesize:1,
         data: generateData(),
         value1: [1, 4],
+        /**弹窗参数 */
         addintercityVisible : false,
         addinnerVisible : false,
         editintercityVisible : false,
+        deleteDialog:false,
         balls: [
           {
             id:1,
@@ -180,6 +196,7 @@
           code: '',
           person:{},
         },
+        checkedItem:{},
         intercityList:[],
         schoolType:[],
         rules: {
@@ -246,26 +263,58 @@
       this.getIntercity();
     },
     methods: {
-      addIntercity(){
+      addIntercity(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var _this = this;
+            this.$axios.post('http://192.168.1.197:8000/api/common/intercity/',{
+                dept_name:_this.form.name,
+                dept_code:_this.form.code,
+                manager_id:_this.form.person.id,
+            }).then(res=>{
+              _this.$message({
+                type:'success',
+                message:'新增城际成功'
+              })
+              console.log(res.data);
+              _this.addintercityVisible = false;
+              _this.getIntercity()
+            }).catch(err=>{
+              _this.$message({
+                type:'error',
+                message:'新增失败'
+              });
+              _this.addintercityVisible = false;
+          })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+          
+      },
+      editIntercity(val){
+        console.log(val)
+        this.checkedItem = val;
+        this.editintercityVisible = true;
+      },
+      deleteIntercity(){
           var _this = this;
-          this.$axios.post('http://192.168.1.197:8000/api/common/intercity/',{
-              dept_name:_this.form.name,
-              dept_code:_this.form.code,
-              manager_id:_this.form.person.id,
-          }).then(res=>{
+          this.$axios.delete('http://192.168.1.197:8000/api/common/intercity/'+this.checkedItem.id+'/',)
+          .then(res=>{
             _this.$message({
-              type:'success',
-              message:'新增城际成功'
+                type:'success',
+                message:'删除城际成功'
             })
-            console.log(res.data);
-            _this.addintercityVisible = false;
+            _this.getIntercity();
           }).catch(err=>{
             _this.$message({
-              type:'error',
-              message:'新增失败'
-            });
-            _this.addintercityVisible = false;
+                type:'error',
+                message:'删除城际失败'
+            })
         })
+        this.editintercityVisible = false;
+        this.deleteDialog = false;
       },
       getIntercity(){
           var _this = this;
