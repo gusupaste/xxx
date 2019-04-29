@@ -31,7 +31,9 @@ import StudentFileList from '@/components/studentFile/studentFile'
 import StudentFileDetail from '@/components/studentFile/fileDetail'
 
 /**校园端   学生管理 */
-import StudentManage from '@/components/studentManage/list'
+import StudentManage from '@/components/studentManage/index'
+import StudentList from '@/components/studentManage/list'
+import StudentDetail from '@/components/studentManage/fileDetail'
 
 /**校园 */
 import School from '@/components/school/index'
@@ -201,6 +203,18 @@ export default new Router({
       path: '/studentManage',/*家长信息*/
       name: 'studentManage',
       component: StudentManage,
+      children: [
+        {
+          path: '/studentManage/student-list',
+          name: 'student-list',
+          component: StudentList
+        },
+        {
+          path: '/studentManage/student-detail/:id',
+          name: 'student-detail',
+          component: StudentDetail
+        },
+      ]
     },
     {
       path: '/school',/*校园*/
