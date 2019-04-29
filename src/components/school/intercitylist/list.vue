@@ -2,7 +2,7 @@
     <div class="intercitylist wrap">
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">城际列表</span></p>
-        <p class="bold mt10">伊顿国际教育集团大城际分布</p>
+        <p class="bold mt10 black">伊顿国际教育集团大城际分布</p>
       </div>
       <div class="content mt26">
         <div class="intercity-list">
@@ -26,7 +26,7 @@
                 </el-button>
               </div>
             </div>
-            <draggable class="list-group" :list="item.center_list" group="people" @change="log">
+            <draggable class="list-group" :list="item.center_list" group="people" @change="log" @end="end" :data-id="item.id">
               <div class="list-group-item intercity-li"
                    v-for="s in item.center_list"
                    :key="s.id">
@@ -77,9 +77,6 @@
             <div class="item-div1">
               <p>无归属城际的学校</p>
               <div class="item-div2-span">
-                <!-- <el-checkbox-group v-model="UNSelectSchool" @change="changeSchool">
-                  <el-checkbox v-for="school in checkedItem.available_centers" :key="school.id" :label="school">{{school.name}}</el-checkbox>
-                </el-checkbox-group> -->
                 <div v-for="school in checkedItem.available_centers" :key="school.id" class="clearfix cur" @click="addChooseSchool(school)">
                   <span class="left">{{school.name}}</span>
                   <span class="right">
@@ -98,7 +95,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editintercityVisible = false" class="bg-grey white">取 消</el-button>
-          <el-button type="success" @click="sureEditIntercity">保 存</el-button>
+          <el-button type="success" @click="sureEditIntercity('checkedItem')">保 存</el-button>
         </span>
       </el-dialog>
       <!-- 删除城际 -->
@@ -202,6 +199,9 @@
     width: 220px;
     height: 280px;
   }
+  .intercitylist .list-group{
+    height:160px;
+  }
   .intercitylist .el-card__header{
     padding: 10px 15px;
   }
@@ -276,6 +276,8 @@
         addinnerVisible : false,
         editintercityVisible : false,
         deleteDialog:false,
+        /**拖拽參數 */
+        add_id:'',
         balls: [
           {
             id:1,
@@ -362,7 +364,6 @@
       },
       editIntercity(val){
         console.log(val)
-        // 
         var _this = this;
           this.$axios.get('http://192.168.1.197:8000/api/common/intercity/'+val.id+'/view_detail/',)
           .then(res=>{
@@ -417,31 +418,39 @@
           console.log(err)
         })
       },
-      sureEditIntercity(){
-        var id = this.checkedItem.id;
-        var _this = this;
-        var list = [];
-        for (let i = 0; i < this.UNSelectSchool.length; i++) {
-          list.push(this.UNSelectSchool[i].id);
-        };
-          this.$axios.put('http://192.168.1.197:8000/api/common/intercity/'+id+'/',{
-              dept_name:_this.checkedItem.dept_name,
-              dept_code:_this.checkedItem.dept_code,
-              manager_id:_this.checkedItem.manager_id,
-              center_ids:list,
-          }).then(res=>{
-            _this.$message({
-              type:'success',
-              message:'编辑成功',
+      sureEditIntercity(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var id = this.checkedItem.id;
+            var _this = this;
+            var list = [];
+            for (let i = 0; i < this.UNSelectSchool.length; i++) {
+              list.push(this.UNSelectSchool[i].id);
+            };
+              this.$axios.put('http://192.168.1.197:8000/api/common/intercity/'+id+'/',{
+                  dept_name:_this.checkedItem.dept_name,
+                  dept_code:_this.checkedItem.dept_code,
+                  manager_id:_this.checkedItem.manager_id,
+                  center_ids:list,
+              }).then(res=>{
+                _this.$message({
+                  type:'success',
+                  message:'编辑成功',
+                })
+                _this.getIntercity();
+                _this.editintercityVisible = false;
+              }).catch(err=>{
+                _this.$message({
+                  type:'error',
+                  message:'编辑失败',
+                })
             })
-            _this.getIntercity();
-            _this.editintercityVisible = false;
-          }).catch(err=>{
-            _this.$message({
-              type:'error',
-              message:'编辑失败',
-            })
-        })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+        
       },
       changeSchool(val){
         console.log(val)
@@ -465,19 +474,21 @@
         }
           this.addinnerVisible = false;
       },
-      add: function() {
-        this.list.push({ name: "Juan" });
+      log(evt) {
+        if(evt.added) {
+          this.add_id = evt.added.element.id;
+        } 
       },
-      replace: function() {
-        this.list = [{ name: "Edgard" }];
-      },
-      clone: function(el) {
-        return {
-          name: el.name + " cloned"
-        };
-      },
-      log: function(evt) {
-        window.console.log(evt);
+      end(item){
+        var id = item.to.getAttribute("data-id");
+        var _this = this;
+        this.$axios.post('http://192.168.1.197:8000/api/center/center/'+this.add_id+'/update_intercity_link/',{
+          intercity_id:id
+        }).then(res=>{
+          console.log(res)
+        }).catch(res=>{
+
+        })
       },
       selectFun(obj) {
         var index = this.UNSelectSchool.indexOf(obj);
