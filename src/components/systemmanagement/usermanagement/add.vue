@@ -95,6 +95,58 @@
           <el-button type="success" @click="addorganization = false">保 存</el-button>
         </span>
     </el-dialog>
+    <!--角色权限分配 弹框-->
+    <el-dialog class="assign-permissions" title="角色权限分配" :visible.sync="assignpermissions" width="50%">
+      <div class="dialog_content">
+        <p>
+          <span>角色名称：</span><span>{{rolename}}</span>
+        <hr hidden>
+        <span>角色描述：</span><span>{{roledesc}}</span>
+        </p>
+        <hr class="line-solid">
+        <p>被赋予该角色的系统用户：</p>
+        <template>
+          <el-table
+            :data="userCheckList"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="display_name"
+              label="用户名">
+            </el-table-column>
+            <el-table-column
+              prop="username"
+              label="登陆账号">
+            </el-table-column>
+          </el-table>
+        </template>
+        <p>该角色所需的系统权限：</p>
+        <el-collapse :data="boxData" @change="handleChange">
+          <div v-for="(item,index) in boxData" :key="index">
+            <el-collapse-item :name="index">
+              <template slot="title">
+                <li style="line-height: 0" name="selectColor">{{item.name}}</li>
+              </template>
+              <div>
+                <el-table :data="item.permissions" border style="width: 100%">
+                  <el-table-column prop="name" label="权限">
+                  </el-table-column>
+                  <el-table-column prop="description" label="申明">
+                  </el-table-column>
+                  <el-table-column label="允许">
+                    <template slot-scope="scope">
+                      <input type="checkbox" v-model="checkedValue" :value="scope.row.id"/>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+            </el-collapse-item>
+          </div>
+        </el-collapse>
+      </div>
+      <span slot="footer" class="dialog-footer text-align-center">
+        </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -116,6 +168,12 @@
         headquartersLength: 0,
         schoolList: [],
         schoolIds: [],
+        assignpermissions: false,
+        rolename: '',
+        roledesc: '',
+        userCheckList:[],
+        boxData:[]
+
       }
     },
     mounted: function () {
@@ -266,7 +324,19 @@
       },
       back: function () {
         this.$router.push({name: 'usermanagement'})
-      }
+      },
+      handleChange: function (val) {
+        var liList = document.getElementsByName('selectColor');
+        for (var i = 0; i < liList.length; i++) {
+          liList[i].style.color = '';
+          for (var j = 0; j < val.length; j++) {
+            if (i === val[j]) {
+              liList[i].style.color = 'orange';
+              break;
+            }
+          }
+        }
+      },
     }
   }
 </script>
