@@ -180,8 +180,6 @@
       if (this.$route.query.id !== 0) {
         this.getUser()
       }
-      this.getRoleList(0)
-      this.getRoleList(1)
       this.getSchoolList()
     },
     methods: {
@@ -218,34 +216,16 @@
             this.email = data.email
             this.display_name = data.display_name
             this.schoolIds = data.centers
-            console.log(data)
-          }
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      getRoleList: function (status) {
-        this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/?status=' + status;
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
-          this.loading = false
-          if (res.data.status === 1) {
-            this.roleList = this.roleList.concat(res.data.data)
-            if (status === 0) {
-              this.headquartersLength = res.data.data.length
-            } else {
-              var arrList = []
-              for (var i = 0; i < this.roleList.length; i++) {
-                if (this.roleList[i].status === 1) {
-                  arrList.push(this.roleList[i])
-                }
+            this.headquartersLength = data.roles.hq_roles.length
+            this.roleList = this.roleList.concat(data.roles.hq_roles)
+            this.roleList = this.roleList.concat(data.roles.center_roles)
+            var arrList = []
+            for (var i = 0; i < this.roleList.length; i++) {
+              if (this.roleList[i].status === 1) {
+                arrList.push(this.roleList[i])
               }
-              this.toggleSelection(arrList)
             }
+            this.toggleSelection(arrList)
           }
         }).catch(err => {
           console.log(err)
@@ -295,7 +275,7 @@
         if (this.$route.query.id === "0") {
           url = 'http://134.175.93.59:8000/api/user/users_management/'
         } else {
-          url = 'http://134.175.93.59:8000/api/user/users_management/' + this.$route.query.id + '/update_users/'
+          url = 'http://192.168.1.222:8000/api/user/users_management/' + this.$route.query.id + '/update_users/'
         }
         this.$axios.post(url, {
           display_name: this.display_name,
