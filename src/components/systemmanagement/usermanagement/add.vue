@@ -43,6 +43,7 @@
         <p class="bold_black">该用户被赋予的系统角色：</p>
         <div class="content">
           <el-table
+            ref="multipleTable"
             :data="roleList"
             border
             tooltip-effect="dark"
@@ -126,6 +127,19 @@
       this.getSchoolList()
     },
     methods: {
+      toggleSelection(rows) {  // 这里是点击时 切换选中的行
+        this.$nextTick(() => {   // 延迟回调
+          if (rows) {
+            rows.forEach(row => {
+              this.$refs.multipleTable.toggleRowSelection(row, true);
+            });
+            // toggleRowSelection : 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）
+          } else {
+            this.$refs.multipleTable.clearSelection();
+            // clearSelection : 用于多选表格，清空用户的选择
+          }
+        })
+      },
       getUser: function () {
         this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/users_management/' + this.$route.query.id + '/user_info/'
@@ -145,13 +159,15 @@
             this.last_name = data.last_name
             this.email = data.email
             this.display_name = data.display_name
+            this.schoolIds = data.centers
+            console.log(data)
           }
         }).catch(err => {
           console.log(err)
         })
       },
       getRoleList: function (status) {
-        this.loading = true;
+        this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/roles_management/?status=' + status;
         this.$axios.get(url, {
           headers: {
@@ -160,10 +176,18 @@
         }).then(res => {
           this.loading = false
           if (res.data.status === 1) {
+            this.roleList = this.roleList.concat(res.data.data)
             if (status === 0) {
               this.headquartersLength = res.data.data.length
+            } else {
+              var arrList = []
+              for (var i = 0; i < this.roleList.length; i++) {
+                if (this.roleList[i].status === 1) {
+                  arrList.push(this.roleList[i])
+                }
+              }
+              this.toggleSelection(arrList)
             }
-            this.roleList = this.roleList.concat(res.data.data)
           }
         }).catch(err => {
           console.log(err)
@@ -201,7 +225,7 @@
         this.schoolIds = val
       },
       addOrganization: function () {
-        this.addorganization = true;
+        this.addorganization = true
       },
       save: function () {
         this.loading = true
