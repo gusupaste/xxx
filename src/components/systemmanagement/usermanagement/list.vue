@@ -14,40 +14,41 @@
           </el-option>
         </el-select>
         <span class="padding-left-30">搜索：</span>
-        <el-input type="text" placeholder="请输入"></el-input>
-        <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
-        <span class="right"><el-button class="orange" type="text" @click="addUser"><i class="fa fa-plus-square"></i>&nbsp;新增用户</el-button></span>
+        <el-input type="text" v-model="display_name" placeholder="请输入"></el-input>
+        <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+        <span class="right"><el-button class="orange" type="text" @click="addUser(0)"><i class="fa fa-plus-square"></i>&nbsp;新增用户</el-button></span>
       </p>
       <el-table
-        :data="tableList"
+        :data="userList"
         border
         stripe
         show-header
         style="width: 100%">
         <el-table-column
-          prop="username"
+          prop="display_name"
           label="用户名">
         </el-table-column>
         <el-table-column
-          prop="account"
+          prop="username"
           label="登陆账号">
         </el-table-column>
         <el-table-column
-          prop="organization"
           label="所属组织">
+          <template slot-scope="scope">
+            <span v-for="item in scope.row.organizations">{{item.name}}<br></span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="role"
           label="所属角色">
           <template slot-scope="scope">
-            <a class="font-cl-blue" @click="assignPermissions">{{scope.row.role}}</a>
+            <a class="font-cl-blue" v-for="item in scope.row.roles" @click="assignPermissions(item.id)">{{item.name}}<br></a>
           </template>
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <i @click="editUser" class="fa fa-pencil-square-o orange"></i>
+            <i @click="addUser(scope.row.id)" class="fa fa-pencil-square-o orange"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -55,23 +56,23 @@
       <el-dialog class="assign-permissions" title="角色权限分配" :visible.sync="assignpermissions" width="50%">
         <div class="dialog_content">
           <p>
-            <span>角色名称：</span><span>hjsakfhdgjsakdbhaj</span>
-            <hr hidden>
-            <span>角色描述：</span><span>园长助理/行政助理</span>
+            <span>角色名称：</span><span>{{rolename}}</span>
+          <hr hidden>
+          <span>角色描述：</span><span>{{roledesc}}</span>
           </p>
           <hr class="line-solid">
           <p>被赋予该角色的系统用户：</p>
           <template>
             <el-table
-              :data="tableData"
+              :data="userCheckList"
               border
               style="width: 100%">
               <el-table-column
-                prop="username"
+                prop="display_name"
                 label="用户名">
               </el-table-column>
               <el-table-column
-                prop="account"
+                prop="username"
                 label="登陆账号">
               </el-table-column>
             </el-table>
@@ -84,14 +85,14 @@
                   <li style="line-height: 0" name="selectColor">{{item.name}}</li>
                 </template>
                 <div>
-                  <el-table :data="item.table" border style="width: 100%">
-                    <el-table-column prop="permissions" label="权限">
+                  <el-table :data="item.permissions" border style="width: 100%">
+                    <el-table-column prop="name" label="权限">
                     </el-table-column>
-                    <el-table-column prop="apply" label="申明">
+                    <el-table-column prop="description" label="申明">
                     </el-table-column>
-                    <el-table-column prop="allow" label="允许">
-                      <template>
-                        <el-checkbox></el-checkbox>
+                    <el-table-column label="允许">
+                      <template slot-scope="scope">
+                        <input type="checkbox" v-model="checkedValue" :value="scope.row.id"/>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -109,7 +110,7 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         value: '-所有-',
         options: [{
@@ -119,137 +120,82 @@
           label: '选项2',
           value: '2'
         }],
+        display_name: '',
         assignpermissions: false,
-        tableList: [{
-          id: '1',
-          username: '用户1',
-          account: 'user@hhhhh.com',
-          organization: '国家机构',
-          role: '第一个角色',
-        },
-          {
-            id: '1',
-            username: '用户2',
-            account: 'user@hhhhh.com',
-            organization: '国家机构3',
-            role: '第一个角色吧',
-          },
-          {
-            id: '1',
-            username: '用户3',
-            account: 'user@hhhhh.com',
-            organization: '教育机构',
-            role: '第二个角色',
-          }
-        ],
-        tableData: [
-          {
-            id: '1',
-            username: 'ly',
-            account: 'www@hungjkhb.com'
-          }, {
-            id: '2',
-            username: 'cs',
-            account: 'www@hungjkhb.com'
-          }
-        ],
-        boxData: [{
-          name: '总部学生档案',
-          table: [{
-            permissions: 'a',
-            apply: 'b',
-            allow: 'c'
-          }, {
-            permissions: 'a',
-            apply: 'b',
-            allow: 'c'
-          }
-          ]
-        },
-          {
-            name: '潜在生管理',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '校园预备生管理',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '入学申请列表',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '招生入学首页',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '毕业离园生管理',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }, {
-            name: '校园学生管理',
-            table: [{
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }, {
-              permissions: 'a',
-              apply: 'b',
-              allow: 'c'
-            }
-            ]
-          }]
+        userList: [],
+        rolename:'',
+        roledesc:'',
+        userCheckList:[],
+        boxData: [],
+        checkedValue:[],
       }
     },
+    mounted: function () {
+      this.getUserList()
+      this.getSystemPermission()
+    },
     methods: {
-      addUser: function () {
-        this.$router.push({name: 'usermanagement-add'})
+      getUserList: function () {
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/users_management/?display_name=' + this.display_name + '&organization_id=-1&page=1&size=10'
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.userList = res.data.data
+            console.log(this.userList)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       },
-      editUser: function () {
-        this.$router.push({name: 'usermanagement-edit'})
+      searchList: function () {
+        this.getUserList()
       },
-      assignPermissions: function () {
+      addUser: function (id) {
+        this.$router.push({name: 'usermanagement-add', query: {id: id}})
+      },
+      assignPermissions: function (id) {
+        this.getRole(id)
         this.assignpermissions = true
+      },
+      getRole: function (id) {
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + id + '/role_info/'
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.rolename = res.data.role_data.name
+            this.roledesc = res.data.role_data.description
+            this.userCheckList = res.data.user_list
+            this.checkedValue = res.data.permission_list
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getSystemPermission: function () {
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.boxData = res.data.data
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       },
       handleChange: function (val) {
         var liList = document.getElementsByName('selectColor');
@@ -273,7 +219,7 @@
     text-align: left;
   }
 
-  .usermanagement .header-top{
+  .usermanagement .header-top {
     margin-top: 10px;
   }
 
@@ -281,7 +227,7 @@
     font-size: 14px;
   }
 
-  .usermanagement .dialog_content p{
+  .usermanagement .dialog_content p {
     padding: 10px 0;
   }
 
@@ -292,11 +238,13 @@
   .usermanagement >>> .el-dialog__footer {
     text-align: center;
   }
-  .usermanagement >>> .el-input{
+
+  .usermanagement >>> .el-input {
     width: 164px;
     height: 36px;
   }
-  .usermanagement >>> .el-select{
+
+  .usermanagement >>> .el-select {
     margin-bottom: 10px;
   }
 
@@ -310,9 +258,10 @@
     padding: 0 20px;
   }
 
-  .usermanagement i{
+  .usermanagement i {
     cursor: pointer;
   }
+
   /*手风琴样式*/
   .usermanagement >>> .el-collapse-item__arrow {
     display: none;
