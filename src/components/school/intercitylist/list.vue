@@ -204,6 +204,7 @@
   }
   .intercitylist .list-group{
     height:160px;
+    overflow:auto;
   }
   .intercitylist .el-card__header{
     padding: 10px 15px;
@@ -489,15 +490,18 @@
         } 
       },
       end(item){
-        var id = item.to.getAttribute("data-id");
-        var _this = this;
-        this.$axios.post('http://192.168.1.197:8000/api/center/center/'+this.add_id+'/update_intercity_link/',{
-          intercity_id:id
-        }).then(res=>{
-          console.log(res)
-        }).catch(res=>{
+          var from_id = item.from.getAttribute("data-id");
+          var to_id = item.to.getAttribute("data-id");
+          if(from_id !== to_id){
+            var _this = this;
+            this.$axios.post('http://192.168.1.197:8000/api/center/center/'+this.add_id+'/update_intercity_link/',{
+              intercity_id:to_id
+            }).then(res=>{
+              console.log(res)
+            }).catch(res=>{
 
-        })
+            })
+          }
       },
       selectFun(obj) {
         var index = this.UNSelectSchool.indexOf(obj);
