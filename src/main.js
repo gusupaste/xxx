@@ -24,10 +24,11 @@ Vue.use(ElementUI);
 Vue.use(vueEventCalendar, {locale: 'en',color: '#4fc08d'});
 Vue.use(VueCookies)
 Vue.prototype.$axios = axios;
-/**拦截器 */
+/**请求拦截器 */
 Vue.config.productionTip = false
 axios.interceptors.request.use(
   config => {
+    config.baseURL = 'http://192.168.1.197:8000';
     config.headers.post['Content-Type'] = 'application/json;utf-8';
     config.headers.common['Authorization'] = "jwt "+VueCookies.get('token') || '';
     // config.headers.common["If-Modified-Since"] = 0;
@@ -36,12 +37,28 @@ axios.interceptors.request.use(
   error => {
     return Promise.reject(error);
   });
+/**返回拦截器 */
+axios.interceptors.response.use(function (response) {
+
+  return response
+}, function (error) {
+  if (error.response.status == 401){
+    Vue.prototype.$message({
+      type: 'error',
+      message: '登陆超时，请重新登陆'
+    });
+    router.replace({
+      name: 'login'
+    });
+  }
+  return Promise.reject(error)
+})
+
 /**登录检测 */
 router.beforeEach((to, from, next) => {
   // 检测路由配置中是否有requiresAuth这个meta属性
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // 判断是否已登录
-    console.log(VueCookies.get('token'))
     if (VueCookies.get('token') !== null) {
       next();
       return;
