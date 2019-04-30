@@ -7,11 +7,10 @@ import login from '@/components/login/login'
 import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
-import Usermanagement from '@/components/systemmanagement/usermanagement/list'
 import Rolemanagement from '@/components/systemmanagement/rolemanagement/list'
 import Rolemanagementadd from '@/components/systemmanagement/rolemanagement/add'
+import Usermanagement from '@/components/systemmanagement/usermanagement/list'
 import Usermanagementadd from '@/components/systemmanagement/usermanagement/add'
-import Usermanagementedit from '@/components/systemmanagement/usermanagement/edit'
 import SchoolCalendarList from '@/components/systemmanagement/schoolCalendar/list'
 import addNewTemplate from '@/components/systemmanagement/schoolCalendar/addNewTemplate'
 import editTemplate from '@/components/systemmanagement/schoolCalendar/editTemplate'
@@ -153,11 +152,6 @@ export default new Router({
           path: '/systemmanagement/rolemanagement-add',
           name: 'rolemanagement-add',
           component: Rolemanagementadd
-        },
-        {
-          path: '/systemmanagement/usermanagement-edit',
-          name: 'usermanagement-edit',
-          component: Usermanagementedit
         },
         {
           path: '/systemmanagement/settlement-area',
