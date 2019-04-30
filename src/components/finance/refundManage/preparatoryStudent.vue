@@ -3,16 +3,22 @@
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 财务处理 > 退费管理 > <span class="font-cl-blue">新增预备生退费账单</span></p>
       </div>
-        <div class="content-top">新增毕业/离园退费账单</div>
+        <div class="content-top">新增预备生退费账单</div>
         <div class="clearfix">
             <el-col :span="24" class="card-type">
                 <el-card shadow="always">
                 <p>
                 <el-row>
-                  <el-col :span="6"><div class="grid-content bg-purple">学生姓名：学生A</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">学号：28342368476</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">所在班级：大二班</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">学生当前状态：大二班</div></el-col>
+                  <el-col :span="4"><div class="grid-content bg-purple">学生：
+                    <span class="red" style="cursor:pointer" @click="addStudentVisible = true">
+                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                      <span class="font-size-14">添加</span>
+                    </span>
+                  </div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">学生姓名：28342368476</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">学号：大二班</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">所在班级：大二班</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">学生当前状态：大二班</div></el-col>
                 </el-row>
                 </p>
                 <p>
@@ -25,7 +31,7 @@
                 </p>
                 <p>
                   <el-row>
-                    <el-col :span="8"><div class="grid-content bg-purple">离园原因：搬家</div></el-col>
+                    <el-col :span="24"><div class="grid-content bg-purple">离园原因：搬家</div></el-col>
                   </el-row>
                 </p>
                 </el-card>
@@ -84,7 +90,7 @@
         </div>
         <div class="mt26 tableList">
           <p>制度外退费（其他扣款/退费项目明细）
-            <span class="red" style="cursor:pointer" @click="addNewDiscount(0)">
+            <span class="red" style="cursor:pointer" @click="addProjectVisible = true">
               <i class="fa fa-plus-circle" aria-hidden="true"></i>
               <span class="font-size-14">添加项目</span>
             </span>
@@ -113,11 +119,22 @@
           </el-table>
         </div>
         <div class="mt26 tableList">
-          <p>相关附件：</p>
+          <p>相关附件：
+            <el-upload
+              style="display: initial;"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              multiple
+              :limit="3"
+              :file-list="fileList">
+              <el-button size="small" type="primary"><span class="el-icon-upload2" style="font-weight: bold"></span>上传</el-button>
+            </el-upload></p>
         </div>
         <div class="mt26 text-align-center">
             <button class="btn bg-grey">返回</button>
         </div>
+      <add-project v-if="addProjectVisible"></add-project>
+
+      <add-student v-if="addStudentVisible"></add-student>
     </div>
 </template>
 <style scoped>
@@ -153,9 +170,18 @@
   }
 </style>
 <script>
+import addProject from './addPreject';
+import addStudent from './addStudent';
 export default {
+  components:{
+    addProject,
+    addStudent,
+  },
     data(){
         return {
+          fileList:[],
+          addProjectVisible:false,
+          addStudentVisible:false,
             tableData: [{
                 date: '2016-05-02',
                 name: '王小虎',
