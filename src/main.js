@@ -37,6 +37,7 @@ axios.interceptors.request.use(
   error => {
     return Promise.reject(error);
   });
+
 /**返回拦截器 */
 axios.interceptors.response.use(function (response) {
 
@@ -45,10 +46,15 @@ axios.interceptors.response.use(function (response) {
   if (error.response.status == 401){
     Vue.prototype.$message({
       type: 'error',
-      message: '登陆超时，请重新登陆'
+      message: '登陆信息超时，请重新登陆'
     });
     router.replace({
       name: 'login'
+    });
+  } else {
+    Vue.prototype.$message({
+      type: 'error',
+      message: '网络异常'
     });
   }
   return Promise.reject(error)
@@ -64,6 +70,10 @@ router.beforeEach((to, from, next) => {
       return;
     } else {
       // 未登录则跳转到登录界面
+      Vue.prototype.$message({
+        type: 'error',
+        message: '登陆信息超时，请重新登陆'
+      });
       next('/login');
     }
 

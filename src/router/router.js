@@ -57,6 +57,7 @@ import Costpremium from '@/components/finance/billMaking/costpremium'
 import BillMakingDetail from '@/components/finance/billMaking/detail'
 import BillMakingEdit from '@/components/finance/billMaking/edit'
 import BillMakingDollar from '@/components/finance/billMaking/dollar'
+import BillMakingAcademicChange from '@/components/finance/billMaking/academicChange'
 import CreateDiscount from '@/components/finance/billMaking/createDiscount'
 import Policy from '@/components/finance/policy/policy'
 import PendingApproval from '@/components/finance/charge/pendingApproval'
@@ -453,6 +454,11 @@ export default new Router({
           component: BillMakingDollar
         },
         {
+          path: '/financemanagement/billMakingAcademicChange',
+          name: 'BillMakingAcademicChange',
+          component: BillMakingAcademicChange
+        },
+        {
           path: '/financemanagement/discountApplication',
           name: 'DiscountApplication',
           component: DiscountApplication
@@ -461,6 +467,11 @@ export default new Router({
           path: '/financemanagement/adddiscountApplication',
           name: 'AdddiscountApplication',
           component: AdddiscountApplication
+        },
+        {
+          path: '/financemanagement/discountApplicationDetail',
+          name: 'DiscountApplicationDetail',
+          component: DiscountApplicationDetail
         },
         {
           path: '/financemanagement/discountApplicationDetail',

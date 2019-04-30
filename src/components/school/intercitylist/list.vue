@@ -5,11 +5,9 @@
         <p class="bold mt10 black">伊顿国际教育集团大城际分布</p>
       </div>
       <div class="content mt26">
-        <div class="intercity-list">
-          <el-card class="box-card" style="line-height:280px;text-align:center">
-            <span class="circle" @click="addintercityVisible = true"> 
-              +
-            </span>
+        <div class="intercity-list cur" @click="addintercityVisible=true">
+          <el-card class="box-card add-card" >
+              <!-- <img src="../../../assets/img/add.png" alt=""> -->
           </el-card>
         </div>
         <div class="intercity-list" v-for="(item,index) in intercityList" :key="index">
@@ -167,12 +165,17 @@
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
+  .intercitylist .add-card{
+    text-align: center;
+    background:url('../../../assets/img/addintercity.jpg') no-repeat;
+    background-position: 0;
+  }
   .chose-person >>> .el-radio__label{
     display: none !important;
   }
   .intercitylist .intercity-list{
-    width: 210px;
-    height: 300px;
+    width: 260px;
+    height: 360px;
     display: inline-block;
     margin-right: 2%;
   }
@@ -196,8 +199,8 @@
     cursor: pointer;
   }
   .intercitylist .el-card{
-    width: 220px;
-    height: 280px;
+    width: 260px;
+    height: 315px;
   }
   .intercitylist .list-group{
     height:160px;

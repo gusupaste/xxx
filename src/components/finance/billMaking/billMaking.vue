@@ -40,8 +40,10 @@
                 </router-link>
             </span>
             <span class="ml10">
-                <i class="fa fa-plus-square icon-font"></i>
-                <span class="font-size-14 orange">学业变更费用补缴</span>
+                <router-link to="/financemanagement/billMakingAcademicChange">
+                    <i class="fa fa-plus-square icon-font"></i>
+                    <span class="font-size-14 orange">学业变更费用补缴</span>
+                </router-link>
             </span>
         </p>
         <el-table

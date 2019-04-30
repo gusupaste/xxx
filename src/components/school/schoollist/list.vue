@@ -202,7 +202,7 @@
     methods: {
       getSchoolList(){
         var _this = this;
-        _this.$axios.get('http://192.168.1.197:8000/api/center/center/',{
+        _this.$axios.get('/api/center/center/',{
           params:{
             username:_this.username,
             password:_this.password
