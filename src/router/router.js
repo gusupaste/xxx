@@ -76,6 +76,8 @@ import DiscountApplicationDetail from '@/components/finance/discountApplication/
 import Paymentprocessing from '@/components/finance/paymentprocessing/list'
 import PayBillDetail from '@/components/finance/paymentprocessing/billDetail'
 import BillInfo from '@/components/finance/paymentprocessing/billInfo'
+import RevenueList from '@/components/finance/revenue/list'
+import RevenueDetail from '@/components/finance/revenue/detail'
 
 /**工作流 */
 import Workflow from '@/components/workflow/list'
@@ -477,6 +479,16 @@ export default new Router({
           path: '/financemanagement/discountApplicationDetail',
           name: 'DiscountApplicationDetail',
           component: DiscountApplicationDetail
+        },
+        {
+          path: '/financemanagement/revenueList',
+          name: 'RevenueList',
+          component: RevenueList
+        },
+        {
+          path: '/financemanagement/revenueDetail/:id',
+          name: 'RevenueDetail',
+          component: RevenueDetail
         },
       ]
     },

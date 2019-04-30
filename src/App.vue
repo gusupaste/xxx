@@ -47,6 +47,7 @@
               <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
               <el-menu-item index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
               <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
+              <el-menu-item index="/financemanagement/revenueList" route="/financemanagement/revenueList">收入确认</el-menu-item>
             </el-submenu>
               <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
               <el-menu-item index="/studentManage/student-list" route="/studentManage/student-list">学生管理</el-menu-item>
