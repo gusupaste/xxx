@@ -104,6 +104,7 @@ export default {
         _this.loading = false;
           if(res.status == 200) {
             _this.$cookies.set('token',res.data.token);
+            this.$cookies.remove('key');
             // _this.$cookies.set('token',1);
             _this.$router.push('/home');
           }

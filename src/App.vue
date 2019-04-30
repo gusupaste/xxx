@@ -5,7 +5,7 @@
           <div class="head-menu">
             <img src="./assets/img/logo.png" alt="">
             <el-menu
-                :default-active="$route.path"
+                :default-active="active"
                 @select="handleSelect"
                 class="el-menu-demo"
                 mode="horizontal"
@@ -80,35 +80,27 @@ export default {
   name: 'App',
   data(){
     return {
-      active:localStorage.getItem('active') || '/home',
+      active:this.$cookies.get('key') || '/home',
       premission: 8,
     }
   },
   mounted(){
-    this.user_info();
+
   },
   methods:{
-    user_info(){
-        var pk = this.$store.state.user_Info.pk;
-        if(!pk){
-          // this.$store.state.user_Info = JSON.parse(localStorage.getItem('user_Info'));
-          // this.$store.state.user_Token = localStorage.getItem('user_Token');
-          // this.premission = this.$store.state.user_Info.type;
-        }
-      },
-
+      /**登出 */
       logout(){
         this.$cookies.remove('token');
         this.$cookies.remove('userInfo');
+        this.$cookies.remove('key');
         this.$router.push('/login');
       },
       success(res){
         this.premission = res;
       },
-       handleSelect(key, keyPath) {
-         localStorage.removeItem('tabName');
-        //  localStorage.setItem('active',key);
-        console.log(key, keyPath);
+      handleSelect(key, keyPath) {
+        localStorage.removeItem('tabName');
+        this.$cookies.set('key',key);
       }
   }
 }
