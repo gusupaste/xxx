@@ -78,6 +78,10 @@ import PayBillDetail from '@/components/finance/paymentprocessing/billDetail'
 import BillInfo from '@/components/finance/paymentprocessing/billInfo'
 import RevenueList from '@/components/finance/revenue/list'
 import RevenueDetail from '@/components/finance/revenue/detail'
+import RefundManage from '@/components/finance/refundManage/list'
+import RefundDetail from '@/components/finance/refundManage/billDetail'
+import PreparatoryStudent from '@/components/finance/refundManage/preparatoryStudent'
+import LeaveStudent from '@/components/finance/refundManage/leaveStudent'
 
 /**工作流 */
 import Workflow from '@/components/workflow/list'
@@ -414,6 +418,26 @@ export default new Router({
           path: '/financemanagement/billInfo',
           name: 'billInfo',
           component: BillInfo
+        },
+        {
+          path: '/financemanagement/refund-manage',
+          name: 'refund-manage',
+          component: RefundManage
+        },
+        {
+          path: '/financemanagement/refund-detail/:id',
+          name: 'refund-detail',
+          component: RefundDetail
+        },
+        {
+          path: '/financemanagement/preparatory-student',
+          name: 'preparatory-student',
+          component: PreparatoryStudent
+        },
+        {
+          path: '/financemanagement/leave-student',
+          name: 'leave-student',
+          component: LeaveStudent
         },
         {
           path: '/financemanagement/setting',
