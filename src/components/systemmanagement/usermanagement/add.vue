@@ -78,7 +78,7 @@
         <p class="bold_black">管辖幼儿园：</p>
         <div class="content padding-20">
           <el-checkbox-group v-model="schoolIds" @change="schoolIdsChange">
-            <el-checkbox v-for="(item) in schoolList" :label="item.id" style="min-width: 230px">
+            <el-checkbox v-for="(item,index)  in schoolList" :key="index" :label="item.id" style="min-width: 230px">
               【<span>{{item.code}}</span>】<span>{{item.name}}</span></el-checkbox>
           </el-checkbox-group>
         </div>

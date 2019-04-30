@@ -310,11 +310,7 @@ export default new Router({
           name: 'studentattendanceSurvey',
           component: AttendanceSurvey
         },
-        {
-          path: '/studentattendance/survey',
-          name: 'studentattendanceSurvey',
-          component: AttendanceSurvey
-        },
+
         {
           path: '/studentattendance/detail/:id',
           name: 'attendancedetail',
@@ -487,11 +483,6 @@ export default new Router({
           path: '/financemanagement/adddiscountApplication',
           name: 'AdddiscountApplication',
           component: AdddiscountApplication
-        },
-        {
-          path: '/financemanagement/discountApplicationDetail',
-          name: 'DiscountApplicationDetail',
-          component: DiscountApplicationDetail
         },
         {
           path: '/financemanagement/discountApplicationDetail',
