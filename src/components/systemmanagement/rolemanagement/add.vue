@@ -111,25 +111,47 @@
       }
     },
     mounted: function () {
-      this.getSystemPermission();
+      if (this.$route.query.id !== 0) {
+        this.getRole()
+      }
+      this.getSystemPermission()
     },
     watch: {
-      checkedValue: function (new_v, old_v) {
-        this.permissions_ids = this.checkedValue;
+      checkedValue: function () {
+        this.permissions_ids = this.checkedValue
       }
     },
     methods: {
+      getRole: function () {
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id + '/role_info/'
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.rolename = res.data.role_data.name
+            this.roledesc = res.data.role_data.description
+            this.userCheckList = res.data.user_list
+            this.checkedValue = res.data.permission_list
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       getSystemPermission: function () {
-        this.loading = true;
+        this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
         this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
           }
         }).then(res => {
-          this.loading = false;
-          if (res.data.status == 1) {
-            this.boxData = res.data.data;
+          this.loading = false
+          if (res.data.status === 1) {
+            this.boxData = res.data.data
           }
         }).catch(err => {
           console.log(err)
@@ -140,19 +162,19 @@
         this.searchList();
       },
       handleSelectionChange(val) {
-        this.userCheckListVal = val;
+        this.userCheckListVal = val
       },
       searchList: function () {
-        this.loading = true;
+        this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/users_management/all_users/?display_name=' + this.display_name;
         this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
           }
         }).then(res => {
-          this.loading = false;
-          if (res.data.status == 1) {
-            this.userList = res.data.data;
+          this.loading = false
+          if (res.data.status === 1) {
+            this.userList = res.data.data
           }
         }).catch(err => {
           console.log(err)
@@ -169,7 +191,12 @@
         for (var i = 0; i < oldList.length; i++) {
           newList.push(oldList[i].id)
         }
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/'
+        var url = ''
+        if (this.$route.query.id === 0) {
+          url = 'http://134.175.93.59:8000/api/user/roles_management/'
+        } else {
+          url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id + '/update_role/'
+        }
         this.$axios.post(url, {
           name: this.rolename,
           description: this.roledesc,

@@ -115,6 +115,7 @@ export default new Router({
       path: '/systemmanagement',/*系统管理*/
       name: 'systemmanagement',
       component: Systemmanagement,
+      meta: { requiresAuth: true, keepAlive: false },
       children: [
         {
           path: '/systemmanagement/brand-management',
@@ -177,6 +178,7 @@ export default new Router({
       path: '/studentFile',/*学生档案*/
       name: 'studentFile',
       component: StudentFile,
+      meta: { requiresAuth: true, keepAlive: false },
       children: [
         {
           path: '/studentFile/studentFileList',/*学生档案列表*/
@@ -198,11 +200,13 @@ export default new Router({
       path: '/parentInfo',/*家长信息*/
       name: 'parentInfo',
       component: ParentInfo,
+      meta: { requiresAuth: true, keepAlive: false },
     },
     {
       path: '/studentManage',/*家长信息*/
       name: 'studentManage',
       component: StudentManage,
+      meta: { requiresAuth: true, keepAlive: false },
       children: [
         {
           path: '/studentManage/student-list',
@@ -220,6 +224,7 @@ export default new Router({
       path: '/school',/*校园*/
       name: 'school',
       component: School,
+      meta: { requiresAuth: true, keepAlive: false },
       children: [
         {
           path: '/school/intercity-list',
@@ -273,6 +278,7 @@ export default new Router({
       path: '/entranceManage',/*入园管理*/
       name: 'entranceManage',
       component: EntranceManage,
+      meta: { requiresAuth: true, keepAlive: false },
       children: [
         {
           path: '/entranceManage/intentional-admission',
@@ -290,11 +296,13 @@ export default new Router({
       path: '/workflow',/*工作流*/
       name: 'workflow',
       component: Workflow,
+      meta: { requiresAuth: true, keepAlive: false },
     },
     {
       path: '/studentattendance',/*学生考勤*/
       name: 'studentattendance',
       component: StudentAttendance,
+      meta: { requiresAuth: true, keepAlive: false },
       children: [
         {
           path: '/studentattendance/survey',
@@ -327,6 +335,7 @@ export default new Router({
       path: '/financemanagement',/*财务管理*/
       name: 'financemanagement',
       component: Financemanagement,
+      meta: { requiresAuth: true, keepAlive: false },
       children: [
         {/*收费账单*/
           path: '/financemanagement/charge',
@@ -465,7 +474,6 @@ export default new Router({
       name: 'schoolCalendarList',
       component: SchoolCalendarList,
       meta: { requiresAuth: true, keepAlive: false },
-
       children: [
 
       ]

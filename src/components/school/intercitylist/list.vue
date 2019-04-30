@@ -2,7 +2,7 @@
     <div class="intercitylist wrap">
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">城际列表</span></p>
-        <p class="bold mt10">伊顿国际教育集团大城际分布</p>
+        <p class="bold mt10 black">伊顿国际教育集团大城际分布</p>
       </div>
       <div class="content mt26">
         <div class="intercity-list">
@@ -22,15 +22,15 @@
               </div>
               <div class="left" style="width:15%">
                   <el-button type="text" @click="editIntercity(item)">
-                  <i class="fa fa-edit icon-font"></i>
+                  <i class="fa fa-edit icon-font cur"></i>
                 </el-button>
               </div>
             </div>
-            <draggable class="list-group" :list="list1" group="people" @change="log">
+            <draggable class="list-group" :list="item.center_list" group="people" @change="log" @end="end" :data-id="item.id">
               <div class="list-group-item intercity-li"
-                   v-for="(element, index) in list1"
-                   :key="element.name">
-                {{ element.name }} {{ index }}
+                   v-for="s in item.center_list"
+                   :key="s.id">
+                {{ s.name }}
               </div>
             </draggable>
           </el-card>
@@ -47,7 +47,7 @@
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
             <el-input v-model="form.person.name" disabled style="width:164px"></el-input>
-            <el-button type="primary" @click="addinnerVisible = true">
+            <el-button type="primary" @click="addinnerVisible = true" style="height:40px">
               <i class="fa fa-search"></i>
             </el-button>
           </el-form-item>
@@ -59,17 +59,17 @@
       </el-dialog>
       <!-- 编辑城际 -->
       <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" >
-        <el-form ref="form" :model="checkedItem" :rules="rules" label-width="100px">
-          <el-form-item label="城际名称：" prop="name">
+        <el-form  :model="checkedItem" :rules="rules2" ref="checkedItem" label-width="100px">
+          <el-form-item label="城际名称：" prop="dept_name">
             <el-input v-model="checkedItem.dept_name" class="w250_input" style="width:250px"></el-input>
-            <span class="cur red ml10" @click="deleteDialog=true">删除此城际？</span>
+            <span class="cur red ml10" @click="deleteThisIntercity">删除此城际？</span>
           </el-form-item>
-          <el-form-item label="城际代码：" prop="code">
+          <el-form-item label="城际代码：" prop="dept_code">
             <el-input v-model="checkedItem.dept_code"></el-input>
           </el-form-item>
-          <el-form-item label="负责人：" prop="person">
+          <el-form-item label="负责人：" prop="manager_name">
             <el-input v-model="checkedItem.manager_name" disabled style="width:164px"></el-input>
-            <el-button type="primary" @click="addinnerVisible = true">
+            <el-button type="primary" @click="addinnerVisible = true" style="height:40px">
               <i class="fa fa-search"></i>
             </el-button>
           </el-form-item>
@@ -77,9 +77,12 @@
             <div class="item-div1">
               <p>无归属城际的学校</p>
               <div class="item-div2-span">
-                <el-checkbox-group v-model="UNSelectSchool" @change="changeSchool">
-                  <el-checkbox v-for="school in checkedItem.available_centers" :key="school.id" :label="school">{{school.name}}</el-checkbox>
-                </el-checkbox-group>
+                <div v-for="school in checkedItem.available_centers" :key="school.id" class="clearfix cur" @click="addChooseSchool(school)">
+                  <span class="left">{{school.name}}</span>
+                  <span class="right">
+                    <i class="fa fa-plus"></i>
+                  </span>
+                </div>
               </div>
             </div>
             <div class="item-div2">
@@ -92,7 +95,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editintercityVisible = false" class="bg-grey white">取 消</el-button>
-          <el-button type="success" @click="editintercityVisible = false">保 存</el-button>
+          <el-button type="success" @click="sureEditIntercity('checkedItem')">保 存</el-button>
         </span>
       </el-dialog>
       <!-- 删除城际 -->
@@ -111,6 +114,7 @@
       <!-- 选择负责人 -->
       <el-dialog
           width="30%"
+          class="chose-person"
           title="选择负责人"
           :visible.sync="addinnerVisible"
           append-to-body>
@@ -129,7 +133,7 @@
               label="选择"
               width="100">
               <template slot-scope="scope">
-                <el-radio v-model="choosePerson" @change="checkedPerson(scope.row)"></el-radio>
+                <el-radio v-model="choosePerson" :label="scope.row"> </el-radio>
               </template>
             </el-table-column>
             <el-table-column
@@ -150,9 +154,106 @@
             :current-page="currentPage"
             :total="count">
           </el-pagination>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="addinnerVisible = false" class="bg-grey white">取 消</el-button>
+            <el-button type="success" @click="checkedPerson">确 定</el-button>
+        </span>
         </el-dialog>
     </div>
 </template>
+
+<style scoped>
+  .intercitylist{
+    color: rgba(160, 160, 160, 1);
+    text-align: left;
+  }
+  .chose-person >>> .el-radio__label{
+    display: none !important;
+  }
+  .intercitylist .intercity-list{
+    width: 210px;
+    height: 300px;
+    display: inline-block;
+    margin-right: 2%;
+  }
+  .intercitylist .intercity-list:last-child{
+    margin-right: 0;
+  }
+  .intercitylist .city-name{
+    font-weight: 600;
+    display: block;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .intercitylist .intercity-li{
+    border: 1px solid #ddd;
+    padding: 5px 20px;
+    border-radius: 20px;
+    background-color: #fafafa;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+  .intercitylist .el-card{
+    width: 220px;
+    height: 280px;
+  }
+  .intercitylist .list-group{
+    height:160px;
+  }
+  .intercitylist .el-card__header{
+    padding: 10px 15px;
+  }
+  .intercitylist .el-card__body {
+    padding: 10px 15px;
+    overflow: auto;
+    height: 185px;
+  }
+  .intercitylist .span-button{
+    font-size: 70px;
+    text-align: center;
+    margin-top: 80px;
+    margin-left: 55px;
+    cursor: pointer;
+  }
+  .intercitylist .el-dialog__footer{
+    text-align: center;
+  }
+  .intercitylist .item-div1,.intercitylist .item-div2{
+    width: 220px;
+    height: 350px;
+    padding:0 20px;
+    border: 1px solid #ddd;
+    margin-right: 20px;
+    display: inline-table;
+  }
+  .intercitylist .item-div2 p{
+    border-bottom: 1px solid #ddd;
+  }
+  .intercitylist .item-div2 span{
+    margin-right: 5px;
+    color: red;
+    font-size: 18px;
+    cursor: pointer;
+    float: right;
+    margin-top: 10px;
+  }
+  .intercitylist .item-div1-span,.intercitylist .item-div2-span{
+    height: 300px;
+    overflow: auto;
+  }
+  .intercitylist .el-checkbox-group{
+    width: 220px;
+  }
+  .intercitylist .el-checkbox{
+    display: block;
+  }
+  .intercitylist >>> .el-table td{
+    padding: 5px 0 !important;
+  }
+  
+</style>
 
 <script>
   import draggable from 'vuedraggable';
@@ -161,17 +262,6 @@
       draggable
     },
     data() {
-      const generateData = _ => {
-        const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            key: i,
-            label: `备选项 ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
-        return data;
-      };
       return {
         searchPerson:"",
         personTable:[],
@@ -180,13 +270,14 @@
         count:1,
         currentPage:1,
         pagesize:1,
-        data: generateData(),
         value1: [1, 4],
         /**弹窗参数 */
         addintercityVisible : false,
         addinnerVisible : false,
         editintercityVisible : false,
         deleteDialog:false,
+        /**拖拽參數 */
+        add_id:'',
         balls: [
           {
             id:1,
@@ -200,7 +291,7 @@
         form: {
           name: '',
           code: '',
-          person:{},
+          person:'',
         },
         checkedItem:{},
         intercityList:[],
@@ -212,42 +303,28 @@
           ],
           code: [
             {required: true, message: '请输入城际代码', trigger: 'blur'},
-            {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'}
+            {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'},
+            
           ],
           person: [
             {required: true, message: '请输入负责人名称', trigger: 'blur'},
           ],
         },
-        list1: [
-          { name: "John", id: 1 },
-          { name: "Joao", id: 2 },
-          { name: "Jean", id: 3 },
-          { name: "Gerard", id: 4 }
-        ],
-        list2: [
-          { name: "Juan", id: 5 },
-          { name: "Edgard", id: 6 },
-          { name: "Johnson", id: 7 }
-        ],
-        list2: [
-          { name: "Juan", id: 5 },
-          { name: "Edgard", id: 6 },
-          { name: "Johnson", id: 7 }
-        ],
-        selectSchool: [
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
+        rules2: {
+          dept_name: [
+            {required: true, message: '请输入城际名称', trigger: 'blur'},
+            {min:1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
+          ],
+          dept_code: [
+            {required: true, message: '请输入城际代码', trigger: 'blur'},
+            {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'},
+            
+          ],
+          manager_name: [
+            {required: true, message: '请输入负责人名称', trigger: 'blur'},
+          ],
+        },
+        selectSchool: [],
         UNSelectSchool: [],
       };
     },
@@ -269,15 +346,14 @@
                 type:'success',
                 message:'新增城际成功'
               })
-              console.log(res.data);
               _this.addintercityVisible = false;
               _this.getIntercity()
+              this.$refs['form'].resetFields();
             }).catch(err=>{
               _this.$message({
                 type:'error',
                 message:'新增失败'
               });
-              _this.addintercityVisible = false;
           })
           } else {
             console.log('error submit!!');
@@ -288,11 +364,11 @@
       },
       editIntercity(val){
         console.log(val)
-        // 
         var _this = this;
           this.$axios.get('http://192.168.1.197:8000/api/common/intercity/'+val.id+'/view_detail/',)
           .then(res=>{
             _this.checkedItem = res.data.detail;
+            _this.UNSelectSchool = res.data.detail.center_list;
             console.log(res)
           }).catch(err=>{
 
@@ -342,34 +418,87 @@
           console.log(err)
         })
       },
+      sureEditIntercity(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var id = this.checkedItem.id;
+            var _this = this;
+            var list = [];
+            for (let i = 0; i < this.UNSelectSchool.length; i++) {
+              list.push(this.UNSelectSchool[i].id);
+            };
+              this.$axios.put('http://192.168.1.197:8000/api/common/intercity/'+id+'/',{
+                  dept_name:_this.checkedItem.dept_name,
+                  dept_code:_this.checkedItem.dept_code,
+                  manager_id:_this.checkedItem.manager_id,
+                  center_ids:list,
+              }).then(res=>{
+                _this.$message({
+                  type:'success',
+                  message:'编辑成功',
+                })
+                _this.getIntercity();
+                _this.editintercityVisible = false;
+              }).catch(err=>{
+                _this.$message({
+                  type:'error',
+                  message:'编辑失败',
+                })
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+        
+      },
       changeSchool(val){
         console.log(val)
       },
+      deleteThisIntercity(){
+        if(this.checkedItem.center_list.length>0){
+          this.deleteDialog = true;
+        } else {
+          this.deleteIntercity()
+        }
+      },
       handleCurrentChange(val) {
         this.currentPage = val;
-        console.log(this.currentPage)
       },
-      checkedPerson(val) {
-        this.form.person = val;
+      checkedPerson() {
+        if(this.addintercityVisible) {
+          this.form.person = this.choosePerson;
+        } else {
+          this.checkedItem.manager_name = this.choosePerson.name;
+          this.checkedItem.manager_id = this.choosePerson.id;
+        }
+          this.addinnerVisible = false;
       },
-      add: function() {
-        this.list.push({ name: "Juan" });
+      log(evt) {
+        if(evt.added) {
+          this.add_id = evt.added.element.id;
+        } 
       },
-      replace: function() {
-        this.list = [{ name: "Edgard" }];
+      end(item){
+        var id = item.to.getAttribute("data-id");
+        var _this = this;
+        this.$axios.post('http://192.168.1.197:8000/api/center/center/'+this.add_id+'/update_intercity_link/',{
+          intercity_id:id
+        }).then(res=>{
+          console.log(res)
+        }).catch(res=>{
+
+        })
       },
-      clone: function(el) {
-        return {
-          name: el.name + " cloned"
-        };
-      },
-      log: function(evt) {
-        window.console.log(evt);
-      },
-      selectFun: function(obj) {
-        console.log(obj);
+      selectFun(obj) {
         var index = this.UNSelectSchool.indexOf(obj);
         this.UNSelectSchool.splice(index, 1);
+        this.checkedItem.available_centers.push(obj);
+      },
+      addChooseSchool(obj){
+        var index = this.checkedItem.available_centers.indexOf(obj);
+        this.checkedItem.available_centers.splice(index, 1);
+        this.UNSelectSchool.push(obj);
       }
     },
     watch: {
@@ -379,99 +508,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .intercitylist{
-    color: rgba(160, 160, 160, 1);
-    text-align: left;
-  }
-  .intercitylist >>> .el-dialog__header{
-        background-color: #f5f5f5;
-        padding: 15px;
-        font-size: 12px !important;
-        border-bottom: 1px solid #d5d5d5;
-    }
-  .intercitylist >>> .el-dialog__title{
-        font-size: 14px;
-    }
-  .intercitylist .bold{
-    font-weight: bold;
-    color: black;
-  }
-  .intercitylist .intercity-list{
-    width: 210px;
-    height: 300px;
-    display: inline-block;
-    margin-right: 2%;
-  }
-  .intercitylist .intercity-list:last-child{
-    margin-right: 0;
-  }
-  .intercitylist .city-name{
-    font-weight: 600;
-    display: block;
-    font-size: 16px;
-  }
-  .intercitylist .intercity-li{
-    border: 1px solid #ddd;
-    padding: 5px 20px;
-    border-radius: 20px;
-    background-color: #fafafa;
-    margin-bottom: 5px;
-    cursor: pointer;
-  }
-  .intercitylist .el-card{
-    width: 220px;
-    height: 280px;
-  }
-  .intercitylist .el-card__header{
-    padding: 10px 15px;
-  }
-  .intercitylist .el-card__body {
-    padding: 10px 15px;
-    overflow: auto;
-    height: 185px;
-  }
-  .intercitylist .span-button{
-    font-size: 70px;
-    text-align: center;
-    margin-top: 80px;
-    margin-left: 55px;
-    cursor: pointer;
-  }
-  .intercitylist .el-dialog__footer{
-    text-align: center;
-  }
-  .intercitylist .item-div1,.intercitylist .item-div2{
-    width: 220px;
-    height: 350px;
-    padding-left: 20px;
-    border: 1px solid #ddd;
-    margin-right: 20px;
-    display: inline-table;
-  }
-  .intercitylist .item-div2 p{
-    border-bottom: 1px solid #ddd;
-  }
-  .intercitylist .item-div2 span{
-    margin-right: 5px;
-    color: red;
-    font-size: 18px;
-    cursor: pointer;
-    float: right;
-    margin-top: 10px;
-  }
-  .intercitylist .item-div1-span,.intercitylist .item-div2-span{
-    height: 300px;
-    overflow: auto;
-  }
-  .intercitylist .el-checkbox-group{
-    width: 220px;
-  }
-  .intercitylist .el-checkbox{
-    display: block;
-  }
-  .intercitylist >>> .el-table td{
-    padding: 5px 0 !important;
-  }
-</style>
