@@ -65,6 +65,7 @@
         <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span></p>
       <template>
         <el-table
+          ref="multipleTable"
           :data="userList"
           tooltip-effect="dark"
           style="width: 100%"
@@ -114,6 +115,7 @@
       if (this.$route.query.id !== 0) {
         this.getRole()
       }
+      this.searchList()
       this.getSystemPermission()
     },
     watch: {
@@ -122,6 +124,19 @@
       }
     },
     methods: {
+      toggleSelection(rows) {  // 这里是点击时 切换选中的行
+        this.$nextTick(() => {   // 延迟回调
+          if (rows) {
+            rows.forEach(row => {
+              this.$refs.multipleTable.toggleRowSelection(row, true);
+            });
+            // toggleRowSelection : 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）
+          } else {
+            this.$refs.multipleTable.clearSelection();
+            // clearSelection : 用于多选表格，清空用户的选择
+          }
+        })
+      },
       getRole: function () {
         this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id + '/role_info/'
@@ -159,7 +174,16 @@
       },
       addUser: function () {
         this.adduser = true;
-        this.searchList();
+        var arrList = [];
+        for (var i = 0; i < this.userList.length; i++) {
+          for (var j = 0; j < this.userCheckList.length; j++) {
+            if (this.userList[i].id === this.userCheckList[j].id) {
+              arrList.push(this.userList[i])
+              break
+            }
+          }
+        }
+        this.toggleSelection(arrList);
       },
       handleSelectionChange(val) {
         this.userCheckListVal = val

@@ -5,11 +5,9 @@
         <p class="bold mt10 black">伊顿国际教育集团大城际分布</p>
       </div>
       <div class="content mt26">
-        <div class="intercity-list">
-          <el-card class="box-card" style="line-height:280px;text-align:center">
-            <span class="circle" @click="addintercityVisible = true"> 
-              +
-            </span>
+        <div class="intercity-list cur" @click="addintercityVisible=true">
+          <el-card class="box-card add-card" >
+              <!-- <img src="../../../assets/img/add.png" alt=""> -->
           </el-card>
         </div>
         <div class="intercity-list" v-for="(item,index) in intercityList" :key="index">
@@ -37,7 +35,7 @@
         </div>
       </div>
       <!-- 新增城际 -->
-      <el-dialog title="新增城际" :visible.sync="addintercityVisible" width="50%" >
+      <el-dialog title="新增城际" :visible.sync="addintercityVisible" width="50%" @close='beforeClose1'>
         <el-form ref="form" :model="form" :rules="rules" label-width="100px">
           <el-form-item label="城际名称：" prop="name" class="w250_input">
             <el-input v-model="form.name"></el-input>
@@ -58,7 +56,7 @@
         </div>
       </el-dialog>
       <!-- 编辑城际 -->
-      <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" >
+      <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" @close='beforeClose2'>
         <el-form  :model="checkedItem" :rules="rules2" ref="checkedItem" label-width="100px">
           <el-form-item label="城际名称：" prop="dept_name">
             <el-input v-model="checkedItem.dept_name" class="w250_input" style="width:250px"></el-input>
@@ -167,12 +165,17 @@
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
+  .intercitylist .add-card{
+    text-align: center;
+    background:url('../../../assets/img/addintercity.jpg') no-repeat;
+    background-position: 0;
+  }
   .chose-person >>> .el-radio__label{
     display: none !important;
   }
   .intercitylist .intercity-list{
-    width: 210px;
-    height: 300px;
+    width: 260px;
+    height: 360px;
     display: inline-block;
     margin-right: 2%;
   }
@@ -196,8 +199,8 @@
     cursor: pointer;
   }
   .intercitylist .el-card{
-    width: 220px;
-    height: 280px;
+    width: 260px;
+    height: 315px;
   }
   .intercitylist .list-group{
     height:160px;
@@ -337,7 +340,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var _this = this;
-            this.$axios.post('http://192.168.1.197:8000/api/common/intercity/',{
+            this.$axios.post('/api/common/intercity/',{
                 dept_name:_this.form.name,
                 dept_code:_this.form.code,
                 manager_id:_this.form.person.id,
@@ -365,7 +368,7 @@
       editIntercity(val){
         console.log(val)
         var _this = this;
-          this.$axios.get('http://192.168.1.197:8000/api/common/intercity/'+val.id+'/view_detail/',)
+          this.$axios.get('/api/common/intercity/'+val.id+'/view_detail/',)
           .then(res=>{
             _this.checkedItem = res.data.detail;
             _this.UNSelectSchool = res.data.detail.center_list;
@@ -377,7 +380,7 @@
       },
       deleteIntercity(){
           var _this = this;
-          this.$axios.delete('http://192.168.1.197:8000/api/common/intercity/'+this.checkedItem.id+'/',)
+          this.$axios.delete('/api/common/intercity/'+this.checkedItem.id+'/',)
           .then(res=>{
             _this.$message({
                 type:'success',
@@ -395,7 +398,7 @@
       },
       getIntercity(){
           var _this = this;
-          this.$axios.get('http://192.168.1.197:8000/api/common/intercity/',).then(res=>{
+          this.$axios.get('/api/common/intercity/',).then(res=>{
             _this.intercityList = res.data.intercity_list;
             _this.addintercityVisible = false;
           }).catch(err=>{
@@ -404,7 +407,7 @@
       },
       getPerson(){
           var _this = this;
-          this.$axios.get('http://192.168.1.197:8000/api/common/select/user_list/',{
+          this.$axios.get('/api/common/select/user_list/',{
             params:{
               user_name:_this.searchPerson,
               page:_this.currentPage,
@@ -427,7 +430,7 @@
             for (let i = 0; i < this.UNSelectSchool.length; i++) {
               list.push(this.UNSelectSchool[i].id);
             };
-              this.$axios.put('http://192.168.1.197:8000/api/common/intercity/'+id+'/',{
+              this.$axios.put('/api/common/intercity/'+id+'/',{
                   dept_name:_this.checkedItem.dept_name,
                   dept_code:_this.checkedItem.dept_code,
                   manager_id:_this.checkedItem.manager_id,
@@ -461,6 +464,12 @@
         } else {
           this.deleteIntercity()
         }
+      },
+      beforeClose1(){
+        this.$refs['form'].resetFields();
+      },
+      beforeClose2(){
+        this.$refs['checkedItem'].resetFields();
       },
       handleCurrentChange(val) {
         this.currentPage = val;
