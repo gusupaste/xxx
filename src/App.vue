@@ -84,12 +84,12 @@ export default {
   name: 'App',
   data(){
     return {
-      active:this.$cookies.get('key') || '/home',
+      active:"",
       premission: 8,
     }
   },
   mounted(){
-
+    this.getActive();
   },
   methods:{
       /**登出 */
@@ -98,6 +98,13 @@ export default {
         this.$cookies.remove('userInfo');
         this.$cookies.remove('key');
         this.$router.push('/login');
+      },
+      getActive(){
+        if(this.$cookies.get('key') !== null) {
+          this.active =  this.$cookies.get('key');
+        } else {
+          this.active = '/home';
+        } 
       },
       success(res){
         this.premission = res;
