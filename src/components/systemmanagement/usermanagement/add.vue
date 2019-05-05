@@ -316,7 +316,7 @@
         if (this.$route.query.id === "0") {
           url = 'http://134.175.93.59:8000/api/user/users_management/'
         } else {
-          url = 'http://192.168.1.222:8000/api/user/users_management/' + this.$route.query.id + '/update_users/'
+          url = 'http://134.175.93.59:8000/api/user/users_management/' + this.$route.query.id + '/update_users/'
         }
         this.$axios.post(url, {
           display_name: this.display_name,
