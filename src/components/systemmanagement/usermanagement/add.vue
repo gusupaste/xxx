@@ -184,19 +184,6 @@
       this.getSchoolList()
     },
     methods: {
-      toggleSelection(rows) {  // 这里是点击时 切换选中的行
-        this.$nextTick(() => {   // 延迟回调
-          if (rows) {
-            rows.forEach(row => {
-              this.$refs.multipleTable.toggleRowSelection(row, true);
-            });
-            // toggleRowSelection : 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）
-          } else {
-            this.$refs.multipleTable.clearSelection();
-            // clearSelection : 用于多选表格，清空用户的选择
-          }
-        })
-      },
       getUser: function () {
         this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/users_management/' + this.$route.query.id + '/user_info/'
@@ -232,8 +219,21 @@
           console.log(err)
         })
       },
+      toggleSelection(rows) {  // 这里是点击时 切换选中的行
+        this.$nextTick(() => {   // 延迟回调
+          if (rows) {
+            rows.forEach(row => {
+              this.$refs.multipleTable.toggleRowSelection(row, true);
+            });
+            // toggleRowSelection : 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）
+          } else {
+            this.$refs.multipleTable.clearSelection();
+            // clearSelection : 用于多选表格，清空用户的选择
+          }
+        })
+      },
       getSchoolList: function () {
-        this.loading = true;
+        this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/get_centers/';
         this.$axios.get(url, {
           headers: {
@@ -248,23 +248,63 @@
           console.log(err)
         })
       },
-      tableRowClassName({row, rowIndex}) {
+      tableRowClassName ({row, rowIndex}) {
         if (rowIndex < this.headquartersLength) {
           return 'warning-row'
         }
         return ''
       },
-      userIdsChange(val) {
+      userIdsChange (val) {
         this.userIds = []
         for (var i = 0; i < val.length; i++) {
           this.userIds.push(val[i].id)
         }
       },
-      schoolIdsChange(val) {
+      schoolIdsChange (val) {
         this.schoolIds = val
       },
       addOrganization: function () {
         this.addorganization = true
+      },
+      assignPermissions: function (id) {
+        this.getRole(id)
+        this.getSystemPermission()
+        this.assignpermissions = true
+      },
+      getRole: function (id) {
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + id + '/role_info/'
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.rolename = res.data.role_data.name
+            this.roledesc = res.data.role_data.description
+            this.userCheckList = res.data.user_list
+            this.checkedValue = res.data.permission_list
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getSystemPermission: function () {
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.boxData = res.data.data
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       },
       save: function () {
         this.loading = true
@@ -305,43 +345,6 @@
       },
       back: function () {
         this.$router.push({name: 'usermanagement'})
-      },
-      assignPermissions: function (id) {
-        this.getRole(id)
-        this.assignpermissions = true
-        this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
-          this.loading = false
-          if (res.data.status === 1) {
-            this.boxData = res.data.data
-          }
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      getRole: function (id) {
-        this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + id + '/role_info/'
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
-          this.loading = false
-          if (res.data.status === 1) {
-            this.rolename = res.data.role_data.name
-            this.roledesc = res.data.role_data.description
-            this.userCheckList = res.data.user_list
-            this.checkedValue = res.data.permission_list
-          }
-        }).catch(err => {
-          console.log(err)
-        })
       },
       handleChange: function (val) {
         var liList = document.getElementsByName('selectColor');
