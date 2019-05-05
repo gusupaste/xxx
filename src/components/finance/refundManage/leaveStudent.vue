@@ -23,14 +23,47 @@
           </p>
           <p>
             <el-row>
-              <el-col :span="8"><div class="grid-content bg-purple">申请退费日期：2018-2019学年</div></el-col>
-              <el-col :span="8"><div class="grid-content bg-purple">学年：2019/01/30</div></el-col>
-              <el-col :span="8"><div class="grid-content bg-purple">单据申请信息：2019/01/30</div></el-col>
+              <el-col :span="8"><div class="grid-content bg-purple">申请退费日期：
+                <el-date-picker
+                  v-model="value2"
+                  align="right"
+                  type="date"
+                  placeholder="选择日期"
+                  :picker-options="pickerOptions1">
+                </el-date-picker>
+              </div></el-col>
+              <el-col :span="8"><div class="grid-content bg-purple">学年：
+                <el-select v-model="nameSelect" placeholder="请选择">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </div></el-col>
+              <el-col :span="8"><div class="grid-content bg-purple">单据申请信息：
+                <el-select v-model="nameSelect" placeholder="请选择">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </div></el-col>
             </el-row>
           </p>
           <p>
             <el-row>
-              <el-col :span="24"><div class="grid-content bg-purple">离园原因：搬家</div></el-col>
+              <el-col :span="24"><div class="grid-content bg-purple">离园原因：
+                <el-radio-group v-model="radio2">
+                  <el-radio :label="3">居所搬迁/父母工作调动</el-radio>
+                  <el-radio :label="6">家庭变故</el-radio>
+                  <el-radio :label="9">生病</el-radio>
+                  <el-radio :label="10">毕业</el-radio>
+                </el-radio-group>
+              </div></el-col>
             </el-row>
           </p>
         </el-card>
@@ -176,6 +209,8 @@
     },
     data(){
       return {
+        value2:'',
+        radio2:'',
         fileList:[],
         addProjectVisible:false,
         addStudentVisible:false,
@@ -195,7 +230,23 @@
           date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        }],
+        options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
       }
     }
   }
