@@ -49,6 +49,10 @@
         show-header
         style="width: 100%">
         <el-table-column
+          prop="code"
+          label="编号">
+        </el-table-column>
+        <el-table-column
           prop="name"
           label="校园名称"
           width="180">

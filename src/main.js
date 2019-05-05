@@ -52,10 +52,10 @@ axios.interceptors.response.use(function (response) {
       name: 'login'
     });
   } else {
-    Vue.prototype.$message({
-      type: 'error',
-      message: '网络异常'
-    });
+    // Vue.prototype.$message({
+    //   type: 'error',
+    //   message: '网络异常'
+    // });
   }
   return Promise.reject(error)
 })

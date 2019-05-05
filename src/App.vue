@@ -4,11 +4,13 @@
         <div class="clearfix" style="background-color: #0b6289">
           <div class="head-menu">
             <img src="./assets/img/logo.png" alt="">
-            <el-menu
+            <div class="menuwrap" style="width:800px">
+              <el-menu
                 :default-active="active"
                 @select="handleSelect"
                 class="el-menu-demo"
                 mode="horizontal"
+                
                 background-color="#0b6289"
                 text-color="#fff"
                 active-text-color="#fff"
@@ -63,6 +65,7 @@
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
             </el-menu>
+            </div>
             <div class="userInfo">
               <span>集团端
                 {{premission}}
@@ -122,10 +125,16 @@ export default {
     z-index: 999;
     top: 10px;
   }
-  .homePage_menu .el-menu.el-menu--horizontal {
+  .homePage_menu .menuwrap {
     border-bottom:none;
     position: absolute;
     left: 180px;
+    width: 800px;
+    overflow: auto;
+  }
+  .homePage_menu .el-menu.el-menu--horizontal {
+    /* width: 10000px; */
+    display: -webkit-inline-box;
   }
   .homePage_menu .el-menu-item ,.el-submenu{
     width: 100px;
