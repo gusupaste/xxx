@@ -84,7 +84,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="classManageVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveBrandManage">保 存</el-button>
+          <el-button type="success" @click="saveClassManage(0)">保 存</el-button>
         </span>
       </el-dialog>
 
@@ -123,7 +123,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="yearManageVisible = false">取 消</el-button>
-          <el-button type="success" @click="yearManageVisible = false">保 存</el-button>
+          <el-button type="success" @click="saveClassManage(1)">保 存</el-button>
         </span>
       </el-dialog>
 
@@ -366,9 +366,8 @@
         }
       },
       sureDelete:function(){
-        console.log(this.deleteForm);
         var _this = this;
-        var url = 'http://134.175.93.59:8000/api/common/';
+        var url = 'http://etonkids.taidii.cn/api/common/';
         if(_this.deleteForm.type === 'cl_type'){
           url = url + 'class_type/'+_this.deleteForm.id+'/';
         }else{
@@ -376,7 +375,7 @@
         }
         _this.$axios.delete(url).then(res=>{
           _this.loading = false;
-          if(res.status == 200) {
+          if(res.status == 204) {
             this.$message({
               message: '删除成功',
               type: 'success'
@@ -386,11 +385,21 @@
             }else if(this.deleteForm.type === 'gr_type'){//年级
               this.grade_type.splice(this.grade_type.findIndex(item => item.id === this.deleteForm.id), 1);
             }
+          }else if(res.status === 200 && res.data.status === 1){
+            var car_name = '';
+            if(_this.deleteForm.type === 'cl_type'){
+              car_name = '班级';
+            }else{
+              car_name = '年级';
+            }
+            this.$message({
+              message: '该'+car_name+'已被使用，不能删除',
+              type: 'warning'
+            });
           }
         }).catch(err=>{
           console.log(err)
         })
-
         this.deleteVisible = false;
       },
       toggleSelection(rows) {
@@ -453,6 +462,7 @@
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
+            this.grade_type=[];
             var grade_types = res.data.results;
             for(var x in grade_types){
               var obj = {};
@@ -547,17 +557,24 @@
           })
         }
       },
-      saveBrandManage:function () {
-        var cl_types = this.class_type;
-        for(var x in cl_types){
-          if(cl_types[x].id === ''){
+      saveClassManage:function (flag) {
+        var types = [];
+        var url = '';
+        if(flag === 0){
+          types = this.class_type;
+          url = 'http://134.175.93.59:8000/api/common/class_type/';
+        }else{
+          types = this.grade_type;
+          url = 'http://134.175.93.59:8000/api/common/grade_type/';
+        }
+        for(var x in types){
+          if(types[x].id === ''){
             var _this = this;
             _this.loading = true;
-            var url = 'http://134.175.93.59:8000/api/common/class_type/';
             _this.$axios.post(url, {
-              name: cl_types[x].name,
+              name: types[x].name,
               sort_order: 0,
-              code: cl_types[x].code,
+              code: types[x].code,
             }).then(res => {
               _this.loading = false;
               if (res.status == 201) {
@@ -571,10 +588,36 @@
             }).catch(err => {
               console.log(err)
             })
+          }else if(types[x].edit === false){
+            var _this = this;
+            _this.loading = true;
+            var n_url = url + types[x].id+'/';
+            _this.$axios.put(n_url, {
+              name: types[x].name,
+              sort_order: 0,
+              code: types[x].code,
+            }).then(res => {
+              _this.loading = false;
+              if (res.status == 200) {
+                this.$message({
+                  message: '保存成功',
+                  type: 'success'
+                });
+              } else {
+                this.$message.error('保存失败');
+              }
+            }).catch(err => {
+              console.log(err)
+            })
           }
         }
-        _this.classManageVisible = false;
-        _this.getClassType();
+        if(flag === 0){
+          _this.getClassType();
+          _this.classManageVisible = false;
+        }else{
+          _this.getGradeType();
+          _this.yearManageVisible = false;
+        }
       },
     }
   }
