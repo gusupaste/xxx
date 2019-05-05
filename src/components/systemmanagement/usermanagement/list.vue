@@ -15,7 +15,7 @@
         </el-select>
         <span class="padding-left-30">搜索：</span>
         <el-input type="text" v-model="display_name" placeholder="请输入"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getUserList">搜索</el-button></span>
         <span class="right"><el-button class="orange" type="text" @click="addUser(0)"><i class="fa fa-plus-square"></i>&nbsp;新增用户</el-button></span>
       </p>
       <el-table
@@ -132,9 +132,11 @@
     },
     mounted: function () {
       this.getUserList()
-      this.getSystemPermission()
     },
     methods: {
+      addUser: function (id) {
+        this.$router.push({name: 'usermanagement-add', query: {id: id}})
+      },
       getUserList: function () {
         this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/users_management/?display_name=' + this.display_name + '&organization_id=-1&page=1&size=10'
@@ -152,14 +154,9 @@
           console.log(err)
         })
       },
-      searchList: function () {
-        this.getUserList()
-      },
-      addUser: function (id) {
-        this.$router.push({name: 'usermanagement-add', query: {id: id}})
-      },
       assignPermissions: function (id) {
         this.getRole(id)
+        this.getSystemPermission()
         this.assignpermissions = true
       },
       getRole: function (id) {

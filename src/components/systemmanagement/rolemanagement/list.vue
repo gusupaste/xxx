@@ -62,19 +62,19 @@
       return {
         activeName: 'first',
         status: 0,
-        roleList: [],
+        roleList: []
       }
     },
     mounted: function () {
       this.getRoleList()
     },
     methods: {
-      addRole: function ( id ) {
-        this.$router.push({name: 'rolemanagement-add', query: {status: this.status,id: id}})
+      addRole: function (id) {
+        this.$router.push({name: 'rolemanagement-add', query: {status: this.status, id: id}})
       },
       getRoleList: function () {
-        this.loading = true;
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/?status=' + this.status;
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/?status=' + this.status
         this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
