@@ -62,7 +62,9 @@
             <el-input v-model="formInline.zip_code" placeholder="请输入" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="所属城际:">
-            <el-input v-model="formInline.intercity_name" placeholder="请输入"></el-input>
+            <el-select v-model="formInline.intercity" placeholder="请输入">
+              <el-option v-for="item in intercityList" :label="item.dept_name" :key="item.id" :value="item.id"></el-option>
+            </el-select>
           </el-form-item>
           <br>
           <el-form-item label="联系电话:" prop="telephone">
@@ -253,6 +255,7 @@
         provinceList:[],
         cityList:[],
         townList:[],
+        intercityList:[],
         rules: {
           name: [
             { required: true, message: '请输入校园名称', trigger: 'blur' },
@@ -350,16 +353,21 @@
       })
       },
       getIntercity_list(){
-        var _this = this;
-        this.$axios.get('/api/common/select/city_list/',{
-          params:{
-            level:1
-          }
-        }).then(res=>{
-          _this.provinceList = res.data.results;
-        }).catch(err=>{
-        console.log(err)
-      })
+          var _this = this;
+          this.$axios.get('/api/common/select/city_list/',{
+            params:{
+              level:1
+            }
+          }).then(res=>{
+            _this.provinceList = res.data.results;
+          }).catch(err=>{
+          console.log(err)
+        })
+        this.$axios.get('/api/common/intercity/',).then(res=>{
+            _this.intercityList = res.data.intercity_list;
+          }).catch(err=>{
+          console.log(err)
+        })
       },
       getcity_list(){
         var _this = this;
