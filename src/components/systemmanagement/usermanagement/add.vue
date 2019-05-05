@@ -68,7 +68,7 @@
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                <i class="fa fa-search"></i>
+                <i class="fa fa-search" @click="assignPermissions(scope.row.id)"></i>
               </template>
             </el-table-column>
           </el-table>
@@ -172,7 +172,8 @@
         rolename: '',
         roledesc: '',
         userCheckList:[],
-        boxData:[]
+        boxData:[],
+        checkedValue:[],
 
       }
     },
@@ -305,6 +306,43 @@
       back: function () {
         this.$router.push({name: 'usermanagement'})
       },
+      assignPermissions: function (id) {
+        this.getRole(id)
+        this.assignpermissions = true
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.boxData = res.data.data
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getRole: function (id) {
+        this.loading = true
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + id + '/role_info/'
+        this.$axios.get(url, {
+          headers: {
+            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
+          }
+        }).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.rolename = res.data.role_data.name
+            this.roledesc = res.data.role_data.description
+            this.userCheckList = res.data.user_list
+            this.checkedValue = res.data.permission_list
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       handleChange: function (val) {
         var liList = document.getElementsByName('selectColor');
         for (var i = 0; i < liList.length; i++) {
@@ -378,5 +416,28 @@
 
   .addusermanagement >>> .el-table .warning-row {
     background: #f9f9f9;
+  }
+
+  /*手风琴样式*/
+  .addusermanagement >>> .el-collapse-item__arrow {
+    display: none;
+  }
+
+  .addusermanagement >>> .el-collapse-item__header {
+    height: 30px;
+    border: 0;
+  }
+
+  .addusermanagement >>> .el-collapse {
+    margin: 0 20px;
+    border: 0;
+  }
+
+  .addusermanagement >>> .el-collapse-item__wrap {
+    border: 0;
+  }
+
+  .addusermanagement .active {
+    color: orange;
   }
 </style>
