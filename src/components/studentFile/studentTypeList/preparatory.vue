@@ -83,10 +83,10 @@
   }
   .studentFile .studentFileCard {
     cursor: pointer;
-    margin-right: 5%;
+    margin-right: 2%;
     margin-bottom: 40px;
     border: 1px solid #bbb;
-    width: 27%;
+    width: 30%;
     font-size: 12px;
     -webkit-box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
     -moz-box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
@@ -108,7 +108,7 @@
     height: 100px;
   }
   .studentDiscount >>> .el-tabs__active-bar {
-      background-color:#f17128 !important; 
+      background-color:#f17128 !important;
       height: 3px;
   }
   .studentDiscount >>> .el-tabs__item {

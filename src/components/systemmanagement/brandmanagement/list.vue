@@ -23,7 +23,7 @@
         <div class="content">
           <div class="intercity-list">
             <el-card class="box-card add-card" >
-              <img src="../../../assets/img/add.png">
+              <img src="../../../assets/img/add.png" @click="addAndEditBrand(-1,0)">
             </el-card>
             <!--<el-card class="box-card">
               <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>

@@ -24,7 +24,7 @@
 </template>
 <style scoped>
   .studentFile >>> .el-tabs__active-bar {
-        background-color:#f17128 !important; 
+        background-color:#f17128 !important;
         height: 3px;
   }
   .studentFile >>> .el-tabs__item {
@@ -41,7 +41,7 @@
   .studentFile >>> .el-tabs__header {
       border-bottom: 2px solid #ccc;
   }
-  
+
   .studentFile >>> .el-tab-pane {
       border: none;
   }
@@ -56,17 +56,6 @@ export default {
   data(){
     return {
          activeName: 'first',
-         list:[1,2,3,4,5,6,7,81,],
-         form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
     }
   },
   components:{
