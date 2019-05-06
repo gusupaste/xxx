@@ -22,9 +22,12 @@
         </div>
         <div class="content">
           <div class="intercity-list">
-            <el-card class="box-card">
-              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
+            <el-card class="box-card add-card" >
+              <img src="../../../assets/img/add.png">
             </el-card>
+            <!--<el-card class="box-card">
+              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
+            </el-card>-->
           </div>
           <div class="intercity-list" v-for="(card,index) in cardList" :key="index">
             <el-card class="box-card">
@@ -165,6 +168,19 @@
   .brandmanagement{
     color: rgba(160, 160, 160, 1);
     text-align: left;
+  }
+  .brandmanagement .add-card{
+    text-align: center;
+    position: relative;
+    /*background:url('../../../assets/img/add.png') no-repeat;*/
+    background-position: 0;
+  }
+  .brandmanagement .add-card img{
+    width: 30%;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
   }
   .brandmanagement .content-top{
     min-height: 120px;
@@ -409,7 +425,7 @@
           _this.loading = false;
           if(res.status == 200) {
             this.class_type = [];
-            var class_types = res.data.results;
+            var class_types = res.data;
             for(var x in class_types){
               var obj = {};
               obj.id = class_types[x].id;
@@ -432,7 +448,7 @@
           _this.loading = false;
           if(res.status == 200) {
             this.grade_type=[];
-            var grade_types = res.data.results;
+            var grade_types = res.data;
             for(var x in grade_types){
               var obj = {};
               obj.id = grade_types[x].id;
