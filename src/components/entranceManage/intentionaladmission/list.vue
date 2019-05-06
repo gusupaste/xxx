@@ -51,12 +51,18 @@
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                <router-link to="">
-                    <i class="fa fa-pencil font-size-20 orange"></i>
-                </router-link>
-                <router-link to="">
-                    <i class="fa fa-dollar font-size-20 green"></i>
-                </router-link>
+                <template slot-scope="scope">
+                  <router-link to="/financemanagement/edit/9">
+                    <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 orange"></i>
+                    </span>
+                  </router-link>
+                  <router-link to="/financemanagement/dollar/9">
+                    <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 green"></i>
+                    </span>
+                  </router-link>
+                </template>
               </template>
             </el-table-column>
           </el-table>
