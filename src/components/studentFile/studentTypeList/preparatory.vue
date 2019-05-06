@@ -3,43 +3,86 @@
       <div class="formwrap">
         <el-form ref="form" :model="form" label-width="100px" inline>
           <el-form-item label="城际：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="intercity" @change="allChangeFun">
+              <el-option value="" label="全部" aria-selected="true"></el-option>
+              <el-option
+                v-for="item in intercity_list"
+                :key="item.id"
+                :label="item.dept_name"
+                :value="item.id">
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="区域：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="area" @change="areaChangeFun">
+              <el-option value="" label="全部"></el-option>
+              <el-option
+                v-for="item in area_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="省市：">
+            <el-select v-model="city" @change="allChangeFun">
+              <el-option value="" label="全部"></el-option>
+              <el-option
+                v-for="item in city_list"
+                :key="item.id"
+                :label="item.city_name"
+                :value="item.id">
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="品牌：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="brand" @change="allChangeFun">
+              <el-option value="" label="全部"></el-option>
+              <el-option
+                v-for="item in brand_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="校园：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="school">
+              <el-option value="" label="全部"></el-option>
+              <el-option
+                v-for="item in school_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="班级：">
+            <el-select v-model="klass">
+              <el-option value="" label="全部"></el-option>
+              <el-option
+                v-for="item in school_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="学生性别：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="gender" placeholder="请选择活动区域">
+              <el-option value="" label="全部"></el-option>
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="入学日期：">
-            <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2" style="text-align:center">&nbsp;至&nbsp;</el-col>
-            <el-col :span="11">
-              <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-            </el-col>
+            <el-date-picker
+              v-model="dateValue"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
           </el-form-item>
           <el-form-item label="搜索：">
             <el-input placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
@@ -135,24 +178,122 @@
 export default {
   data(){
     return {
-      tol_url:'http://127.0.0.1:8000/api/',
+      int_url:'http://192.168.199.157:8000/api/common/select/intercity_list/',/*城际*/
+      area_url:'http://192.168.199.157:8000/api/common/select/area_list/',/*区域*/
+      city_url:'http://192.168.199.157:8000/api/common/select/city_list/',/*省市*/
+      brand_url:'http://192.168.199.157:8000/api/common/select/hq_list/',/*品牌*/
+      school_url:'http://192.168.199.157:8000/api/common/select/center_list/',/*校园*/
+      intercity_list:[],
+      intercity:'',
+      area_list:[],
+      area:'',
+      city_list:[],
+      city:'',
+      brand_list:[],
+      brand:'',
+      school_list:[],
+      school:'',
+      klass:'',
+      gender:'',
+      dateValue: '',
       list:[1,2,3,4,5,6,7,81,],
-        form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+      form: {
+      name: '',
+      region: '',
+      date1: '',
+      date2: '',
+      delivery: false,
+      type: [],
+      resource: '',
+      desc: ''
       }
     }
+  },
+  mounted:function(){
+    this.getIntercityList();
+    this.getAreaList();
+    this.getCityList(0);
+    this.getBrandList();
+    this.getSchoolList();
   },
   methods:{
     /*城际*/
     getIntercityList:function () {
-
+      var _this = this;
+      _this.$axios.get(this.int_url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.intercity_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*区域*/
+    getAreaList:function () {
+      var _this = this;
+      _this.$axios.get(this.area_url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.area_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*省市*/
+    getCityList:function (code) {
+      var _this = this;
+      var url = '';
+      if(code !== 0){
+        url = this.city_url + '?area_code=' + code;
+      }else{
+        url = this.city_url;
+      }
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.city_list = [];
+          this.city_list = res.data.results;
+          this.city = '';
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*品牌*/
+    getBrandList:function () {
+      var _this = this;
+      _this.$axios.get(this.brand_url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.brand_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*校园*/
+    /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
+    getSchoolList:function (intercity_id,province_id,area_code,hq_id) {
+      var _this = this;
+      var url = this.school_url + '?intercity_id=' + this.intercity + '&province_id=' + this.city + '&area_code=' + this.area + '&hq_id=' + this.brand;
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.school_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    areaChangeFun:function () {
+      this.getCityList(this.area);
+      this.getSchoolList(this.intercity,this.city,0,this.brand);
+    },
+    /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
+    allChangeFun:function () {
+      this.getSchoolList(this.intercity,this.city,this.area,this.brand);
     },
   },
 }
