@@ -28,7 +28,7 @@ Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 axios.interceptors.request.use(
   config => {
-    config.baseURL = 'http://192.168.1.197:8000';
+    config.baseURL = 'http://192.168.199.157:8000';
     config.headers.post['Content-Type'] = 'application/json;utf-8';
     config.headers.common['Authorization'] = "jwt "+VueCookies.get('token') || '';
     // config.headers.common["If-Modified-Since"] = 0;

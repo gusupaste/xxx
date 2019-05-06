@@ -17,50 +17,52 @@
             style="width: 100%;margin-top: 10px;">
             <el-table-column
               prop="code"
-              label="学生姓名"
-              min-width="150">
+              label="学生姓名">
             </el-table-column>
             <el-table-column
               prop="name"
-              label="性别"
-              min-width="120">
+              label="性别">
             </el-table-column>
             <el-table-column
               prop="intercity_name"
-              label="出生日期"
-              min-width="180">
+              label="出生日期">
             </el-table-column>
             <el-table-column
               prop="intercity_name"
-              label="申请就读班级"
-              min-width="150">
+              label="申请就读班级">
             </el-table-column>
             <el-table-column
               prop="hq_name"
-              label="计划入学时间"
-              min-width="150">
+              label="计划入学时间">
             </el-table-column>
             <el-table-column
               prop="hq_name"
-              label="联系人"
-              min-width="140">
+              label="联系人">
             </el-table-column>
             <el-table-column
               prop="hq_name"
-              label="联系电话"
-              min-width="140">
+              label="联系电话">
             </el-table-column>
             <el-table-column
               prop="hq_name"
-              label="创建日期"
-              min-width="150">
+              label="创建日期">
             </el-table-column>
             <el-table-column
               fixed="right"
-              label="操作"
-              width="80">
+              label="操作">
               <template slot-scope="scope">
-                <el-button type="text" size="small" @click="addNewTemplate(1)">报名缴费</el-button>
+                <template slot-scope="scope">
+                  <router-link to="/financemanagement/edit/9">
+                    <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 orange"></i>
+                    </span>
+                  </router-link>
+                  <router-link to="/financemanagement/dollar/9">
+                    <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 green"></i>
+                    </span>
+                  </router-link>
+                </template>
               </template>
             </el-table-column>
           </el-table>
