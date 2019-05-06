@@ -23,7 +23,7 @@
         <div class="content">
           <div class="intercity-list">
             <el-card class="box-card add-card" >
-              <img src="../../../assets/img/add.png">
+              <img src="../../../assets/img/add.png" @click="addAndEditBrand(-1,0)">
             </el-card>
             <!--<el-card class="box-card">
               <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
@@ -132,8 +132,8 @@
 
       <el-dialog :title="brandName" :visible.sync="editbrandVisible" min-width="600px">
         <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
-          <el-form-item label="品牌名称">
-            <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
+          <el-form-item label="品牌名称" prop="name">
+            <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制50个字" maxlength="50"></el-input>
           </el-form-item>
           <el-form-item label="班级项目">
             <el-checkbox-group v-model="editForm.klass" style="text-align: left;padding-left: 5px;">
@@ -305,8 +305,8 @@
         },
         rules: {
           name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+            {required: true, message: '请输入品牌名称', trigger: 'blur'},
+            {min: 0, max: 50, message: '长度在 0 到 50 个字符', trigger: 'blur'}
           ]
         },
       };
@@ -484,7 +484,6 @@
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
-            console.log(res.data);
             var new_obj = res.data[0];
             this.editForm.grade = new_obj.grade_types;
             this.editForm.klass = new_obj.class_types;
