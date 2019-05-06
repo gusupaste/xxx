@@ -178,28 +178,7 @@ export default new Router({
         },
       ]
     },
-    {
-      path: '/studentFile',/*学生档案*/
-      name: 'studentFile',
-      component: StudentFile,
-      meta: { requiresAuth: true, keepAlive: false },
-      children: [
-        {
-          path: '/studentFile/studentFileList',/*学生档案列表*/
-          name: 'StudentFileList',
-          component: StudentFileList,
-        },
-        {
-          path: '/studentFile/studentFileDetail/:id',/*学生档案详情*/
-          name: 'studentFileDetail',
-          component: StudentFileDetail,
-          children: [
 
-          ]
-        },
-
-      ]
-    },
     {
       path: '/parentInfo',/*家长信息*/
       name: 'parentInfo',
@@ -303,10 +282,37 @@ export default new Router({
       meta: { requiresAuth: true, keepAlive: false },
       children: [
         {
+          path: '/workflow/list',
+          name: 'workflowList',
+          component: WorkflowList
+        },
+        {
           path: '/workflow/detail',
           name: 'workflowDetail',
           component: WorkflowDetail
         }]
+    },
+    {
+      path: '/studentFile',/*学生档案*/
+      name: 'studentFile',
+      component: StudentFile,
+      meta: { requiresAuth: true, keepAlive: false },
+      children: [
+        {
+          path: '/studentFile/studentFileList',/*学生档案列表*/
+          name: 'StudentFileList',
+          component: StudentFileList,
+        },
+        {
+          path: '/studentFile/studentFileDetail/:id',/*学生档案详情*/
+          name: 'studentFileDetail',
+          component: StudentFileDetail,
+          children: [
+
+          ]
+        },
+
+      ]
     },
     {
       path: '/studentattendance',/*学生考勤*/
