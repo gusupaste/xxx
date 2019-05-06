@@ -82,17 +82,17 @@
                           label="师资标配数">
                         </el-table-column>
                         <el-table-column
-                          width="200"
+                          width="250"
                           prop="stu"
                           label="主班老师">
                           <template slot-scope="scope">
-                            <div class="inline-block">
-                              <el-button class="teacher-wrap">
-                                <span>王老师</span>
-                                <i class="fa fa-minus-circle red cur"></i>
+                            <div class="inline-block" style="width:77%">
+                              <el-button class="teacher-wrap" v-for="tea in scope.row.teacher_list" :key="tea.id">
+                                <span>{{tea.name}}</span>
+                                <i class="fa fa-minus-circle red cur" @click="deleteTeacher(scope.row,tea.id)"></i>
                               </el-button>
                             </div>
-                            <i style="vertical-align:middle" @click="addTeacher(scope.row)" class="fa fa-plus-square-o font-size-20 blue cur"></i>
+                            <i style="vertical-align:middle;width:20%" @click="addTeacher(scope.row)" class="fa fa-plus-square-o font-size-20 blue cur"></i>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -316,12 +316,13 @@
           <p class="mt10">
             <span>搜索：</span>
             <el-input v-model="searchPerson" style="width:164px"></el-input>
-            <el-button type="primary" @click="getPerson">搜索</el-button>
+            <el-button type="primary" @click="getTeacherList">搜索</el-button>
           </p>
           <el-table
             class="mt10"
             ref="multipleTable"
             :data="teacherList"
+            @selection-change="handleSelectionChange"
             style="width: 100%">
             <el-table-column
               property="id"
@@ -330,25 +331,26 @@
               width="100">
             </el-table-column>
             <el-table-column
-              property="display_name"
+              property="name"
               label="员工姓名"
               width="120">
             </el-table-column>
             <el-table-column
-              property="email"
+              property="role"
               label="职位">
             </el-table-column>
           </el-table>
           <el-pagination
             background
             layout="prev, pager, next, jumper"
-            :page-size="1"
+            :page-size="10"
+            @current-change="changePage"
             :current-page="currentPage"
             :total="count">
           </el-pagination>
           <span slot="footer" class="dialog-footer">
             <el-button @click="addinnerVisible = false" class="bg-grey white">取 消</el-button>
-            <el-button type="success" @click="checkedPerson">确 定</el-button>
+            <el-button type="success" @click="sureAddTeacher">确 定</el-button>
         </span>
         </el-dialog>
   </div>
@@ -446,7 +448,7 @@
        width: 76px;
        height: 27px;
        padding: 0;
-       margin:10px 10px 0 0;
+       margin:5px 5px 0 0;
     }
   </style>
 
@@ -467,7 +469,7 @@
         dialogFormVisible:false,
         editClassDialog:false,
         deleteDialog:false,
-        addinnerVisible:true,
+        addinnerVisible:false,
         activeName: 'first',
         school_id:this.$route.params.id,
         schoolInfo:{},
@@ -541,23 +543,59 @@
       },
       getTeacherList(){
         var _this = this;
-        this.$axios.get('/api/center/class/'+this.addteacher_id+'/unassigned_teachers/')
+        this.$axios.get('/api/center/class/'+this.addteacher_id+'/unassigned_teachers/',{
+          params:{
+            size:10,
+            condition:_this.searchPerson,
+            page:_this.currentPage
+          }
+        })
         .then(res=>{
-          _this.teacherList = res.data.unassigned_teachers;
-          console.log(res)
+          _this.teacherList = res.data.teacher_list.results;
+          _this.count = res.data.teacher_list.count
         }).catch(err=>{
 
         })
       },
+      changePage(currentPage){
+        this.currentPage = currentPage;
+        this.getTeacherList();
+      },
       sureAddTeacher(){
         var _this = this;
-        console.log(_this.multipleSelection)
-        this.$axios.get('/api/center/class/'+this.addteacher_id+'/add_teachers/',{
-          user_ids:_this.multipleSelection
+        var list = new Array;
+        this.multipleSelection.forEach((item,index) => {
+          list.push(item.id)
+        });
+        this.$axios.post('/api/center/class/'+this.addteacher_id+'/add_teachers/',{
+          user_ids:list
         })
         .then(res=>{
-          // _this.schoolInfo = res.data.data;
-          console.log(res)
+          if(res.data.status_code === 1){
+                _this.$message({
+                  type:'success',
+                  message:'添加老师成功！'
+                });
+                _this.addinnerVisible = false;
+                _this.getClass();
+              }
+        }).catch(err=>{
+
+        })
+      },
+      deleteTeacher(_class,teacher_id){
+        var _this = this;
+        this.$axios.post('/api/center/class/'+_class.id+'/remove_teacher/',{
+          user_id:teacher_id
+        })
+        .then(res=>{
+          if(res.data.status_code === 1){
+            _this.$message({
+              type:'success',
+              message:'删除成功！'
+            });
+            _this.getClass();
+          }
         }).catch(err=>{
 
         })
@@ -567,7 +605,6 @@
         this.$axios.get('/api/center/center/'+this.school_id+'/base_information/')
         .then(res=>{
           _this.schoolInfo = res.data.data;
-          console.log(res)
         }).catch(err=>{
 
         })
@@ -583,7 +620,6 @@
         var _this = this;
         this.$axios.get('/api/center/class/'+item.id+'/view_detail/')
         .then(res=>{
-          console.log(res)
           _this.editform = res.data.detail;
           _this.editClassDialog=true;
         }).catch(err=>{
@@ -596,7 +632,6 @@
           if (valid) {
             this.$axios.put('/api/center/class/'+this.edit_id+'/',this.editform)
             .then(res=>{
-              console.log(res)
               if(res.data.status_code === 1){
                 _this.$message({
                   type:'success',
@@ -634,7 +669,6 @@
         var _this = this;
         this.$axios.get('/api/center/class/?center_id='+this.school_id)
         .then(res=>{
-          console.log(res)
           _this.classTypeList = res.data.class_type_list;
         }).catch(err=>{
 
@@ -644,14 +678,12 @@
         var _this = this;
         this.$axios.get('/api/center/select/class_type_list/?center_id='+this.school_id)
         .then(res=>{
-          console.log(res)
           _this.selectTypeList = res.data.results;
         }).catch(err=>{
 
         })
         this.$axios.get('/api/center/select/grade_type_list/?center_id='+this.school_id)
         .then(res=>{
-          console.log(res)
           _this.selectGradeList = res.data.results;
         }).catch(err=>{
 
@@ -683,21 +715,11 @@
         
         
       },
-      getPerson(){
-
-      },
-      checkedPerson(){
-
-      },
       viewSchoolCalendar(item){
         this.$router.push('/school/SchoolViewClendar/'+item.id)
       },
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
+      handleSelectionChange(val){
+        this.multipleSelection = val;
       }
     }
   }
