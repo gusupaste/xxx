@@ -498,8 +498,8 @@
         var _this = this;
         _this.loading = true;
         var url = this.tol_url + '/api/hq/hq/';
-        if(!isNaN(_this.editForm.id)){
-          console.log();
+        console.log(_this.editForm.id);
+        if( _this.editForm.id !== ''){
           url = url + _this.editForm.id +'/';
           _this.$axios.put(url, {
             name:_this.editForm.name,
