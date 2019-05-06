@@ -118,12 +118,12 @@
           </el-tab-pane>
         </el-tabs>
       </div>
-      <el-dialog title="流程详细" :visible.sync="reservefundVisible" width="700px">
+      <!--<el-dialog title="流程详细" :visible.sync="reservefundVisible" width="700px">
         <el-form ref="reserveForm" :model="reserveForm" :rules="rules" label-width="80px">
           <el-row>
             <el-col :span="8">
               <el-form-item label="城际" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                <el-select v-model="nameSelect" placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 170px;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -137,7 +137,7 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="区域" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                <el-select v-model="nameSelect" placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 170px;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -149,7 +149,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="省份" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                <el-select v-model="nameSelect" placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 170px;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -161,7 +161,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="城市" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                <el-select v-model="nameSelect" placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 170px;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -202,7 +202,7 @@
           <el-button @click="addFeeVisible = false">取 消</el-button>
           <el-button type="success" @click="addFeeVisible = false">保 存</el-button>
         </span>
-      </el-dialog>
+      </el-dialog>-->
     </div>
 </template>
 
@@ -256,6 +256,16 @@
       };
     },
     methods: {
+      addNewTemplate: function (id) {
+        this.$router.push({name: 'workflowDetail', query: {id: id}})
+      },
+      handleClick : function () {
+
+      },
+      searchList : function () {
+
+      },
+
 
     }
   }

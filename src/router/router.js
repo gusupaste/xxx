@@ -84,6 +84,8 @@ import LeaveStudent from '@/components/finance/refundManage/leaveStudent'
 
 /**工作流 */
 import Workflow from '@/components/workflow/list'
+import WorkflowDetail from '@/components/workflow/detail'
+
 
 /**家长信息 */
 import ParentInfo from '@/components/parentinfo/list'
@@ -298,6 +300,12 @@ export default new Router({
       name: 'workflow',
       component: Workflow,
       meta: { requiresAuth: true, keepAlive: false },
+      children: [
+        {
+          path: '/workflow/detail',
+          name: 'workflowDetail',
+          component: WorkflowDetail
+        }]
     },
     {
       path: '/studentattendance',/*学生考勤*/
