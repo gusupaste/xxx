@@ -22,11 +22,14 @@
         </div>
         <div class="content">
           <div class="intercity-list">
-            <el-card class="box-card">
-              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
+            <el-card class="box-card add-card" >
+              <img src="../../../assets/img/add.png">
             </el-card>
+            <!--<el-card class="box-card">
+              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
+            </el-card>-->
           </div>
-          <div class="intercity-list"  v-for="(card,index) in cardList" :key="index">
+          <div class="intercity-list" v-for="(card,index) in cardList" :key="index">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
                 <span class="city-name font-cl-blue" style="line-height: 40px">{{ card.name }}</span>
@@ -166,6 +169,19 @@
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
+  .brandmanagement .add-card{
+    text-align: center;
+    position: relative;
+    /*background:url('../../../assets/img/add.png') no-repeat;*/
+    background-position: 0;
+  }
+  .brandmanagement .add-card img{
+    width: 30%;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+  }
   .brandmanagement .content-top{
     min-height: 120px;
     border: 1px solid #ddd;
@@ -189,8 +205,9 @@
   }
   .brandmanagement >>> .intercity-list{
     width: 23%;
-    display: inline-block;
+    /*display: inline-block;*/
     margin-right: 2%;
+    float: left;
   }
   .brandmanagement .el-card{
     height: 220px;
@@ -267,17 +284,14 @@
     },
     data() {
       return {
+        tol_url:'http://134.175.93.59:8000',
         class_type:[],
         grade_type:[],
         brandName:'添加品牌',
         cardList:[],
-        klass:'',
-        addbrandVisible: false,
         editbrandVisible: false,
         classManageVisible:false,
         yearManageVisible:false,
-        del_class_ids:[],
-        del_grade_ids:[],
         deleteVisible:false,
         editForm:{
           id:'',
@@ -295,28 +309,6 @@
             {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
           ]
         },
-        manageTitle:'班级管理',
-        typeChebox:[],
-        type:[
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
-        columnLabel2:'班级类型',
-        multipleSelection:'',
-        /*saveBrandManage:{
-          type:'',
-          addList:[],
-        },*/
       };
     },
     mounted:function(){
@@ -325,9 +317,6 @@
       this.getBrandList();
     },
     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
       addClassButton: function(flag){
         var obj = {
           id:'',
@@ -367,7 +356,7 @@
       },
       sureDelete:function(){
         var _this = this;
-        var url = 'http://etonkids.taidii.cn/api/common/';
+        var url = this.tol_url + '/api/common/';
         if(_this.deleteForm.type === 'cl_type'){
           url = url + 'class_type/'+_this.deleteForm.id+'/';
         }else{
@@ -411,9 +400,6 @@
           this.$refs.multipleTable.clearSelection();
         }
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
       addAndEditBrand:function(num,id){
         this.editbrandVisible = true;
         if(num === -1){
@@ -435,12 +421,12 @@
       getClassType: function () {
         var _this = this;
         _this.loading = true;
-        var url = 'http://134.175.93.59:8000/api/common/class_type/';
+        var url = this.tol_url + '/api/common/class_type/';
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
             this.class_type = [];
-            var class_types = res.data.results;
+            var class_types = res.data;
             for(var x in class_types){
               var obj = {};
               obj.id = class_types[x].id;
@@ -458,12 +444,12 @@
       getGradeType:function () {
         var _this = this;
         _this.loading = true;
-        var url = 'http://134.175.93.59:8000/api/common/grade_type/';
+        var url = this.tol_url + '/api/common/grade_type/';
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
             this.grade_type=[];
-            var grade_types = res.data.results;
+            var grade_types = res.data;
             for(var x in grade_types){
               var obj = {};
               obj.id = grade_types[x].id;
@@ -481,7 +467,7 @@
       getBrandList:function () {
         var _this = this;
         _this.loading = true;
-        var url = 'http://134.175.93.59:8000/api/hq/hq/';
+        var url = this.tol_url + '/api/hq/hq/';
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
@@ -494,7 +480,7 @@
       editBrandInfo:function (brandId) {
         var _this = this;
         _this.loading = true;
-        var url = 'http://etonkids.taidii.cn/api/hq/hq/'+brandId+'/';
+        var url = this.tol_url + '/api/hq/hq/'+brandId+'/';
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
@@ -512,7 +498,7 @@
       saveBrand:function () {
         var _this = this;
         _this.loading = true;
-        var url = 'http://etonkids.taidii.cn/api/hq/hq/';
+        var url = this.tol_url + '/api/hq/hq/';
         if(!isNaN(_this.editForm.id)){
           console.log();
           url = url + _this.editForm.id +'/';
@@ -562,10 +548,10 @@
         var url = '';
         if(flag === 0){
           types = this.class_type;
-          url = 'http://134.175.93.59:8000/api/common/class_type/';
+          url = this.tol_url + '/api/common/class_type/';
         }else{
           types = this.grade_type;
-          url = 'http://134.175.93.59:8000/api/common/grade_type/';
+          url = this.tol_url + '/api/common/grade_type/';
         }
         for(var x in types){
           if(types[x].id === ''){
@@ -612,11 +598,11 @@
           }
         }
         if(flag === 0){
-          _this.getClassType();
-          _this.classManageVisible = false;
+          this.getClassType();
+          this.classManageVisible = false;
         }else{
-          _this.getGradeType();
-          _this.yearManageVisible = false;
+          this.getGradeType();
+          this.yearManageVisible = false;
         }
       },
     }

@@ -83,7 +83,10 @@ import PreparatoryStudent from '@/components/finance/refundManage/preparatoryStu
 import LeaveStudent from '@/components/finance/refundManage/leaveStudent'
 
 /**工作流 */
-import Workflow from '@/components/workflow/list'
+import Workflow from '@/components/workflow/index'
+import WorkflowList from '@/components/workflow/list'
+import WorkflowDetail from '@/components/workflow/detail'
+
 
 /**家长信息 */
 import ParentInfo from '@/components/parentinfo/list'
@@ -175,28 +178,7 @@ export default new Router({
         },
       ]
     },
-    {
-      path: '/studentFile',/*学生档案*/
-      name: 'studentFile',
-      component: StudentFile,
-      meta: { requiresAuth: true, keepAlive: false },
-      children: [
-        {
-          path: '/studentFile/studentFileList',/*学生档案列表*/
-          name: 'StudentFileList',
-          component: StudentFileList,
-        },
-        {
-          path: '/studentFile/studentFileDetail/:id',/*学生档案详情*/
-          name: 'studentFileDetail',
-          component: StudentFileDetail,
-          children: [
 
-          ]
-        },
-
-      ]
-    },
     {
       path: '/parentInfo',/*家长信息*/
       name: 'parentInfo',
@@ -298,6 +280,39 @@ export default new Router({
       name: 'workflow',
       component: Workflow,
       meta: { requiresAuth: true, keepAlive: false },
+      children: [
+        {
+          path: '/workflow/list',
+          name: 'workflowList',
+          component: WorkflowList
+        },
+        {
+          path: '/workflow/detail',
+          name: 'workflowDetail',
+          component: WorkflowDetail
+        }]
+    },
+    {
+      path: '/studentFile',/*学生档案*/
+      name: 'studentFile',
+      component: StudentFile,
+      meta: { requiresAuth: true, keepAlive: false },
+      children: [
+        {
+          path: '/studentFile/studentFileList',/*学生档案列表*/
+          name: 'StudentFileList',
+          component: StudentFileList,
+        },
+        {
+          path: '/studentFile/studentFileDetail/:id',/*学生档案详情*/
+          name: 'studentFileDetail',
+          component: StudentFileDetail,
+          children: [
+
+          ]
+        },
+
+      ]
     },
     {
       path: '/studentattendance',/*学生考勤*/
