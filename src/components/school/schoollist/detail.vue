@@ -92,7 +92,7 @@
                                 <i class="fa fa-minus-circle red cur"></i>
                               </el-button>
                             </div>
-                            <i style="vertical-align:middle" class="fa fa-plus-square-o font-size-20 blue cur"></i>
+                            <i style="vertical-align:middle" @click="addTeacher(scope.row)" class="fa fa-plus-square-o font-size-20 blue cur"></i>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -321,15 +321,16 @@
           <el-table
             class="mt10"
             ref="multipleTable"
-            :data="tableData"
+            :data="teacherList"
             style="width: 100%">
             <el-table-column
+              property="id"
               type="selection"
               label="选择"
               width="100">
             </el-table-column>
             <el-table-column
-              property="name"
+              property="display_name"
               label="员工姓名"
               width="120">
             </el-table-column>
@@ -466,7 +467,7 @@
         dialogFormVisible:false,
         editClassDialog:false,
         deleteDialog:false,
-        addinnerVisible:false,
+        addinnerVisible:true,
         activeName: 'first',
         school_id:this.$route.params.id,
         schoolInfo:{},
@@ -522,9 +523,9 @@
         classTypeList:[],
         selectTypeList:[],
         selectGradeList:[],
-        tableData: [],
-        tableData2: [],
-        formLabelWidth: '120px'
+        formLabelWidth: '120px',
+        addteacher_id:'',
+        teacherList:[],
       };
     },
     mounted () {
@@ -533,6 +534,34 @@
         this.getClassType();
     },
     methods: {
+      addTeacher(item){
+        this.addteacher_id = item.id;
+        this.addinnerVisible = true;
+        this.getTeacherList();
+      },
+      getTeacherList(){
+        var _this = this;
+        this.$axios.get('/api/center/class/'+this.addteacher_id+'/unassigned_teachers/')
+        .then(res=>{
+          _this.teacherList = res.data.unassigned_teachers;
+          console.log(res)
+        }).catch(err=>{
+
+        })
+      },
+      sureAddTeacher(){
+        var _this = this;
+        console.log(_this.multipleSelection)
+        this.$axios.get('/api/center/class/'+this.addteacher_id+'/add_teachers/',{
+          user_ids:_this.multipleSelection
+        })
+        .then(res=>{
+          // _this.schoolInfo = res.data.data;
+          console.log(res)
+        }).catch(err=>{
+
+        })
+      },
       getSchoolInfo(){
         var _this = this;
         this.$axios.get('/api/center/center/'+this.school_id+'/base_information/')
