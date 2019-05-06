@@ -30,147 +30,82 @@
       </el-col>
     </div>
     <div class="mt26">
-        <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
+        <el-tabs v-model="activeName"  stretch>
           <el-tab-pane label="开班情况" name="first">
-            <div class="firstTab">
-              <span class="className">双语班</span>
-              <span style="cursor:pointer" @click="viewSchoolCalendar">
-                <i class="icon-font fa fa-calendar-minus-o"></i>校日历
-              </span>
-              <span style="cursor:pointer" @click="dialogFormVisible=true">
-                <i class="icon-font el-icon-circle-plus-outline"></i>新增班级
-              </span>
-            </div>
-            <div>
-              <el-table
-                :data="tableData"
-                border
-                empty-text='没有找到记录！'
-                style="width: 100%;margin-top:20px">
-                <el-table-column
-                  fixed
-                  prop="date"
-                  label="班级名称">
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  label="昵称">
-                </el-table-column>
-                <el-table-column
-                  prop="province"
-                  label="开设时间">
-                </el-table-column>
-                <el-table-column
-                  prop="city"
-                  label="班级状态">
-                </el-table-column>
-                <el-table-column
-                  prop="address"
-                  label="最大学生数">
-                </el-table-column>
-                <el-table-column
-                  prop="zip"
-                  label="当前学生数">
-                </el-table-column>
-                <el-table-column
-                  prop="num"
-                  label="预备生数">
-                </el-table-column>
-                <el-table-column
-                  prop="stu"
-                  label="师资标配数">
-                </el-table-column>
-                <el-table-column
-                  width="200"
-                  prop="stu"
-                  label="主班老师">
-                  <template slot-scope="scope">
-                    <div class="inline-block">
-                      <el-button class="teacher-wrap">
-                        <span>王老师</span>
-                        <i class="fa fa-minus-circle red cur"></i>
-                      </el-button>
-                      <el-button class="teacher-wrap">
-                        <span>王老师</span>
-                        <i class="fa fa-minus-circle red cur"></i>
-                      </el-button>
-                      <el-button class="teacher-wrap">
-                        <span>王老师</span>
-                        <i class="fa fa-minus-circle red cur"></i>
-                      </el-button>
-                      <el-button class="teacher-wrap">
-                        <span>王老师</span>
-                        <i class="fa fa-minus-circle red cur"></i>
-                      </el-button>
+            <div v-for="classtype in classTypeList" :key="classtype.id">
+                  <div class="firstTab">
+                      <span class="className">{{classtype.name}}</span>
+                      <span style="cursor:pointer" @click="viewSchoolCalendar(classtype)">
+                        <i class="icon-font fa fa-calendar-minus-o"></i>校日历
+                      </span>
+                      <span style="cursor:pointer" @click="dialogFormVisible=true">
+                        <i class="icon-font el-icon-circle-plus-outline"></i>新增班级
+                      </span>
                     </div>
-                    <i style="vertical-align:middle" class="fa fa-plus-square-o font-size-20 blue "></i>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  label="操作">
-                  <template slot-scope="scope">
-                    <i class="fa fa-pencil green font-size-20 cur" @click="editClassDialog=true"></i>
-                    <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteDialog=true"></i>
-                  </template>
-                </el-table-column>
-              </el-table>
+                    <div>
+                      <el-table
+                        :data="classtype.class_list"
+                        border
+                        empty-text='没有找到记录！'
+                        style="width: 100%;margin-top:20px">
+                        <el-table-column
+                          fixed
+                          prop="name"
+                          label="班级名称">
+                        </el-table-column>
+                        <el-table-column
+                          prop="nick_name"
+                          label="昵称">
+                        </el-table-column>
+                        <el-table-column
+                          prop="start_date"
+                          label="开设时间">
+                        </el-table-column>
+                        <el-table-column
+                          prop="status"
+                          label="班级状态">
+                        </el-table-column>
+                        <el-table-column
+                          prop="capacity"
+                          label="最大学生数">
+                        </el-table-column>
+                        <el-table-column
+                          prop="current_student_no"
+                          label="当前学生数">
+                        </el-table-column>
+                        <el-table-column
+                          prop="prepare_student_no"
+                          label="预备生数">
+                        </el-table-column>
+                        <el-table-column
+                          prop="max_teacher"
+                          label="师资标配数">
+                        </el-table-column>
+                        <el-table-column
+                          width="200"
+                          prop="stu"
+                          label="主班老师">
+                          <template slot-scope="scope">
+                            <div class="inline-block">
+                              <el-button class="teacher-wrap">
+                                <span>王老师</span>
+                                <i class="fa fa-minus-circle red cur"></i>
+                              </el-button>
+                            </div>
+                            <i style="vertical-align:middle" class="fa fa-plus-square-o font-size-20 blue cur"></i>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          label="操作">
+                          <template slot-scope="scope">
+                            <i class="fa fa-pencil green font-size-20 cur" @click="editClass(scope.row)"></i>
+                            <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteClass(scope.row)"></i>
+                          </template>
+                        </el-table-column>
+                      </el-table>
+                    </div>
             </div>
-            <div class="firstTab">
-              <span class="className">国际班</span>
-              <span style="cursor:pointer"  @click="viewSchoolCalendar">
-                <i class="icon-font fa fa-calendar-minus-o"></i>校日历
-              </span>
-              <span style="cursor:pointer" @click="dialogFormVisible=true">
-                <i class="icon-font el-icon-circle-plus-outline"></i>新增班级
-              </span>
-            </div>
-            <div>
-              <el-table
-                :data="tableData2"
-                border
-                empty-text='没有找到记录！'
-                style="width: 100%;margin-top:20px">
-                <el-table-column
-                  fixed
-                  prop="date"
-                  label="班级名称">
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  label="昵称">
-                </el-table-column>
-                <el-table-column
-                  prop="province"
-                  label="开设时间">
-                </el-table-column>
-                <el-table-column
-                  prop="city"
-                  label="班级状态">
-                </el-table-column>
-                <el-table-column
-                  prop="address"
-                  label="最大学生数">
-                </el-table-column>
-                <el-table-column
-                  prop="zip"
-                  label="当前学生数">
-                </el-table-column>
-                <el-table-column
-                  prop="num"
-                  label="预备生数">
-                </el-table-column>
-                <el-table-column
-                  prop="stu"
-                  label="师资标配数">
-                </el-table-column>
-                <el-table-column
-                  label="操作">
-                  <template slot-scope="scope">
-                    <el-button type="text" size="small">编辑</el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </div>
+            
           </el-tab-pane>
           <el-tab-pane label="基础设施" name="second">
               <div style="padding:0 20px">
@@ -199,190 +134,222 @@
     <!-- 新增班级 -->
     <el-dialog title="新增班级" :visible.sync="dialogFormVisible"
       width="70%">
-      <el-form :model="form" :inline="true">
+      <el-form :model="addform" :rules="addrules" ref="addform" :inline="true">
         <el-form-item label="新增方式：" :label-width="formLabelWidth">
-          <el-select v-model="form.name" auto-complete="off" class="w250_input">
+          <el-select v-model="addform.addtype" auto-complete="off" class="w250_input">
               <el-option value="手工新增">手工新增</el-option>
               <el-option value="根据批复的开班申请创建">根据批复的开班申请创建</el-option>
           </el-select>
         </el-form-item>
         <br>
-        <el-form-item label="中文名称：" :label-width="formLabelWidth">
-            <el-input v-model="form.region" placeholder="请输入"></el-input>
+        <el-form-item label="中文名称：" :label-width="formLabelWidth" prop="name">
+            <el-input v-model="addform.name" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="昵称：" :label-width="formLabelWidth">
-           <el-input v-model="form.region" placeholder="请输入"></el-input>
+           <el-input v-model="addform.nick_name" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="英文名称：" :label-width="formLabelWidth">
-            <el-input v-model="form.region" placeholder="请输入"></el-input>
+            <el-input v-model="addform.other_name" placeholder="请输入"></el-input>
           </el-form-item>
           <br>
-          <el-form-item label="班级类型：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="班级类型：" :label-width="formLabelWidth" prop="class_type">
+            <el-select v-model="addform.class_type" placeholder="请选择">
+              <el-option v-for="cla in selectTypeList" :label="cla.name" :value="cla.id" :key="cla.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="年级：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="年级：" :label-width="formLabelWidth" prop="grade_type">
+            <el-select v-model="addform.grade_type" placeholder="请选择">
+              <el-option v-for="grade in selectGradeList" :label="grade.name" :value="grade.id" :key="grade.id"></el-option>
             </el-select>
           </el-form-item>
           <br>
-          <el-form-item label="开设时间：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="开设时间：" :label-width="formLabelWidth" prop="start_date">
+            <el-date-picker
+              value-format="yyyy-MM-dd"
+              style="width:164px"
+              v-model="addform.start_date"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
-          <el-form-item label="班级状态：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="班级状态：" :label-width="formLabelWidth" prop="status">
+            <el-select v-model="addform.status" placeholder="请选择">
+              <el-option label="open" value="0"></el-option>
+              <el-option label="close" value="1"></el-option>
             </el-select>
           </el-form-item>
           <br>
-          <el-form-item label="满班学生数：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="满班学生数：" :label-width="formLabelWidth" prop="capacity">
+            <el-input v-model="addform.capacity" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="师资标配数：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="师资标配数：" :label-width="formLabelWidth" prop="max_teacher">
+            <el-input v-model="addform.max_teacher" placeholder="请输入"></el-input>
           </el-form-item>
           <br>
           <el-form-item label="是否需要家具：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="addform.need_furniture" placeholder="请选择">
+              <el-option label="需要" :value="0"></el-option>
+              <el-option label="不需要" :value="1"></el-option>
+              <el-option label="部分需要" :value="2"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="是否需要教具：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="addform.need_teaching_aid" placeholder="请选择">
+              <el-option label="需要" :value="0"></el-option>
+              <el-option label="不需要" :value="1"></el-option>
+              <el-option label="部分需要" :value="2"></el-option>
             </el-select>
           </el-form-item>
           <br>
           <el-form-item label="班级描述：" :label-width="formLabelWidth" style="width:100%">
-            <el-input type="textarea" v-model="form.desc" style="min-width:600px"></el-input>
+            <el-input type="textarea" v-model="addform.remarks" style="min-width:600px"></el-input>
           </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer" style="margin-top:0">
           <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff" >取 消</el-button>
-          <el-button type="primary" class="white bg-green" style="border-color:#8bc34a" >保 存</el-button>
+          <el-button type="primary" class="white bg-green" style="border-color:#8bc34a" @click="saveClass('addform')">保 存</el-button>
       </div>
     </el-dialog>
     <!-- 编辑班级 -->
     <el-dialog title="编辑班级" :visible.sync="editClassDialog"
       width="70%">
-      <el-form :model="form" :inline="true">
-        <el-form-item label="" :label-width="formLabelWidth">
-          
+      <el-form :model="editform" :rules="editrules" ref="editform" :inline="true">
+        <el-form-item label="新增方式：" :label-width="formLabelWidth">
+          <el-select v-model="editform.addtype" auto-complete="off" class="w250_input">
+              <el-option value="手工新增">手工新增</el-option>
+              <el-option value="根据批复的开班申请创建">根据批复的开班申请创建</el-option>
+          </el-select>
         </el-form-item>
         <br>
-        <el-form-item label="中文名称：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+        <el-form-item label="中文名称：" :label-width="formLabelWidth" prop="name">
+            <el-input v-model="editform.name" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="昵称：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+           <el-input v-model="editform.nick_name" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="英文名称：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-input v-model="editform.other_name" placeholder="请输入"></el-input>
+          </el-form-item>
+          <br>
+          <el-form-item label="班级类型：" :label-width="formLabelWidth" prop="class_type">
+            <el-select v-model="editform.class_type" placeholder="请选择">
+              <el-option v-for="cla in selectTypeList" :label="cla.name" :value="cla.id" :key="cla.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="年级：" :label-width="formLabelWidth" prop="grade_type">
+            <el-select v-model="editform.grade_type" placeholder="请选择">
+              <el-option v-for="grade in selectGradeList" :label="grade.name" :value="grade.id" :key="grade.id"></el-option>
             </el-select>
           </el-form-item>
           <br>
-          <el-form-item label="班级类型：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="开设时间：" :label-width="formLabelWidth" prop="start_date">
+            <el-date-picker
+              value-format="yyyy-MM-dd"
+              style="width:164px"
+              v-model="editform.start_date"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>
-          <el-form-item label="年级：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <br>
-          <el-form-item label="开设时间：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="班级状态：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="班级状态：" :label-width="formLabelWidth" prop="status">
+            <el-select v-model="editform.status" placeholder="请选择">
+              <el-option label="open" :value="0"></el-option>
+              <el-option label="close" :value="1"></el-option>
             </el-select>
           </el-form-item>
           <br>
-          <el-form-item label="满班学生数：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="满班学生数：" :label-width="formLabelWidth" prop="capacity">
+            <el-input v-model="editform.capacity" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="师资标配数：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="师资标配数：" :label-width="formLabelWidth" prop="max_teacher">
+            <el-input v-model="editform.max_teacher" placeholder="请输入"></el-input>
           </el-form-item>
           <br>
           <el-form-item label="是否需要家具：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="editform.need_furniture" placeholder="请选择">
+              <el-option label="需要" :value="0"></el-option>
+              <el-option label="不需要" :value="1"></el-option>
+              <el-option label="部分需要" :value="2"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="是否需要教具：" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="editform.need_teaching_aid" placeholder="请选择">
+              <el-option label="需要" :value="0"></el-option>
+              <el-option label="不需要" :value="1"></el-option>
+              <el-option label="部分需要" :value="2"></el-option>
             </el-select>
           </el-form-item>
           <br>
           <el-form-item label="班级描述：" :label-width="formLabelWidth" style="width:100%">
-            <el-input type="textarea" v-model="form.desc" style="min-width:600px"></el-input>
+            <el-input type="textarea" v-model="editform.remarks" style="min-width:600px"></el-input>
           </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer" style="margin-top:0">
           <el-button @click="editClassDialog=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-          <el-button type="primary" class="white bg-green" style="border-color:#8bc34a">保 存</el-button>
+          <el-button type="primary" class="white bg-green" style="border-color:#8bc34a" @click="sureUpdate('editform')">保 存</el-button>
       </div>
     </el-dialog>
     <!-- 删除班级 -->
     <el-dialog
       title="删除班级"
       :visible.sync="deleteDialog"
-      width="30%"
-      :before-close="handleClose">
-      <div class="text-align-center">
+      width="30%">
+      <div class="text-align-center mt26">
         是否确定删除班级
-        <span class="udline font-cl-blue">【双语大一班】？</span>
+        <span class="udline font-cl-blue">【{{delete_name}}】？</span>
       </div>
       <span slot="footer" class="dialog-footer">
         <div slot="footer" class="dialog-footer mt26">
           <el-button @click="deleteDialog=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-          <el-button type="primary" class="white bg-green" style="border-color:#8bc34a">保 存</el-button>
+          <el-button type="primary" class="white bg-green" style="border-color:#8bc34a" @click="sureDelete">保 存</el-button>
       </div>
       </span>
     </el-dialog>
+    <!-- 添加老师 -->
+      <el-dialog
+          width="30%"
+          class="chose-person"
+          title="添加老师"
+          :visible.sync="addinnerVisible"
+          append-to-body>
+          <p style="font-size:16px">{{schoolInfo.name}}</p>
+          <p class="mt10">
+            <span>搜索：</span>
+            <el-input v-model="searchPerson" style="width:164px"></el-input>
+            <el-button type="primary" @click="getPerson">搜索</el-button>
+          </p>
+          <el-table
+            class="mt10"
+            ref="multipleTable"
+            :data="tableData"
+            style="width: 100%">
+            <el-table-column
+              type="selection"
+              label="选择"
+              width="100">
+            </el-table-column>
+            <el-table-column
+              property="name"
+              label="员工姓名"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              property="email"
+              label="职位">
+            </el-table-column>
+          </el-table>
+          <el-pagination
+            background
+            layout="prev, pager, next, jumper"
+            :page-size="1"
+            :current-page="currentPage"
+            :total="count">
+          </el-pagination>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="addinnerVisible = false" class="bg-grey white">取 消</el-button>
+            <el-button type="success" @click="checkedPerson">确 定</el-button>
+        </span>
+        </el-dialog>
   </div>
 </template>
 
@@ -488,65 +455,82 @@
     },
     data() {
       return {
+        searchPerson:'',
+        /**老师分页 */
+        count:1,
+        delete_name:'',
+        delete_id:'',
+        edit_id:'',
+        currentPage:1,
+        total:1,
         dialogFormVisible:false,
         editClassDialog:false,
         deleteDialog:false,
+        addinnerVisible:false,
         activeName: 'first',
         school_id:this.$route.params.id,
         schoolInfo:{},
-        form: {
-          name: '手工新增',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+        multipleSelection: [],
+        addform: {},
+        editform: {},
+        addrules: {
+          name: [
+            { required: true, message: '请输入中文名称', trigger: 'blur' },
+          ],
+          capacity: [
+            { required: true, message: '请输入满班学生数', trigger: 'blur' },
+          ],
+          max_teacher: [
+            { required: true, message: '请输入师资标配数', trigger: 'blur' },
+          ],
+          grade_type: [
+            { required: true, message: '请选择年级', trigger: 'change' }
+          ],
+          class_type: [
+            { required: true, message: '请选择班级类型', trigger: 'change' }
+          ],
+          status: [
+            { required: true, message: '请选择班级状态', trigger: 'change' }
+          ],
+          start_date: [
+            { type: 'string', required: true, message: '请选择开设时间', trigger: 'change' }
+          ]
         },
-        tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          num:'',
-          stu:''
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          num:'',
-          stu:''
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          num:'',
-          stu:''
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          num:'',
-          stu:''
-        }],
+        editrules: {
+          name: [
+            { required: true, message: '请输入中文名称', trigger: 'blur' },
+          ],
+          capacity: [
+            { required: true, message: '请输入满班学生数', trigger: 'blur' },
+          ],
+          max_teacher: [
+            { required: true, message: '请输入师资标配数', trigger: 'blur' },
+          ],
+          grade_type: [
+            { required: true, message: '请选择年级', trigger: 'change' }
+          ],
+          class_type: [
+            { required: true, message: '请选择班级类型', trigger: 'change' }
+          ],
+          status: [
+            { required: true, message: '请选择班级状态', trigger: 'change' }
+          ],
+          start_date: [
+            { type: 'string', required: true, message: '请选择开设时间', trigger: 'change' }
+          ]
+        },
+        classTypeList:[],
+        selectTypeList:[],
+        selectGradeList:[],
+        tableData: [],
         tableData2: [],
         formLabelWidth: '120px'
       };
     },
-    created () {
-        this.getSchoolInfo()
+    mounted () {
+        this.getSchoolInfo();
+        this.getClass();
+        this.getClassType();
     },
     methods: {
       getSchoolInfo(){
@@ -555,16 +539,129 @@
         .then(res=>{
           _this.schoolInfo = res.data.data;
           console.log(res)
+        }).catch(err=>{
+
         })
       },
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+      deleteClass(item){
+        this.deleteDialog=true;
+        this.delete_name = item.name;
+        this.delete_id = item.id;
       },
-      handleClick(tab, event) {
-        console.log(tab, event);
+      editClass(item){   
+        this.delete_name = item.name;
+        this.edit_id = item.id;
+        var _this = this;
+        this.$axios.get('/api/center/class/'+item.id+'/view_detail/')
+        .then(res=>{
+          console.log(res)
+          _this.editform = res.data.detail;
+          _this.editClassDialog=true;
+        }).catch(err=>{
+
+        })
       },
-      viewSchoolCalendar(){
-        this.$router.push('/school/SchoolViewClendar/1')
+      sureUpdate(formName){   
+        var _this = this;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$axios.put('/api/center/class/'+this.edit_id+'/',this.editform)
+            .then(res=>{
+              console.log(res)
+              if(res.data.status_code === 1){
+                _this.$message({
+                  type:'success',
+                  message:'编辑班级成功！'
+                });
+                _this.editClassDialog = false;
+                _this.getClass();
+              }
+            }).catch(err=>{
+
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      sureDelete(item){
+        var _this = this;
+        this.$axios.delete('/api/center/class/'+this.delete_id+'/')
+        .then(res=>{
+          if(res.data.status_code == 1){
+            _this.$message({
+              type:'success',
+              message:'删除班级成功！'
+            });
+            _this.deleteDialog = false;
+            _this.getClass();
+          }
+        }).catch(err=>{
+
+        })
+      },
+      getClass(){
+        var _this = this;
+        this.$axios.get('/api/center/class/?center_id='+this.school_id)
+        .then(res=>{
+          console.log(res)
+          _this.classTypeList = res.data.class_type_list;
+        }).catch(err=>{
+
+        })
+      },
+      getClassType(){
+        var _this = this;
+        this.$axios.get('/api/center/select/class_type_list/?center_id='+this.school_id)
+        .then(res=>{
+          console.log(res)
+          _this.selectTypeList = res.data.results;
+        }).catch(err=>{
+
+        })
+        this.$axios.get('/api/center/select/grade_type_list/?center_id='+this.school_id)
+        .then(res=>{
+          console.log(res)
+          _this.selectGradeList = res.data.results;
+        }).catch(err=>{
+
+        })
+      },
+      saveClass(formName){
+        var _this = this;
+        this.addform.center = this.school_id;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$axios.post('/api/center/class/',this.addform)
+            .then(res=>{
+              if(res.data.status_code === 1){
+                _this.$message({
+                  type:'success',
+                  message:'新增班级成功！'
+                });
+                _this.dialogFormVisible = false;
+                _this.getClass();
+              }
+            }).catch(err=>{
+
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+        
+        
+      },
+      getPerson(){
+
+      },
+      checkedPerson(){
+
+      },
+      viewSchoolCalendar(item){
+        this.$router.push('/school/SchoolViewClendar/'+item.id)
       },
       handleClose(done) {
         this.$confirm('确认关闭？')

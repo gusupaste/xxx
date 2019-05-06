@@ -132,12 +132,15 @@ a {
 .mt26 {
   margin-top: 26px;
 }
+.mt20 {
+  margin-top: 20px;
+}
 
 .mr26 {
   margin-right: 26px;
 }
 
-.mt10{
+.mb10{
   margin-bottom: 10px;
 }
 .ml10{
