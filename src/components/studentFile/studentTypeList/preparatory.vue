@@ -135,18 +135,25 @@
 export default {
   data(){
     return {
-         list:[1,2,3,4,5,6,7,81,],
-         form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
+      tol_url:'http://127.0.0.1:8000/api/',
+      list:[1,2,3,4,5,6,7,81,],
+        form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      }
     }
-  }
+  },
+  methods:{
+    /*城际*/
+    getIntercityList:function () {
+
+    },
+  },
 }
 </script>
