@@ -526,7 +526,7 @@ export default new Router({
       ]
     },
     {
-      path: '/schoolCalendarList/addNewTemplate',
+      path: '/schoolCalendarList/addNewTemplate/:id',
       name: 'addNewTemplate',
       component: addNewTemplate,
       meta: { requiresAuth: true, keepAlive: false },
