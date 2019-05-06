@@ -85,7 +85,7 @@
             <el-input v-model="formInline.latitude" placeholder="请输入" maxlength="15"></el-input>
           </el-form-item>
           <el-form-item label="经度:">
-            <el-input v-model="formInline.longtitude" placeholder="请输入" maxlength="15"></el-input>
+            <el-input v-model="formInline.longitude" placeholder="请输入" maxlength="15"></el-input>
           </el-form-item>
         </div>
           
@@ -114,16 +114,12 @@
           <br>
           <el-form-item label="是否自建:" prop="built_up_type">
             <el-select v-model="formInline.built_up_type"  placeholder="请选择">
-              <el-option label="自建" value="0"></el-option>
-              <el-option label="收购" value="1"></el-option>
-              <el-option label="租赁" value="2"></el-option>
+              <el-option v-for="own in owner_type_list" :label="own.text" :value="own.id" :key="own.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="产权:" prop="owner_type">
             <el-select v-model="formInline.owner_type"  placeholder="请选择">
-              <el-option label="开发商" value="0"></el-option>
-              <el-option label="教委" value="1"></el-option>
-              <el-option label="其他" value="2"></el-option>
+              <el-option v-for="build in build_type_list" :label="build.text" :value="build.id" :key="build.id"></el-option>
             </el-select>
           </el-form-item>
         </div>
@@ -220,7 +216,7 @@
           intercity:'',
           intercity_name:'',
           latitude:'',
-          longtitude:'',
+          longitude:'',
           max_class_no:'',
           opening_date:'',
           other_name:'',
@@ -254,6 +250,8 @@
         cityList:[],
         townList:[],
         intercityList:[],
+        build_type_list:[],
+        owner_type_list:[],
         rules: {
           name: [
             { required: true, message: '请输入校园名称', trigger: 'blur' },
@@ -294,8 +292,27 @@
         this.getSchoolType();
         this.getIntercity_list();
         this.getSchoolInfo();
+        this.getbuildtype();
     },
     methods:{
+      getbuildtype(){
+        var _this = this;
+        this.$axios.post('/api/common/select/all_list/',{
+            types:['BuildupType','OwnerType']
+        })
+        .then(res=>{
+          console.log(res.data)
+          res.data.results.forEach((item,index)=>{
+            if(item.list_name === "BuildupType") {
+              _this.build_type_list.push(item)
+            } else if (item.list_name === "OwnerType") {
+              _this.owner_type_list.push(item)
+            }
+          })
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       proinit(type){
         if(type === 1){
           this.formInline.c_city_id = "";

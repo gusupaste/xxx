@@ -4,26 +4,26 @@
       <p class="local_path_style">YOU ARE HERE : 校园 > 校园列表 > <span class="font-cl-blue">校园概况</span></p>
     </div>
     <div class="content clearfix">
-      <div class="content-top">北京理都校园</div>
+      <div class="content-top">{{schoolInfo.name}}</div>
       <el-col :span="24" style="line-height:2">
         <el-card shadow="always">
           <p class="bold">基本信息</p>
-          <p class="bold">校园名称：北京首府校园(英文全称:xxxxxxxx;中文简称:xxxxxxxx;英文简称:xxxxxxxxxx)</p>
+          <p class="bold">校园名称：{{schoolInfo.name}}(英文全称:{{schoolInfo.other_name}};中文简称:{{schoolInfo.short_name}};英文简称:{{schoolInfo.other_short_name}})</p>
           <p><el-row :gutter="20">
-            <el-col :span="4"><div class="grid-content bg-purple"><span>所属区域：</span><span>华北地区</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span>所属城市：</span><span>北京市</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">园长：</span><span>李园长</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span>校园编码：</span><span>1001</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span>所属区域：</span><span>{{schoolInfo.area_name}}</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span>所属城市：</span><span>{{schoolInfo.city_name}}</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">园长：</span><span>{{schoolInfo.principal_name}}</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span>校园编码：</span><span>{{schoolInfo.code}}</span></div></el-col>
           </el-row>
           </p>
           <p>
           <el-row :gutter="20">
-            <el-col :span="4"><div class="grid-content bg-purple"><span>通讯地址：</span><span>北京市</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">邮编：</span><span>123456</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">电话：</span><span>18809876543</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">传真：</span><span>xxxxxxxx</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span>电子邮箱：</span><span>xxxxxxxx</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">网址：</span><span>www.taidii.com</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span>通讯地址：</span><span>{{schoolInfo.province_name}}{{schoolInfo.city_name}}{{schoolInfo.town_name}}{{schoolInfo.address}}</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">邮编：</span><span>{{schoolInfo.zip_code}}</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">电话：</span><span>{{schoolInfo.telephone}}</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">传真：</span><span>{{schoolInfo.fax}}</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span>电子邮箱：</span><span>{{schoolInfo.email}}</span></div></el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">网址：</span><span>{{schoolInfo.website}}</span></div></el-col>
           </el-row>
           </p>
         </el-card>
@@ -79,6 +79,32 @@
                 <el-table-column
                   prop="stu"
                   label="师资标配数">
+                </el-table-column>
+                <el-table-column
+                  width="200"
+                  prop="stu"
+                  label="主班老师">
+                  <template slot-scope="scope">
+                    <div class="inline-block">
+                      <el-button class="teacher-wrap">
+                        <span>王老师</span>
+                        <i class="fa fa-minus-circle red cur"></i>
+                      </el-button>
+                      <el-button class="teacher-wrap">
+                        <span>王老师</span>
+                        <i class="fa fa-minus-circle red cur"></i>
+                      </el-button>
+                      <el-button class="teacher-wrap">
+                        <span>王老师</span>
+                        <i class="fa fa-minus-circle red cur"></i>
+                      </el-button>
+                      <el-button class="teacher-wrap">
+                        <span>王老师</span>
+                        <i class="fa fa-minus-circle red cur"></i>
+                      </el-button>
+                    </div>
+                    <i style="vertical-align:middle" class="fa fa-plus-square-o font-size-20 blue "></i>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   label="操作">
@@ -148,24 +174,24 @@
           </el-tab-pane>
           <el-tab-pane label="基础设施" name="second">
               <div style="padding:0 20px">
-                  <p>校园建筑面积：<span class="orange">756.00</span>平方米</p>
-                  <p>使用面积：<span>756.00</span>平方米</p>
-                  <p>产权：开发商</p>
-                  <p>是否自建：否</p>
-                  <p>经度：116.777922</p>
-                  <p>维度：39.975796</p>
-                  <p>最大开班数：4</p>
-                  <p>当前开班数：6</p>
+                  <p>校园建筑面积：<span class="orange bold">{{schoolInfo.built_up_area}}</span>平方米</p>
+                  <p>使用面积：<span class="orange bold">{{schoolInfo.usage_area}}</span>平方米</p>
+                  <p>产权：{{schoolInfo.built_up_type_name}}</p>
+                  <p>是否自建：{{schoolInfo.owner_type_name}}</p>
+                  <p>经度：{{schoolInfo.longitude}}</p>
+                  <p>维度：{{schoolInfo.latitude}}</p>
+                  <p>最大开班数：{{schoolInfo.max_class_no}}</p>
+                  <p>当前开班数：{{schoolInfo.current_class_no}}</p>
               </div>
           </el-tab-pane>
           <el-tab-pane label="银行账户" name="third">
-              <div style="padding:0 20px">
-                  <p>账号：— —</p>
-                  <p>账号名称（中文）：北京伊顿国际幼儿园有限公司</p>
-                  <p>SWIFT代码：— —</p>
-                  <p>账号名称（英文）：— —</p>
-                  <p>开户银行（中文）：— —</p>
-                  <p>开户银行（英文）：— —</p>
+              <div style="padding:20px 20px;line-height:24px" v-for="(item,index) in schoolInfo.bank_list" :key="index">
+                  <p>账号：{{item.account_no}}</p>
+                  <p>账号名称（中文）：{{item.account_name}}</p>
+                  <p>SWIFT代码：{{item.swift_code}}</p>
+                  <p>账号名称（英文）：{{item.other_account_name}}</p>
+                  <p>开户银行（中文）：{{item.bank_name}}</p>
+                  <p>开户银行（英文）：{{item.other_bank_name}}</p>
               </div>
           </el-tab-pane>
         </el-tabs>
@@ -381,10 +407,6 @@
       color: rgba(160, 160, 160, 1);
       text-align: left;
     }
-    .schooldetail .bold {
-      font-weight: bold;
-      color: black;
-    }
     .schooldetail .firstTab {
       margin-top: 10px;
       height: 40px;
@@ -452,6 +474,12 @@
         width: 600px;
         min-height: 100px !important;
     }
+    .schooldetail .teacher-wrap {
+       width: 76px;
+       height: 27px;
+       padding: 0;
+       margin:10px 10px 0 0;
+    }
   </style>
 
 <script>
@@ -464,6 +492,8 @@
         editClassDialog:false,
         deleteDialog:false,
         activeName: 'first',
+        school_id:this.$route.params.id,
+        schoolInfo:{},
         form: {
           name: '手工新增',
           region: '',
@@ -515,7 +545,18 @@
         formLabelWidth: '120px'
       };
     },
+    created () {
+        this.getSchoolInfo()
+    },
     methods: {
+      getSchoolInfo(){
+        var _this = this;
+        this.$axios.get('/api/center/center/'+this.school_id+'/base_information/')
+        .then(res=>{
+          _this.schoolInfo = res.data.data;
+          console.log(res)
+        })
+      },
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
