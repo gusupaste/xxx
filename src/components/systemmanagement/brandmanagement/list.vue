@@ -26,7 +26,7 @@
               <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
             </el-card>
           </div>
-          <div class="intercity-list"  v-for="(card,index) in cardList" :key="index">
+          <div class="intercity-list" v-for="(card,index) in cardList" :key="index">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
                 <span class="city-name font-cl-blue" style="line-height: 40px">{{ card.name }}</span>
@@ -189,8 +189,9 @@
   }
   .brandmanagement >>> .intercity-list{
     width: 23%;
-    display: inline-block;
+    /*display: inline-block;*/
     margin-right: 2%;
+    float: left;
   }
   .brandmanagement .el-card{
     height: 220px;
@@ -271,13 +272,9 @@
         grade_type:[],
         brandName:'添加品牌',
         cardList:[],
-        klass:'',
-        addbrandVisible: false,
         editbrandVisible: false,
         classManageVisible:false,
         yearManageVisible:false,
-        del_class_ids:[],
-        del_grade_ids:[],
         deleteVisible:false,
         editForm:{
           id:'',
@@ -295,28 +292,6 @@
             {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
           ]
         },
-        manageTitle:'班级管理',
-        typeChebox:[],
-        type:[
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
-        columnLabel2:'班级类型',
-        multipleSelection:'',
-        /*saveBrandManage:{
-          type:'',
-          addList:[],
-        },*/
       };
     },
     mounted:function(){
@@ -325,9 +300,6 @@
       this.getBrandList();
     },
     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
       addClassButton: function(flag){
         var obj = {
           id:'',
@@ -410,9 +382,6 @@
         } else {
           this.$refs.multipleTable.clearSelection();
         }
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
       },
       addAndEditBrand:function(num,id){
         this.editbrandVisible = true;
