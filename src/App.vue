@@ -6,7 +6,7 @@
             <img src="./assets/img/logo.png" alt="">
             <div class="menuwrap" style="width:800px">
               <el-menu
-                :default-active="active"
+                :default-active="$route.path"
                 @select="handleSelect"
                 class="el-menu-demo"
                 mode="horizontal"
@@ -111,6 +111,7 @@ export default {
       },
       handleSelect(key, keyPath) {
         localStorage.removeItem('tabName');
+        console.log(key,keyPath)
         this.$cookies.set('key',key);
       }
   }
