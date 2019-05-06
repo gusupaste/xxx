@@ -101,11 +101,11 @@
       return {
         rolename: '',
         roledesc: '',
+        userCheckListVal: [],
+        userCheckList: [],
         adduser: false,
         display_name: '',
         userList: [],
-        userCheckListVal: [],
-        userCheckList: [],
         boxData: [],
         checkedValue: [],
         permissions_ids: []
@@ -115,7 +115,6 @@
       if (this.$route.query.id !== 0) {
         this.getRole()
       }
-      this.searchList()
       this.getSystemPermission()
     },
     watch: {
@@ -124,19 +123,6 @@
       }
     },
     methods: {
-      toggleSelection(rows) {  // 这里是点击时 切换选中的行
-        this.$nextTick(() => {   // 延迟回调
-          if (rows) {
-            rows.forEach(row => {
-              this.$refs.multipleTable.toggleRowSelection(row, true);
-            });
-            // toggleRowSelection : 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）
-          } else {
-            this.$refs.multipleTable.clearSelection();
-            // clearSelection : 用于多选表格，清空用户的选择
-          }
-        })
-      },
       getRole: function () {
         this.loading = true
         var url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id + '/role_info/'
@@ -158,7 +144,7 @@
       },
       getSystemPermission: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
+        var url = 'http://134.175.93.59:8000/api/user/permissions_management/'
         this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
@@ -173,7 +159,8 @@
         })
       },
       addUser: function () {
-        this.adduser = true;
+        this.searchList()
+        this.adduser = true
         var arrList = [];
         for (var i = 0; i < this.userList.length; i++) {
           for (var j = 0; j < this.userCheckList.length; j++) {
@@ -183,14 +170,11 @@
             }
           }
         }
-        this.toggleSelection(arrList);
-      },
-      handleSelectionChange(val) {
-        this.userCheckListVal = val
+        this.toggleSelection(arrList)
       },
       searchList: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/users_management/all_users/?display_name=' + this.display_name;
+        var url = 'http://134.175.93.59:8000/api/user/users_management/all_users/?display_name=' + this.display_name
         this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
@@ -204,6 +188,22 @@
           console.log(err)
         })
       },
+      toggleSelection (rows) {  // 这里是点击时 切换选中的行
+        this.$nextTick(() => {   // 延迟回调
+          if (rows) {
+            rows.forEach(row => {
+              this.$refs.multipleTable.toggleRowSelection(row, true)
+            });
+            // toggleRowSelection : 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中）
+          } else {
+            this.$refs.multipleTable.clearSelection()
+            // clearSelection : 用于多选表格，清空用户的选择
+          }
+        })
+      },
+      handleSelectionChange (val) {
+        this.userCheckListVal = val
+      },
       checkedUser: function () {
         this.adduser = false
         this.userCheckList = this.userCheckListVal
@@ -216,7 +216,7 @@
           newList.push(oldList[i].id)
         }
         var url = ''
-        if (this.$route.query.id === 0) {
+        if (this.$route.query.id === "0") {
           url = 'http://134.175.93.59:8000/api/user/roles_management/'
         } else {
           url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id + '/update_role/'
@@ -267,39 +267,31 @@
     text-align: center;
     color: #ccc;
   }
-
   .rolemanagementadd p {
     padding: 10px 0;
   }
-
   /*手风琴样式*/
   .rolemanagementadd >>> .el-collapse-item__arrow {
     display: none;
   }
-
   .rolemanagementadd >>> .el-collapse-item__header {
     height: 30px;
     border: 0;
   }
-
   .rolemanagementadd >>> .el-collapse {
     margin: 0 20px;
     border: 0;
   }
-
   .rolemanagementadd >>> .el-collapse-item__wrap {
     border: 0;
   }
-
   /*表格内容居中*/
   .rolemanagementadd >>> .el-table td, .rolemanagementadd >>> .el-table th {
     text-align: center;
   }
-
   .rolemanagementadd .footer-btn {
     text-align: center;
   }
-
   .rolemanagementadd >>> .el-input {
     width: 164px;
   }

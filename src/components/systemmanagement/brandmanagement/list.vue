@@ -22,15 +22,18 @@
         </div>
         <div class="content">
           <div class="intercity-list">
-            <el-card class="box-card">
-              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
+            <el-card class="box-card add-card" >
+              <img src="../../../assets/img/add.png">
             </el-card>
+            <!--<el-card class="box-card">
+              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
+            </el-card>-->
           </div>
-          <div class="intercity-list"  v-for="(card,index) in cardList" :key="index">
+          <div class="intercity-list" v-for="(card,index) in cardList" :key="index">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
                 <span class="city-name font-cl-blue" style="line-height: 40px">{{ card.name }}</span>
-                <el-button type="text" @click="addAndEditBrand(1,1)">
+                <el-button type="text" @click="addAndEditBrand(1,card.id)">
                   <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
                 </el-button>
               </div>
@@ -49,18 +52,6 @@
           </div>
         </div>
       </div>
-      <el-dialog title="新增品牌" :visible.sync="addbrandVisible" width="500px" style="padding: 30px 60px;">
-        <el-form label-width="80px">
-          <el-form-item label="品牌名称">
-            <el-input v-model="brandName" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="addbrandVisible = false">取 消</el-button>
-          <el-button type="success" @click="addbrandVisible = false">保 存</el-button>
-        </span>
-      </el-dialog>
-
       <el-dialog title="班级管理" :visible.sync="classManageVisible" min-width="600px">
         <el-table
           :data="class_type"
@@ -71,7 +62,7 @@
             width="220">
             <template slot-scope="scope">
               <el-input v-model="scope.row.code" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
-              <span v-if="scope.row.edit === true">{{ scope.row.name }}</span>
+              <span v-if="scope.row.edit === true">{{ scope.row.code }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -96,7 +87,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="classManageVisible = false">取 消</el-button>
-          <el-button type="success" @click="classManageVisible = false">保 存</el-button>
+          <el-button type="success" @click="saveClassManage(0)">保 存</el-button>
         </span>
       </el-dialog>
 
@@ -135,7 +126,7 @@
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="yearManageVisible = false">取 消</el-button>
-          <el-button type="success" @click="yearManageVisible = false">保 存</el-button>
+          <el-button type="success" @click="saveClassManage(1)">保 存</el-button>
         </span>
       </el-dialog>
 
@@ -160,6 +151,14 @@
           <el-button type="success" @click="saveBrand">保 存</el-button>
         </span>
       </el-dialog>
+
+      <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
+        <p class="mt26 text-align-center">确认删除？</p>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="deleteVisible = false">取 消</el-button>
+          <el-button type="success" @click="sureDelete">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 <style scoped>
@@ -169,6 +168,19 @@
   .brandmanagement{
     color: rgba(160, 160, 160, 1);
     text-align: left;
+  }
+  .brandmanagement .add-card{
+    text-align: center;
+    position: relative;
+    /*background:url('../../../assets/img/add.png') no-repeat;*/
+    background-position: 0;
+  }
+  .brandmanagement .add-card img{
+    width: 30%;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
   }
   .brandmanagement .content-top{
     min-height: 120px;
@@ -193,16 +205,9 @@
   }
   .brandmanagement >>> .intercity-list{
     width: 23%;
-    display: inline-block;
+    /*display: inline-block;*/
     margin-right: 2%;
-  }
-  .brandmanagement .intercity-li{
-    border: 1px solid #ddd;
-    padding: 5px 20px;
-    border-radius: 50px;
-    background-color: #ddd;
-    margin-bottom: 5px;
-    cursor: pointer;
+    float: left;
   }
   .brandmanagement .el-card{
     height: 220px;
@@ -211,7 +216,6 @@
   }
   .brandmanagement >>> .el-card .el-button--text{
     float: right;
-    /*margin-top: 5px;*/
     padding: 0;
   }
   .brandmanagement >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
@@ -239,24 +243,9 @@
   .brandmanagement .span-button{
     font-size: 70px;
     text-align: center;
-    margin-top: 40px;
-    margin-left: 55px;
+    margin-top: 75px;
+    margin-left: 80px;
     cursor: pointer;
-  }
-  .brandmanagement .el-dialog__body {
-    color: #606266;
-    font-size: 14px;
-  }
-  .brandmanagement .el-input__inner{
-    width: 80%;
-  }
-  .brandmanagement >>> .el-dialog__footer{
-    text-align: center;
-  }
-  .brandmanagement .e-card-p{
-    line-height: 30px;
-    background-color: #ddd;
-    padding: 5px;
   }
   .brandmanagement .el-card-li{
     font-size: 8px;
@@ -288,14 +277,6 @@
   .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
    padding: 0 !important;
   }
-  .brandmanagement .card-li-div{
-    width: 155px;
-    height: 58px;
-    position: absolute;
-    display: inline;
-    line-height: 20px;
-    padding-top: 10px;
-  }
 </style>
 <script>
   export default {
@@ -307,17 +288,19 @@
         grade_type:[],
         brandName:'添加品牌',
         cardList:[],
-        klass:'',
-        addbrandVisible: false,
         editbrandVisible: false,
         classManageVisible:false,
         yearManageVisible:false,
-        brandName: '',
+        deleteVisible:false,
         editForm:{
           id:'',
           name:'',
           klass:[],
           grade:[],
+        },
+        deleteForm:{
+          id:'',
+          type:'',
         },
         rules: {
           name: [
@@ -325,128 +308,6 @@
             {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
           ]
         },
-        manageTitle:'班级管理',
-        typeChebox:[],
-        klassType:[
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
-        gradeType:[
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
-        type:[
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
-        tableData: [{
-          id: 1,
-          no:'1',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          edit: true,
-          type:[{
-            id:7,
-            checkName:'checkbox7',
-          },
-            {
-              id:7,
-              checkName:'checkbox7',
-            },
-            {
-              id:7,
-              checkName:'checkbox7',
-            }],
-          },{
-          id: 2,
-          no:'2',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄',
-          edit: true,
-          che:[],
-          type:[{
-            id:7,
-            checkName:'checkbox7',
-          },
-            {
-              id:7,
-              checkName:'checkbox7',
-            },
-            {
-              id:7,
-              checkName:'checkbox7',
-            }],
-        }, {
-          id: 3,
-          no:'3',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄',
-          edit: true,
-          che:[],
-          type:[{
-            id:7,
-            checkName:'checkbox7',
-          },
-            {
-              id:7,
-              checkName:'checkbox7',
-            },
-            {
-              id:7,
-              checkName:'checkbox7',
-            }],
-        }, {
-          id: 4,
-          no:'4',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄',
-          edit: true,
-          che:[],
-          type:[{
-            id:1,
-            checkName:'checkbox1',
-          },
-          {
-            id:2,
-            checkName:'checkbox2',
-          },
-          {
-            id:3,
-            checkName:'checkbox3',
-          }],
-        }],
-        columnLabel2:'班级类型',
-        multipleSelection:'',
       };
     },
     mounted:function(){
@@ -455,13 +316,6 @@
       this.getBrandList();
     },
     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      addDialog: function () {
-        this.addbrandVisible = true;
-        this.brandName = '';
-      },
       addClassButton: function(flag){
         var obj = {
           id:'',
@@ -484,14 +338,57 @@
           const index = this.grade_type.findIndex(item => item.id === obj.id);
           this.grade_type[index].edit = false;
         }
-
       },
       deleteButton: function(obj,flag){
-        if(flag === 0){
-          this.class_type.splice(this.tableData.findIndex(item => item.id === obj.id), 1);
-        }else if(flag === 1){
-          this.grade_type.splice(this.tableData.findIndex(item => item.id === obj.id), 1);
+        if(obj.id === ''){
+          console.log(obj);
+          if(flag === 0){//班级
+            this.class_type.splice(this.class_type.findIndex(item => item.id === obj.id), 1);
+          }else if(flag === 1){//年级
+            this.grade_type.splice(this.grade_type.findIndex(item => item.id === obj.id), 1);
+          }
+        }else{
+          this.deleteForm.id = obj.id;
+          this.deleteForm.type = flag === 0 ? 'cl_type' : 'gr_type';
+          this.deleteVisible = true;
         }
+      },
+      sureDelete:function(){
+        var _this = this;
+        var url = 'http://etonkids.taidii.cn/api/common/';
+        if(_this.deleteForm.type === 'cl_type'){
+          url = url + 'class_type/'+_this.deleteForm.id+'/';
+        }else{
+          url = url + 'grade_type/'+_this.deleteForm.id+'/';
+        }
+        _this.$axios.delete(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 204) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            if(this.deleteForm.type === 'cl_type'){//班级
+              this.class_type.splice(this.class_type.findIndex(item => item.id === this.deleteForm.id), 1);
+            }else if(this.deleteForm.type === 'gr_type'){//年级
+              this.grade_type.splice(this.grade_type.findIndex(item => item.id === this.deleteForm.id), 1);
+            }
+          }else if(res.status === 200 && res.data.status === 1){
+            var car_name = '';
+            if(_this.deleteForm.type === 'cl_type'){
+              car_name = '班级';
+            }else{
+              car_name = '年级';
+            }
+            this.$message({
+              message: '该'+car_name+'已被使用，不能删除',
+              type: 'warning'
+            });
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+        this.deleteVisible = false;
       },
       toggleSelection(rows) {
         if (rows) {
@@ -502,15 +399,19 @@
           this.$refs.multipleTable.clearSelection();
         }
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
       addAndEditBrand:function(num,id){
         this.editbrandVisible = true;
         if(num === -1){
           this.brandName = '添加品牌';
         }else{
           this.brandName = '编辑品牌';
+        }
+        if(id === 0){
+          this.editForm.name = '';
+          this.editForm.klass = [];
+          this.editForm.grade = [];
+        }else{
+          this.editBrandInfo(id);
         }
       },
       handleClick(row) {
@@ -519,15 +420,12 @@
       getClassType: function () {
         var _this = this;
         _this.loading = true;
-        var url = 'http://134.175.93.59:8000/api/common/class_type';
-        _this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
-          }
-        }).then(res=>{
+        var url = 'http://134.175.93.59:8000/api/common/class_type/';
+        _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
-            var class_types = res.data.results;
+            this.class_type = [];
+            var class_types = res.data;
             for(var x in class_types){
               var obj = {};
               obj.id = class_types[x].id;
@@ -546,14 +444,11 @@
         var _this = this;
         _this.loading = true;
         var url = 'http://134.175.93.59:8000/api/common/grade_type/';
-        _this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
-          }
-        }).then(res=>{
+        _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
-            var grade_types = res.data.results;
+            this.grade_type=[];
+            var grade_types = res.data;
             for(var x in grade_types){
               var obj = {};
               obj.id = grade_types[x].id;
@@ -572,11 +467,7 @@
         var _this = this;
         _this.loading = true;
         var url = 'http://134.175.93.59:8000/api/hq/hq/';
-        _this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
-          }
-        }).then(res=>{
+        _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
             this.cardList = res.data;
@@ -585,28 +476,134 @@
           console.log(err)
         })
       },
-      saveBrand:function () {
+      editBrandInfo:function (brandId) {
         var _this = this;
         _this.loading = true;
-        var url = 'http://134.175.93.59:8000/api/hq/hq/';
-        var formData = new FormData();
-        _this.$axios.post(url, {
-          name:_this.editForm.name,
-          class_types:_this.editForm.klass,
-          grade_types:_this.editForm.grade,
-        },{
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjM5MzEyODMsImVtYWlsIjoiIn0.WXv6wYLCZpdWKnUq85Gr78k1s7TeD-wFsoLbUWq8n5Q'
-          }
-        }).then(res=>{
+        var url = 'http://etonkids.taidii.cn/api/hq/hq/'+brandId+'/';
+        _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
-            alert('保存成功');
+            console.log(res.data);
+            var new_obj = res.data[0];
+            this.editForm.grade = new_obj.grade_types;
+            this.editForm.klass = new_obj.class_types;
+            this.editForm.name = new_obj.name;
+            this.editForm.id = new_obj.id;
           }
         }).catch(err=>{
           console.log(err)
         })
-      }
+      },
+      saveBrand:function () {
+        var _this = this;
+        _this.loading = true;
+        var url = 'http://etonkids.taidii.cn/api/hq/hq/';
+        if(!isNaN(_this.editForm.id)){
+          console.log();
+          url = url + _this.editForm.id +'/';
+          _this.$axios.put(url, {
+            name:_this.editForm.name,
+            class_types:_this.editForm.klass,
+            grade_types:_this.editForm.grade,
+          }).then(res=>{
+            _this.loading = false;
+            if(res.status == 200) {
+              this.$message({
+                message: '保存成功',
+                type: 'success'
+              });
+            }else{
+              this.$message.error('保存失败');
+            }
+            _this.editbrandVisible = false;
+            _this.getBrandList();
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          _this.$axios.post(url, {
+            name:_this.editForm.name,
+            class_types:_this.editForm.klass,
+            grade_types:_this.editForm.grade,
+          }).then(res=>{
+            _this.loading = false;
+            if(res.status == 200) {
+              this.$message({
+                message: '保存成功',
+                type: 'success'
+              });
+            }else{
+              this.$message.error('保存失败');
+            }
+            _this.editbrandVisible = false;
+            _this.getBrandList();
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+      },
+      saveClassManage:function (flag) {
+        var types = [];
+        var url = '';
+        if(flag === 0){
+          types = this.class_type;
+          url = 'http://134.175.93.59:8000/api/common/class_type/';
+        }else{
+          types = this.grade_type;
+          url = 'http://134.175.93.59:8000/api/common/grade_type/';
+        }
+        for(var x in types){
+          if(types[x].id === ''){
+            var _this = this;
+            _this.loading = true;
+            _this.$axios.post(url, {
+              name: types[x].name,
+              sort_order: 0,
+              code: types[x].code,
+            }).then(res => {
+              _this.loading = false;
+              if (res.status == 201) {
+                this.$message({
+                  message: '保存成功',
+                  type: 'success'
+                });
+              } else {
+                this.$message.error('保存失败');
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          }else if(types[x].edit === false){
+            var _this = this;
+            _this.loading = true;
+            var n_url = url + types[x].id+'/';
+            _this.$axios.put(n_url, {
+              name: types[x].name,
+              sort_order: 0,
+              code: types[x].code,
+            }).then(res => {
+              _this.loading = false;
+              if (res.status == 200) {
+                this.$message({
+                  message: '保存成功',
+                  type: 'success'
+                });
+              } else {
+                this.$message.error('保存失败');
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          }
+        }
+        if(flag === 0){
+          _this.getClassType();
+          _this.classManageVisible = false;
+        }else{
+          _this.getGradeType();
+          _this.yearManageVisible = false;
+        }
+      },
     }
   }
 </script>

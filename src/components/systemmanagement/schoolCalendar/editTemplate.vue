@@ -24,8 +24,11 @@
                         <p style="color:#999;font-size:12px">新增的日期类型将在下方日历表中以色块的方式区分类别展示，可点击相应区块修改或删除</p>
                         <div class="calendar-list">
                             <Calendar
+                                ref="Calendar"
                                 v-for="(i,index) in list"
                                 :key='index'
+                                :textTop="textTop"
+                                :markDateMore='i.list'
                                 v-on:choseDay="clickDay"
                                 v-on:changeMonth="changeDate"
                                 v-on:isToday="clickToday"
@@ -45,7 +48,6 @@
                         </div>
                     </div>
                 </div>
-
             <div>
                 <span style="display:inline-block;width:100px;vertical-align:top">备注：</span>
                 <el-input type="textarea" style="width:92%;height:100px"></el-input>
@@ -260,7 +262,25 @@
         border-bottom: none;
         padding: 10px;
     }
-    .new-calendar-modal >>> .el-table th,..new-calendar-modal >>> .el-table td{
+    .new-calendar-modal >>> .mark1{
+       color:#fff !important;
+       border-radius:0;
+       background-color: #f28e91;
+    }
+    .new-calendar-modal >>> .mark2{
+       color:#fff !important;
+       border-radius:0;
+       background-color: #ffcc80;
+    }
+    .new-calendar-modal >>> .mark3{
+       color:#fff !important;
+       border-radius:0;
+       background-color: #c5e1a5;
+    }
+    .new-calendar-modal >>>  .wh_isToday{
+       background-color: #fff;
+    }
+    .new-calendar-modal >>> .el-table th, .new-calendar-modal >>> .el-table td{
         background-color: #fff;
         text-align: center;
     }
@@ -289,6 +309,8 @@
         margin-top: 20px;
         display: inline-block;
         border: 1px solid #d9d9d9;
+        min-height: 340px;
+        vertical-align: top;
         /* padding: 5px; */
     }
     .new-calendar-modal >>> .wh_content:nth-child(2) {
@@ -302,9 +324,19 @@
        color:#101010;
        font-size: 12px;
     }
+    .new-calendar-modal >>> .wh_other_dayhide{
+       color:#bbb;
+       font-size: 12px;
+    }
+    .new-calendar-modal >>> .wh_item_date:hover {
+       /* background-color: #fff; */
+    }
     .new-calendar-modal >>> .wh_content_item {
        color:#101010;
        font-size: 12px;
+    }
+    .new-calendar-modal >>> .wh_top_changge li:first-child ,.new-calendar-modal >>> .wh_top_changge li:nth-child(3) {
+       display: none;
     }
     .new-calendar-modal >>> .wh_content {
        padding: 0;
@@ -336,7 +368,8 @@ export default {
     data() {
         return {
             addtmp:false,
-            list:[1,2,3,4,5,6,7,8,9,10,11,12],
+            list:[],
+            textTop:['Su','Tu','We','Th','Fr','Mo','Sa'],
             dialogFormVisible:false,
             delete_dialogVisible:false,
             delete_Calendar:false,
@@ -385,28 +418,174 @@ export default {
                 formLabelWidth: '120px'
             }
         },
+    mounted () {
+        this.getList();
+    },
     methods:{
         cancelModal(){
-        this.$emit('closeDialog', false);
-      },
-      clickDay(data) {
-      console.log(data); //选中某天
-    },
-    changeDate(data) {
-      console.log(data); //左右点击切换月份
-    },
-    clickToday(data) {
-      console.log(data); //跳到了本月
-    },
-    handleSelectionChange(){
+            this.$emit('closeDialog', false);
+        },
+        clickDay(data) {
+            console.log(data); //选中某天
+        },
+        changeDate(data) {
+            console.log(data); //左右点击切换月份
+        },
+        clickToday(data) {
+            console.log(data); //跳到了本月
+        },
+        handleSelectionChange(){
 
-    },
-    arr(){
-
-    }
+        },
+        getList(){
+            this.list = [{
+                        time:'2018/7',
+                        list:[
+                        {date:'2018/7/1',className:"mark1"}, 
+                        {date:'2018/7/2',className:"mark1"}, 
+                        {date:'2018/7/3',className:"mark1"}, 
+                        {date:'2018/7/4',className:"mark1"}, 
+                        {date:'2018/7/13',className:"mark2"},
+                        {date:'2018/7/14',className:"mark2"},
+                        {date:'2018/7/15',className:"mark2"},
+                        {date:'2018/7/18',className:"mark3"},
+                        {date:'2018/7/19',className:"mark3"},
+                        {date:'2018/7/20',className:"mark3"},
+                        {date:'2018/7/21',className:"mark3"},
+                        {date:'2018/7/21',className:"mark3"},
+                        {date:'2018/7/21',className:"mark3"},
+                        {date:'2018/7/21',className:"mark3"},
+                        ],
+                    },
+                    {
+                        time:'2018/8',
+                        list:[
+                        {date:'2018/8/1',className:"mark1"}, 
+                        {date:'2018/8/2',className:"mark1"}, 
+                        {date:'2018/8/3',className:"mark1"}, 
+                        {date:'2018/8/4',className:"mark1"}, 
+                        {date:'2018/8/13',className:"mark2"},
+                        {date:'2018/8/14',className:"mark2"},
+                        {date:'2018/8/15',className:"mark2"},
+                        {date:'2018/8/18',className:"mark3"},
+                        {date:'2018/8/19',className:"mark3"},
+                        {date:'2018/8/20',className:"mark3"},
+                        {date:'2018/8/21',className:"mark3"},
+                        {date:'2018/8/21',className:"mark3"},
+                        {date:'2018/8/21',className:"mark3"},
+                        {date:'2018/8/21',className:"mark3"},
+                        ],
+                    },
+                    {
+                        time:'2018/9',
+                        list:[
+                        {date:'2018/9/1',className:"mark1"}, 
+                        {date:'2018/9/2',className:"mark1"}, 
+                        {date:'2018/9/3',className:"mark1"}, 
+                        {date:'2018/9/4',className:"mark1"}, 
+                        {date:'2018/9/13',className:"mark2"},
+                        {date:'2018/9/14',className:"mark2"},
+                        {date:'2018/9/15',className:"mark2"},
+                        {date:'2018/9/18',className:"mark3"},
+                        {date:'2018/9/19',className:"mark3"},
+                        {date:'2018/9/20',className:"mark3"},
+                        {date:'2018/9/21',className:"mark3"},
+                        {date:'2018/9/21',className:"mark3"},
+                        {date:'2018/9/21',className:"mark3"},
+                        {date:'2018/9/21',className:"mark3"},
+                        ],
+                    },
+                    {
+                        time:'2018/10',
+                        list:[
+                        {date:'2018/10/1',className:"mark1"}, 
+                        {date:'2018/10/2',className:"mark1"}, 
+                        {date:'2018/10/3',className:"mark1"}, 
+                        {date:'2018/10/4',className:"mark1"}, 
+                        {date:'2018/10/13',className:"mark2"},
+                        {date:'2018/10/14',className:"mark2"},
+                        {date:'2018/10/15',className:"mark2"},
+                        {date:'2018/10/18',className:"mark3"},
+                        {date:'2018/10/19',className:"mark3"},
+                        {date:'2018/10/20',className:"mark3"},
+                        {date:'2018/10/21',className:"mark3"},
+                        {date:'2018/10/21',className:"mark3"},
+                        {date:'2018/10/21',className:"mark3"},
+                        {date:'2018/10/21',className:"mark3"},
+                        ],
+                    },
+                    {
+                        time:'2018/11',
+                        list:[
+                        {date:'2019/4/1',className:"mark1"}, 
+                        {date:'2019/4/2',className:"mark1"}, 
+                        {date:'2019/4/3',className:"mark1"}, 
+                        {date:'2019/4/4',className:"mark1"}, 
+                        {date:'2019/4/13',className:"mark2"},
+                        {date:'2019/4/14',className:"mark2"},
+                        {date:'2019/4/15',className:"mark2"},
+                        {date:'2019/4/18',className:"mark3"},
+                        {date:'2019/4/19',className:"mark3"},
+                        {date:'2019/4/20',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        {date:'2018/12/21',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        ],
+                    },
+                    {
+                        time:'2018/12',
+                        list:[
+                        {date:'2019/4/1',className:"mark1"}, 
+                        {date:'2019/4/2',className:"mark1"}, 
+                        {date:'2019/4/3',className:"mark1"}, 
+                        {date:'2019/4/4',className:"mark1"}, 
+                        {date:'2019/4/13',className:"mark2"},
+                        {date:'2019/4/14',className:"mark2"},
+                        {date:'2019/4/15',className:"mark2"},
+                        {date:'2019/4/18',className:"mark3"},
+                        {date:'2019/4/19',className:"mark3"},
+                        {date:'2019/4/20',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        {date:'2018/12/21',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        ],
+                    },
+                    {
+                        time:'2018/12',
+                        list:[
+                        {date:'2019/4/1',className:"mark1"}, 
+                        {date:'2019/4/2',className:"mark1"}, 
+                        {date:'2019/4/3',className:"mark1"}, 
+                        {date:'2019/4/4',className:"mark1"}, 
+                        {date:'2019/4/13',className:"mark2"},
+                        {date:'2019/4/14',className:"mark2"},
+                        {date:'2019/4/15',className:"mark2"},
+                        {date:'2019/4/18',className:"mark3"},
+                        {date:'2019/4/19',className:"mark3"},
+                        {date:'2019/4/20',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        {date:'2018/12/21',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        {date:'2019/4/21',className:"mark3"},
+                        ],
+                    }]
+                this.$nextTick(()=> {
+                    this.initCalendar();
+                });
+        },
+        initCalendar(){
+            console.log(this.list)
+            console.log(this.$refs.Calendar)
+            this.list.forEach((item,index)=>{
+                this.$refs.Calendar[index].ChoseMonth(item.time,false)
+            })
+            
+        }
     },
     components: {
-    Calendar
+        Calendar
   }
 }
 </script>

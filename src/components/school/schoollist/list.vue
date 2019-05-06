@@ -6,33 +6,36 @@
     <div class="content">
       <p class="bold mt10">伊顿旗下的校园列表，你可以选择查看某个区域或城市下的校园信息。</p>
       <p class="mt10"><span>城际：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="intercity" placeholder="请选择">
+          <el-option value="" label="全部"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in intercitylist"
+            :key="item.id"
+            :label="item.dept_name"
+            :value="item.id">
           </el-option>
         </el-select>
         <span class="padding-left-30">区域：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="area" placeholder="请选择">
+          <el-option value="" label="全部"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in arealist"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
         <span class="padding-left-30">省市：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="city" placeholder="请选择">
+          <el-option value="" label="全部"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in citylist"
+            :key="item.id"
+            :label="item.city_name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
+        <span class="padding-left-30"><el-button @click="getSchoolList" type="primary">搜索</el-button></span>
         <span class="right">
           <i class="fa fa-plus icon-font"></i>
           <el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button>
@@ -40,11 +43,15 @@
       </p>
       <el-table
       class="mt10"
-        :data="schoolList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+        :data="schoolList"
         border
         stripe
         show-header
         style="width: 100%">
+        <el-table-column
+          prop="code"
+          label="编号">
+        </el-table-column>
         <el-table-column
           prop="name"
           label="校园名称"
@@ -87,14 +94,12 @@
         </el-table-column>
       </el-table>
       <el-pagination
-      v-if="schoolList.length>0"
         background
         layout="pager, next, jumper"
         next-text="下一页"
         :page-size="pagesize"
-        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :total="schoolList.length" class="page">
+        :total="total" class="page">
       </el-pagination>
     </div>
   </div>
@@ -175,52 +180,77 @@
     data() {
       return {
         currentPage:1,
-        pagesize:20,
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: '全部',
-        schoolList: []
+        pagesize:10,
+        intercitylist:[],
+        intercity: '',
+        arealist:[],
+        area: '',
+        citylist:[],
+        city: '',
+        schoolList: [],
+        total:1
       };
     },
     created(){
+      this.getIntercity();
+      this.getArea();
+      this.getcity();
       this.getSchoolList();
     },
     methods: {
+      getIntercity(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/intercity_list/',)
+          .then(res=>{
+            _this.intercitylist = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getArea(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/area_list/',)
+          .then(res=>{
+            _this.arealist = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getcity(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/city_list/',{
+            params:{
+              area_code:_this.area,       
+            }
+          })
+          .then(res=>{
+            _this.citylist = res.data.results;
+            _this.city = '';
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       getSchoolList(){
         var _this = this;
         _this.$axios.get('/api/center/center/',{
           params:{
-            username:_this.username,
-            password:_this.password
+            intercity_id:_this.intercity,
+            province_id:_this.city,
+            area_code:_this.area,
+            page:_this.currentPage,
+            size:10
         }
       }).then(res=>{
+        console.log(res)
         _this.schoolList = res.data.paginated_dict.results;
+        _this.total = res.data.paginated_dict.count;
       }).catch(err=>{
         console.log(err)
       })
       },
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleSizeChange:function(size){
-          this.pagesize=size;
-      },
       handleCurrentChange:function(currentPage){
           this.currentPage=currentPage;
+          console.log(currentPage)
       },
       addSchool:function () {
         this.$router.push({name: 'school-add'});
@@ -229,6 +259,17 @@
       editSchool:function (param) {
         this.$router.push('/school/school-edit/'+param.id);
       }
+    },
+    watch: {
+      area(){
+        this.getcity()
+      },
+      currentPage(){
+        this.getSchoolList()
+      }
+    },
+    computed: {
+      
     }
   }
 </script>

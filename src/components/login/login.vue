@@ -103,8 +103,9 @@ export default {
       }).then(res=>{
         _this.loading = false;
           if(res.status == 200) {
+            console.log(res.data)
             _this.$cookies.set('token',res.data.token);
-            // _this.$cookies.set('token',1);
+            this.$cookies.remove('key');
             _this.$router.push('/home');
           }
       }).catch(err=>{

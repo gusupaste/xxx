@@ -32,8 +32,15 @@ const store = new Vuex.Store({
     // 应用mutations
     actions: {
         //获取登录状态
-        getArea(context) {
-            context.commit('newArea')
+        getArea() {
+            var _this = this;
+            _this.$axios.get('/api/common/select/area_list/', )
+                .then(res => {
+                    // _this.intercitylist = res.data.results;
+                   commit(res)
+                }).catch(err => {
+                    console.log(err)
+                })
         }
     }
 })

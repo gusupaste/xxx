@@ -4,11 +4,13 @@
         <div class="clearfix" style="background-color: #0b6289">
           <div class="head-menu">
             <img src="./assets/img/logo.png" alt="">
-            <el-menu
-                :default-active="$route.path"
+            <div class="menuwrap" style="width:800px">
+              <el-menu
+                :default-active="active"
                 @select="handleSelect"
                 class="el-menu-demo"
                 mode="horizontal"
+                
                 background-color="#0b6289"
                 text-color="#fff"
                 active-text-color="#fff"
@@ -47,10 +49,12 @@
               <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
               <el-menu-item index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
               <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
+              <el-menu-item index="/financemanagement/revenueList" route="/financemanagement/revenueList">收入确认</el-menu-item>
+              <el-menu-item index="/financemanagement/refund-manage" route="/financemanagement/refund-manage">退费管理（校园）</el-menu-item>
             </el-submenu>
               <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
               <el-menu-item index="/studentManage/student-list" route="/studentManage/student-list">学生管理</el-menu-item>
-            <el-submenu index="7">
+              <el-submenu index="7">
               <template slot="title">系统管理</template>
               <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">品牌管理</el-menu-item>
               <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">学年定义</el-menu-item>
@@ -61,6 +65,7 @@
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
             </el-menu>
+            </div>
             <div class="userInfo">
               <span>集团端
                 {{premission}}
@@ -79,35 +84,34 @@ export default {
   name: 'App',
   data(){
     return {
-      active:localStorage.getItem('active') || '/home',
+      active:"",
       premission: 8,
     }
   },
   mounted(){
-    this.user_info();
+    this.getActive();
   },
   methods:{
-    user_info(){
-        var pk = this.$store.state.user_Info.pk;
-        if(!pk){
-          // this.$store.state.user_Info = JSON.parse(localStorage.getItem('user_Info'));
-          // this.$store.state.user_Token = localStorage.getItem('user_Token');
-          // this.premission = this.$store.state.user_Info.type;
-        }
-      },
-
+      /**登出 */
       logout(){
         this.$cookies.remove('token');
         this.$cookies.remove('userInfo');
+        this.$cookies.remove('key');
         this.$router.push('/login');
+      },
+      getActive(){
+        if(this.$cookies.get('key') !== null) {
+          this.active =  this.$cookies.get('key');
+        } else {
+          this.active = '/home';
+        } 
       },
       success(res){
         this.premission = res;
       },
-       handleSelect(key, keyPath) {
-         localStorage.removeItem('tabName');
-        //  localStorage.setItem('active',key);
-        console.log(key, keyPath);
+      handleSelect(key, keyPath) {
+        localStorage.removeItem('tabName');
+        this.$cookies.set('key',key);
       }
   }
 }
@@ -128,10 +132,16 @@ export default {
     z-index: 999;
     top: 10px;
   }
-  .homePage_menu .el-menu.el-menu--horizontal {
+  .homePage_menu .menuwrap {
     border-bottom:none;
     position: absolute;
     left: 180px;
+    width: 800px;
+    overflow: auto;
+  }
+  .homePage_menu .el-menu.el-menu--horizontal {
+    /* width: 10000px; */
+    display: -webkit-inline-box;
   }
   .homePage_menu .el-menu-item ,.el-submenu{
     width: 100px;

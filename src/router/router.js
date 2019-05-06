@@ -7,11 +7,10 @@ import login from '@/components/login/login'
 import Systemmanagement from '@/components/systemmanagement/index'
 import Brandmanagement from '@/components/systemmanagement/brandmanagement/list'
 import Academicyear from '@/components/systemmanagement/academicyear/list'
-import Usermanagement from '@/components/systemmanagement/usermanagement/list'
 import Rolemanagement from '@/components/systemmanagement/rolemanagement/list'
 import Rolemanagementadd from '@/components/systemmanagement/rolemanagement/add'
+import Usermanagement from '@/components/systemmanagement/usermanagement/list'
 import Usermanagementadd from '@/components/systemmanagement/usermanagement/add'
-import Usermanagementedit from '@/components/systemmanagement/usermanagement/edit'
 import SchoolCalendarList from '@/components/systemmanagement/schoolCalendar/list'
 import addNewTemplate from '@/components/systemmanagement/schoolCalendar/addNewTemplate'
 import editTemplate from '@/components/systemmanagement/schoolCalendar/editTemplate'
@@ -76,6 +75,12 @@ import DiscountApplicationDetail from '@/components/finance/discountApplication/
 import Paymentprocessing from '@/components/finance/paymentprocessing/list'
 import PayBillDetail from '@/components/finance/paymentprocessing/billDetail'
 import BillInfo from '@/components/finance/paymentprocessing/billInfo'
+import RevenueList from '@/components/finance/revenue/list'
+import RevenueDetail from '@/components/finance/revenue/detail'
+import RefundManage from '@/components/finance/refundManage/list'
+import RefundDetail from '@/components/finance/refundManage/billDetail'
+import PreparatoryStudent from '@/components/finance/refundManage/preparatoryStudent'
+import LeaveStudent from '@/components/finance/refundManage/leaveStudent'
 
 /**工作流 */
 import Workflow from '@/components/workflow/list'
@@ -147,11 +152,6 @@ export default new Router({
           path: '/systemmanagement/rolemanagement-add',
           name: 'rolemanagement-add',
           component: Rolemanagementadd
-        },
-        {
-          path: '/systemmanagement/usermanagement-edit',
-          name: 'usermanagement-edit',
-          component: Usermanagementedit
         },
         {
           path: '/systemmanagement/settlement-area',
@@ -310,11 +310,7 @@ export default new Router({
           name: 'studentattendanceSurvey',
           component: AttendanceSurvey
         },
-        {
-          path: '/studentattendance/survey',
-          name: 'studentattendanceSurvey',
-          component: AttendanceSurvey
-        },
+
         {
           path: '/studentattendance/detail/:id',
           name: 'attendancedetail',
@@ -414,6 +410,26 @@ export default new Router({
           component: BillInfo
         },
         {
+          path: '/financemanagement/refund-manage',
+          name: 'refund-manage',
+          component: RefundManage
+        },
+        {
+          path: '/financemanagement/refund-detail/:id',
+          name: 'refund-detail',
+          component: RefundDetail
+        },
+        {
+          path: '/financemanagement/preparatory-student',
+          name: 'preparatory-student',
+          component: PreparatoryStudent
+        },
+        {
+          path: '/financemanagement/leave-student',
+          name: 'leave-student',
+          component: LeaveStudent
+        },
+        {
           path: '/financemanagement/setting',
           name: 'Setting',
           component: Setting
@@ -474,9 +490,14 @@ export default new Router({
           component: DiscountApplicationDetail
         },
         {
-          path: '/financemanagement/discountApplicationDetail',
-          name: 'DiscountApplicationDetail',
-          component: DiscountApplicationDetail
+          path: '/financemanagement/revenueList',
+          name: 'RevenueList',
+          component: RevenueList
+        },
+        {
+          path: '/financemanagement/revenueDetail/:id',
+          name: 'RevenueDetail',
+          component: RevenueDetail
         },
       ]
     },
