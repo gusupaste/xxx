@@ -59,7 +59,7 @@
                 <router-link to="/financemanagement/billMakingDetail/9">111111</router-link>
             </template>
             </el-table-column>
-            
+
             <el-table-column
             prop="name"
             label="学生姓名"
@@ -110,7 +110,6 @@
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
                 </router-link>
-                
             </template>
             </el-table-column>
         </el-table>
@@ -148,7 +147,7 @@
     </div>
 </template>
 <style lang="" scoped>
-    
+
 </style>
 <script>
 export default {

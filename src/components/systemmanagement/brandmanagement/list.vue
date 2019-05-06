@@ -484,7 +484,6 @@
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
-            console.log(res.data);
             var new_obj = res.data[0];
             this.editForm.grade = new_obj.grade_types;
             this.editForm.klass = new_obj.class_types;
