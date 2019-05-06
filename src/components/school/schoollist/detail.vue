@@ -176,12 +176,12 @@
               <div style="padding:0 20px">
                   <p>校园建筑面积：<span class="orange bold">{{schoolInfo.built_up_area}}</span>平方米</p>
                   <p>使用面积：<span class="orange bold">{{schoolInfo.usage_area}}</span>平方米</p>
-                  <p>产权：{{schoolInfo.built_up_area}}</p>
-                  <p>是否自建：{{schoolInfo.built_up_area}}</p>
+                  <p>产权：{{schoolInfo.built_up_type_name}}</p>
+                  <p>是否自建：{{schoolInfo.owner_type_name}}</p>
                   <p>经度：{{schoolInfo.longitude}}</p>
                   <p>维度：{{schoolInfo.latitude}}</p>
                   <p>最大开班数：{{schoolInfo.max_class_no}}</p>
-                  <p>当前开班数：{{schoolInfo.built_up_area}}</p>
+                  <p>当前开班数：{{schoolInfo.current_class_no}}</p>
               </div>
           </el-tab-pane>
           <el-tab-pane label="银行账户" name="third">
@@ -491,7 +491,7 @@
         dialogFormVisible:false,
         editClassDialog:false,
         deleteDialog:false,
-        activeName: 'third',
+        activeName: 'first',
         school_id:this.$route.params.id,
         schoolInfo:{},
         form: {
