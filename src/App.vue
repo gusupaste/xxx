@@ -10,7 +10,7 @@
                 @select="handleSelect"
                 class="el-menu-demo"
                 mode="horizontal"
-                
+
                 background-color="#0b6289"
                 text-color="#fff"
                 active-text-color="#fff"
@@ -52,7 +52,7 @@
               <el-menu-item index="/financemanagement/revenueList" route="/financemanagement/revenueList">收入确认</el-menu-item>
               <el-menu-item index="/financemanagement/refund-manage" route="/financemanagement/refund-manage">退费管理（校园）</el-menu-item>
             </el-submenu>
-              <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
+              <el-menu-item index="/workflow/list" route="/workflow/list">工作流</el-menu-item>
               <el-menu-item index="/studentManage/student-list" route="/studentManage/student-list">学生管理</el-menu-item>
               <el-submenu index="7">
               <template slot="title">系统管理</template>
@@ -104,7 +104,7 @@ export default {
           this.active =  this.$cookies.get('key');
         } else {
           this.active = '/home';
-        } 
+        }
       },
       success(res){
         this.premission = res;
