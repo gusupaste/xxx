@@ -132,8 +132,8 @@
 
       <el-dialog :title="brandName" :visible.sync="editbrandVisible" min-width="600px">
         <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
-          <el-form-item label="品牌名称">
-            <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
+          <el-form-item label="品牌名称" prop="name">
+            <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制50个字" maxlength="50"></el-input>
           </el-form-item>
           <el-form-item label="班级项目">
             <el-checkbox-group v-model="editForm.klass" style="text-align: left;padding-left: 5px;">
@@ -305,8 +305,8 @@
         },
         rules: {
           name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+            {required: true, message: '请输入品牌名称', trigger: 'blur'},
+            {min: 0, max: 50, message: '长度在 0 到 50 个字符', trigger: 'blur'}
           ]
         },
       };
