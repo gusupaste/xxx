@@ -1,110 +1,127 @@
 <template>
-  <div class="workflowDetail clearfix wrap">
-    adsadsdsad
-   <!-- <div class="header">
-      <p class="local_path_style">YOU ARE HERE : 校园 > 校园列表 > <span class="font-cl-blue">校园概况</span></p>
-    </div>-->
-    <!--<div class="content clearfix">
-      <div class="content-top">北京理都校园</div>
-      <el-col :span="24" style="line-height:2">
-        <el-card shadow="always">
-          <p class="bold">基本信息</p>
-          <p class="bold">校园名称：北京首府校园(英文全称:xxxxxxxx;中文简称:xxxxxxxx;英文简称:xxxxxxxxxx)</p>
-          <p><el-row :gutter="20">
-            <el-col :span="4"><div class="grid-content bg-purple"><span>所属区域：</span><span>华北地区</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span>所属城市：</span><span>北京市</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">园长：</span><span>李园长</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span>校园编码：</span><span>1001</span></div></el-col>
-          </el-row>
-          </p>
-          <p>
-            <el-row :gutter="20">
-              <el-col :span="4"><div class="grid-content bg-purple"><span>通讯地址：</span><span>北京市</span></div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">邮编：</span><span>123456</span></div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">电话：</span><span>18809876543</span></div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">传真：</span><span>xxxxxxxx</span></div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple"><span>电子邮箱：</span><span>xxxxxxxx</span></div></el-col>
-              <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">网址：</span><span>www.taidii.com</span></div></el-col>
-            </el-row>
-          </p>
+  <div class="discountApplicationDetail wrap">
+    <div class="header">
+      <p class="local_path_style">YOU ARE HERE : 工作流 > <span class="font-cl-blue">审批详情</span></p>
+    </div>
+    <p class="black mt26 clearfix" style="padding-bottom:15px;border-bottom:1px solid #bbb">
+      <span class="left">折扣申请学生：曹旭</span>
+      <span class="right ">
+              <span>状态：</span>
+              <span class="green">审核通过</span>
+          </span>
+      <span class="right ">
+              <span>状态：</span>
+              <span class="red">审核中</span>
+          </span>
+    </p>
+    <div class="content-top">员工子女折扣</div>
+    <div class="clearfix">
+
+      <el-col :span="24" class="card-type">
+        <el-card shadow="always" class="clearfix">
+          <p class="baseInfo">&nbsp;</p>
+          <div style="width:90%" class="left">
+            <p class="" style="border-bottom:1px solid #bbb">
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：-12</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：.00</div></el-col>
+                <el-col :span="10"><div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div></el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">申请折扣：20%</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：10000元</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">优惠金额：2000元</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">折后总额：8000元</div></el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">备注：— —/03/01</div></el-col>
+              </el-row>
+            </p>
+            <p>
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">相关附件：</div></el-col>
+              </el-row>
+              <el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
+                <el-col :span="5"><a download="download" class="grid-content bg-purple" href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
+              </el-row>
+            </p>
+          </div>
         </el-card>
       </el-col>
-    </div>-->
+    </div>
+    <div class="content-top">园长折扣</div>
+    <div class="clearfix">
+
+      <el-col :span="24" class="card-type">
+        <el-card shadow="always" class="clearfix">
+          <p class="baseInfo">&nbsp;</p>
+          <div style="width:90%" class="left">
+            <p class="" style="border-bottom:1px solid #bbb">
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：-12</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：.00</div></el-col>
+                <el-col :span="10"><div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div></el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">申请折扣：20%</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：10000元</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">优惠金额：2000元</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">折后总额：8000元</div></el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">备注：— —/03/01</div></el-col>
+              </el-row>
+            </p>
+            <p>
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">相关附件：</div></el-col>
+              </el-row>
+              <el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
+                <el-col :span="5"><a download="download" class="grid-content bg-purple" href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
+              </el-row>
+            </p>
+          </div>
+        </el-card>
+      </el-col>
+    </div>
+    <div class="mt26 tableList">
+      <p>审批记录：</p>
+      <el-table
+        class="mt10"
+        :data="tableData"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          label="审批节点"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="审批角色"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="审批结果">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="审批意见">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="审批日期">
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="mt26 text-align-center">
+      <button class="btn bg-grey">返回</button>
+    </div>
   </div>
 </template>
-
 <style scoped>
-  .workflowDetail >>> .el-dialog__header{
-    background-color: #f5f5f5;
-    padding: 15px;
-    font-size: 12px !important;
-    border-bottom: 1px solid #d5d5d5;
-  }
-  .workflowDetail >>> .el-dialog__title{
-    font-size: 14px;
-  }
-  .workflowDetaill >>> .el-dialog{
-    min-width: 600px;
-  }
-  .workflowDetail >>> .dialog-footer{
-    margin-top: 50px;
-    text-align: center;
-  }
-  .workflowDetail {
-    color: rgba(160, 160, 160, 1);
-    text-align: left;
-  }
-  .workflowDetail .bold {
-    font-weight: bold;
-    color: black;
-  }
-  .workflowDetail .firstTab {
-    margin-top: 10px;
-    height: 40px;
-    line-height: 40px;
-  }
-  .workflowDetail .className {
-    padding:6px 16px;
-    font-size: 16px;
-    font-weight: 600;
-    color:#3683a0;
-    border: 2px solid #3683a0;
-    border-radius: 20px;
-  }
-  .workflowDetail .icon-font {
-    color:#f17128;
-    font-size: 20px;
-    margin-left: 20px;
-    margin-right: 5px;
-    font-weight: 600;
-  }
-  .workflowDetail >>> .el-tabs__nav-wrap {
-    width: 50%;
-    margin:0 auto;
-  }
-  .workflowDetail >>> .has-gutter th {
-    background-color: #f5f5f5 !important;
-  }
-  .workflowDetail >>> .el-tabs__active-bar {
-    background-color:#f17128;
-    height: 3px;;
-  }
-  .workflowDetail >>> .el-tabs__item.is-active {
-    color:#f17128;
-    font-weight: 600;
-  }
-  .workflowDetail >>> .el-tabs__item:hover {
-    color:#f17128;
-    font-weight: 600;
-  }
-  .workflowDetail >>> .el-tabs__nav-wrap::after {
-    display: none;
-  }
-  .workflowDetail >>> .el-tabs__header {
-    border-bottom: 2px solid #dedede;
-  }
-
-  .workflowDetail .content-top{
+  .discountApplicationDetail .content-top{
     font-weight: 600;
     background-color: #DCECF3;
     width: 15%;
@@ -115,81 +132,51 @@
     border-radius: 3px;
     color: #3E7193;
   }
-  .workflowDetail .content-margin{
-    margin-left: 15%;
+  .discountApplicationDetail .card-type {
+    line-height: 40px;
   }
-  .workflowDetail >>> td , .workflowDetail >>> th {
-    text-align: center;
+  .discountApplicationDetail .el-card__body {
+    padding: 30px 70px 10px 10px;
   }
-  .workflowDetail >>> .el-textarea__inner {
-    width: 600px;
-    min-height: 100px !important;
+  .discountApplicationDetail .el-card__body:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+  }
+  .discountApplicationDetail .tableList {
+    color:#101010;
+  }
+  .discountApplicationDetail .baseInfo {
+    width: 5%;
+    font-weight: 600;
+    float: left;
+    margin-right: 10px;
   }
 </style>
-
 <script>
   export default {
-    components: {
-    },
-    data() {
+    data(){
       return {
-        dialogFormVisible:false,
-        editClassDialog:false,
-        deleteDialog:false,
-        activeName: 'first',
-        form: {
-          name: '手工新增',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
         tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          num:'',
-          stu:''
-        }, {
           date: '2016-05-02',
           name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          num:'',
-          stu:''
+          address: '上海市普陀区金沙江路 1518 弄'
         }, {
           date: '2016-05-04',
           name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          num:'',
-          stu:''
+          address: '上海市普陀区金沙江路 1517 弄'
         }, {
           date: '2016-05-01',
           name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          num:'',
-          stu:''
-        }],
-        tableData2: [],
-        formLabelWidth: '120px'
-      };
-    },
-    methods: {
-
+          address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1516 弄'
+        }]
+      }
     }
   }
 </script>
