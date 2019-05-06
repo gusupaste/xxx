@@ -1,8 +1,9 @@
 <template>
   <div class="workflowDetail clearfix wrap">
-    <div class="header">
+    adsadsdsad
+   <!-- <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > 校园列表 > <span class="font-cl-blue">校园概况</span></p>
-    </div>
+    </div>-->
     <!--<div class="content clearfix">
       <div class="content-top">北京理都校园</div>
       <el-col :span="24" style="line-height:2">

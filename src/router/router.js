@@ -83,7 +83,8 @@ import PreparatoryStudent from '@/components/finance/refundManage/preparatoryStu
 import LeaveStudent from '@/components/finance/refundManage/leaveStudent'
 
 /**工作流 */
-import Workflow from '@/components/workflow/list'
+import Workflow from '@/components/workflow/index'
+import WorkflowList from '@/components/workflow/list'
 import WorkflowDetail from '@/components/workflow/detail'
 
 

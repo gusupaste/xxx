@@ -37,7 +37,7 @@
               <el-menu-item index="/studentattendance/attendanceDaily" route="/studentattendance/attendanceDaily">每日考勤</el-menu-item>
               <el-menu-item index="/studentattendance/attendanceStatistics" route="/studentattendance/attendanceStatistics">考勤统计</el-menu-item>
             </el-submenu>
-            <!--<el-submenu index="6">
+            <el-submenu index="6">
               <template slot="title">财务处理</template>
               <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">收费账单</el-menu-item>
               <el-menu-item index="/financemanagement/policy" route="/financemanagement/policy">收费政策(校园)</el-menu-item>
@@ -51,8 +51,8 @@
               <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
               <el-menu-item index="/financemanagement/revenueList" route="/financemanagement/revenueList">收入确认</el-menu-item>
               <el-menu-item index="/financemanagement/refund-manage" route="/financemanagement/refund-manage">退费管理（校园）</el-menu-item>
-            </el-submenu>-->
-              <el-menu-item index="/workflow" route="/workflow">工作流</el-menu-item>
+            </el-submenu>
+              <el-menu-item index="/workflow/list" route="/workflow/list">工作流</el-menu-item>
               <el-menu-item index="/studentManage/student-list" route="/studentManage/student-list">学生管理</el-menu-item>
               <el-submenu index="7">
               <template slot="title">系统管理</template>
