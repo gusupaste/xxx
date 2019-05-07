@@ -5,10 +5,12 @@
     </div>
     <div class="content">
       <p>
-        <span>角色名称：</span>
-        <el-input v-model="rolename" placeholder="请输入"></el-input>
+        <span class="red">*&nbsp;</span><span>角色名称：</span>
+        <el-input :class="{border_red: error_border_rolename}" v-model="rolename" placeholder="请输入"></el-input>
+      <div class="mb10" :style="error_message_rolename"><span style="visibility: hidden"><span>*&nbsp;</span>角色名称：</span>
+      <span class="red">请输入角色名称</span></div>
       <hr hidden>
-      <span>角色描述：</span>
+      <span style="visibility: hidden">*&nbsp;</span><span>角色描述：</span>
       <el-input v-model="roledesc" placeholder="请输入"></el-input>
       </p>
       <hr class="line-solid">
@@ -109,7 +111,11 @@
         boxData: [],
         checkedValue: [],
         permissions_ids: [],
-        id: 0
+        id: 0,
+        error_message_rolename: {
+          display: 'none'
+        },
+        error_border_rolename: false
       }
     },
     mounted: function () {
@@ -212,6 +218,11 @@
       },
       saveRole: function () {
         this.loading = true
+        if(this.rolename === "") {
+          this.error_message_rolename = {display: 'block'}
+          this.error_border_rolename = true
+          return
+        }
         let newList = []
         var oldList = this.userCheckList
         for (var i = 0; i < oldList.length; i++) {
@@ -296,5 +307,8 @@
   }
   .rolemanagementadd >>> .el-input {
     width: 164px;
+  }
+  .rolemanagementadd .border_red >>> .el-input__inner{
+    border-color: red;
   }
 </style>
