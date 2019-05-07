@@ -135,12 +135,12 @@
           <el-form-item label="品牌名称" prop="name">
             <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制50个字" maxlength="50"></el-input>
           </el-form-item>
-          <el-form-item label="班级项目">
+          <el-form-item label="班级项目" prop="klass">
             <el-checkbox-group v-model="editForm.klass" style="text-align: left;padding-left: 5px;">
               <el-checkbox v-for="(klass,index) in class_type" :key="index" :label="klass.id">{{ klass.name }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item label="年级项目">
+          <el-form-item label="年级项目" prop="grade">
             <el-checkbox-group v-model="editForm.grade" style="text-align: left;padding-left: 5px;">
               <el-checkbox v-for="(grade,ind) in grade_type" :key="ind" :label="grade.id">{{grade.name}}</el-checkbox>
             </el-checkbox-group>
@@ -148,7 +148,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editbrandVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveBrand">保 存</el-button>
+          <el-button type="success" @click="saveBrand" v-bind:disabled="isdisabledFn">保 存</el-button>
         </span>
       </el-dialog>
 
@@ -293,6 +293,7 @@
         classManageVisible:false,
         yearManageVisible:false,
         deleteVisible:false,
+        isdisabledFn:true,
         editForm:{
           id:'',
           name:'',
@@ -307,7 +308,13 @@
           name: [
             {required: true, message: '请输入品牌名称', trigger: 'blur'},
             {min: 0, max: 50, message: '长度在 0 到 50 个字符', trigger: 'blur'}
-          ]
+          ],
+          klass: [
+            { type: 'array', required: true, message: '请至少选择一个班级项目', trigger: 'change' }
+          ],
+          grade: [
+            { type: 'array', required: true, message: '请至少选择一个年级项目', trigger: 'change' }
+          ],
         },
       };
     },
@@ -603,6 +610,36 @@
           this.getGradeType();
           this.yearManageVisible = false;
         }
+      },
+    },
+    computed: {
+      klass() {
+        return this.editForm.klass;
+      },
+      grade() {
+        return this.editForm.grade;
+      },
+    },
+    watch:{
+      klass: {
+        handler(newValue, oldValue) {
+          if(newValue.length > 0 && this.editForm.grade.length > 0) {
+            this.isdisabledFn = false;
+          }else{
+            this.isdisabledFn = true;
+          }
+        },
+        deep: true
+      },
+      grade: {
+        handler(newValue, oldValue) {
+          if(newValue.length > 0 && this.editForm.klass.length > 0) {
+            this.isdisabledFn = false;
+          }else{
+            this.isdisabledFn = true;
+          }
+        },
+        deep: true
       },
     }
   }

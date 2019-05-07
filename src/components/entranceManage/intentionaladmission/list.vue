@@ -51,7 +51,6 @@
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                <template slot-scope="scope">
                   <router-link to="/financemanagement/edit/9">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
@@ -62,7 +61,6 @@
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
                   </router-link>
-                </template>
               </template>
             </el-table-column>
           </el-table>
