@@ -12,6 +12,9 @@
                 <el-form-item label="学年：" :label-width="formLabelWidth" style="margin-bottom:0">
                     {{info.academic_year_name}}
                 </el-form-item>
+                <el-form-item label="备注：" :label-width="formLabelWidth">
+                    {{info.remarks}}
+                </el-form-item>
             </el-form>
                 <div class="mt26">
                     <span>定义校日历：</span>
@@ -48,13 +51,8 @@
                         </div>
                     </div>
                 </div>
-            <div>
-                <span style="display:inline-block;width:100px;vertical-align:top">备注：</span>
-                <el-input type="textarea" style="width:92%;height:100px"></el-input>
-            </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="$router.go(-1)" style="background-color:#bbb;color:#fff">取 消</el-button>
-                <el-button type="primary"  style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                <el-button @click="$router.go(-1)" style="background-color:#bbb;color:#fff">返 回</el-button>
             </div>
             <!-- 添加学校 -->
             <el-dialog title="添加学校" :visible.sync="dialogFormVisible">
@@ -221,6 +219,9 @@
                         <el-select v-model="info.academic_year" placeholder="请选择学年">
                            <el-option v-for="yea in yearList"  :label="yea.name" :key="yea.id"   :value="yea.id"></el-option>
                         </el-select>
+                    </el-form-item>
+                    <el-form-item label="备注：" :label-width="formLabelWidth">
+                        <el-input type="textarea" v-model="info.remarks"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
@@ -410,7 +411,6 @@ export default {
             }
         },
     mounted () {
-        this.getList();
         this.getYear();
         this.getTemplateInfo();
     },
@@ -455,7 +455,8 @@ export default {
             if (valid) {
                 this.$axios.put('/api/school_calendar/calendar_template/'+this.template_id+'/',{
                     academic_year:_this.info.academic_year,
-                    name:_this.info.name
+                    name:_this.info.name,
+                    remarks:_this.info.remarks
                 })
                 .then(res=>{
                     if(res.data.status_code === 1){
@@ -503,149 +504,13 @@ export default {
             })
         },
         changeDate(data) {
-
+            console.log(data)
         },
         clickToday(data) {
 
         },
         handleSelectionChange(){
 
-        },
-        getList(){
-            this.list = [{
-                        time:'2018/7',
-                        list:[
-                        {date:'2018/7/1',className:"mark1"}, 
-                        {date:'2018/7/2',className:"mark1"}, 
-                        {date:'2018/7/3',className:"mark1"}, 
-                        {date:'2018/7/4',className:"mark1"}, 
-                        {date:'2018/7/13',className:"mark2"},
-                        {date:'2018/7/14',className:"mark2"},
-                        {date:'2018/7/15',className:"mark2"},
-                        {date:'2018/7/18',className:"mark3"},
-                        {date:'2018/7/19',className:"mark3"},
-                        {date:'2018/7/20',className:"mark3"},
-                        {date:'2018/7/21',className:"mark3"},
-                        {date:'2018/7/21',className:"mark3"},
-                        {date:'2018/7/21',className:"mark3"},
-                        {date:'2018/7/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018-8-11',
-                        list:[
-                        {date:'2018/8/1',className:"mark1"}, 
-                        {date:'2018/8/2',className:"mark1"}, 
-                        {date:'2018/8/3',className:"mark1"}, 
-                        {date:'2018/8/4',className:"mark1"}, 
-                        {date:'2018/8/13',className:"mark2"},
-                        {date:'2018/8/14',className:"mark2"},
-                        {date:'2018/8/15',className:"mark2"},
-                        {date:'2018/8/18',className:"mark3"},
-                        {date:'2018/8/19',className:"mark3"},
-                        {date:'2018/8/20',className:"mark3"},
-                        {date:'2018/8/21',className:"mark3"},
-                        {date:'2018/8/21',className:"mark3"},
-                        {date:'2018/8/21',className:"mark3"},
-                        {date:'2018/8/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/9',
-                        list:[
-                        {date:'2018/9/1',className:"mark1"}, 
-                        {date:'2018/9/2',className:"mark1"}, 
-                        {date:'2018/9/3',className:"mark1"}, 
-                        {date:'2018/9/4',className:"mark1"}, 
-                        {date:'2018/9/13',className:"mark2"},
-                        {date:'2018/9/14',className:"mark2"},
-                        {date:'2018/9/15',className:"mark2"},
-                        {date:'2018/9/18',className:"mark3"},
-                        {date:'2018/9/19',className:"mark3"},
-                        {date:'2018/9/20',className:"mark3"},
-                        {date:'2018/9/21',className:"mark3"},
-                        {date:'2018/9/21',className:"mark3"},
-                        {date:'2018/9/21',className:"mark3"},
-                        {date:'2018/9/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/10',
-                        list:[
-                        {date:'2018/10/1',className:"mark1"}, 
-                        {date:'2018/10/2',className:"mark1"}, 
-                        {date:'2018/10/3',className:"mark1"}, 
-                        {date:'2018/10/4',className:"mark1"}, 
-                        {date:'2018/10/13',className:"mark2"},
-                        {date:'2018/10/14',className:"mark2"},
-                        {date:'2018/10/15',className:"mark2"},
-                        {date:'2018/10/18',className:"mark3"},
-                        {date:'2018/10/19',className:"mark3"},
-                        {date:'2018/10/20',className:"mark3"},
-                        {date:'2018/10/21',className:"mark3"},
-                        {date:'2018/10/21',className:"mark3"},
-                        {date:'2018/10/21',className:"mark3"},
-                        {date:'2018/10/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/11',
-                        list:[
-                        {date:'2019/4/1',className:"mark1"}, 
-                        {date:'2019/4/2',className:"mark1"}, 
-                        {date:'2019/4/3',className:"mark1"}, 
-                        {date:'2019/4/4',className:"mark1"}, 
-                        {date:'2019/4/13',className:"mark2"},
-                        {date:'2019/4/14',className:"mark2"},
-                        {date:'2019/4/15',className:"mark2"},
-                        {date:'2019/4/18',className:"mark3"},
-                        {date:'2019/4/19',className:"mark3"},
-                        {date:'2019/4/20',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2018/12/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/12',
-                        list:[
-                        {date:'2019/4/1',className:"mark1"}, 
-                        {date:'2019/4/2',className:"mark1"}, 
-                        {date:'2019/4/3',className:"mark1"}, 
-                        {date:'2019/4/4',className:"mark1"}, 
-                        {date:'2019/4/13',className:"mark2"},
-                        {date:'2019/4/14',className:"mark2"},
-                        {date:'2019/4/15',className:"mark2"},
-                        {date:'2019/4/18',className:"mark3"},
-                        {date:'2019/4/19',className:"mark3"},
-                        {date:'2019/4/20',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2018/12/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/12',
-                        list:[
-                        {date:'2019/4/1',className:"mark1"}, 
-                        {date:'2019/4/2',className:"mark1"}, 
-                        {date:'2019/4/3',className:"mark1"}, 
-                        {date:'2019/4/4',className:"mark1"}, 
-                        {date:'2019/4/13',className:"mark2"},
-                        {date:'2019/4/14',className:"mark2"},
-                        {date:'2019/4/15',className:"mark2"},
-                        {date:'2019/4/18',className:"mark3"},
-                        {date:'2019/4/19',className:"mark3"},
-                        {date:'2019/4/20',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2018/12/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        ],
-                    }]
-                
         },
         initCalendar(){
             console.log(this.monthList)

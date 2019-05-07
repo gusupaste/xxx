@@ -66,6 +66,9 @@
                             <el-option v-for="yea in yearList"  :label="yea.name" :key="yea.id"   :value="yea"></el-option>
                         </el-select>
                     </el-form-item>
+                    <el-form-item label="备注：" :label-width="formLabelWidth">
+                        <el-input type="textarea" v-model="addform.remarks"></el-input>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
                     <el-button @click="add_dialogVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
@@ -228,6 +231,7 @@ export default {
             addform:{
                 template_name:'',
                 addyear:'',
+                remarks:''
             },
             rules:{
                 template_name: [
@@ -314,7 +318,8 @@ export default {
                 var _this = this;
                 this.$axios.post('/api/school_calendar/calendar_template/',{
                     academic_year:_this.addform.addyear.id,
-                    name:_this.addform.template_name
+                    name:_this.addform.template_name,
+                    remarks:_this.addform.remarks
                 })
                 .then(res=>{
                     if(res.data.status_code === 1){
