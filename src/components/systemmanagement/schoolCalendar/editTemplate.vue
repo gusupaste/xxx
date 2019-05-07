@@ -41,7 +41,7 @@
                         <div class="calendar-datail">
                             <p>校日历日期说明</p>
                             <div>
-                                <span style="background-color:#e51c23" class="calendar-suqre"></span>
+                                <span style="background-color:#f28e91" class="calendar-suqre"></span>
                                 <span class="mr26">休假日</span>
                                 <span style="background-color:#ff9800" class="calendar-suqre"></span>
                                 <span class="mr26">职业发展日</span>
