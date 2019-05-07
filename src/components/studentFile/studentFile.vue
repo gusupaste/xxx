@@ -55,7 +55,32 @@ import InSchool from './studentTypeList/inschool';
 export default {
   data(){
     return {
-         activeName: 'first',
+      activeName: 'first',
+      int_url:'http://192.168.199.157:8000/api/common/select/intercity_list/',/*城际*/
+      area_url:'http://192.168.199.157:8000/api/common/select/area_list/',/*区域*/
+      city_url:'http://192.168.199.157:8000/api/common/select/city_list/',/*省市*/
+      brand_url:'http://192.168.199.157:8000/api/common/select/hq_list/',/*品牌*/
+      school_url:'http://192.168.199.157:8000/api/common/select/center_list/',/*校园*/
+      klass_url:'http://192.168.199.157:8000/api/common/select/class_list/?center_id=',/*班级*/
+      student_url:'http://192.168.199.157:8000/api/student/student/student_list/',/*学生*/
+      intercity_list:[],
+      intercity:'',
+      area_list:[],
+      area:'',
+      city_list:[],
+      city:'',
+      brand_list:[],
+      brand:'',
+      school_list:[],
+      school:'',
+      class_list:[],
+      class_val:'',
+      klass:'',
+      gender:'',
+      dateValue: '',
+      student_list:[],
+      selectDisable:'',
+      searchText:'',
     }
   },
   components:{

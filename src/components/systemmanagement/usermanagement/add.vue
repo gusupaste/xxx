@@ -174,11 +174,12 @@
         userCheckList:[],
         boxData:[],
         checkedValue:[],
-
+        id: 0
       }
     },
     mounted: function () {
-      if (this.$route.query.id !== 0) {
+      this.id = Number(this.$route.query.id)
+      if (this.id !== 0) {
         this.getUser()
       }
       this.getSchoolList()
@@ -186,7 +187,7 @@
     methods: {
       getUser: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/users_management/' + this.$route.query.id + '/user_info/'
+        var url = 'http://134.175.93.59:8000/api/user/users_management/' + this.id + '/user_info/'
         this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
@@ -313,10 +314,10 @@
           return
         }
         var url = ''
-        if (this.$route.query.id === "0") {
+        if (this.id === 0) {
           url = 'http://134.175.93.59:8000/api/user/users_management/'
         } else {
-          url = 'http://134.175.93.59:8000/api/user/users_management/' + this.$route.query.id + '/update_users/'
+          url = 'http://134.175.93.59:8000/api/user/users_management/' + this.id + '/update_users/'
         }
         this.$axios.post(url, {
           display_name: this.display_name,

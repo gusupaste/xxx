@@ -5,11 +5,10 @@
     </div>
     <div class="header-top">
       <p><span>角色：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="value" @change="roleType" placeholder="请选择">
           <el-option
             v-for="item in options"
-            :key="item.value"
-            :label="item.label"
+            :label="item.type"
             :value="item.value">
           </el-option>
         </el-select>
@@ -41,7 +40,8 @@
         <el-table-column
           label="所属角色">
           <template slot-scope="scope">
-            <a class="font-cl-blue" v-for="item in scope.row.roles" @click="assignPermissions(item.id)">{{item.name}}<br></a>
+            <a class="font-cl-blue" v-for="item in scope.row.roles"
+               @click="assignPermissions(item.id)">{{item.name}}<br></a>
           </template>
         </el-table-column>
         <el-table-column
@@ -112,34 +112,46 @@
   export default {
     data() {
       return {
-        value: '-所有-',
-        options: [{
-          label: '选项1',
-          value: '1'
-        }, {
-          label: '选项2',
-          value: '2'
-        }],
+        value: '',
+        options: [
+          {
+            type: '-所有-',
+            value: -1
+          },
+          {
+            type: '总部',
+            value: 0
+          },
+          {
+            type: '校园',
+            value: 1
+          }],
         display_name: '',
+        type: -1,
         assignpermissions: false,
         userList: [],
-        rolename:'',
-        roledesc:'',
-        userCheckList:[],
+        rolename: '',
+        roledesc: '',
+        userCheckList: [],
         boxData: [],
-        checkedValue:[],
+        checkedValue: [],
       }
     },
     mounted: function () {
       this.getUserList()
+      this.value = this.options[0].value
     },
     methods: {
       addUser: function (id) {
         this.$router.push({name: 'usermanagement-add', query: {id: id}})
       },
+      roleType: function (val) {
+        this.type = val
+        this.getUserList()
+      },
       getUserList: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/users_management/?display_name=' + this.display_name + '&organization_id=-1&page=1&size=10'
+        var url = 'http://134.175.93.59:8000/api/user/users_management/?display_name=' + this.display_name + '&role_type=' + this.type + '&organization_id=-1&page=1&size=10'
         this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',

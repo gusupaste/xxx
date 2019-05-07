@@ -223,6 +223,7 @@
     }
 </style>
 <script>
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
     data(){
         return {
@@ -280,8 +281,12 @@ export default {
     },
     created () {
         this.getYear();
+        console.log(this.getArea)
     },
     methods:{
+        ...mapActions({
+        getArea : 'getArea'  // 第一个blogAdd是定义的一个函数别名称，挂载在到this(vue)实例上，后面一个blogAdd 才是actions里面函数方法名称
+        }),
         getYear(){
             var _this = this;
             this.$axios.get('/api/common/select/academic_year_list/')

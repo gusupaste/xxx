@@ -1,7 +1,7 @@
 <template>
   <div class="studentFile">
       <div class="formwrap">
-        <el-form ref="form" :model="form" label-width="100px" inline>
+        <el-form label-width="100px" inline>
           <el-form-item label="城际：">
             <el-select v-model="intercity" @change="allChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
@@ -85,7 +85,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="搜索：">
-            <el-input placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
+            <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="getStudentList">搜索</el-button>
@@ -203,17 +203,7 @@ export default {
       dateValue: '',
       student_list:[],
       selectDisable:'',
-      list:[1,2,3,4,5,6,7,81,],
-      form: {
-      name: '',
-      region: '',
-      date1: '',
-      date2: '',
-      delivery: false,
-      type: [],
-      resource: '',
-      desc: ''
-      }
+      searchText:'',
     }
   },
   mounted:function(){
@@ -314,6 +304,9 @@ export default {
       var _this = this;
       var url = this.student_url;
       var school_ids = [3];
+      /*if(this.school !== ''){
+        school_ids = school_ids.push(this.school);
+      }*/
       _this.$axios.post(url,
       {
         student_type:'Prepare',
@@ -321,11 +314,14 @@ export default {
         class_id:this.class_val,
         date_from:'2018-01-01',
         date_to:'2020-01-01',
-        gender:"",
-        condition:"",
+        gender:this.gender,
+        condition:this.searchText,
       }).then(res=>{
         if(res.status == 200 && res.data.status == 1) {
           this.student_list = res.data.results.results;
+          console.log(this.student_list);
+          console.log(res.data.results.page_number);
+          console.log(res.data.results.results);
         }
       }).catch(err=>{
         console.log(err)

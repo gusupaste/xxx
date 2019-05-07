@@ -61,14 +61,14 @@
             label="班级类型编码"
             width="220">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.code" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
+              <el-input v-model="scope.row.code" maxlength="15" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
               <span v-if="scope.row.edit === true">{{ scope.row.code }}</span>
             </template>
           </el-table-column>
           <el-table-column
             label="班级类型">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.name" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
+              <el-input v-model="scope.row.name"  maxlength="50" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
               <span v-if="scope.row.edit === true">{{ scope.row.name }}</span>
             </template>
           </el-table-column>
@@ -100,14 +100,14 @@
             label="年级类型编码"
             width="220">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.code" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
+              <el-input v-model="scope.row.code"  maxlength="15" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
               <span v-if="scope.row.edit === true">{{ scope.row.code }}</span>
             </template>
           </el-table-column>
           <el-table-column
             label="年级类型">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.name" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
+              <el-input v-model="scope.row.name"  maxlength="50" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
               <span v-if="scope.row.edit === true">{{ scope.row.name }}</span>
             </template>
           </el-table-column>
