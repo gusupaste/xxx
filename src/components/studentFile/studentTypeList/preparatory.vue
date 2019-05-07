@@ -202,6 +202,14 @@ export default {
       type:Array,
         request:true,
     },
+    student_list: {
+      type:Array,
+      request:true,
+    },
+    activeTabs:{
+      type:String,
+      request:true,
+    }
   },
   data(){
     return {
@@ -214,13 +222,12 @@ export default {
       klass:'',
       gender:'',
       dateValue: '',
-      student_list:[],
       selectDisable:'',
       searchText:'',
     }
   },
   mounted:function(){
-    this.getStudentList();
+    this.getStudentList()
   },
   methods:{
     areaChangeFun:function () {
@@ -242,7 +249,7 @@ export default {
     getStudentList:function () {
       var data={
         student_type:'Prepare',
-        center_ids:[],
+        center_ids:[3],
         class_id:this.class_val,
         date_from:'2018-01-01',
         date_to:'2020-01-01',
@@ -252,5 +259,15 @@ export default {
       this.$emit('getStudentList',data);
     }
   },
+  watch: {
+    activeTabs: {
+      handler(newValue, oldValue) {
+        if(newValue === 'first'){
+          this.getStudentList();
+        }
+      },
+      deep: true
+    }
+  }
 }
 </script>

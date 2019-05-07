@@ -1,7 +1,7 @@
 <template>
   <div class="student_class">
       <div class="formwrap">
-        <el-form ref="form" :model="form" label-width="100px" inline>
+        <el-form label-width="100px" inline>
           <el-form-item label="城际：">
             <el-select v-model="intercity" @change="allChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
@@ -94,7 +94,7 @@
 
       </div>
       <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item , index) in list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
+          <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
             <div style="padding:20px">
               <div class="avatar inline-block">
                 <img src="../../../assets/img/logo.png" alt="">
@@ -203,6 +203,14 @@ export default {
       type:Array,
       request:true,
     },
+    student_list: {
+      type:Array,
+      request:true,
+    },
+    activeTabs:{
+      type:String,
+      request:true,
+    }
   },
   data(){
     return {
@@ -215,7 +223,6 @@ export default {
       klass:'',
       gender:'',
       dateValue: '',
-      student_list:[],
       selectDisable:'',
       searchText:'',
       year:'',
@@ -238,6 +245,28 @@ export default {
         this.selectDisable = false;
       }
     },
+    getStudentList:function () {
+      var data={
+        student_type:'Graduating',/*毕业班学生*/
+        center_ids:[],
+        class_id:this.class_val,
+        date_from:'2018-01-01',
+        date_to:'2020-01-01',
+        gender:this.gender,
+        condition:this.searchText,
+      }
+      this.$emit('getStudentList',data);
+    }
   },
+  watch: {
+    activeTabs: {
+      handler(newValue, oldValue) {
+        if(newValue === 'fifth'){
+          this.getStudentList();
+        }
+      },
+      deep: true
+    }
+  }
 }
 </script>

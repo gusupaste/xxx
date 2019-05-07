@@ -210,6 +210,14 @@ export default {
       type:Array,
       request:true,
     },
+    student_list: {
+      type:Array,
+      request:true,
+    },
+    activeTabs:{
+      type:String,
+      request:true,
+    }
   },
   data(){
     return {
@@ -222,7 +230,6 @@ export default {
       klass:'',
       gender:'',
       dateValue: '',
-      student_list:[],
       selectDisable:'',
       searchText:'',
       in_type:'',
@@ -245,6 +252,28 @@ export default {
         this.selectDisable = false;
       }
     },
+    getStudentList:function () {
+      var data={
+        student_type:'Formal',/*在校生*/
+        center_ids:[],
+        class_id:this.class_val,
+        date_from:'2018-01-01',
+        date_to:'2020-01-01',
+        gender:this.gender,
+        condition:this.searchText,
+      }
+      this.$emit('getStudentList',data);
+    }
   },
+  watch: {
+    activeTabs: {
+      handler(newValue, oldValue) {
+        if(newValue === 'second'){
+          this.getStudentList();
+        }
+      },
+      deep: true
+    }
+  }
 }
 </script>

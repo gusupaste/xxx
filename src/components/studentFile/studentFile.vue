@@ -12,6 +12,7 @@
                        :school_list="school_list"
                        :class_list="class_list"
                        :student_list="student_list"
+                       :activeTabs="activeName"
                        @getCityList="getCityList"
                        @getSchoolList="getSchoolList"
                        @getClassList="getClassList"
@@ -25,9 +26,11 @@
                    :school_list="school_list"
                    :class_list="class_list"
                    :student_list="student_list"
+                   :activeTabs="activeName"
                    @getCityList="getCityList"
                    @getSchoolList="getSchoolList"
-                   @getClassList="getClassList"></in-school>
+                   @getClassList="getClassList"
+                   @getStudentList="getStudentList"></in-school>
       </el-tab-pane>
       <el-tab-pane label="毕业生" name="third">
         <graduate :intercity_list="intercity_list"
@@ -38,9 +41,11 @@
                   :class_list="class_list"
                   :student_list="student_list"
                   :year_list="year_list"
+                  :activeTabs="activeName"
                   @getCityList="getCityList"
                   @getSchoolList="getSchoolList"
-                  @getClassList="getClassList"></graduate>
+                  @getClassList="getClassList"
+                  @getStudentList="getStudentList"></graduate>
       </el-tab-pane>
       <el-tab-pane label="中途离园生" name="fourth">
         <leave :intercity_list="intercity_list"
@@ -51,9 +56,11 @@
                :class_list="class_list"
                :student_list="student_list"
                :year_list="year_list"
+               :activeTabs="activeName"
                @getCityList="getCityList"
                @getSchoolList="getSchoolList"
-               @getClassList="getClassList"></leave>
+               @getClassList="getClassList"
+               @getStudentList="getStudentList"></leave>
       </el-tab-pane>
       <el-tab-pane label="毕业班学生" name="fifth">
         <graduating-class :intercity_list="intercity_list"
@@ -63,9 +70,11 @@
                           :school_list="school_list"
                           :class_list="class_list"
                           :student_list="student_list"
+                          :activeTabs="activeName"
                           @getCityList="getCityList"
                           @getSchoolList="getSchoolList"
-                          @getClassList="getClassList"></graduating-class>
+                          @getClassList="getClassList"
+                          @getStudentList="getStudentList"></graduating-class>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -135,7 +144,7 @@ export default {
     this.getCityList(0);
     this.getBrandList();
     this.getSchoolList('','','','');
-    this.getClassList();
+    this.getYearList();
   },
   methods:{
     handleClick(tab, event) {
@@ -225,7 +234,7 @@ export default {
       })
     },
     /*学年*/
-    getClassList:function () {
+    getYearList:function () {
       var _this = this;
       var url = this.year_url;
       _this.$axios.get(url).then(res=>{
