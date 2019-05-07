@@ -10,15 +10,7 @@
                     <el-select v-model="year">
                         <el-option v-for="yea in yearList"  :label="yea.name" :key="yea.id"  :value="yea.id"></el-option>
                     </el-select>
-                    <!-- <span style="margin-left:50px">模板名称：</span>
-                    <el-select v-model="template_name">
-                        <el-option value="你好">你好</el-option>
-                    </el-select> -->
                 </span>
-                <!-- <span class="right" style="cursor:pointer" @click="addNewTemplate">
-                    <i class="icon-font fa fa-calendar-plus-o"></i>
-                    <span class="font-cl-blue font-size-14" >新增校日历模板</span>
-                </span> -->
             </div>
             <div class="clearfix">
                 <el-card class="box-card" style="height:225px;text-align:center;">
@@ -63,21 +55,21 @@
                 :visible.sync="add_dialogVisible"
                 width="30%"
                 >
-                <el-form>
-                    <el-form-item label="模板名称：" :label-width="formLabelWidth">
-                        <el-input v-model="template_name" class="w250_input" placeholder="请输入">
+                <el-form :model="addform" :rules="rules" ref="addform">
+                    <el-form-item label="模板名称：" :label-width="formLabelWidth" prop="template_name">
+                        <el-input v-model="addform.template_name" class="w250_input" placeholder="请输入">
                            
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="学年：" :label-width="formLabelWidth">
-                        <el-select v-model="addyear" placeholder="请选择学年">
-                            <el-option v-for="yea in yearList"  :label="yea.name" :key="yea.id"  :value="yea.id"></el-option>
+                    <el-form-item label="学年：" :label-width="formLabelWidth" prop="addyear">
+                        <el-select v-model="addform.addyear" placeholder="请选择学年" value-key="id">
+                            <el-option v-for="yea in yearList"  :label="yea.name" :key="yea.id"   :value="yea"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
                     <el-button @click="add_dialogVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-                    <el-button type="primary" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a" @click="addNewTemplate">保 存</el-button>
+                    <el-button type="primary" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a" @click="addNewTemplate('addform')">保 存</el-button>
                 </div>
         </el-dialog>
          <!-- 添加学校 -->
@@ -233,10 +225,21 @@ export default {
             add_dialogVisible:false,
             formLabelWidth:'100px',
             yearList:[],
-            addyear:'',
+            addform:{
+                template_name:'',
+                addyear:'',
+            },
+            rules:{
+                template_name: [
+                    { required: true, message: '请输入模板名称', trigger: 'blur' }
+                ],
+                addyear: [
+                    { required: true, message: '请选择学年', trigger: 'change' }
+                ],
+            },
             year:'',
             template_list:[],
-            template_name:'',
+            
             form: {
                 name: '',
                 region: '',
@@ -281,17 +284,13 @@ export default {
     },
     created () {
         this.getYear();
-        console.log(this.getArea)
+        
     },
     methods:{
-        ...mapActions({
-        getArea : 'getArea'  // 第一个blogAdd是定义的一个函数别名称，挂载在到this(vue)实例上，后面一个blogAdd 才是actions里面函数方法名称
-        }),
         getYear(){
             var _this = this;
             this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
-                console.log(res)
                 _this.yearList = res.data.results;
                 _this.yearList.forEach(item => {
                     if(item.is_selected === 1){
@@ -304,33 +303,35 @@ export default {
         },
         getTemplate(){
             var _this = this;
-            console.log(this.year)
             this.$axios.get('/api/school_calendar/calendar_template/?academic_year_id='+this.year)
             .then(res=>{
-                console.log(res)
                 _this.template_list = res.data.template_list;
             })
         },
-        addNewTemplate(){
-            var _this = this;
-            console.log(this.year)
-            this.$axios.post('/api/school_calendar/calendar_template/',{
-                academic_year:_this.addyear,
-                name:_this.template_name
-            })
-            .then(res=>{
-                if(res.data.status_code === 1){
-                    _this.$message({
-                        type:'success',
-                        message:'添加成功！'
-                    })
-                    _this.$router.push('/schoolCalendarList/addNewTemplate/'+res.data.id);
-                }
-            })
-            // 
+        addNewTemplate(formName){
+            this.$refs[formName].validate((valid) => {
+            if (valid) {
+                var _this = this;
+                this.$axios.post('/api/school_calendar/calendar_template/',{
+                    academic_year:_this.addform.addyear.id,
+                    name:_this.addform.template_name
+                })
+                .then(res=>{
+                    if(res.data.status_code === 1){
+                        _this.$message({
+                            type:'success',
+                            message:'添加成功！'
+                        })
+                        _this.$router.push({path:'/schoolCalendarList/editTemplate/'+res.data.id}
+                        );
+                    }
+                })
+            } else {
+                return false;
+            }
+            });
         },
         editSchoolCalendar(data){
-            console.log(data)
             this.$router.push('/schoolCalendarList/editTemplate/'+data.id);
         },
         handleSelectionChange(){
@@ -343,6 +344,9 @@ export default {
     },
     components:{
 
+    },
+    computed: {
+        ...mapGetters(['areaList']),
     },
     watch: {
         year(){

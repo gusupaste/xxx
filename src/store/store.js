@@ -8,7 +8,7 @@ const store = new Vuex.Store({
         user_Info: {},
         user_Token:"",
         intercitylist:[],
-        areaList:[],
+        areaList:{},
     },
 
     // 获取属性的状态
@@ -20,22 +20,10 @@ const store = new Vuex.Store({
     // 设置属性状态
     mutations: {
         getArea(state) {
-            var _this = this;
-            _this.$axios.get('/api/common/select/area_list/', )
-                .then(res => {
-                    // _this.intercitylist = res.data.results;
-                    state.areaList = res.data
-                }).catch(err => {
-                    console.log(err)
-                })
+
         },
-        getIntercity() {
-            var _this = this;
-            this.$axios.get('/api/common/intercity/', ).then(res => {
-                state.intercitylist = res.data
-            }).catch(err => {
-                console.log(err)
-            })
+        getIntercity(state) {
+
         },
     },
 
@@ -45,7 +33,7 @@ const store = new Vuex.Store({
             commit('getArea')
         },
         getIntercity({ commit }) {
-            commit('getIntercity')
+             commit('getIntercity')
         },
     }
 })
