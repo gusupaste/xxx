@@ -108,11 +108,13 @@
         userList: [],
         boxData: [],
         checkedValue: [],
-        permissions_ids: []
+        permissions_ids: [],
+        id: 0
       }
     },
     mounted: function () {
-      if (this.$route.query.id !== 0) {
+      this.id = Number(this.$route.query.id)
+      if (this.id !== 0) {
         this.getRole()
       }
       this.getSystemPermission()
@@ -125,7 +127,7 @@
     methods: {
       getRole: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id + '/role_info/'
+        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.id + '/role_info/'
         this.$axios.get(url, {
           headers: {
             Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
@@ -216,10 +218,10 @@
           newList.push(oldList[i].id)
         }
         var url = ''
-        if (this.$route.query.id === "0") {
+        if (this.id === 0) {
           url = 'http://134.175.93.59:8000/api/user/roles_management/'
         } else {
-          url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.$route.query.id + '/update_role/'
+          url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.id + '/update_role/'
         }
         this.$axios.post(url, {
           name: this.rolename,
