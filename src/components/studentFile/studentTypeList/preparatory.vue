@@ -94,7 +94,8 @@
 
       </div>
       <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item,index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
+          <div class="studentFileCard left" v-for="(item,index) in student_list " :key="index"
+               @click="$router.push({name:'studentFileDetail',params:{id:item.id}})">
             <div style="padding:30px 20px">
               <div class="avatar inline-block">
                 <img src="../../../assets/img/logo.png" alt="">
