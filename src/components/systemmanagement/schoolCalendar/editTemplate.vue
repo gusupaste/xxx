@@ -3,29 +3,32 @@
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 系统管理 > 校日历管理 > <span class="font-cl-blue">编辑校日历</span></p>
       </div>
-            <el-form :model="form" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
+            <el-form :model="info" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth" style="margin-bottom:0;font-weight:600">
                     <!-- <el-input v-model="form.name" auto-complete="off"></el-input> -->
-                    <span>模板一</span>
+                    <span>{{info.name}}</span>
                     <i class="fa fa-edit icon-font" @click="addtmp=true" style="cursor:pointer"></i>
                 </el-form-item>
                 <el-form-item label="学年：" :label-width="formLabelWidth" style="margin-bottom:0">
-                    2018-2019学年
+                    {{info.academic_year_name}}
+                </el-form-item>
+                <el-form-item label="备注：" :label-width="formLabelWidth">
+                    {{info.remarks}}
                 </el-form-item>
             </el-form>
                 <div class="mt26">
                     <span>定义校日历：</span>
-                    <span style="color:#f17128;padding:10px;display:inline-block;cursor:pointer" @click="add_Calendar=true">
+                    <!-- <span style="color:#f17128;padding:10px;display:inline-block;cursor:pointer" @click="add_Calendar=true">
                             <i class="fa fa-plus-square-o"></i>
                             设定校日历
-                    </span>
+                    </span> -->
                     <div class="school-calendar">
 
                         <p style="color:#999;font-size:12px">新增的日期类型将在下方日历表中以色块的方式区分类别展示，可点击相应区块修改或删除</p>
                         <div class="calendar-list">
                             <Calendar
                                 ref="Calendar"
-                                v-for="(i,index) in list"
+                                v-for="(i,index) in monthList"
                                 :key='index'
                                 :textTop="textTop"
                                 :markDateMore='i.list'
@@ -38,8 +41,8 @@
                         <div class="calendar-datail">
                             <p>校日历日期说明</p>
                             <div>
-                                <span style="background-color:#e51c23" class="calendar-suqre"></span>
-                                <span class="mr26">休息日</span>
+                                <span style="background-color:#f28e91" class="calendar-suqre"></span>
+                                <span class="mr26">休假日</span>
                                 <span style="background-color:#ff9800" class="calendar-suqre"></span>
                                 <span class="mr26">职业发展日</span>
                                 <span style="background-color:#8BC34A" class="calendar-suqre"></span>
@@ -48,13 +51,8 @@
                         </div>
                     </div>
                 </div>
-            <div>
-                <span style="display:inline-block;width:100px;vertical-align:top">备注：</span>
-                <el-input type="textarea" style="width:92%;height:100px"></el-input>
-            </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="cancelModal" style="background-color:#bbb;color:#fff">取 消</el-button>
-                <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                <el-button @click="$router.go(-1)" style="background-color:#bbb;color:#fff">返 回</el-button>
             </div>
             <!-- 添加学校 -->
             <el-dialog title="添加学校" :visible.sync="dialogFormVisible">
@@ -100,7 +98,7 @@
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:20px">
                     <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                    <el-button type="primary"  style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
                 </div>
             </el-dialog>
             <!-- 删除学校 -->
@@ -181,50 +179,54 @@
                 <el-form :model="form">
                     <el-form-item label="日期从：" :label-width="formLabelWidth">
                         <el-date-picker
-                            v-model="value8"
+                            v-model="form.date_from"
                             type="date"
                             placeholder="选择日期"
-                            default-value="2010-10-01">
+                            value-format="yyyy-MM-dd">
                         </el-date-picker>
                         <span style="padding:0 20px;">到</span>
                         <el-date-picker
-                            v-model="value8"
+                            v-model="form.date_to"
                             type="date"
                             placeholder="选择日期"
-                            default-value="2010-10-01">
+                            value-format="yyyy-MM-dd">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="类型：" :label-width="formLabelWidth">
-                        <el-select v-model="form.region" placeholder="请选择活动区域">
-                            <el-option label="区域一" value="shanghai"></el-option>
-                            <el-option label="区域二" value="beijing"></el-option>
+                        <el-select v-model="form.day_type" placeholder="请选择">
+                            <el-option label="工作日" value="N"></el-option>
+                            <el-option label="职业发展日" value="P"></el-option>
+                            <el-option label="休假日" value="S"></el-option>
+                            <el-option label="寒暑假" value="V"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="描述：" :label-width="formLabelWidth">
-                        <el-input type="textarea" v-model="form.desc"></el-input>
+                        <el-input type="textarea" v-model="form.remarks"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
                     <el-button @click="edit_Calendar=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                    <el-button type="primary" @click="setDayType" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
                 </div>
             </el-dialog>
             <!-- 新增校日历模板 -->
             <el-dialog title="新增校日历模版" :visible.sync="addtmp">
-                <el-form :model="form">
-                    <el-form-item label="模板名称：" :label-width="formLabelWidth">
-                        <el-input v-model="form.name" auto-complete="off" class="w250_input"></el-input>
+                <el-form :model="info" :rules="rules" ref="info">
+                    <el-form-item label="模板名称：" :label-width="formLabelWidth" prop="name">
+                        <el-input v-model="info.name" auto-complete="off" class="w250_input" placeholder="请输入"></el-input>
                     </el-form-item>
-                    <el-form-item label="学年：" :label-width="formLabelWidth">
-                        <el-select v-model="form.region" placeholder="请选择活动区域">
-                            <el-option label="区域一" value="shanghai"></el-option>
-                            <el-option label="区域二" value="beijing"></el-option>
+                    <el-form-item label="学年：" :label-width="formLabelWidth" prop="academic_year">
+                        <el-select v-model="info.academic_year" placeholder="请选择学年">
+                           <el-option v-for="yea in yearList"  :label="yea.name" :key="yea.id"   :value="yea.id"></el-option>
                         </el-select>
+                    </el-form-item>
+                    <el-form-item label="备注：" :label-width="formLabelWidth">
+                        <el-input type="textarea" v-model="info.remarks"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
                     <el-button @click="addtmp=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">确 定</el-button>
+                    <el-button type="primary" @click="editTemplate('info')" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">确 定</el-button>
                 </div>
             </el-dialog>
     </div>
@@ -262,17 +264,26 @@
         border-bottom: none;
         padding: 10px;
     }
-    .new-calendar-modal >>> .mark1{
+    .new-calendar-modal >>> .el-date-editor input{
+        width: 100%;
+    }
+    .new-calendar-modal >>> .wh_chose_day{
+        background-color: #fff;
+    }
+    .new-calendar-modal >>> .wh_item_date:hover{
+        background-color: #fff;
+    }
+    .new-calendar-modal >>> .S{
        color:#fff !important;
        border-radius:0;
        background-color: #f28e91;
     }
-    .new-calendar-modal >>> .mark2{
+    .new-calendar-modal >>> .P{
        color:#fff !important;
        border-radius:0;
        background-color: #ffcc80;
     }
-    .new-calendar-modal >>> .mark3{
+    .new-calendar-modal >>> .V{
        color:#fff !important;
        border-radius:0;
        background-color: #c5e1a5;
@@ -305,6 +316,7 @@
     }
     .new-calendar-modal >>> .wh_container {
         width: 20%;
+        min-width:300px;
         margin-right: 4%;
         margin-top: 20px;
         display: inline-block;
@@ -369,6 +381,18 @@ export default {
         return {
             addtmp:false,
             list:[],
+            info:{},
+            template_id:this.$route.params.id,
+            yearList:[],
+            monthList:[],
+            rules:{
+                name: [
+                    { required: true, message: '请输入模板名称', trigger: 'blur' }
+                ],
+                academic_year: [
+                    { required: true, message: '请选择学年', trigger: 'change' }
+                ],
+            },
             textTop:['Su','Tu','We','Th','Fr','Mo','Sa'],
             dialogFormVisible:false,
             delete_dialogVisible:false,
@@ -377,211 +401,122 @@ export default {
             edit_Calendar:false,
             value8:"2019-09-08",
             form: {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
+                date_from:'',
+                date_to:'',
+                remarks:'',
+                day_type:'P'
             },
-            tableData3: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
-                formLabelWidth: '120px'
+            tableData3: [],
+            formLabelWidth: '120px'
             }
         },
     mounted () {
-        this.getList();
+        this.getYear();
+        this.getTemplateInfo();
     },
     methods:{
         cancelModal(){
-            this.$emit('closeDialog', false);
+
+        },
+        getTemplateInfo(){
+            var _this = this;
+            this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_detail/')
+            .then(res=>{
+               _this.info = res.data.detail;
+               _this.getCalendar();
+            })
+        },
+        getYear(){
+            var _this = this;
+            this.$axios.get('/api/common/select/academic_year_list/')
+            .then(res=>{
+                _this.yearList = res.data.results;
+            })
+        },
+        getCalendar(){
+            var _this = this;
+            _this.monthList = [];
+            this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/show_template_calendar_days/')
+            .then(res=>{
+                res.data.results.forEach(item=>{
+                    var son = new Object;
+                    son.time = item.year+'/'+item.month;
+                    son.list = item.days;
+                    _this.monthList.push(son)
+                });
+                _this.$nextTick(()=> {
+                    _this.initCalendar();
+                });
+            })
+        },
+        editTemplate(formName){
+            var _this = this;
+            this.$refs[formName].validate((valid) => {
+            if (valid) {
+                this.$axios.put('/api/school_calendar/calendar_template/'+this.template_id+'/',{
+                    academic_year:_this.info.academic_year,
+                    name:_this.info.name,
+                    remarks:_this.info.remarks
+                })
+                .then(res=>{
+                    if(res.data.status_code === 1){
+                        _this.$message({
+                            type:'success',
+                            message:'编辑成功！'
+                        })
+                        _this.addtmp = false;
+                        _this.getTemplateInfo();
+                        // _this.getCalendar();
+                    }
+                })
+            } else {
+                console.log('error submit!!');
+                return false;
+            }
+            });
         },
         clickDay(data) {
-            console.log(data); //选中某天
+            var reg = '/';
+            var newdata = data.replace(/\//g,'-');
+            var _this = this;
+            this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_template_calendar_day_detail/?date='+newdata)
+            .then(res=>{
+                _this.form = res.data.detail;
+                _this.form.date_from = newdata;
+                _this.form.date_to = newdata;
+            })
+            
+            this.edit_Calendar = true;
+        },
+        setDayType(){
+            var _this = this;
+            this.$axios.post('/api/school_calendar/calendar_template/'+this.template_id+'/edit_template_calendar_day/',this.form)
+            .then(res=>{
+                console.log(res)
+                if(res.data.status_code === 1){
+                    _this.edit_Calendar = false;
+                    _this.$message({
+                        type:'success',
+                        message:'添加成功！'
+                    });
+                    _this.getTemplateInfo();
+                }
+            })
         },
         changeDate(data) {
-            console.log(data); //左右点击切换月份
+            console.log(data)
         },
         clickToday(data) {
-            console.log(data); //跳到了本月
+
         },
         handleSelectionChange(){
 
         },
-        getList(){
-            this.list = [{
-                        time:'2018/7',
-                        list:[
-                        {date:'2018/7/1',className:"mark1"}, 
-                        {date:'2018/7/2',className:"mark1"}, 
-                        {date:'2018/7/3',className:"mark1"}, 
-                        {date:'2018/7/4',className:"mark1"}, 
-                        {date:'2018/7/13',className:"mark2"},
-                        {date:'2018/7/14',className:"mark2"},
-                        {date:'2018/7/15',className:"mark2"},
-                        {date:'2018/7/18',className:"mark3"},
-                        {date:'2018/7/19',className:"mark3"},
-                        {date:'2018/7/20',className:"mark3"},
-                        {date:'2018/7/21',className:"mark3"},
-                        {date:'2018/7/21',className:"mark3"},
-                        {date:'2018/7/21',className:"mark3"},
-                        {date:'2018/7/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/8',
-                        list:[
-                        {date:'2018/8/1',className:"mark1"}, 
-                        {date:'2018/8/2',className:"mark1"}, 
-                        {date:'2018/8/3',className:"mark1"}, 
-                        {date:'2018/8/4',className:"mark1"}, 
-                        {date:'2018/8/13',className:"mark2"},
-                        {date:'2018/8/14',className:"mark2"},
-                        {date:'2018/8/15',className:"mark2"},
-                        {date:'2018/8/18',className:"mark3"},
-                        {date:'2018/8/19',className:"mark3"},
-                        {date:'2018/8/20',className:"mark3"},
-                        {date:'2018/8/21',className:"mark3"},
-                        {date:'2018/8/21',className:"mark3"},
-                        {date:'2018/8/21',className:"mark3"},
-                        {date:'2018/8/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/9',
-                        list:[
-                        {date:'2018/9/1',className:"mark1"}, 
-                        {date:'2018/9/2',className:"mark1"}, 
-                        {date:'2018/9/3',className:"mark1"}, 
-                        {date:'2018/9/4',className:"mark1"}, 
-                        {date:'2018/9/13',className:"mark2"},
-                        {date:'2018/9/14',className:"mark2"},
-                        {date:'2018/9/15',className:"mark2"},
-                        {date:'2018/9/18',className:"mark3"},
-                        {date:'2018/9/19',className:"mark3"},
-                        {date:'2018/9/20',className:"mark3"},
-                        {date:'2018/9/21',className:"mark3"},
-                        {date:'2018/9/21',className:"mark3"},
-                        {date:'2018/9/21',className:"mark3"},
-                        {date:'2018/9/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/10',
-                        list:[
-                        {date:'2018/10/1',className:"mark1"}, 
-                        {date:'2018/10/2',className:"mark1"}, 
-                        {date:'2018/10/3',className:"mark1"}, 
-                        {date:'2018/10/4',className:"mark1"}, 
-                        {date:'2018/10/13',className:"mark2"},
-                        {date:'2018/10/14',className:"mark2"},
-                        {date:'2018/10/15',className:"mark2"},
-                        {date:'2018/10/18',className:"mark3"},
-                        {date:'2018/10/19',className:"mark3"},
-                        {date:'2018/10/20',className:"mark3"},
-                        {date:'2018/10/21',className:"mark3"},
-                        {date:'2018/10/21',className:"mark3"},
-                        {date:'2018/10/21',className:"mark3"},
-                        {date:'2018/10/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/11',
-                        list:[
-                        {date:'2019/4/1',className:"mark1"}, 
-                        {date:'2019/4/2',className:"mark1"}, 
-                        {date:'2019/4/3',className:"mark1"}, 
-                        {date:'2019/4/4',className:"mark1"}, 
-                        {date:'2019/4/13',className:"mark2"},
-                        {date:'2019/4/14',className:"mark2"},
-                        {date:'2019/4/15',className:"mark2"},
-                        {date:'2019/4/18',className:"mark3"},
-                        {date:'2019/4/19',className:"mark3"},
-                        {date:'2019/4/20',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2018/12/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/12',
-                        list:[
-                        {date:'2019/4/1',className:"mark1"}, 
-                        {date:'2019/4/2',className:"mark1"}, 
-                        {date:'2019/4/3',className:"mark1"}, 
-                        {date:'2019/4/4',className:"mark1"}, 
-                        {date:'2019/4/13',className:"mark2"},
-                        {date:'2019/4/14',className:"mark2"},
-                        {date:'2019/4/15',className:"mark2"},
-                        {date:'2019/4/18',className:"mark3"},
-                        {date:'2019/4/19',className:"mark3"},
-                        {date:'2019/4/20',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2018/12/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        ],
-                    },
-                    {
-                        time:'2018/12',
-                        list:[
-                        {date:'2019/4/1',className:"mark1"}, 
-                        {date:'2019/4/2',className:"mark1"}, 
-                        {date:'2019/4/3',className:"mark1"}, 
-                        {date:'2019/4/4',className:"mark1"}, 
-                        {date:'2019/4/13',className:"mark2"},
-                        {date:'2019/4/14',className:"mark2"},
-                        {date:'2019/4/15',className:"mark2"},
-                        {date:'2019/4/18',className:"mark3"},
-                        {date:'2019/4/19',className:"mark3"},
-                        {date:'2019/4/20',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2018/12/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        {date:'2019/4/21',className:"mark3"},
-                        ],
-                    }]
-                this.$nextTick(()=> {
-                    this.initCalendar();
-                });
-        },
         initCalendar(){
-            console.log(this.list)
-            console.log(this.$refs.Calendar)
-            this.list.forEach((item,index)=>{
+            console.log(this.monthList)
+            this.monthList.forEach((item,index)=>{
                 this.$refs.Calendar[index].ChoseMonth(item.time,false)
             })
-            
         }
     },
     components: {

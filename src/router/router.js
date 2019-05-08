@@ -98,6 +98,8 @@ import AttendanceDetail from "@/components/studentAttendance/group/attendanceDet
 import AttendanceStatistics from "@/components/studentAttendance/school/attendanceStatistics"
 import AttendanceDaily from "@/components/studentAttendance/school/attendanceDaily"
 
+/**家长端 */
+import Parent from '@/components/parent/index'
 Vue.use(Router)
 
 export default new Router({
@@ -178,7 +180,12 @@ export default new Router({
         },
       ]
     },
-
+    {
+      path: '/parent',/*家长信息*/
+      name: 'parent',
+      component: Parent,
+      meta: { requiresAuth: true, keepAlive: false },
+    },
     {
       path: '/parentInfo',/*家长信息*/
       name: 'parentInfo',

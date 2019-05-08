@@ -94,7 +94,8 @@
 
       </div>
       <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item,index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
+          <div class="studentFileCard left" v-for="(item,index) in student_list " :key="index"
+               @click="$router.push({name:'studentFileDetail',params:{id:item.id}})">
             <div style="padding:30px 20px">
               <div class="avatar inline-block">
                 <img src="../../../assets/img/logo.png" alt="">
@@ -177,173 +178,97 @@
 </style>
 <script>
 export default {
+  props: {
+    intercity_list: {
+      type:Array,
+      request:true,
+    },
+    area_list: {
+      type:Array,
+      request:true,
+    },
+    city_list: {
+      type:Array,
+      request:true,
+    },
+    brand_list: {
+      type:Array,
+      request:true,
+    },
+    school_list: {
+      type:Array,
+      request:true,
+    },
+    class_list: {
+      type:Array,
+        request:true,
+    },
+    student_list: {
+      type:Array,
+      request:true,
+    },
+    activeTabs:{
+      type:String,
+      request:true,
+    }
+  },
   data(){
     return {
-      int_url:'http://192.168.199.157:8000/api/common/select/intercity_list/',/*城际*/
-      area_url:'http://192.168.199.157:8000/api/common/select/area_list/',/*区域*/
-      city_url:'http://192.168.199.157:8000/api/common/select/city_list/',/*省市*/
-      brand_url:'http://192.168.199.157:8000/api/common/select/hq_list/',/*品牌*/
-      school_url:'http://192.168.199.157:8000/api/common/select/center_list/',/*校园*/
-      klass_url:'http://192.168.199.157:8000/api/common/select/class_list/?center_id=',/*班级*/
-      student_url:'http://192.168.199.157:8000/api/student/student/student_list/',/*学生*/
-      intercity_list:[],
       intercity:'',
-      area_list:[],
       area:'',
-      city_list:[],
       city:'',
-      brand_list:[],
       brand:'',
-      school_list:[],
       school:'',
-      class_list:[],
       class_val:'',
       klass:'',
       gender:'',
       dateValue: '',
-      student_list:[],
       selectDisable:'',
       searchText:'',
     }
   },
   mounted:function(){
-    this.getIntercityList();
-    this.getAreaList();
-    this.getCityList(0);
-    this.getBrandList();
-    this.getSchoolList();
-    this.getStudentList();
+    this.getStudentList()
   },
   methods:{
-    /*城际*/
-    getIntercityList:function () {
-      var _this = this;
-      _this.$axios.get(this.int_url).then(res=>{
-        _this.loading = false;
-        if(res.status == 200 && res.data.status_code == 1) {
-          this.intercity_list = res.data.results;
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+    areaChangeFun:function () {
+      this.$emit('getCityList',this.area);
+      this.$emit('getSchoolList',this.intercity,this.city,0,this.brand);
     },
-    /*区域*/
-    getAreaList:function () {
-      var _this = this;
-      _this.$axios.get(this.area_url).then(res=>{
-        _this.loading = false;
-        if(res.status == 200 && res.data.status_code == 1) {
-          this.area_list = res.data.results;
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
-    },
-    /*省市*/
-    getCityList:function (code) {
-      var _this = this;
-      var url = '';
-      if(code !== 0){
-        url = this.city_url + '?area_code=' + code;
-      }else{
-        url = this.city_url;
-      }
-      _this.$axios.get(url).then(res=>{
-        _this.loading = false;
-        if(res.status == 200 && res.data.status_code == 1) {
-          this.city_list = [];
-          this.city_list = res.data.results;
-          this.city = '';
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
-    },
-    /*品牌*/
-    getBrandList:function () {
-      var _this = this;
-      _this.$axios.get(this.brand_url).then(res=>{
-        _this.loading = false;
-        if(res.status == 200 && res.data.status_code == 1) {
-          this.brand_list = res.data.results;
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
-    },
-    /*校园*/
     /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
-    getSchoolList:function (intercity_id,province_id,area_code,hq_id) {
-      var _this = this;
-      var url = this.school_url + '?intercity_id=' + this.intercity + '&province_id=' + this.city + '&area_code=' + this.area + '&hq_id=' + this.brand;
-      _this.$axios.get(url).then(res=>{
-        _this.loading = false;
-        if(res.status == 200 && res.data.status_code == 1) {
-          this.school_list = res.data.results;
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+    allChangeFun:function () {
+      this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
-    /*班级*/
-    getClassList:function () {
-      var _this = this;
-      var url = this.klass_url + this.school;
-      _this.$axios.get(url).then(res=>{
-        _this.loading = false;
-        if(res.status == 200 && res.data.status_code == 1) {
-          this.class_list = res.data.results;
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+    schoolChangeFun:function () {
+      if(this.school === ''){
+        this.selectDisable = true;
+      }else{
+        this.$emit('getClassList',this.school);
+        this.selectDisable = false;
+      }
     },
-    /*获取学生*/
     getStudentList:function () {
-      console.log(this.dateValue);
-      var _this = this;
-      var url = this.student_url;
-      var school_ids = [3];
-      /*if(this.school !== ''){
-        school_ids = school_ids.push(this.school);
-      }*/
-      _this.$axios.post(url,
-      {
+      var data={
         student_type:'Prepare',
-        center_ids:school_ids,
+        center_ids:[3],
         class_id:this.class_val,
         date_from:'2018-01-01',
         date_to:'2020-01-01',
         gender:this.gender,
         condition:this.searchText,
-      }).then(res=>{
-        if(res.status == 200 && res.data.status == 1) {
-          this.student_list = res.data.results.results;
-          console.log(this.student_list);
-          console.log(res.data.results.page_number);
-          console.log(res.data.results.results);
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
-    },
-    areaChangeFun:function () {
-      this.getCityList(this.area);
-      this.getSchoolList(this.intercity,this.city,0,this.brand);
-    },
-    /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
-    allChangeFun:function () {
-      this.getSchoolList(this.intercity,this.city,this.area,this.brand);
-    },
-    schoolChangeFun:function () {
-      console.log(this.school);
-      if(this.school === ''){
-        this.selectDisable = true;
-      }else{
-        this.getClassList();
-        this.selectDisable = false;
       }
-    },
+      this.$emit('getStudentList',data);
+    }
   },
+  watch: {
+    activeTabs: {
+      handler(newValue, oldValue) {
+        if(newValue === 'first'){
+          this.getStudentList();
+        }
+      },
+      deep: true
+    }
+  }
 }
 </script>

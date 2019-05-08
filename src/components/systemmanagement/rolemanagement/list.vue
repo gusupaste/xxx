@@ -18,13 +18,13 @@
               <el-table-column
                 prop="name"
                 label="角色名称">
+                <template slot-scope="scope">
+                  <a class="font-cl-blue" @click="addRole(scope.row.id)">{{scope.row.name}}</a>
+                </template>
               </el-table-column>
               <el-table-column
                 prop="description"
                 label="角色描述">
-                <template slot-scope="scope">
-                  <a class="font-cl-blue" @click="addRole(scope.row.id)">{{scope.row.description}}</a>
-                </template>
               </el-table-column>
             </el-table>
           </el-tab-pane>

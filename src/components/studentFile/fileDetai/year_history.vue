@@ -3,33 +3,33 @@
         <p>学年历史：</p>
          <el-table
             class="mt26"
-            :data="tableData"
+            :data="yearlist"
             border
             style="width: 100%">
             <el-table-column
-            prop="date"
+            prop="academic_year"
             label="学年"
             width="180">
             </el-table-column>
             <el-table-column
-            prop="name"
+            prop="class_name"
             label="所在班级"
             width="180">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="sign_up_date"
             label="报名日期">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="in_class_date"
             label="入学日期">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="out_class_date"
             label="截止日期">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="status"
             label="状态">
             </el-table-column>
         </el-table>
@@ -39,24 +39,22 @@
 export default {
     data(){
         return {
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }],
+            year_url:'http://192.168.199.157:8000/api/student/student/1/academic_year_history/',
+            yearlist: [],
         }
-    }
+    },
+    mounted:function(){
+        this.getYearHistory();
+    },
+    methods:{
+      getYearHistory:function () {
+        var _this = this;
+        this.$axios.get(this.year_url).then(res=>{
+          _this.yearlist = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      }
+    },
 }
 </script>
