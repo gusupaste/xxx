@@ -26,7 +26,7 @@
           </el-option>
         </el-select>
         <span class="ml20">校园：</span>
-        <el-select v-model="form.center_ids" placeholder="请选择">
+        <el-select v-model="form.center_id" placeholder="请选择">
           <el-option value="" label="所有"></el-option>
           <el-option
             v-for="item in schoolList"
@@ -51,8 +51,10 @@
         :data="info"
         border
         stripe
+        :span-method="arraySpanMethod"
         show-header
         show-summary
+        :summary-method="getSummaries"
         style="width: 100%">
         <el-table-column
           prop="center_code"
@@ -71,16 +73,18 @@
           :label="mon">
           <template slot-scope="scope">
             <el-input v-if="scope.row.edit" v-model="scope.row[mon]"></el-input>
-            <span v-if="!scope.row.edit">{{scope.row[mon]}}</span>
+            <span v-if="!scope.row.edit">
+              <span v-if="scope.row[mon] != ''">{{scope.row[mon]}}</span>
+              <span v-if="scope.row[mon] == ''" style="color:#ccc">— —</span>
+            </span>
           </template>
         </el-table-column>
         <el-table-column
           prop="total"
           label="合计"
-          min-width="60">
+          >
         </el-table-column>
         <el-table-column
-          fixed="right"
           label="操作"
           min-width="100">
           <template slot-scope="scope">
@@ -107,7 +111,7 @@
         form:{
           intercity_id:'',
           academic_year_id:'',
-          center_ids:'',
+          center_id:'',
           area_code:''
         },
         value: '-所有-',
@@ -168,17 +172,8 @@
       },
       getList(){
         var _this = this;
-        var center_ids = [];
-        if(this.form.center_ids === ""){
-          this.schoolList.forEach(item=>{
-            center_ids.push(item.id)
-          })
-        } else {
-          center_ids.push(this.form.center_ids)
-        }
-        this.$axios.post('/api/center/target/student_target_detail/',{
-          center_ids:center_ids,
-          academic_year_id:this.form.academic_year_id
+        this.$axios.get('/api/center/target/student_target_detail/',{
+          params:this.form
         })
         .then(res=>{
           _this.info = res.data.results;
@@ -219,8 +214,6 @@
         })
       },
       handleCancel(row){
-        // const index = this.tableData.findIndex(item => item.id === row.id);
-        // this.tableData[index].edit = true;
         console.log(row)
         for (let key in row) {
           console.log(key)
@@ -228,16 +221,53 @@
             row[key] = ""
           }
         }
+      },
+      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+        // if (rowIndex % 2 === 0) {
+        //   if (columnIndex === 0) {
+        //     return [0, 0];
+        //   } else if (columnIndex === 1) {
+        //     return [0, 0];
+        //   }
+        // }
+      },
+       getSummaries(param) {
+         console.log(param)
+        const { columns, data } = param;
+        const sums = [];
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '合计：';
+            return;
+          }
+          const values = data.map(item => Number(item[column.property]));
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+          } else {
+            sums[index] = 'N/A';
+          }
+        });
+
+        return sums;
       }
     },
     watch: {
-      'form.intercity_id'(){
-        this.getSchool()
-      },
-      'form.area_code'(){
-        this.getSchool()
-      },
-    }
+    'form.intercity_id'(){
+      this.form.center_id = "";
+      this.getSchool();
+    },
+    'form.area_code'(){
+      this.form.center_id = "";
+      this.getSchool();
+    },
+  }
   }
 </script>
 
