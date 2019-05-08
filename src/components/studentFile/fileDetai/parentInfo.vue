@@ -50,10 +50,10 @@
         </el-table>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm mt26" inline="" style="text-align:left" >
             <el-form-item label="家长姓名：" prop="name" label-width="150px" >
-                <el-input v-model="ruleForm.name" placeholder="请填写姓名"></el-input>
+                <el-input v-model="ruleForm.relationship" placeholder="请填写姓名"></el-input>
             </el-form-item>
             <el-form-item label="关系：" prop="region" label-width="150px">
-                <el-input v-model="ruleForm.region" placeholder="请填写昵称">
+                <el-input v-model="ruleForm.nationality" placeholder="请填写昵称">
 
                 </el-input>
             </el-form-item>
@@ -63,57 +63,57 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="工作单位：" prop="region" label-width="150px">
-                <el-input v-model="ruleForm.region" placeholder="请填写证件号">
+                <el-input v-model="ruleForm.work" placeholder="请填写证件号">
 
                 </el-input>
             </el-form-item>
             <el-form-item label="担任职位：" prop="region" label-width="150px">
-                <el-input v-model="ruleForm.region" placeholder="请填写证件号">
+                <el-input v-model="ruleForm.position" placeholder="请填写证件号">
 
                 </el-input>
             </el-form-item>
             <el-form-item label="电子邮件：" prop="region" label-width="150px">
-                <el-input v-model="ruleForm.region" placeholder="请填写证件号">
+                <el-input v-model="ruleForm.mailbox" placeholder="请填写证件号">
 
                 </el-input>
             </el-form-item>
             <el-form-item label="办公电话：" prop="region" label-width="150px">
-                <el-input v-model="ruleForm.region" placeholder="请填写证件号">
+                <el-input v-model="ruleForm.tel" placeholder="请填写证件号">
 
                 </el-input>
             </el-form-item>
             <el-form-item label="移动电话：" prop="region" label-width="150px">
-                <el-input v-model="ruleForm.region" placeholder="请填写证件号">
+                <el-input v-model="ruleForm.phone" placeholder="请填写证件号">
 
                 </el-input>
             </el-form-item>
             <el-form-item label="家庭电话：" prop="region" label-width="150px">
-                <el-input v-model="ruleForm.region" placeholder="请填写证件号">
+                <el-input v-model="ruleForm.home_tel" placeholder="请填写证件号">
 
                 </el-input>
             </el-form-item>
             <br>
             <el-form-item label="紧急联系人级别：" prop="region" label-width="150px">
-                <el-select v-model="ruleForm.region" placeholder="请选择国籍">
+                <el-select v-model="ruleForm.level" placeholder="请选择国籍">
 
                 </el-select>
             </el-form-item>
             <el-form-item label="首选联系方式：" prop="region" label-width="150px">
-                <el-select v-model="ruleForm.region" placeholder="请选择宗教信仰">
+                <el-select v-model="ruleForm.first_phone" placeholder="请选择宗教信仰">
 
                 </el-select>
             </el-form-item>
             <br>
             <el-form-item label="家长第一语言：" prop="region" label-width="150px">
-                <el-select v-model="ruleForm.region" placeholder="请选择性别">
+                <el-select v-model="ruleForm.first_lang" placeholder="请选择性别">
 
                 </el-select>
             </el-form-item>
 
             <el-form-item label="学生第二语言：" prop="date1" label-width="150px">
-                    <el-select v-model="ruleForm.region" placeholder="请选择学生第一语言">
+                <el-select v-model="ruleForm.second_lang" placeholder="请选择学生第一语言">
 
-                    </el-select>
+                </el-select>
             </el-form-item>
         </el-form>
         <div class="mt26 text-align-center">
@@ -131,32 +131,21 @@
 export default {
     data(){
         return {
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }],
+            tableData: [],
             ruleForm: {
                 name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
+                relationship: '',
+                nationality: '',
+                work: '',
+                position: '',
+                mailbox: '',
+                tel: '',
+                phone: '',
+                home_tel:'',
+                level:'',
+                first_phone:'',
+                first_lang:'',
+                second_lang:'',
             },
             imageUrl: '',
             rules: {
@@ -181,8 +170,13 @@ export default {
             }
         }
     },
-    methods:{
+    mounted:function(){
 
+    },
+    methods:{
+        getParentList(){
+
+        },
     }
 }
 </script>

@@ -40,13 +40,13 @@
         </el-table>
         <div class="mt26">
             <p class="recordHead">添加疫苗接种记录</p>
-            <el-form v-model="form" :rules="rules" ref="rules" class="mt26">
+            <el-form :model="form" :rules="rules" ref="form" class="mt26">
                 <el-form-item label="疫苗名称：" prop="name" label-width="150px">
                     <el-select v-model="form.name" placeholder="疫苗名称">
                       <el-option v-for="name in nameList" :label="name" :value="name" :key="name"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="接种次数：" prop="fre" label-width="150px">
+                <el-form-item label="接种次数：" prop="frequ" label-width="150px">
                     <el-select v-model="form.frequ" placeholder="请选择">
                       <el-option v-for="fre in frequencyList" :label="fre.name" :value="fre.id" :key="fre.id"></el-option>
                     </el-select>
@@ -61,7 +61,7 @@
                 </el-form-item>
                 <el-form-item style="text-align: center">
                   <button class="btn bg-grey mr26" @click="cacelImmune">取消</button>
-                  <button class="btn bg-green" @click="saveImmune('rules')">保存</button>
+                  <button type="primary" class="btn bg-green" @click="saveImmune('form')">保存</button>
                 </el-form-item>
             </el-form>
         </div>
@@ -132,13 +132,13 @@ export default {
             },
             rules: {
               name: [
-                { required: true, message: '请选择疫苗名称', trigger: 'blur' }
+                { required: true, message: '请选择疫苗名称', trigger: 'change' }
+              ],
+              frequ: [
+                { required: true, message: '请选择接种次数', trigger: 'change' }
               ],
               date: [
-                { type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
-              ],
-              fre: [
-                { required: true, message: '请选择接种次数', trigger: 'blur' }
+                { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
               ],
             }
         }
@@ -211,9 +211,11 @@ export default {
                     this.$message.error('编辑失败');
                   }
                 }).catch(err=>{
-                  return false;
+
                 })
               }
+            }else {
+              return false;
             }
           })
         },
