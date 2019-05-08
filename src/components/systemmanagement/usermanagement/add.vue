@@ -317,8 +317,13 @@
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
-            alert('保存成功')
-            this.back()
+            if(res.data.status_code === 1) {
+              alert('保存成功')
+              this.back()
+            }else {
+              alert(res.data.message)
+            }
+
           }
         }).catch(err => {
           console.log(err)

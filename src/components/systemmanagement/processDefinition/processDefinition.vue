@@ -14,12 +14,10 @@
             width="180">
             </el-table-column>
             <el-table-column
-            label="审批流程"
-            >
+            label="审批流程">
               <template slot-scope="scope">
                   <el-select class="left" v-model="value" placeholder="请选择">
                     <el-option v-for="role in Roles" :key="role.id" :label="role.name" :value="role.id">
-
                     </el-option>
                   </el-select>
               </template>
