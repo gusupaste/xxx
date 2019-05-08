@@ -6,13 +6,13 @@
           <td colspan="4">学生信息</td>
         </tr>
       <tr>
-        <td>学生姓名</td>
+        <td>学生姓名<span class="red">*</span></td>
         <td>史诗</td>
-        <td>所在校园</td>
+        <td>所在校园<span class="red">*</span></td>
         <td>金坛碧水华庭校园</td>
       </tr>
         <tr>
-          <td>所在班级</td>
+          <td>所在班级<span class="red">*</span></td>
           <td>大三班</td>
           <td>班级主讲</td>
           <td><el-input placeholder="请输入"></el-input></td>
@@ -31,18 +31,18 @@
           <td colspan="4">申请人/家长信息</td>
         </tr>
         <tr>
-          <td>申请人姓名</td>
+          <td>申请人姓名<span class="red">*</span></td>
           <td><el-input placeholder="请输入"></el-input></td>
-          <td>申请人身份</td>
+          <td>申请人身份<span class="red">*</span></td>
           <td><el-radio-group v-model="radio">
             <el-radio :lable="1">家长</el-radio>
             <el-radio :lable="2">校园人员</el-radio>
           </el-radio-group></td>
         </tr>
         <tr>
-          <td>家长姓名</td>
+          <td>家长姓名<span class="red">*</span></td>
           <td><el-input placeholder="请输入"></el-input></td>
-          <td>与学生关系</td>
+          <td>与学生关系<span class="red">*</span></td>
           <td><el-radio-group v-model="radio">
             <el-radio :lable="1">父亲</el-radio>
             <el-radio :lable="2">母亲</el-radio>
@@ -52,18 +52,18 @@
         <tr>
           <td>联系电话</td>
           <td><el-input placeholder="请输入"></el-input></td>
-          <td>手机号码</td>
+          <td>手机号码<span class="red">*</span></td>
           <td><el-input placeholder="请输入"></el-input></td>
         </tr>
         <tr>
-          <td>邮件地址</td>
+          <td>邮件地址<span class="red">*</span></td>
           <td colspan="3"><el-input placeholder="请输入"></el-input></td>
         </tr>
         <tr>
           <td colspan="4">申请信息</td>
         </tr>
         <tr>
-          <td rowspan="2">申请类型</td>
+          <td rowspan="2">申请类别<span class="red">*</span></td>
           <td rowspan="2"><el-radio-group v-model="radio">
             <el-radio :lable="1">离园退费</el-radio>
             <el-radio :lable="2">中止用餐</el-radio>
@@ -74,7 +74,7 @@
             <el-radio :lable="3">休学申请</el-radio>
             <el-radio :lable="3">转园申请</el-radio>
           </el-radio-group></td>
-          <td >申请原因</td>
+          <td >申请原因<span class="red">*</span></td>
           <td><el-checkbox-group v-model="checkList">
             <el-checkbox label="毕业"></el-checkbox>
             <el-checkbox label="居所搬迁/工作调动/家庭其他原因"></el-checkbox>
@@ -103,6 +103,7 @@
             type="date"
             placeholder="选择日期">
           </el-date-picker>
+            <span>至</span>
             <el-date-picker
             v-model="value1"
             type="date"
@@ -110,7 +111,7 @@
           </el-date-picker></td>
         </tr>
         <tr>
-          <td>变更/离园日期</td>
+          <td>变更/离园日期<span class="red">*</span></td>
           <td><el-input placeholder="请输入"></el-input></td>
           <td>提交日期</td>
           <td>3/14/2019</td>
@@ -151,5 +152,9 @@
   .parent textarea{
     width: 80%;
     min-height: 200px;
+  }
+  .parent >>> .el-date-editor.el-input,.parent >>> .el-date-editor.el-input__inner{
+    width: 164px;
+    height: 36px;
   }
 </style>
