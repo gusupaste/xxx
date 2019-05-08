@@ -121,7 +121,7 @@ export default {
                 name:'第五次（5th）',
               },
             ],
-            list_url:'/api/student/vaccination/',
+            list_url:'http://192.168.199.157:8000/api/student/vaccination/',
             tableList: [],
             form:{
                 id:'',
@@ -229,7 +229,7 @@ export default {
         editPre:function (obj) {
             this.form.name=obj.name;
             this.form.id=obj.id;
-            if(obj.first_vaccination_date !== ''){
+            if(obj.first_vaccination_date !== ""){
               this.form.frequ='first_vaccination_date';
               this.form.date=obj.first_vaccination_date;
               if(obj.first_status == true){
@@ -237,7 +237,7 @@ export default {
               }else{
                 this.form.radio='0';
               }
-            }else if(obj.second_vaccination_date !== ''){
+            }else if(obj.second_vaccination_date !== ""){
               this.form.frequ='second_vaccination_date';
               this.form.date=obj.second_vaccination_date;
               if(obj.second_status == true){
@@ -245,7 +245,7 @@ export default {
               }else{
                 this.form.radio='0';
               }
-            }else if(obj.third_vaccination_date !== ''){
+            }else if(obj.third_vaccination_date !== ""){
               this.form.frequ='third_vaccination_date';
               this.form.date=obj.third_vaccination_date;
               if(obj.third_status == true){
@@ -253,7 +253,7 @@ export default {
               }else{
                 this.form.radio='0';
               }
-            }else if(obj.fourth_vaccination_date !== ''){
+            }else if(obj.fourth_vaccination_date !== ""){
               this.form.frequ='fourth_vaccination_date';
               this.form.date=obj.fourth_vaccination_date;
               if(obj.fourth_status == true){
@@ -261,7 +261,7 @@ export default {
               }else{
                 this.form.radio='0';
               }
-            }else if(obj.fifth_vaccination_date !== ''){
+            }else if(obj.fifth_vaccination_date !== ""){
               this.form.frequ='fifth_vaccination_date';
               this.form.date=obj.fifth_vaccination_date;
               if(obj.fifth_status == true){
@@ -285,7 +285,7 @@ export default {
             }).catch(err=>{
               console.log(err)
             })
-        }
+        },
     }
 }
 </script>
