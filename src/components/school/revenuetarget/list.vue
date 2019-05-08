@@ -80,6 +80,7 @@
           </template>
         </el-table-column>
         <el-table-column
+        class="total_num"
           prop="total"
           label="合计"
           min-width="60">

@@ -114,12 +114,12 @@
           <br>
           <el-form-item label="是否自建:" prop="built_up_type">
             <el-select v-model="formInline.built_up_type"  placeholder="请选择">
-              <el-option v-for="own in owner_type_list" :label="own.text" :value="own.id" :key="own.id"></el-option>
+              <el-option v-for="own in build_type_list" :label="own.text" :value="own.id" :key="own.id"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="产权:" prop="owner_type">
             <el-select v-model="formInline.owner_type"  placeholder="请选择">
-              <el-option v-for="build in build_type_list" :label="build.text" :value="build.id" :key="build.id"></el-option>
+              <el-option v-for="build in owner_type_list" :label="build.text" :value="build.id" :key="build.id"></el-option>
             </el-select>
           </el-form-item>
         </div>

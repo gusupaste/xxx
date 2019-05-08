@@ -98,13 +98,11 @@
     <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;">
       <el-form class="edit-discount" label-width="120px" :model="editForm">
         <el-form-item label="学年:">
-          <!--<el-input v-model="formLabelAlign.year" maxlength="15" style="width: 60%" readonly=""></el-input>-->
           <span>{{editForm.academic_year}}</span>
         </el-form-item>
-        <el-form-item label="校园编码:">
-            <!--<el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>-->
+        <!-- <el-form-item label="校园编码:">
             <span>{{editForm.center_code}}</span>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="学校名称:">
           <span>{{editForm.center_name}}</span>
         </el-form-item>
