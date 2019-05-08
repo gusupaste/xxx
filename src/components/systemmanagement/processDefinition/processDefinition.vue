@@ -27,8 +27,8 @@
       </tbody>
     </table>
     <!--删除弹框-->
-    <el-dialog title="删除" :visible.sync="canceldialog" width="50%">
-      <div class="text-align-center">
+    <el-dialog title="删除节点" :visible.sync="canceldialog" width="30%">
+      <div class="text-align-center" style="margin: 50px">
         <span>清空审批节点后,该审批节点后面的节点均会删除,确定清空吗? </span>
       </div>
       <span slot="footer" class="dialog-footer text-align-center">
