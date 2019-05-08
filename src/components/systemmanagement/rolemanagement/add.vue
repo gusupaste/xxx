@@ -133,14 +133,10 @@
     methods: {
       getRole: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.id + '/role_info/'
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/roles_management/' + this.id + '/role_info/'
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.rolename = res.data.role_data.name
             this.roledesc = res.data.role_data.description
             this.userCheckList = res.data.user_list
@@ -152,14 +148,10 @@
       },
       getSystemPermission: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/permissions_management/'
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/permissions_management/'
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.boxData = res.data.data
           }
         }).catch(err => {
@@ -182,14 +174,10 @@
       },
       searchList: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/users_management/all_users/?display_name=' + this.display_name
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/users_management/all_users/?display_name=' + this.display_name
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.userList = res.data.data
           }
         }).catch(err => {
@@ -230,9 +218,9 @@
         }
         var url = ''
         if (this.id === 0) {
-          url = 'http://134.175.93.59:8000/api/user/roles_management/'
+          url = '/api/user/roles_management/'
         } else {
-          url = 'http://134.175.93.59:8000/api/user/roles_management/' + this.id + '/update_role/'
+          url = '/api/user/roles_management/' + this.id + '/update_role/'
         }
         this.$axios.post(url, {
           name: this.rolename,
@@ -240,15 +228,15 @@
           status: this.$route.query.status,
           user_ids: newList,
           permissions_ids: this.permissions_ids
-        }, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
-            alert('保存成功')
-            this.back()
+            if(res.data.status_code === 1) {
+              alert('保存成功')
+              this.back()
+            } else {
+              alert(res.data.message)
+            }
           }
         }).catch(err => {
           console.log(err)

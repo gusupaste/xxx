@@ -235,12 +235,12 @@ export default {
       town_id:'',
     }
   },
-  mounted:function(){
+  /*mounted:function(){
     this.getStudentInfo();
     this.getOptions();
     this.getCountryOptions();
     this.getIntercity_list();
-  },
+  },*/
   methods:{
     /*省份*/
     getIntercity_list(){

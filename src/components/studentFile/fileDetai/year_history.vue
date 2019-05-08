@@ -43,9 +43,9 @@ export default {
             yearlist: [],
         }
     },
-    mounted:function(){
+    /*mounted:function(){
         this.getYearHistory();
-    },
+    },*/
     methods:{
       getYearHistory:function () {
         var _this = this;

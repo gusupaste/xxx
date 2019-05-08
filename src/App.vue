@@ -54,7 +54,7 @@
             </el-submenu>
               <el-menu-item index="/workflow/list" route="/workflow/list">工作流</el-menu-item>
               <el-menu-item index="/studentManage/student-list" route="/studentManage/student-list">学生管理</el-menu-item>
-              <el-submenu index="7">
+            <el-submenu index="7">
               <template slot="title">系统管理</template>
               <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">品牌管理</el-menu-item>
               <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">学年定义</el-menu-item>
@@ -64,6 +64,7 @@
               <el-menu-item index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>
               <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
+              <el-menu-item index="/newschoolCalendar" route="/newschoolCalendar">校日历</el-menu-item>
             </el-menu>
             </div>
             <div class="userInfo">

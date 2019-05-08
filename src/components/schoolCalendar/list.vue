@@ -62,9 +62,9 @@ export default {
     data(){
         return {
             list:[1,2,3,4,5,6,7,8,9,10,11,12],
-            name:this.$route.query.name,
-            id:this.$route.query.id,
-            type:JSON.parse(this.$route.params.id),
+            name:this.$cookies.get('userInfo').fullname,
+            id:this.$cookies.get('userInfo').pk,
+            type:'',
             yearList:[],
             textTop:['Su','Tu','We','Th','Fr','Mo','Sa'],
             classTypeList:[],
@@ -74,7 +74,9 @@ export default {
     },
     created () {
         this.getYear();
-        this.getClass();  
+        this.getClass(); 
+        console.log()  
+
     },
     methods: {
         getYear(){
@@ -97,6 +99,7 @@ export default {
             .then(res=>{
                 console.log(res.data)
                 _this.classTypeList = res.data.class_type_list;
+                _this.type = res.data.class_type_list[0].id;
             })
         },
         getCalendar(){

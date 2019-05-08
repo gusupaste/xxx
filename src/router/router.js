@@ -87,6 +87,9 @@ import Workflow from '@/components/workflow/index'
 import WorkflowList from '@/components/workflow/list'
 import WorkflowDetail from '@/components/workflow/detail'
 
+/**校日历 */
+import newSchoolCalendar from '@/components/schoolCalendar/list'
+
 
 /**家长信息 */
 import ParentInfo from '@/components/parentinfo/list'
@@ -523,6 +526,7 @@ export default new Router({
         },
       ]
     },
+    /**集团端校日历 */
     {
       path: '/schoolCalendarList',
       name: 'schoolCalendarList',
@@ -542,6 +546,13 @@ export default new Router({
       path: '/schoolCalendarList/editTemplate/:id',
       name: 'editTemplate',
       component: editTemplate,
+      meta: { requiresAuth: true, keepAlive: false },
+    },
+    /**校园端校日历 */
+    {
+      path: '/newschoolCalendar',
+      name: 'newSchoolCalendar',
+      component: newSchoolCalendar,
       meta: { requiresAuth: true, keepAlive: false },
     }
   ]
