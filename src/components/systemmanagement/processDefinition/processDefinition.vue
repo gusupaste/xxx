@@ -14,11 +14,14 @@
       <tr v-for="(list,list_index) in workflowDefineList" :key="list_index">
         <td>{{list.name}}</td>
         <td>
-          <el-select class="left mr10" v-model="define.role_id"
-                     v-for="(define,define_index) in list.form_approve_defines" :key="define_index" placeholder="请选择"
-                     @change="getValue($event,define.id,list.id,define.level_no)">
-            <el-option v-for="(role,index) in Roles" :key="index" :label="role.name" :value="role.id"></el-option>
-          </el-select>
+          <span class="left mr10" v-for="(define,define_index) in list.form_approve_defines" :key="define_index">
+            <el-select v-model="define.role_id"
+                        placeholder="请选择"
+                       @change="getValue($event,define.id,list.id,define.level_no)">
+              <el-option v-for="(role,index) in Roles" :key="index" :label="role.name" :value="role.id"></el-option>
+            </el-select>
+            <span style="color: #A0A0A0" v-show="define.id !== 0"><i class="fa fa-long-arrow-right"></i></span>
+          </span>
         </td>
       </tr>
       </tbody>
@@ -102,14 +105,13 @@
         if (value === 0) {
           /*删除*/
         this.loading = true
-          this.$axios.post('/api/workflow/workflow_define/del_define/', {
-            del_list: id
+          this.$axios.post('/api/workflow/workflow_define/' + id + '/del_define/', {
           }).then(res => {
             this.loading = false
             if (res.status === 200) {
               if(res.data.status_code === 1) {
                 this.getWorkflowDefine()
-                alert('保存成功')
+                alert('刪除成功')
               } else {
                 alert(res.data.message)
               }
@@ -146,7 +148,7 @@
                 this.loading = false
                 if (res.status === 200) {
                   if(res.data.status_code === 1) {
-                    alert('保存成功')
+                    alert('修改成功')
                   } else {
                     alert(res.data.message)
                   }
