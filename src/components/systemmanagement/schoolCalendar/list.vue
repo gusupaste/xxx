@@ -316,11 +316,12 @@ export default {
                 center_list:this.schoolList
             }).then(res=>{
                 if(res.data.status_code === 1){
-                    _this.$message({
-                        type:'success',
-                        message:'复制成功！'
-                    });
+                    // _this.$message({
+                    //     type:'success',
+                    //     message:'复制成功！'
+                    // });
                     _this.dialogFormVisible = false;
+                    _this.copy_success = true;
                 } 
             }).catch(err=>{
 
@@ -397,12 +398,12 @@ export default {
             this.$router.push('/schoolCalendarList/editTemplate/'+data.id);
         },
         handleSelectionChange(val){
-            console.log(val)
-            var x = [];
-            val.forEach(item=>{
-                this.checkList[item.id] = item.class_types;
-            })
-            console.log(this.checkList)
+            // console.log(val)
+            // var x = [];
+            // val.forEach(item=>{
+            //     this.checkList[item.id] = item.class_types;
+            // })
+            // console.log(this.checkList)
             this.multipleSelection = val;
         },
     },

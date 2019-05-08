@@ -2,56 +2,52 @@
   <div class='discountbudget wrap'>
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园折扣预算</span></p>
-      <p class="mt10">
+      <p class="mt10" style="line-height:45px">
         <span>城际：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <el-select v-model="form.intercity_id" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in intercityList"
+            :key="item.id"
+            :label="item.dept_name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span>区域：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <span class="ml20">区域：</span>
+        <el-select v-model="form.area_code" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in arealist"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span>品牌：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <span class="ml20">品牌：</span>
+        <el-select v-model="form.hq_id" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in brandList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span>学年：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <span class="ml20">学年：</span>
+        <el-select v-model="form.academic_year_id" placeholder="请选择">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in yearList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span>折扣类型：</span>
-        <el-select v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
+        <span class="ml20">折扣类型：</span>
+        <el-select v-model="form.discount_type" placeholder="请选择">
+          <el-option label="园长类型" :value="0"></el-option>
         </el-select>
-        <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
-        <!--<span class="right mt10"><el-button type="text" @click="addSchool"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;&nbsp;导出</el-button></span>
-        <span class="right mt10"><el-button type="text" @click="addSchool"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;导入</el-button></span>
-    -->  </p>
+        <el-button class="ml20" @click="getList" type="primary">搜索</el-button>
+     </p>
       <el-table
       class="mt26"
         :data="tableData"
@@ -60,21 +56,21 @@
         show-header
         style="width: 100%">
         <el-table-column
-          prop="code"
+          prop="center_code"
           label="编号"
           min-width="30">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="center_name"
           label="校园名称"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="discount_type"
+          prop="type"
           label="折扣类型">
         </el-table-column>
         <el-table-column
-          prop="discount_budget"
+          prop="amount"
           label="折扣预算">
         </el-table-column>
         <el-table-column
@@ -82,50 +78,48 @@
           label="操作"
           min-width="30">
           <template slot-scope="scope">
-            <i @click="editDialog" class="fa fa-pencil-square-o orange font-size-20"></i>
+            <i @click="editDialog(scope.row.id)" class="fa fa-pencil-square-o orange font-size-20 cur"></i>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
         background
-        layout="prev, pager, next, slot"
+        @current-change="changePage"
+        layout="pager, next, jumper"
         prev-text="上一页"
         next-text="下一页"
-        :total="1000" class="page">
+        :page-size="10"
+        :current-page="form.page"
+        :total="count" class="page">
         <div class="div-page"><input class="el-input__inner input-page" type="text"/><div class="div-page-sure">确定</div></div>
       </el-pagination>
     </div>
     <!--编辑 弹框-->
     <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;">
-      <el-form class="edit-discount" label-width="120px" :model="formLabelAlign">
+      <el-form class="edit-discount" label-width="120px" :model="editForm">
         <el-form-item label="学年:">
           <!--<el-input v-model="formLabelAlign.year" maxlength="15" style="width: 60%" readonly=""></el-input>-->
-          <span>{{formLabelAlign.year}}</span>
+          <span>{{editForm.academic_year}}</span>
         </el-form-item>
         <el-form-item label="校园编码:">
             <!--<el-date-picker type="date" placeholder="选择日期" style="width: 100%;"></el-date-picker>-->
-            <span>{{formLabelAlign.code}}</span>
+            <span>{{editForm.center_code}}</span>
         </el-form-item>
         <el-form-item label="学校名称:">
-          <span>{{formLabelAlign.schoolName}}</span>
+          <span>{{editForm.center_name}}</span>
         </el-form-item>
         <el-form-item label="折扣类型:">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select v-model="editForm.type" placeholder="请选择">
+            <el-option :value="0" label="园长折扣"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="折扣预算:">
-          <el-input type="text" class="w250_input"></el-input>
+        <el-form-item label="折扣预算:" class="mt10">
+          <el-input type="text" v-model="editForm.amount" class="w250_input"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="editDiscount = false">取 消</el-button>
-          <el-button type="success" @click="editDiscount = false">保 存</el-button>
+          <el-button class="bg-grey white bd-grey" @click="editDiscount = false">取 消</el-button>
+          <el-button type="success" @click="saveInfo">保 存</el-button>
         </span>
     </el-dialog>
   </div>
@@ -135,35 +129,25 @@
   export default {
     data () {
       return {
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value: '全部',
-        tableData: [{
-          code: '1001',
-          name: '北京首府校园',
-          discount_type: '城际1',
-          discount_budget: '双语',
+        edit_id:'',
+        intercityList: [],
+        arealist: [],
+        brandList: [],
+        yearList: [],
+        count:1,
+        editForm:{
+
         },
-          {
-            code: '1001',
-            name: '北京首府校园',
-            discount_type: '城际1',
-            discount_budget: '双语',
-          }],
+        form:{
+          intercity_id:'',
+          area_code:'',
+          hq_id:'',
+          academic_year_id:'',
+          discount_type:0,
+          page:1,
+          size:10
+        },
+        tableData: [],
         editDiscount: false,
         formLabelAlign: {
             year:'2018-01-01',
@@ -172,12 +156,102 @@
           }
       }
     },
+    mounted () {
+        this.getIntercity();
+        this.getArea();
+        this.getBrand();
+        this.getYear();
+
+    },
     methods:{
       editSchool:function () {
 
       },
-      editDialog: function () {
+      editDialog: function (val) {
+        var _this = this;
+        this.edit_id = val;
+        this.$axios.get('/api/center/discount_budget/'+val+'/view_detail/')
+        .then(res=>{
+            console.log(res.data)
+            _this.editForm = res.data.detail;
+        })
         this.editDiscount = true;
+      },
+      getIntercity(){
+          var _this = this;
+          this.$axios.get('/api/common/intercity/',).then(res=>{
+            console.log(res.data)
+            _this.intercityList = res.data.intercity_list;
+            // _this.form.intercity_id = res.data.intercity_list[0].id;
+          }).catch(err=>{
+            console.log(err)
+        })
+      },
+      getArea(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/area_list/',)
+          .then(res=>{
+            _this.arealist = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getBrand(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/hq_list/',)
+          .then(res=>{
+            _this.brandList = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getYear(){
+            var _this = this;
+            this.$axios.get('/api/common/select/academic_year_list/')
+            .then(res=>{
+                console.log(res.data)
+                _this.yearList = res.data.results;
+                _this.yearList.forEach(item => {
+                    if(item.is_selected === 1){
+                        _this.form.academic_year_id = item.id;
+                    }
+                });
+              _this.getList();
+            })
+        },
+      getList(){
+            var _this = this;
+            this.$axios.get('/api/center/discount_budget/',{
+              params:this.form
+            })
+            .then(res=>{
+                console.log(res.data)
+                _this.tableData = res.data.discount_budget_list.results;
+                _this.count = res.data.discount_budget_list.count;
+            })
+        },
+      saveInfo(){
+            var _this = this;
+            console.log(this.edit_id)
+            this.$axios.put('/api/center/discount_budget/'+this.edit_id+'/',{
+              type:this.editForm.type,
+              amount:this.editForm.amount,
+            })
+            .then(res=>{
+              if(res.data.status_code === 1){
+                _this.$message({
+                  type:'success',
+                  message:'编辑成功！'
+                });
+                this.editDiscount = false
+              }
+              _this.getList();
+                console.log(res.data)
+            })
+        },
+      changePage(val){
+        this.form.page = val;
+        this.getList();
       }
     }
   }

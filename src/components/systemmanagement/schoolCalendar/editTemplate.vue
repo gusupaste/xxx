@@ -6,14 +6,14 @@
             <el-form :model="info" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth" style="margin-bottom:0;font-weight:600">
                     <!-- <el-input v-model="form.name" auto-complete="off"></el-input> -->
-                    <span>{{info.name}}</span>
+                    <span>{{renderInfo.name}}</span>
                     <i class="fa fa-edit icon-font" @click="addtmp=true" style="cursor:pointer"></i>
                 </el-form-item>
                 <el-form-item label="学年：" :label-width="formLabelWidth" style="margin-bottom:0">
-                    {{info.academic_year_name}}
+                    {{renderInfo.academic_year_name}}
                 </el-form-item>
                 <el-form-item label="备注：" :label-width="formLabelWidth">
-                    {{info.remarks}}
+                    {{renderInfo.remarks}}
                 </el-form-item>
             </el-form>
                 <div class="mt26">
@@ -267,30 +267,7 @@
     .new-calendar-modal >>> .el-date-editor input{
         width: 100%;
     }
-    .new-calendar-modal >>> .wh_chose_day{
-        background-color: #fff;
-    }
-    .new-calendar-modal >>> .wh_item_date:hover{
-        background-color: #fff;
-    }
-    .new-calendar-modal >>> .S{
-       color:#fff !important;
-       border-radius:0;
-       background-color: #f28e91;
-    }
-    .new-calendar-modal >>> .P{
-       color:#fff !important;
-       border-radius:0;
-       background-color: #ffcc80;
-    }
-    .new-calendar-modal >>> .V{
-       color:#fff !important;
-       border-radius:0;
-       background-color: #c5e1a5;
-    }
-    .new-calendar-modal >>>  .wh_isToday{
-       background-color: #fff;
-    }
+   
     .new-calendar-modal >>> .el-table th, .new-calendar-modal >>> .el-table td{
         background-color: #fff;
         text-align: center;
@@ -314,54 +291,7 @@
     .new-calendar-modal >>> .school-calendar {
         padding: 10px 10px 10px 100px;
     }
-    .new-calendar-modal >>> .wh_container {
-        width: 20%;
-        min-width:300px;
-        margin-right: 4%;
-        margin-top: 20px;
-        display: inline-block;
-        border: 1px solid #d9d9d9;
-        min-height: 340px;
-        vertical-align: top;
-        /* padding: 5px; */
-    }
-    .new-calendar-modal >>> .wh_content:nth-child(2) {
-        background-color: #f7f7f7;
-        border: 1px solid #d9d9d9;
-    }
-    .new-calendar-modal >>> .wh_content_all[data-v-2ebcbc83] {
-        background-color: #fff;
-    }
-    .new-calendar-modal >>> .wh_item_date {
-       color:#101010;
-       font-size: 12px;
-    }
-    .new-calendar-modal >>> .wh_other_dayhide{
-       color:#bbb;
-       font-size: 12px;
-    }
-    .new-calendar-modal >>> .wh_item_date:hover {
-       /* background-color: #fff; */
-    }
-    .new-calendar-modal >>> .wh_content_item {
-       color:#101010;
-       font-size: 12px;
-    }
-    .new-calendar-modal >>> .wh_top_changge li:first-child ,.new-calendar-modal >>> .wh_top_changge li:nth-child(3) {
-       display: none;
-    }
-    .new-calendar-modal >>> .wh_content {
-       padding: 0;
-    }
-    .new-calendar-modal >>> .calendar-suqre {
-       display: inline-block;
-       width:10px;
-       height:10px;
-    }
-    .new-calendar-modal >>> .wh_content_all[data-v-2ebcbc83] li{
-        color:#101010;
-        font-size: 12px;
-    }
+   
     .new-calendar-modal >>> .el-icon-close{
         color:#101010;
         font-size: 20px;
@@ -382,6 +312,7 @@ export default {
             addtmp:false,
             list:[],
             info:{},
+            renderInfo:{},
             template_id:this.$route.params.id,
             yearList:[],
             monthList:[],
@@ -423,6 +354,7 @@ export default {
             this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_detail/')
             .then(res=>{
                _this.info = res.data.detail;
+               _this.renderInfo = res.data.detail;
                _this.getCalendar();
             })
         },

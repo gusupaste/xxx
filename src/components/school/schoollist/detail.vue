@@ -716,7 +716,8 @@
         
       },
       viewSchoolCalendar(item){
-        this.$router.push('/school/SchoolViewClendar/'+item.id)
+        console.log(this.schoolInfo)
+        this.$router.push({path:'/school/SchoolViewClendar/'+item.id,query:{name:this.schoolInfo.name,id:this.schoolInfo.id}});
       },
       handleSelectionChange(val){
         this.multipleSelection = val;

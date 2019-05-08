@@ -38,12 +38,12 @@
             <el-form v-model="form" class="mt26">
                 <el-form-item label="疫苗名称：" prop="region" label-width="150px">
                     <el-select v-model="form.name" placeholder="疫苗名称">
-                      <el-option v-for="name in nameList" :label="name.name" :value="name.name"></el-option>
+                      <el-option v-for="name in nameList" :key="name.name" :label="name.name" :value="name.name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="接种次数：" prop="region" label-width="150px">
                     <el-select v-model="form.frequ" placeholder="请选择">
-                      <el-option v-for="fre in frequencyList" :label="fre.name" :value="fre.id"></el-option>
+                      <el-option v-for="fre in frequencyList" :key="fre.id" :label="fre.name" :value="fre.id"></el-option>
                     </el-select>
                 </el-form-item>
                  <el-form-item label="接种时间：" prop="date1" label-width="150px" style="text-align:left">
