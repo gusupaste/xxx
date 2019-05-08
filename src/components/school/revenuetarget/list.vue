@@ -4,43 +4,47 @@
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园收入目标</span></p>
     </div>
     <div class="header-top">
-      <p class="mt10"><span>城际：</span>
-        <el-select v-model="value" placeholder="请选择">
+      <p class="mt10">
+        <span>城际：</span>
+        <el-select v-model="form.intercity_id" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in intercityList"
+            :key="item.id"
+            :label="item.dept_name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span>区域：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <span class="ml20">区域：</span>
+        <el-select v-model="form.area_code" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in arealist"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span>校园：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <span class="ml20">校园：</span>
+        <el-select v-model="form.school_id" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in schoolList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span>学年：</span>
-        <el-select v-model="value" placeholder="请选择">
+        <span class="ml20">学年：</span>
+        <el-select v-model="form.academic_year_id" placeholder="请选择">
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in yearList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
-        <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
+        <el-button class="ml20" type="primary">搜索</el-button>
       </p>
       <el-table
       class="mt26"
@@ -189,6 +193,17 @@
   export default {
     data () {
       return {
+        intercityList:[],
+        yearList:[],
+        arealist:[],
+        schoolList:[],
+        info:[],
+        form:{
+          intercity_id:'',
+          academic_year_id:'',
+          school_id:'',
+          area_code:''
+        },
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -206,45 +221,60 @@
           label: '北京烤鸭'
         }],
         value: '-所有-',
-        tableData: [{
-          id:'1',
-          code: '1001',
-          name: '北京首府校园',
-          month_1: '10',
-          month_2: '13',
-          month_3: '7',
-          month_4: '8',
-          month_5: '12',
-          month_6: '10',
-          month_7: '10',
-          month_8: '3',
-          month_9: '17',
-          month_10: '5',
-          month_11: '15',
-          month_total: '110',
-          edit:true
-        },
-          {
-            id:'2',
-            code: '1001',
-            name: '北京首府校园',
-            month_1: '10',
-            month_2: '13',
-            month_3: '7',
-            month_4: '8',
-            month_5: '12',
-            month_6: '10',
-            month_7: '10',
-            month_8: '3',
-            month_9: '17',
-            month_10: '5',
-            month_11: '15',
-            month_total: '110',
-            edit:true
-          }]
+        tableData: []
       }
     },
+    created(){
+      this.getIntercity();
+      this.getYear();
+      this.getArea();
+      this.getSchool();
+    },
     methods: {
+      getIntercity(){
+          var _this = this;
+          this.$axios.get('/api/common/intercity/',).then(res=>{
+            _this.intercityList = res.data.intercity_list;
+            // _this.form.intercity_id = res.data.intercity_list[0].id;
+          }).catch(err=>{
+            console.log(err)
+        })
+      },
+      getYear(){
+            var _this = this;
+            this.$axios.get('/api/common/select/academic_year_list/')
+            .then(res=>{
+                _this.yearList = res.data.results;
+                _this.yearList.forEach(item => {
+                    if(item.is_selected === 1){
+                        _this.form.academic_year_id = item.id;
+                    }
+                });
+            })
+        },
+      getArea(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/area_list/',)
+          .then(res=>{
+            _this.arealist = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getSchool(){
+          var _this = this;
+          this.$axios.get('/api/common/select/center_list/',{
+            params:{
+              intercity_id:this.form.intercity_id,
+              area_code:this.form.area_code,
+            }
+          })
+          .then(res=>{
+            _this.schoolList = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       handleEdit(row) {
         const index = this.tableData.findIndex(item => item.id === row.id);
         this.tableData[index].edit = false;
@@ -257,6 +287,14 @@
         const index = this.tableData.findIndex(item => item.id === row.id);
         this.tableData[index].edit = true;
       }
+    },
+     watch: {
+      'form.intercity_id'(){
+        this.getSchool()
+      },
+      'form.area_code'(){
+        this.getSchool()
+      },
     }
   }
 </script>
