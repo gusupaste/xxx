@@ -28,7 +28,9 @@ Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 axios.interceptors.request.use(
   config => {
-    config.baseURL = 'http://134.175.93.59:8000';
+
+    // config.baseURL = 'http://etonkids.taidii.cn/';
+
     config.headers.post['Content-Type'] = 'application/json;utf-8';
     config.headers.common['Authorization'] = "jwt "+VueCookies.get('token') || '';
     // config.headers.common["If-Modified-Since"] = 0;
