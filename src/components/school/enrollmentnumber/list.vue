@@ -56,11 +56,11 @@
         show-summary
         :summary-method="getSummaries"
         style="width: 100%">
-        <el-table-column
+        <!-- <el-table-column
           prop="center_code"
           label="编号"
           min-width="100">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="center_name"
           label="校园名称"
@@ -176,11 +176,13 @@
           params:this.form
         })
         .then(res=>{
+            res.data.results.forEach(item=>{    
+              item.edit = false;
+              if(item.total == ''){
+                item.total = '— —';
+              }
+            });
           _this.info = res.data.results;
-          _this.info.forEach(item=>{
-            item.edit = false;
-          });
-          console.log(_this.info)
           _this.monList= res.data.month_list;
         })
       },
@@ -214,7 +216,6 @@
         })
       },
       handleCancel(row){
-        console.log(row)
         for (let key in row) {
           console.log(key)
           if(key != 'center_code' && key != 'center_id' && key != 'center_name' && key != 'edit' && key != 'total') {
@@ -232,12 +233,15 @@
         // }
       },
        getSummaries(param) {
-         console.log(param)
         const { columns, data } = param;
         const sums = [];
         columns.forEach((column, index) => {
           if (index === 0) {
             sums[index] = '合计：';
+            return;
+          }
+          if (index === 1) {
+            sums[index] = '';
             return;
           }
           const values = data.map(item => Number(item[column.property]));
@@ -251,7 +255,7 @@
               }
             }, 0);
           } else {
-            sums[index] = 'N/A';
+            sums[index] = '';
           }
         });
 

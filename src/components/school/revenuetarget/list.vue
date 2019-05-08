@@ -56,11 +56,11 @@
         show-summary
         :summary-method="getSummaries"
         style="width: 100%">
-        <el-table-column
+        <!-- <el-table-column
           prop="center_code"
           label="编号"
           min-width="100">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="center_name"
           label="校园名称"
@@ -172,15 +172,17 @@
       },
       getList(){
         var _this = this;
-        this.$axios.get('/api/center/target/revenue_target_detail/',{
+        this.$axios.get('/api/center/target/student_target_detail/',{
           params:this.form
         })
         .then(res=>{
+            res.data.results.forEach(item=>{    
+              item.edit = false;
+              if(item.total == ''){
+                item.total = '— —';
+              }
+            });
           _this.info = res.data.results;
-          _this.info.forEach(item=>{
-            item.edit = false;
-          });
-          console.log(_this.info)
           _this.monList= res.data.month_list;
         })
       },
