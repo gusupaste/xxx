@@ -17,7 +17,7 @@
           <span class="left mr10" v-for="(define,define_index) in list.form_approve_defines" :key="define_index">
             <el-select v-model="define.role_id"
                         placeholder="请选择"
-                       @change="getValue($event,define.id,list.id,define.level_no)">
+                       @change="changeValue($event,define.id,list.id,define.level_no)">
               <el-option v-for="(role,index) in Roles" :key="index" :label="role.name" :value="role.id"></el-option>
             </el-select>
             <span style="color: #A0A0A0" v-show="define.id !== 0"><i class="fa fa-long-arrow-right"></i></span>
@@ -26,6 +26,16 @@
       </tr>
       </tbody>
     </table>
+    <!--删除弹框-->
+    <el-dialog title="删除" :visible.sync="canceldialog" width="50%">
+      <div class="text-align-center">
+        <span>清空审批节点后,该审批节点后面的节点均会删除,确定清空吗? </span>
+      </div>
+      <span slot="footer" class="dialog-footer text-align-center">
+          <el-button @click="cancelDelete">取 消</el-button>
+          <el-button type="success" @click="sureDelete">确 定</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 <style lang="" scoped>
@@ -62,7 +72,9 @@
             id: 0,
             name: '-请选择-'
           }
-        ]
+        ],
+        canceldialog: false,
+        delete_id: 0
       }
     },
     mounted: function () {
@@ -101,63 +113,83 @@
           console.log(err)
         })
       },
-      getValue: function (value, id, defineId, no) {
+      saveDefine: function (defineId, value, no) {
+        this.loading = true
+        this.$axios.post('/api/workflow/workflow_define/' + defineId + '/create_define/', {
+          role_id: value,
+          level_no: no
+        }).then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            if(res.data.status_code === 1) {
+              this.getWorkflowDefine()
+              alert('保存成功')
+            } else {
+              alert(res.data.message)
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      updateDefine: function (id, value) {
+        this.loading = true
+        this.$axios.post('/api/workflow/workflow_define/' + id + '/update_define/', {
+          role_id: value
+        }).then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            if(res.data.status_code === 1) {
+              alert('修改成功')
+            } else {
+              alert(res.data.message)
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      deleteDefine: function (id) {
+        this.loading = true
+        this.$axios.post('/api/workflow/workflow_define/' + id + '/del_define/', {
+        }).then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            if(res.data.status_code === 1) {
+              this.getWorkflowDefine()
+              alert('刪除成功')
+            } else {
+              alert(res.data.message)
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      changeValue: function (value, id, defineId, no) {
         if (value === 0) {
           /*删除*/
-        this.loading = true
-          this.$axios.post('/api/workflow/workflow_define/' + id + '/del_define/', {
-          }).then(res => {
-            this.loading = false
-            if (res.status === 200) {
-              if(res.data.status_code === 1) {
-                this.getWorkflowDefine()
-                alert('刪除成功')
-              } else {
-                alert(res.data.message)
-              }
-            }
-          }).catch(err => {
-            console.log(err)
-          })
+          this.canceldialog = true
+          this.delete_id = id
         } else {
             if(id === 0) {
               /*添加*/
-              this.loading = true
-              this.$axios.post('/api/workflow/workflow_define/' + defineId + '/create_define/', {
-                role_id: value,
-                level_no: no
-              }).then(res => {
-                this.loading = false
-                if (res.status === 200) {
-                  if(res.data.status_code === 1) {
-                    this.getWorkflowDefine()
-                    alert('保存成功')
-                  } else {
-                    alert(res.data.message)
-                  }
-                }
-              }).catch(err => {
-                console.log(err)
-              })
+              this.saveDefine(defineId, value, no)
             } else {
               /*修改*/
-              this.loading = true
-              this.$axios.post('/api/workflow/workflow_define/' + id + '/update_define/', {
-                role_id: value
-              }).then(res => {
-                this.loading = false
-                if (res.status === 200) {
-                  if(res.data.status_code === 1) {
-                    alert('修改成功')
-                  } else {
-                    alert(res.data.message)
-                  }
-                }
-              }).catch(err => {
-                console.log(err)
-              })
+              this.updateDefine(id, value)
             }
         }
+      },
+      sureDelete: function () {
+        this.deleteDefine(this.delete_id)
+        this.canceldialog = false
+        this.delete_id = 0
+      },
+      cancelDelete: function () {
+        this.getWorkflowDefine()
+        this.canceldialog = false
+        this.delete_id = 0
       }
     }
   }
