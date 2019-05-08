@@ -82,6 +82,13 @@
       this.getWorkflowDefine()
     },
     methods: {
+      successTip (message) {
+        this.$message({
+          message: message,
+          type: 'success',
+          center: true
+        });
+      },
       getWorkflowDefine: function () {
         this.loading = true
         var url = '/api/workflow/workflow_define/'
@@ -123,7 +130,7 @@
           if (res.status === 200) {
             if(res.data.status_code === 1) {
               this.getWorkflowDefine()
-              alert('保存成功')
+              this.successTip("保存成功")
             } else {
               alert(res.data.message)
             }
@@ -140,7 +147,7 @@
           this.loading = false
           if (res.status === 200) {
             if(res.data.status_code === 1) {
-              alert('修改成功')
+              this.successTip("修改成功")
             } else {
               alert(res.data.message)
             }
@@ -157,7 +164,7 @@
           if (res.status === 200) {
             if(res.data.status_code === 1) {
               this.getWorkflowDefine()
-              alert('刪除成功')
+              this.successTip("刪除成功")
             } else {
               alert(res.data.message)
             }
