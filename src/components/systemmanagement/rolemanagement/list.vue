@@ -74,16 +74,11 @@
       },
       getRoleList: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/?status=' + this.status
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/roles_management/?status=' + this.status
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.roleList = res.data.data
-            console.log(this.roleList)
           }
         }).catch(err => {
           console.log(err)

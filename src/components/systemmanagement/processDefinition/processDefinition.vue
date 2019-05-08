@@ -5,94 +5,72 @@
         </div>
         <el-table
         class="mt26"
-            :data="tableData"
+            :data="workflowDefineList"
             border
             style="width: 100%">
             <el-table-column
-            prop="date"
+            prop="name"
             label="流程名称"
             width="180">
             </el-table-column>
             <el-table-column
-            prop="name"
-            label="审批流程"
-            >
+            label="审批流程">
+              <template slot-scope="scope">
+                  <el-select class="left" v-model="value" placeholder="请选择">
+                    <el-option v-for="role in Roles" :key="role.id" :label="role.name" :value="role.id">
+                    </el-option>
+                  </el-select>
+              </template>
             </el-table-column>
         </el-table>
     </div>
 </template>
 <style lang="" scoped>
-    
+
 </style>
 <script>
 export default {
     data() {
         return {
-            tableData: [{
-                date: '缴费单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '预备生离园账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '预备生离园账单(制度外)',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                },
-                {
-                date: '在校生离园账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '在校生离园账单(制度外)',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '缺勤请假转备用金账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '推迟入园账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '调班申请单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '中止服务账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '开班申请单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '入学账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '提前入学账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '入学时间变更申请',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-            ]
+          value: '-请选择-',
+          workflowDefineList: [],
+          Roles: [
+            {
+              id: 0,
+              name: '-请选择-'
+            }
+          ]
         }
     },
+  mounted: function () {
+    this.getWorkflowDefine()
+    this.getRoles()
+  },
+  methods: {
+    getWorkflowDefine: function () {
+      this.loading = true
+      var url = '/api/workflow/workflow_define/'
+      this.$axios.get(url).then(res => {
+        this.loading = false
+        if (res.data.status_code === 1) {
+          this.workflowDefineList = res.data.data
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getRoles: function () {
+      this.loading = true
+      var url = '/api/user/get_roles/'
+      this.$axios.get(url).then(res => {
+        this.loading = false
+        if (res.data.status_code === 1) {
+          this.Roles = this.Roles.concat(res.data.data)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>

@@ -7,57 +7,66 @@
             border
             style="width: 100%">
             <el-table-column
-            prop="date"
-            label="疫苗"
-            width="180">
-            </el-table-column>
-            <el-table-column
             prop="name"
-            label="第一次接种"
-            width="180">
+            label="疫苗">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="first_vaccination_date"
+            label="第一次接种">
+            </el-table-column>
+            <el-table-column
+            prop="second_vaccination_date"
             label="第二次接种">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="third_vaccination_date"
             label="第三次接种">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="fourth_vaccination_date"
             label="第四次接种">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="fifth_vaccination_date"
             label="第五次接种">
+            </el-table-column>
+            <el-table-column
+              label="操作">
+                <template slot-scope="scope">
+                  <i class="fa fa-pencil green font-size-20 cur" @click="editPre(scope.row)"></i>
+                  <i class="fa fa-trash red font-size-20 ml10 cur" @click="deletePre(scope.row)"></i>
+                </template>
             </el-table-column>
         </el-table>
         <div class="mt26">
             <p class="recordHead">添加疫苗接种记录</p>
-            <el-form v-model="form" class="mt26">
-                <el-form-item label="疫苗名称：" prop="region" label-width="150px">
+            <el-form :model="form" :rules="rules" ref="form" class="mt26">
+                <el-form-item label="疫苗名称：" prop="name" label-width="150px">
                     <el-select v-model="form.name" placeholder="疫苗名称">
-                      <el-option v-for="name in nameList" :key="name.name" :label="name.name" :value="name.name"></el-option>
+                      <el-option v-for="name in nameList" :label="name" :value="name" :key="name"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="接种次数：" prop="region" label-width="150px">
+                <el-form-item label="接种次数：" prop="frequ" label-width="150px">
                     <el-select v-model="form.frequ" placeholder="请选择">
-                      <el-option v-for="fre in frequencyList" :key="fre.id" :label="fre.name" :value="fre.id"></el-option>
+                      <el-option v-for="fre in frequencyList" :label="fre.name" :value="fre.id" :key="fre.id"></el-option>
                     </el-select>
                 </el-form-item>
-                 <el-form-item label="接种时间：" prop="date1" label-width="150px" style="text-align:left">
-                    <el-date-picker type="date" placeholder="选择首次缴费日期" v-model="form.date1"></el-date-picker>
+                 <el-form-item label="接种时间：" prop="date" label-width="150px" style="text-align:left">
+                    <el-date-picker type="date" value-format="yyyy-MM-dd"
+                                    placeholder="选择首次缴费日期" v-model="form.date"></el-date-picker>
                 </el-form-item>
-                 <el-form-item label="是否接种：" prop="date1" label-width="150px" style="text-align:left">
+                 <el-form-item label="是否接种：" label-width="150px" style="text-align:left">
                      <el-radio v-model="form.radio" label="1">是</el-radio>
-                     <el-radio v-model="form.radio" label="2">否</el-radio>
+                     <el-radio v-model="form.radio" label="0">否</el-radio>
+                </el-form-item>
+                <el-form-item style="text-align: center">
+                  <button class="btn bg-grey mr26" @click="cacelImmune">取消</button>
+                  <button type="primary" class="btn bg-green" @click="saveImmune('form')">保存</button>
                 </el-form-item>
             </el-form>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey mr26">取消</button>
-            <button class="btn bg-green" @click="submitForm('ruleForm')">保存</button>
+
         </div>
     </div>
 </template>
@@ -77,55 +86,18 @@
 export default {
     data(){
         return {
-            nameList:[
-              {
-                id:1,
-                name:'小儿麻痹症(TOPV-Tri-Oral-Polio-Vaccine)',
-              },
-              {
-                id:2,
-                name:'白喉百日咳破伤风(白百破)Diphtheria Pertussis Tetanus(DPT)',
-              },
-              {
-                id:3,
-                name:'白喉破伤风Purified Diphtheria Tetanus(DT)',
-              },
-              {
-                id:4,
-                name:'麻疹,腮腺炎,风疹(MMR)',
-              },
-              {
-                id:5,
-                name:'甲型肝炎Hepatitis A(HepA)',
-              },
-              {
-                id:6,
-                name:'乙型肝炎Hepatitis B(HepB)',
-              },
-              {
-                id:7,
-                name:'日本脑炎(乙脑)Japanese B Encephalitis(JEV)',
-              },
-              {
-                id:8,
-                name:'狂犬疫苗Rabies(RAB)',
-              },
-              {
-                id:9,
-                name:'肺结核Tuberculosis疫苗(B.G.G)',
-              },
-              {
-                id:10,
-                name:'肺结核Tuberculosis检验(PPD/曼托试验)',
-              },
-              {
-                id:11,
-                name:'伤寒Typhoid',
-              },
-              {
-                id:12,
-                name:'其他'
-              },
+            nameList:['小儿麻痹症(TOPV-Tri-Oral-Polio-Vaccine)',
+              '白喉百日咳破伤风(白百破)Diphtheria Pertussis Tetanus(DPT)',
+              '白喉破伤风Purified Diphtheria Tetanus(DT)',
+              '麻疹,腮腺炎,风疹(MMR)',
+              '甲型肝炎Hepatitis A(HepA)',
+              '乙型肝炎Hepatitis B(HepB)',
+              '日本脑炎(乙脑)Japanese B Encephalitis(JEV)',
+              '狂犬疫苗Rabies(RAB)',
+              '肺结核Tuberculosis疫苗(B.G.G)',
+              '肺结核Tuberculosis检验(PPD/曼托试验)',
+              '伤寒Typhoid',
+              '其他'
             ],
             frequencyList:[
               {
@@ -133,29 +105,41 @@ export default {
                 name:'第一次（1st）',
               },
               {
-                id:'first_vaccination_date',
+                id:'second_vaccination_date',
                 name:'第二次（2nd）',
               },
               {
-                id:'first_vaccination_date',
+                id:'third_vaccination_date',
                 name:'第三次（3rd）',
               },
               {
-                id:'first_vaccination_date',
+                id:'fourth_vaccination_date',
                 name:'第四次（4th）',
               },
               {
-                id:'first_vaccination_date',
+                id:'fifth_vaccination_date',
                 name:'第五次（5th）',
               },
             ],
-            list_url:'http://192.168.199.157:8000/api/student/vaccination/\n',
+            list_url:'/api/student/vaccination/',
             tableList: [],
             form:{
+                id:'',
                 name:'',
                 frequ:'',
-                date1:'2019-09-09',
+                date:'',
                 radio:"1"
+            },
+            rules: {
+              name: [
+                { required: true, message: '请选择疫苗名称', trigger: 'change' }
+              ],
+              frequ: [
+                { required: true, message: '请选择接种次数', trigger: 'change' }
+              ],
+              date: [
+                { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
+              ],
             }
         }
     },
@@ -175,6 +159,133 @@ export default {
               console.log(err)
             })
         },
+        saveImmune:function (formName) {
+          this.$refs[formName].validate(valid => {
+            if (valid) {
+              var _this = this;
+              var data = {
+                student:this.$route.params.id,
+                name:this.form.name,
+              };
+              if(this.form.frequ === 'first_vaccination_date'){
+                data.first_vaccination_date = this.form.date;
+                data.first_status = this.form.radio;
+              }else if(this.form.frequ === 'second_vaccination_date'){
+                data.second_vaccination_date = this.form.date;
+                data.second_status = this.form.radio;
+              }else if(this.form.frequ === 'third_vaccination_date'){
+                data.third_vaccination_date = this.form.date;
+                data.third_status = this.form.radio;
+              }else if(this.form.frequ === 'fourth_vaccination_date'){
+                data.fourth_vaccination_date = this.form.date;
+                data.fourth_status = this.form.radio;
+              }else if(this.form.frequ === 'fifth_vaccination_date'){
+                data.fifth_vaccination_date = this.form.date;
+                data.fifth_status = this.form.radio;
+              }
+              if(this.form.id === ''){
+                this.$axios.post(this.list_url,data).then(res=>{
+                  if(res.status == 200){
+                    this.$message({
+                      type:'success',
+                      message:'保存成功！'
+                    })
+                    this.cacelImmune();
+                    this.getList();
+                  }else{
+                    this.$message.error('保存失败');
+                  }
+                }).catch(err=>{
+                  console.log(err)
+                })
+              }else{
+                this.$axios.put(this.list_url + this.form.id +'/',data).then(res=>{
+                  if(res.status == 200){
+                    this.$message({
+                      type:'success',
+                      message:'编辑成功！'
+                    })
+                    this.getList();
+                    this.cacelImmune();
+                  }else{
+                    this.$message.error('编辑失败');
+                  }
+                }).catch(err=>{
+
+                })
+              }
+            }else {
+              return false;
+            }
+          })
+        },
+        cacelImmune:function(){
+          this.form.id='';
+          this.form.name='';
+          this.form.frequ='';
+          this.form.date='';
+          this.form.radio='1';
+        },
+        editPre:function (obj) {
+            this.form.name=obj.name;
+            this.form.id=obj.id;
+            if(obj.first_vaccination_date !== ''){
+              this.form.frequ='first_vaccination_date';
+              this.form.date=obj.first_vaccination_date;
+              if(obj.first_status == true){
+                this.form.radio='1';
+              }else{
+                this.form.radio='0';
+              }
+            }else if(obj.second_vaccination_date !== ''){
+              this.form.frequ='second_vaccination_date';
+              this.form.date=obj.second_vaccination_date;
+              if(obj.second_status == true){
+                this.form.radio='1';
+              }else{
+                this.form.radio='0';
+              }
+            }else if(obj.third_vaccination_date !== ''){
+              this.form.frequ='third_vaccination_date';
+              this.form.date=obj.third_vaccination_date;
+              if(obj.third_status == true){
+                this.form.radio='1';
+              }else{
+                this.form.radio='0';
+              }
+            }else if(obj.fourth_vaccination_date !== ''){
+              this.form.frequ='fourth_vaccination_date';
+              this.form.date=obj.fourth_vaccination_date;
+              if(obj.fourth_status == true){
+                this.form.radio='1';
+              }else{
+                this.form.radio='0';
+              }
+            }else if(obj.fifth_vaccination_date !== ''){
+              this.form.frequ='fifth_vaccination_date';
+              this.form.date=obj.fifth_vaccination_date;
+              if(obj.fifth_status == true){
+                this.form.radio='1';
+              }else{
+                this.form.radio='0';
+              }
+            }
+        },
+        deletePre:function (obj) {
+            this.$axios.delete(this.list_url + obj.id +'/').then(res=>{
+              if(res.status == 200){
+                this.$message({
+                  type:'success',
+                  message:'删除成功！'
+                })
+                this.getList();
+              }else{
+                this.$message.error('删除失败');
+              }
+            }).catch(err=>{
+              console.log(err)
+            })
+        }
     }
 }
 </script>
