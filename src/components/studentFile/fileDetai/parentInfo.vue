@@ -198,11 +198,11 @@ export default {
             }
         }
     },
-    mounted:function(){
+    /*mounted:function(){
         this.getAllPotions();
         this.getCountryPotions();
         this.getParentList();
-    },
+    },*/
     methods:{
         getAllPotions:function(){
             var _this = this;

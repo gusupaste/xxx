@@ -26,7 +26,7 @@
           </el-option>
         </el-select>
         <span class="ml20">校园：</span>
-        <el-select v-model="form.school_id" placeholder="请选择">
+        <el-select v-model="form.center_id" placeholder="请选择">
           <el-option value="" label="所有"></el-option>
           <el-option
             v-for="item in schoolList"
@@ -44,136 +44,53 @@
             :value="item.id">
           </el-option>
         </el-select>
-        <el-button class="ml20" type="primary">搜索</el-button>
+        <el-button @click="getList" class="ml20" type="primary">搜索</el-button>
       </p>
       <el-table
-      class="mt26"
-        :data="tableData"
+        class="mt26"
+        :data="info"
         border
+        stripe
+        :span-method="arraySpanMethod"
         show-header
         show-summary
+        :summary-method="getSummaries"
         style="width: 100%">
-        <el-table-column
-          prop="code"
+        <!-- <el-table-column
+          prop="center_code"
           label="编号"
-          min-width="30">
-        </el-table-column>
+          min-width="100">
+        </el-table-column> -->
         <el-table-column
-          prop="name"
+          prop="center_name"
           label="校园名称"
           min-width="120">
         </el-table-column>
         <el-table-column
-          prop="month_1"
-          label="2018/09"
-          min-width="60">
+          v-for="mon in monList"
+          :key="mon"
+          :prop="mon"
+          :label="mon">
           <template slot-scope="scope">
-            <el-input v-model="scope.row.month_1" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_1 }}</span>
+            <el-input v-if="scope.row.edit" v-model="scope.row[mon]"></el-input>
+            <span v-if="!scope.row.edit">
+              <span v-if="scope.row[mon] != ''">{{scope.row[mon]}}</span>
+              <span v-if="scope.row[mon] == ''" style="color:#ccc">— —</span>
+            </span>
           </template>
         </el-table-column>
         <el-table-column
-          prop="month_2"
-          label="2018/10"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_2" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_2 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_3"
-          label="2018/10"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_3" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_3 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_4"
-          label="2018/11"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_4" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_4 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_5"
-          label="2018/12"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_5" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_5 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_6"
-          label="2019/1"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_6" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_6 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_7"
-          label="2019/2"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_7" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_7 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_8"
-          label="2019/3"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_8" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_8 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_9"
-          label="2019/4"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_9" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_9 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_10"
-          label="2019/5"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_10" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_10 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_11"
-          label="2019/6"
-          min-width="60">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.month_11" v-if="scope.row.edit === false"></el-input>
-            <span v-if="scope.row.edit === true">{{ scope.row.month_11 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="month_total"
+          prop="total"
           label="合计"
-          min-width="60">
+          >
         </el-table-column>
         <el-table-column
-          fixed="right"
           label="操作"
-          min-width="40">
+          min-width="100">
           <template slot-scope="scope">
-            <i v-if="scope.row.edit === true" class="fa fa-pencil-square-o orange font-size-20" @click="handleEdit(scope.row)"></i>
-            <i v-if="scope.row.edit === false" class="fa fa-check-circle green font-size-20" @click="handleUpdate(scope.row)"></i>&nbsp;<i v-if="scope.row.edit === false" class="fa fa-times-circle red font-size-14" @click="handleCancel(scope.row)"></i>
+            <i v-if="!scope.row.edit" class="fa fa-pencil-square-o orange font-size-20 cur" @click="scope.row.edit = true"></i>
+            <i v-if="scope.row.edit" class="fa fa-check-circle green font-size-20 cur" @click="handleUpdate(scope.row)"></i>&nbsp;
+            <i v-if="scope.row.edit" class="fa fa-times-circle red font-size-20 cur" @click="handleCancel(scope.row)"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -185,15 +102,16 @@
   export default {
     data () {
       return {
-        options: [],
         intercityList:[],
         yearList:[],
         arealist:[],
         schoolList:[],
+        monList:[],
+        info:[],
         form:{
           intercity_id:'',
           academic_year_id:'',
-          school_id:'',
+          center_id:'',
           area_code:''
         },
         value: '-所有-',
@@ -253,29 +171,107 @@
         })
       },
       getList(){
-
+        var _this = this;
+        this.$axios.get('/api/center/target/student_target_detail/',{
+          params:this.form
+        })
+        .then(res=>{
+            res.data.results.forEach(item=>{    
+              item.edit = false;
+              if(item.total == ''){
+                item.total = '— —';
+              }
+            });
+          _this.info = res.data.results;
+          _this.monList= res.data.month_list;
+        })
       },
       handleEdit(row) {
-        const index = this.tableData.findIndex(item => item.id === row.id);
-        this.tableData[index].edit = false;
+
       },
       handleUpdate(row){
-        const index = this.tableData.findIndex(item => item.id === row.id);
-        this.tableData[index].edit = true;
+        var month = [];
+        for (var key in row) {
+          var a = new Object;
+          a.year = key.split("/")[0];
+          a.month = key.split("/")[1];
+          a.value = row[key];
+          if(a.month){
+            month.push(a)
+          }
+        }
+        var _this = this;
+        this.$axios.post('/api/center/target/edit_student_target/',{
+          center_id:row.center_id,
+          months:month,
+        }).then(res=>{
+          if(res.data.status_code == 1) {
+              _this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            row.edit = false;  
+            _this.getList();
+            }
+        })
       },
       handleCancel(row){
-        const index = this.tableData.findIndex(item => item.id === row.id);
-        this.tableData[index].edit = true;
+        for (let key in row) {
+          console.log(key)
+          if(key != 'center_code' && key != 'center_id' && key != 'center_name' && key != 'edit' && key != 'total') {
+            row[key] = ""
+          }
+        }
+      },
+      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+        // if (rowIndex % 2 === 0) {
+        //   if (columnIndex === 0) {
+        //     return [0, 0];
+        //   } else if (columnIndex === 1) {
+        //     return [0, 0];
+        //   }
+        // }
+      },
+       getSummaries(param) {
+        const { columns, data } = param;
+        const sums = [];
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = '合计：';
+            return;
+          }
+          if (index === 1) {
+            sums[index] = '';
+            return;
+          }
+          const values = data.map(item => Number(item[column.property]));
+          if (!values.every(value => isNaN(value))) {
+            sums[index] = values.reduce((prev, curr) => {
+              const value = Number(curr);
+              if (!isNaN(value)) {
+                return prev + curr;
+              } else {
+                return prev;
+              }
+            }, 0);
+          } else {
+            sums[index] = '';
+          }
+        });
+
+        return sums;
       }
     },
     watch: {
-      'form.intercity_id'(){
-        this.getSchool()
-      },
-      'form.area_code'(){
-        this.getSchool()
-      },
-    }
+    'form.intercity_id'(){
+      this.form.center_id = "";
+      this.getSchool();
+    },
+    'form.area_code'(){
+      this.form.center_id = "";
+      this.getSchool();
+    },
+  }
   }
 </script>
 
@@ -347,6 +343,10 @@
     height: auto;
     line-height: inherit;
     width: 50px;
+  }
+  .enrollmentnumber >>> .el-table__footer-wrapper td{
+    background-color: rgba(0,0,0,.3);
+    color:#fff;
   }
 
 </style>

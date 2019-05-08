@@ -55,11 +55,11 @@
         stripe
         show-header
         style="width: 100%">
-        <el-table-column
+        <!-- <el-table-column
           prop="center_code"
           label="编号"
           min-width="30">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="center_name"
           label="校园名称"
