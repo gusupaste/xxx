@@ -152,16 +152,11 @@
       },
       getUserList: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/users_management/?display_name=' + this.display_name + '&role_type=' + this.type + '&organization_id=-1&page=1&size=10'
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/users_management/?display_name=' + this.display_name + '&role_type=' + this.type + '&organization_id=-1&page=1&size=10'
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.userList = res.data.data
-            console.log(this.userList)
           }
         }).catch(err => {
           console.log(err)
@@ -174,14 +169,10 @@
       },
       getRole: function (id) {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + id + '/role_info/'
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/roles_management/' + id + '/role_info/'
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.rolename = res.data.role_data.name
             this.roledesc = res.data.role_data.description
             this.userCheckList = res.data.user_list
@@ -193,14 +184,10 @@
       },
       getSystemPermission: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/permissions_management/'
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.boxData = res.data.data
           }
         }).catch(err => {
@@ -208,12 +195,12 @@
         })
       },
       handleChange: function (val) {
-        var liList = document.getElementsByName('selectColor');
+        var liList = document.getElementsByName('selectColor')
         for (var i = 0; i < liList.length; i++) {
-          liList[i].style.color = '';
+          liList[i].style.color = ''
           for (var j = 0; j < val.length; j++) {
             if (i === val[j]) {
-              liList[i].style.color = 'orange';
+              liList[i].style.color = 'orange'
               break;
             }
           }

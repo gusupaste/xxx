@@ -187,14 +187,10 @@
     methods: {
       getUser: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/users_management/' + this.id + '/user_info/'
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/users_management/' + this.id + '/user_info/'
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             var data = res.data.data
             this.display_name = data.display_name
             this.username = data.username
@@ -235,14 +231,10 @@
       },
       getSchoolList: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/get_centers/';
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/get_centers/'
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.schoolList = res.data.data
           }
         }).catch(err => {
@@ -274,14 +266,10 @@
       },
       getRole: function (id) {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/roles_management/' + id + '/role_info/'
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/roles_management/' + id + '/role_info/'
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.rolename = res.data.role_data.name
             this.roledesc = res.data.role_data.description
             this.userCheckList = res.data.user_list
@@ -293,14 +281,10 @@
       },
       getSystemPermission: function () {
         this.loading = true
-        var url = 'http://134.175.93.59:8000/api/user/permissions_management/';
-        this.$axios.get(url, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
-        }).then(res => {
+        var url = '/api/user/permissions_management/';
+        this.$axios.get(url).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
+          if (res.data.status_code === 1) {
             this.boxData = res.data.data
           }
         }).catch(err => {
@@ -315,9 +299,9 @@
         }
         var url = ''
         if (this.id === 0) {
-          url = 'http://134.175.93.59:8000/api/user/users_management/'
+          url = '/api/user/users_management/'
         } else {
-          url = 'http://134.175.93.59:8000/api/user/users_management/' + this.id + '/update_users/'
+          url = '/api/user/users_management/' + this.id + '/update_users/'
         }
         this.$axios.post(url, {
           display_name: this.display_name,
@@ -330,10 +314,6 @@
           account_type: 0,
           role_list: this.userIds,
           center_list: this.schoolIds
-        }, {
-          headers: {
-            Authorization: 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImtvbmdodWkiLCJ1c2VyX2lkIjoyLCJleHAiOjE1NjQyMTY2ODgsImVtYWlsIjoiIn0.GkEafYnVxpwQM6PrvFWzwlaNVUmpFl3QDbX9nQd6F8M',
-          }
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
