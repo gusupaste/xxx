@@ -1,5 +1,5 @@
 <template>
-    <div class="school-attendance">
+    <div class="student-attendance">
         <p>考勤详细概况：</p>
         <div class="local-month mt10">
             当月出勤率：<span class="red">0%   </span> ； 4月已过 <span class="red">16 </span> 个工作日   ；  当月有 <span class="red">21  </span> 个工作日
@@ -21,66 +21,85 @@
     </div>
 </template>
 <style lang="" scoped>
-    .school-attendance .local-month {
+    .student-attendance .local-month {
         background-color:rgba(255, 152, 0, 0.14);
         padding: 15px;
         color:#101010;
         border: 1px solid #e3e3e3;
     }
-     .school-attendance  .calendar-datail{
+     .student-attendance  .calendar-datail{
         border: 1px solid #bbb;
         color: #101010;
         margin-top: 20px;
         padding: 10px;
     }
-    .school-attendance .calendar-suqre {
+    .student-attendance .calendar-suqre {
        display: inline-block;
        width:10px;
        height:10px;
     }
-    .school-attendance .new-calendar-modal >>> .school-calendar {
+    .student-attendance .new-calendar-modal >>> .school-calendar {
         padding: 10px 10px 10px 100px;
     }
-    .school-attendance  >>> .wh_container {
+    .student-attendance  >>> .wh_container {
         width: 80%;
-        
+
         display: inline-block;
         margin: 0 auto;
         border: 1px solid #d9d9d9;
         /* padding: 5px; */
     }
-    .school-attendance  >>> .wh_content:nth-child(2) {
+    .student-attendance  >>> .wh_content:nth-child(2) {
         background-color: #f7f7f7;
         border: 1px solid #d9d9d9;
     }
-    .school-attendance  >>> .wh_content_all[data-v-2ebcbc83] {
+    .student-attendance  >>> .wh_content_all[data-v-2ebcbc83] {
         background-color: #fff;
     }
-    .school-attendance  >>> .wh_item_date {
+    .student-attendance  >>> .wh_item_date {
        color:#101010;
        font-size: 12px;
     }
-    .school-attendance  >>> .wh_content_item {
+    .student-attendance  >>> .wh_content_item {
        color:#101010;
        font-size: 12px;
     }
-    .school-attendance  >>> .wh_content {
+    .student-attendance  >>> .wh_content {
        padding: 0;
     }
-    .school-attendance >>> .wh_top_changge li {
+    .student-attendance >>> .wh_top_changge li {
         color:#101010;
     }
 </style>
 <script>
 import Calendar from 'vue-calendar-component';
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data() {
         return {
-            
+
         }
     },
     components:{
         Calendar
+    },
+    mounted:function(){
+      if(localStorage.getItem('studentTabName') === 'seventh'){
+      }
+    },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'seventh'){
+          }
+        },
+        deep: true
+      },
     }
 }
 </script>

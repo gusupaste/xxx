@@ -1,44 +1,62 @@
 <template>
-    <div class="allergyRecord">
+    <div class="allergyStudentRecord">
         <p>过敏记录：</p>
        <el-table
             class="mt26"
-            :data="tableData"
+            :data="tableList"
             border
             style="width: 100%">
             <el-table-column
-            prop="date"
+            prop="name"
             label="过敏类型："
             width="180">
             </el-table-column>
             <el-table-column
-            prop="name"
+            prop="details"
             label="医疗建议/说明"
             width="180">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="action_taken"
             label="处理建议">
             </el-table-column>
+           <el-table-column
+             label="操作">
+             <template slot-scope="scope">
+               <el-button type="text"class="red" @click="editAll(scope.row)" v-bind:disabled="ruleFormShow === true">
+                 <i class="fa fa-pencil green cur"></i>
+               </el-button>
+               <el-button type="text"class="red" @click="deleteAll(scope.row)">
+                 <i class="fa fa-trash red cur"></i>
+               </el-button>
+               <!--<i class="fa fa-pencil green font-size-20 cur" @click="editAll(scope.row)"></i>
+               <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteAll(scope.row)"></i>-->
+             </template>
+           </el-table-column>
         </el-table>
-        <div class="mt26">
+        <p style="line-height: 35px;">
+          <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
+            <i class="el-icon-circle-plus font-size-14 cur">添加医疗病史</i>
+          </el-button>
+        </p>
+        <div class="mt26" v-if="ruleFormShow">
             <p class="recordHead">添加过敏记录</p>
-            <el-form v-model="form" class="mt26">
-                <el-form-item label="过敏类型：" prop="region" label-width="150px">
-                    <el-select v-model="form.region" placeholder="请选择性别">
-
-                    </el-select>
+            <el-form :model="ruleForm" ref="ruleForm" class="mt26">
+                <el-form-item label="过敏类型：" prop="name" label-width="150px">
+                  <el-select v-model="ruleForm.name" placeholder="请选择过敏类型">
+                    <el-option v-for="tyep in type_options" :label="tyep" :value="tyep" :key="tyep"></el-option>
+                  </el-select>
                 </el-form-item>
                 <el-form-item label="症状说明：" prop="desc" label-width="150px" style="width:100%" class="speciality">
-                        <el-input type="textarea" v-model="form.region"></el-input>
+                        <el-input type="textarea" placeholder="请选择症状说明" v-model="ruleForm.details"></el-input>
                 </el-form-item>
                 <el-form-item label="处理建议：" prop="desc" label-width="150px" style="width:100%" class="speciality">
-                        <el-input type="textarea" v-model="form.region"></el-input>
+                        <el-input type="textarea" placeholder="请选择处理建议"  v-model="ruleForm.action_taken"></el-input>
                 </el-form-item>
             </el-form>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey mr26">取消</button>
+            <button class="btn bg-grey mr26" @click="cancelAll">取消</button>
             <button class="btn bg-green" @click="submitForm('ruleForm')">保存</button>
         </div>
     </div>
@@ -48,31 +66,129 @@
 </style>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }],
-            form:{
-                region:'1',
-                date1:'2019-09-09',
-                radio:"1"
-            }
+            ruleFormShow:false,
+            tableList: [],
+            type_options:['食物过敏','药物过敏','其他'],
+            ruleForm:{
+                student:this.$route.params.id,
+                id:'',
+                name:'',
+                action_taken:'',
+                details:'',
+            },
+            post_url:'http://192.168.199.157:8000/api/student/allergy/',
         }
+    },
+    /*mounted:function(){
+      this.getList();
+    },*/
+    methods:{
+      getList:function () {
+        var _this = this;
+        this.$axios.get(this.post_url,{
+          params:{
+            student:this.$route.params.id,
+          }
+        }).then(res=>{
+          _this.tableList = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      editAll:function(obj){
+        this.ruleFormShow = true;
+        this.ruleForm.student = this.$route.params.id;
+        this.ruleForm.id = obj.id;
+        this.ruleForm.name = obj.name;
+        this.ruleForm.action_taken = obj.action_taken;
+        this.ruleForm.details = obj.details;
+      },
+      cancelAll:function(){
+        this.ruleFormShow = false;
+        this.ruleForm.student = this.$route.params.id;
+        this.ruleForm.id = '';
+        this.ruleForm.name = '';
+        this.ruleForm.action_taken = '';
+        this.ruleForm.details = '';
+      },
+      deleteAll:function(obj){
+        this.ruleFormShow = false;
+        this.$axios.delete(this.post_url + obj.id +'/').then(res=>{
+          if(res.status == 200){
+            this.$message({
+              type:'success',
+              message:'删除成功！'
+            })
+            this.getList();
+          }else{
+            this.$message.error('删除失败');
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      submitForm:function (formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            if(this.ruleForm.id === ''){
+              this.$axios.post(this.post_url,this.ruleForm).then(res=>{
+                if(res.status == 200){
+                  this.$message({
+                    type:'success',
+                    message:'保存成功！'
+                  })
+                  this.getList();
+                  this.cancelAll();
+                }else{
+                  this.$message.error('保存失败');
+                }
+              }).catch(err=>{
+                console.log(err)
+              })
+            }else{
+              this.$axios.put(this.post_url + this.ruleForm.id +'/',this.ruleForm).then(res=>{
+                if(res.status == 200){
+                  this.$message({
+                    type:'success',
+                    message:'编辑成功！'
+                  })
+                  this.getList();
+                  this.cancelAll();
+                }else{
+                  this.$message.error('编辑失败');
+                }
+              }).catch(err=>{
+
+              })
+            }
+          }else {
+            return false;
+          }
+        })
+      }
+    },
+    mounted:function(){
+      if(localStorage.getItem('studentTabName') === 'sixth'){
+        this.getList();
+      }
+    },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'sixth'){
+            this.getList();
+          }
+        },
+        deep: true
+      },
     }
 }
 </script>
