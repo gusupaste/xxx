@@ -247,11 +247,8 @@ export default {
       this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
     schoolChangeFun:function () {
-      if(this.school === ''){
-        this.selectDisable = true;
-      }else{
+      if(this.school !== ''){
         this.$emit('getClassList',this.school);
-        this.selectDisable = false;
       }
     },
     getStudentList:function () {
@@ -280,6 +277,9 @@ export default {
       handler(newValue, oldValue) {
         if(newValue === ''){
           this.selectDisable = true;
+          this.class_val = '';
+        }else{
+          this.selectDisable = false;
           this.class_val = '';
         }
       },
