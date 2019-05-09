@@ -6,19 +6,34 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="在校生" name="first">
         <in-school :class_list="class_list"
-                   :student_list="student_list"></in-school>
+                   :student_list="student_list"
+                   :activeTabs="activeName"
+                    @getStudentList="getStudentList"></in-school>
       </el-tab-pane>
       <el-tab-pane label="毕业生" name="second">
-        <graduate></graduate>
+        <graduate :class_list="class_list"
+                  :student_list="student_list"
+                  :activeTabs="activeName"
+                  :year_list="year_list"
+                  @getStudentList="getStudentList"></graduate>
       </el-tab-pane>
       <el-tab-pane label="离园生" name="third">
-        <leave></leave>
+        <leave :class_list="class_list"
+               :student_list="student_list"
+               :activeTabs="activeName"
+               @getStudentList="getStudentList"></leave>
       </el-tab-pane>
       <el-tab-pane label="毕业班学生" name="fourth">
-        <graduating-class></graduating-class>
+        <graduating-class :class_list="class_list"
+                          :student_list="student_list"
+                          :activeTabs="activeName"
+                          @getStudentList="getStudentList"></graduating-class>
       </el-tab-pane>
       <el-tab-pane label="学生统计" name="fifth">
-        <statistics-class></statistics-class>
+        <statistics-class :class_list="class_list"
+                          :student_list="student_list"
+                          :activeTabs="activeName"
+                          @getStudentList="getStudentList"></statistics-class>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -59,7 +74,9 @@ export default {
          activeName: 'first',
          klass_url:'http://192.168.1.197:8000/api/common/select/class_list/?center_id=3',/*班级*/
          student_url:'http://192.168.1.197:8000/api/student/student/student_list/',/*学生*/
+         year_url:'http://192.168.1.197:8000/api/common/select/academic_year_list/',/*学年*/
          class_list:[],
+         year_list:[],
          student_list:[],
          list:[1,2,3,4,5,6,7,81,],
          form: {
@@ -100,6 +117,19 @@ export default {
         console.log(err)
       })
     },
+    /*学年*/
+    getYearList:function () {
+      var _this = this;
+      var url = this.year_url;
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.year_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     /*获取学生*/
     getStudentList:function (data) {
       var _this = this;
@@ -107,7 +137,6 @@ export default {
       _this.$axios.get(url,{
         params:{
           student_type:data.student_type,
-          center_ids:data.center_ids,
           class_id:data.class_id,
           date_from:data.date_from,
           date_to:data.date_to,

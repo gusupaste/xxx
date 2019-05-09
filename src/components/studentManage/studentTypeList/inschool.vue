@@ -40,25 +40,25 @@
             <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" >搜索</el-button>
+            <el-button type="primary" @click="getStudentList">搜索</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="studentFileList">
-        <div class="studentFileCard left" v-for="(item , index) in list " :key="index">
-          <div style="padding:15px" @click="$router.push('/studentManage/student-detail/1')">
+        <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index">
+          <div style="padding:15px" @click="$router.push('/studentManage/student-detail/' + item.id)">
             <div class="avatar inline-block">
               <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o" aria-hidden="true"></i>
             </div>
             <div class="card-content inline-block">
               <p>
-                <span style="font-size:15px;font-weight:600">学生A</span>
+                <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
                 <i style="font-size:14px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
               </p>
-              <p>出生日期：1020/11/09</p>
-              <p>学号：00000</p>
-              <p>所在校园：北京校园-小一班</p>
-              <p>入学时间：1020/11/09<span>入圆时间：1020/11/09</span></p>
+              <p>出生日期：{{ item.name }}</p>
+              <p>学号：{{ item.student_no }}</p>
+              <p>所在校园：{{ item.center_name }}</p>
+              <p>入园时间：{{ item.enter_date }}</p>
             </div>
           </div>
           <div class="card-footer clearfix">
@@ -538,6 +538,10 @@ export default {
       type:Array,
       request:true,
     },
+    activeTabs:{
+      type:String,
+      request:true,
+    }
   },
   data(){
     return {
@@ -546,7 +550,6 @@ export default {
       in_type:'',
       dateValue:'',
       searchText:'',
-       list:[1,2,3,4,5,6,7,81,],
        form: {
           name: '',
           region: '',
@@ -599,9 +602,20 @@ export default {
       ],
     }
   },
+  mounted:function(){
+    this.getStudentList();
+  },
   methods:{
-    getStudentList(){
-
+    getStudentList:function () {
+      var data={
+        student_type:'Formal',/*在校生*/
+        class_id:this.class_val,
+        date_from:'2018-01-01',
+        date_to:'2020-01-01',
+        gender:this.gender,
+        condition:this.searchText,
+      }
+      this.$emit('getStudentList',data);
     },
     operationSelect:function(val){
       if(val === 1){
@@ -612,5 +626,16 @@ export default {
         this.earlyVisible = true;
       }
     },
-  }}
+  },
+  watch: {
+    activeTabs: {
+      handler(newValue, oldValue) {
+        if(newValue === 'first'){
+          this.getStudentList();
+        }
+      },
+      deep: true
+    }
+  }
+}
 </script>
