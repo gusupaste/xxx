@@ -23,12 +23,23 @@
            <el-table-column
              label="操作">
              <template slot-scope="scope">
-               <i class="fa fa-pencil green font-size-20 cur" @click="editAll(scope.row)"></i>
-               <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteAll(scope.row)"></i>
+               <el-button type="text"class="red" @click="editAll(scope.row)" v-bind:disabled="ruleFormShow === true">
+                 <i class="fa fa-pencil green cur"></i>
+               </el-button>
+               <el-button type="text"class="red" @click="deleteAll(scope.row)">
+                 <i class="fa fa-trash red cur"></i>
+               </el-button>
+               <!--<i class="fa fa-pencil green font-size-20 cur" @click="editAll(scope.row)"></i>
+               <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteAll(scope.row)"></i>-->
              </template>
            </el-table-column>
         </el-table>
-        <div class="mt26">
+        <p style="line-height: 35px;">
+          <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
+            <i class="el-icon-circle-plus font-size-14 cur">添加医疗病史</i>
+          </el-button>
+        </p>
+        <div class="mt26" v-if="ruleFormShow">
             <p class="recordHead">添加过敏记录</p>
             <el-form :model="ruleForm" ref="ruleForm" class="mt26">
                 <el-form-item label="过敏类型：" prop="name" label-width="150px">
@@ -45,7 +56,7 @@
             </el-form>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey mr26">取消</button>
+            <button class="btn bg-grey mr26" @click="cancelAll">取消</button>
             <button class="btn bg-green" @click="submitForm('ruleForm')">保存</button>
         </div>
     </div>
@@ -63,6 +74,7 @@ export default {
     },
     data(){
         return {
+            ruleFormShow:false,
             tableList: [],
             type_options:['食物过敏','药物过敏','其他'],
             ruleForm:{
@@ -92,6 +104,7 @@ export default {
         })
       },
       editAll:function(obj){
+        this.ruleFormShow = true;
         this.ruleForm.student = this.$route.params.id;
         this.ruleForm.id = obj.id;
         this.ruleForm.name = obj.name;
@@ -99,6 +112,7 @@ export default {
         this.ruleForm.details = obj.details;
       },
       cancelAll:function(){
+        this.ruleFormShow = false;
         this.ruleForm.student = this.$route.params.id;
         this.ruleForm.id = '';
         this.ruleForm.name = '';
@@ -106,6 +120,7 @@ export default {
         this.ruleForm.details = '';
       },
       deleteAll:function(obj){
+        this.ruleFormShow = false;
         this.$axios.delete(this.post_url + obj.id +'/').then(res=>{
           if(res.status == 200){
             this.$message({

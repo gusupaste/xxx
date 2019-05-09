@@ -29,12 +29,23 @@
             <el-table-column
               label="操作">
               <template slot-scope="scope">
-                <i class="fa fa-pencil green font-size-20 cur" @click="editMed(scope.row)"></i>
-                <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteMed(scope.row)"></i>
+                <el-button type="text"class="red" @click="editMed(scope.row)" v-bind:disabled="ruleFormShow === true">
+                  <i class="fa fa-pencil green cur"></i>
+                </el-button>
+                <el-button type="text"class="red" @click="deleteMed(scope.row)">
+                  <i class="fa fa-trash red cur"></i>
+                </el-button>
+                <!--<i class="fa fa-pencil green font-size-20 cur" @click="editMed(scope.row)"></i>
+                <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteMed(scope.row)"></i>-->
               </template>
             </el-table-column>
         </el-table>
-        <div class="mt26">
+        <p style="line-height: 35px;">
+          <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
+            <i class="el-icon-circle-plus font-size-14 cur">添加医疗病史</i>
+          </el-button>
+        </p>
+        <div class="mt26" v-if="ruleFormShow">
             <p class="recordHead">如果孩子有下列疾病，请详细填写相关信息</p>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="mt26">
                 <el-form-item label="疾病名称：" prop="name" label-width="150px">
@@ -57,7 +68,7 @@
             </el-form>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey mr26">取消</button>
+            <button class="btn bg-grey mr26" @click="cancelMed">取消</button>
             <button class="btn bg-green" @click="submitForm('ruleForm')">保存</button>
         </div>
     </div>
@@ -77,6 +88,7 @@ export default {
     },
     data(){
         return {
+            ruleFormShow:false,
             tableList: [],
             medica_options:[
               '贫血症Anemia',
@@ -146,6 +158,7 @@ export default {
           })
       },
       editMed:function(obj){
+          this.ruleFormShow = true;
           this.ruleForm.student = this.$route.params.id;
           this.ruleForm.id = obj.id;
           this.ruleForm.name = obj.name;
@@ -155,6 +168,7 @@ export default {
           this.ruleForm.doctor_phone = obj.doctor_phone;
       },
       cancelMed:function(){
+        this.ruleFormShow = false;
         this.ruleForm.student = this.$route.params.id;
         this.ruleForm.id = '';
         this.ruleForm.name = '';
@@ -164,6 +178,7 @@ export default {
         this.ruleForm.doctor_phone = '';
       },
       deleteMed:function(obj){
+          this.ruleFormShow = false;
           this.$axios.delete(this.post_url + obj.id +'/').then(res=>{
             if(res.status == 200){
               this.$message({
@@ -188,6 +203,7 @@ export default {
                     type:'success',
                     message:'保存成功！'
                   })
+                  this.ruleFormShow = false;
                   this.getList();
                   this.cancelMed();
                 }else{
@@ -203,6 +219,7 @@ export default {
                     type:'success',
                     message:'编辑成功！'
                   })
+                  this.ruleFormShow = false;
                   this.getList();
                   this.cancelMed();
                 }else{
