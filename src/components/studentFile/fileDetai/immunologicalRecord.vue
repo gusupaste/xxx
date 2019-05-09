@@ -293,14 +293,20 @@ export default {
             })
         },
     },
-    activeName: {
-      handler(newValue, oldValue) {
-        if(newValue === 'third'){
-          console.log("third");
-          this.getList();
-        }
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'third'){
+        this.getList();
+      }
+    },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'third'){
+            this.getList();
+          }
+        },
+        deep: true
       },
-      deep: true
     },
 }
 </script>

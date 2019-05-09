@@ -117,14 +117,15 @@ export default {
             }
         }
     },
-    /*mounted:function(){
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'fourth'){
         this.getList();
-    },*/
+      }
+    },
     watch:{
       activeName: {
         handler(newValue, oldValue) {
-          if(newValue === 'second'){
-            console.log('second');
+          if(newValue === 'fourth'){
             this.getList();
           }
         },

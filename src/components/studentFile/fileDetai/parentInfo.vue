@@ -209,11 +209,17 @@ export default {
         this.getCountryPotions();
         this.getParentList();
     },*/
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'second'){
+        this.getAllPotions();
+        this.getCountryPotions();
+        this.getParentList();
+      }
+    },
     watch:{
       activeName: {
         handler(newValue, oldValue) {
           if(newValue === 'second'){
-            console.log('second');
             this.getAllPotions();
             this.getCountryPotions();
             this.getParentList();

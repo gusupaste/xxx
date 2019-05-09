@@ -49,9 +49,11 @@ export default {
             yearlist: [],
         }
     },
-    /*mounted:function(){
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'ninth'){
         this.getYearHistory();
-    },*/
+      }
+    },
     methods:{
       getYearHistory:function () {
         var _this = this;
@@ -66,7 +68,6 @@ export default {
       activeName: {
         handler(newValue, oldValue) {
           if(newValue === 'ninth'){
-            console.log('ninth');
             this.getYearHistory();
           }
         },

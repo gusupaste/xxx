@@ -242,10 +242,12 @@ export default {
     }
   },
   mounted:function(){
-    this.getStudentInfo();
-    this.getOptions();
-    this.getCountryOptions();
-    this.getIntercity_list();
+    if(localStorage.getItem('tabName') === 'first'){
+      this.getStudentInfo();
+      this.getOptions();
+      this.getCountryOptions();
+      this.getIntercity_list();
+    }
   },
   methods:{
     /*省份*/
@@ -378,8 +380,7 @@ export default {
     },
     activeName: {
       handler(newValue, oldValue) {
-        if(newValue === 'first'){
-          console.log("first");
+        if(newValue === 'first' || localStorage.getItem('tabName') === 'first'){
           this.getStudentInfo();
           this.getOptions();
           this.getCountryOptions();

@@ -160,6 +160,11 @@ export default {
         })
       }
     },
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'sixth'){
+        this.getList();
+      }
+    },
     watch:{
       activeName: {
         handler(newValue, oldValue) {
