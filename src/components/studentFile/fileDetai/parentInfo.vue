@@ -150,6 +150,12 @@
 </style>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
             parentlist: [],
@@ -203,6 +209,19 @@ export default {
         this.getCountryPotions();
         this.getParentList();
     },*/
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'second'){
+            console.log('second');
+            this.getAllPotions();
+            this.getCountryPotions();
+            this.getParentList();
+          }
+        },
+        deep: true
+      },
+    },
     methods:{
         getAllPotions:function(){
             var _this = this;

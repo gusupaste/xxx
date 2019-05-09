@@ -37,6 +37,12 @@
 </template>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
             year_url:'http://192.168.199.157:8000/api/student/student/1/academic_year_history/',
@@ -56,5 +62,16 @@ export default {
         })
       }
     },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'ninth'){
+            console.log('ninth');
+            this.getYearHistory();
+          }
+        },
+        deep: true
+      },
+    }
 }
 </script>

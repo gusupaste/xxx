@@ -30,7 +30,7 @@
         </el-table>
         <div class="mt26">
             <p class="recordHead">添加过敏记录</p>
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="mt26">
+            <el-form :model="ruleForm" ref="ruleForm" class="mt26">
                 <el-form-item label="过敏类型：" prop="name" label-width="150px">
                   <el-select v-model="ruleForm.name" placeholder="请选择过敏类型">
                     <el-option v-for="tyep in type_options" :label="tyep" :value="tyep" :key="tyep"></el-option>
@@ -55,6 +55,12 @@
 </style>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
             tableList: [],
@@ -69,9 +75,9 @@ export default {
             post_url:'http://192.168.199.157:8000/api/student/allergy/',
         }
     },
-    mounted:function(){
+    /*mounted:function(){
       this.getList();
-    },
+    },*/
     methods:{
       getList:function () {
         var _this = this;
@@ -154,5 +160,15 @@ export default {
         })
       }
     },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'sixth'){
+            this.getList();
+          }
+        },
+        deep: true
+      },
+    }
 }
 </script>

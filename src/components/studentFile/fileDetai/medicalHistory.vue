@@ -69,6 +69,12 @@
 </style>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
             tableList: [],
@@ -111,8 +117,19 @@ export default {
             }
         }
     },
-    mounted:function(){
+    /*mounted:function(){
         this.getList();
+    },*/
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'second'){
+            console.log('second');
+            this.getList();
+          }
+        },
+        deep: true
+      },
     },
     methods:{
       getList:function () {
