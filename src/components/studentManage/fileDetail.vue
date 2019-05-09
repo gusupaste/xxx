@@ -6,31 +6,31 @@
         <div class="mt26">
             <el-tabs v-model="activeName" @tab-click="handleClick" tabPosition="left">
                 <el-tab-pane :label="activeList.basic_info" name="first">
-                    <basic-info></basic-info>
+                    <basic-info :activeName="activeName"></basic-info>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.year_history" name="ninth">
-                    <year-history></year-history>
+                    <year-history :activeName="activeName"></year-history>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.parent_info" name="second">
-                    <parent-info></parent-info>
+                    <parent-info :activeName="activeName"></parent-info>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.immunological_record" name="third">
-                    <immunological-record></immunological-record>
+                    <immunological-record :activeName="activeName"></immunological-record>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.medical_history" name="fourth">
-                    <medical-history></medical-history>
+                    <medical-history :activeName="activeName"></medical-history>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.student_discount" name="fifth">
-                    <student-discount></student-discount>
+                    <student-discount :activeName="activeName"></student-discount>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.allergy_record" name="sixth">
-                    <allergy-record></allergy-record>
+                    <allergy-record :activeName="activeName"></allergy-record>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.attendance" name="seventh">
-                    <attendance></attendance>
+                    <attendance :activeName="activeName"></attendance>
                 </el-tab-pane>
                 <el-tab-pane :label="activeList.enclosure" name="eigth">
-                    <enclosure></enclosure>
+                    <enclosure :activeName="activeName"></enclosure>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -120,7 +120,7 @@ export default {
                 enclosure:'附件',
                 year_history:'学年历史'
             },
-            activeName: localStorage.getItem('tabName') || 'first'
+            activeName: localStorage.getItem('studentTabName') || 'first'
         }
     },
     components:{
@@ -136,7 +136,7 @@ export default {
     },
     methods:{
         handleClick(tab, event) {
-            localStorage.setItem('tabName',tab.name);
+            localStorage.setItem('studentTabName',tab.name);
       }
     }
 }

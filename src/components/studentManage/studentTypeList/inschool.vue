@@ -2,86 +2,63 @@
   <div class="student_inschool">
       <div class="formwrap">
         <el-form ref="form" :model="form" label-width="100px" inline>
-          <el-form-item label="城际：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="区域：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="省市：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="品牌：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="校园：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item label="班级：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="class_val">
+              <el-option value="" label="全部"></el-option>
+              <el-option
+                v-for="item in class_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="学生性别：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+            <el-select v-model="gender" placeholder="请选择学生性别">
+              <el-option value="" label="全部"></el-option>
+              <el-option label="男" value="M"></el-option>
+              <el-option label="女" value="F"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="类型：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+          <el-form-item label="类型："><!--暂时不做-->
+            <el-select v-model="in_type" placeholder="请选择活动区域">
+              <el-option value="" label="全部"></el-option>
+              <el-option label="在校" value="in"></el-option>
+              <el-option label="休学" value="out"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="入学日期：">
-            <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2" style="text-align:center">&nbsp;至&nbsp;</el-col>
-            <el-col :span="11">
-              <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-            </el-col>
+            <el-date-picker
+              v-model="dateValue"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
           </el-form-item>
           <el-form-item label="搜索：">
-            <el-input placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
+            <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" >搜索</el-button>
+            <el-button type="primary" @click="getStudentList">搜索</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="studentFileList">
-        <div class="studentFileCard left" v-for="(item , index) in list " :key="index">
-          <div style="padding:15px" @click="$router.push('/studentManage/student-detail/9')">
+        <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index">
+          <div style="padding:15px" @click="$router.push('/studentManage/student-detail/' + item.id)">
             <div class="avatar inline-block">
               <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o" aria-hidden="true"></i>
             </div>
             <div class="card-content inline-block">
               <p>
-                <span style="font-size:15px;font-weight:600">学生A</span>
+                <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
                 <i style="font-size:14px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
               </p>
-              <p>出生日期：1020/11/09</p>
-              <p>学号：00000</p>
-              <p>所在校园：北京校园-小一班</p>
-              <p>入学时间：1020/11/09<span>入圆时间：1020/11/09</span></p>
+              <p>出生日期：{{ item.name }}</p>
+              <p>学号：{{ item.student_no }}</p>
+              <p>所在校园：{{ item.center_name }}</p>
+              <p>入园时间：{{ item.enter_date }}</p>
             </div>
           </div>
           <div class="card-footer clearfix">
@@ -527,8 +504,8 @@
     line-height: 17px;
   }
   .student_inschool .studentFileCard  img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
   .student_inschool hr{
     margin: 10px 0px;
@@ -552,9 +529,27 @@
 </style>
 <script>
 export default {
+  props:{
+    class_list: {
+      type:Array,
+      request:true,
+    },
+    student_list: {
+      type:Array,
+      request:true,
+    },
+    activeTabs:{
+      type:String,
+      request:true,
+    }
+  },
   data(){
     return {
-       list:[1,2,3,4,5,6,7,81,],
+      class_val:'',
+      gender:'',
+      in_type:'',
+      dateValue:'',
+      searchText:'',
        form: {
           name: '',
           region: '',
@@ -607,7 +602,21 @@ export default {
       ],
     }
   },
+  mounted:function(){
+    this.getStudentList();
+  },
   methods:{
+    getStudentList:function () {
+      var data={
+        student_type:'Formal',/*在校生*/
+        class_id:this.class_val,
+        date_from:'2018-01-01',
+        date_to:'2020-01-01',
+        gender:this.gender,
+        condition:this.searchText,
+      }
+      this.$emit('getStudentList',data);
+    },
     operationSelect:function(val){
       if(val === 1){
         this.operationVisible = true;
@@ -617,5 +626,16 @@ export default {
         this.earlyVisible = true;
       }
     },
-  }}
+  },
+  watch: {
+    activeTabs: {
+      handler(newValue, oldValue) {
+        if(newValue === 'first'){
+          this.getStudentList();
+        }
+      },
+      deep: true
+    }
+  }
+}
 </script>

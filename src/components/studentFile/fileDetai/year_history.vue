@@ -37,15 +37,23 @@
 </template>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
             year_url:'http://192.168.199.157:8000/api/student/student/1/academic_year_history/',
             yearlist: [],
         }
     },
-    /*mounted:function(){
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'ninth'){
         this.getYearHistory();
-    },*/
+      }
+    },
     methods:{
       getYearHistory:function () {
         var _this = this;
@@ -56,5 +64,15 @@ export default {
         })
       }
     },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'ninth'){
+            this.getYearHistory();
+          }
+        },
+        deep: true
+      },
+    }
 }
 </script>

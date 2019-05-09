@@ -306,6 +306,13 @@ a {
   background-color:#f17128;
   border-color:#f17128;
 }
+.el-radio__input.is-checked+.el-radio__label {
+  color:#f17128;
+}
+.el-radio__input.is-checked .el-radio__inner {
+  background:#f17128;
+  border-color:#f17128;
+}
 /* dialog样式 */
 .el-dialog__headerbtn .el-dialog__close {
   color:#101010;
@@ -372,7 +379,7 @@ a {
     background-color: #f7f7f7;
     border: 1px solid #d9d9d9;
 }
-.wh_content_all[data-v-2ebcbc83] {
+.wh_content_all{
     background-color: #fff;
 }
 .wh_item_date {
@@ -401,7 +408,7 @@ a {
     width:10px;
     height:10px;
 }
-.wh_content_all[data-v-2ebcbc83] li{
+.wh_content_all li{
     color:#101010;
     font-size: 12px;
 }

@@ -33,12 +33,23 @@
             <el-table-column
               label="操作">
                 <template slot-scope="scope">
-                  <i class="fa fa-pencil green font-size-20 cur" @click="editPre(scope.row)"></i>
-                  <i class="fa fa-trash red font-size-20 ml10 cur" @click="deletePre(scope.row)"></i>
+                  <el-button type="text"class="red" @click="editPre(scope.row)" v-bind:disabled="ruleFormShow === true">
+                    <i class="fa fa-pencil green cur"></i>
+                  </el-button>
+                  <el-button type="text"class="red" @click="deletePre(scope.row)">
+                    <i class="fa fa-trash red cur"></i>
+                  </el-button>
+                  <!--<i class="fa fa-pencil green font-size-20 cur" @click="editPre(scope.row)"></i>
+                  <i class="fa fa-trash red font-size-20 ml10 cur" @click="deletePre(scope.row)"></i>-->
                 </template>
             </el-table-column>
         </el-table>
-        <div class="mt26">
+        <p style="line-height: 35px;">
+          <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
+            <i class="el-icon-circle-plus font-size-14 cur">添加免疫记录</i>
+          </el-button>
+        </p>
+        <div class="mt26" v-if="ruleFormShow">
             <p class="recordHead">添加疫苗接种记录</p>
             <el-form :model="form" :rules="rules" ref="form" class="mt26">
                 <el-form-item label="疫苗名称：" prop="name" label-width="150px">
@@ -84,8 +95,15 @@
 </style>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
+            ruleFormShow:false,
             nameList:['小儿麻痹症(TOPV-Tri-Oral-Polio-Vaccine)',
               '白喉百日咳破伤风(白百破)Diphtheria Pertussis Tetanus(DPT)',
               '白喉破伤风Purified Diphtheria Tetanus(DT)',
@@ -143,9 +161,9 @@ export default {
             }
         }
     },
-    mounted:function(){
+    /*mounted:function(){
         this.getList();
-    },
+    },*/
     methods:{
         getList:function () {
             var _this = this;
@@ -190,6 +208,7 @@ export default {
                       type:'success',
                       message:'保存成功！'
                     })
+                    this.ruleFormShow = false;
                     this.cacelImmune();
                     this.getList();
                   }else{
@@ -205,6 +224,7 @@ export default {
                       type:'success',
                       message:'编辑成功！'
                     })
+                    this.ruleFormShow = false;
                     this.getList();
                     this.cacelImmune();
                   }else{
@@ -220,6 +240,7 @@ export default {
           })
         },
         cacelImmune:function(){
+          this.ruleFormShow = false;
           this.form.id='';
           this.form.name='';
           this.form.frequ='';
@@ -227,6 +248,7 @@ export default {
           this.form.radio='1';
         },
         editPre:function (obj) {
+            this.ruleFormShow=true;
             this.form.name=obj.name;
             this.form.id=obj.id;
             if(obj.first_vaccination_date !== ""){
@@ -272,6 +294,7 @@ export default {
             }
         },
         deletePre:function (obj) {
+            this.ruleFormShow = false;
             this.$axios.delete(this.list_url + obj.id +'/').then(res=>{
               if(res.status == 200){
                 this.$message({
@@ -286,6 +309,21 @@ export default {
               console.log(err)
             })
         },
-    }
+    },
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'third'){
+        this.getList();
+      }
+    },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'third'){
+            this.getList();
+          }
+        },
+        deep: true
+      },
+    },
 }
 </script>

@@ -190,6 +190,12 @@
 </style>
 <script>
 export default {
+  props:{
+    activeName:{
+      type:String,
+      request:true,
+    }
+  },
   data() {
     return {
       student_id:this.$route.params.id,
@@ -235,12 +241,14 @@ export default {
       town_id:'',
     }
   },
-  /*mounted:function(){
-    this.getStudentInfo();
-    this.getOptions();
-    this.getCountryOptions();
-    this.getIntercity_list();
-  },*/
+  mounted:function(){
+    if(localStorage.getItem('tabName') === 'first'){
+      this.getStudentInfo();
+      this.getOptions();
+      this.getCountryOptions();
+      this.getIntercity_list();
+    }
+  },
   methods:{
     /*省份*/
     getIntercity_list(){
@@ -369,6 +377,17 @@ export default {
     },
     'c_city_id'(){
       this.gettown_list();
+    },
+    activeName: {
+      handler(newValue, oldValue) {
+        if(newValue === 'first' || localStorage.getItem('tabName') === 'first'){
+          this.getStudentInfo();
+          this.getOptions();
+          this.getCountryOptions();
+          this.getIntercity_list();
+        }
+      },
+      deep: true
     },
   }
 }

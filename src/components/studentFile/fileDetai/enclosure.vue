@@ -63,6 +63,12 @@
 </style>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
             fileList:[],
@@ -103,6 +109,19 @@ export default {
         beforeRemove(file, fileList) {
             return this.$confirm(`确定移除 ${ file.name }？`);
         }
-    }
+    },
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'eigth'){
+      }
+    },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'eigth'){
+          }
+        },
+        deep: true
+      },
+    },
 }
 </script>
