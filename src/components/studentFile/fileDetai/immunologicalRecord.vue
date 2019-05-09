@@ -84,6 +84,12 @@
 </style>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data(){
         return {
             nameList:['小儿麻痹症(TOPV-Tri-Oral-Polio-Vaccine)',
@@ -143,9 +149,9 @@ export default {
             }
         }
     },
-    mounted:function(){
+    /*mounted:function(){
         this.getList();
-    },
+    },*/
     methods:{
         getList:function () {
             var _this = this;
@@ -286,6 +292,15 @@ export default {
               console.log(err)
             })
         },
-    }
+    },
+    activeName: {
+      handler(newValue, oldValue) {
+        if(newValue === 'third'){
+          console.log("third");
+          this.getList();
+        }
+      },
+      deep: true
+    },
 }
 </script>
