@@ -39,10 +39,10 @@
       <el-dialog title="新增城际" :visible.sync="addintercityVisible" width="50%" @close='beforeClose1'>
         <el-form ref="form" :model="form" :rules="rules" label-width="100px">
           <el-form-item label="城际名称：" prop="name" class="w250_input">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model.trim="form.name" maxlength="50"></el-input>
           </el-form-item>
           <el-form-item label="城际代码：" prop="code">
-            <el-input v-model.number="form.code"></el-input>
+            <el-input v-model.number="form.code" maxlength="10"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
             <el-input v-model="form.person.name" disabled style="width:164px"></el-input>
@@ -60,11 +60,11 @@
       <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" @close='beforeClose2'>
         <el-form  :model="checkedItem" :rules="rules2" ref="checkedItem" label-width="100px">
           <el-form-item label="城际名称：" prop="dept_name">
-            <el-input v-model="checkedItem.dept_name" class="w250_input" style="width:250px"></el-input>
+            <el-input v-model.trim="checkedItem.dept_name" class="w250_input" style="width:250px" maxlength="50"></el-input>
             <span class="cur red ml10" @click="deleteThisIntercity">删除此城际？</span>
           </el-form-item>
           <el-form-item label="城际代码：" prop="dept_code">
-            <el-input v-model.number="checkedItem.dept_code"></el-input>
+            <el-input v-model.number="checkedItem.dept_code"  maxlength="10"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="manager_name">
             <el-input v-model="checkedItem.manager_name" disabled style="width:164px"></el-input>
@@ -317,7 +317,6 @@
         rules: {
           name: [
             {required: true, message: '请输入城际名称', trigger: 'blur'},
-            {min:1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
           ],
           code: [
             {required: true, message: '请输入城际代码', trigger: 'blur'},
@@ -330,7 +329,6 @@
         rules2: {
           dept_name: [
             {required: true, message: '请输入城际名称', trigger: 'blur'},
-            {min:1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
           ],
           dept_code: [
             {required: true, message: '请输入城际代码', trigger: 'blur'},
