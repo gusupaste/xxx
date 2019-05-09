@@ -250,13 +250,30 @@ export default {
     getStudentList:function (data) {
       var _this = this;
       var url = this.student_url;
-      _this.$axios.post(url,data).then(res=>{
+      _this.$axios.get(url,{
+        params:{
+          student_type:data.student_type,
+          center_ids:data.center_ids,
+          class_id:data.class_id,
+          date_from:data.date_from,
+          date_to:data.date_to,
+          gender:data.gender,
+          condition:data.condition,
+        }
+      }).then(res=>{
         if(res.status == 200 && res.data.status == 1) {
           this.student_list = res.data.results.results;
         }
       }).catch(err=>{
         console.log(err)
       })
+      /*_this.$axios.post(url,data).then(res=>{
+        if(res.status == 200 && res.data.status == 1) {
+          this.student_list = res.data.results.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })*/
     },
   },
 }
