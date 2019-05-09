@@ -220,7 +220,7 @@
           var _this = this;
           _this.$axios.get('/api/common/select/city_list/',{
             params:{
-              area_code:_this.area,       
+              area_id:_this.area,       
             }
           })
           .then(res=>{
@@ -236,7 +236,7 @@
           params:{
             intercity_id:_this.intercity,
             province_id:_this.city,
-            area_code:_this.area,
+            area_id:_this.area,
             page:_this.currentPage,
             size:10
         }

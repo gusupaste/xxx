@@ -14,7 +14,7 @@
           </el-option>
         </el-select>
         <span class="ml20">区域：</span>
-        <el-select v-model="form.area_code" placeholder="请选择">
+        <el-select v-model="form.area_id" placeholder="请选择">
           <el-option value="" label="所有"></el-option>
           <el-option
             v-for="item in arealist"
@@ -138,7 +138,7 @@
         },
         form:{
           intercity_id:'',
-          area_code:'',
+          area_id:'',
           hq_id:'',
           academic_year_id:'',
           discount_type:0,

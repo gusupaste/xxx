@@ -16,7 +16,7 @@
           </el-option>
         </el-select>
         <span class="ml20">区域：</span>
-        <el-select v-model="form.area_code" placeholder="请选择">
+        <el-select v-model="form.area_id" placeholder="请选择">
           <el-option value="" label="所有"></el-option>
           <el-option
             v-for="item in arealist"
@@ -112,7 +112,7 @@
           intercity_id:'',
           academic_year_id:'',
           center_id:'',
-          area_code:''
+          area_id:''
         },
         value: '-所有-',
         tableData: []
@@ -161,7 +161,7 @@
           this.$axios.get('/api/common/select/center_list/',{
             params:{
               intercity_id:this.form.intercity_id,
-              area_code:this.form.area_code,
+              area_id:this.form.area_id,
             }
           })
           .then(res=>{
@@ -267,7 +267,7 @@
       this.form.center_id = "";
       this.getSchool();
     },
-    'form.area_code'(){
+    'form.area_id'(){
       this.form.center_id = "";
       this.getSchool();
     },
