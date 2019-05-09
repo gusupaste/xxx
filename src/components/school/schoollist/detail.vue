@@ -301,7 +301,7 @@
       <span slot="footer" class="dialog-footer">
         <div slot="footer" class="dialog-footer mt26">
           <el-button @click="deleteDialog=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-          <el-button type="primary" class="white bg-green" style="border-color:#8bc34a" @click="sureDelete">保 存</el-button>
+          <el-button type="primary" class="white bg-green" style="border-color:#8bc34a" @click="sureDelete">确 定</el-button>
       </div>
       </span>
     </el-dialog>

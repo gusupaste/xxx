@@ -8,6 +8,7 @@
         <div class="intercity-list cur" @click="addintercityVisible=true">
           <el-card class="box-card add-card" >
               <!-- <img src="../../../assets/img/add.png" alt=""> -->
+              <span class="add-new">新增城际</span>
           </el-card>
         </div>
         <div class="intercity-list" v-for="(item,index) in intercityList" :key="index">
@@ -25,11 +26,11 @@
               </div>
             </div>
             <draggable class="list-group" :list="item.center_list" group="people" @change="log" @end="end" :data-id="item.id">
-              <div class="list-group-item intercity-li"
-                   v-for="s in item.center_list"
-                   :key="s.id">
-                {{ s.name }}
-              </div>
+              <el-tooltip class="item" effect="dark" content="鼠标点住拖拽" placement="top" v-for="s in item.center_list" :key="s.id">
+                <div class="list-group-item intercity-li">
+                  {{ s.name }}
+                </div>
+              </el-tooltip>
             </draggable>
           </el-card>
         </div>
@@ -41,7 +42,7 @@
             <el-input v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="城际代码：" prop="code">
-            <el-input v-model="form.code"></el-input>
+            <el-input v-model.number="form.code"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
             <el-input v-model="form.person.name" disabled style="width:164px"></el-input>
@@ -63,7 +64,7 @@
             <span class="cur red ml10" @click="deleteThisIntercity">删除此城际？</span>
           </el-form-item>
           <el-form-item label="城际代码：" prop="dept_code">
-            <el-input v-model="checkedItem.dept_code"></el-input>
+            <el-input v-model.number="checkedItem.dept_code"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="manager_name">
             <el-input v-model="checkedItem.manager_name" disabled style="width:164px"></el-input>
@@ -167,8 +168,18 @@
   }
   .intercitylist .add-card{
     text-align: center;
+    position: relative;
     background:url('../../../assets/img/addintercity.jpg') no-repeat;
     background-position: 0;
+  }
+  .intercitylist >>> .el-card__body .add-new {
+    display: inline-block;
+    background-color: #fff;
+    color:#0b6289;
+    position: absolute;
+    left: 50%;
+    top:65%;
+    transform: translate(-50%,-50%)
   }
   .chose-person >>> .el-radio__label{
     display: none !important;
@@ -197,6 +208,9 @@
     background-color: #fafafa;
     margin-bottom: 5px;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .intercitylist .el-card{
     width: 260px;
@@ -307,8 +321,7 @@
           ],
           code: [
             {required: true, message: '请输入城际代码', trigger: 'blur'},
-            {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'},
-            
+            {type: 'number', min: 0, message: '请输入数字类型',trigger: 'blur'}
           ],
           person: [
             {required: true, message: '请输入负责人名称', trigger: 'blur'},
@@ -321,8 +334,7 @@
           ],
           dept_code: [
             {required: true, message: '请输入城际代码', trigger: 'blur'},
-            {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'},
-            
+            {type: 'number', min: 0, message: '请输入数字类型',trigger: 'blur'} 
           ],
           manager_name: [
             {required: true, message: '请输入负责人名称', trigger: 'blur'},
@@ -494,7 +506,7 @@
           var to_id = item.to.getAttribute("data-id");
           if(from_id !== to_id){
             var _this = this;
-            this.$axios.post('http://192.168.1.197:8000/api/center/center/'+this.add_id+'/update_intercity_link/',{
+            this.$axios.post('/api/center/center/'+this.add_id+'/update_intercity_link/',{
               intercity_id:to_id
             }).then(res=>{
               console.log(res)
