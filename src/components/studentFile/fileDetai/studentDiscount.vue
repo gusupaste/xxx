@@ -1,6 +1,6 @@
 <template>
     <div class="studentDiscount">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeNames" @tab-click="handleClick">
             <el-tab-pane label="收费账单" name="first">
                 <div class="">
                     <el-select v-model="value">
@@ -151,7 +151,7 @@
 </template>
 <style scoped>
     .studentDiscount >>> .el-tabs__active-bar {
-        background-color:#f17128 !important; 
+        background-color:#f17128 !important;
         height: 3px;
     }
     .studentDiscount >>> .el-tabs__item {
@@ -180,10 +180,16 @@
 </style>
 <script>
 export default {
+    props:{
+      activeName:{
+        type:String,
+          request:true,
+      }
+    },
     data(){
         return {
             value:'2',
-            activeName:'first',
+            activeNames:'first',
             form:{
                 region:'1',
                 date1:'2019-09-09',
@@ -212,6 +218,19 @@ export default {
         handleClick(){
 
         }
-    }
+    },
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'fifth'){
+      }
+    },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'fifth'){
+          }
+        },
+        deep: true
+      },
+    },
 }
 </script>

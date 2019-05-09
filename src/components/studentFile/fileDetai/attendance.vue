@@ -43,7 +43,7 @@
     }
     .school-attendance  >>> .wh_container {
         width: 80%;
-        
+
         display: inline-block;
         margin: 0 auto;
         border: 1px solid #d9d9d9;
@@ -74,13 +74,32 @@
 <script>
 import Calendar from 'vue-calendar-component';
 export default {
+    props:{
+      activeName:{
+        type:String,
+        request:true,
+      }
+    },
     data() {
         return {
-            
+
         }
     },
     components:{
         Calendar
+    },
+    mounted:function(){
+      if(localStorage.getItem('tabName') === 'seventh'){
+      }
+    },
+    watch:{
+      activeName: {
+        handler(newValue, oldValue) {
+          if(newValue === 'seventh'){
+          }
+        },
+        deep: true
+      },
     }
 }
 </script>
