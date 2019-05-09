@@ -3,7 +3,7 @@
       <div class="formwrap">
         <el-form label-width="100px" inline>
           <el-form-item label="城际：">
-            <el-select v-model="intercity" @change="allChangeFun">
+            <el-select v-model="intercity" @change="interChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
               <el-option
                 v-for="item in intercity_list"
@@ -25,7 +25,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="省市：">
-            <el-select v-model="city" @change="allChangeFun">
+            <el-select v-model="city" @change="interChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in city_list"
@@ -232,8 +232,16 @@ export default {
   },
   methods:{
     areaChangeFun:function () {
+      this.city = '';
+      this.school = '';
+      this.class_val = '';
       this.$emit('getCityList',this.area);
-      this.$emit('getSchoolList',this.intercity,this.city,0,this.brand);
+      this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
+    },
+    interChangeFun:function(){
+      this.school = '';
+      this.class_val = '';
+      this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
     /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
     allChangeFun:function () {
@@ -246,6 +254,7 @@ export default {
         this.$emit('getClassList',this.school);
         this.selectDisable = false;
       }
+      this.class_val = '';
     },
     getStudentList:function () {
       var data={
