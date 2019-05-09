@@ -86,8 +86,7 @@
         this.$message({
           message: message,
           type: 'success',
-          center: true
-        });
+          center: true});
       },
       getWorkflowDefine: function () {
         this.loading = true
