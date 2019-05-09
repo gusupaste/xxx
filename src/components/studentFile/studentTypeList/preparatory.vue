@@ -29,9 +29,9 @@
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in city_list"
-                :key="item.id"
+                :key="item.city_id"
                 :label="item.city_name"
-                :value="item.id">
+                :value="item.city_id">
               </el-option>
             </el-select>
           </el-form-item>
@@ -234,17 +234,16 @@ export default {
     areaChangeFun:function () {
       this.city = '';
       this.school = '';
-      this.class_val = '';
       this.$emit('getCityList',this.area);
       this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
     interChangeFun:function(){
       this.school = '';
-      this.class_val = '';
       this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
     /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
     allChangeFun:function () {
+      this.schoolChangeFun();
       this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
     schoolChangeFun:function () {
@@ -254,7 +253,6 @@ export default {
         this.$emit('getClassList',this.school);
         this.selectDisable = false;
       }
-      this.class_val = '';
     },
     getStudentList:function () {
       var data={
@@ -277,7 +275,16 @@ export default {
         }
       },
       deep: true
-    }
+    },
+    school:{
+      handler(newValue, oldValue) {
+        if(newValue === ''){
+          this.selectDisable = true;
+          this.class_val = '';
+        }
+      },
+      deep: true
+    },
   }
 }
 </script>
