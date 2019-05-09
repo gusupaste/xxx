@@ -64,8 +64,8 @@
                 layout="prev, pager, next"
                 :total="count">
             </el-pagination>
-            <!-- 编辑费用科目 -->
-            <el-dialog title="编辑费用科目" :visible.sync="addFeeVisible" width="800px">
+            <!-- 新增费用科目 -->
+            <el-dialog title="新增费用科目" :visible.sync="addFeeVisible" width="800px">
                 <el-form ref="editform" :rules="rules" :model="editform"  label-width="100px">
                 <el-row>
                     <el-col :span="12">
@@ -184,6 +184,126 @@
           <el-button type="success" @click="addSubject('editform')">保 存</el-button>
         </span>
       </el-dialog>
+        <!-- 编辑费用科目 -->
+        <el-dialog title="编辑费用科目" :visible.sync="editFeeVisible" width="800px">
+            <el-form ref="editform2" :rules="rules2" :model="editform2"  label-width="100px">
+            <el-row>
+                <el-col :span="12">
+                <el-form-item label="科目名称：" prop="name">
+                    <el-input v-model.trim="editform2.name" placeholder="请输入科目名称" maxlength="20"></el-input>
+                </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                <el-form-item label="科目属性：" prop="type">
+                    <el-select v-model="editform2.type" placeholder="--请选择--" style="width: 100%;">
+                        <el-option :value="0" label="非普惠"></el-option>
+                        <el-option :value="1" label="普惠"></el-option>
+                    </el-select>
+                </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                <el-form-item label="科目类型：" prop="t_code">
+                    <el-select value-key="id" v-model="editform2.code" @change="gettype" placeholder="--请选择--" style="width: 100%;">
+                        <el-option
+                        v-for="item in category_list"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.code">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                <el-form-item label="科目编码：">
+                    <el-input disabled v-model="editform2.code" placeholder="请输入科目编码" maxlength="15"></el-input>
+                </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                <el-form-item label="是否必选：">
+                    <el-select v-model="editform2.is_required">
+                        <el-option label="必选" value="Necessary"></el-option>
+                        <el-option label="可选" value="Optional"></el-option>
+                        <el-option label="新生必选，老生可选" value="PrepareNecessaryAndFormalOptional"></el-option>
+                    </el-select>
+                </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="8">
+                <el-form-item label="应用范围：">
+                    <el-radio v-model="editform2.limit_range" :label="0">所有校园</el-radio><br>
+                    <el-radio v-model="editform2.limit_range" :label="1">指定校园</el-radio>
+                </el-form-item>
+                </el-col>
+                <el-col :span="16" v-if="editform2.limit_range == 1">
+                    <el-form-item style="margin-left:-80px;padding-top: 40px;">
+                        <span>品牌：</span>
+                        <el-select v-model="editform2.hq_id" @change="getSchool" placeholder="--请选择--" style="width: 35%;" >
+                            <el-option value="" label="所有"></el-option>
+                            <el-option
+                                v-for="item in brandList"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                            </el-option>
+                        </el-select>
+                        <span>城际：</span>
+                        <el-select v-model="editform2.intercity_id" @change="getSchool" placeholder="--请选择--" style="width: 35%;">
+                            <el-option value="" label="所有"></el-option>
+                            <el-option
+                                v-for="item in intercityList"
+                                :key="item.id"
+                                :label="item.dept_name"
+                                :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <el-form-item v-if="editform2.limit_range == 1">
+                        <el-table
+                            stripe
+                            max-height="250"
+                            ref="multipleTable2"
+                            :data="newSchoolList"
+                            border
+                            @selection-change="handleSelectionChange2"
+                            :show-header="false"
+                            style="width: 95%;">
+                            <el-table-column
+                                type="selection"
+                                width="50">
+                            </el-table-column>
+                            <el-table-column
+                                prop="name">
+                            </el-table-column>
+                        </el-table>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                <el-form-item label="备注说明：">
+                    <el-input type="textarea"
+                    :rows="2"
+                    placeholder="请输入内容"
+                    v-model="editform2.remarks">
+                    </el-input>
+                </el-form-item>
+                </el-col>
+            </el-row>
+            </el-form>
+    <span slot="footer" class="dialog-footer">
+        <el-button class="bg-grey white bd-grey" @click="editFeeVisible = false">取 消</el-button>
+        <el-button type="success" @click="addSubject2('editform2')">保 存</el-button>
+    </span>
+    </el-dialog>
     </div>
 </template>
 <script>
@@ -192,10 +312,13 @@ export default {
         return {
             count:1,
             addFeeVisible:false,
+            editFeeVisible:false,
             category_list:[],
             multipleTable:[],
+            multipleTable2:[],
             subjectList:[],
             schoolList:[],
+            newSchoolList:[],
             searchForm:{
                 type:'',
                 condition:'',
@@ -208,6 +331,10 @@ export default {
                 intercity_id:'',
                 limit_range:"0"
             },
+            editform2:{
+                hq_id:'',
+                intercity_id:''
+            },
             rules: {
                 name: [
                     { required: true, message: '请输入科目名称', trigger: 'blur' },
@@ -219,9 +346,18 @@ export default {
                     { required: true, message: '请选择科目属性', trigger: 'change' }
                 ]
             },
+            rules2: {
+                name: [
+                    { required: true, message: '请输入科目名称', trigger: 'blur' },
+                ],
+                type: [
+                    { required: true, message: '请选择科目属性', trigger: 'change' }
+                ]
+            },
             options:[],
             nameSelect:[],
             input:'',
+            edit_id:'',
             chargeTableDate:[],
         }
     },
@@ -232,6 +368,11 @@ export default {
         this.searchList();
     },
     methods: {
+        toggleSelection(rows) {
+            rows.forEach(row => {
+                this.$refs.multipleTable2.toggleRowSelection(row,true);
+            });
+        },
         addNewTemplate(){
 
         },
@@ -265,9 +406,10 @@ export default {
             })
             .then(res=>{
                 _this.schoolList = res.data.results;
-            })
+            });
         },
         addSubject(formName){
+            console.log(this.editform)
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.editform.code =  this.editform.t_code.code;
@@ -278,7 +420,7 @@ export default {
                         if(res.data.status_code === 1){
                             _this.$message({
                                 type:"success",
-                                message:"新增費用科目成功！"
+                                message:"新增费用科目成功！"
                             })
                             _this.addFeeVisible = false;
                             _this.searchList();
@@ -289,26 +431,78 @@ export default {
                     return false;
                 }
             });
-            
+        },
+        addSubject2(formName){
+            console.log(this.editform2)
+            // this.editform2.hq_id = this.editform2.code
+            var _this = this;
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    // this.editform.code =  this.editform.t_code.code;
+                    // this.editform.f_code =  this.editform.t_code.code;
+                    this.$axios.put('/api/finance/subject/'+this.edit_id+'/',this.editform2)
+                    .then(res=>{
+                        if(res.data.status_code === 1){
+                            _this.$message({
+                                type:"success",
+                                message:"编辑费用科目成功！"
+                            })
+                            _this.editFeeVisible = false;
+                            _this.searchList();
+                        }
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
         },
         gettype(val){
+            console.log(val);
             this.editform.c_code = val.code;
+        },
+        gettype2(val){
+            console.log(val);
+            this.editform2.c_code = val;
         },
         changePage(val){
             this.searchForm.page = val;
             this.searchList();
         },
         handleSelectionChange(val){
+            console.log(val)
             this.editform.center_ids = [];
             val.forEach(item => {
                 this.editform.center_ids.push(item.id)
             });
         },
+        handleSelectionChange2(val){
+            console.log(val)
+            this.editform2.center_ids = [];
+            val.forEach(item => {
+                this.editform2.center_ids.push(item.id)
+            });
+            console.log(this.editform2.center_ids)
+        },
         getSubjectInfo(id){
             var _this = this;
+            this.editFeeVisible = true;
+            this.edit_id = id;
             this.$axios.get('/api/finance/subject/'+id+'/view_detail/')
             .then(res=>{
-                console.log(res.data)
+                _this.editform2 = res.data.detail;
+                _this.newSchoolList = res.data.detail.center_list;
+                _this.editform2.hq_id = "";
+                _this.editform2.intercity_id = "";
+                var list = [];
+                res.data.detail.center_list.forEach(item=>{
+                    if(item.selected === 1){
+                        list.push(item)
+                    }
+                })
+                _this.$nextTick(()=>{
+                    _this.toggleSelection(list);
+                })
             })
         }
     }

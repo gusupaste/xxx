@@ -64,6 +64,7 @@ export default {
             chargeTableDate:[],
         }
     },
+    props: ['brandList','intercityList','areaList','yearList'],
     methods: {
         addNewTemplate(){
             

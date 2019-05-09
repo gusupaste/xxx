@@ -3,20 +3,20 @@
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">财务设置</span></p>
       </div>
-      <div class="content">
+      <div class="content mt26">
         <div class="list-content">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="费用科目" name="first">
                 <subject :brandList="brandList" :intercityList="intercityList"></subject>
             </el-tab-pane>
             <el-tab-pane label="普通折扣" name="second">
-                <normaldis></normaldis>
+                <normaldis :brandList="brandList" :intercityList="intercityList" :areaList="areaList" :yearList="yearList"></normaldis>
             </el-tab-pane>
             <el-tab-pane label="招生折扣" name="third">
                 <recruitdis></recruitdis>
             </el-tab-pane>
             <el-tab-pane label="收费政策" name="fore">
-                <charge></charge>
+                <charge :brandList="brandList" :intercityList="intercityList" :areaList="areaList" :yearList="yearList"></charge>
             </el-tab-pane>
             <el-tab-pane label="退费政策" name="five">
                 <refund></refund>
@@ -415,73 +415,7 @@
           </div>
         </el-form>
       </el-dialog>
-      <el-dialog title="复制政策" :visible.sync="innerVisible" width="650px" class="copyPolicyShow">
-        <el-form ref="policyForm" :model="policyForm" label-width="80px">
-          <div class="policyClass">
-            <p>复制的政策：{{ policyForm.title }}</p>
-          </div>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="学年" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="城际" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="区域" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="学校" label-width="40">
-                <el-table
-                  :data="chargeFunTableDate"
-                  border
-                  :show-header="false"
-                  style="width: 92%;">
-                  <el-table-column
-                    prop="code" style="text-align: left">
-                    <template slot-scope="scope">
-                      <el-checkbox v-model="scope.row.checked">{{ scope.row.code }}</el-checkbox>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="showDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="showDiscountVisible = false">保 存</el-button>
-        </span>
-      </el-dialog>
+      
       <el-dialog :title="reservefundName" :visible.sync="reservefundVisible" width="700px">
         <el-form ref="reserveForm" :model="reserveForm" label-width="80px">
           <el-row>
@@ -581,6 +515,9 @@ import refund from './compents/refund'
       return {
         brandList:[],
         intercityList: [],
+        areaList: [],
+        yearList: [],
+        academic_year_id:'',
         nameSelect:[],
         options1:[],
         options:[],
@@ -590,7 +527,7 @@ import refund from './compents/refund'
         value2:'',
         value9:'',
         input:'',
-        activeName:'first',
+        activeName:'fore',
         disabledSelect:false,
         chargeFunTableDate:[],
         addFeeVisible:false,
@@ -648,6 +585,8 @@ import refund from './compents/refund'
     created () {
       this.getBrand();
       this.getIntercity();
+      this.getArea();
+      this.getYear();
     },
     methods: {
       handleClose (){
@@ -672,6 +611,28 @@ import refund from './compents/refund'
             console.log(err)
         })
       },
+      getArea(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/area_list/',)
+          .then(res=>{
+            _this.areaList = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getYear(){
+            var _this = this;
+            this.$axios.get('/api/common/select/academic_year_list/')
+            .then(res=>{
+                console.log(res.data)
+                _this.yearList = res.data.results;
+                _this.yearList.forEach(item => {
+                    if(item.is_selected === 1){
+                        _this.academic_year_id = item.id;
+                    }
+                });
+            })
+        },
       editSchool:function (param) {
         this.$router.push('/school/school-edit/'+param.id);
       },

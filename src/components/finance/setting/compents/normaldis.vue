@@ -31,9 +31,9 @@
                 label="操作"
                 width="120">
                 <template slot-scope="scope">
-                <el-button type="text" size="small" @click="showDiscountVisible = true">查看详情</el-button>
+                <el-button type="text" @click="showDiscountVisible = true">查看详情</el-button>
                 <span style="color: #999999">|</span>
-                <el-button style="color: orange" type="text" size="small" @click="addNewDiscount(1)">编辑</el-button>
+                <el-button style="color: orange" type="text"  @click="addNewDiscount(1)">编辑</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -43,6 +43,7 @@
 export default {
     data () {
         return {
+            citylist:[],
             options:[],
             nameSelect:[],
             input:'',
@@ -50,10 +51,37 @@ export default {
             chargeTableDate:[]
         }
     },
+    props: ['brandList','intercityList','areaList','yearList'],
     methods: {
         addNewTemplate(){
             
-        }
+        },
+        getcity(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/city_list/',{
+            params:{
+              area_id:_this.area,       
+            }
+          })
+          .then(res=>{
+            _this.citylist = res.data.results;
+            _this.city = '';
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getSchool(){
+            var _this = this;
+            this.$axios.get('/api/common/select/center_list/',{
+                params:{
+                    hq_id:_this.editform.hq_id,
+                    intercity_id:_this.editform.intercity_id
+                }
+            })
+            .then(res=>{
+                _this.schoolList = res.data.results;
+            });
+        },
     }
 }
 </script>
