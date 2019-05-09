@@ -109,12 +109,12 @@
   .student_class .studentFileCard .card-footer span {
     display: inline-block;
     text-align: center;
-    width: 33%;
+    width: 49%;
     line-height: 17px;
   }
   .student_class .studentFileCard  img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
 </style>
 <script>

@@ -504,8 +504,8 @@
     line-height: 17px;
   }
   .student_inschool .studentFileCard  img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
   .student_inschool hr{
     margin: 10px 0px;

@@ -124,8 +124,8 @@
     line-height: 17px;
   }
   .student_graduate .studentFileCard  img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
 </style>
 <script>
