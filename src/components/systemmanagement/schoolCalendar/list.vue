@@ -85,7 +85,7 @@
                                 <el-option v-for="int in intercityList" :key="int.id" :label="int.dept_name" :value="int.id"></el-option>
                             </el-select>
                             <span style="margin-left:20px">区域：</span>
-                            <el-select v-model="searchSchool.area_code" placeholder="请选择">
+                            <el-select v-model="searchSchool.area_id" placeholder="请选择">
                                 <el-option label="全部" value=""></el-option>
                                 <el-option v-for="area in areaList" :label="area.name" :value="area.id" :key="area.id"></el-option>
                             </el-select>
@@ -240,7 +240,7 @@ export default {
             name:'2222',
             searchSchool:{
                 intercity_id:'',
-                area_code:''
+                area_id:''
             },
             template_id:'',
             copy_success:false,
@@ -354,7 +354,7 @@ export default {
             var _this = this;
             this.$axios.get('/api/school_calendar/select/center_list/',{
                     intercity_id:'',
-                    area_code:''
+                    area_id:''
             })
             .then(res=>{
                 _this.schoolList = res.data.results;

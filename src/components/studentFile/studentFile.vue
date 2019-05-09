@@ -179,7 +179,7 @@ export default {
       var _this = this;
       var url = '';
       if(code !== 0){
-        url = this.city_url + '?area_code=' + code;
+        url = this.city_url + '?area_id=' + code;
       }else{
         url = this.city_url;
       }
@@ -208,9 +208,9 @@ export default {
     },
     /*校园*/
     /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
-    getSchoolList:function (intercity_id,province_id,area_code,hq_id) {
+    getSchoolList:function (intercity_id,province_id,area_id,hq_id) {
       var _this = this;
-      var url = this.school_url + '?intercity_id=' + intercity_id + '&province_id=' + province_id + '&area_code=' + area_code + '&hq_id=' + hq_id;
+      var url = this.school_url + '?intercity_id=' + intercity_id + '&province_id=' + province_id + '&area_id=' + area_id + '&hq_id=' + hq_id;
       _this.$axios.get(url).then(res=>{
         _this.loading = false;
         if(res.status == 200 && res.data.status_code == 1) {
