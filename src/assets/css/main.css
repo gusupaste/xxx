@@ -306,6 +306,13 @@ a {
   background-color:#f17128;
   border-color:#f17128;
 }
+.el-radio__input.is-checked+.el-radio__label {
+  color:#f17128;
+}
+.el-radio__input.is-checked .el-radio__inner {
+  background:#f17128;
+  border-color:#f17128;
+}
 /* dialog样式 */
 .el-dialog__headerbtn .el-dialog__close {
   color:#101010;

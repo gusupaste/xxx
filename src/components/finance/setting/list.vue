@@ -7,7 +7,7 @@
         <div class="list-content">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="费用科目" name="first">
-                <subject></subject>
+                <subject :brandList="brandList" :intercityList="intercityList"></subject>
             </el-tab-pane>
             <el-tab-pane label="普通折扣" name="second">
                 <normaldis></normaldis>
@@ -24,113 +24,7 @@
           </el-tabs>
         </div>
       </div>
-      <el-dialog :title="feeName" :visible.sync="addFeeVisible" width="600px">
-        <el-form ref="feeForm" :model="feeForm"  label-width="80px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="科目名称">
-                <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="科目属性">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 100%;">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="科目类型">
-                <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="科目编码">
-                <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="是否必须">
-                <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="应用范围">
-                  <el-radio v-model="radio" label="1" @change="changeRadio(1)">所有校园</el-radio><br>
-                  <el-radio v-model="radio" label="2" @change="changeRadio(2)">指定校园</el-radio>
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
-              <el-form-item style="margin-left:-80px;padding-top: 40px;">
-                <span>品牌：</span>
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;" v-bind:disabled="disabledSelect">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <span>城际：</span>
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;" v-bind:disabled="disabledSelect">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item>
-                <el-table
-                  :data="templateList"
-                  border
-                  :show-header="false"
-                  style="width: 95%;margin-top: 20px;">
-                  <el-table-column
-                    prop="id"
-                    width="50">
-                    <el-checkbox v-model="checked" v-bind:disabled="disabledSelect"></el-checkbox>
-                  </el-table-column>
-                  <el-table-column
-                    prop="sname">
-                  </el-table-column>
-                </el-table>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="备注说明">
-                <el-input type="textarea"
-                  :rows="2"
-                  placeholder="请输入内容"
-                  v-model="feeForm.remarks">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="addFeeVisible = false">取 消</el-button>
-          <el-button type="success" @click="addFeeVisible = false">保 存</el-button>
-        </span>
-      </el-dialog>
+      
       <el-dialog title="删除费用科目" :visible.sync="deleteFeeVisible" width="450" class="deleteFee">
         <span>是否确认删除费用科目<span style="color:#006287">【学费】</span>？</span>
         <span slot="footer" class="dialog-footer">
@@ -685,6 +579,8 @@ import refund from './compents/refund'
   export default {
     data() {
       return {
+        brandList:[],
+        intercityList: [],
         nameSelect:[],
         options1:[],
         options:[],
@@ -749,11 +645,33 @@ import refund from './compents/refund'
       charge,
       refund
     },
+    created () {
+      this.getBrand();
+      this.getIntercity();
+    },
     methods: {
       handleClose (){
 
       },
-      
+      getBrand(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/hq_list/',)
+          .then(res=>{
+            _this.brandList = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getIntercity(){
+          var _this = this;
+          this.$axios.get('/api/common/intercity/',).then(res=>{
+            console.log(res.data)
+            _this.intercityList = res.data.intercity_list;
+            // _this.form.intercity_id = res.data.intercity_list[0].id;
+          }).catch(err=>{
+            console.log(err)
+        })
+      },
       editSchool:function (param) {
         this.$router.push('/school/school-edit/'+param.id);
       },
