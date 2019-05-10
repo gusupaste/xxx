@@ -123,7 +123,7 @@
           <p>
             <span>员工姓名：</span>
             <el-input v-model="searchPerson" style="width:164px"></el-input>
-            <el-button type="primary" @click="getPerson">查询</el-button>
+            <el-button type="primary" @click="getPerson(1)">查询</el-button>
           </p>
           <el-table
             class="mt10"
@@ -344,7 +344,7 @@
       };
     },
     created () {
-      this.getPerson();
+      this.getPerson(1);
       this.getIntercity();
     },
     methods: {
@@ -418,8 +418,9 @@
           console.log(err)
         })
       },
-      getPerson(){
+      getPerson(val){
           var _this = this;
+          this.currentPage = val;
           this.$axios.get('/api/common/select/user_list/',{
             params:{
               user_name:_this.searchPerson,
@@ -437,7 +438,7 @@
       getmana(){
         this.addinnerVisible = true;
         this.searchPerson = "";
-        this.getPerson();
+        this.getPerson(1);
       },
       sureEditIntercity(formName){
         this.$refs[formName].validate((valid) => {
@@ -535,7 +536,7 @@
     },
     watch: {
       currentPage:function(){
-        this.getPerson();
+        this.getPerson(this.currentPage);
       }
     }
   }
