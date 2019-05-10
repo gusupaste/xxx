@@ -17,7 +17,7 @@
           </p>
           <p>
           <el-row :gutter="20">
-            <el-col :span="4"><div class="grid-content bg-purple"><span>通讯地址：</span><span>{{schoolInfo.province_name}}{{schoolInfo.city_name}}{{schoolInfo.town_name}}{{schoolInfo.address}}</span></div></el-col>
+            <el-col :span="4" style="word-break:break-word"><div class="grid-content bg-purple"><span>通讯地址：</span><span>{{schoolInfo.province_name}}{{schoolInfo.city_name}}{{schoolInfo.town_name}}{{schoolInfo.address}}</span></div></el-col>
             <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">邮编：</span><span>{{schoolInfo.zip_code}}</span></div></el-col>
             <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">电话：</span><span>{{schoolInfo.telephone}}</span></div></el-col>
             <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">传真：</span><span>{{schoolInfo.fax}}</span></div></el-col>
@@ -114,8 +114,8 @@
                   <p>是否自建：{{schoolInfo.built_up_type_name}}</p>
                   <p>经度：{{schoolInfo.longitude}}</p>
                   <p>纬度：{{schoolInfo.latitude}}</p>
-                  <p>最大开班数：{{schoolInfo.max_class_no}}</p>
-                  <p>当前开班数：{{schoolInfo.current_class_no}}</p>
+                  <p>最大开班数：<span  class="orange bold">{{schoolInfo.max_class_no}}</span> </p>
+                  <p>当前开班数：<span  class="orange bold">{{schoolInfo.current_class_no}}</span> </p>
               </div>
           </el-tab-pane>
           <el-tab-pane label="银行账户" name="third">
@@ -164,6 +164,7 @@
           <br>
           <el-form-item label="开设时间：" :label-width="formLabelWidth" prop="start_date">
             <el-date-picker
+              @change="changeDate($event,1)"
               value-format="yyyy-MM-dd"
               style="width:164px"
               v-model="addform.start_date"
@@ -173,26 +174,26 @@
           </el-form-item>
           <el-form-item label="班级状态：" :label-width="formLabelWidth" prop="status">
             <el-select v-model="addform.status" placeholder="请选择">
-              <el-option label="open" value="0"></el-option>
-              <el-option label="close" value="1"></el-option>
+              <el-option label="open" :value="0"></el-option>
+              <el-option label="close" :value="1"></el-option>
             </el-select>
           </el-form-item>
           <br>
           <el-form-item label="满班学生数：" :label-width="formLabelWidth" prop="capacity">
-            <el-input v-model="addform.capacity" placeholder="请输入" maxlength="5"></el-input>
+            <el-input v-model.number="addform.capacity" placeholder="请输入" maxlength="5"></el-input>
           </el-form-item>
           <el-form-item label="师资标配数：" :label-width="formLabelWidth" prop="max_teacher">
-            <el-input v-model="addform.max_teacher" placeholder="请输入" maxlength="5"></el-input>
+            <el-input v-model.number="addform.max_teacher" placeholder="请输入" maxlength="5"></el-input>
           </el-form-item>
           <br>
-          <el-form-item label="是否需要家具：" :label-width="formLabelWidth">
+          <el-form-item label="是否需要家具：" :label-width="formLabelWidth" style="display:none">
             <el-select v-model="addform.need_furniture" placeholder="请选择">
               <el-option label="需要" :value="0"></el-option>
               <el-option label="不需要" :value="1"></el-option>
               <el-option label="部分需要" :value="2"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="是否需要教具：" :label-width="formLabelWidth">
+          <el-form-item label="是否需要教具：" :label-width="formLabelWidth" style="display:none">
             <el-select v-model="addform.need_teaching_aid" placeholder="请选择">
               <el-option label="需要" :value="0"></el-option>
               <el-option label="不需要" :value="1"></el-option>
@@ -243,6 +244,7 @@
           <br>
           <el-form-item label="开设时间：" :label-width="formLabelWidth" prop="start_date">
             <el-date-picker
+              @change="changeDate($event,2)"
               value-format="yyyy-MM-dd"
               style="width:164px"
               v-model="editform.start_date"
@@ -258,21 +260,21 @@
           </el-form-item>
           <br>
           <el-form-item label="满班学生数：" :label-width="formLabelWidth" prop="capacity">
-            <el-input v-model="editform.capacity" placeholder="请输入" maxlength="5"></el-input>
+            <el-input v-model.number="editform.capacity" placeholder="请输入" maxlength="5"></el-input>
           </el-form-item>
           <el-form-item label="师资标配数：" :label-width="formLabelWidth" prop="max_teacher">
-            <el-input v-model="editform.max_teacher" placeholder="请输入" maxlength="5"></el-input>
+            <el-input v-model.number="editform.max_teacher" placeholder="请输入" maxlength="5"></el-input>
           </el-form-item>
           <br>
-          <el-form-item label="是否需要家具：" :label-width="formLabelWidth">
+          <el-form-item label="是否需要家具：" :label-width="formLabelWidth" style="display:none">
             <el-select v-model="editform.need_furniture" placeholder="请选择">
               <el-option label="需要" :value="0"></el-option>
               <el-option label="不需要" :value="1"></el-option>
               <el-option label="部分需要" :value="2"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="是否需要教具：" :label-width="formLabelWidth">
-            <el-select v-model="editform.need_teaching_aid" placeholder="请选择">
+          <el-form-item label="是否需要教具：" :label-width="formLabelWidth" style="display:none">
+            <el-select v-model="editform.need_teaching_aid" placeholder="请选择" >
               <el-option label="需要" :value="0"></el-option>
               <el-option label="不需要" :value="1"></el-option>
               <el-option label="部分需要" :value="2"></el-option>
@@ -315,7 +317,7 @@
           <p class="mt10">
             <span>搜索：</span>
             <el-input v-model="searchPerson" style="width:164px"></el-input>
-            <el-button type="primary" @click="getTeacherList">搜索</el-button>
+            <el-button type="primary" @click="getTeacherList(1)">搜索</el-button>
           </p>
           <el-table
             class="mt10"
@@ -444,7 +446,8 @@
         min-height: 100px !important;
     }
     .schooldetail .teacher-wrap {
-       width: 76px;
+       width: auto;
+       min-width:76px;
        height: 27px;
        padding: 0;
        margin:5px 5px 0 0;
@@ -473,7 +476,9 @@
         school_id:this.$route.params.id,
         schoolInfo:{},
         multipleSelection: [],
-        addform: {},
+        addform: {
+          status:""
+        },
         editform: {},
         addrules: {
           name: [
@@ -481,9 +486,11 @@
           ],
           capacity: [
             { required: true, message: '请输入满班学生数', trigger: 'blur' },
+            { type:'number', message: '请输入数字', trigger: 'blur' },
           ],
           max_teacher: [
             { required: true, message: '请输入师资标配数', trigger: 'blur' },
+            { type:'number', message: '请输入数字', trigger: 'blur' },
           ],
           grade_type: [
             { required: true, message: '请选择年级', trigger: 'change' }
@@ -504,9 +511,11 @@
           ],
           capacity: [
             { required: true, message: '请输入满班学生数', trigger: 'blur' },
+            { type:'number', message: '请输入数字', trigger: 'blur' },
           ],
           max_teacher: [
             { required: true, message: '请输入师资标配数', trigger: 'blur' },
+            { type:'number', message: '请输入数字', trigger: 'blur' },
           ],
           grade_type: [
             { required: true, message: '请选择年级', trigger: 'change' }
@@ -538,15 +547,18 @@
       addTeacher(item){
         this.addteacher_id = item.id;
         this.addinnerVisible = true;
-        this.getTeacherList();
+        this.searchPerson = "";
+        this.currentPage = 1;
+        this.getTeacherList(1);
       },
-      getTeacherList(){
+      getTeacherList(val){
+        this.currentPage = val;
         var _this = this;
         this.$axios.get('/api/center/class/'+this.addteacher_id+'/unassigned_teachers/',{
           params:{
             size:10,
             condition:_this.searchPerson,
-            page:_this.currentPage
+            page:this.currentPage,
           }
         })
         .then(res=>{
@@ -558,7 +570,7 @@
       },
       changePage(currentPage){
         this.currentPage = currentPage;
-        this.getTeacherList();
+        this.getTeacherList(currentPage);
       },
       sureAddTeacher(){
         var _this = this;
@@ -566,6 +578,13 @@
         this.multipleSelection.forEach((item,index) => {
           list.push(item.id)
         });
+        if(list.length === 0 ){
+          _this.$message({
+              type:'error',
+              message:'请选择老师！'
+            });
+            return false
+        }
         this.$axios.post('/api/center/class/'+this.addteacher_id+'/add_teachers/',{
           user_ids:list
         })
@@ -701,6 +720,7 @@
                   message:'新增班级成功！'
                 });
                 _this.dialogFormVisible = false;
+                _this.$refs['addform'].resetFields();
                 _this.getClass();
               }
             }).catch(err=>{
@@ -710,9 +730,7 @@
             console.log('error submit!!');
             return false;
           }
-        });
-        
-        
+        }); 
       },
       viewSchoolCalendar(item){
         console.log(this.schoolInfo)
@@ -720,7 +738,24 @@
       },
       handleSelectionChange(val){
         this.multipleSelection = val;
-      }
+      },
+      changeDate($event,type){
+        var date = this.$options.filters['formatDate'](new Date());
+        if(type === 1){
+          if($event>date){
+            this.addform.status = 0;
+          } else {
+            this.addform.status = 1;
+          }
+        } else {
+            if($event>date){
+            this.editform.status = 0;
+          } else {
+            this.editform.status = 1;
+          }
+        }
+        
+      },
     }
   }
 </script>

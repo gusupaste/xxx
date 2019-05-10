@@ -51,7 +51,6 @@
         :data="info"
         border
         stripe
-        :span-method="arraySpanMethod"
         show-header
         show-summary
         :summary-method="getSummaries"
@@ -217,20 +216,12 @@
         })
       },
       handleCancel(row){
-        console.log(row)
-        for (let key in row) {
-          console.log(key)
-          if(key != 'center_code' && key != 'center_id' && key != 'center_name' && key != 'edit' && key != 'total') {
-            row[key] = ""
-          }
-        }
-      },
-      arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-        // if (rowIndex % 2 === 0) {
-        //   if (columnIndex === 0) {
-        //     return [0, 0];
-        //   } else if (columnIndex === 1) {
-        //     return [0, 0];
+        row.edit = false;
+        // console.log(row)
+        // for (let key in row) {
+        //   console.log(key)
+        //   if(key != 'center_code' && key != 'center_id' && key != 'center_name' && key != 'edit' && key != 'total') {
+        //     row[key] = ""
         //   }
         // }
       },

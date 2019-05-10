@@ -46,7 +46,7 @@
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
             <el-input v-model="form.person.name" disabled style="width:164px"></el-input>
-            <el-button type="primary" @click="addinnerVisible = true" style="height:40px">
+            <el-button type="primary" @click="getmana" style="height:40px">
               <i class="fa fa-search"></i>
             </el-button>
           </el-form-item>
@@ -57,7 +57,7 @@
         </div>
       </el-dialog>
       <!-- 编辑城际 -->
-      <el-dialog title="编辑城际" :visible.sync="editintercityVisible" width="80%" @close='beforeClose2'>
+      <el-dialog title="编辑城际" :visible.sync="editintercityVisible"  width="800px" @close='beforeClose2'>
         <el-form  :model="checkedItem" :rules="rules2" ref="checkedItem" label-width="100px">
           <el-form-item label="城际名称：" prop="dept_name">
             <el-input v-model.trim="checkedItem.dept_name" class="w250_input" style="width:250px" maxlength="50"></el-input>
@@ -68,7 +68,7 @@
           </el-form-item>
           <el-form-item label="负责人：" prop="manager_name">
             <el-input v-model="checkedItem.manager_name" disabled style="width:164px"></el-input>
-            <el-button type="primary" @click="addinnerVisible = true" style="height:40px">
+            <el-button type="primary" @click="getmana" style="height:40px">
               <i class="fa fa-search"></i>
             </el-button>
           </el-form-item>
@@ -77,8 +77,8 @@
               <p>无归属城际的学校</p>
               <div class="item-div2-span">
                 <div v-for="school in checkedItem.available_centers" :key="school.id" class="clearfix cur" @click="addChooseSchool(school)">
-                  <span class="left">{{school.name}}</span>
-                  <span class="right">
+                  <span class="inline-block overf" style="width:180px;">{{school.name}}</span>
+                  <span class="inline-block">
                     <i class="fa fa-plus"></i>
                   </span>
                 </div>
@@ -87,7 +87,10 @@
             <div class="item-div2">
               <p>已选学校</p>
               <div class="item-div2-span">
-                <p v-for="unschool in UNSelectSchool" :key="unschool.id">{{ unschool.name }}<span class="el-icon-delete" @click="selectFun(unschool)"></span></p>
+                <p v-for="unschool in UNSelectSchool" :key="unschool.id" class="clearfix">
+                  <span class="inline-block overf" style="width:180px;">{{ unschool.name }}</span>
+                  <span class="nline-block el-icon-delete  cur red font-size-14" @click="selectFun(unschool)"></span>
+                </p>
               </div>
             </div>
           </el-form-item>
@@ -249,13 +252,11 @@
   .intercitylist .item-div2 p{
     border-bottom: 1px solid #ddd;
   }
-  .intercitylist .item-div2 span{
-    margin-right: 5px;
-    color: red;
-    font-size: 18px;
-    cursor: pointer;
-    float: right;
-    margin-top: 10px;
+  .intercitylist .overf{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
   }
   .intercitylist .item-div1-span,.intercitylist .item-div2-span{
     height: 300px;
@@ -320,7 +321,7 @@
           ],
           code: [
             {required: true, message: '请输入城际代码', trigger: 'blur'},
-            {type: 'number', min: 0, message: '请输入数字类型',trigger: 'blur'}
+            { type:'number',message: '请输入数字', trigger: 'blur' }
           ],
           person: [
             {required: true, message: '请输入负责人名称', trigger: 'blur'},
@@ -332,7 +333,7 @@
           ],
           dept_code: [
             {required: true, message: '请输入城际代码', trigger: 'blur'},
-            {type: 'number', min: 0, message: '请输入数字类型',trigger: 'blur'} 
+            { type:'number',message: '请输入数字', trigger: 'blur' }
           ],
           manager_name: [
             {required: true, message: '请输入负责人名称', trigger: 'blur'},
@@ -382,12 +383,13 @@
           this.$axios.get('/api/common/intercity/'+val.id+'/view_detail/',)
           .then(res=>{
             _this.checkedItem = res.data.detail;
+            _this.checkedItem.dept_code = res.data.detail.dept_code -0;
             _this.UNSelectSchool = res.data.detail.center_list;
-            console.log(res)
+            _this.editintercityVisible = true;
           }).catch(err=>{
 
         })
-        this.editintercityVisible = true;
+        
       },
       deleteIntercity(){
           var _this = this;
@@ -431,6 +433,11 @@
           }).catch(err=>{
           console.log(err)
         })
+      },
+      getmana(){
+        this.addinnerVisible = true;
+        this.searchPerson = "";
+        this.getPerson();
       },
       sureEditIntercity(formName){
         this.$refs[formName].validate((valid) => {
@@ -488,11 +495,13 @@
       checkedPerson() {
         if(this.addintercityVisible) {
           this.form.person = this.choosePerson;
+          this.$refs['form'].validate((valid) => {});
         } else {
           this.checkedItem.manager_name = this.choosePerson.name;
           this.checkedItem.manager_id = this.choosePerson.id;
+          this.$refs['checkedItem'].validate((valid) => {});
         }
-          this.addinnerVisible = false;
+          this.addinnerVisible = false;   
       },
       log(evt) {
         if(evt.added) {
