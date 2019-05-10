@@ -5,12 +5,12 @@
     </div>
     <p class="mt10">
       <span>学年：</span>
-      <el-select v-model="value" placeholder="请选择">
+      <el-select v-model="year" placeholder="请选择">
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          v-for="item in academic_year_list"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
         </el-option>
       </el-select>
       <span>月份：</span>
@@ -23,12 +23,12 @@
         </el-option>
       </el-select>
       <span>班级：</span>
-      <el-select v-model="value" placeholder="请选择">
+      <el-select v-model="class_id" placeholder="请选择">
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          v-for="item in classes"
+          :key="item.center_class_id"
+          :label="item.center_class__name"
+          :value="item.center_class_id">
         </el-option>
       </el-select>
       <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
@@ -184,98 +184,42 @@
     data() {
       return {
         value: '-所有-',
+        year: '',
+        class_id: '',
+        academic_year_list: [],
+        classes: [],
         detail: false,
-        options: [{
-          value: '123',
-          label: '333'
-        },
-          {
-            value: '456',
-            label: '666'
-          }],
-        tableData: [{
-          no: '1001',
-          name: 'rthj',
-          class: '（1）',
-          day_1: '13',
-          day_2: '23',
-          famliyLeave: '2',
-          sickLeave: '3',
-          schoolLeave: '1',
-          rate: '77%'
-        }, {
-          no: '1002',
-          name: 'ruk',
-          class: '（2）',
-          day_1: '13',
-          day_2: '23',
-          famliyLeave: '2',
-          sickLeave: '3',
-          schoolLeave: '1',
-          rate: '100%'
-        }, {
-          no: '1003',
-          name: 'ruk',
-          class: '（3）',
-          day_1: '13',
-          day_2: '23',
-          famliyLeave: '2',
-          sickLeave: '3',
-          schoolLeave: '1',
-          rate: '100%'
-        },
-          {
-            no: '1004',
-            name: 'ruk',
-            class: '（4）',
-            day_1: '13',
-            day_2: '23',
-            famliyLeave: '2',
-            sickLeave: '3',
-            schoolLeave: '1',
-            rate: '100%'
-          },
-          {
-            no: '1005',
-            name: 'ruk',
-            class: '（2）',
-            day_1: '13',
-            day_2: '23',
-            famliyLeave: '2',
-            sickLeave: '3',
-            schoolLeave: '1',
-            rate: '100%'
-          },
-          {
-            no: '1006',
-            name: 'ruk',
-            class: '（5）',
-            day_1: '13',
-            day_2: '23',
-            famliyLeave: '2',
-            sickLeave: '3',
-            schoolLeave: '1',
-            rate: '100%'
-          },
-          {
-            no: '1007',
-            name: 'ruk',
-            class: '（5）',
-            day_1: '13',
-            day_2: '23',
-            famliyLeave: '2',
-            sickLeave: '3',
-            schoolLeave: '1',
-            rate: '100%'
-          }
-        ]
+        tableData: []
       }
     },
     components: {
       Calendar
     },
+    mounted: function () {
+      this.getClass()
+    },
     methods: {
-      onSubmit() {
+      getClass: function () {
+        this.loading = true
+        this.$axios.get('/api/attendance/students_attendance/info_list/', {
+        }).then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            if (res.data.status === 1) {
+              console.log(res.data.data)
+              this.academic_year_list = res.data.data.academic_year_list
+              this.classes = res.data.data.classes
+              this.year = this.academic_year_list[0].id
+              this.class_id = this.classes[0].center_class_id
+            } else {
+              alert(res.data.message)
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      onSubmit () {
         console.log('submit!')
       },
       attendanceDetail: function () {
