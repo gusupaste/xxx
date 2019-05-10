@@ -103,8 +103,9 @@
           prop="status"
           label="状态">
           <template slot-scope="scope">
+            <span name="select_present" hidden>{{scope.row.is_present}}</span>
             <span v-if="is_confirmed">{{scope.row.is_present}}</span>
-            <el-select v-else v-model="status_value" placeholder="请选择">
+            <el-select v-else v-model="scope.row.is_present" placeholder="请选择">
               <el-option
                 v-for="item in status_list"
                 :key="item.name"
@@ -157,7 +158,6 @@
         attendanceList: [],
         attendance_date_name: '',
         is_confirmed: false,
-        status_value: '',
         status_list: [
           {
             name: '出勤'
@@ -185,9 +185,15 @@
     },
     mounted: function () {
       this.getClass()
-      this.status_value = this.status_list[0].name
     },
     methods: {
+      successTip (message) {
+        this.$message({
+          message: message,
+          type: 'success',
+          center: true
+        });
+      },
       getClass: function () {
         this.loading = true
         this.$axios.get('/api/attendance/students_attendance/classes/').then(res => {
@@ -231,28 +237,33 @@
         this.detail = true
       },
       attendanceSure: function () {
+        var temp = []
+        var selectPresent = document.getElementsByName('select_present')
+        for (var i = 0; i < selectPresent.length; i++) {
+          temp.push(selectPresent[i].innerHTML)
+        }
         this.loading = true
         this.$axios.post('/api/attendance/students_attendance/', {
           student_ids: this.student_ids_temp,
-          student_status_list: [],
+          student_status_list: temp,
           record_date: this.attendance_date_name,
           class_id: this.class_id,
           is_confirmed: true,
-          is_verified: false,
+          is_verified: false
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
             console.log(res.data)
-            /*if(res.data.status_code === 1) {
+            if (res.data.status === 1) {
+              this.sureSave()
               this.successTip("提交成功")
             } else {
               alert(res.data.message)
-            }*/
+            }
           }
         }).catch(err => {
           console.log(err)
         })
-        this.sureSave()
       },
       sureSave: function () {
         this.sure = false
@@ -262,11 +273,28 @@
         this.is_confirmed = true
       },
       cancelSure: function () {
-        this.sure = true
-        this.pendingCheck = false
-        this.check = false
-        this.save = false
-        this.is_confirmed = false
+        this.loading = true
+        this.$axios.post('/api/attendance/students_attendance/cancel_confirm/', {
+          record_date: this.attendance_date_name,
+          class_id: this.class_id
+        }).then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            console.log(res.data)
+            if (res.data.status === 1) {
+              this.sure = true
+              this.pendingCheck = false
+              this.check = false
+              this.save = false
+              this.is_confirmed = false
+            } else {
+              alert(res.data.message)
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+
       },
       attendanceCheck: function () {
         this.sure = false
