@@ -11,18 +11,20 @@ import App from './App';
 import router from './router/router';
 import store from './store/store';
 import axios from 'axios';
+import filter from './plugins/filter'
 import './assets/css/main.css';
 import 'font-awesome/css/font-awesome.min.css';
-import * as custom from './assets/js/filter';
 import VueCookies from 'vue-cookies'
 import 'echarts/lib/chart/pie'
+
 Vue.component('chart', ECharts)
-Object.keys(custom).forEach(key => {
-  Vue.filter(key, custom[key])
-})
 Vue.use(ElementUI);
 Vue.use(vueEventCalendar, {locale: 'en',color: '#4fc08d'});
 Vue.use(VueCookies)
+
+/**全局导入过滤器 */
+Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
+
 Vue.prototype.$axios = axios;
 /**请求拦截器 */
 Vue.config.productionTip = false

@@ -12,10 +12,10 @@
         <hr class="line-solid">
         <div class="item-wrap">
           <el-form-item label="校园名称(中文):" prop="name">
-            <el-input  v-model="formInline.name" placeholder="请输入" maxlength="50" ></el-input>
+            <el-input  v-model.trim="formInline.name" placeholder="请输入" maxlength="50" ></el-input>
           </el-form-item>
           <el-form-item label="简称(中文):" prop="short_name">
-            <el-input v-model="formInline.short_name" placeholder="请输入" maxlength="50"></el-input>
+            <el-input v-model.trim="formInline.short_name" placeholder="请输入" maxlength="50"></el-input>
           </el-form-item>
           <br>
           <el-form-item label="校园名称(英文):">
@@ -31,11 +31,11 @@
             </el-select>
           </el-form-item>
           <el-form-item label="园长:">
-            <el-input v-model="formInline.principal_name" placeholder="请输入" maxlength="50"></el-input>
+            <el-input v-model="formInline.principal_name" disabled placeholder="请输入" maxlength="50"></el-input>
           </el-form-item>
           <br>
           <el-form-item label="开园日期:" prop="opening_date">
-            <el-date-picker format="yyyy-MM-dd" value-format="yyyy-MM-dd" v-model="formInline.opening_date" type="date" placeholder="选择日期"  style="width: 100%;"></el-date-picker>
+            <el-date-picker @change="changeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" v-model="formInline.opening_date" type="date" placeholder="选择日期"  style="width: 100%;"></el-date-picker>
           </el-form-item>
           <el-form-item label="当前状态:" prop="status">
             <el-select v-model="formInline.status" placeholder="请输入">
@@ -68,7 +68,7 @@
           </el-form-item>
           <br>
           <el-form-item label="联系电话:" prop="telephone">
-            <el-input v-model="formInline.telephone"  placeholder="请输入" maxlength="20"></el-input>
+            <el-input v-model.number="formInline.telephone"  placeholder="请输入" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="传真:">
             <el-input v-model="formInline.fax" placeholder="请输入" maxlength="20"></el-input>
@@ -267,7 +267,7 @@
           ],
           telephone: [
             { required: true, message: '请输入联系电话', trigger: 'blur' },
-            {  min: 1, max: 20,message: '长度在 1 到 20 个字符', trigger: 'blur' }
+            { type:'number',message: '请输入数字', trigger: 'blur' }
           ],
           hq: [
             { required: true, message: '请选择校园类型', trigger: 'change' }
@@ -425,6 +425,14 @@
       removeDomain(item) {
         var index = this.formInline.bank_list.indexOf(item);
         this.formInline.bank_list.splice(index, 1)
+      },
+      changeDate(val){
+        var date = this.$options.filters['formatDate'](new Date());
+        if(val>date){
+          this.formInline.status = 0;
+        } else {
+          this.formInline.status = 1;
+        }
       },
     },
     watch: {
