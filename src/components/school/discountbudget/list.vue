@@ -44,7 +44,7 @@
         </el-select>
         <span class="ml20">折扣类型：</span>
         <el-select v-model="form.discount_type" placeholder="请选择">
-          <el-option label="园长类型" :value="0"></el-option>
+          <el-option label="园长折扣" :value="0"></el-option>
         </el-select>
         <el-button class="ml20" @click="getList" type="primary">搜索</el-button>
      </p>
@@ -78,7 +78,7 @@
           label="操作"
           min-width="30">
           <template slot-scope="scope">
-            <i @click="editDialog(scope.row.id)" class="fa fa-pencil-square-o orange font-size-20 cur"></i>
+            <i @click="editDialog(scope.row)" class="fa fa-pencil-square-o orange font-size-20 cur"></i>
           </template>
         </el-table-column>
       </el-table>
@@ -96,9 +96,9 @@
     </div>
     <!--编辑 弹框-->
     <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;">
-      <el-form class="edit-discount" label-width="120px" :model="editForm">
+      <el-form class="edit-discount" label-width="120px" :model="editForm" ref="editForm">
         <el-form-item label="学年:">
-          <span>{{editForm.academic_year}}</span>
+          <span>{{editForm.academic_year_name}}</span>
         </el-form-item>
         <!-- <el-form-item label="校园编码:">
             <span>{{editForm.center_code}}</span>
@@ -107,17 +107,20 @@
           <span>{{editForm.center_name}}</span>
         </el-form-item>
         <el-form-item label="折扣类型:">
-          <el-select v-model="editForm.type" placeholder="请选择">
-            <el-option :value="0" label="园长折扣"></el-option>
+          <el-select v-model="editForm.type" disabled placeholder="请选择">
+            <el-option  :value="0" label="园长折扣"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="折扣预算:" class="mt10">
-          <el-input type="text" v-model="editForm.amount" class="w250_input"></el-input>
+        <el-form-item label="折扣预算:" prop="amount" class="mt10" :rules="[
+            { required: true, message: '折扣预算不能为空'},
+            { type: 'number', message: '折扣预算必须为数字值'}
+        ]">
+          <el-input  type="text" v-model.number="editForm.amount" class="w250_input"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer text-align-center">
           <el-button class="bg-grey white bd-grey" @click="editDiscount = false">取 消</el-button>
-          <el-button type="success" @click="saveInfo">保 存</el-button>
+          <el-button type="success" @click="saveInfo('editForm')">保 存</el-button>
         </span>
     </el-dialog>
   </div>
@@ -165,10 +168,17 @@
       editSchool:function () {
 
       },
-      editDialog: function (val) {
+      editDialog(val) {
+        console.log(val)
         var _this = this;
-        this.edit_id = val;
-        this.$axios.get('/api/center/discount_budget/'+val+'/view_detail/')
+        this.edit_id = val.center_id;
+        this.$axios.get('/api/center/discount_budget/view_detail/',{
+           params:{
+              center_id:val.center_id,
+              discount_type:this.form.discount_type,
+              academic_year_id:this.form.academic_year_id
+            }
+        })
         .then(res=>{
             console.log(res.data)
             _this.editForm = res.data.detail;
@@ -228,11 +238,15 @@
                 _this.count = res.data.discount_budget_list.count;
             })
         },
-      saveInfo(){
+      saveInfo(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
             var _this = this;
             console.log(this.edit_id)
-            this.$axios.put('/api/center/discount_budget/'+this.edit_id+'/',{
+            this.$axios.post('/api/center/discount_budget/edit_discount_budget/',{
               type:this.editForm.type,
+              center_id:this.edit_id,
+              academic_year_id:this.editForm.academic_year,
               amount:this.editForm.amount,
             })
             .then(res=>{
@@ -246,6 +260,12 @@
               _this.getList();
                 console.log(res.data)
             })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+            
         },
       changePage(val){
         this.form.page = val;

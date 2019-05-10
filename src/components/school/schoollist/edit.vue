@@ -31,7 +31,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="园长:">
-            <el-input v-model="formInline.principal_name" placeholder="请输入" maxlength="50"></el-input>
+            <el-input v-model="formInline.principal_name" disabled placeholder="请输入" maxlength="50"></el-input>
           </el-form-item>
           <br>
           <el-form-item label="开园日期:" prop="opening_date">

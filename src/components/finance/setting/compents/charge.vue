@@ -28,7 +28,7 @@
                 v-for="item in cityList"
                 :key="item.id"
                 :label="item.city_name"
-                :value="item.id">
+                :value="item.city_id">
               </el-option>
             </el-select>
             <span style="margin-left: 10px">品牌：</span>
@@ -197,7 +197,7 @@ export default {
             options:[],
             schoolList:[],
             cityList:[],
-            innerVisible:true,
+            innerVisible:false,
             searchSchoolForm:{
               intercity_id:'',
               academic_year_id:'',
@@ -249,9 +249,10 @@ export default {
             var _this = this;
             this.$axios.get('/api/common/select/center_list/',{
                 params:{
+                    area_id:this.searchform.area_id,
                     hq_id:_this.searchform.hq_id,
                     intercity_id:_this.searchform.intercity_id,
-                    city_id:_this.searchform.city_id,
+                    province_id:_this.searchform.city_id,
                 }
             })
             .then(res=>{
@@ -274,18 +275,26 @@ export default {
     watch: {
       'searchform.area_id'(){
           this.getcity_list();
+          this.searchform.center_id = "";
+          this.searchform.city_id = "";
       },
       'searchform.intercity_id'(){
           this.getSchool();
+          this.searchform.center_id = "";
       },
       'searchform.hq_id'(){
           this.getSchool();
+          this.searchform.center_id = "";
       },
       'searchform.area_id'(){
           this.getcity_list();
+          this.getSchool();
+          this.searchform.city_id = "";
+          this.searchform.center_id = "";
       },
       'searchform.city_id'(){
           this.getSchool();
+          this.searchform.center_id = "";
       },
     }
 }

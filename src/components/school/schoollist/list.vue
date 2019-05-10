@@ -32,7 +32,7 @@
             v-for="item in citylist"
             :key="item.id"
             :label="item.city_name"
-            :value="item.id">
+            :value="item.city_id">
           </el-option>
         </el-select>
         <span class="padding-left-30"><el-button @click="getSchoolList" type="primary">搜索</el-button></span>
@@ -73,7 +73,7 @@
           label="开园日期">
         </el-table-column>
         <el-table-column
-          prop="leader"
+          prop="principal_name"
           label="园长">
         </el-table-column>
         <el-table-column

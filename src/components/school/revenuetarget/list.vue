@@ -173,7 +173,7 @@
       },
       getList(){
         var _this = this;
-        this.$axios.get('/api/center/target/student_target_detail/',{
+        this.$axios.get('/api/center/target/revenue_target_detail/',{
           params:this.form
         })
         .then(res=>{
@@ -254,7 +254,7 @@
               }
             }, 0);
           } else {
-            sums[index] = 'N/A';
+
           }
         });
 
