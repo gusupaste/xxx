@@ -119,17 +119,18 @@
         },
         pickerOptionsStart: {
           disabledDate: time => {
-            let startYear = this.rulesForm.start_year + '-01-01'
-            let endYear = (this.rulesForm.start_year+1) + '-12-31'
+            let startYear = this.rulesForm.start_year + '-01-01';
             let endDateVal = this.rulesForm.first_term_end;
-            let smallDateVal = new Date(endDateVal).getTime() - 1  * 60 * 60 * 1000
+            let endYear = endDateVal || (this.rulesForm.start_year+1) + '-12-31';
             if (endDateVal) {
-              return time.getTime() < startYear || time.getTime() > endYear ;
+              return time.getTime() < (new Date(startYear).getTime() - 1  * 60 * 60 * 1000) || time.getTime() > new Date(endYear).getTime();
             }
           }
         },
         pickerOptionsEnd: {
           disabledDate: time => {
+            let startYear = this.rulesForm.start_year + '-01-01';
+            let endDateVal = this.rulesForm.first_term_end;
             let beginDateVal = this.rulesForm.first_term_start;
             if (beginDateVal) {
               return (
