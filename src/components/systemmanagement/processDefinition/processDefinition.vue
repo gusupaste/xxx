@@ -16,7 +16,7 @@
         <td>
           <span class="left mr10" v-for="(define,define_index) in list.form_approve_defines" :key="define_index">
             <el-select v-model="define.role_id"
-                        placeholder="请选择"
+                       placeholder="请选择"
                        @change="changeValue($event,define.id,list.id,define.level_no)">
               <el-option v-for="(role,index) in Roles" :key="index" :label="role.name" :value="role.id"></el-option>
             </el-select>
@@ -82,11 +82,12 @@
       this.getWorkflowDefine()
     },
     methods: {
-      successTip (message) {
+      successTip(message) {
         this.$message({
           message: message,
           type: 'success',
-          center: true});
+          center: true
+        });
       },
       getWorkflowDefine: function () {
         this.loading = true
@@ -127,7 +128,7 @@
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
-            if(res.data.status_code === 1) {
+            if (res.data.status_code === 1) {
               this.getWorkflowDefine()
               this.successTip("保存成功")
             } else {
@@ -138,14 +139,15 @@
           console.log(err)
         })
       },
-      updateDefine: function (id, value) {
+      updateDefine: function (id, value, roleName) {
         this.loading = true
         this.$axios.post('/api/workflow/workflow_define/' + id + '/update_define/', {
-          role_id: value
+          role_id: value,
+          role_name: roleName
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
-            if(res.data.status_code === 1) {
+            if (res.data.status_code === 1) {
               this.successTip("修改成功")
             } else {
               alert(res.data.message)
@@ -157,11 +159,10 @@
       },
       deleteDefine: function (id) {
         this.loading = true
-        this.$axios.post('/api/workflow/workflow_define/' + id + '/del_define/', {
-        }).then(res => {
+        this.$axios.post('/api/workflow/workflow_define/' + id + '/del_define/', {}).then(res => {
           this.loading = false
           if (res.status === 200) {
-            if(res.data.status_code === 1) {
+            if (res.data.status_code === 1) {
               this.getWorkflowDefine()
               this.successTip("刪除成功")
             } else {
@@ -178,13 +179,19 @@
           this.canceldialog = true
           this.delete_id = id
         } else {
-            if(id === 0) {
-              /*添加*/
-              this.saveDefine(defineId, value, no)
-            } else {
-              /*修改*/
-              this.updateDefine(id, value)
+          if (id === 0) {
+            /*添加*/
+            this.saveDefine(defineId, value, no)
+          } else {
+            /*修改*/
+            var roleName = ''
+            for (var i = 0; i < this.Roles.length; i++) {
+                if(this.Roles[i].id === value) {
+                  roleName = this.Roles[i].name
+                }
             }
+            this.updateDefine(id, value, roleName)
+          }
         }
       },
       sureDelete: function () {
