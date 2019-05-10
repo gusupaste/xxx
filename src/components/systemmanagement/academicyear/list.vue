@@ -165,6 +165,7 @@
         firstEnd:true,
         secondStart:true,
         secondEnd:true,
+        editId:'',
         rules:{
           start_year: [
             { required: true, message: '请选择时间', trigger: 'change' },
@@ -204,13 +205,15 @@
         console.log(this.rulesForm);
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            _this.$axios.post(this.list_url,this.rulesForm).then(res=>{
+            if(this.yearDisableFlag == false){
+              _this.$axios.post(this.list_url,this.rulesForm).then(res=>{
                 if(res.data.status_code == 1) {
                   _this.$message({
                     type:'success',
                     message:'保存成功！'
                   })
                   this.canael();
+                  this.getYearList();
                 } else {
                   _this.$message({
                     type:'warning',
@@ -218,8 +221,29 @@
                   })
                 }
               }).catch(err=>{
-              // console.log(err.message)
-            })
+                // console.log(err.message)
+              })
+            }else{
+              var url = this.list_url + this.editId +'/';
+              _this.$axios.put(url,this.rulesForm).then(res=>{
+                if(res.data.status_code == 1) {
+                  _this.$message({
+                    type:'success',
+                    message:'编辑成功！'
+                  })
+                  this.canael();
+                  this.getYearList();
+                } else {
+                  _this.$message({
+                    type:'warning',
+                    message:res.data.message,
+                  })
+                }
+              }).catch(err=>{
+                // console.log(err.message)
+              })
+            }
+
           } else {
             console.log('error submit!!');
             return false;
@@ -245,8 +269,8 @@
           this.title = '新增学年'
           this.yearDisableFlag = false;
         }else{
-          console.log( obj.start_year);
           this.yearDisableFlag = true;
+          this.editId = obj.id;
           this.title = '编辑学年'
           this.rulesForm.start_year = obj.start_year.toString();
           this.rulesForm.end_year = obj.end_year;
