@@ -35,7 +35,7 @@
             :value="item.city_id">
           </el-option>
         </el-select>
-        <span class="padding-left-30"><el-button @click="getSchoolList" type="primary">搜索</el-button></span>
+        <span class="padding-left-30"><el-button @click="getSchoolList(1)" type="primary">搜索</el-button></span>
         <span class="right">
           <i class="fa fa-plus icon-font"></i>
           <el-button class="font-cl-blue" type="text" @click="addSchool">新增校园</el-button>
@@ -98,6 +98,7 @@
         layout="pager, next, jumper"
         next-text="下一页"
         :page-size="pagesize"
+        :current-page="currentPage"
         @current-change="handleCurrentChange"
         :total="total" class="page">
       </el-pagination>
@@ -195,7 +196,7 @@
       this.getIntercity();
       this.getArea();
       this.getcity();
-      this.getSchoolList();
+      this.getSchoolList(1);
     },
     methods: {
       getIntercity(){
@@ -230,8 +231,9 @@
           console.log(err)
         })
       },
-      getSchoolList(){
+      getSchoolList(val){
         var _this = this;
+        this.currentPage = val;
         _this.$axios.get('/api/center/center/',{
           params:{
             intercity_id:_this.intercity,
@@ -265,7 +267,7 @@
         this.getcity()
       },
       currentPage(){
-        this.getSchoolList()
+        this.getSchoolList(this.currentPage)
       }
     },
     computed: {

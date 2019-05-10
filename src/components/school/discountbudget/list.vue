@@ -46,7 +46,7 @@
         <el-select v-model="form.discount_type" placeholder="请选择">
           <el-option label="园长折扣" :value="0"></el-option>
         </el-select>
-        <el-button class="ml20" @click="getList" type="primary">搜索</el-button>
+        <el-button class="ml20" @click="getList(1)" type="primary">搜索</el-button>
      </p>
       <el-table
       class="mt26"
@@ -55,11 +55,6 @@
         stripe
         show-header
         style="width: 100%">
-        <!-- <el-table-column
-          prop="center_code"
-          label="编号"
-          min-width="30">
-        </el-table-column> -->
         <el-table-column
           prop="center_name"
           label="校园名称"
@@ -162,7 +157,6 @@
         this.getArea();
         this.getBrand();
         this.getYear();
-
     },
     methods:{
       editSchool:function () {
@@ -224,11 +218,12 @@
                         _this.form.academic_year_id = item.id;
                     }
                 });
-              _this.getList();
+              _this.getList(1);
             })
         },
-      getList(){
+      getList(val){
             var _this = this;
+            this.form.page = val;
             this.$axios.get('/api/center/discount_budget/',{
               params:this.form
             })
@@ -257,7 +252,7 @@
                 });
                 this.editDiscount = false
               }
-              _this.getList();
+              _this.getList(1);
                 console.log(res.data)
             })
           } else {
@@ -268,8 +263,7 @@
             
         },
       changePage(val){
-        this.form.page = val;
-        this.getList();
+        this.getList(val);
       }
     }
   }
