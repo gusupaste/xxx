@@ -120,10 +120,11 @@
           console.log(err)
         })
       },
-      saveDefine: function (defineId, value, no) {
+      saveDefine: function (defineId, value, no, roleName) {
         this.loading = true
         this.$axios.post('/api/workflow/workflow_define/' + defineId + '/create_define/', {
           role_id: value,
+          role_name: roleName,
           level_no: no
         }).then(res => {
           this.loading = false
@@ -174,6 +175,12 @@
         })
       },
       changeValue: function (value, id, defineId, no) {
+        var roleName = ''
+        for (var i = 0; i < this.Roles.length; i++) {
+          if(this.Roles[i].id === value) {
+            roleName = this.Roles[i].name
+          }
+        }
         if (value === 0) {
           /*删除*/
           this.canceldialog = true
@@ -181,15 +188,9 @@
         } else {
           if (id === 0) {
             /*添加*/
-            this.saveDefine(defineId, value, no)
+            this.saveDefine(defineId, value, no, roleName)
           } else {
             /*修改*/
-            var roleName = ''
-            for (var i = 0; i < this.Roles.length; i++) {
-                if(this.Roles[i].id === value) {
-                  roleName = this.Roles[i].name
-                }
-            }
             this.updateDefine(id, value, roleName)
           }
         }
