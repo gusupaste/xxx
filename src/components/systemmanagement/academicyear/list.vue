@@ -11,7 +11,7 @@
             </div>
         </el-card>
       </el-col>
-      <el-col class="box-margin" :span="7" v-for="item in acad_yearlist">
+      <el-col class="box-margin" :span="7" v-for="(item,index) in acad_yearlist" :key="index">
         <el-card shadow="always">
           <div class="div-box-term">
             <p class="font-cl-blue">{{ item.start_year }} -- {{ item.end_year }}学年<i class="fa fa-pencil-square-o orange right" @click="addDialog(1,item)"></i></p>

@@ -360,61 +360,7 @@
           <el-button type="success" @click="showDiscountVisible = false">修 改</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="政策详情" :visible.sync="showPolicyVisible" width="600px" class="policyShow">
-        <el-form ref="policyForm" :model="policyForm"  label-width="80px">
-          <div class="policyClass">
-            <p>政策标题：{{ policyForm.title }}</p>
-            <el-row>
-              <el-col :span="7">
-                <span>适用校园</span>
-              </el-col>
-              <el-col :span="7">
-                <span>适用学年</span>
-              </el-col>
-              <el-col :span="7">
-                <span>有效期</span>
-              </el-col>
-              <el-col :span="3">
-                <el-button class="button_color" @click="innerVisible = true" style="height: auto;">复制</el-button>
-              </el-col>
-            </el-row>
-            <br><hr><br>
-            <el-table
-              :data="chargeFunTableDate"
-              border
-              show-header
-              style="width: 100%;">
-              <el-table-column
-                prop="code"
-                label="费用项目"
-                width="100">
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                label="班级类型"
-                width="100">
-              </el-table-column>
-              <el-table-column
-                prop="intercity_name"
-                label="缴费方式"
-                width="100">
-              </el-table-column>
-              <el-table-column
-                prop="hq_name"
-                label="适用范围">
-              </el-table-column>
-              <el-table-column
-                prop="opening_date"
-                label="价格">
-              </el-table-column>
-              <el-table-column
-                prop="leader"
-                label="备注">
-              </el-table-column>
-            </el-table>
-          </div>
-        </el-form>
-      </el-dialog>
+      
       
       <el-dialog :title="reservefundName" :visible.sync="reservefundVisible" width="700px">
         <el-form ref="reserveForm" :model="reserveForm" label-width="80px">

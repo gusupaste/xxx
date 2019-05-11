@@ -73,7 +73,7 @@
           label="收费政策"
           width="250">
           <template slot-scope="scope">
-            <router-link to="">{{ scope.row.name }}</router-link>
+            <span class="cur blue" @click="viewDetail(scope.row)">{{ scope.row.name }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -195,6 +195,62 @@
           <el-button type="success" @click="sureCopy">保 存</el-button>
         </span>
       </el-dialog>
+      <!-- 政策详情 -->
+      <el-dialog title="政策详情" :visible.sync="showPolicyVisible" width="600px" class="policyShow">
+        <el-form ref="policyForm" :model="copyForm"  label-width="80px">
+          <div class="policyClass">
+            <p>政策标题：{{ copyForm.title }}</p>
+            <el-row>
+              <el-col :span="7">
+                <span>适用校园</span>
+              </el-col>
+              <el-col :span="7">
+                <span>适用学年</span>
+              </el-col>
+              <el-col :span="7">
+                <span>有效期</span>
+              </el-col>
+              <el-col :span="3">
+                <el-button class="button_color" @click="innerVisible = true" style="height: auto;">复制</el-button>
+              </el-col>
+            </el-row>
+            <br><hr><br>
+            <el-table
+              :data="chargeFunTableDate"
+              border
+              show-header
+              style="width: 100%;">
+              <el-table-column
+                prop="code"
+                label="费用项目"
+                width="100">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="班级类型"
+                width="100">
+              </el-table-column>
+              <el-table-column
+                prop="intercity_name"
+                label="缴费方式"
+                width="100">
+              </el-table-column>
+              <el-table-column
+                prop="hq_name"
+                label="适用范围">
+              </el-table-column>
+              <el-table-column
+                prop="opening_date"
+                label="价格">
+              </el-table-column>
+              <el-table-column
+                prop="leader"
+                label="备注">
+              </el-table-column>
+            </el-table>
+          </div>
+        </el-form>
+      </el-dialog>
     </div>
 </template>
 <script>
@@ -206,6 +262,10 @@ export default {
             schoolList:[],
             cityList:[],
             innerVisible:false,
+            showPolicyVisible:false,
+            detailForm:{
+
+            },
             searchSchoolForm:{
               intercity_id:'',
               academic_year_id:'',
@@ -257,6 +317,14 @@ export default {
           .then(res=>{
             _this.chargeTable = res.data.data.students.results;
             _this.count = res.data.data.students.count;
+          })
+        },
+        viewDetail(val){
+          this.showPolicyVisible = true;
+          this.$axios.get('/api/finance/charging_policy/'+val.id+'/view_detail/')
+          .then(res=>{
+              console.log(res.data)
+              _this.detailForm = res.data.detail;
           })
         },
         getSchool(){
