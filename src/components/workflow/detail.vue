@@ -23,26 +23,45 @@
           <div style="width:90%" class="left">
             <p class="" style="border-bottom:1px solid #bbb">
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：-12</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：.00</div></el-col>
-                <el-col :span="10"><div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div></el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">拟入学日期：-12</div>
+                </el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">拟入学日期：.00</div>
+                </el-col>
+                <el-col :span="10">
+                  <div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div>
+                </el-col>
               </el-row>
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">申请折扣：20%</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：10000元</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">优惠金额：2000元</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">折后总额：8000元</div></el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">申请折扣：20%</div>
+                </el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">应缴总额：10000元</div>
+                </el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">优惠金额：2000元</div>
+                </el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">折后总额：8000元</div>
+                </el-col>
               </el-row>
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">备注：— —/03/01</div></el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">备注：— —/03/01</div>
+                </el-col>
               </el-row>
             </p>
             <p>
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">相关附件：</div></el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">相关附件：</div>
+                </el-col>
               </el-row>
               <el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
-                <el-col :span="5"><a download="download" class="grid-content bg-purple" href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
+                <el-col :span="5"><a download="download" class="grid-content bg-purple"
+                                     href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
               </el-row>
             </p>
           </div>
@@ -58,26 +77,45 @@
           <div style="width:90%" class="left">
             <p class="" style="border-bottom:1px solid #bbb">
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：-12</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：.00</div></el-col>
-                <el-col :span="10"><div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div></el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">拟入学日期：-12</div>
+                </el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">拟入学日期：.00</div>
+                </el-col>
+                <el-col :span="10">
+                  <div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div>
+                </el-col>
               </el-row>
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">申请折扣：20%</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：10000元</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">优惠金额：2000元</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">折后总额：8000元</div></el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">申请折扣：20%</div>
+                </el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">应缴总额：10000元</div>
+                </el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">优惠金额：2000元</div>
+                </el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">折后总额：8000元</div>
+                </el-col>
               </el-row>
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">备注：— —/03/01</div></el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">备注：— —/03/01</div>
+                </el-col>
               </el-row>
             </p>
             <p>
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">相关附件：</div></el-col>
+                <el-col :span="5">
+                  <div class="grid-content bg-purple">相关附件：</div>
+                </el-col>
               </el-row>
               <el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
-                <el-col :span="5"><a download="download" class="grid-content bg-purple" href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
+                <el-col :span="5"><a download="download" class="grid-content bg-purple"
+                                     href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
               </el-row>
             </p>
           </div>
@@ -121,7 +159,7 @@
   </div>
 </template>
 <style scoped>
-  .discountApplicationDetail .content-top{
+  .discountApplicationDetail .content-top {
     font-weight: 600;
     background-color: #DCECF3;
     width: 15%;
@@ -132,12 +170,15 @@
     border-radius: 3px;
     color: #3E7193;
   }
+
   .discountApplicationDetail .card-type {
     line-height: 40px;
   }
+
   .discountApplicationDetail .el-card__body {
     padding: 30px 70px 10px 10px;
   }
+
   .discountApplicationDetail .el-card__body:after {
     content: ".";
     display: block;
@@ -145,9 +186,11 @@
     clear: both;
     visibility: hidden
   }
+
   .discountApplicationDetail .tableList {
-    color:#101010;
+    color: #101010;
   }
+
   .discountApplicationDetail .baseInfo {
     width: 5%;
     font-weight: 600;
@@ -157,25 +200,35 @@
 </style>
 <script>
   export default {
-    data(){
+    data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        status: Number(this.$route.query.status),
+        formId: Number(this.$route.query.formId),
+        formKindId: Number(this.$route.query.formKindId),
+        tableData: []
+      }
+    },
+    mounted: function () {
+      status:
+      this.getDetail()
+    },
+    methods: {
+      getDetail: function () {
+        var url = ''
+        if (this.status === 0) {
+          url = '/api/workflow/workflow_management/approve_info/?form_id=' + this.formId + '&form_kind_id=' + this.formKindId
+        }else{
+          url = '/api/workflow/workflow_management/apply_info/?form_id=' + this.formId + '&form_kind_id=' + this.formKindId
+        }
+        this.loading = true
+        this.$axios.get(url).then(res => {
+          this.loading = false
+          if (res.data.status_code === 1) {
+            this.tableData = res.data.data
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       }
     }
   }
