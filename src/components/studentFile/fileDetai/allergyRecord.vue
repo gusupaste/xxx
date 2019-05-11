@@ -84,7 +84,7 @@ export default {
                 action_taken:'',
                 details:'',
             },
-            post_url:'http://192.168.199.157:8000/api/student/allergy/',
+            post_url:'/api/student/allergy/',
         }
     },
     /*mounted:function(){
