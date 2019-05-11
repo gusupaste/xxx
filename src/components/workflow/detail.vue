@@ -130,31 +130,31 @@
         border
         style="width: 100%">
         <el-table-column
-          prop="date"
+          prop="approve_level"
           label="审批节点"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="approve_user_role_name"
           label="审批角色"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="status_name"
           label="审批结果">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="remark"
           label="审批意见">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="date_created"
           label="审批日期">
         </el-table-column>
       </el-table>
     </div>
     <div class="mt26 text-align-center">
-      <button class="btn bg-grey">返回</button>
+      <button class="btn bg-grey" @click="back">返回</button>
     </div>
   </div>
 </template>
@@ -210,14 +210,14 @@
     },
     mounted: function () {
       status:
-      this.getDetail()
+        this.getDetail()
     },
     methods: {
       getDetail: function () {
         var url = ''
         if (this.status === 0) {
           url = '/api/workflow/workflow_management/approve_info/?form_id=' + this.formId + '&form_kind_id=' + this.formKindId
-        }else{
+        } else {
           url = '/api/workflow/workflow_management/apply_info/?form_id=' + this.formId + '&form_kind_id=' + this.formKindId
         }
         this.loading = true
@@ -229,6 +229,9 @@
         }).catch(err => {
           console.log(err)
         })
+      },
+      back: function () {
+        this.$router.push({name: 'workflowList'})
       }
     }
   }
