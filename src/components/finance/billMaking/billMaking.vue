@@ -5,16 +5,18 @@
         </div>
         <el-form inline class="mt26">
             <el-form-item label="学年：">
-                <el-select></el-select>
+                <el-select v-model="searchform.year">
+
+                </el-select>
             </el-form-item>
             <el-form-item label="班型：">
-                <el-select></el-select>
+                <el-select v-model="searchform.class_type"></el-select>
             </el-form-item>
             <el-form-item label="班级：">
-                <el-select></el-select>
+                <el-select v-model="searchform.class_id"></el-select>
             </el-form-item>
             <el-form-item label="学生信息：">
-                <el-input class="w250_input"></el-input>
+                <el-input v-model="searchform.info" class="w250_input"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary">搜索</el-button>
@@ -52,46 +54,42 @@
             border
             style="width: 100%">
             <el-table-column
-            prop="date"
+            prop="bill_no"
             label="账单号"
             width="180">
-            <template slot-scope="scope">
-                <router-link to="/financemanagement/billMakingDetail/9">111111</router-link>
-            </template>
             </el-table-column>
-
             <el-table-column
-            prop="name"
+            prop="student_name"
             label="学生姓名"
             >
             </el-table-column>
             <el-table-column
-            prop="name"
+            prop="class_year"
             label="学年"
             >
             </el-table-column>
             <el-table-column
-            prop="name"
+            prop="class"
             label="班级"
             >
             </el-table-column>
             <el-table-column
-            prop="name"
+            prop="bill_type"
             label="账单类型"
             >
             </el-table-column>
             <el-table-column
-            prop="name"
+            prop="actual_amount"
             label="实际应收"
             >
             </el-table-column>
             <el-table-column
-            prop="name"
+            prop="creator"
             label="制单人"
             >
             </el-table-column>
             <el-table-column
-            prop="name"
+            prop="billing_date"
             label="制单日期"
             >
             </el-table-column>
@@ -154,88 +152,28 @@ export default {
     data() {
         return {
             dialogTableVisible:false,
-            gridData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
-            tableData: [{
-                date: '缴费单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '预备生离园账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '预备生离园账单(制度外)',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                },
-                {
-                date: '在校生离园账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '在校生离园账单(制度外)',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '缺勤请假转备用金账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '推迟入园账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '调班申请单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '中止服务账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '开班申请单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '入学账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '提前入学账单',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-                {
-                date: '入学时间变更申请',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                },
-            ]
+            gridData: [],
+            tableData: [],
+            searchform:{
+                year:'',
+                class_type:'',
+                class_id:'',
+                info:''
+            }
         }
     },
+    created () {
+        this.getList();
+    },
+    methods: {
+        getList(){
+            var _this = this;
+            this.$axios.get('/api/finance/bill/')
+            .then(res=>{
+                console.log(res.data.data)
+                this.tableData = res.data.data.bill_li
+            })
+        }
+    }
 }
 </script>

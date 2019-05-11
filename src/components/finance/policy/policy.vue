@@ -177,5 +177,18 @@ export default {
             ]
         }
     },
+    created () {
+        this.getList();
+    },
+    methods: {
+        getList(){
+            var _this = this;
+            this.$axios.get('http://192.168.1.194:8000/api/finance/bill/')
+            .then(res=>{
+                console.log(res.data.data)
+                this.tableData = res.data.data.bill_li
+            })
+        }
+    }
 }
 </script>

@@ -85,23 +85,20 @@ export default {
     data () {
         return {
             value:"",
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }]
+            tableData: []
+        }
+    },
+    created () {
+        this.getList();
+    },
+    methods: {
+        getList(){
+            var _this = this;
+            this.$axios.get('http://192.168.1.194:8000/api/finance/bill/')
+            .then(res=>{
+                console.log(res.data.data)
+                this.tableData = res.data.data.bill_li
+            })
         }
     }
 }

@@ -221,22 +221,33 @@
             <el-table
               :data="detailForm.items"
               border
+              stripe
               show-header
+              :span-method="objectSpanMethod"
               style="width: 100%;">
               <el-table-column
                 prop="subject_category"
                 label="费用项目"
-                width="100">
+                >
+              </el-table-column>
+              <el-table-column
+                prop="subject"
+                label=""
+                >
+              </el-table-column>
+              <el-table-column
+                prop="subject"
+               >
               </el-table-column>
               <el-table-column
                 prop="class_type"
                 label="班级类型"
-                width="100">
+                >
               </el-table-column>
               <el-table-column
                 prop="payment_method"
                 label="缴费方式"
-                width="100">
+                >
               </el-table-column>
               <el-table-column
                 prop="ranges"
@@ -266,9 +277,7 @@ export default {
             cityList:[],
             innerVisible:false,
             showPolicyVisible:false,
-            detailForm:{
-
-            },
+            detailForm:{},
             searchSchoolForm:{
               intercity_id:'',
               academic_year_id:'',
@@ -277,6 +286,7 @@ export default {
             copyForm:{
 
             },
+            spanArr:[],
             searchform:{
               intercity_id:'',
               area_id:'',
@@ -330,6 +340,7 @@ export default {
           this.$axios.get('/api/finance/charging_policy/'+val.id+'/view_detail/')
           .then(res=>{
               _this.detailForm = res.data.detail;
+              _this.getSpanArr();
               _this.showPolicyVisible = true;
           })
         },
@@ -393,6 +404,33 @@ export default {
             }
           })
         },
+        objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+          if (columnIndex === 0) {
+              const _row = this.spanArr[rowIndex];
+             const _col = _row > 0 ? 1 : 0;
+              return {
+                    rowspan: _row,
+                   colspan: _col
+              }
+          }
+      },
+      getSpanArr(data) {
+        for (var i = 0; i < this.detailForm.items.length; i++) {
+              if (i === 0) {
+                    this.spanArr.push(1);
+                    this.pos = 0
+              } else {
+                // 判断当前元素与上一个元素是否相同
+          if (this.detailForm.items[i].subject_category === this.detailForm.items[i-1].subject_category) {
+                      this.spanArr[this.pos] += 1;
+                      this.spanArr.push(0);
+                    } else {
+                      this.spanArr.push(1);
+                      this.pos = i;
+                    }
+              }
+          }
+      }
     },
     watch: {
       'searchform.area_id'(){
