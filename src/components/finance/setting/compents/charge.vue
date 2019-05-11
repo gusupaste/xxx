@@ -196,25 +196,28 @@
         </span>
       </el-dialog>
       <!-- 政策详情 -->
-      <el-dialog title="政策详情" :visible.sync="showPolicyVisible" width="600px" class="policyShow">
-        <el-form ref="policyForm" :model="copyForm"  label-width="80px">
+      <el-dialog title="政策详情" :visible.sync="showPolicyVisible" width="800px" class="policyShow">
+        <el-form ref="policyForm" :model="detailForm"  label-width="80px">
           <div class="policyClass">
-            <p>政策标题：{{ copyForm.title }}</p>
-            <el-row>
+            <p class="bold font-size-18">政策标题：{{ detailForm.name }}</p>
+            <el-row class="mt20 inline-block" style="width:80%;vertical-align:middle">
               <el-col :span="7">
-                <span>适用校园</span>
+                <span>适用校园：</span>
+                <span>{{ detailForm.center_str }}</span>
               </el-col>
               <el-col :span="7">
-                <span>适用学年</span>
+                <span>适用学年：</span>
+                <span>{{ detailForm.academic_year_str }}</span>
               </el-col>
               <el-col :span="7">
-                <span>有效期</span>
-              </el-col>
-              <el-col :span="3">
-                <el-button class="button_color" @click="innerVisible = true" style="height: auto;">复制</el-button>
+                <span>有效期：</span>
+                <span>{{ detailForm.expiry_date }}</span>
               </el-col>
             </el-row>
-            <br><hr><br>
+            <span class="inline-block" style="width:19%;text-align:right">
+                <el-button class="button_color font-cl-blue" @click="innerVisible = true" style="height: auto;border:1px solid #0b6289">复制</el-button>
+            </span>
+            <br><hr class="mt20"><br>
             <el-table
               :data="chargeFunTableDate"
               border
@@ -262,7 +265,7 @@ export default {
             schoolList:[],
             cityList:[],
             innerVisible:false,
-            showPolicyVisible:false,
+            showPolicyVisible:true,
             detailForm:{
 
             },
@@ -321,6 +324,7 @@ export default {
         },
         viewDetail(val){
           this.showPolicyVisible = true;
+          var _this = this;
           this.$axios.get('/api/finance/charging_policy/'+val.id+'/view_detail/')
           .then(res=>{
               console.log(res.data)

@@ -357,13 +357,20 @@
                 dept_code:_this.form.code,
                 manager_id:_this.form.person.id,
             }).then(res=>{
-              _this.$message({
-                type:'success',
-                message:'新增城际成功'
-              })
-              _this.addintercityVisible = false;
-              _this.getIntercity()
-              this.$refs['form'].resetFields();
+              if(res.data.status_code === 1) {
+                  _this.$message({
+                  type:'success',
+                  message:'新增城际成功'
+                });
+                _this.addintercityVisible = false;
+                _this.getIntercity()
+                this.$refs['form'].resetFields();
+              } else {
+                  _this.$message({
+                  type:'error',
+                  message:res.data.message
+                });
+              } 
             }).catch(err=>{
               _this.$message({
                 type:'error',
@@ -455,12 +462,19 @@
                   manager_id:_this.checkedItem.manager_id,
                   center_ids:list,
               }).then(res=>{
-                _this.$message({
-                  type:'success',
-                  message:'编辑成功',
-                })
-                _this.getIntercity();
-                _this.editintercityVisible = false;
+                if(res.data.status_code === 1){
+                    _this.$message({
+                    type:'success',
+                    message:'编辑成功',
+                  })
+                  _this.getIntercity();
+                  _this.editintercityVisible = false;
+                } else {
+                  _this.$message({
+                    type:'error',
+                    message:res.data.message
+                  })
+                }
               }).catch(err=>{
                 _this.$message({
                   type:'error',
