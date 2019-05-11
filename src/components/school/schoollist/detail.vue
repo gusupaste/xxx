@@ -18,10 +18,10 @@
           <p>
           <el-row :gutter="20">
             <el-col :span="4" style="word-break:break-word"><div class="grid-content bg-purple"><span>通讯地址：</span><span>{{schoolInfo.province_name}}{{schoolInfo.city_name}}{{schoolInfo.town_name}}{{schoolInfo.address}}</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">邮编：</span><span>{{schoolInfo.zip_code}}</span></div></el-col>
+            <el-col :span="3"><div class="grid-content bg-purple"><span class="content-margin">邮编：</span><span>{{schoolInfo.zip_code}}</span></div></el-col>
             <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">电话：</span><span>{{schoolInfo.telephone}}</span></div></el-col>
             <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">传真：</span><span>{{schoolInfo.fax}}</span></div></el-col>
-            <el-col :span="4"><div class="grid-content bg-purple"><span>电子邮箱：</span><span>{{schoolInfo.email}}</span></div></el-col>
+            <el-col :span="5"><div class="grid-content bg-purple"><span>电子邮箱：</span><span>{{schoolInfo.email}}</span></div></el-col>
             <el-col :span="4"><div class="grid-content bg-purple"><span class="content-margin">网址：</span><span>{{schoolInfo.website}}</span></div></el-col>
           </el-row>
           </p>
@@ -37,7 +37,7 @@
                       <span style="cursor:pointer" @click="viewSchoolCalendar(classtype)">
                         <i class="icon-font fa fa-calendar-minus-o"></i>校日历
                       </span>
-                      <span style="cursor:pointer" @click="dialogFormVisible=true">
+                      <span style="cursor:pointer" @click="addClass('addform')">
                         <i class="icon-font el-icon-circle-plus-outline"></i>新增班级
                       </span>
                     </div>
@@ -477,7 +477,17 @@
         schoolInfo:{},
         multipleSelection: [],
         addform: {
-          status:""
+          status:"",
+          addtype:"",
+          name:"",
+          class_type:"",
+          capacity:"",
+          max_teacher:"",
+          nick_name:"",
+          remarks:"",
+          start_date:"",
+          grade_type:"",
+          other_name:"",
         },
         editform: {},
         addrules: {
@@ -742,19 +752,24 @@
       changeDate($event,type){
         var date = this.$options.filters['formatDate'](new Date());
         if(type === 1){
-          if($event>date){
+          if(date>=$event){
             this.addform.status = 0;
           } else {
             this.addform.status = 1;
           }
         } else {
-            if($event>date){
+            if(date>=$event){
             this.editform.status = 0;
           } else {
             this.editform.status = 1;
           }
-        }
-        
+        } 
+      },
+      addClass(formName){
+          this.dialogFormVisible=true;
+          this.$nextTick(()=>{
+            this.$refs[formName].resetFields();
+          })
       },
     }
   }
