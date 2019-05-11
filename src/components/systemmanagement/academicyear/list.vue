@@ -120,8 +120,10 @@
         pickerOptionsStart: {
           disabledDate: time => {
             let startYear = this.rulesForm.start_year + '-01-01';
-            let endDateVal = this.rulesForm.first_term_end;
-            let endYear = endDateVal || this.rulesForm.end_year + '-12-31';
+            let endDateVal1 = this.rulesForm.first_term_end;
+            let endDateVal2 = this.rulesForm.second_term_start;
+            let endDateVal3 = this.rulesForm.second_term_end;
+            let endYear = endDateVal1 || endDateVal2 || endDateVal3 || this.rulesForm.end_year + '-12-31';
             let start = new Date(startYear).getTime();
             let end = new Date(endYear).getTime();
             if (startYear || endYear) {
@@ -133,8 +135,9 @@
           disabledDate: time => {
             let beginDateVal = this.rulesForm.first_term_start;
             let startYear = beginDateVal || this.rulesForm.start_year + '-01-01';
-            let endDateVal = this.rulesForm.second_term_start;
-            let endYear = endDateVal || this.rulesForm.end_year + '-12-31';
+            let endDateVal1 = this.rulesForm.second_term_start;
+            let endDateVal2 = this.rulesForm.second_term_end;
+            let endYear = endDateVal1 || endDateVal2 || this.rulesForm.end_year + '-12-31';
 
             let start = new Date(startYear).getTime();
             let end = new Date(endYear).getTime();
@@ -145,22 +148,25 @@
         },
         pickerOptionsStart2: {
           disabledDate: time => {
-            let beginDateVal = this.rulesForm.first_term_end;
-            let startYear = beginDateVal || this.rulesForm.start_year + '-01-01';
+            let beginDateVal1 = this.rulesForm.first_term_end;
+            let beginDateVal2 = this.rulesForm.first_term_start;
+            let startYear = beginDateVal1 || beginDateVal2 || this.rulesForm.start_year + '-01-01';
             let endDateVal = this.rulesForm.second_term_end;
             let endYear = endDateVal || this.rulesForm.end_year + '-12-31';
 
             let start = new Date(startYear).getTime();
             let end = new Date(endYear).getTime();
-            if (endDateVal) {
+            if (start || end) {
               return (time.getTime() > end || time.getTime() < start);
             }
           }
         },
         pickerOptionsEnd2: {
           disabledDate: time => {
-            let beginDateVal = this.rulesForm.second_term_start;
-            let startYear = beginDateVal || this.rulesForm.start_year + '-01-01';
+            let beginDateVal1 = this.rulesForm.second_term_start;
+            let beginDateVal2 = this.rulesForm.first_term_end;
+            let beginDateVal3 = this.rulesForm.first_term_start;
+            let startYear = beginDateVal1 || beginDateVal2 || beginDateVal3 || this.rulesForm.start_year + '-01-01';
             let endYear = this.rulesForm.end_year + '-12-31';
 
             let start = new Date(startYear).getTime();
