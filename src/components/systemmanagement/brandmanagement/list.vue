@@ -147,6 +147,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editbrandVisible = false">取 消</el-button>
+          <el-button class="bg-red white" v-if="editForm.id !== '' " @click="deleteBrandInfo(editForm.id)">删 除</el-button>
           <el-button type="success" @click="saveBrand" v-bind:disabled="isdisabledFn">保 存</el-button>
         </span>
       </el-dialog>
@@ -494,6 +495,21 @@
             this.editForm.klass = new_obj.class_types;
             this.editForm.name = new_obj.name;
             this.editForm.id = new_obj.id;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      deleteBrandInfo:function (brandId) {
+        var _this = this;
+        _this.loading = true;
+        var url = '/api/hq/hq/'+brandId+'/';
+        _this.$axios.delete(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 204) {
+            this.$message.success('删除成功');
+            this.editbrandVisible = false;
+            this.getBrandList();
           }
         }).catch(err=>{
           console.log(err)
