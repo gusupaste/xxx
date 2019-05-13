@@ -33,7 +33,6 @@
                                 :textTop="textTop"
                                 :markDateMore='i.list'
                                 v-on:choseDay="clickDay"
-                                v-on:changeMonth="changeDate"
                                 v-on:isToday="clickToday"
                                 :sundayStart="true"
                                 ></Calendar>
@@ -182,14 +181,16 @@
                             v-model="form.date_from"
                             type="date"
                             placeholder="选择日期"
-                            value-format="yyyy-MM-dd">
+                            value-format="yyyy-MM-dd"
+                            >
                         </el-date-picker>
                         <span style="padding:0 20px;">到</span>
                         <el-date-picker
                             v-model="form.date_to"
                             type="date"
                             placeholder="选择日期"
-                            value-format="yyyy-MM-dd">
+                            value-format="yyyy-MM-dd"
+                            >
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="类型：" :label-width="formLabelWidth">
@@ -324,7 +325,7 @@ export default {
                     { required: true, message: '请选择学年', trigger: 'change' }
                 ],
             },
-            textTop:['Su','Tu','We','Th','Fr','Mo','Sa'],
+            textTop:['Su','Mo','Tu','We','Th','Fr','Sa'],
             dialogFormVisible:false,
             delete_dialogVisible:false,
             delete_Calendar:false,
@@ -332,7 +333,7 @@ export default {
             edit_Calendar:false,
             value8:"2019-09-08",
             form: {
-                date_from:'',
+                date_from:'2019-09-08',
                 date_to:'',
                 remarks:'',
                 day_type:'P'
@@ -353,8 +354,8 @@ export default {
             var _this = this;
             this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_detail/')
             .then(res=>{
+                _this.renderInfo = res.data.detail;
                _this.info = res.data.detail;
-               _this.renderInfo = res.data.detail;
                _this.getCalendar();
             })
         },
@@ -408,23 +409,22 @@ export default {
             });
         },
         clickDay(data) {
-            var reg = '/';
             var newdata = data.replace(/\//g,'-');
+            console.log(newdata)
+            
             var _this = this;
             this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_template_calendar_day_detail/?date='+newdata)
             .then(res=>{
-                _this.form = res.data.detail;
-                _this.form.date_from = newdata;
-                _this.form.date_to = newdata;
+                _this.form = res.data.detail; 
+                _this.$set(_this.form,'date_from',newdata);
+                _this.$set(_this.form,'date_to',newdata);
+                _this.edit_Calendar = true;
             })
-            
-            this.edit_Calendar = true;
         },
         setDayType(){
             var _this = this;
             this.$axios.post('/api/school_calendar/calendar_template/'+this.template_id+'/edit_template_calendar_day/',this.form)
             .then(res=>{
-                console.log(res)
                 if(res.data.status_code === 1){
                     _this.edit_Calendar = false;
                     _this.$message({
@@ -435,9 +435,6 @@ export default {
                 }
             })
         },
-        changeDate(data) {
-            console.log(data)
-        },
         clickToday(data) {
 
         },
@@ -445,7 +442,6 @@ export default {
 
         },
         initCalendar(){
-            console.log(this.monthList)
             this.monthList.forEach((item,index)=>{
                 this.$refs.Calendar[index].ChoseMonth(item.time,false)
             })

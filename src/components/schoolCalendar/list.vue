@@ -66,7 +66,7 @@ export default {
             id:this.$cookies.get('userInfo').pk,
             type:'',
             yearList:[],
-            textTop:['Su','Tu','We','Th','Fr','Mo','Sa'],
+            textTop:['Su','Mo','Tu','We','Th','Fr','Sa'],
             classTypeList:[],
             year:'',
             monthList:[]

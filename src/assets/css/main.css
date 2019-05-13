@@ -76,6 +76,9 @@ html {
 .bg-dark-orange {
   background-color: #F6691E;
 }
+.bg-red {
+  background-color: red;
+}
 .green {
   color: #8BC34A;
 }
@@ -339,7 +342,9 @@ a {
 
 /*日历公共样式*/
 .wh_chose_day{
-    background-color: #fff !important;
+    /* background-color: #fff !important; */
+    border-radius: 0 !important;
+    color: #fff !important;
 }
 .wh_item_date:hover{
     background-color: #fff !important;

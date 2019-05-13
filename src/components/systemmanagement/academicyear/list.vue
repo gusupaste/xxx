@@ -104,7 +104,7 @@
     },
     data() {
       return {
-        list_url:'http://192.168.1.197:8000/api/common/academic_year/',
+        list_url:'/api/common/academic_year/',
         title:'新增学年',
         acad_yearlist:[],
         addacademicYear: false,
@@ -301,7 +301,7 @@
     },
     watch:{
       'rulesForm.start_year'(newValue, oldValue){
-        if(newValue === ''){
+        if(newValue === '' || newValue === null){
           this.rulesForm.end_year = '';
           this.firstStart=true;
           this.firstEnd=true;
