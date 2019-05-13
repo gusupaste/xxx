@@ -63,7 +63,7 @@
           </div>
           <div class="card-footer clearfix">
             <span>执行操作</span>
-            <el-select v-model="nameSelect" @change="operationSelect(nameSelect)" placeholder="--请选择--">
+            <el-select v-model="nameSelect" @change="operationSelect(nameSelect,item.id)" placeholder="--请选择--">
               <el-option
                 v-for="item in operations"
                 :key="item.value"
@@ -83,7 +83,7 @@
             <el-col :span="8">
               <p class="lable-p">
                 <span class="labels">姓名:</span>
-                <span>迪小贝</span>
+                <span>{{ studentInfo.name }}</span>
               </p>
               <p class="lable-p">
                 <span class="labels">所属校园:</span>
@@ -128,33 +128,33 @@
           <span class="title-span">学年历史：</span>
           <hr>
           <el-table
-            :data="chargeTableDate"
+            :data="yearlist"
             border
             stripe
             show-header
             style="width: 100%;">
             <el-table-column
-              prop="code"
+              prop="academic_year"
               label="学年">
             </el-table-column>
             <el-table-column
-              prop="name"
+              prop="class_name"
               label="所在班级">
             </el-table-column>
             <el-table-column
-              prop="intercity_name"
+              prop="sign_up_date"
               label="报名日期">
             </el-table-column>
             <el-table-column
-              prop="intercity_name"
+              prop="in_class_date"
               label="入学日期">
             </el-table-column>
             <el-table-column
-              prop="hq_name"
+              prop="out_class_date"
               label="截止日期">
             </el-table-column>
             <el-table-column
-              prop="hq_name"
+              prop="status"
               label="状态">
             </el-table-column>
           </el-table>
@@ -600,12 +600,35 @@ export default {
           status_name:'12312313',
         }
       ],
+      year_url:'/api/student/student/1/academic_year_history/',
+      yearlist: [],
+      studentInfo:{},
     }
   },
   mounted:function(){
     this.getStudentList();
   },
   methods:{
+    getYearHistory:function () {
+      var _this = this;
+      this.$axios.get(this.year_url).then(res=>{
+        _this.yearlist = res.data.results;
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    getStudentInfo:function(id){
+      var _this = this;
+      var url = '/api/student/student/'+id+'/view_detail/';
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.studentInfo = res.data.detail;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     getStudentList:function () {
       var data={
         student_type:'Formal',/*在校生*/
@@ -617,8 +640,10 @@ export default {
       }
       this.$emit('getStudentList',data);
     },
-    operationSelect:function(val){
+    operationSelect:function(val,id){
       if(val === 1){
+        this.getYearHistory();
+        this.getStudentInfo(id);
         this.operationVisible = true;
       }else if(val === 2){
         this.leaveVisible = true;
