@@ -24,15 +24,13 @@
           <div class="intercity-list">
             <el-card class="box-card add-card" >
               <img src="../../../assets/img/add.png" @click="addAndEditBrand(-1,0)">
+              <span class="add_text">新增品牌</span>
             </el-card>
-            <!--<el-card class="box-card">
-              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
-            </el-card>-->
           </div>
           <div class="intercity-list" v-for="(card,index) in cardList" :key="index">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span class="city-name font-cl-blue" style="line-height: 40px">{{ card.name }}</span>
+                <span class="city-name font-cl-blue">{{ card.name }}</span>
                 <el-button type="text" @click="addAndEditBrand(1,card.id)">
                   <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
                 </el-button>
@@ -182,6 +180,11 @@
     left:50%;
     transform: translate(-50%,-50%);
   }
+  .brandmanagement .add-card .add_text{
+    position: absolute;
+    top: 73%;
+    transform: translate(-50%,-50%);
+  }
   .brandmanagement .content-top{
     min-height: 120px;
     border: 1px solid #ddd;
@@ -274,8 +277,16 @@
   .brandmanagement .addClassButton i{
     cursor: pointer;
   }
-  .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+  .brandmanagement >>>.el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
    padding: 0 !important;
+  }
+  .brandmanagement .city-name{
+    line-height: 40px;
+    width: 90%;
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>
 <script>
