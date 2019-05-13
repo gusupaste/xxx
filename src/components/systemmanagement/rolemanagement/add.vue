@@ -178,7 +178,7 @@
         this.$axios.get(url).then(res => {
           this.loading = false
           if (res.data.status_code === 1) {
-            this.userList = res.data.data
+            this.userList = res.data.data.results
           }
         }).catch(err => {
           console.log(err)

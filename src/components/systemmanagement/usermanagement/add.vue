@@ -171,9 +171,9 @@
         assignpermissions: false,
         rolename: '',
         roledesc: '',
-        userCheckList:[],
-        boxData:[],
-        checkedValue:[],
+        userCheckList: [],
+        boxData: [],
+        checkedValue: [],
         id: 0
       }
     },
@@ -241,19 +241,19 @@
           console.log(err)
         })
       },
-      tableRowClassName ({row, rowIndex}) {
+      tableRowClassName({row, rowIndex}) {
         if (rowIndex < this.headquartersLength) {
           return 'warning-row'
         }
         return ''
       },
-      userIdsChange (val) {
+      userIdsChange(val) {
         this.userIds = []
         for (var i = 0; i < val.length; i++) {
           this.userIds.push(val[i].id)
         }
       },
-      schoolIdsChange (val) {
+      schoolIdsChange(val) {
         this.schoolIds = val
       },
       addOrganization: function () {
@@ -317,10 +317,10 @@
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
-            if(res.data.status_code === 1) {
+            if (res.data.status_code === 1) {
               alert('保存成功')
               this.back()
-            }else {
+            } else {
               alert(res.data.message)
             }
 
