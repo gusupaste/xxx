@@ -181,6 +181,9 @@
       this.id = Number(this.$route.query.id)
       if (this.id !== 0) {
         this.getUser()
+      }else{
+        this.getRoleList(0)
+        this.getRoleList(1)
       }
       this.getSchoolList()
     },
@@ -227,6 +230,21 @@
             this.$refs.multipleTable.clearSelection();
             // clearSelection : 用于多选表格，清空用户的选择
           }
+        })
+      },
+      getRoleList: function (status) {
+        this.loading = true
+        var url = '/api/user/roles_management/?status=' + status
+        this.$axios.get(url).then(res => {
+          this.loading = false
+          if (res.data.status_code === 1) {
+            if (status === 0) {
+              this.headquartersLength = res.data.data.length
+            }
+            this.roleList = this.roleList.concat(res.data.data)
+          }
+        }).catch(err => {
+          console.log(err)
         })
       },
       getSchoolList: function () {

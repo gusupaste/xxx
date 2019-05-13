@@ -7,8 +7,9 @@
       <p>
         <span class="red">*&nbsp;</span><span>角色名称：</span>
         <el-input :class="{border_red: error_border_rolename}" v-model="rolename" placeholder="请输入"></el-input>
-      <div class="mb10" :style="error_message_rolename"><span style="visibility: hidden"><span>*&nbsp;</span>角色名称：</span>
-      <span class="red">请输入角色名称</span></div>
+      <div class="mb10" :style="error_message_rolename"><span
+        style="visibility: hidden"><span>*&nbsp;</span>角色名称：</span>
+        <span class="red">请输入角色名称</span></div>
       <hr hidden>
       <span style="visibility: hidden">*&nbsp;</span><span>角色描述：</span>
       <el-input v-model="roledesc" placeholder="请输入"></el-input>
@@ -64,7 +65,7 @@
       <p class="dialog-title">
         <span>员工姓名：</span>
         <el-input type="text" v-model="display_name" placeholder="请输入"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span></p>
+        <span class="padding-left-30"><el-button type="primary" @click="searchList(1)">搜索</el-button></span></p>
       <template>
         <el-table
           ref="multipleTable"
@@ -88,6 +89,15 @@
             show-overflow-tooltip>
           </el-table-column>
         </el-table>
+        <el-pagination
+          background
+          layout="pager, next, jumper"
+          next-text="下一页"
+          :page-size="pagesize"
+          :current-page="currentPage"
+          @current-change="handleCurrentChange"
+          :total="total" class="page">
+        </el-pagination>
       </template>
       <span slot="footer" class="dialog-footer text-align-center">
           <el-button @click="adduser = false">取 消</el-button>
@@ -115,7 +125,10 @@
         error_message_rolename: {
           display: 'none'
         },
-        error_border_rolename: false
+        error_border_rolename: false,
+        currentPage: 1,
+        pagesize: 10,
+        total: 1
       }
     },
     mounted: function () {
@@ -128,6 +141,9 @@
     watch: {
       checkedValue: function () {
         this.permissions_ids = this.checkedValue
+      },
+      currentPage: function () {
+        this.searchList(this.currentPage)
       }
     },
     methods: {
@@ -159,7 +175,7 @@
         })
       },
       addUser: function () {
-        this.searchList()
+        this.searchList(1)
         this.adduser = true
         var arrList = [];
         for (var i = 0; i < this.userList.length; i++) {
@@ -172,19 +188,24 @@
         }
         this.toggleSelection(arrList)
       },
-      searchList: function () {
+      searchList: function (val) {
         this.loading = true
-        var url = '/api/user/users_management/all_users/?display_name=' + this.display_name
+        this.currentPage = val
+        var url = '/api/user/users_management/all_users/?display_name=' + this.display_name + '&page=' + this.currentPage + '&size=' + this.pagesize
         this.$axios.get(url).then(res => {
           this.loading = false
           if (res.data.status_code === 1) {
             this.userList = res.data.data.results
+            this.total = res.data.data.count
           }
         }).catch(err => {
           console.log(err)
         })
       },
-      toggleSelection (rows) {  // 这里是点击时 切换选中的行
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage;
+      },
+      toggleSelection(rows) {  // 这里是点击时 切换选中的行
         this.$nextTick(() => {   // 延迟回调
           if (rows) {
             rows.forEach(row => {
@@ -197,7 +218,7 @@
           }
         })
       },
-      handleSelectionChange (val) {
+      handleSelectionChange(val) {
         this.userCheckListVal = val
       },
       checkedUser: function () {
@@ -206,7 +227,7 @@
       },
       saveRole: function () {
         this.loading = true
-        if(this.rolename === "") {
+        if (this.rolename === "") {
           this.error_message_rolename = {display: 'block'}
           this.error_border_rolename = true
           return
@@ -231,7 +252,7 @@
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
-            if(res.data.status_code === 1) {
+            if (res.data.status_code === 1) {
               alert('保存成功')
               this.back()
             } else {
@@ -268,35 +289,44 @@
     text-align: center;
     color: #ccc;
   }
+
   .rolemanagementadd p {
     padding: 10px 0;
   }
+
   /*手风琴样式*/
   .rolemanagementadd >>> .el-collapse-item__arrow {
     display: none;
   }
+
   .rolemanagementadd >>> .el-collapse-item__header {
     height: 30px;
     border: 0;
   }
+
   .rolemanagementadd >>> .el-collapse {
     margin: 0 20px;
     border: 0;
   }
+
   .rolemanagementadd >>> .el-collapse-item__wrap {
     border: 0;
   }
+
   /*表格内容居中*/
   .rolemanagementadd >>> .el-table td, .rolemanagementadd >>> .el-table th {
     text-align: center;
   }
+
   .rolemanagementadd .footer-btn {
     text-align: center;
   }
+
   .rolemanagementadd >>> .el-input {
     width: 164px;
   }
-  .rolemanagementadd .border_red >>> .el-input__inner{
+
+  .rolemanagementadd .border_red >>> .el-input__inner {
     border-color: red;
   }
 </style>
