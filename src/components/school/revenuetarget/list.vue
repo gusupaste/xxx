@@ -71,7 +71,7 @@
           :prop="mon"
           :label="mon">
           <template slot-scope="scope">
-            <el-input v-if="scope.row.edit" v-model="scope.row[mon]"></el-input>
+            <el-input v-if="scope.row.edit" oninput ="value=value.replace(/[^0-9.]/g,'')" maxlength="10" v-model="scope.row[mon]"></el-input>
             <span v-if="!scope.row.edit">
               <span v-if="scope.row[mon] != ''">{{scope.row[mon]}}</span>
               <span v-if="scope.row[mon] == ''" style="color:#ccc">— —</span>
