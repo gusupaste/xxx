@@ -21,14 +21,14 @@
           </div>
         </div>
         <div class="content">
-          <div class="intercity-list">
+          <div class="intercity-list class-right">
             <el-card class="box-card add-card" >
               <img src="../../../assets/img/add.png" @click="addAndEditBrand(-1,0)">
               <p class="add_text">新增品牌</p>
             </el-card>
           </div>
-          <div class="intercity-list class-right" v-for="(card,index) in cardList" :key="index"
-               :class="(key + 1) % 4==0?'class-right':''">
+          <div class="intercity-list" v-for="(card,index) in cardList" :key="index"
+               :class="(index + 2) % 4 == 0 ?'':'class-right'">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
                 <span class="city-name font-cl-blue">{{ card.name }}</span>
@@ -209,7 +209,7 @@
     border-color: #ED6C2E;
   }
   .brandmanagement >>> .intercity-list{
-    width: 23.4%;
+    width: 23.5%;
     /*display: inline-block;*/
     /*margin-right: 2%;*/
     float: left;

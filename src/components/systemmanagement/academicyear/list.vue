@@ -104,7 +104,7 @@
     },
     data() {
       return {
-        list_url:'http://192.168.1.197:8000/api/common/academic_year/',
+        list_url:'/api/common/academic_year/',
         title:'新增学年',
         acad_yearlist:[],
         addacademicYear: false,
