@@ -90,7 +90,7 @@
       </el-pagination>
     </div>
     <!--编辑 弹框-->
-    <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;">
+    <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;" @close="handleClose">
       <el-form class="edit-discount" label-width="120px" :model="editForm" ref="editForm">
         <el-form-item label="学年:">
           <span>{{editForm.academic_year_name}}</span>
@@ -110,7 +110,7 @@
             { required: true, message: '折扣预算不能为空'},
             { type: 'number', message: '折扣预算必须为数字值'}
         ]">
-          <el-input  type="text" v-model.number="editForm.amount" class="w250_input"></el-input>
+          <el-input  type="text" v-model.number="editForm.amount" class="w250_input" maxlength="10"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer text-align-center">
@@ -174,10 +174,14 @@
             }
         })
         .then(res=>{
-            console.log(res.data)
             _this.editForm = res.data.detail;
+            _this.editDiscount = true; 
         })
-        this.editDiscount = true;
+        
+      },
+      handleClose(){
+        console.log(888)
+        this.$refs['editForm'].resetFields();
       },
       getIntercity(){
           var _this = this;
