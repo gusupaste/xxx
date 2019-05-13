@@ -31,7 +31,7 @@
                :class="(index + 2) % 4 == 0 ?'':'class-right'">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span class="city-name font-cl-blue">{{ card.name }}</span>
+                <span class="city-name font-cl-blue">{{ card.name }} </span>
                 <el-button type="text" @click="addAndEditBrand(1,card.id)">
                   <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
                 </el-button>
@@ -39,12 +39,12 @@
               <ul>
                 <li>
                   <span class="el-card-li">班级项目：</span>
-                  <span class="spanLi span-font"><span v-for="ctype in card.class_types">{{ ctype.name }}&nbsp;</span></span>
+                  <span class="spanLi span-font"><span v-for="ctype in card.class_types">{{ ctype.name }};&nbsp;</span></span>
                   <br>
                 </li>
                 <li>
                   <span class="el-card-li">年级项目：</span>
-                  <span class="spanLi"><span v-for="gtype in card.grade_types" style="">{{ gtype.name }}&nbsp;</span></span><br>
+                  <span class="spanLi"><span v-for="gtype in card.grade_types" style="">{{ gtype.name }};&nbsp;</span></span><br>
                 </li>
               </ul>
             </el-card>
