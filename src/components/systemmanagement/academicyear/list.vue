@@ -301,7 +301,7 @@
     },
     watch:{
       'rulesForm.start_year'(newValue, oldValue){
-        if(newValue === ''){
+        if(newValue === '' || newValue === null){
           this.rulesForm.end_year = '';
           this.firstStart=true;
           this.firstEnd=true;
