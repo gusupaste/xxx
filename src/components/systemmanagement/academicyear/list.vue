@@ -284,6 +284,14 @@
         if(num === 0){
           this.title = '新增学年'
           this.yearDisableFlag = false;
+          this.editId = '';
+          this.rulesForm.start_year = '';
+          this.rulesForm.end_year = '';
+          this.rulesForm.first_term_start = '';
+          this.rulesForm.first_term_end = '';
+          this.rulesForm.second_term_start = '';
+          this.rulesForm.second_term_end = '';
+          this.rulesForm.remarks = '';
         }else{
           this.yearDisableFlag = true;
           this.editId = obj.id;
@@ -297,7 +305,13 @@
           this.rulesForm.remarks = obj.remarks;
         }
           this.addacademicYear = true;
-      }
+      },
+      clearDate:function () {
+        this.rulesForm.first_term_start = '';
+        this.rulesForm.first_term_end = '';
+        this.rulesForm.second_term_start = '';
+        this.rulesForm.second_term_end = '';
+      },
     },
     watch:{
       'rulesForm.start_year'(newValue, oldValue){
@@ -314,6 +328,7 @@
           this.secondStart=false;
           this.secondEnd=false;
         }
+        this.clearDate();
       }
     },
   }
