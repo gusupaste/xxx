@@ -363,6 +363,7 @@
           _this.formInline.town_id = _this.formInline.town_id-0;
           _this.formInline.owner_type = _this.formInline.owner_type-0;
           _this.formInline.built_up_type = _this.formInline.built_up_type-0;
+          _this.formInline.telephone = _this.formInline.telephone-0;
           console.log(_this.formInline)
         }).catch(err=>{
       })

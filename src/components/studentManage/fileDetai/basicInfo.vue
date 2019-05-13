@@ -224,9 +224,9 @@ export default {
             { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
           ],
       },
-      student_url:'http://192.168.199.157:8000/api/student/student/'+this.$route.params.id+'/view_detail/',
-      allOptions_url:'http://192.168.199.157:8000/api/common/select/all_list/',
-      city_url:'http://192.168.199.157:8000/api/common/select/city_list/',/*省市*/
+      student_url:'/api/student/student/'+this.$route.params.id+'/view_detail/',
+      allOptions_url:'/api/common/select/all_list/',
+      city_url:'/api/common/select/city_list/',/*省市*/
       studentInfo:{
       },
       city_list:[],

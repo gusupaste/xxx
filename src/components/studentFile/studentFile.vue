@@ -113,14 +113,14 @@ export default {
   data(){
     return {
       activeName: 'first',
-      int_url:'http://192.168.199.157:8000/api/common/select/intercity_list/',/*城际*/
-      area_url:'http://192.168.199.157:8000/api/common/select/area_list/',/*区域*/
-      city_url:'http://192.168.199.157:8000/api/common/select/city_list/',/*省市*/
-      brand_url:'http://192.168.199.157:8000/api/common/select/hq_list/',/*品牌*/
-      school_url:'http://192.168.199.157:8000/api/common/select/center_list/',/*校园*/
-      klass_url:'http://192.168.199.157:8000/api/common/select/class_list/?center_id=',/*班级*/
-      year_url:'http://192.168.199.157:8000/api/common/select/academic_year_list/',/*班级*/
-      student_url:'http://192.168.199.157:8000/api/student/student/student_list/',/*学生*/
+      int_url:'/api/common/select/intercity_list/',/*城际*/
+      area_url:'/api/common/select/area_list/',/*区域*/
+      city_url:'/api/common/select/city_list/',/*省市*/
+      brand_url:'/api/common/select/hq_list/',/*品牌*/
+      school_url:'/api/common/select/center_list/',/*校园*/
+      klass_url:'/api/common/select/class_list/?center_id=',/*班级*/
+      year_url:'/api/common/select/academic_year_list/',/*班级*/
+      student_url:'/api/student/student/student_list/',/*学生*/
       intercity_list:[],
       area_list:[],
       city_list:[],

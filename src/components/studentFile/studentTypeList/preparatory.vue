@@ -91,7 +91,6 @@
             <el-button type="primary" @click="getStudentList">搜索</el-button>
           </el-form-item>
         </el-form>
-
       </div>
       <div class="studentFileList">
           <div class="studentFileCard left" v-for="(item,index) in student_list " :key="index"

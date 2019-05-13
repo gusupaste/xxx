@@ -72,9 +72,9 @@ export default {
   data(){
     return {
          activeName: 'first',
-         klass_url:'http://192.168.1.197:8000/api/common/select/class_list/?center_id=3',/*班级*/
-         student_url:'http://192.168.1.197:8000/api/student/student/student_list/',/*学生*/
-         year_url:'http://192.168.1.197:8000/api/common/select/academic_year_list/',/*学年*/
+         klass_url:'/api/common/select/class_list/?center_id=3',/*班级*/
+         student_url:'/api/student/student/student_list/',/*学生*/
+         year_url:'/api/common/select/academic_year_list/',/*学年*/
          class_list:[],
          year_list:[],
          student_list:[],

@@ -139,7 +139,7 @@ export default {
                 name:'第五次（5th）',
               },
             ],
-            list_url:'http://192.168.199.157:8000/api/student/vaccination/',
+            list_url:'/api/student/vaccination/',
             tableList: [],
             form:{
                 id:'',

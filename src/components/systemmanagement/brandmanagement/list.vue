@@ -284,7 +284,6 @@
     },
     data() {
       return {
-        tol_url:'http://134.175.93.59:8000',
         class_type:[],
         grade_type:[],
         brandName:'添加品牌',
@@ -363,7 +362,7 @@
       },
       sureDelete:function(){
         var _this = this;
-        var url = this.tol_url + '/api/common/';
+        var url = '/api/common/';
         if(_this.deleteForm.type === 'cl_type'){
           url = url + 'class_type/'+_this.deleteForm.id+'/';
         }else{
@@ -428,7 +427,7 @@
       getClassType: function () {
         var _this = this;
         _this.loading = true;
-        var url = this.tol_url + '/api/common/class_type/';
+        var url = '/api/common/class_type/';
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
@@ -451,7 +450,7 @@
       getGradeType:function () {
         var _this = this;
         _this.loading = true;
-        var url = this.tol_url + '/api/common/grade_type/';
+        var url = '/api/common/grade_type/';
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
@@ -474,7 +473,7 @@
       getBrandList:function () {
         var _this = this;
         _this.loading = true;
-        var url = this.tol_url + '/api/hq/hq/';
+        var url = '/api/hq/hq/';
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
@@ -487,7 +486,7 @@
       editBrandInfo:function (brandId) {
         var _this = this;
         _this.loading = true;
-        var url = this.tol_url + '/api/hq/hq/'+brandId+'/';
+        var url = '/api/hq/hq/'+brandId+'/';
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200) {
@@ -504,7 +503,7 @@
       saveBrand:function () {
         var _this = this;
         _this.loading = true;
-        var url = this.tol_url + '/api/hq/hq/';
+        var url = '/api/hq/hq/';
         console.log(_this.editForm.id);
         if( _this.editForm.id !== ''){
           url = url + _this.editForm.id +'/';
@@ -554,10 +553,10 @@
         var url = '';
         if(flag === 0){
           types = this.class_type;
-          url = this.tol_url + '/api/common/class_type/';
+          url = '/api/common/class_type/';
         }else{
           types = this.grade_type;
-          url = this.tol_url + '/api/common/grade_type/';
+          url = '/api/common/grade_type/';
         }
         for(var x in types){
           if(types[x].id === ''){

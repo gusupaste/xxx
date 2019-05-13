@@ -198,7 +198,7 @@ export default {
             editFlag:false,
             imageUrl: '',
             allOptions_url:'/api/common/select/all_list/',
-            add_par_info:'http://192.168.199.157:8000/api/student/guardian/',
+            add_par_info:'/api/student/guardian/',
             rules: {
                 name: [
                     { required: true, message: '请填写姓名', trigger: 'blur' }
