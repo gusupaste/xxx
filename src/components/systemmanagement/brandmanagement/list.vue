@@ -27,7 +27,7 @@
               <p class="add_text">新增品牌</p>
             </el-card>
           </div>
-          <div class="intercity-list" v-for="(card,index) in cardList" :key="index"
+          <div class="intercity-list class-right" v-for="(card,index) in cardList" :key="index"
                :class="(key + 1) % 4==0?'class-right':''">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
