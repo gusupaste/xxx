@@ -24,7 +24,7 @@
           <div class="intercity-list">
             <el-card class="box-card add-card" >
               <img src="../../../assets/img/add.png" @click="addAndEditBrand(-1,0)">
-              <span class="add_text">新增品牌</span>
+              <p class="add_text">新增品牌</p>
             </el-card>
           </div>
           <div class="intercity-list" v-for="(card,index) in cardList" :key="index">
@@ -174,7 +174,7 @@
     background-position: 0;
   }
   .brandmanagement .add-card img{
-    width: 30%;
+    width: 100px;
     position: absolute;
     top:50%;
     left:50%;
@@ -182,7 +182,8 @@
   }
   .brandmanagement .add-card .add_text{
     position: absolute;
-    top: 73%;
+    top: 77%;
+    left: 50%;
     transform: translate(-50%,-50%);
   }
   .brandmanagement .content-top{
