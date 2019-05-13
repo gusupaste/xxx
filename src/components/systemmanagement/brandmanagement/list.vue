@@ -23,8 +23,8 @@
         <div class="content">
           <div class="intercity-list class-right">
             <el-card class="box-card add-card" >
-              <img src="../../../assets/img/add.png" @click="addAndEditBrand(-1,0)">
-              <p class="add_text">新增品牌</p>
+              <img src="../../../assets/img/add.png" class="cur" @click="addAndEditBrand(-1,0)">
+              <p class="add_text cur">新增品牌</p>
             </el-card>
           </div>
           <div class="intercity-list" v-for="(card,index) in cardList" :key="index"
@@ -76,7 +76,7 @@
             label="操作"
             width="80">
             <template slot-scope="scope">
-              <el-button v-show="scope.row.id" @click="editManage(scope.row,0)" type="text" size="small"><span class="el-icon-edit"></span></el-button>
+              <el-button v-show="scope.row.id" @click="scope.row.edit = false" type="text" size="small"><span class="el-icon-edit"></span></el-button>
               <el-button @click="deleteButton(scope.row,0)" type="text" size="small"><span class="el-icon-delete"></span></el-button>
             </template>
           </el-table-column>
@@ -115,7 +115,7 @@
             label="操作"
             width="80">
             <template slot-scope="scope">
-              <el-button v-show="scope.row.id" @click="editManage(scope.row,1)" type="text" size="small"><span class="el-icon-edit"></span></el-button>
+              <el-button v-show="scope.row.id" @click="scope.row.edit = false" type="text" size="small"><span class="el-icon-edit"></span></el-button>
               <el-button @click="deleteButton(scope.row,1)" type="text" size="small"><span class="el-icon-delete"></span></el-button>
             </template>
           </el-table-column>
@@ -247,6 +247,7 @@
     padding: 15px 0px;
     position: relative;
     height: 50px;
+    line-height: 50px;
   }
   .brandmanagement .span-button{
     font-size: 70px;
@@ -264,11 +265,14 @@
   .brandmanagement .spanLi{
     width: 60%;
     position: absolute;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .brandmanagement .span-font{
     color: #333333;
     font-weight: bold;
-    line-height: 20px !important;
+    /*line-height: 20px !important;*/
   }
   .brandmanagement .el-table--enable-row-transition .el-table__body td,.brandmanagement .el-table th>.cell{
     text-align: center;
@@ -353,15 +357,6 @@
           this.grade_type.push(obj);
         }
       },
-      editManage:function(obj,flag){
-        if(flag === 0){
-          const index = this.class_type.findIndex(item => item.id === obj.id);
-          this.class_type[index].edit = false;
-        }else if(flag === 1){
-          const index = this.grade_type.findIndex(item => item.id === obj.id);
-          this.grade_type[index].edit = false;
-        }
-      },
       deleteButton: function(obj,flag){
         if(obj.id === ''){
           console.log(obj);
@@ -413,15 +408,6 @@
         })
         this.deleteVisible = false;
       },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
       addAndEditBrand:function(num,id){
         this.editbrandVisible = true;
         if(num === -1){
@@ -436,9 +422,6 @@
         }else{
           this.editBrandInfo(id);
         }
-      },
-      handleClick(row) {
-        console.log(row);
       },
       getClassType: function () {
         var _this = this;
@@ -576,54 +559,73 @@
         }
         for(var x in types){
           if(types[x].id === ''){
-            var _this = this;
-            _this.loading = true;
-            _this.$axios.post(url, {
-              name: types[x].name,
-              sort_order: 0,
-              code: types[x].code,
-            }).then(res => {
-              _this.loading = false;
-              if (res.status == 201) {
-                this.$message({
-                  message: '保存成功',
-                  type: 'success'
-                });
-              } else {
-                this.$message.error('保存失败');
-              }
-            }).catch(err => {
-              console.log(err)
-            })
+            if(types[x].name !== ''){
+              var _this = this;
+              _this.loading = true;
+              _this.$axios.post(url, {
+                name: types[x].name,
+                sort_order: 0,
+                code: types[x].code,
+              }).then(res => {
+                _this.loading = false;
+                if (res.status == 201) {
+                  this.$message({
+                    message: '保存成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message.error('保存失败');
+                }
+                if(x == types.length - 1){
+                  if(flag === 0){
+                    this.classManageVisible = false;
+                    this.getClassType();
+                  }else{
+                    this.yearManageVisible = false;
+                    this.getGradeType();
+                  }
+                }
+              }).catch(err => {
+                console.log(err)
+              })
+            }else{
+              this.$message.error('名称不能为空');
+            }
           }else if(types[x].edit === false){
-            var _this = this;
-            _this.loading = true;
-            var n_url = url + types[x].id+'/';
-            _this.$axios.put(n_url, {
-              name: types[x].name,
-              sort_order: 0,
-              code: types[x].code,
-            }).then(res => {
-              _this.loading = false;
-              if (res.status == 200) {
-                this.$message({
-                  message: '保存成功',
-                  type: 'success'
-                });
-              } else {
-                this.$message.error('保存失败');
-              }
-            }).catch(err => {
-              console.log(err)
-            })
+            if(types[x].name !== '') {
+              var _this = this;
+              _this.loading = true;
+              var n_url = url + types[x].id + '/';
+              _this.$axios.put(n_url, {
+                name: types[x].name,
+                sort_order: 0,
+                code: types[x].code,
+              }).then(res => {
+                _this.loading = false;
+                if (res.status == 200) {
+                  this.$message({
+                    message: '保存成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message.error('保存失败');
+                }
+                if (x == types.length - 1) {
+                  if (flag === 0) {
+                    this.classManageVisible = false;
+                    this.getClassType();
+                  } else {
+                    this.yearManageVisible = false;
+                    this.getGradeType();
+                  }
+                }
+              }).catch(err => {
+                console.log(err)
+              })
+            }else{
+            this.$message.error('名称不能为空');
           }
-        }
-        if(flag === 0){
-          this.getClassType();
-          this.classManageVisible = false;
-        }else{
-          this.getGradeType();
-          this.yearManageVisible = false;
+          }
         }
       },
     },
@@ -636,6 +638,18 @@
       },
     },
     watch:{
+      classManageVisible:{
+        handler(newValue, oldValue) {
+          this.getClassType();
+        },
+        deep: true
+      },
+      yearManageVisible:{
+        handler(newValue, oldValue) {
+          this.getGradeType();
+        },
+        deep: true
+      },
       klass: {
         handler(newValue, oldValue) {
           if(newValue.length > 0 && this.editForm.grade.length > 0) {
