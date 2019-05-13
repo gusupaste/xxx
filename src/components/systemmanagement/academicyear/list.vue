@@ -36,6 +36,7 @@
                               value-format="yyyy"
                               type="year"
                               :disabled="yearDisableFlag"
+                              @change="clearDate"
                               placeholder="选择年"></el-date-picker>
             </el-form-item>
           </el-col>
@@ -51,6 +52,7 @@
                               :picker-options="pickerOptionsStart"
                               value-format="yyyy-MM-dd"
                               :disabled="firstStart"
+                              :default-value="default_value"
                               v-model="rulesForm.first_term_start" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
@@ -61,6 +63,7 @@
                               :picker-options="pickerOptionsEnd"
                               value-format="yyyy-MM-dd"
                               :disabled="firstEnd"
+                              :default-value="default_value"
                               placeholder="选择日期" v-model="rulesForm.first_term_end" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
@@ -72,6 +75,7 @@
                               :picker-options="pickerOptionsStart2"
                               value-format="yyyy-MM-dd"
                               :disabled="secondStart"
+                              :default-value="default_value"
                               placeholder="选择日期" v-model="rulesForm.second_term_start" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
@@ -82,6 +86,7 @@
                               :picker-options="pickerOptionsEnd2"
                               value-format="yyyy-MM-dd"
                               :disabled="secondEnd"
+                              :default-value="default_value"
                               placeholder="选择日期" v-model="rulesForm.second_term_end" style="width: 100%;"></el-date-picker>
               </el-form-item>
           </el-col>
@@ -104,6 +109,7 @@
     },
     data() {
       return {
+        default_value:'',
         list_url:'/api/common/academic_year/',
         title:'新增学年',
         acad_yearlist:[],
@@ -327,8 +333,8 @@
           this.firstEnd=false;
           this.secondStart=false;
           this.secondEnd=false;
+          this.default_value = newValue + '-01-01';
         }
-        this.clearDate();
       }
     },
   }
