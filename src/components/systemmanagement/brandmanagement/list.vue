@@ -27,7 +27,8 @@
               <p class="add_text">新增品牌</p>
             </el-card>
           </div>
-          <div class="intercity-list" v-for="(card,index) in cardList" :key="index">
+          <div class="intercity-list" v-for="(card,index) in cardList" :key="index"
+               :class="(key + 1) % 4==0?'class-right':''">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
                 <span class="city-name font-cl-blue">{{ card.name }}</span>
@@ -208,10 +209,13 @@
     border-color: #ED6C2E;
   }
   .brandmanagement >>> .intercity-list{
-    width: 23%;
+    width: 23.4%;
     /*display: inline-block;*/
-    margin-right: 2%;
+    /*margin-right: 2%;*/
     float: left;
+  }
+  .brandmanagement .class-right{
+    margin-right: 2%;
   }
   .brandmanagement .el-card{
     height: 220px;
