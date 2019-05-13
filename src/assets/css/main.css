@@ -76,6 +76,9 @@ html {
 .bg-dark-orange {
   background-color: #F6691E;
 }
+.bg-red {
+  background-color: red;
+}
 .green {
   color: #8BC34A;
 }

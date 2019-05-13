@@ -15,7 +15,7 @@
         </el-select>
         <span class="padding-left-30">搜索：</span>
         <el-input type="text" v-model="display_name" placeholder="请输入"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="getUserList">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getUserList(1)">搜索</el-button></span>
         <span class="right"><el-button class="orange" type="text" @click="addUser(0)"><i class="fa fa-plus-square"></i>&nbsp;新增用户</el-button></span>
       </p>
       <el-table
@@ -53,6 +53,15 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        background
+        layout="pager, next, jumper"
+        next-text="下一页"
+        :page-size="pagesize"
+        :current-page="currentPage"
+        @current-change="handleCurrentChange"
+        :total="total" class="page">
+      </el-pagination>
       <!--角色权限分配 弹框-->
       <el-dialog class="assign-permissions" title="角色权限分配" :visible.sync="assignpermissions" width="50%">
         <div class="dialog_content">
@@ -136,11 +145,19 @@
         userCheckList: [],
         boxData: [],
         checkedValue: [],
+        pagesize: 10,
+        currentPage: 1,
+        total: 1
       }
     },
     mounted: function () {
-      this.getUserList()
+      this.getUserList(1)
       this.value = this.options[0].value
+    },
+    watch: {
+      currentPage () {
+        this.getUserList(this.currentPage)
+      }
     },
     methods: {
       addUser: function (id) {
@@ -148,15 +165,18 @@
       },
       roleType: function (val) {
         this.type = val
-        this.getUserList()
+        this.getUserList(1)
       },
-      getUserList: function () {
+      getUserList: function (val) {
         this.loading = true
-        var url = '/api/user/users_management/?display_name=' + this.display_name + '&role_type=' + this.type + '&organization_id=-1&page=1&size=10'
+        this.currentPage = val
+        var url = '/api/user/users_management/?display_name=' + this.display_name + '&role_type=' + this.type + '&organization_id=-1&page=' + this.currentPage + '&size=' + this.pagesize
         this.$axios.get(url).then(res => {
           this.loading = false
           if (res.data.status_code === 1) {
-            this.userList = res.data.data
+            console.log(res.data.data)
+            this.userList = res.data.data.results
+            this.total = res.data.data.count
           }
         }).catch(err => {
           console.log(err)
@@ -205,7 +225,10 @@
             }
           }
         }
-      }
+      },
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage;
+      },
     }
   }
 </script>

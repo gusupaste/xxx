@@ -171,9 +171,9 @@
         assignpermissions: false,
         rolename: '',
         roledesc: '',
-        userCheckList:[],
-        boxData:[],
-        checkedValue:[],
+        userCheckList: [],
+        boxData: [],
+        checkedValue: [],
         id: 0
       }
     },
@@ -181,6 +181,9 @@
       this.id = Number(this.$route.query.id)
       if (this.id !== 0) {
         this.getUser()
+      }else{
+        this.getRoleList(0)
+        this.getRoleList(1)
       }
       this.getSchoolList()
     },
@@ -229,6 +232,21 @@
           }
         })
       },
+      getRoleList: function (status) {
+        this.loading = true
+        var url = '/api/user/roles_management/?status=' + status
+        this.$axios.get(url).then(res => {
+          this.loading = false
+          if (res.data.status_code === 1) {
+            if (status === 0) {
+              this.headquartersLength = res.data.data.length
+            }
+            this.roleList = this.roleList.concat(res.data.data)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       getSchoolList: function () {
         this.loading = true
         var url = '/api/user/get_centers/'
@@ -241,19 +259,19 @@
           console.log(err)
         })
       },
-      tableRowClassName ({row, rowIndex}) {
+      tableRowClassName({row, rowIndex}) {
         if (rowIndex < this.headquartersLength) {
           return 'warning-row'
         }
         return ''
       },
-      userIdsChange (val) {
+      userIdsChange(val) {
         this.userIds = []
         for (var i = 0; i < val.length; i++) {
           this.userIds.push(val[i].id)
         }
       },
-      schoolIdsChange (val) {
+      schoolIdsChange(val) {
         this.schoolIds = val
       },
       addOrganization: function () {
@@ -317,10 +335,10 @@
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
-            if(res.data.status_code === 1) {
+            if (res.data.status_code === 1) {
               alert('保存成功')
               this.back()
-            }else {
+            } else {
               alert(res.data.message)
             }
 

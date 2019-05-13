@@ -7,11 +7,9 @@
       <span class="left">折扣申请学生：曹旭</span>
       <span class="right ">
               <span>状态：</span>
-              <span class="green">审核通过</span>
-          </span>
-      <span class="right ">
-              <span>状态：</span>
-              <span class="red">审核中</span>
+              <span v-if="form_status === 0" class="orange">审批中</span>
+              <span v-if="form_status === 1" class="green">已通过</span>
+              <span v-if="form_status === 2" class="red">已拒绝</span>
           </span>
     </p>
     <div class="content-top">员工子女折扣</div>
@@ -142,19 +140,34 @@
         <el-table-column
           prop="status_name"
           label="审批结果">
+          <template slot-scope="scope">
+            <el-select v-if="scope.row.is_vailded" v-model="select_status">
+              <el-option v-for="item in select_option"
+                         :value="item.id" :key="item.id" :label="item.name"
+              ></el-option>
+            </el-select>
+            <span v-else>{{scope.row.status_name}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="remark"
           label="审批意见">
+          <template slot-scope="scope">
+            <el-input v-if="scope.row.is_vailded" v-model="remark">{{scope.row.remark}}</el-input>
+            <span v-else>{{scope.row.remark}}</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="date_created"
           label="审批日期">
+          <template slot-scope="scope">
+            <span v-if="scope.row.is_vailded">{{date | formatDate}}</span>
+            <span v-else>{{scope.row.date_created}}</span>
+          </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="mt26 text-align-center">
       <button class="btn bg-grey" @click="back">返回</button>
+      <button v-show="status === 0" class="btn bg-green" @click="save">提交</button>
     </div>
   </div>
 </template>
@@ -205,12 +218,26 @@
         status: Number(this.$route.query.status),
         formId: Number(this.$route.query.formId),
         formKindId: Number(this.$route.query.formKindId),
-        tableData: []
+        approveLevel: Number(this.$route.query.approveLevel),
+        form_status: 0,
+        tableData: [],
+        select_status: 1,
+        select_option: [
+          {
+            id: 1,
+            name: '同意'
+          },
+          {
+            id: 2,
+            name: '拒绝'
+          }
+        ],
+        remark: '',
+        date: new Date()
       }
     },
     mounted: function () {
-      status:
-        this.getDetail()
+      this.getDetail()
     },
     methods: {
       getDetail: function () {
@@ -225,6 +252,29 @@
           this.loading = false
           if (res.data.status_code === 1) {
             this.tableData = res.data.data
+            this.form_status = res.data.form_status
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      save: function () {
+        console.log(this.select_status)
+        console.log(this.remark)
+        console.log(this.formId)
+        console.log(this.formKindId)
+        console.log(this.approveLevel)
+        this.loading = true
+        this.$axios.post('/api/workflow/workflow_management/', {
+          status: this.select_status,
+          remark: this.remark,
+          form_id: this.formId,
+          form_kind_id: this.formKindId,
+          approve_level: this.approveLevel
+        }).then(res => {
+          this.loading = false
+          if (res.data.status_code === 1) {
+            this.getDetail()
           }
         }).catch(err => {
           console.log(err)
