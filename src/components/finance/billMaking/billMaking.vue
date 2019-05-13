@@ -5,21 +5,28 @@
         </div>
         <el-form inline class="mt26">
             <el-form-item label="学年：">
-                <el-select v-model="searchform.year">
-
+                <el-select v-model="searchform.academic_year_id">
+                    <el-option value="" label="所有"></el-option>
+                    <el-option v-for="item in academic_year_li" :value="item.id" :key="item.id" :label="item.year"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="班型：">
-                <el-select v-model="searchform.class_type"></el-select>
+                <el-select v-model="searchform.class_type_id">
+                    <el-option value="" label="所有"></el-option>
+                    <el-option v-for="item in class_type_li" :value="item.id" :key="item.id" :label="item.class_type"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="班级：">
-                <el-select v-model="searchform.class_id"></el-select>
+                <el-select v-model="searchform.class_id">
+                    <el-option value="" label="所有"></el-option>
+                    <el-option v-for="item in class_li" :value="item.id" :key="item.id" :label="item.class_name"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="学生信息：">
-                <el-input v-model="searchform.info" class="w250_input"></el-input>
+                <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">搜索</el-button>
+                <el-button type="primary" @click="getList(1)">搜索</el-button>
             </el-form-item>
         </el-form>
         <p class="">
@@ -98,7 +105,7 @@
             label="实际应收"
             >
             <template slot-scope="scope">
-                <router-link to="/financemanagement/edit/9">
+                <router-link to="/financemanagement/edit/9" v-if="scope.row.bill_status === 0">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
@@ -114,8 +121,11 @@
         <el-pagination
             class="mt26"
             background
+            :current-page="searchform.page"
+            @current-change="handleCurrentChange"
+            :page-size="10"
             layout="prev, pager, next,jumper"
-            :total="1000">
+            :total="count">
         </el-pagination>
         <!-- 收费政策详情 -->
         <el-dialog title="政策详情" :visible.sync="dialogTableVisible">
@@ -154,25 +164,49 @@ export default {
             dialogTableVisible:false,
             gridData: [],
             tableData: [],
+            count:1,
+            academic_year_li: [],
+            class_li: [],
+            class_type_li: [],
             searchform:{
-                year:'',
-                class_type:'',
+                academic_year_id:'',
+                class_type_id:'',
                 class_id:'',
-                info:''
+                search_str:'',
+                page:1,
+                size:10
             }
         }
     },
     created () {
-        this.getList();
+        this.searchInfo();
+        this.getList(1);
     },
     methods: {
-        getList(){
+        getList(val){
             var _this = this;
-            this.$axios.get('/api/finance/bill/')
+            this.searchform.page = val;
+            this.$axios.get('/api/finance/bill/',{
+                params:this.searchform
+            })
             .then(res=>{
                 console.log(res.data.data)
-                this.tableData = res.data.data.bill_li
+                this.tableData = res.data.data.bill_li;
+                this.count = res.data.data.count;
             })
+        },
+        searchInfo(){
+            var _this = this;
+            this.$axios.get('/api/finance/bill/search_info/')
+            .then(res=>{
+                console.log(res.data.data)
+                this.academic_year_li = res.data.data.academic_year_li;
+                this.class_li = res.data.data.class_li;
+                this.class_type_li = res.data.data.class_type_li;
+            })
+        },
+        handleCurrentChange(val){
+            this.getList(val);
         }
     }
 }

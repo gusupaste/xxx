@@ -284,7 +284,7 @@
       return {
         searchPerson:"",
         personTable:[],
-        choosePerson:Number,
+        choosePerson:"",
         /**分页数据 */
         count:1,
         currentPage:1,

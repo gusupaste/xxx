@@ -215,13 +215,8 @@
         })
       },
       handleCancel(row){
-        row.edit = false;
-        // for (let key in row) {
-        //   console.log(key)
-        //   if(key != 'center_code' && key != 'center_id' && key != 'center_name' && key != 'edit' && key != 'total') {
-        //     row[key] = ""
-        //   }
-        // }
+        // row.edit = false;
+        this.getList();
       },
        getSummaries(param) {
         const { columns, data } = param;

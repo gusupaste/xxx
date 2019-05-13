@@ -53,10 +53,10 @@
           <span style="margin-left: 10px">账单类型：</span>
           <el-select v-model="nameSelect" placeholder="请选择">
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              v-for="item in billType"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
             </el-option>
           </el-select>
         </div>
@@ -209,6 +209,45 @@
           value: '选项5',
           label: '北京烤鸭'
         }],
+        billType:[
+          {
+            id:0,
+            name:"入园账单"
+          },
+          {
+            id:1,
+            name:"系统备用金结转账单"
+          },
+          {
+            id:2,
+            name:"转班补交账单"
+          },
+          {
+            id:3,
+            name:"离园账单"
+          },
+          {
+            id:4,
+            name:"预备生离园账单"
+          },
+          {
+            id:5,
+            name:"终止服务账单"
+          },
+          {
+            id:6,
+            name:"推迟入园账单"
+          },
+          {
+            id:7,
+            name:"应该是提前入园账单"
+          },
+          {
+            id:8,
+            name:"否决账单"
+          },
+          
+        ],
         value1:'',
         value2:'',
         input:'',

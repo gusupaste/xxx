@@ -14,7 +14,7 @@
             </div>
             <div class="clearfix">
                 <el-card class="box-card" style="height:222px;text-align:center;">
-                    <div style="cursor:pointer" @click="add_dialogVisible=true">
+                    <div style="cursor:pointer" @click="showAdd">
                         <span class="circle">
                             +
                         </span>
@@ -276,6 +276,12 @@ export default {
         show_copy(id){
             this.dialogFormVisible = true;
             this.template_id = id;
+        },
+        showAdd(){
+            this.add_dialogVisible=true;
+            this.$nextTick(()=>{
+                this.$refs['addform'].resetFields();
+            })
         },
         getClassList($event,id){
             var length = $event.length;

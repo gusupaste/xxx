@@ -339,7 +339,9 @@ a {
 
 /*日历公共样式*/
 .wh_chose_day{
-    background-color: #fff !important;
+    /* background-color: #fff !important; */
+    border-radius: 0 !important;
+    color: #fff !important;
 }
 .wh_item_date:hover{
     background-color: #fff !important;
