@@ -5,10 +5,10 @@
       </div>
       <div class="content">
         <div class="select-header">
-          <el-form v-model="searchform" inline>
+          <el-form :model="searchform" inline>
             <el-form-item label="城际：" >
                 <el-select v-model="searchform.intercity_id" placeholder="请选择">
-                  <el-option value="" label="所有"></el-option>
+                  <el-option label="所有" value="" ></el-option>
                   <el-option
                     v-for="item in intercityList"
                     :key="item.id"
@@ -33,9 +33,9 @@
                   <el-option value="" label="所有"></el-option>
                   <el-option
                     v-for="item in cityList"
-                    :key="item.id"
+                    :key="item.city_id"
                     :label="item.city_name"
-                    :value="item.id">
+                    :value="item.city_id">
                   </el-option>
                 </el-select>
             </el-form-item>
@@ -73,18 +73,18 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="班级：" >
-                <el-select v-model="searchform" placeholder="请选择">
+                <el-select v-model="searchform.class_id" placeholder="请选择">
                   <el-option value="" label="所有"></el-option>
                   <el-option
-                    v-for="item in intercityList"
+                    v-for="item in classList"
                     :key="item.id"
-                    :label="item.dept_name"
+                    :label="item.name"
                     :value="item.id">
                   </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="账单类型：" >
-                <el-select v-model="searchform" placeholder="请选择">
+                <el-select v-model="searchform.bill_type_id" placeholder="请选择">
                   <el-option value="" label="所有"></el-option>
                   <el-option
                     v-for="item in billType"
@@ -96,7 +96,8 @@
             </el-form-item>
             <el-form-item label="起止日期：">
                 <el-date-picker
-                  v-model="value1"
+                  v-model="searchform.date_from"
+                  value-format="yyyy-MM-dd"
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
@@ -104,10 +105,10 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="搜索：">
-                <el-input v-model="searchform.input" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
+                <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="searchList">搜索</el-button>
+                <el-button type="primary" @click="searchList(1)">搜索</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -115,54 +116,62 @@
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="确认账单" name="first">
               <el-table
-                :data="chargeTableDate"
+                :data="countList"
                 border
                 stripe
                 show-header
                 style="width: 100%;margin-top: 10px;">
                 <el-table-column
-                  prop="code"
+                  prop="bill_no"
                   label="账单号"
                   width="150">
                   <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="editSchool(scope.row,1)">{{scope.row.code}}</el-button>
+                    <el-button type="text" size="small" @click="editSchool(scope.row,1)">{{scope.row.bill_no}}</el-button>
                   </template>
                 </el-table-column>
                 <el-table-column
-                  prop="name"
+                  prop="student_name"
                   label="学生姓名"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="intercity_name"
+                  prop="class"
                   label="所在班级"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="hq_name"
+                  prop="bill_type"
                   label="账单类型"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="opening_date"
+                  prop="actual_amount"
                   label="实际应收"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="leader"
+                  prop="actual_pay"
                   label="实际实收"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="telephone"
+                  prop="creator"
                   label="制单人"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="status_name"
+                  prop="billing_date"
                   label="制单日期">
-                </el-table-column>
+                </el-table-column>   
               </el-table>
+              <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :current-page="searchform.page"
+                  :page-size="10"
+                  @current-change="changePage"
+                  :total="count">
+                </el-pagination>
             </el-tab-pane>
             <el-tab-pane label="待审核账单" name="second">
               <el-table
@@ -225,7 +234,6 @@
   export default {
     data() {
       return {
-        nameSelect:[],
         searchform:{
               intercity_id:'',
               area_id:'',
@@ -235,10 +243,13 @@
               academic_year_id:'',
               date_from:'',
               date_to:'',
+              class_id:'',
+              bill_type_id:'',
+              search_str:'',
               page:1,
-              size:10
+              size:1
         },
-        options: [],
+        count:'',
         billType:[
           {
             id:0,
@@ -278,9 +289,6 @@
           },
           
         ],
-        value1:'',
-        value2:'',
-        input:'',
         activeName:'first',
         chargeTableDate:[],
         areaList:[],
@@ -289,8 +297,8 @@
         brandList:[],
         cityList:[],
         schoolList:[],
-        searchform:{},
-        areaList:[],
+        classList:[],
+        countList:[],
       };
     },
     created(){
@@ -300,6 +308,7 @@
       this.getBrand();
       this.getcity_list();
       this.getSchool();
+      
     },
     methods: {
       handleClose (){
@@ -312,7 +321,7 @@
             var _this = this;
             this.$axios.get('/api/common/select/center_list/',{
                 params:{
-                    area_id:this.searchform.area_id,
+                    area_id:_this.searchform.area_id,
                     hq_id:_this.searchform.hq_id,
                     intercity_id:_this.searchform.intercity_id,
                     province_id:_this.searchform.province_id,
@@ -320,6 +329,7 @@
             })
             .then(res=>{
                 _this.schoolList = res.data.results;
+                _this.getClass();
             });
         },
       getcity_list(){
@@ -343,6 +353,9 @@
           console.log(err)
         })
       },
+      changePage(val){
+            this.searchList(val);
+        },
       getIntercity(){
           var _this = this;
           this.$axios.get('/api/common/intercity/',).then(res=>{
@@ -375,12 +388,77 @@
                 });
             })
         },
-      searchList: function() {
-
+      getClass(){
+            var _this = this;
+            var class_list = [];
+            this.schoolList.forEach(item=>{
+              class_list.push(item.id)
+            })
+            console.log(class_list)
+            this.$axios.get('/api/common/select/all_class_list/',{
+              params:{
+                center_li:JSON.stringify(class_list)
+              }
+            })
+            .then(res=>{
+                _this.classList = res.data.results;
+                _this.searchList(1);
+            })
+        },
+      searchList(val) {
+        var _this = this;
+        var class_list = [];
+        this.classList.forEach(item=>{
+          class_list.push(item.id)
+        })
+        this.searchform.page = val;
+        this.$axios.get('/api/finance/bill/hq_bill/',{
+          params:{
+            academic_year_id:this.searchform.academic_year_id,
+            search_str:this.searchform.search_str,
+            start_date:this.searchform.date_from[0],
+            end_date:this.searchform.date_from[1],
+            class_li:JSON.stringify(class_list),
+            page:this.searchform.page,
+            size:10,
+          }
+        }).then(res=>{
+          _this.countList = res.data.bill_li;
+          _this.count = res.data.count;
+        })
       },
       editSchool:function (param,index) {
           this.$router.push('/financemanagement/billDetail');
       }
+    },
+    watch: {
+      'searchform.area_id'(){
+          this.getcity_list();
+          this.searchform.center_id = "";
+          this.searchform.province_id = "";
+      },
+      'searchform.intercity_id'(){
+          this.getSchool();
+          this.searchform.center_id = "";
+      },
+      'searchform.hq_id'(){
+          this.getSchool();
+          this.searchform.center_id = "";
+      },
+      'searchform.area_id'(){
+          this.getcity_list();
+          this.getSchool();
+          this.searchform.province_id = "";
+          this.searchform.center_id = "";
+      },
+      'searchform.province_id'(){
+          this.getSchool();
+          this.searchform.center_id = "";
+      },
+      'searchform.center_id'(){
+          this.getClass();
+          this.searchform.class_id = "";
+      },
     }
   }
 </script>
