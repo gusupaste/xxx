@@ -45,7 +45,7 @@ export default {
     },
     data(){
         return {
-            year_url:'http://192.168.199.157:8000/api/student/student/1/academic_year_history/',
+            year_url:'/api/student/student/1/academic_year_history/',
             yearlist: [],
         }
     },

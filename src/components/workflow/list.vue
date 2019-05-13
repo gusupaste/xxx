@@ -102,7 +102,7 @@
                 min-width="150">
               </el-table-column>
               <el-table-column
-                prop="hq_name"
+                prop="date_updated"
                 label="任务分配时间"
                 min-width="180">
               </el-table-column>

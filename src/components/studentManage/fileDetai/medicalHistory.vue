@@ -106,7 +106,7 @@ export default {
               '心脏病或心脏杂音Heart disease/Heart Murmur',
               '其他'
             ],
-            post_url:'http://192.168.199.157:8000/api/student/medical/',
+            post_url:'/api/student/medical/',
             ruleForm:{
                 student:this.$route.params.id,
                 id:'',
