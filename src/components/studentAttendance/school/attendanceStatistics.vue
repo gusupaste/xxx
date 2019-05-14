@@ -97,7 +97,7 @@
           </div>
           <div style="width:80%;margin:0 auto">
             <div class="mt10 text-align-center">
-              <calendar :choseDay="clickDay"></calendar>
+              <calendar ref="calendar"></calendar>
             </div>
             <div class="calendar-datail">
               <p>考勤状态说明</p>
@@ -121,8 +121,7 @@
   </div>
 </template>
 <script>
-  import Calendar from 'vue-calendar-component';
-
+  import Calendar from 'vue-calendar-component'
   export default {
     data() {
       return {
@@ -138,7 +137,17 @@
         student_name: '',
         should_att: '',
         att_num: '',
-        attendance_rate: ''
+        attendance_rate: '',
+        arr: [
+          {
+            date: "2018/8/1",
+            className: "mark1"
+          },
+          {
+            date: "2018/8/13",
+            className: "mark2"
+          }
+        ]
       }
     },
     components: {
@@ -157,9 +166,6 @@
       }
     },
     methods: {
-      clickDay: function (data) {
-          console.log(data)
-      },
       getClass: function () {
         this.loading = true
         this.$axios.get('/api/attendance/students_attendance/info_list/', {}).then(res => {
@@ -206,6 +212,10 @@
         this.attendance_rate = obj.attendance_rate
         this.attendance = obj.attendance
         console.log(obj)
+        this.$nextTick(()=> {
+          console.log(this.$refs.calendar)
+          this.$refs.calendar.ChoseMonth(this.months)
+        });
       }
     }
   }
@@ -282,5 +292,12 @@
     max-width: 100%;
   }
 
+  .attendanceStatistics >>> .mark1 {
+    background-color: orange;
+  }
+
+  .attendanceStatistics >>> .mark2 {
+    background-color: blue;
+  }
 </style>
 
