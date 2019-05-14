@@ -108,7 +108,7 @@
                 <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="searchList(1)">搜索</el-button>
+                <el-button type="primary" @click="searchList(1);searchList2(1)">搜索</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -175,54 +175,62 @@
             </el-tab-pane>
             <el-tab-pane label="待审核账单" name="second">
               <el-table
-                :data="chargeTableDate"
+                :data="pendingcountList"
                 border
                 stripe
                 show-header
                 style="width: 100%;margin-top: 10px;">
                 <el-table-column
-                  prop="code"
+                  prop="bill_no"
                   label="账单号"
                   width="150">
                   <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="editSchool(scope.row,1)">{{scope.row.code}}</el-button>
+                    <el-button type="text" size="small" @click="editSchool(scope.row,1)">{{scope.row.bill_no}}</el-button>
                   </template>
                 </el-table-column>
                 <el-table-column
-                  prop="name"
+                  prop="student_name"
                   label="学生姓名"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="intercity_name"
+                  prop="class"
                   label="所在班级"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="hq_name"
+                  prop="bill_type"
                   label="账单类型"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="opening_date"
+                  prop="actual_amount"
                   label="实际应收"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="leader"
+                  prop="actual_pay"
                   label="实际实收"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="telephone"
+                  prop="creator"
                   label="制单人"
                   width="130">
                 </el-table-column>
                 <el-table-column
-                  prop="status_name"
+                  prop="billing_date"
                   label="制单日期">
                 </el-table-column>
               </el-table>
+              <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :current-page="searchform.page2"
+                  :page-size="10"
+                  @current-change="changePage2"
+                  :total="count2">
+                </el-pagination>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -247,9 +255,10 @@
               bill_type_id:'',
               search_str:'',
               page:1,
-              size:1
+              size:10
         },
-        count:'',
+        count:1,
+        count2:1,
         billType:[
           {
             id:0,
@@ -299,6 +308,7 @@
         schoolList:[],
         classList:[],
         countList:[],
+        pendingcountList:[],
       };
     },
     created(){
@@ -356,6 +366,9 @@
       changePage(val){
             this.searchList(val);
         },
+      changePage2(val){
+            this.searchList2(val);
+        },
       getIntercity(){
           var _this = this;
           this.$axios.get('/api/common/intercity/',).then(res=>{
@@ -403,18 +416,25 @@
             .then(res=>{
                 _this.classList = res.data.results;
                 _this.searchList(1);
+                _this.searchList2(1);
             })
         },
       searchList(val) {
         var _this = this;
         var class_list = [];
-        this.classList.forEach(item=>{
-          class_list.push(item.id)
-        })
+        if(this.searchform.class_id == ""){
+            this.classList.forEach(item=>{
+            class_list.push(item.id)
+          })
+        } else {
+          class_list.push(this.searchform.class_id)
+        }
+        
         this.searchform.page = val;
         this.$axios.get('/api/finance/bill/hq_bill/',{
           params:{
             academic_year_id:this.searchform.academic_year_id,
+            bill_type_id:this.searchform.bill_type_id,
             search_str:this.searchform.search_str,
             start_date:this.searchform.date_from[0],
             end_date:this.searchform.date_from[1],
@@ -425,6 +445,34 @@
         }).then(res=>{
           _this.countList = res.data.bill_li;
           _this.count = res.data.count;
+        })
+      },
+      searchList2(val) {
+        var _this = this;
+        var class_list = [];
+        if(this.searchform.class_id == ""){
+            this.classList.forEach(item=>{
+            class_list.push(item.id)
+          })
+        } else {
+          class_list.push(this.searchform.class_id)
+        }
+        
+        this.searchform.page2 = val;
+        this.$axios.get('/api/finance/bill/hq_bill_pd/',{
+          params:{
+            academic_year_id:this.searchform.academic_year_id,
+            bill_type_id:this.searchform.bill_type_id,
+            search_str:this.searchform.search_str,
+            start_date:this.searchform.date_from[0],
+            end_date:this.searchform.date_from[1],
+            class_li:JSON.stringify(class_list),
+            page:this.searchform.page2,
+            size:10,
+          }
+        }).then(res=>{
+          _this.pendingcountList = res.data.bill_li;
+          _this.count2 = res.data.count;
         })
       },
       editSchool:function (param,index) {
@@ -474,7 +522,7 @@
   }
   .chargelist >>> .select-header,.chargelist .list-content{
     width: 100%;
-    min-height: 50px;
+    /* min-height: 50px; */
     margin-top: 20px;
   }
   .chargelist >>> .el-tabs__item{
