@@ -65,7 +65,7 @@
                 :total="count">
             </el-pagination>
             <!-- 新增费用科目 -->
-            <el-dialog title="新增费用科目" :visible.sync="addFeeVisible" width="800px">
+            <el-dialog title="新增费用科目" :visible.sync="addFeeVisible" width="800px" @close="handleClose">
                 <el-form ref="editform" :rules="rules" :model="editform"  label-width="100px">
                 <el-row>
                     <el-col :span="12">
@@ -103,7 +103,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                    <el-form-item label="是否必选：">
+                    <el-form-item label="是否必选：" style="display:none">
                         <el-select v-model="editform.is_required">
                             <el-option label="必选" value="Necessary"></el-option>
                             <el-option label="可选" value="Optional"></el-option>
@@ -172,6 +172,7 @@
                     <el-form-item label="备注说明：">
                         <el-input type="textarea"
                         :rows="2"
+                        maxlength="100"
                         placeholder="请输入内容"
                         v-model="editform.remarks">
                         </el-input>
@@ -190,12 +191,12 @@
             <el-row>
                 <el-col :span="12">
                 <el-form-item label="科目名称：" prop="name">
-                    <el-input v-model.trim="editform2.name" placeholder="请输入科目名称" maxlength="20"></el-input>
+                    <el-input disabled v-model.trim="editform2.name" placeholder="请输入科目名称" maxlength="20"></el-input>
                 </el-form-item>
                 </el-col>
                 <el-col :span="12">
                 <el-form-item label="科目属性：" prop="type">
-                    <el-select v-model="editform2.type" placeholder="--请选择--" style="width: 100%;">
+                    <el-select disabled v-model="editform2.type" placeholder="--请选择--" style="width: 100%;">
                         <el-option :value="0" label="非普惠"></el-option>
                         <el-option :value="1" label="普惠"></el-option>
                     </el-select>
@@ -205,7 +206,7 @@
             <el-row>
                 <el-col :span="12">
                 <el-form-item label="科目类型：" prop="t_code">
-                    <el-select value-key="id" v-model="editform2.code" @change="gettype" placeholder="--请选择--" style="width: 100%;">
+                    <el-select value-key="id" disabled v-model="editform2.code" @change="gettype" placeholder="--请选择--" style="width: 100%;">
                         <el-option
                         v-for="item in category_list"
                         :key="item.id"
@@ -223,7 +224,7 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                <el-form-item label="是否必选：">
+                <el-form-item label="是否必选：" style="display:none">
                     <el-select v-model="editform2.is_required">
                         <el-option label="必选" value="Necessary"></el-option>
                         <el-option label="可选" value="Optional"></el-option>
@@ -242,7 +243,7 @@
                 <el-col :span="16" v-if="editform2.limit_range == 1">
                     <el-form-item style="margin-left:-80px;padding-top: 40px;">
                         <span>品牌：</span>
-                        <el-select v-model="editform2.hq_id" @change="getSchool" placeholder="--请选择--" style="width: 35%;" >
+                        <el-select v-model="editform2.hq_id" @change="getSchool2" placeholder="--请选择--" style="width: 35%;" >
                             <el-option value="" label="所有"></el-option>
                             <el-option
                                 v-for="item in brandList"
@@ -252,7 +253,7 @@
                             </el-option>
                         </el-select>
                         <span>城际：</span>
-                        <el-select v-model="editform2.intercity_id" @change="getSchool" placeholder="--请选择--" style="width: 35%;">
+                        <el-select v-model="editform2.intercity_id" @change="getSchool2" placeholder="--请选择--" style="width: 35%;">
                             <el-option value="" label="所有"></el-option>
                             <el-option
                                 v-for="item in intercityList"
@@ -291,7 +292,9 @@
                 <el-col :span="24">
                 <el-form-item label="备注说明：">
                     <el-input type="textarea"
+                    maxlength="100"
                     :rows="2"
+                    disabled
                     placeholder="请输入内容"
                     v-model="editform2.remarks">
                     </el-input>
@@ -354,11 +357,9 @@ export default {
                     { required: true, message: '请选择科目属性', trigger: 'change' }
                 ]
             },
-            options:[],
-            nameSelect:[],
             input:'',
             edit_id:'',
-            chargeTableDate:[],
+            checkedList:[]
         }
     },
     props:['brandList','intercityList'],
@@ -369,15 +370,15 @@ export default {
     },
     methods: {
         toggleSelection(rows) {
-            rows.forEach(row => {
+            console.log(rows)
+            if(rows){
+                rows.forEach(row => {
                 this.$refs.multipleTable2.toggleRowSelection(row,true);
             });
+            }
         },
-        addNewTemplate(){
-
-        },
-        changeRadio(){
-
+        handleClose(){
+            this.$refs['editform'].resetFields();
         },
         searchList() {
             var _this = this;
@@ -406,7 +407,24 @@ export default {
             })
             .then(res=>{
                 _this.schoolList = res.data.results;
+                
             });
+        },
+        getSchool2(){
+            var _this = this;
+            this.$axios.get('/api/common/select/center_list/',{
+                params:{
+                    hq_id:_this.editform2.hq_id,
+                    intercity_id:_this.editform2.intercity_id
+                }
+            })
+            .then(res=>{
+                _this.newSchoolList = res.data.results;
+                _this.$nextTick(()=>{
+                    _this.toggleSelection(_this.checkedList);
+                })
+            });
+            
         },
         addSubject(formName){
             console.log(this.editform)
@@ -458,11 +476,9 @@ export default {
             });
         },
         gettype(val){
-            console.log(val);
             this.editform.c_code = val.code;
         },
         gettype2(val){
-            console.log(val);
             this.editform2.c_code = val;
         },
         changePage(val){
@@ -470,19 +486,16 @@ export default {
             this.searchList();
         },
         handleSelectionChange(val){
-            console.log(val)
             this.editform.center_ids = [];
             val.forEach(item => {
                 this.editform.center_ids.push(item.id)
             });
         },
         handleSelectionChange2(val){
-            console.log(val)
             this.editform2.center_ids = [];
             val.forEach(item => {
                 this.editform2.center_ids.push(item.id)
             });
-            console.log(this.editform2.center_ids)
         },
         getSubjectInfo(id){
             var _this = this;
@@ -492,16 +505,16 @@ export default {
             .then(res=>{
                 _this.editform2 = res.data.detail;
                 _this.newSchoolList = res.data.detail.center_list;
-                _this.editform2.hq_id = "";
-                _this.editform2.intercity_id = "";
-                var list = [];
+                _this.$set(_this.editform2,'hq_id','');
+                _this.$set(_this.editform2,'intercity_id','');
+                _this.checkedList = [];
                 res.data.detail.center_list.forEach(item=>{
                     if(item.selected === 1){
-                        list.push(item)
+                        _this.checkedList.push(item)
                     }
                 })
                 _this.$nextTick(()=>{
-                    _this.toggleSelection(list);
+                    _this.toggleSelection(_this.checkedList);
                 })
             })
         }

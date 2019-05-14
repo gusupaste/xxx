@@ -34,6 +34,7 @@
                                 :markDateMore='i.list'
                                 v-on:choseDay="clickDay"
                                 v-on:isToday="clickToday"
+                                v-on:changeMonth="changeMonth"
                                 :sundayStart="true"
                                 ></Calendar>
                         </div>
@@ -211,10 +212,10 @@
                 </div>
             </el-dialog>
             <!-- 新增校日历模板 -->
-            <el-dialog title="新增校日历模版" :visible.sync="addtmp">
+            <el-dialog title="编辑校日历模版" :visible.sync="addtmp">
                 <el-form :model="info" :rules="rules" ref="info">
                     <el-form-item label="模板名称：" :label-width="formLabelWidth" prop="name">
-                        <el-input v-model="info.name" auto-complete="off" class="w250_input" placeholder="请输入"></el-input>
+                        <el-input maxlength="50" v-model="info.name" auto-complete="off" class="w250_input" placeholder="请输入"></el-input>
                     </el-form-item>
                     <el-form-item label="学年：" :label-width="formLabelWidth" prop="academic_year">
                         <el-select v-model="info.academic_year" placeholder="请选择学年">
@@ -350,12 +351,15 @@ export default {
         cancelModal(){
 
         },
+        changeMonth(){
+            return false;
+        },
         getTemplateInfo(){
             var _this = this;
             this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_detail/')
             .then(res=>{
-                _this.renderInfo = res.data.detail;
-               _this.info = res.data.detail;
+               _this.info = Object.assign({}, res.data.detail);;
+               _this.renderInfo =  Object.assign({}, res.data.detail);
                _this.getCalendar();
             })
         },
@@ -410,8 +414,6 @@ export default {
         },
         clickDay(data) {
             var newdata = data.replace(/\//g,'-');
-            console.log(newdata)
-            
             var _this = this;
             this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_template_calendar_day_detail/?date='+newdata)
             .then(res=>{
@@ -442,9 +444,13 @@ export default {
 
         },
         initCalendar(){
+            var _this = this;
             this.monthList.forEach((item,index)=>{
                 this.$refs.Calendar[index].ChoseMonth(item.time,false)
-            })
+            });
+            this.$nextTick(()=>{
+            var a = document.getElementsByClassName('wh_content_item');
+        })
         }
     },
     components: {

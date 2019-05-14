@@ -8,6 +8,7 @@
         <in-school :class_list="class_list"
                    :student_list="student_list"
                    :activeTabs="activeName"
+                   :year_list="year_list"
                     @getStudentList="getStudentList"></in-school>
       </el-tab-pane>
       <el-tab-pane label="毕业生" name="second">
@@ -100,6 +101,7 @@ export default {
   },
   mounted:function(){
     this.getClassList();
+    this.getYearList();
   },
   methods:{
     handleClick(tab, event) {

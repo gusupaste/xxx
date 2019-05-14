@@ -45,16 +45,22 @@
             </el-select>
           </el-form-item>
           <br>
-          <el-form-item label="地址:" prop="address">
-            <el-select class="select-region" v-model="formInline.p_city_id" placeholder="省" @change="proinit(1)">
+          <el-form-item label="地址：" style="margin-right:0" prop="p_city_id">
+            <el-select   class="select-region" v-model="formInline.p_city_id" placeholder="省" @change="proinit(1)">
               <el-option v-for="pro in provinceList" :label="pro.city_name" :value="pro.city_id" :key="pro.id"></el-option>
             </el-select>
-            <el-select class="select-region" v-model="formInline.c_city_id" placeholder="市" @change="proinit(2)">
+          </el-form-item>
+          <el-form-item style="margin-right:0" prop="c_city_id">
+            <el-select  class="select-region" v-model="formInline.c_city_id" placeholder="市" @change="proinit(2)">
               <el-option v-for="city in cityList" :label="city.city_name" :value="city.city_id" :key="city.id"></el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item style="margin-right:0" prop="town_id">
             <el-select class="select-region" v-model="formInline.town_id" placeholder="区">
               <el-option v-for="town in townList" :label="town.city_name" :value="town.id" :key="town.id"></el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item prop="address">
             <el-input v-model="formInline.address"  placeholder="请输入详细地址" maxlength="100"></el-input>
           </el-form-item>
           <br>
@@ -231,6 +237,8 @@
           taidii_key:'',
           telephone:'',
           town_id:'',
+          p_city_id:'',
+          t_city_id:'',
           update_by:'',
           update_by_str:'',
           usage_area:'',
@@ -272,6 +280,15 @@
           hq: [
             { required: true, message: '请选择校园类型', trigger: 'change' }
           ],
+          p_city_id: [
+            { required: true, message: '请选择省/市', trigger: 'change' }
+          ],
+          c_city_id: [
+            { required: true, message: '请选择市', trigger: 'change' }
+          ],
+          town_id: [
+            { required: true, message: '请选择区', trigger: 'change' }
+          ],
           status: [
             { required: true, message: '请选择当前状态', trigger: 'change' }
           ],
@@ -291,8 +308,10 @@
     created () {
         this.getSchoolType();
         this.getIntercity_list();
-        this.getSchoolInfo();
         this.getbuildtype();
+        this.$nextTick(()=>{
+          this.getSchoolInfo();
+        })
     },
     methods:{
       getbuildtype(){
@@ -403,8 +422,6 @@
           }
         }).then(res=>{
           _this.cityList = res.data.results;
-          // _this.formInline.city_id = "";
-          // _this.formInline.town_id = "";
         }).catch(err=>{
         console.log(err)
       })
@@ -439,7 +456,6 @@
     watch: {
       'formInline.p_city_id'(){
         this.getcity_list();
-        // this.gettown_list()
       },
       'formInline.c_city_id'(){
         this.gettown_list();

@@ -64,6 +64,9 @@
             prop="bill_no"
             label="账单号"
             width="180">
+            <template slot-scope="scope">
+                <router-link :to="'/financemanagement/billMakingDetail/'+scope.row.id">{{scope.row.bill_no}}</router-link>
+            </template>
             </el-table-column>
             <el-table-column
             prop="student_name"

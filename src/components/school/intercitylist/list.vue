@@ -393,6 +393,7 @@
             _this.checkedItem.dept_code = res.data.detail.dept_code -0;
             _this.UNSelectSchool = res.data.detail.center_list;
             _this.editintercityVisible = true;
+            console.log(_this.checkedItem)
           }).catch(err=>{
 
         })
@@ -448,6 +449,7 @@
         this.getPerson(1);
       },
       sureEditIntercity(formName){
+        console.log(this.checkedItem.manager_id)
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var id = this.checkedItem.id;
@@ -459,7 +461,7 @@
               this.$axios.put('/api/common/intercity/'+id+'/',{
                   dept_name:_this.checkedItem.dept_name,
                   dept_code:_this.checkedItem.dept_code,
-                  manager_id:_this.checkedItem.manager_id,
+                  manager_id:_this.checkedItem.manager,
                   center_ids:list,
               }).then(res=>{
                 if(res.data.status_code === 1){
