@@ -97,7 +97,9 @@
           </div>
           <div style="width:80%;margin:0 auto">
             <div class="mt10 text-align-center">
-              <calendar ref="calendar"></calendar>
+              <calendar ref="calendar"
+                        :markDateMore='arr'
+              ></calendar>
             </div>
             <div class="calendar-datail">
               <p>考勤状态说明</p>
@@ -140,11 +142,11 @@
         attendance_rate: '',
         arr: [
           {
-            date: "2018/8/1",
+            date: "2019/5/1",
             className: "mark1"
           },
           {
-            date: "2018/8/13",
+            date: "2019/5/13",
             className: "mark2"
           }
         ]
