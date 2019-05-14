@@ -222,7 +222,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="备注：" :label-width="formLabelWidth">
-                        <el-input type="textarea" v-model="info.remarks"></el-input>
+                        <el-input type="textarea" v-model="info.remarks" maxlength="100"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
