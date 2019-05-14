@@ -473,7 +473,7 @@ import refund from './compents/refund'
         value2:'',
         value9:'',
         input:'',
-        activeName:'fore',
+        activeName:'first',
         disabledSelect:false,
         chargeFunTableDate:[],
         addFeeVisible:false,
@@ -579,10 +579,10 @@ import refund from './compents/refund'
                 });
             })
         },
-      editSchool:function (param) {
+      editSchool(param) {
         this.$router.push('/school/school-edit/'+param.id);
       },
-      addNewTemplate:function (flag) {
+      addNewTemplate(flag) {
         if(flag === 0){
           this.feeName = '新增费用科目';
         }else{

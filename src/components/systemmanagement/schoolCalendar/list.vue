@@ -57,7 +57,7 @@
                 >
                 <el-form :model="addform" :rules="rules" ref="addform">
                     <el-form-item label="模板名称：" :label-width="formLabelWidth" prop="template_name">
-                        <el-input v-model="addform.template_name" class="w250_input" placeholder="请输入">
+                        <el-input maxlength="50" v-model="addform.template_name" class="w250_input" placeholder="请输入">
                            
                         </el-input>
                     </el-form-item>
@@ -67,7 +67,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="备注：" :label-width="formLabelWidth">
-                        <el-input type="textarea" v-model="addform.remarks"></el-input>
+                        <el-input type="textarea" v-model="addform.remarks" maxlength="100"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
@@ -116,7 +116,7 @@
                         width="">
                         <template slot-scope="scope">
                             <el-checkbox-group v-model="checkList[scope.row.id]" @change="getClassList($event,scope.row)">
-                                <el-checkbox v-for="cla in scope.row.class_types" :key="cla.id" :label="cla.id">{{cla.name}}</el-checkbox>
+                                <el-checkbox v-for="cla in scope.row.class_types" :key="cla.id" :value="cla.id" :label="cla.id">{{cla.name}}</el-checkbox>
                             </el-checkbox-group>
                         </template>
                         </el-table-column>
@@ -268,14 +268,18 @@ export default {
     },
     created () {
         this.getYear();
-        this.getSchool(); 
         this.getIntercity();
         this.getArea();
     },
     methods:{
         show_copy(id){
-            this.dialogFormVisible = true;
+            this.searchSchool={
+                intercity_id:'',
+                area_id:''
+            };
+            this.getSchool();
             this.template_id = id;
+            this.dialogFormVisible = true;
         },
         showAdd(){
             this.add_dialogVisible=true;
@@ -318,8 +322,15 @@ export default {
         },
         copy_to_school(){
             var _this = this;
+            if(this.multipleSelection.length == 0) {
+                _this.$message({
+                    type:'error',
+                    message:'请选择校园和班级！'
+                });
+                return
+            }
             this.$axios.post('/api/school_calendar/calendar_template/'+this.template_id+'/copy_calendar_day_to_school/',{
-                center_list:this.schoolList
+                center_list:this.multipleSelection
             }).then(res=>{
                 if(res.data.status_code === 1){
                     // _this.$message({
@@ -328,6 +339,7 @@ export default {
                     // });
                     _this.dialogFormVisible = false;
                     _this.copy_success = true;
+                    _this.getTemplate();
                 } 
             }).catch(err=>{
 
@@ -422,7 +434,7 @@ export default {
     watch: {
         year(){
             this.getTemplate()
-        }
+        },
     }
 }
 </script>

@@ -342,28 +342,49 @@ a {
 
 /*日历公共样式*/
 .wh_chose_day{
-    /* background-color: #fff !important; */
+    background-color: #fff !important;
     border-radius: 0 !important;
-    color: #fff !important;
+    color: #101010 !important;
 }
 .wh_item_date:hover{
     background-color: #fff !important;
     color: #101010 !important;
 }
+.S:hover{
+    background-color: #f28e91 !important;
+    color: #fff !important;
+}
+.P:hover{
+    background-color: #ffcc80 !important;
+    color: #fff !important;
+}
+.V:hover{
+    background-color: #c5e1a5 !important;
+    color: #fff !important;
+}
+.wh_other_dayhide:hover{
+    background-color: #fff !important;
+    color: #bfbfbf !important;
+}
 .S{
     color:#fff !important;
     border-radius:0;
-    background-color: #f28e91;
+    background-color: #f28e91 !important;
 }
 .P{
     color:#fff !important;
     border-radius:0;
-    background-color: #ffcc80;
+    background-color: #ffcc80 !important;
 }
 .V{
     color:#fff !important;
     border-radius:0;
-    background-color: #c5e1a5;
+    background-color: #c5e1a5 !important;
+}
+.N{
+    color:#101010 !important;
+    border-radius:0;
+    background-color: #fff !important;
 }
 .wh_isToday{
     background-color: #fff !important;
