@@ -1,7 +1,7 @@
 <template>
   <div class="student_inschool">
       <div class="formwrap">
-        <el-form ref="form" :model="form" label-width="100px" inline>
+        <el-form label-width="100px" inline>
           <el-form-item label="班级：">
             <el-select v-model="class_val">
               <el-option value="" label="全部"></el-option>
@@ -75,51 +75,61 @@
         </div>
       </div>
     <el-dialog title="入园登记" :visible.sync="operationVisible" width="750px">
-      <el-form ref="operationForm" :model="operationForm" :rules="rules" label-width="80px">
+      <el-form ref="reulsForm" :model="reulsForm" :rules="rules" label-width="80px">
         <div class="oper-div">
           <span class="title-span">学生基本信息</span>
           <hr>
           <el-row>
-            <el-col :span="8">
+            <el-col :span="7">
               <p class="lable-p">
-                <span class="labels">姓名:</span>
+                <span class="labels">学号：</span>
+                <span>{{ studentInfo.student_no }}</span>
+              </p>
+              <p class="lable-p">
+                <span class="labels">出生日期：</span>
+                <span>{{ studentInfo.date_of_birth }}</span>
+              </p>
+            </el-col>
+            <el-col :span="7">
+              <p class="lable-p">
+                <span class="labels">姓名：</span>
                 <span>{{ studentInfo.name }}</span>
               </p>
               <p class="lable-p">
-                <span class="labels">所属校园:</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">学年计划:</span>
-                <span>迪小贝</span>
+                <span class="labels">报名日期：</span>
+                <span>{{ studentInfo.sign_up_date }}</span>
               </p>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="10">
               <p class="lable-p">
-                <span class="labels">年龄:</span>
-                <span>迪小贝</span>
+                <span class="labels">性别：</span>
+                <span>{{ studentInfo.gender }}</span>
               </p>
               <p class="lable-p">
-                <span class="labels">意向班级:</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">缴费区间:</span>
-                <span>迪小贝</span>
+                <span class="labels">入园日期：</span>
+                <span>{{ studentInfo.enter_date }}</span>
               </p>
             </el-col>
-            <el-col :span="8">
+          </el-row>
+          <el-row>
+            <el-col :span="7">
               <p class="lable-p">
-                <span class="labels" style="width: 90px;">性别:</span>
-                <span>迪小贝</span>
+                <span class="labels">学年计划：</span>
+                <span>{{ studentInfo.academic_year }}</span>
               </p>
+            </el-col>
+            <el-col :span="17">
               <p class="lable-p">
-                <span class="labels" style="width: 90px;">主教老师:</span>
-                <span>迪小贝</span>
+                <span class="labels">所属校园：</span>
+                <span>{{ studentInfo.center }}</span>
               </p>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
               <p class="lable-p">
-                <span class="labels" style="width: 90px;">预计入学日期:</span>
-                <span>迪小贝</span>
+                <span class="labels">缴费区间：</span>
+                <span>{{ studentInfo.date_range }}</span>
               </p>
             </el-col>
           </el-row>
@@ -162,55 +172,68 @@
         <div class="oper-div">
           <span class="title-span">入园登记</span>
           <br><hr><br>
-          <el-form-item label="学年">
-            <el-date-picker
-              v-model="value1"
-              type="date"
-              placeholder="选择日期">
-            </el-date-picker>
+          <el-form-item label="学年" prop="academic_year">
+            <el-select v-model="reulsForm.academic_year" @change="changeAcadYear(reulsForm.academic_year)" placeholder="请选择学年">
+              <el-option
+                v-for="item in year_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="安排入班">
-            <el-select v-model="nameSelect" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-            <el-select v-model="nameSelect" placeholder="请选择">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+          <el-form-item label="安排入班" required>
+            <el-col :span="7">
+              <el-form-item prop="status">
+                <el-select v-model="reulsForm.status" placeholder="请选择">
+                  <el-option v-for="fre in classList" :label="fre.name" :value="fre.id" :key="fre.id"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item prop="class_obj">
+                <el-select v-model="reulsForm.class_obj" placeholder="请选择">
+                  <el-option
+                    v-for="item in in_class_list"
+                    :key="item.id"
+                    :label="item.center_class__name"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-form-item>
           <el-row>
-            <el-col :span="8">
-              <el-form-item label="报名日期">
+            <el-col :span="24">
+              <el-form-item label="报名日期" prop="sign_up_date">
                 <el-date-picker
-                  v-model="value1"
+                  v-model="reulsForm.sign_up_date"
                   type="date"
+                  value-format="yyyy-MM-dd"
                   placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="入学日期">
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="入学日期" prop="in_class_date">
                 <el-date-picker
-                  v-model="value1"
+                  v-model="reulsForm.in_class_date"
                   type="date"
+                  value-format="yyyy-MM-dd"
                   placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="截止日期">
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="截止日期" prop="out_class_date">
                 <el-date-picker
-                  v-model="value1"
+                  v-model="reulsForm.out_class_date"
                   type="date"
+                  value-format="yyyy-MM-dd"
                   placeholder="选择日期">
                 </el-date-picker>
               </el-form-item>
@@ -220,60 +243,60 @@
             <el-input type="textarea"
                       :rows="2"
                       placeholder="请输入内容"
-                      v-model="value1">
+                      v-model="reulsForm.remarks">
             </el-input>
           </el-form-item>
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
           <el-button @click="operationVisible = false">取 消</el-button>
-          <el-button type="success">保 存</el-button>
+          <el-button type="success" @click="saveInputSchool('reulsForm')">保 存</el-button>
         </span>
     </el-dialog>
     <el-dialog title="预备生离园登记" :visible.sync="leaveVisible" width="750px">
-      <el-form ref="operationForm" :model="operationForm" :rules="rules" label-width="80px">
+      <el-form ref="reulsForm2" :model="reulsForm2" :rules="rules" label-width="80px">
         <div class="oper-div">
           <span class="title-span">学生基本信息</span><hr>
           <el-row>
             <el-col :span="8">
               <p class="lable-p">
-                <span class="labels">姓名:</span>
+                <span class="labels">姓名：</span>
                 <span>迪小贝</span>
               </p>
               <p class="lable-p">
-                <span class="labels">所属校园:</span>
+                <span class="labels">所属校园：</span>
                 <span>迪小贝</span>
               </p>
               <p class="lable-p">
-                <span class="labels">学年计划:</span>
-                <span>迪小贝</span>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="lable-p">
-                <span class="labels">年龄:</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">意向班级:</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">缴费区间:</span>
+                <span class="labels">学年计划：</span>
                 <span>迪小贝</span>
               </p>
             </el-col>
             <el-col :span="8">
               <p class="lable-p">
-                <span class="labels" style="width: 90px;">性别:</span>
+                <span class="labels">年龄：</span>
                 <span>迪小贝</span>
               </p>
               <p class="lable-p">
-                <span class="labels" style="width: 90px;">主教老师:</span>
+                <span class="labels">意向班级：</span>
                 <span>迪小贝</span>
               </p>
               <p class="lable-p">
-                <span class="labels" style="width: 90px;">预计入学日期:</span>
+                <span class="labels">缴费区间：</span>
+                <span>迪小贝</span>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="lable-p">
+                <span class="labels">性别：</span>
+                <span>迪小贝</span>
+              </p>
+              <p class="lable-p">
+                <span class="labels">主教老师：</span>
+                <span>迪小贝</span>
+              </p>
+              <p class="lable-p">
+                <span class="labels">预计入学日期：</span>
                 <span>迪小贝</span>
               </p>
             </el-col>
@@ -304,19 +327,19 @@
           </el-row>
           <el-form-item label="离园日期">
             <el-date-picker
-              v-model="value1"
+              v-model="reulsForm2.class_obj"
               type="date"
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="离园原因">
-            <el-radio-group v-model="radio2">
+            <el-radio-group v-model="reulsForm2.radio2">
               <el-radio :label="3">居所搬迁/父母工作调动</el-radio><br>
               <el-radio :label="6">家庭变故</el-radio><br>
               <el-radio :label="9">生病</el-radio><br>
               <el-radio :label="12">其他</el-radio>
             </el-radio-group>
-            <el-select v-model="nameSelect" @change="operationSelect(nameSelect)" placeholder="--请选择--" style="width: 180px;">
+            <el-select v-model="reulsForm2.class_obj" @change="operationSelect(reulsForm2.class_obj)" placeholder="--请选择--" style="width: 180px;">
               <el-option
                 v-for="item in operations"
                 :key="item.value"
@@ -324,7 +347,7 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <el-input style="width: 180px;"></el-input>
+            <el-input style="width: 180px;" v-model="reulsForm2.class_obj"></el-input>
           </el-form-item>
         </div><hr>
         <p style="font-size: 10px;color: red;line-height: 20px;">*1.请确认该学生所有缺勤转备用金都已完成,否则不可提交离园登记</p>
@@ -344,7 +367,7 @@
         </span>
     </el-dialog>
     <el-dialog title="在校生终止服务" :visible.sync="earlyVisible" width="850px">
-      <el-form ref="operationForm" :model="operationForm" :rules="rules" label-width="80px">
+      <el-form ref="reulsForm3" :model="reulsForm3" :rules="rules" label-width="80px">
         <div class="oper-div">
           <span class="title-span">终止服务：</span><hr>
           <el-row>
@@ -377,13 +400,7 @@
             <el-col :span="8">
               <p class="lable-p">
                 <span class="labels" style="width: 90px;">终止费用类型:</span>
-                <el-select v-model="nameSelect" placeholder="请选择">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
+                <el-select v-model="reulsForm3.class_obj" placeholder="请选择">
                 </el-select>
               </p>
             </el-col>
@@ -391,7 +408,7 @@
               <p class="lable-p">
                 <span class="labels" style="width: 90px;">申请终止日期:</span>
                 <el-date-picker
-                  v-model="value1"
+                  v-model="reulsForm3.status"
                   type="date"
                   placeholder="选择日期">
                 </el-date-picker>
@@ -409,7 +426,7 @@
                       style="width: 88%;"
                       :rows="2"
                       placeholder="请输入内容"
-                      v-model="value1">
+                      v-model="reulsForm3.academic_year">
             </el-input>
           </el-form-item>
         </div>
@@ -466,9 +483,9 @@
   .student_inschool .studentFileList {
     margin-top: 20px;
   }
-  .student_inschool .el-form-item {
+  /*.student_inschool .el-form-item {
     margin-bottom: 10px;
-  }
+  }*/
   .student_inschool .studentFileCard {
     cursor: pointer;
     margin-right: 1%;
@@ -513,7 +530,7 @@
     border-bottom: 1px solid #ddd;
   }
   .student_inschool .labels{
-    width: 60px;
+    width: 90px;
     float: left;
     text-align: right;
   }
@@ -525,6 +542,9 @@
   }
   .student_inschool >>> .el-radio{
     line-height: 3;
+  }
+  .student_inschool >>> .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width: auto;
   }
 </style>
 <script>
@@ -541,6 +561,10 @@ export default {
     activeTabs:{
       type:String,
       request:true,
+    },
+    year_list:{
+      type:Array,
+      request:true,
     }
   },
   data(){
@@ -550,19 +574,69 @@ export default {
       in_type:'',
       dateValue:'',
       searchText:'',
-       form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
+      reulsForm: {
+        academic_year:'',
+        student:'',
+        class_obj:'',
+        status:'',
+        sign_up_date:'',
+        in_class_date:'',
+        out_class_date:'',
+        remarks:'',
+      },
+      rules:{
+        academic_year: [
+          { required: true, message: '请选择学年', trigger: 'change' }
+        ],
+        class_obj: [
+          { required: true, message: '请选择', trigger: 'change' }
+        ],
+        status: [
+          { required: true, message: '请选择班级', trigger: 'change' }
+        ],
+        sign_up_date: [
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        in_class_date: [
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        out_class_date: [
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ],
+      },
+      reulsForm2: {
+        radio2:'',
+        student:'',
+        class_obj:'',
+      },
+      reulsForm3: {
+        academic_year:'',
+        student:'',
+        class_obj:'',
+        status:'',
+        sign_up_date:'',
+        in_class_date:'',
+        out_class_date:'',
+        remarks:'',
+      },
+      leaveShowVisible:false,
       operationVisible:false,
       leaveVisible:false,
       earlyVisible:false,
+      classList:[
+        {
+          id:'In',
+          name:'就读'
+        },
+        {
+          id:'ExchangeOut',
+          name:'转出'
+        },
+        {
+          id:'Prepare',
+          name:'预分班'
+        },
+      ],
       operations:[
         {
           value:1,
@@ -601,6 +675,9 @@ export default {
         }
       ],
       year_url:'/api/student/student/1/academic_year_history/',
+      class_url:'/api/center/select/center_class_year_list/?center_id=',
+      input_school:'/api/student/student_management/create_enrollment_registration/',
+      in_class_list:[],
       yearlist: [],
       studentInfo:{},
     }
@@ -609,6 +686,10 @@ export default {
     this.getStudentList();
   },
   methods:{
+    changeAcadYear:function(id){
+      this.reulsForm.class_obj = '';
+      this.getClassList(id);
+    },
     getYearHistory:function () {
       var _this = this;
       this.$axios.get(this.year_url).then(res=>{
@@ -617,9 +698,17 @@ export default {
         console.log(err)
       })
     },
+    getClassList:function(id){
+      var url = this.class_url + '3' + '&academic_year_id=' + id;
+      this.$axios.get(url).then(res=>{
+        this.in_class_list = res.data.results;
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     getStudentInfo:function(id){
       var _this = this;
-      var url = '/api/student/student/'+id+'/view_detail/';
+      var url = '/api/student/student_management/'+id+'/view_detail/';
       _this.$axios.get(url).then(res=>{
         _this.loading = false;
         if(res.status == 200 && res.data.status_code == 1) {
@@ -645,11 +734,40 @@ export default {
         this.getYearHistory();
         this.getStudentInfo(id);
         this.operationVisible = true;
+        this.reulsForm.academic_year = '';
+        this.reulsForm.student = id;
+        this.reulsForm.class_obj = '';
+        this.reulsForm.status = '';
+        this.reulsForm.sign_up_date = '';
+        this.reulsForm.in_class_date = '';
+        this.reulsForm.out_class_date = '';
+        this.reulsForm.remarks = '';
       }else if(val === 2){
         this.leaveVisible = true;
       }else if(val === 3){
         this.earlyVisible = true;
       }
+    },
+    /*保存入学登记*/
+    saveInputSchool:function (formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$axios.post(this.input_school, this.reulsForm).then(res => {
+            if (res.status == 200) {
+              this.$message({
+                type: 'success',
+                message: '保存成功！'
+              })
+            } else {
+              this.$message.error('保存失败');
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+        }else{
+          return false;
+        }
+      })
     },
   },
   watch: {
