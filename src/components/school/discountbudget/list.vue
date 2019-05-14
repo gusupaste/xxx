@@ -106,11 +106,8 @@
             <el-option  :value="0" label="园长折扣"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="折扣预算:" prop="amount" class="mt10" :rules="[
-            { required: true, message: '折扣预算不能为空'},
-            { type: 'number', message: '折扣预算必须为数字值'}
-        ]">
-          <el-input  type="text" v-model.number="editForm.amount" class="w250_input" maxlength="10"></el-input>
+        <el-form-item label="折扣预算:" prop="amount" class="mt10">
+          <el-input  type="text" oninput ="value=value.replace(/[^0-9.]/g,'')"  v-model="editForm.amount" class="w250_input" maxlength="10"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer text-align-center">
@@ -180,7 +177,6 @@
         
       },
       handleClose(){
-        console.log(888)
         this.$refs['editForm'].resetFields();
       },
       getIntercity(){
