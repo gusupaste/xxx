@@ -138,8 +138,8 @@
             合计：<span class="red bold">{{totalprice}}</span>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey">取消</button>
-            <button class="btn bg-green">保存</button>
+            <button class="btn bg-grey" @click="$router.go(-1)">取消</button>
+            <button class="btn bg-green" @click="saveInfo">保存</button>
             <button class="btn bg-dark-orange">缴费</button>
         </div>
         <!-- 添加学生 -->
@@ -287,6 +287,28 @@ export default {
                 start_date:'',
                 end_date:''
             },
+            saveForm:{
+                status: 1,
+                student_id: "",
+                academic_year_id: "",
+                class_id: "",
+                planned_payment_date: "2019/5/30",
+                enter_date: "",
+                policy_id: "",
+                amount: "",
+                actual_amount: "",
+                billitem_list:[
+                    {
+                        policy_item_id: "",
+                        price: "",
+                        begin_date: "",
+                        end_date: "",
+                        amount: "",
+                        actual_amount: "",
+                        rate: ""
+                    }
+                ]
+            },
             info:{},
             checkedSubject:[],
             checkedSubject1:[],
@@ -311,6 +333,24 @@ export default {
         this.getYear();
     },
     methods: {
+        saveInfo(){
+            var _this = this;
+            this.saveForm.student_id = this.multipleTable[0].id;
+            this.saveForm.class_id = this.multipleTable[0].class_id;
+            this.saveForm.academic_year_id = this.addform.academic_year_id;
+            this.saveForm.planned_payment_date = this.addform.start_date;
+            this.saveForm.enter_date = this.addform.end_date;
+            this.saveForm.policy_id = this.info.id;
+            this.saveForm.actual_amount = this.totalprice;
+            this.saveForm.amount = this.totalprice;
+            this.saveForm.billitem_list = this.checkedSubject;
+            console.log(this.multipleTable);
+            console.log(this.saveForm);
+            this.$axios.post('/api/finance/bill/',this.saveForm)
+            .then(res=>{
+                console.log(res.data)
+            })
+        },
         getStudent(){
             var _this = this;
             this.addform.date = this.$options.filters['formatDate2'](new Date());

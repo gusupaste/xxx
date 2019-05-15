@@ -72,25 +72,25 @@
         </div>
         <el-table
           class="mt10"
-          :data="tableData"
+          :data="attendanceList"
           border
           style="width: 100%">
           <el-table-column
-            prop="date"
+            prop="class_type"
             label="班级"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="attendance_num"
             label="应到学生数"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="students_num"
             label="当前实际签到数">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="attendance_rate"
             label="出勤率">
           </el-table-column>
           <el-table-column
@@ -205,26 +205,10 @@
         school_list: [],
         intercity: '',
         area: '',
-        city:'',
-        brand:'',
-        school:'',
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        city: '',
+        brand: '',
+        school: '',
+        attendanceList: []
       }
     },
     components: {
@@ -232,12 +216,39 @@
     },
     mounted: function () {
       this.getIntercityList()
-      this.getAreaList();
-      this.getCityList(0);
-      this.getBrandList();
-      this.getSchoolList('','','','');
+      this.getAreaList()
+      this.getCityList(0)
+      this.getBrandList()
+      this.getSchoolList('', '', '', '')
+      this.getAttendanceList()
+    },
+    watch: {
+      intercity () {
+        this.getSchoolList(this.intercity, this.city, this.area, this.brand)
+      },
+      area () {
+        this.getCityList(this.area)
+        this.getSchoolList(this.intercity, this.city, this.area, this.brand)
+      },
+      city () {
+        this.getSchoolList(this.intercity, this.city, this.area, this.brand)
+      },
+      brand () {
+        this.getSchoolList(this.intercity, this.city, this.area, this.brand)
+      }
     },
     methods: {
+      getAttendanceList () {
+        this.$axios.get('/api/hq/hq_attendance/').then(res => {
+          this.loading = false
+          if (res.status == 200 && res.data.status == 1) {
+            this.attendanceList = res.data.data.attendance_list
+            console.log(this.intercity_list)
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       /*城际*/
       getIntercityList: function () {
         var _this = this

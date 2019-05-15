@@ -424,7 +424,7 @@ a {
     font-size: 12px !important;
 }
 .wh_top_changge li:first-child ,.wh_top_changge li:nth-child(3) {
-    display: none;
+    display: none !important;
 }
 .wh_content {
     padding: 0;
