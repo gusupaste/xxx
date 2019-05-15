@@ -133,7 +133,7 @@
                 <span class="copy_success">
                     <p><i style="font-size:100px" class="fa fa-check-circle green"></i></p>
                     <p class="mt10">复制完成</p>
-                    <p class="mt26">模版复制完成，您可去单个校园对个别班级做个性化修改</p>
+                    <p class="mt26">模版复制完成</p>
                 </span>
                 <div slot="footer" class="dialog-footer" style="margin-top:20px">
                     <el-button @click="copy_success=false" style="background-color:#bbb;color:#fff">知道了</el-button>

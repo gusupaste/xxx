@@ -461,7 +461,7 @@
               this.$axios.put('/api/common/intercity/'+id+'/',{
                   dept_name:_this.checkedItem.dept_name,
                   dept_code:_this.checkedItem.dept_code,
-                  manager_id:_this.checkedItem.manager,
+                  manager_id:_this.checkedItem.manager_id,
                   center_ids:list,
               }).then(res=>{
                 if(res.data.status_code === 1){

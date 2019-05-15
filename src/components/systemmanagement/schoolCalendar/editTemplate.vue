@@ -203,7 +203,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="描述：" :label-width="formLabelWidth">
-                        <el-input type="textarea" v-model="form.remarks"></el-input>
+                        <el-input type="textarea" v-model="form.remarks" maxlength="100"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">

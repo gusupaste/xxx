@@ -379,6 +379,10 @@ export default {
         },
         handleClose(){
             this.$refs['editform'].resetFields();
+            this.editform.hq_id = "";
+            this.editform.intercity_id = "";
+            this.editform.limit_range = "0";
+            this.getSchool();
         },
         searchList() {
             var _this = this;
