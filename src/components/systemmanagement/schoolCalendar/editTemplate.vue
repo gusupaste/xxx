@@ -449,8 +449,11 @@ export default {
                 this.$refs.Calendar[index].ChoseMonth(item.time,false)
             });
             this.$nextTick(()=>{
-            var a = document.getElementsByClassName('wh_content_item');
-        })
+                var a = document.getElementsByClassName('wh_content_item');
+                for (let i = 0; i < a.length; i++) {
+                    a[i].setAttribute('class', '')
+                }
+            })
         }
     },
     components: {
