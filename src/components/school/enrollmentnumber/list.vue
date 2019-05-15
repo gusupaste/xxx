@@ -210,13 +210,13 @@
                 message:'编辑成功！'
               })
             row.edit = false;  
-            _this.getList();
+            // _this.getList();
             }
         })
       },
       handleCancel(row){
-        // row.edit = false;
-        this.getList();
+        row.edit = false;
+        // this.getList();
       },
        getSummaries(param) {
         const { columns, data } = param;

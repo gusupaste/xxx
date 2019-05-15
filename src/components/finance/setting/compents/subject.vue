@@ -10,7 +10,7 @@
             <span class="ml20">搜索科目：</span>
             <el-input v-model="searchForm.condition" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
             <span class="padding-left-30">
-                <el-button type="primary" @click="searchList">搜索</el-button>
+                <el-button type="primary" @click="searchList(1)">搜索</el-button>
             </span>
             <span class="right" style="cursor:pointer" @click="addFeeVisible=true">
                 <i class="icon-font fa fa-calendar-plus-o"></i>
@@ -366,7 +366,7 @@ export default {
     created () {
         this.getSubject();
         this.getSchool();
-        this.searchList();
+        this.searchList(1);
     },
     methods: {
         toggleSelection(rows) {
@@ -384,7 +384,8 @@ export default {
             this.editform.limit_range = "0";
             this.getSchool();
         },
-        searchList() {
+        searchList(val) {
+            this.searchForm.page = val;
             var _this = this;
             this.$axios.get('/api/finance/subject/',{
                 params:this.searchForm
@@ -445,7 +446,7 @@ export default {
                                 message:"新增费用科目成功！"
                             })
                             _this.addFeeVisible = false;
-                            _this.searchList();
+                            _this.searchList(1);
                         }
                     })
                 } else {
@@ -470,7 +471,7 @@ export default {
                                 message:"编辑费用科目成功！"
                             })
                             _this.editFeeVisible = false;
-                            _this.searchList();
+                            _this.searchList(1);
                         }
                     })
                 } else {
@@ -487,7 +488,7 @@ export default {
         },
         changePage(val){
             this.searchForm.page = val;
-            this.searchList();
+            this.searchList(val);
         },
         handleSelectionChange(val){
             this.editform.center_ids = [];
