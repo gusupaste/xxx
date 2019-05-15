@@ -91,7 +91,7 @@
     </div>
     <!--编辑 弹框-->
     <el-dialog title="编辑折扣" :visible.sync="editDiscount" width="50%" style="padding: 30px 60px;" @close="handleClose">
-      <el-form class="edit-discount" label-width="120px" :model="editForm" ref="editForm">
+      <el-form class="edit-discount" label-width="120px" :model="editForm" :rules='rules' ref="editForm">
         <el-form-item label="学年:">
           <span>{{editForm.academic_year_name}}</span>
         </el-form-item>
@@ -130,6 +130,11 @@
         count:1,
         editForm:{
 
+        },
+        rules:{
+          amount: [
+            { required: true, message: '请输入折扣预算', trigger: 'blur' },
+          ],
         },
         form:{
           intercity_id:'',
