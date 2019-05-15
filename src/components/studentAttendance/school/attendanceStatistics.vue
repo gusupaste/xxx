@@ -98,7 +98,7 @@
           <div style="width:80%;margin:0 auto">
             <div class="mt10 text-align-center">
               <calendar ref="calendar"
-                        :markDateMore='arr'
+                        :markDateMore='attendance'
               ></calendar>
             </div>
             <div class="calendar-datail">
@@ -124,6 +124,7 @@
 </template>
 <script>
   import Calendar from 'vue-calendar-component'
+
   export default {
     data() {
       return {
@@ -140,16 +141,7 @@
         should_att: '',
         att_num: '',
         attendance_rate: '',
-        arr: [
-          {
-            date: "2019/5/1",
-            className: "mark1"
-          },
-          {
-            date: "2019/5/13",
-            className: "mark2"
-          }
-        ]
+        attendance: []
       }
     },
     components: {
@@ -161,7 +153,7 @@
     watch: {
       year() {
         for (var i = 0; i < this.academic_year_list.length; i++) {
-          if(this.year === this.academic_year_list[i].id) {
+          if (this.year === this.academic_year_list[i].id) {
             this.months_list = this.academic_year_list[i].months
           }
         }
@@ -194,7 +186,7 @@
           this.loading = false
           if (res.status === 200) {
             if (res.data.status === 1) {
-              this.tableData = res.data.data.pages.results
+              this.tableData = res.data.data.results
             } else {
               alert(res.data.message)
             }
@@ -212,10 +204,30 @@
         this.should_att = obj.should_att
         this.att_num = obj.att_num
         this.attendance_rate = obj.attendance_rate
-        this.attendance = obj.attendance
-        console.log(obj)
-        this.$nextTick(()=> {
-          console.log(this.$refs.calendar)
+        var year = this.months.substr(0, 4)
+        var month = this.months.substr(5, 2)
+        if (month < 10) {
+          month = this.months.substr(6, 1)
+        }
+        var arr = obj.attendance
+        for (var i = 0; i < arr.length; i++) {
+          var son = new Object
+          //alert(this.months.substr(8, 2))
+          son.date = year + '/' + month + '/' + (i + 1)
+          if (arr[i] === '1') {
+            son.className = 'mark1'
+          } else if (arr[i] === '2') {
+            son.className = 'mark2'
+          } else if (arr[i] === '3') {
+            son.className = 'mark3'
+          } else if (arr[i] === '4') {
+            son.className = 'mark4'
+          } else {
+            son.className = 'mark0'
+          }
+          this.attendance.push(son)
+        }
+        this.$nextTick(() => {
           this.$refs.calendar.ChoseMonth(this.months)
         });
       }
@@ -293,13 +305,23 @@
   .attendanceStatistics >>> .wh_container {
     max-width: 100%;
   }
+  .attendanceStatistics >>> .mark0 {
+    background-color: white;
+  }
 
   .attendanceStatistics >>> .mark1 {
-    background-color: orange;
+    background-color: #f28e91;
   }
 
   .attendanceStatistics >>> .mark2 {
-    background-color: blue;
+    background-color: #ffcc80;
+  }
+
+  .attendanceStatistics >>> .mark3 {
+    background-color: #c5e1a5;
+  }
+
+  .attendanceStatistics >>> .mark4 {
+    background-color: #9fa8da;
   }
 </style>
-
