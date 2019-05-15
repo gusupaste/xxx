@@ -116,6 +116,14 @@
 export default {
     data () {
         return {
+            intercityList:[],
+            cityList:[],
+            areaList:[],
+            brandList:[],
+            schoolList:[],
+            brandList:[],
+            yearList:[],
+            count:1,
             searchform:{
               intercity_id:'',
               area_id:'',
@@ -143,7 +151,10 @@ export default {
       },
       addNewTemplate(){
 
-      }
+      },
+      changePage(){
+
+      },
     }
 }
 </script>

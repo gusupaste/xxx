@@ -203,7 +203,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="描述：" :label-width="formLabelWidth">
-                        <el-input type="textarea" v-model="form.remarks"></el-input>
+                        <el-input type="textarea" v-model="form.remarks" maxlength="100"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
@@ -454,12 +454,6 @@ export default {
             this.monthList.forEach((item,index)=>{
                 this.$refs.Calendar[index].ChoseMonth(item.time,false)
             });
-            this.$nextTick(()=>{
-                var a = document.getElementsByClassName('wh_content_item');
-                for (let i = 0; i < a.length; i++) {
-                    a[i].setAttribute('class', '')
-                }
-            })
         }
     },
     components: {

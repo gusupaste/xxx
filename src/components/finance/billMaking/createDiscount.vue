@@ -7,93 +7,126 @@
         <div class="clearfix mt10">
             <el-form inline>
                 <el-form-item label="学生：">
-                    <el-button style="border-raius:20px">
+                    <el-button  style="border-raius:20px" @click="innerVisible=true">
                         <i class="fa fa-search"></i>添加
                     </el-button>
                 </el-form-item>
+                <el-form-item>
+                    <p v-for="item in multipleTable" :key="item.id">
+                        <span style="width:200px;display:inline-block"><span class="ml20">学生姓名：</span><span>{{item.name}}</span></span>
+                        <span style="width:200px;display:inline-block"><span class="ml20">学号：</span><span>{{item.student_no}}</span></span>
+                        <span style="width:200px;display:inline-block"><span class="ml20">所在班级：</span><span>{{item.name}}</span></span>
+                    </p>
+                </el-form-item>
                 <el-form-item label="制单日期：">
-                    2019/02/27
+                    {{addform.date}}
                 </el-form-item>
                 <br>
                 <el-form-item label="学业计划：">
-                    <el-select v-model="value1"></el-select>
+                    <el-select v-model="addform.pay_method">
+                        <!-- <el-option label="日缴" value="1"></el-option> -->
+                        <el-option label="月缴" value="2"></el-option>
+                        <!-- <el-option label="一次性缴费" value="3"></el-option> -->
+                        <el-option label="学期缴费" value="4"></el-option>
+                        <el-option label="寒暑假" value="5"></el-option>
+                        <el-option label="年缴" value="6"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="缴费账期：">
-                    <el-select v-model="value1"></el-select>
+                    <el-select v-model="addform.academic_year_id">
+                        <el-option v-for="item in yearList" :label="item.academic_year" :value="item.id" :key="item.id"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="实际缴费日期：">
                     <el-date-picker
-                        v-model="value1"
+                        v-model="addform.start_date"
                         type="date"
                         placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="入学日期：">
                     <el-date-picker
-                        v-model="value1"
+                        v-model="addform.end_date"
                         type="date"
                         placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
                 <br>
                 <el-form-item label="收费政策：">
-                    -----
+                    {{info.name}}
                 </el-form-item>
                 <br>
                 <el-form-item label="费用科目：">
-                    <el-button class="orange" style="border:1px solid #f17128">
+                    <el-button class="orange addbtn" style="border:1px solid #f17128" @click="subjectVisible=true">
                         <i class="fa fa-plus"></i>
                         新增
                     </el-button>
-                    <button class="btn bg-light-grey black" style="border:1px solid #686868">学费</button>
-                    <button class="btn bg-light-grey black" style="border:1px solid #686868">餐费</button>
+                    <el-button v-for="item in checkedSubject" :key="item.id" class="bg-light-grey black" style="border:1px solid #686868;width:auto;padding:8px;height:auto;">
+                        {{item.subject_category}}
+                        <span style="cursor:pointer" @click="deleteSubject(item)">
+                            <i class="fa fa-minus-circle red cur font-size-20"></i>
+                        </span>
+                    </el-button>
                 </el-form-item>
             </el-form>
         </div>
         <p class="title-style mt26">费用分摊明细：</p>
-        <div class=" tableList">
+        <div class="tableList">
             <el-table
                 class="mt10"
-                :data="tableData"
+                :data="checkedSubject"
                 border
                 style="width: 100%">
                 <el-table-column
-                prop="date"
+                prop="subject_category"
                 label="费用类型"
                 width="180">
                 </el-table-column>
                 <el-table-column
-                prop="name"
+                prop="subject"
                 label="费用科目"
                 width="180">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="payment_method"
                 label="缴费方式">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="price"
                 label="价格">
                 </el-table-column>
                 <el-table-column
                 prop="address"
                 label="缴费区间">
+                <template slot-scope="scope">
+                    — —
+                </template>
                 </el-table-column>
+                
                 <el-table-column
                 prop="address"
                 label="缴费时长">
+                <template slot-scope="scope">
+                    — —
+                </template>
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="price"
                 label="应收">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="rate"
                 label="折扣">
+                <template slot-scope="scope">
+                    {{scope.row.rate}}%
+                </template>
                 </el-table-column>
                 <el-table-column
                 prop="address"
                 label="折后应收">
+                <template slot-scope="scope">
+                    {{scope.row.price*scope.row.rate/100}}
+                </template>
                 </el-table-column>
                 <el-table-column
                 prop="address"
@@ -102,13 +135,104 @@
             </el-table>
         </div>
         <div class="mt26" style="text-align:right">
-            补缴合计：<span class="red bold">— —</span>
+            合计：<span class="red bold">{{totalprice}}</span>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey">返回</button>
+            <button class="btn bg-grey">取消</button>
             <button class="btn bg-green">保存</button>
             <button class="btn bg-dark-orange">缴费</button>
         </div>
+        <!-- 添加学生 -->
+      <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
+        <el-form ref="policyForm" :model="copyForm" label-width="80px" style="border:none;padding:0">
+          <div class="policyClass mt10">
+            <p>{{schoolName}}</p>
+          </div>
+          <p class="mt20">
+              <span class="mr10">搜索：</span>
+              <el-input v-model="searchStr" class="w250_input" style="width:250px" placeholder="输入学号、学生姓名或家长姓名"></el-input>
+              <el-button type="primary" @click="getStudent">搜索</el-button>
+          </p>
+          
+          <el-row class="mt20">
+            <el-col :span="24">
+              <el-form-item label="" label-width="40">
+                <el-table
+                  :data="studentList"
+                  border
+                  stripe
+                  @selection-change="handleSelectionChange"
+                  max-height="300"
+                  ref="multipleTable">
+                  <el-table-column
+                    prop="选择"
+                    type="selection"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    prop="name"
+                    label="学生姓名"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    prop="student_no"
+                    label="学号"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    prop="name"
+                    label="联系人"
+                    >
+                    <template slot-scope="scope">
+                        {{scope.row.guardian_info.name}} <span v-if="scope.row.guardian_info.relationship">（{{scope.row.guardian_info.relationship}}，{{scope.row.guardian_info.telephone}}）</span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <div class="red">
+                    *学生可多选，账单支持批量创建
+                </div>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="bg-grey bd-grey white" @click="innerVisible = false">取 消</el-button>
+          <el-button type="success" @click="sureAddStudent">确 定</el-button>
+        </span>
+      </el-dialog>
+      <!-- 添加费用科目 -->
+      <el-dialog title="添加费用科目" :visible.sync="subjectVisible" width="820px" class="copyPolicyShow">
+        <el-form ref="policyForm" :model="copyForm" label-width="80px" style="border:none;padding:0">
+          <el-row class="mt20">
+            <el-col :span="24">
+              <el-form-item label="" label-width="40">
+                <el-table
+                  :data="subjectList"
+                  border
+                  stripe
+                  @selection-change="handleSelectionChange2"
+                  max-height="300"
+                  ref="multipleTable2">
+                  <el-table-column
+                    prop="选择"
+                    type="selection"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    prop="subject_category"
+                    label="科目名称"
+                    >
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="bg-grey bd-grey white" @click="subjectVisible = false">取 消</el-button>
+          <el-button type="success" @click="sureAddSubject">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 <style scoped>
@@ -139,8 +263,13 @@
   .createDiscount .head-detail {
      background-color: #ccc;
      color: #101010;
-     height: 40px;
-     line-height: 40px;
+     text-align: center;
+     letter-spacing: 200;
+     border:1px solid #e6e6e6;
+  }
+  .createDiscount >>>.addbtn:focus,.createDiscount >>>.addbtn:hover {
+     background-color: #fff;
+     color: #f17128;
      text-align: center;
      letter-spacing: 200;
      border:1px solid #e6e6e6;
@@ -151,24 +280,103 @@ export default {
     data(){
         return {
             value1:'2000-09-09',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                }]
+            addform:{
+                pay_method:'2',
+                date:'',
+                academic_year_id:1,
+                start_date:'',
+                end_date:''
+            },
+            info:{},
+            checkedSubject:[],
+            checkedSubject1:[],
+            subjectList:[],
+            searchStr:'',
+            studentList:[],
+            yearList:[],
+            innerVisible:false,
+            subjectVisible:false,
+            schoolName:'',
+            copyForm:{},
+            totalprice:0,
+            searchSchoolForm:{},
+            tableData: [],
+            multipleTable2:[],
+            multipleTable:[],
+            multipleTable1:[]
         }
+    },
+    mounted () {
+        this.getStudent();
+        this.getYear();
+    },
+    methods: {
+        getStudent(){
+            var _this = this;
+            this.addform.date = this.$options.filters['formatDate2'](new Date());
+            this.$axios.get('/api/finance/bill/show_bill_student/',{
+                params:{
+                    search_str:this.searchStr
+                }
+            })
+            .then(res=>{
+                _this.studentList = res.data.data.student_li;
+                _this.schoolName = res.data.data.center_name;
+            })
+        },
+        sureAddSubject(){
+            this.checkedSubject = this.checkedSubject1;
+            this.totalprice = 0;
+            this.checkedSubject.forEach(item=>{
+               this.totalprice += item.price * item.rate /100;
+            })
+            this.subjectVisible=false;
+        },
+        sureAddStudent(){
+            this.multipleTable = this.multipleTable1;
+            this.innerVisible = false;
+        },
+        getYear(){
+            var _this = this;
+            this.$axios.get('/api/finance/bill/show_academic_year/')
+            .then(res=>{
+                _this.yearList = res.data.data.academic_year_li;
+                _this.getInfo();
+            })
+        },
+        getInfo(){
+            var _this = this;
+            this.$axios.get('/api/finance/bill/show_policy_item/',{
+                params:{
+                    academic_year_id:this.addform.academic_year_id,
+                    payment_method:this.addform.pay_method,
+                }
+            })
+            .then(res=>{
+                console.log(res.data);
+                _this.info = res.data.data.policy_info;
+                _this.subjectList = res.data.data.policy_item_li;
+            })
+        },
+        handleSelectionChange(val){
+            this.multipleTable1 = val;
+        },
+        handleSelectionChange2(val){
+            this.checkedSubject1 = val;
+        },
+        deleteSubject(val){
+            var index = this.checkedSubject.indexOf(val);
+            this.checkedSubject.splice(index,1);
+            this.multipleTable2 = this.checkedSubject;
+            this.toggleSelection([val]);
+        },
+        toggleSelection(rows) {
+            if (rows) {
+            rows.forEach(row => {
+                this.$refs.multipleTable2.toggleRowSelection(row,false);
+            });
+            } 
+        },
     }
 }
 </script>
