@@ -48,6 +48,7 @@ import Revenuetarget from '@/components/school/revenuetarget/list'
 
 /**财务处理 */
 import Setting from '@/components/finance/setting/list'
+import RefundConfig from '@/components/finance/setting/refundDetail'
 import Financemanagement from '@/components/finance/index'
 import Charge from '@/components/finance/charge/list'
 import BillDetail from '@/components/finance/charge/billDetail'
@@ -458,6 +459,11 @@ export default new Router({
           path: '/financemanagement/setting',
           name: 'Setting',
           component: Setting
+        },
+        {
+          path: '/financemanagement/refund-config/:id',
+          name: 'RefundConfig',
+          component: RefundConfig
         },
         {
           path: '/financemanagement/billMaking',
