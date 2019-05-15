@@ -1,64 +1,149 @@
 <template>
     <div>
-        <p>
-                <span class="font-cl-blue">退费：</span>
-                <span style="cursor:pointer;color:#ED6C2E" @click="addNewReservefund(0)">
-                  <i class="icon-font fa fa-calendar-plus-o" style="font-size: 15px !important;"></i>
-                  <span class="font-size-14">添加学校</span>
-                </span>
-              </p>
-              <el-table
-                :data="chargeTableDate"
-                border
-                stripe
-                show-header
-                style="width: 100%;margin-top: 10px;">
-                <el-table-column
-                  prop="code"
-                  label="学校"
-                  width="180">
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  label="班级项目"
-                  width="180">
-                </el-table-column>
-                <el-table-column
-                  prop="intercity_name"
-                  label="退费费用科目">
-                  <template slot-scope="scope">
-                    <el-checkbox-group v-model="type" style="text-align: left !important;">
-                      <el-checkbox label="美食" name="type"></el-checkbox>
-                      <el-checkbox label="地推" name="type"></el-checkbox>
-                      <el-checkbox label="线下" name="type"></el-checkbox>
-                      <el-checkbox label="单纯" name="type"></el-checkbox>
-                    </el-checkbox-group>
-                  </template>
-                </el-table-column>
-                <el-table-column
-                  label="操作"
-                  width="130">
-                  <template slot-scope="scope">
-                    <el-button type="text" size="small"  @click="addNewReservefund(1)" style="color: #0b6289">编辑</el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
+      <div class="select-header select-length" style="line-height:45px">
+        <span>城际：</span>
+        <el-select v-model="searchform.intercity_id" placeholder="请选择" style="width:150px">
+          <el-option value="" label="所有"></el-option>
+          <el-option
+            v-for="item in intercityList"
+            :key="item.id"
+            :label="item.dept_name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <span style="margin-left: 10px">区域：</span>
+        <el-select v-model="searchform.area_id" placeholder="请选择" style="width:150px">
+          <el-option value="" label="所有"></el-option>
+          <el-option
+            v-for="item in areaList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <span style="margin-left: 10px">省市：</span>
+        <el-select v-model="searchform.province_id" placeholder="请选择" style="width:150px">
+          <el-option value="" label="所有"></el-option>
+          <el-option
+            v-for="item in cityList"
+            :key="item.id"
+            :label="item.city_name"
+            :value="item.city_id">
+          </el-option>
+        </el-select>
+        <span style="margin-left: 10px">品牌：</span>
+        <el-select v-model="searchform.hq_id" placeholder="请选择" style="width:150px">
+          <el-option value="" label="所有"></el-option>
+          <el-option
+            v-for="item in brandList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <span style="margin-left: 10px">校园：</span>
+        <el-select v-model="searchform.center_id" placeholder="请选择" style="width:150px">
+          <el-option value="" label="所有"></el-option>
+          <el-option
+            v-for="item in schoolList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <span style="margin-left: 10px">学年：</span>
+        <el-select v-model="searchform.academic_year_id" placeholder="请选择" style="width:150px">
+          <el-option value="" label="所有"></el-option>
+          <el-option
+            v-for="item in yearList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+        <span class="padding-left-30"><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
+      </div>
+      <el-table
+        :data="chargeTable"
+        border
+        stripe
+        show-header
+        style="width: 100%;margin-top: 10px;">
+        <el-table-column
+          prop="name"
+          label="退费政策">
+        </el-table-column>
+        <el-table-column
+          prop="center_str"
+          label="适用校园">
+        </el-table-column>
+        <el-table-column
+          prop="academic_year_str"
+          label="学年">
+        </el-table-column>
+        <el-table-column
+          prop="expiry_date"
+          label="有效期">
+        </el-table-column>
+        <el-table-column
+          prop="start_date"
+          label="发布日期"
+          width="130">
+        </el-table-column>
+        <el-table-column
+          prop="remarks"
+          label="备注">
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作">
+          <template slot-scope="scope">
+            <el-button type="text"  @click="configure(scope.row)" style="color: #ED6C2E">配置</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        background
+        @current-change="changePage"
+        :page-size="10"
+        :current-page="searchform.page"
+        layout="prev, pager, next"
+        :total="count">
+      </el-pagination>
     </div>
 </template>
 <script>
 export default {
     data () {
         return {
+            searchform:{
+              intercity_id:'',
+              area_id:'',
+              province_id:'',
+              hq_id:'',
+              center_id:'',
+              academic_year_id:'',
+              page:1,
+              size:10
+            },
             options:[],
             nameSelect:[],
             input:'',
-            chargeTableDate:[],
+            chargeTable:[
+              {
+                name:'78'
+              }
+            ],
         }
     },
     methods: {
-        addNewTemplate(){
-            
-        }
+      configure:function () {
+        console.log("weyhhdgfjhsdfasdg");
+        this.$router.push('/financemanagement/refund-config/1');
+      },
+      addNewTemplate(){
+
+      }
     }
 }
 </script>
