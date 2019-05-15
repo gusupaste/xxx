@@ -367,7 +367,9 @@
   }
   .refunDetail tr td:last-child{
     text-align: left;
-    padding-left: 10px
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px
   }
   .refunDetail table{
     border: 1px #A0A0A0 solid;
