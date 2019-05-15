@@ -82,7 +82,7 @@
                 </td>
               </tr>
               <tr>
-                <td rowspan="20" width="90">在校生</td>
+                <td rowspan="21" width="90">在校生</td>
                 <td rowspan="14" width="90">学费</td>
                 <td width="90">转班</td>
                 <td colspan="3">多退少补</td>
