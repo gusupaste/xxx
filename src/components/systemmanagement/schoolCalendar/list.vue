@@ -416,12 +416,18 @@ export default {
             this.$router.push('/schoolCalendarList/editTemplate/'+data.id);
         },
         handleSelectionChange(val){
-            // console.log(val)
-            // var x = [];
-            // val.forEach(item=>{
-            //     this.checkList[item.id] = item.class_types;
-            // })
-            // console.log(this.checkList)
+            for (let k in this.checkList) {
+               this.checkList[k] = [];
+            }
+            val.forEach(item=>{
+                console.log(item)
+                var list = [];
+                item.class_types.forEach(ele=>{
+                    list.push(ele.id);
+                })
+                this.checkList[item.id] = list;
+            })
+            console.log(this.checkList)
             this.multipleSelection = val;
         },
     },
