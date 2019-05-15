@@ -346,6 +346,12 @@ export default {
     mounted () {
         this.getYear();
         this.getTemplateInfo();
+        // 改写插件方法
+        Calendar.methods.clickDay = function(item,index){
+            if (item.otherMonth === "nowMonth" && !item.dayHide) {
+                this.getList(this.myDate, item.date);
+            }
+        }
     },
     methods:{
         cancelModal(){
