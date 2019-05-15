@@ -1,7 +1,9 @@
 <template>
     <div class="refunDetail wrap">
-        <p class="local_path_style">You Are Here  ：财务处理 > 财务设置 > <span class="font-cl-blue">配置退费规则</span></p>
-        <h1>合肥用龙湾幼儿园</h1>
+      <div class="header">
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > 财务设置 > <span class="font-cl-blue">配置退费规则</span></p>
+      </div>
+        <p class="title">合肥用龙湾幼儿园</p>
         <div class="select-header select-length" style="line-height:45px">
             <span>学年：</span>
             <el-select v-model="searchform.intercity_id" placeholder="请选择">
@@ -28,115 +30,332 @@
       <table>
           <thead>
               <tr>
-                <td colspan="6">非普惠</td>
+                <td colspan="6" style="text-align: center">非普惠</td>
               </tr>
           </thead>
           <tbody>
               <tr>
-                <td width="80px">学生类型</td>
-                <td colspan="5">退费判定条件</td>
+                <td width="90px">学生类型</td>
+                <td colspan="5" style="text-align: center">退费判定条件</td>
               </tr>
               <tr>
-                <td rowspan="6">预备生</td>
+                <td rowspan="6" width="90px">预备生</td>
                 <td rowspan="4" colspan="2" style="width:60px">退费</td>
-                <td colspan="3">已领物品，是否减物品费用</td>
+                <td colspan="3" style="">
+                  已领物品，是否减物品费用&nbsp;&nbsp;&nbsp;
+                  <el-radio v-model="saveForm.radio" label="1">是</el-radio>
+                  <el-radio v-model="saveForm.radio" label="0">否</el-radio>
+                </td>
               </tr>
               <tr>
-                <td colspan="3">总部外籍子女，退</td>
+                <td colspan="3">
+                  总部外籍子女，退
+                  <el-input type="text" v-model="saveForm.waiji"></el-input>%
+                </td>
               </tr>
               <tr>
-                <td rowspan="2">总部非外籍子女，退</td>
-                <td colspan="2">按时提交申请，退</td>
+                <td rowspan="2" width="100">总部非外籍子女</td>
+                <td colspan="2">
+                  按时提交申请，退
+                  <el-input type="text" v-model="saveForm.feiwaiji1"></el-input>%
+                </td>
               </tr>
               <tr>
-                <td colspan="2">未按时提交申请，退</td>
+                <td colspan="2">
+                  未按时提交申请，
+                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>
+                  月退
+                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>%，
+                  剩余月退
+                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>%
+                </td>
               </tr>
               <tr>
                 <td colspan="2">延迟入园</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td colspan="3">所有金额转备用金</td>
               </tr>
               <tr>
                 <td colspan="2">无发票</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td colspan="3">
+                  减退费金额
+                  <el-input type="text" v-model="saveForm.jiantui"></el-input>%
+                </td>
               </tr>
               <tr>
-                <td rowspan="18">在校生</td>
-                <td rowspan="11">学费</td>
-                <td>转班</td>
-                <td colspan="3">学费-学费/已消费月，转备用</td>
+                <td rowspan="20" width="90">在校生</td>
+                <td rowspan="14" width="90">学费</td>
+                <td width="90">转班</td>
+                <td colspan="3">多退少补</td>
               </tr>
               <tr>
-                <td rowspan="6">退学</td>
-                <td rowspan="3">月缴</td>
-                <td colspan="2">学费-学费/已消费月，转备用</td>
+                <td rowspan="8" width="90">退学</td>
+                <td rowspan="3" width="100">月缴</td>
+                <td colspan="2">
+                  行政手续费
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>元
+                </td>
               </tr>
               <tr>
-                <td colspan="2">所有金额转备用金，退</td>
+                <td colspan="2">
+                  <el-select>
+                    <el-option value="当月"></el-option>
+                    <el-option value="指定月"></el-option>
+                  </el-select>
+                  <el-select>
+                    <el-option value="连续"></el-option>
+                    <el-option value="累计"></el-option>
+                  </el-select>
+                  <el-select>
+                    <el-option value="大于"></el-option>
+                    <el-option value="等于"></el-option>
+                  </el-select>
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>个
+                  <el-select>
+                    <el-option value="校日历"></el-option>
+                    <el-option value="日历"></el-option>
+                  </el-select>
+                  时，退
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>%，
+                  剩余月退
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>%，
+                </td>
               </tr>
               <tr>
-                <td colspan="2">所有金额转备用金，退</td>
+                <td colspan="2">
+                  <i class="el-icon-circle-plus orange cur">添加判定条件</i>
+                </td>
               </tr>
               <tr>
-                <td rowspan="2">学期缴</td>
-                <td colspan="2">所有金额转备用金，退</td>
+                <td rowspan="2" width="100">学期缴</td>
+                <td colspan="2">
+                  小于
+                  <el-input type="text" v-model="saveForm.yuefen"></el-input>
+                  个月时，学费原价
+                  <el-input type="text" v-model="saveForm.yuanjia"></el-input>
+                  ，转月缴
+                </td>
               </tr>
               <tr>
-                <td colspan="2">所有金额转备用金，退</td>
+                <td colspan="2">
+                  大于
+                  <el-input type="text" v-model="saveForm.yuefen1"></el-input>
+                  个月时，学费原价
+                  <el-input type="text" v-model="saveForm.yuanjia1"></el-input>
+                  ，转月缴
+                </td>
               </tr>
               <tr>
-                <td colspan="3">未按时提申请，扣月</td>
+                <td rowspan="2" width="100">年缴</td>
+                <td colspan="2">
+                  小于
+                  <el-input type="text" v-model="saveForm.yuefen2"></el-input>
+                  个月时，学费原价
+                  <el-input type="text" v-model="saveForm.yuanjia2"></el-input>
+                  ，转月缴
+                </td>
               </tr>
               <tr>
-                <td rowspan="2">休学</td>
-                <td colspan="3">按时提申请，首月%转备用金，剩余月%转备用金</td>
+                <td colspan="2">
+                  大于
+                  <el-input type="text" v-model="saveForm.yuefen3"></el-input>
+                  个月时，学费原价
+                  <el-input type="text" v-model="saveForm.yuanjia3"></el-input>
+                  ，转月缴
+                </td>
               </tr>
               <tr>
-                <td colspan="3">未按时提申请，首月转缺勤，次月%转备用金，剩余月%转备用金</td>
+                <td colspan="3">
+                  未按时提申请，扣月
+                  <el-input type="text" v-model="saveForm.kouyue"></el-input>%
+                </td>
               </tr>
               <tr>
-                <td rowspan="2">缺勤</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td width="90">休学</td>
+                <td colspan="3">
+                  首月
+                  <el-input type="text" v-model="saveForm.beiyongjin"></el-input>
+                  %转备用金，剩余月
+                  <el-input type="text" v-model="saveForm.beiyongjin2"></el-input>
+                  %转备用金</td>
               </tr>
               <tr>
-                <td colspan="3">添加判定条件</td>
+                <td width="90">离园</td>
+                <td colspan="3">
+                  未提前申请,需扣除月缴
+                  <el-input type="text" v-model="saveForm.liyuan"></el-input>%
+                </td>
               </tr>
               <tr>
-                <td rowspan="3" colspan="2">餐费</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td rowspan="2" width="90">缺勤</td>
+                <td colspan="3">
+                  <el-select>
+                    <el-option value="当月"></el-option>
+                    <el-option value="指定月"></el-option>
+                  </el-select>
+                  <el-select>
+                    <el-option value="连续"></el-option>
+                    <el-option value="累计"></el-option>
+                  </el-select>
+                  <el-select>
+                    <el-option value="大于"></el-option>
+                    <el-option value="等于"></el-option>
+                  </el-select>
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>个
+                  <el-select>
+                    <el-option value="校日历"></el-option>
+                    <el-option value="日历"></el-option>
+                  </el-select>
+                  时，转备用金
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>%，
+                  剩余月转备用金
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>%，
+                </td>
               </tr>
               <tr>
-                <td rowspan="2">非整月</td>
-                <td>O</td>
-                <td colspan="">所有金额转备用金，退</td>
+                <td colspan="3">
+                  <i class="el-icon-circle-plus orange cur">添加判定条件</i>
+                </td>
               </tr>
               <tr>
-                <td>O</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td width="90">寒暑假</td>
+                <td colspan="3">
+                  <el-radio v-model="saveForm.radio5" label="0">否</el-radio>
+                  <el-radio v-model="saveForm.radio5" label="1">
+                    是,结转x<el-input type="text" v-model="saveForm.quetian"></el-input>%</el-radio>
+                </td>
               </tr>
               <tr>
-                <td colspan="2">物品费</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td rowspan="4" colspan="2">餐费</td>
+                <td colspan="3">
+                  整月，转备用金
+                  <el-input type="text" v-model="saveForm.zhengyue"></el-input>%
+                </td>
+              </tr>
+              <tr>
+                <td rowspan="2" width="100">非整月</td>
+                <td width="60">
+                  <el-radio v-model="saveForm.radio2"></el-radio>
+                </td>
+                <td>缺勤天数x收费标准，转备用金</td>
+              </tr>
+              <tr>
+                <td width="60">
+                  <el-radio v-model="saveForm.radio2"></el-radio>
+                </td>
+                <td colspan="3">
+                  <el-select v-model="saveForm.lianxu">
+                    <el-option value="连续"></el-option>
+                  </el-select>
+                  <el-select v-model="saveForm.dayu">
+                    <el-option value="大于"></el-option>
+                  </el-select>
+                  <el-input type="text" v-model="saveForm.tian"></el-input>
+                  天，转备用金&nbsp;&nbsp;&nbsp;&nbsp;
+                  <el-radio v-model="saveForm.radio3" label="1">
+                    缺勤天数x
+                    <el-input type="text" v-model="saveForm.quetian"></el-input>元
+                  </el-radio>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <el-radio v-model="saveForm.radio3" label="0">
+                    缺勤天数x（收费标准/<el-input type="text" v-model="saveForm.quetian2"></el-input>天）
+                  </el-radio>
+                </td>
+              </tr>
+              <tr>
+                <td width="90">寒暑假</td>
+                <td colspan="3">
+                  <el-radio v-model="saveForm.radio4" label="0">否</el-radio>
+                  <el-radio v-model="saveForm.radio4" label="1">
+                    是,结转x<el-input type="text" v-model="saveForm.quetian"></el-input>%</el-radio>
+                </td>
               </tr>
               <tr>
                 <td colspan="2">活动费</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td colspan="3">
+                  当前学期，退
+                  <el-input type="text" v-model="saveForm.dangxue"></el-input>%，
+                  剩余学期，退
+                  <el-input type="text" v-model="saveForm.shengyu"></el-input>%
+                </td>
               </tr>
               <tr>
                 <td colspan="2">校车费</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td colspan="3">
+                  当月，退
+                  <el-input type="text" v-model="saveForm.dangxue"></el-input>%，
+                  剩余月，退
+                  <el-input type="text" v-model="saveForm.shengyu"></el-input>%
+                </td>
               </tr>
               <tr>
                 <td colspan="2">无发票</td>
-                <td colspan="3">所有金额转备用金，退</td>
+                <td colspan="3">
+                  减退费金额
+                  <el-input type="text" v-model="saveForm.dangxue"></el-input>%
+                </td>
               </tr>
           </tbody>
       </table>
       <table style="margin-top: 50px">
         <thead>
         <tr>
-          <td >普惠</td>
+          <td colspan="3" style="text-align: center">普惠</td>
         </tr>
         </thead>
+        <tbody>
+            <tr>
+              <td width="90px">学生类型</td>
+              <td colspan="2" style="text-align: center">退费判定条件</td>
+            </tr>
+            <tr>
+              <td width="90px" rowspan="5">在校生</td>
+              <td width="90px">无发票</td>
+              <td>
+                金额-金额x
+                <el-input type="text" v-model="saveForm.dangxue"></el-input>%
+              </td>
+            </tr>
+            <tr>
+              <td width="90px" rowspan="2">学费</td>
+              <td>
+                缺勤转备用金，当前月
+                <el-input type="text" v-model="saveForm.dangxue"></el-input>
+                %转备用金，剩余月
+                <el-input type="text" v-model="saveForm.shengyu"></el-input>
+                %转备用金
+              </td>
+            </tr>
+            <tr>
+              <td>
+                退学，当前月退
+                <el-input type="text" v-model="saveForm.dangxue"></el-input>
+                %，剩余月退
+                <el-input type="text" v-model="saveForm.shengyu"></el-input>
+                %
+              </td>
+            </tr>
+            <tr>
+              <td width="90px" rowspan="2">餐费</td>
+              <td>
+                <el-select>
+                  <el-option value="连续"></el-option>
+                  <el-option value="累计"></el-option>
+                </el-select>
+                <el-select>
+                  <el-option value="大于"></el-option>
+                  <el-option value="等于"></el-option>
+                </el-select>
+                <el-input type="text" v-model="saveForm.tian"></el-input>
+                天，转备用金，缺勤天数x
+                <el-input type="text" v-model="saveForm.shengyu"></el-input>元
+              </td>
+            </tr>
+            <tr>
+              <td>
+                整月转备用金
+                <el-input type="text" v-model="saveForm.shengyu"></el-input>%
+              </td>
+            </tr>
+        </tbody>
       </table>
     </div>
 </template>
@@ -146,24 +365,78 @@
     color: #333333;
     font-weight: bold
   }
+  .refunDetail tr td:last-child{
+    text-align: left;
+    padding-left: 10px
+  }
   .refunDetail table{
     border: 1px #A0A0A0 solid;
     border-collapse: collapse;
     width: 100%;
     color:#101010;
     text-align: center;
+    margin-top: 20px;
   }
   .refunDetail td{
     border: 1px #ccc solid;
-    padding: 10px;
+    /*padding: 10px;*/
+    line-height: 40px;
+  }
+  .refunDetail .title{
+    color: #333333;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 40px;
+  }
+  .refunDetail .el-input,.el-select{
+    width: 100px;
+  }
+  .refunDetail >>> .el-input__inner{
+    width: inherit;
   }
 </style>
 <script>
+import ElInput from '../../../../node_modules/element-ui/packages/input/src/input.vue'
+
 export default {
-    data(){
+  components: {ElInput},
+  data(){
         return {
             searchform:{
                 intercity_id:'',
+            },
+            saveForm:{
+              radio:'0',
+              radio2:'0',
+              radio3:'0',
+              radio4:'0',
+              radio5:'0',
+              quetian:'',
+              quetian2:'',
+              waiji:'',
+              feiwaiji1:'',
+              feiwaiji2:'',
+              jiantui:'',
+              liyuan:'',
+              xingzheng:'',
+              dangyue:'',
+              yuefen:'',
+              yuanjia:'',
+              yuefen1:'',
+              yuanjia1:'',
+              yuefen2:'',
+              yuanjia2:'',
+              yuefen3:'',
+              yuanjia3:'',
+              kouyue:'',
+              beiyongjin:'',
+              beiyongjin2:'',
+              zhengyue:'',
+              lianxu:'',
+              dayu:'',
+              tian:'',
+              dangxue:'',
+              shengyu:'',
             },
             tableData: [{
                 date: '2016-05-02',
