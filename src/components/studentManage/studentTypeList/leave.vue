@@ -38,6 +38,7 @@
             <el-date-picker
               v-model="dateValue"
               type="daterange"
+              value-format="yyyy-MM-dd"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
@@ -156,7 +157,7 @@ export default {
     return {
       class_val:'',
       gender:'',
-      dateValue: '',
+      dateValue: [],
       searchText:'',
       year:'',
       in_type:'',
@@ -167,8 +168,8 @@ export default {
       var data={
         student_type:'Graduation',
         class_id:this.class_val,
-        date_from:'2018-01-01',
-        date_to:'2020-01-01',
+        date_from:this.dateValue[0],
+        date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
       }

@@ -79,6 +79,7 @@
             <el-date-picker
               v-model="dateValue"
               type="daterange"
+              value-format="yyyy-MM-dd"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
@@ -88,7 +89,7 @@
             <el-input  v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" >搜索</el-button>
+            <el-button type="primary" @click="getStudentList">搜索</el-button>
           </el-form-item>
         </el-form>
 
@@ -222,7 +223,7 @@ export default {
       class_val:'',
       klass:'',
       gender:'',
-      dateValue: '',
+      dateValue: [],
       selectDisable:'',
       searchText:'',
       year:'',
@@ -246,12 +247,14 @@ export default {
       }
     },
     getStudentList:function () {
+      var centresId = []
+      centresId.push(this.school);
       var data={
         student_type:'Graduating',/*毕业班学生*/
-        center_ids:[],
+        center_ids:centresId,
         class_id:this.class_val,
-        date_from:'2018-01-01',
-        date_to:'2020-01-01',
+        date_from:this.dateValue[0],
+        date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
       }

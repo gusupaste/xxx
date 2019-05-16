@@ -90,6 +90,7 @@
             <el-date-picker
               v-model="dateValue"
               type="daterange"
+              value-format="yyyy-MM-dd"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
@@ -237,7 +238,7 @@ export default {
       class_val:'',
       klass:'',
       gender:'',
-      dateValue: '',
+      dateValue: [],
       selectDisable:'',
       searchText:'',
       year:'',
@@ -261,12 +262,14 @@ export default {
       }
     },
     getStudentList:function () {
+      var centresId = []
+      centresId.push(this.school);
       var data={
         student_type:'Abort',/*毕业生*/
-        center_ids:[],
+        center_ids:centresId,
         class_id:this.class_val,
-        date_from:'2018-01-01',
-        date_to:'2020-01-01',
+        date_from:this.dateValue[0],
+        date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
       }
