@@ -248,6 +248,7 @@ export default {
           this.form.radio='1';
         },
         editPre:function (obj) {
+          console.log(obj)
             this.ruleFormShow=true;
             this.form.name=obj.name;
             this.form.id=obj.id;
