@@ -15,7 +15,7 @@
                     <p v-for="item in multipleTable" :key="item.id">
                         <span style="width:200px;display:inline-block"><span class="ml20">学生姓名：</span><span>{{item.name}}</span></span>
                         <span style="width:200px;display:inline-block"><span class="ml20">学号：</span><span>{{item.student_no}}</span></span>
-                        <span style="width:200px;display:inline-block"><span class="ml20">所在班级：</span><span>{{item.name}}</span></span>
+                        <span style="width:200px;display:inline-block"><span class="ml20">所在班级：</span><span>{{item.class_name}}</span></span>
                     </p>
                 </el-form-item>
                 <el-form-item label="制单日期：">
@@ -50,6 +50,9 @@
                         type="date"
                         placeholder="选择日期">
                     </el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="getSubject" type="primary">搜索</el-button>
                 </el-form-item>
                 <br>
                 <el-form-item label="收费政策：">
@@ -140,7 +143,6 @@
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">取消</button>
             <button class="btn bg-green" @click="saveInfo">保存</button>
-            <button class="btn bg-dark-orange">缴费</button>
         </div>
         <!-- 添加学生 -->
       <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
@@ -166,8 +168,10 @@
                   ref="multipleTable">
                   <el-table-column
                     prop="选择"
-                    type="selection"
-                    >
+                    label="选择">
+                    <template slot-scope="scope">
+                        <el-radio v-model="choosePerson" :label="scope.row"> </el-radio>
+                    </template>
                   </el-table-column>
                   <el-table-column
                     prop="name"
@@ -274,6 +278,9 @@
      letter-spacing: 200;
      border:1px solid #e6e6e6;
   }
+  .createDiscount >>> .el-radio__label{
+    display: none !important;
+  }
 </style>
 <script>
 export default {
@@ -287,6 +294,7 @@ export default {
                 start_date:'',
                 end_date:''
             },
+            choosePerson:'',
             saveForm:{
                 status: 1,
                 student_id: "",
@@ -321,6 +329,7 @@ export default {
             schoolName:'',
             copyForm:{},
             totalprice:0,
+            totalamount:0,
             searchSchoolForm:{},
             tableData: [],
             multipleTable2:[],
@@ -342,13 +351,20 @@ export default {
             this.saveForm.enter_date = this.addform.end_date;
             this.saveForm.policy_id = this.info.id;
             this.saveForm.actual_amount = this.totalprice;
-            this.saveForm.amount = this.totalprice;
+            this.saveForm.amount = this.totalamount;
             this.saveForm.billitem_list = this.checkedSubject;
             console.log(this.multipleTable);
             console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/',this.saveForm)
             .then(res=>{
                 console.log(res.data)
+                if(res.data.status === 1){
+                    _this.$message({
+                        type:"success",
+                        message:"保存成功！"
+                    })
+                    _this.$router.push('/financemanagement/billMaking');
+                }
             })
         },
         getStudent(){
@@ -367,13 +383,15 @@ export default {
         sureAddSubject(){
             this.checkedSubject = this.checkedSubject1;
             this.totalprice = 0;
+            this.totalamount = 0;
             this.checkedSubject.forEach(item=>{
                this.totalprice += item.price * item.rate /100;
-            })
+               this.totalamount += item.price;
+            });
             this.subjectVisible=false;
         },
         sureAddStudent(){
-            this.multipleTable = this.multipleTable1;
+            this.multipleTable = [this.choosePerson];
             this.innerVisible = false;
         },
         getYear(){
@@ -397,6 +415,24 @@ export default {
                 _this.info = res.data.data.policy_info;
                 _this.subjectList = res.data.data.policy_item_li;
             })
+        },
+        getSubject(){
+            console.log(this.multipleTable)
+            console.log(this.addform)
+            // var _this = this;
+            // this.$axios.get('/api/finance/charging_policy/1/get_available_items_for_student/',{
+            //     params:{
+            //         student_id:this.multipleTable[0].id,
+            //         payment_method_id:this.addform.pay_method,
+            //         academic_year_id:this.addform.academic_year_id,
+            //         payment_date:this.addform.start_date,
+            //         enter_date:this.addform.end_date,
+            //     }
+            // })
+            // .then(res=>{
+            //     console.log(res.data);
+            //     _this.subjectList = res.data.data.policy_item_li;
+            // })
         },
         handleSelectionChange(val){
             this.multipleTable1 = val;

@@ -6,10 +6,10 @@
         <div class="clearfix mt10">
             <el-form>
                 <el-form-item label="应收金额：" label-width="120px">
-                     ¥3000.00
+                     ¥{{info.amount}}
                 </el-form-item>
                 <el-form-item label="备用金金额：" label-width="120px">
-                     ¥200.00
+                     ¥{{reserved_fund}}
                 </el-form-item>
                 <el-form-item label="" label-width="120px">
                     <span class="red">可以使用备用金抵扣收费，是否使用备用金？</span>
@@ -19,47 +19,83 @@
                 <br>
                 <el-form-item label="收费情况：" label-width="120px">
                     <el-table
-                        :data="tableData"
+                        :data="payData"
                         border
                         style="width: 100%">
                         <el-table-column
                         prop="date"
-                        label="支付方式"
-                        width="180">
+                        label="支付方式">
+                        <template slot-scope="scope">
+                            支付金额
+                        </template>
                         </el-table-column>
                         <el-table-column
                         prop="name"
-                        label="助学金"
-                        width="180">
+                        label="助学金">
+                        <template slot-scope="scope" >
+                            <el-input v-model="value1" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="现金">
+                        <template slot-scope="scope" >
+                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="POS刷卡">
+                        <template slot-scope="scope" >
+                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="电汇转账">
+                        <template slot-scope="scope" >
+                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="支票">
+                        <template slot-scope="scope" >
+                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="代扣卡">
+                        <template slot-scope="scope" >
+                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="电子支付">
+                        <template slot-scope="scope" >
+                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
+                        </el-table-column>
+                        <el-table-column
+                        prop="address"
+                        label="支付宝">
+                        <template slot-scope="scope" >
+                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
+                        </el-table-column>
+                        <el-table-column
+                        prop="address"
+                        label="微信">
+                        <template slot-scope="scope" >
+                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                        </template>
                         </el-table-column>
                     </el-table>
                 </el-form-item>
                 <el-form-item label="实收金额：" label-width="120px">
-                     ¥200.00
+                     ¥{{info.actual_amount}}
                 </el-form-item>
                 <el-form-item label="备用金抵扣：" label-width="120px">
                      ¥200.00
@@ -80,21 +116,19 @@
                 border
                 style="width: 100%">
                 <el-table-column
-                prop="date"
-                label="费用类型"
-                width="180">
+                prop="subject_category"
+                label="费用类型">
                 </el-table-column>
                 <el-table-column
-                prop="name"
-                label="费用科目"
-                width="180">
+                prop="subject_name"
+                label="费用科目">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="price"
                 label="正价">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="rate"
                 label="折扣">
                 </el-table-column>
                 <el-table-column
@@ -108,10 +142,16 @@
                 <el-table-column
                 prop="address"
                 label="备用金">
+                <template slot-scope="scope" >
+                    <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                </template>
                 </el-table-column>
                 <el-table-column
                 prop="address"
                 label="实收">
+                <template slot-scope="scope" >
+                    <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                </template>
                 </el-table-column>
                 <el-table-column
                 prop="address"
@@ -124,18 +164,24 @@
         </div>
         <el-form class="mt26" style="border:none">
             <el-form-item label="其他补充信息：" label-width="120px">
-                <span>xxxxxxxxxxx</span>
+
             </el-form-item>
             <el-form-item label="开票需求：" label-width="120px">
-                 <el-checkbox  v-model="value1">是，使用备用金</el-checkbox>
+                 <el-checkbox  v-model="value1">是</el-checkbox>
+            </el-form-item>
+            <el-form-item label="发票标题：" label-width="120px">
+                 <el-input  v-model="value1">是</el-input>
             </el-form-item>
             <el-form-item label="可开票据金额：" label-width="120px">
                 <el-input></el-input>
             </el-form-item>
+            <el-form-item label="备注：" label-width="120px">
+                 <el-input  type="textarea" style="width:500px" v-model="value1">是</el-input>
+            </el-form-item>
         </el-form>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey">返回</button>
-            <button class="btn bg-green">确定</button>
+            <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
+            <button class="btn bg-green">提交</button>
 
         </div>
     </div>
@@ -181,6 +227,9 @@
       height: 20px;
       border-bottom: 1px solid #bbb;
   }
+  .dollar .pay_input>>> .el-input__inner {
+     width: 90px;
+  }
 </style>
 <script>
 export default {
@@ -188,23 +237,27 @@ export default {
         return {
             list:[1,2,3,4,5,6,7,7,7,],
             value1:'2000-09-09',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                }]
+            tableData: [],
+            priceData:[],
+            info:{},
+            reserved_fund:'',
+            payData:[{}]
+        }
+    },
+    created () {
+        this.getInfo();
+    },
+    methods: {
+        getInfo(){
+            var _this = this;
+            this.$axios.get('/api/finance/bill/'+this.$route.params.id+'/pay_info/')
+            .then(res=>{
+                console.log(res.data);
+                _this.info = res.data.bill_info;
+                _this.reserved_fund = res.data.reserved_fund;
+                _this.tableData = res.data.billitem_li;
+                // _this.tableData = res.data.bill_history;
+            })
         }
     }
 }

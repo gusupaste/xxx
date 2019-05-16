@@ -112,7 +112,6 @@
         <div class="mt26 text-align-center">
             <button class="btn bg-grey">返回</button>
             <button class="btn bg-green">保存</button>
-            <button class="btn bg-dark-orange">缴费</button>
         </div>
     </div>
 </template>

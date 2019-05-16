@@ -651,6 +651,13 @@ import refund from './compents/refund'
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
+  .settinglist >>>.school_table_wrap {
+    width: 100%;
+  }
+  
+  .settinglist >>> .school_table_wrap .el-form-item__content{
+    width: 80%;
+  }
   .settinglist .bold{
     font-weight: bold;
     color: black;

@@ -47,7 +47,7 @@
             prop="address"
             label="操作">
               <template slot-scope="scope">
-                <el-button type="text"class="red" @click="editParentInfo(scope.row)" v-bind:disabled="ruleFormShow === true">
+                <el-button type="text"class="red" @click="editParentInfo(scope.row)">
                   <i class="fa fa-pencil green cur"></i>
                 </el-button>
                 <el-button type="text"class="red" @click="deleteParentInfo(scope.row.id)">
@@ -129,7 +129,7 @@
             </el-form-item>
             <br>
             <el-form-item label="家长第一语言：" label-width="150px">
-              <el-select v-model="ruleForm.primary_language" placeholder="请选择学生第一语言">
+              <el-select v-model="ruleForm.primary_language" placeholder="请选择家长第一语言">
                 <el-option
                   v-for="item in Language_options"
                   :key="item.id"
@@ -138,8 +138,8 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="学生第二语言：" label-width="150px">
-              <el-select v-model="ruleForm.other_language" placeholder="请选择学生第二语言">
+            <el-form-item label="家长第二语言：" label-width="150px">
+              <el-select v-model="ruleForm.other_language" placeholder="请选择家长第二语言">
                 <el-option
                   v-for="item in Language_options"
                   :key="item.id"
@@ -252,6 +252,10 @@ export default {
               _this.loading = false;
               if(res.status == 200 && res.data.status_code == 1) {
                 var options = res.data.results;
+                this.Language_options = [];
+                this.EmergencyContactGrade_options = [];
+                this.Relationship_options = [];
+                this.PrimaryContactWay_options = [];
                 for(var x in options){
                   if(options[x].list_name === 'Language'){
                     this.Language_options.push(options[x]);
@@ -295,10 +299,29 @@ export default {
           this.ruleForm.office_phone = obj.office_phone;
           this.ruleForm.telephone = obj.telephone;
           this.ruleForm.home_phone = obj.home_phone;
-          this.ruleForm.emergency_contact_grade = parseInt(obj.emergency_contact_grade);
-          this.ruleForm.primary_contact_way = parseInt(obj.primary_contact_way);
+          if(obj.emergency_contact_grade !== null && obj.emergency_contact_grade !== ''){
+            this.ruleForm.emergency_contact_grade = parseInt(obj.emergency_contact_grade);
+          }else{
+            this.ruleForm.emergency_contact_grade = '';
+          }
+          if(obj.primary_contact_way !== null && obj.primary_contact_way !== ''){
+            this.ruleForm.primary_contact_way = parseInt(obj.primary_contact_way);
+          }else{
+            this.ruleForm.primary_contact_way = '';
+          }
+          if(obj.primary_language !== null && obj.primary_language !== ''){
+            this.ruleForm.primary_language = parseInt(obj.primary_language);
+          }else{
+            this.ruleForm.primary_language = '';
+          }
+          if(obj.other_language !== null && obj.other_language !== ''){
+            this.ruleForm.other_language = parseInt(obj.other_language);
+          }else{
+            this.ruleForm.other_language = '';
+          }
+          /*
           this.ruleForm.primary_language = parseInt(obj.primary_language);
-          this.ruleForm.other_language = parseInt(obj.other_language);
+          this.ruleForm.other_language = parseInt(obj.other_language);*/
         },
         deleteParentInfo:function(id){
           this.ruleFormShow = false;

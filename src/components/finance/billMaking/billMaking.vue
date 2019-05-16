@@ -62,8 +62,7 @@
             style="width: 100%">
             <el-table-column
             prop="bill_no"
-            label="账单号"
-            width="180">
+            label="账单号">
             <template slot-scope="scope">
                 <router-link :to="'/financemanagement/billMakingDetail/'+scope.row.id">{{scope.row.bill_no}}</router-link>
             </template>
@@ -108,12 +107,12 @@
             label="实际应收"
             >
             <template slot-scope="scope">
-                <router-link to="/financemanagement/edit/9" v-if="scope.row.bill_status === 0">
+                <router-link :to="'/financemanagement/edit/'+scope.row.id" v-if="scope.row.bill_status === 0">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
                 </router-link>
-                <router-link to="/financemanagement/dollar/9">
+                <router-link :to="'/financemanagement/dollar/'+scope.row.id">
                     <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>

@@ -236,10 +236,6 @@
                 >
               </el-table-column>
               <el-table-column
-                prop="subject"
-               >
-              </el-table-column>
-              <el-table-column
                 prop="class_type"
                 label="班级类型"
                 >
