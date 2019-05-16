@@ -79,6 +79,7 @@
             <el-date-picker
               v-model="dateValue"
               type="daterange"
+              value-format="yyyy-MM-dd"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
@@ -221,9 +222,10 @@ export default {
       class_val:'',
       klass:'',
       gender:'',
-      dateValue: '',
+      dateValue: [],
       selectDisable:'',
       searchText:'',
+      centresId:[],
     }
   },
   mounted:function(){
@@ -251,15 +253,18 @@ export default {
       }
     },
     getStudentList:function () {
+      var centresId = []
+      centresId.push(this.school);
       var data={
         student_type:'Prepare',
-        center_ids:[3],
+        center_ids:centresId,
         class_id:this.class_val,
-        date_from:'2018-01-01',
-        date_to:'2020-01-01',
+        date_from:this.dateValue[0],
+        date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
       }
+      console.log();
       this.$emit('getStudentList',data);
     }
   },
