@@ -182,7 +182,7 @@ export default {
               student:this.$route.params.id,
               name: '',
               relationship: '',
-              nationality: '',
+              nationality: 74,
               employer: '',
               position: '',
               email: '',
@@ -388,7 +388,7 @@ export default {
           this.ruleForm.student = this.$route.params.id;
           this.ruleForm.name = '';
           this.ruleForm.relationship = '';
-          this.ruleForm.nationality = '';
+          this.ruleForm.nationality = 74;
           this.ruleForm.employer = '';
           this.ruleForm.position = '';
           this.ruleForm.email = '';

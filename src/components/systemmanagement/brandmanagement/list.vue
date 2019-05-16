@@ -132,7 +132,7 @@
       <el-dialog :title="brandName" :visible.sync="editbrandVisible" min-width="600px">
         <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
           <el-form-item label="品牌名称" prop="name">
-            <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制50个字" maxlength="50"></el-input>
+            <el-input v-model.trim="editForm.name" size="small" placeholder="品牌名称限制50个字" maxlength="50"></el-input>
           </el-form-item>
           <el-form-item label="班级项目" prop="klass">
             <el-checkbox-group v-model="editForm.klass" style="text-align: left;padding-left: 5px;">
@@ -147,8 +147,8 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editbrandVisible = false">取 消</el-button>
-          <el-button class="bg-red white" v-if="editForm.id !== '' " @click="deleteBrandInfo(editForm.id)">删 除</el-button>
-          <el-button type="success" @click="saveBrand" v-bind:disabled="isdisabledFn">保 存</el-button>
+          <el-button class="bg-red white" v-if="editForm.id !== ''" @click="deleteBrandInfo(editForm.id)">删 除</el-button>
+          <el-button type="success" @click="saveBrand('editForm')">保 存</el-button>
         </span>
       </el-dialog>
 
@@ -417,6 +417,7 @@
           this.brandName = '编辑品牌';
         }
         if(id === 0){
+          this.editForm.id = '';
           this.editForm.name = '';
           this.editForm.klass = [];
           this.editForm.grade = [];
@@ -515,107 +516,20 @@
           console.log(err)
         })
       },
-      saveBrand:function () {
-        var _this = this;
-        _this.loading = true;
-        var url = '/api/hq/hq/';
-        console.log(_this.editForm.id);
-        if( _this.editForm.id !== ''){
-          url = url + _this.editForm.id +'/';
-          _this.$axios.put(url, {
-            name:_this.editForm.name,
-            class_types:_this.editForm.klass,
-            grade_types:_this.editForm.grade,
-          }).then(res=>{
-            _this.loading = false;
-            if(res.status == 200) {
-              this.$message({
-                message: '保存成功',
-                type: 'success'
-              });
-            }else{
-              this.$message.error('保存失败');
-            }
-            _this.editbrandVisible = false;
-            _this.getBrandList();
-          }).catch(err=>{
-            console.log(err)
-          })
-        }else{
-          _this.$axios.post(url, {
-            name:_this.editForm.name,
-            class_types:_this.editForm.klass,
-            grade_types:_this.editForm.grade,
-          }).then(res=>{
-            _this.loading = false;
-            if(res.status == 200) {
-              this.$message({
-                message: '保存成功',
-                type: 'success'
-              });
-            }else{
-              this.$message.error('保存失败');
-            }
-            _this.editbrandVisible = false;
-            _this.getBrandList();
-          }).catch(err=>{
-            console.log(err)
-          })
-        }
-      },
-      saveClassManage:function (flag) {
-        var types = [];
-        var url = '';
-        if(flag === 0){
-          types = this.class_type;
-          url = '/api/common/class_type/';
-        }else{
-          types = this.grade_type;
-          url = '/api/common/grade_type/';
-        }
-        for(var x in types){
-          if(types[x].id === ''){
-            if(types[x].name !== ''){
-              var _this = this;
-              _this.loading = true;
-              _this.$axios.post(url, {
-                name: types[x].name,
-                sort_order: 0,
-                code: types[x].code,
-              }).then(res => {
-                _this.loading = false;
-                if (res.status == 201) {
-                  this.$message({
-                    message: '保存成功',
-                    type: 'success'
-                  });
-                } else {
-                  this.$message.error('保存失败');
-                }
-                if(x == types.length - 1){
-                  if(flag === 0){
-                    this.classManageVisible = false;
-                    this.getClassType();
-                  }else{
-                    this.yearManageVisible = false;
-                    this.getGradeType();
-                  }
-                }
-              }).catch(err => {
-                console.log(err)
-              })
-            }else{
-              this.$message.error('名称不能为空');
-            }
-          }else if(types[x].edit === false){
-            if(types[x].name !== '') {
-              var _this = this;
-              _this.loading = true;
-              var n_url = url + types[x].id + '/';
-              _this.$axios.put(n_url, {
-                name: types[x].name,
-                sort_order: 0,
-                code: types[x].code,
+      saveBrand:function (formName) {
+        console.log("44544221245645");
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            var _this = this;
+            _this.loading = true;
+            var url = '/api/hq/hq/';
+            console.log(_this.editForm.id);
+            if (_this.editForm.id !== '') {
+              url = url + _this.editForm.id + '/';
+              _this.$axios.put(url, {
+                name: _this.editForm.name,
+                class_types: _this.editForm.klass,
+                grade_types: _this.editForm.grade,
               }).then(res => {
                 _this.loading = false;
                 if (res.status == 200) {
@@ -626,23 +540,124 @@
                 } else {
                   this.$message.error('保存失败');
                 }
-                if (x == types.length - 1) {
-                  if (flag === 0) {
-                    this.classManageVisible = false;
-                    this.getClassType();
-                  } else {
-                    this.yearManageVisible = false;
-                    this.getGradeType();
-                  }
-                }
+                _this.editbrandVisible = false;
+                _this.getBrandList();
               }).catch(err => {
                 console.log(err)
               })
-            }else{
-            this.$message.error('名称不能为空');
+            } else {
+              _this.$axios.post(url, {
+                name: _this.editForm.name,
+                class_types: _this.editForm.klass,
+                grade_types: _this.editForm.grade,
+              }).then(res => {
+                _this.loading = false;
+                if (res.status == 200) {
+                  this.$message({
+                    message: '保存成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message.error('保存失败');
+                }
+                _this.editbrandVisible = false;
+                _this.getBrandList();
+              }).catch(err => {
+                console.log(err)
+              })
+            }
+          }else{
+            return false;
           }
+        })
+      },
+      saveClassManage:function (flag) {
+          var types = [];
+          var url = '';
+          if(flag === 0){
+            types = this.class_type;
+            url = '/api/common/class_type/';
+          }else{
+            types = this.grade_type;
+            url = '/api/common/grade_type/';
           }
-        }
+          var flagtt = false;
+          for(var x in types){
+            if(types[x].id === ''){
+              flagtt = true;
+              if(types[x].name !== ''){
+                var _this = this;
+                _this.loading = true;
+                _this.$axios.post(url, {
+                  name: types[x].name,
+                  sort_order: 0,
+                  code: types[x].code,
+                }).then(res => {
+                  _this.loading = false;
+                  if (res.status == 201) {
+                    this.$message({
+                      message: '保存成功',
+                      type: 'success'
+                    });
+                  } else {
+                    this.$message.error('保存失败');
+                  }
+                  if(x == types.length - 1){
+                    if(flag === 0){
+                      this.classManageVisible = false;
+                      this.getClassType();
+                    }else{
+                      this.yearManageVisible = false;
+                      this.getGradeType();
+                    }
+                  }
+                }).catch(err => {
+                  console.log(err)
+                })
+              }else{
+                this.$message.error('名称不能为空');
+              }
+            }else if(types[x].edit === false){
+              if(types[x].name !== '') {
+                flagtt = true;
+                var _this = this;
+                _this.loading = true;
+                var n_url = url + types[x].id + '/';
+                _this.$axios.put(n_url, {
+                  name: types[x].name,
+                  sort_order: 0,
+                  code: types[x].code,
+                }).then(res => {
+                  _this.loading = false;
+                  if (res.status == 200) {
+                    this.$message({
+                      message: '保存成功',
+                      type: 'success'
+                    });
+                  } else {
+                    this.$message.error('保存失败');
+                  }
+                  if (x == types.length - 1) {
+                    if (flag === 0) {
+                      this.classManageVisible = false;
+                      this.getClassType();
+                    } else {
+                      this.yearManageVisible = false;
+                      this.getGradeType();
+                    }
+                  }
+                }).catch(err => {
+                  console.log(err)
+                })
+              }else{
+                this.$message.error('名称不能为空');
+              }
+            }
+          }
+          if(flagtt === false){
+            this.classManageVisible = false;
+            this.yearManageVisible = false;
+          }
       },
     },
     computed: {
@@ -666,7 +681,7 @@
         },
         deep: true
       },
-      klass: {
+      /*klass: {
         handler(newValue, oldValue) {
           if(newValue.length > 0 && this.editForm.grade.length > 0) {
             this.isdisabledFn = false;
@@ -685,7 +700,8 @@
           }
         },
         deep: true
-      },
+      },*/
+
     }
   }
 </script>
