@@ -33,7 +33,7 @@
             <el-table-column
               label="操作">
                 <template slot-scope="scope">
-                  <el-button type="text"class="red" @click="editPre(scope.row)" v-bind:disabled="ruleFormShow === true">
+                  <el-button type="text" class="red" @click="editPre(scope.row)">
                     <i class="fa fa-pencil green cur"></i>
                   </el-button>
                   <el-button type="text"class="red" @click="deletePre(scope.row)">
@@ -46,11 +46,11 @@
         </el-table>
         <p style="line-height: 35px;">
           <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
-            <i class="el-icon-circle-plus font-size-14 cur">添加免疫记录</i>
+            <i class="el-icon-circle-plus font-size-14 cur">添加疫苗接种记录</i>
           </el-button>
         </p>
         <div class="mt26" v-if="ruleFormShow">
-            <p class="recordHead">添加疫苗接种记录</p>
+            <p class="recordHead">添加/编辑疫苗接种记录</p>
             <el-form :model="form" :rules="rules" ref="form" class="mt26">
                 <el-form-item label="疫苗名称：" prop="name" label-width="150px">
                     <el-select v-model="form.name" placeholder="疫苗名称">
@@ -64,7 +64,7 @@
                 </el-form-item>
                  <el-form-item label="接种时间：" prop="date" label-width="150px" style="text-align:left">
                     <el-date-picker type="date" value-format="yyyy-MM-dd"
-                                    placeholder="选择首次缴费日期" v-model="form.date"></el-date-picker>
+                                    placeholder="选择接种日期" v-model="form.date"></el-date-picker>
                 </el-form-item>
                  <el-form-item label="是否接种：" label-width="150px" style="text-align:left">
                      <el-radio v-model="form.radio" label="1">是</el-radio>
@@ -251,7 +251,7 @@ export default {
             this.ruleFormShow=true;
             this.form.name=obj.name;
             this.form.id=obj.id;
-            if(obj.first_vaccination_date !== ""){
+            if(obj.first_vaccination_date !== "" && obj.first_vaccination_date !== null){
               this.form.frequ='first_vaccination_date';
               this.form.date=obj.first_vaccination_date;
               if(obj.first_status == true){
@@ -259,7 +259,7 @@ export default {
               }else{
                 this.form.radio='0';
               }
-            }else if(obj.second_vaccination_date !== ""){
+            }else if(obj.second_vaccination_date !== "" && obj.second_vaccination_date !== null){
               this.form.frequ='second_vaccination_date';
               this.form.date=obj.second_vaccination_date;
               if(obj.second_status == true){
@@ -267,7 +267,7 @@ export default {
               }else{
                 this.form.radio='0';
               }
-            }else if(obj.third_vaccination_date !== ""){
+            }else if(obj.third_vaccination_date !== "" && obj.third_vaccination_date !== null){
               this.form.frequ='third_vaccination_date';
               this.form.date=obj.third_vaccination_date;
               if(obj.third_status == true){
@@ -275,7 +275,7 @@ export default {
               }else{
                 this.form.radio='0';
               }
-            }else if(obj.fourth_vaccination_date !== ""){
+            }else if(obj.fourth_vaccination_date !== "" && obj.fourth_vaccination_date !== null){
               this.form.frequ='fourth_vaccination_date';
               this.form.date=obj.fourth_vaccination_date;
               if(obj.fourth_status == true){
@@ -283,7 +283,7 @@ export default {
               }else{
                 this.form.radio='0';
               }
-            }else if(obj.fifth_vaccination_date !== ""){
+            }else if(obj.fifth_vaccination_date !== "" && obj.fifth_vaccination_date !== null){
               this.form.frequ='fifth_vaccination_date';
               this.form.date=obj.fifth_vaccination_date;
               if(obj.fifth_status == true){
