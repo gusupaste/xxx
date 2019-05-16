@@ -330,6 +330,7 @@ export default {
             },
             editform:{
                 hq_id:'',
+                remarks:'',
                 is_required:'Necessary',
                 intercity_id:'',
                 limit_range:"0"
@@ -382,6 +383,7 @@ export default {
             this.editform.hq_id = "";
             this.editform.intercity_id = "";
             this.editform.limit_range = "0";
+            this.editform.remarks = "";
             this.getSchool();
         },
         searchList(val) {
