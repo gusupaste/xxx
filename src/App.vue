@@ -4,7 +4,7 @@
         <div class="clearfix" style="background-color: #0b6289">
           <div class="head-menu">
             <img src="./assets/img/logo.png" alt="">
-            <div class="menuwrap" style="width:800px">
+            <div class="menuwrap" style="width:900px">
               <el-menu
                 :default-active="$route.path"
                 @select="handleSelect"
@@ -146,7 +146,7 @@ export default {
     display: -webkit-inline-box;
   }
   .homePage_menu .el-menu-item ,.el-submenu{
-    width: 100px;
+    width: 90px;
   }
   .el-submenu__icon-arrow , .el-icon-arrow-down {
     display: none;
