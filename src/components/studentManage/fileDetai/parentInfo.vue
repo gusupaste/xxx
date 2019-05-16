@@ -47,7 +47,7 @@
             prop="address"
             label="操作">
               <template slot-scope="scope">
-                <el-button type="text"class="red" @click="editParentInfo(scope.row)" v-bind:disabled="ruleFormShow === true">
+                <el-button type="text"class="red" @click="editParentInfo(scope.row)">
                   <i class="fa fa-pencil green cur"></i>
                 </el-button>
                 <el-button type="text"class="red" @click="deleteParentInfo(scope.row.id)">

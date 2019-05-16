@@ -33,7 +33,7 @@
             <el-table-column
               label="操作">
                 <template slot-scope="scope">
-                  <el-button type="text" class="red" @click="editPre(scope.row)" v-bind:disabled="ruleFormShow === true">
+                  <el-button type="text" class="red" @click="editPre(scope.row)">
                     <i class="fa fa-pencil green cur"></i>
                   </el-button>
                   <el-button type="text"class="red" @click="deletePre(scope.row)">
