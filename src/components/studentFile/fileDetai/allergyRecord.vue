@@ -8,7 +8,7 @@
             style="width: 100%">
             <el-table-column
             prop="name"
-            label="过敏类型："
+            label="过敏类型"
             width="180">
             </el-table-column>
             <el-table-column
@@ -36,26 +36,26 @@
         </el-table>
         <p style="line-height: 35px;">
           <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
-            <i class="el-icon-circle-plus font-size-14 cur">添加医疗病史</i>
+            <i class="el-icon-circle-plus font-size-14 cur">添加过敏记录</i>
           </el-button>
         </p>
         <div class="mt26" v-if="ruleFormShow">
-            <p class="recordHead">添加过敏记录</p>
-            <el-form :model="ruleForm" ref="ruleForm" class="mt26">
+            <p class="recordHead">添加/编辑过敏记录</p>
+            <el-form :model="ruleForm" ref="ruleForm" :rules="rules" class="mt26">
                 <el-form-item label="过敏类型：" prop="name" label-width="150px">
                   <el-select v-model="ruleForm.name" placeholder="请选择过敏类型">
                     <el-option v-for="tyep in type_options" :label="tyep" :value="tyep" :key="tyep"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="症状说明：" prop="desc" label-width="150px" style="width:100%" class="speciality">
-                        <el-input type="textarea" placeholder="请选择症状说明" v-model="ruleForm.details"></el-input>
+                        <el-input type="textarea" placeholder="请输入症状说明" maxlength="100" v-model="ruleForm.details"></el-input>
                 </el-form-item>
                 <el-form-item label="处理建议：" prop="desc" label-width="150px" style="width:100%" class="speciality">
-                        <el-input type="textarea" placeholder="请选择处理建议"  v-model="ruleForm.action_taken"></el-input>
+                        <el-input type="textarea" placeholder="请输入处理建议"  maxlength="100" v-model="ruleForm.action_taken"></el-input>
                 </el-form-item>
             </el-form>
         </div>
-        <div class="mt26 text-align-center">
+        <div class="mt26 text-align-center" v-if="ruleFormShow">
             <button class="btn bg-grey mr26" @click="cancelAll">取消</button>
             <button class="btn bg-green" @click="submitForm('ruleForm')">保存</button>
         </div>
@@ -83,6 +83,11 @@ export default {
                 name:'',
                 action_taken:'',
                 details:'',
+            },
+            rules: {
+              name: [
+                {required: true, message: '请选择过敏类型', trigger: 'change'}
+              ],
             },
             post_url:'/api/student/allergy/',
         }

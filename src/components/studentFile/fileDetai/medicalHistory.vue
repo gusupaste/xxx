@@ -42,7 +42,7 @@
         </el-table>
         <p style="line-height: 35px;">
           <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
-            <i class="el-icon-circle-plus font-size-14 cur">添加医疗病史</i>
+            <i class="el-icon-circle-plus font-size-14 cur">添加/编辑医疗病史</i>
           </el-button>
         </p>
         <div class="mt26" v-if="ruleFormShow">
@@ -56,8 +56,8 @@
                  <el-form-item label="患病/诊断日期：" label-width="150px" style="text-align:left">
                     <el-date-picker value-format="yyyy-MM-dd" placeholder="请选择患病/诊断日期" v-model="ruleForm.date"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="医疗建议/说明：" label-width="150px" style="width:100%" class="speciality">
-                    <el-input type="textarea" maxlength="100" placeholder="请输入患病/诊断日期" v-model="ruleForm.medical_advice"></el-input>
+                <el-form-item label="医疗建议/说明：" maxlength="100" label-width="150px" style="width:100%" class="speciality">
+                    <el-input type="textarea" maxlength="100" placeholder="请输入医疗建议/说明" v-model="ruleForm.medical_advice"></el-input>
                 </el-form-item>
                 <el-form-item label="家庭/主治医师：" prop="doctor_name" label-width="150px" style="text-align:left">
                      <el-input v-model="ruleForm.doctor_name" placeholder="请输入家庭/主治医师" maxlength="20" style="width:20%"></el-input>
@@ -67,7 +67,7 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div class="mt26 text-align-center">
+        <div class="mt26 text-align-center" v-if="ruleFormShow">
             <button class="btn bg-grey mr26" @click="cancelMed">取消</button>
             <button class="btn bg-green" @click="submitForm('ruleForm')">保存</button>
         </div>
