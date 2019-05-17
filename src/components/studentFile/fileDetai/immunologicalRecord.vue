@@ -58,7 +58,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="接种次数：" prop="frequ" label-width="150px">
-                    <el-select v-model="form.frequ" placeholder="请选择">
+                    <el-select v-model="form.frequ" placeholder="请选择" @change="frequChange">
                       <el-option v-for="fre in frequencyList" :label="fre.name" :value="fre.id" :key="fre.id"></el-option>
                     </el-select>
                 </el-form-item>
@@ -158,7 +158,8 @@ export default {
               date: [
                 { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
               ],
-            }
+            },
+            changeTime:[],
         }
     },
     /*mounted:function(){
@@ -247,51 +248,96 @@ export default {
           this.form.date='';
           this.form.radio='1';
         },
+        frequChange:function () {
+            var index = this.changeTime.findIndex(item => item.name === this.form.frequ, 1);
+            if(index != -1){
+              this.form.date=this.changeTime[index].date;
+              this.form.radio=this.changeTime[index].radio;
+            }else{
+              this.form.date='';
+              this.form.radio='1';
+            }
+
+        },
         editPre:function (obj) {
-          console.log(obj)
+            this.changeTime = [];
             this.ruleFormShow=true;
             this.form.name=obj.name;
             this.form.id=obj.id;
-            if(obj.first_vaccination_date !== "" && obj.first_vaccination_date !== null){
-              this.form.frequ='first_vaccination_date';
-              this.form.date=obj.first_vaccination_date;
-              if(obj.first_status == true){
-                this.form.radio='1';
-              }else{
-                this.form.radio='0';
-              }
-            }else if(obj.second_vaccination_date !== "" && obj.second_vaccination_date !== null){
-              this.form.frequ='second_vaccination_date';
-              this.form.date=obj.second_vaccination_date;
-              if(obj.second_status == true){
-                this.form.radio='1';
-              }else{
-                this.form.radio='0';
-              }
-            }else if(obj.third_vaccination_date !== "" && obj.third_vaccination_date !== null){
-              this.form.frequ='third_vaccination_date';
-              this.form.date=obj.third_vaccination_date;
-              if(obj.third_status == true){
-                this.form.radio='1';
-              }else{
-                this.form.radio='0';
-              }
-            }else if(obj.fourth_vaccination_date !== "" && obj.fourth_vaccination_date !== null){
-              this.form.frequ='fourth_vaccination_date';
-              this.form.date=obj.fourth_vaccination_date;
-              if(obj.fourth_status == true){
-                this.form.radio='1';
-              }else{
-                this.form.radio='0';
-              }
-            }else if(obj.fifth_vaccination_date !== "" && obj.fifth_vaccination_date !== null){
+            if(obj.fifth_vaccination_date !== "" && obj.fifth_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'fifth_vaccination_date';
+              ct.date = obj.fifth_vaccination_date;
               this.form.frequ='fifth_vaccination_date';
               this.form.date=obj.fifth_vaccination_date;
               if(obj.fifth_status == true){
                 this.form.radio='1';
+                ct.radio = '1';
               }else{
                 this.form.radio='0';
+                ct.radio = '0';
               }
+              this.changeTime.push(ct);
+            }
+            if(obj.fourth_vaccination_date !== "" && obj.fourth_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'fourth_vaccination_date';
+              ct.date = obj.fourth_vaccination_date;
+              this.form.frequ='fourth_vaccination_date';
+              this.form.date=obj.fourth_vaccination_date;
+              if(obj.fourth_status == true){
+                this.form.radio='1';
+                ct.radio = '1';
+              }else{
+                this.form.radio='0';
+                ct.radio = '0';
+              }
+              this.changeTime.push(ct);
+            }
+            if(obj.third_vaccination_date !== "" && obj.third_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'third_vaccination_date';
+              ct.date = obj.third_vaccination_date;
+              this.form.frequ='third_vaccination_date';
+              this.form.date=obj.third_vaccination_date;
+              if(obj.third_status == true){
+                this.form.radio='1';
+                ct.radio = '1';
+              }else{
+                this.form.radio='0';
+                ct.radio = '0';
+              }
+              this.changeTime.push(ct);
+            }
+            if(obj.second_vaccination_date !== "" && obj.second_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'second_vaccination_date';
+              ct.date = obj.second_vaccination_date;
+              this.form.frequ='second_vaccination_date';
+              this.form.date=obj.second_vaccination_date;
+              if(obj.second_status == true){
+                this.form.radio='1';
+                ct.radio = '1';
+              }else{
+                this.form.radio='0';
+                ct.radio = '0';
+              }
+              this.changeTime.push(ct);
+            }
+            if(obj.first_vaccination_date !== "" && obj.first_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'first_vaccination_date';
+              ct.date = obj.first_vaccination_date;
+              this.form.frequ='first_vaccination_date';
+              this.form.date=obj.first_vaccination_date;
+              if(obj.first_status == true){
+                this.form.radio='1';
+                ct.radio = '1';
+              }else{
+                this.form.radio='0';
+                ct.radio = '0';
+              }
+              this.changeTime.push(ct);
             }
         },
         deletePre:function (obj) {
