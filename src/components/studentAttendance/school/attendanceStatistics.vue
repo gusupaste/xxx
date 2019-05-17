@@ -169,7 +169,7 @@
               this.academic_year_list = res.data.data.academic_year_list
               this.classes = res.data.data.classes
               this.year = this.academic_year_list[0].id
-              this.months = this.academic_year_list[0].months[12]
+              this.months = this.academic_year_list[0].months[0]
               this.class_id = this.classes[0].center_class_id
               this.getList()
             } else {
