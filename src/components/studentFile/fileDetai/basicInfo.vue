@@ -24,7 +24,6 @@
                     </el-form-item>
                     <el-form-item label="昵称：" label-width="150px">
                         <el-input v-model="studentInfo.nick_name" placeholder="请填写昵称" class="w250_input">
-
                         </el-input>
                     </el-form-item>
                     <br>
@@ -105,7 +104,15 @@
                     </el-form-item>
                     <br>
                     <el-form-item label="拟入学学年：" prop="enter_date" label-width="150px" style="text-align:left">
-                      <el-date-picker type="date" placeholder="选择拟入学学年" class="w250_input" v-model="studentInfo.enter_date" style="width: 100%;"></el-date-picker>
+                      <el-select v-model="studentInfo.academic_year" placeholder="请选择学年">
+                      <el-option value="" label="全部"></el-option>
+                      <el-option
+                        v-for="item in year_list"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                      </el-option>
+                    </el-select>
                     </el-form-item>
                     <el-form-item label="拟入学日期：" prop="enter_date" label-width="150px" style="text-align:left">
                       <el-date-picker type="date" placeholder="选择拟入学日期" class="w250_input" v-model="studentInfo.enter_date" style="width: 100%;"></el-date-picker>
@@ -227,13 +234,28 @@ export default {
       student_url:'/api/student/student/'+this.$route.params.id+'/view_detail/',
       allOptions_url:'/api/common/select/all_list/',
       city_url:'/api/common/select/city_list/',/*省市*/
+      year_url:'/api/common/select/academic_year_list/',/*学年*/
       studentInfo:{
+        name:'',
+        nick_name:'',
+        enter_date:'',
+        first_pay_date:'',
+        certificate_type:'',
+        certificate_no:'',
+        type:'',
+        nationality:'',
+        religion:'',
+        date_of_birth:'',
+        gender:'',
+        primary_language:'',
+        other_language:''
       },
       city_list:[],
       Language_options:[],/*语言*/
       Belief_options:[],/*宗教*/
       Country_options:[],/*国家*/
       CertificateType_options:[],/*证件*/
+      year_list:[],
       provinceList:[],
       cityList:[],
       townList:[],
@@ -243,10 +265,11 @@ export default {
   },
   mounted:function(){
     if(localStorage.getItem('tabName') === 'first'){
-      this.getStudentInfo();
       this.getOptions();
       this.getCountryOptions();
       this.getIntercity_list();
+      this.getYearList();
+      this.getStudentInfo();
     }
   },
   methods:{
@@ -259,6 +282,19 @@ export default {
         }
       }).then(res=>{
         _this.provinceList = res.data.results;
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*学年*/
+    getYearList:function () {
+      var _this = this;
+      var url = this.year_url;
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.year_list = res.data.results;
+        }
       }).catch(err=>{
         console.log(err)
       })
@@ -340,6 +376,8 @@ export default {
         _this.loading = false;
         if(res.status == 200 && res.data.status_code == 1) {
           this.studentInfo = res.data.detail;
+          this.studentInfo.nationality = parseInt(this.studentInfo.nationality);
+          console.log(this.studentInfo);
         }
       }).catch(err=>{
         console.log(err)
@@ -381,10 +419,11 @@ export default {
     activeName: {
       handler(newValue, oldValue) {
         if(newValue === 'first' || localStorage.getItem('tabName') === 'first'){
-          this.getStudentInfo();
           this.getOptions();
           this.getCountryOptions();
           this.getIntercity_list();
+          this.getYearList();
+          this.getStudentInfo();
         }
       },
       deep: true

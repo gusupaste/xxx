@@ -82,8 +82,8 @@
                 </td>
               </tr>
               <tr>
-                <td rowspan="21" width="90">在校生</td>
-                <td rowspan="14" width="90">学费</td>
+                <td rowspan="20" width="90">在校生</td>
+                <td rowspan="13" width="90">学费</td>
                 <td width="90">转班</td>
                 <td colspan="3">多退少补</td>
               </tr>
@@ -99,7 +99,18 @@
                 <td colspan="2">
                   <el-select>
                     <el-option value="当月"></el-option>
-                    <el-option value="指定月"></el-option>
+                    <el-option value="1月"></el-option>
+                    <el-option value="2月"></el-option>
+                    <el-option value="3月"></el-option>
+                    <el-option value="4月"></el-option>
+                    <el-option value="5月"></el-option>
+                    <el-option value="6月"></el-option>
+                    <el-option value="7月"></el-option>
+                    <el-option value="8月"></el-option>
+                    <el-option value="9月"></el-option>
+                    <el-option value="10月"></el-option>
+                    <el-option value="11月"></el-option>
+                    <el-option value="12月"></el-option>
                   </el-select>
                   <el-select>
                     <el-option value="连续"></el-option>
@@ -178,19 +189,30 @@
                   <el-input type="text" v-model="saveForm.beiyongjin2"></el-input>
                   %转备用金</td>
               </tr>
-              <tr>
+              <!--<tr>
                 <td width="90">离园</td>
                 <td colspan="3">
                   未提前申请,需扣除月缴
                   <el-input type="text" v-model="saveForm.liyuan"></el-input>%
                 </td>
-              </tr>
+              </tr>-->
               <tr>
                 <td rowspan="2" width="90">缺勤</td>
                 <td colspan="3">
                   <el-select>
                     <el-option value="当月"></el-option>
-                    <el-option value="指定月"></el-option>
+                    <el-option value="1月"></el-option>
+                    <el-option value="2月"></el-option>
+                    <el-option value="3月"></el-option>
+                    <el-option value="4月"></el-option>
+                    <el-option value="5月"></el-option>
+                    <el-option value="6月"></el-option>
+                    <el-option value="7月"></el-option>
+                    <el-option value="8月"></el-option>
+                    <el-option value="9月"></el-option>
+                    <el-option value="10月"></el-option>
+                    <el-option value="11月"></el-option>
+                    <el-option value="12月"></el-option>
                   </el-select>
                   <el-select>
                     <el-option value="连续"></el-option>
