@@ -41,14 +41,16 @@
             :markDateMore='attendance'></calendar>
           </div>
           <div class="calendar-datail">
-            <p>考勤日期说明</p>
+            <p>考勤状态说明</p>
             <div>
-              <span style="background-color:#e51c23" class="calendar-suqre"></span>
-              <span class="mr26">请假</span>
-              <span style="background-color:#ff9800" class="calendar-suqre"></span>
-              <span class="mr26">补登</span>
-              <span style="background-color:#8BC34A" class="calendar-suqre"></span>
+              <span style="background-color:#f28e91" class="calendar-suqre"></span>
+              <span class="mr26">事假</span>
+              <span style="background-color:#ffcc80" class="calendar-suqre"></span>
+              <span class="mr26">病假</span>
+              <span style="background-color:#c5e1a5" class="calendar-suqre"></span>
               <span class="mr26">正常出勤</span>
+              <span style="background-color:#9fa8da" class="calendar-suqre"></span>
+              <span class="mr26">休学</span>
             </div>
           </div>
         </div>
