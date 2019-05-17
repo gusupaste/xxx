@@ -374,7 +374,9 @@ export default {
             console.log(rows)
             if(rows){
                 rows.forEach(row => {
-                this.$refs.multipleTable2.toggleRowSelection(row,true);
+                    if(this.$refs.multipleTable2) {
+                        this.$refs.multipleTable2.toggleRowSelection(row,true);
+                    }
             });
             }
         },
