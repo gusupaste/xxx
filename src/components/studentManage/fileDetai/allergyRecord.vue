@@ -55,7 +55,7 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div class="mt26 text-align-center">
+        <div class="mt26 text-align-center" v-if="ruleFormShow">
             <button class="btn bg-grey mr26" @click="cancelAll">取消</button>
             <button class="btn bg-green" @click="submitForm('ruleForm')">保存</button>
         </div>
