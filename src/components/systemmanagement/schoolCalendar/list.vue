@@ -405,6 +405,11 @@ export default {
                         })
                         _this.$router.push({path:'/schoolCalendarList/editTemplate/'+res.data.id}
                         );
+                    } else {
+                        _this.$message({
+                            type:'error',
+                            message:res.data.message
+                        })
                     }
                 })
             } else {
