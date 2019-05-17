@@ -251,7 +251,6 @@
             this.rate = res.data.data.rate
             this.present = res.data.data.present
             this.total = res.data.data.total
-            console.log(this.intercity_list)
           } else {
 
           }
@@ -266,7 +265,6 @@
           _this.loading = false
           if (res.status == 200 && res.data.status_code == 1) {
             this.intercity_list = res.data.results
-            console.log(this.intercity_list)
           }
         }).catch(err => {
           console.log(err)
