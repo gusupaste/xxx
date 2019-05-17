@@ -5,11 +5,17 @@
     </div>
     <div class="content">
       <el-col class="box-margin" :span="7">
-        <el-card shadow="always">
-          <div class="div-add-button" @click="addDialog(0)">
-            <br><span class="el-icon-circle-plus-outline"></span><p>新增学年</p>
-            </div>
+        <el-card class="box-card add-card" >
+          <img src="../../../assets/img/add.png" class="cur" @click="addDialog(0)">
+          <p class="add_text cur">新增品牌</p>
         </el-card>
+        <!--<el-card shadow="always">
+          <img src="../../../assets/img/add.png" class="cur" style="width: 70px" @click="addDialog(0)">
+          <p class="add_text cur">新增学年</p>
+          &lt;!&ndash;<div class="div-add-button" @click="addDialog(0)">
+            <br><span class="el-icon-circle-plus-outline"></span><p>新增学年</p>
+            </div>&ndash;&gt;
+        </el-card>-->
       </el-col>
       <el-col class="box-margin" :span="7" v-for="(item,index) in acad_yearlist" :key="index">
         <el-card shadow="always">
@@ -385,6 +391,26 @@
   }
   .academicyear >>>.el-date-editor.el-input, .el-date-editor.el-input__inner{
     width: auto;
+  }
+  .academicyear .add-card{
+    text-align: center;
+    position: relative;
+    height: 190px;
+    /*background:url('../../../assets/img/add.png') no-repeat;*/
+    background-position: 0;
+  }
+  .academicyear .add-card img{
+    width: 90px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+  }
+  .academicyear .add-card .add_text{
+    position: absolute;
+    top: 77%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 
 </style>

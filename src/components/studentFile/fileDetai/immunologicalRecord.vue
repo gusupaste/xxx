@@ -36,7 +36,7 @@
                   <el-button type="text" class="red" @click="editPre(scope.row)">
                     <i class="fa fa-pencil green cur"></i>
                   </el-button>
-                  <el-button type="text"class="red" @click="deletePre(scope.row)">
+                  <el-button type="text"class="red" @click="deleteVisible = true;deleteId = scope.row.id">
                     <i class="fa fa-trash red cur"></i>
                   </el-button>
                   <!--<i class="fa fa-pencil green font-size-20 cur" @click="editPre(scope.row)"></i>
@@ -58,7 +58,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="接种次数：" prop="frequ" label-width="150px">
-                    <el-select v-model="form.frequ" placeholder="请选择">
+                    <el-select v-model="form.frequ" placeholder="请选择" @change="frequChange">
                       <el-option v-for="fre in frequencyList" :label="fre.name" :value="fre.id" :key="fre.id"></el-option>
                     </el-select>
                 </el-form-item>
@@ -76,9 +76,13 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div class="mt26 text-align-center">
-
-        </div>
+      <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
+        <p class="mt26 text-align-center">确认删除该条记录？</p>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="deleteVisible = false">取 消</el-button>
+          <el-button type="success" @click="deletePre">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 <style scoped>
@@ -103,6 +107,8 @@ export default {
     },
     data(){
         return {
+            deleteId:'',
+            deleteVisible:false,
             ruleFormShow:false,
             nameList:['小儿麻痹症(TOPV-Tri-Oral-Polio-Vaccine)',
               '白喉百日咳破伤风(白百破)Diphtheria Pertussis Tetanus(DPT)',
@@ -158,7 +164,8 @@ export default {
               date: [
                 { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
               ],
-            }
+            },
+            changeTime:[],
         }
     },
     /*mounted:function(){
@@ -247,61 +254,107 @@ export default {
           this.form.date='';
           this.form.radio='1';
         },
+        frequChange:function () {
+            var index = this.changeTime.findIndex(item => item.name === this.form.frequ, 1);
+            if(index != -1){
+              this.form.date=this.changeTime[index].date;
+              this.form.radio=this.changeTime[index].radio;
+            }else{
+              this.form.date='';
+              this.form.radio='1';
+            }
+
+        },
         editPre:function (obj) {
-          console.log(obj)
+            this.changeTime = [];
             this.ruleFormShow=true;
             this.form.name=obj.name;
             this.form.id=obj.id;
-            if(obj.first_vaccination_date !== "" && obj.first_vaccination_date !== null){
-              this.form.frequ='first_vaccination_date';
-              this.form.date=obj.first_vaccination_date;
-              if(obj.first_status == true){
-                this.form.radio='1';
-              }else{
-                this.form.radio='0';
-              }
-            }else if(obj.second_vaccination_date !== "" && obj.second_vaccination_date !== null){
-              this.form.frequ='second_vaccination_date';
-              this.form.date=obj.second_vaccination_date;
-              if(obj.second_status == true){
-                this.form.radio='1';
-              }else{
-                this.form.radio='0';
-              }
-            }else if(obj.third_vaccination_date !== "" && obj.third_vaccination_date !== null){
-              this.form.frequ='third_vaccination_date';
-              this.form.date=obj.third_vaccination_date;
-              if(obj.third_status == true){
-                this.form.radio='1';
-              }else{
-                this.form.radio='0';
-              }
-            }else if(obj.fourth_vaccination_date !== "" && obj.fourth_vaccination_date !== null){
-              this.form.frequ='fourth_vaccination_date';
-              this.form.date=obj.fourth_vaccination_date;
-              if(obj.fourth_status == true){
-                this.form.radio='1';
-              }else{
-                this.form.radio='0';
-              }
-            }else if(obj.fifth_vaccination_date !== "" && obj.fifth_vaccination_date !== null){
+            if(obj.fifth_vaccination_date !== "" && obj.fifth_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'fifth_vaccination_date';
+              ct.date = obj.fifth_vaccination_date;
               this.form.frequ='fifth_vaccination_date';
               this.form.date=obj.fifth_vaccination_date;
               if(obj.fifth_status == true){
                 this.form.radio='1';
+                ct.radio = '1';
               }else{
                 this.form.radio='0';
+                ct.radio = '0';
               }
+              this.changeTime.push(ct);
+            }
+            if(obj.fourth_vaccination_date !== "" && obj.fourth_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'fourth_vaccination_date';
+              ct.date = obj.fourth_vaccination_date;
+              this.form.frequ='fourth_vaccination_date';
+              this.form.date=obj.fourth_vaccination_date;
+              if(obj.fourth_status == true){
+                this.form.radio='1';
+                ct.radio = '1';
+              }else{
+                this.form.radio='0';
+                ct.radio = '0';
+              }
+              this.changeTime.push(ct);
+            }
+            if(obj.third_vaccination_date !== "" && obj.third_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'third_vaccination_date';
+              ct.date = obj.third_vaccination_date;
+              this.form.frequ='third_vaccination_date';
+              this.form.date=obj.third_vaccination_date;
+              if(obj.third_status == true){
+                this.form.radio='1';
+                ct.radio = '1';
+              }else{
+                this.form.radio='0';
+                ct.radio = '0';
+              }
+              this.changeTime.push(ct);
+            }
+            if(obj.second_vaccination_date !== "" && obj.second_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'second_vaccination_date';
+              ct.date = obj.second_vaccination_date;
+              this.form.frequ='second_vaccination_date';
+              this.form.date=obj.second_vaccination_date;
+              if(obj.second_status == true){
+                this.form.radio='1';
+                ct.radio = '1';
+              }else{
+                this.form.radio='0';
+                ct.radio = '0';
+              }
+              this.changeTime.push(ct);
+            }
+            if(obj.first_vaccination_date !== "" && obj.first_vaccination_date !== null){
+              var ct = {};
+              ct.name = 'first_vaccination_date';
+              ct.date = obj.first_vaccination_date;
+              this.form.frequ='first_vaccination_date';
+              this.form.date=obj.first_vaccination_date;
+              if(obj.first_status == true){
+                this.form.radio='1';
+                ct.radio = '1';
+              }else{
+                this.form.radio='0';
+                ct.radio = '0';
+              }
+              this.changeTime.push(ct);
             }
         },
-        deletePre:function (obj) {
+        deletePre:function () {
             this.ruleFormShow = false;
-            this.$axios.delete(this.list_url + obj.id +'/').then(res=>{
+            this.$axios.delete(this.list_url + this.deleteId +'/').then(res=>{
               if(res.status == 200){
                 this.$message({
                   type:'success',
                   message:'删除成功！'
                 })
+                this.deleteVisible = false;
                 this.getList();
               }else{
                 this.$message.error('删除失败');
