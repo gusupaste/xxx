@@ -69,6 +69,18 @@
           label="折扣预算">
         </el-table-column>
         <el-table-column
+          prop="used_amount"
+          label="已使用">
+        </el-table-column>
+        <el-table-column
+          prop="pending_amount"
+          label="待批总额">
+        </el-table-column>
+        <el-table-column
+          prop="left_amount"
+          label="剩余额度">
+        </el-table-column>
+        <el-table-column
           fixed="right"
           label="操作"
           min-width="30">

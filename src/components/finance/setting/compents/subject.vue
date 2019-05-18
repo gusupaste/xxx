@@ -70,7 +70,7 @@
                 <el-row>
                     <el-col :span="12">
                     <el-form-item label="科目名称：" prop="name">
-                        <el-input v-model.trim="editform.name" placeholder="请输入科目名称" maxlength="20"></el-input>
+                        <el-input v-model="editform.name" placeholder="请输入科目名称" maxlength="20"></el-input>
                     </el-form-item>
                     </el-col>
                     <el-col :span="12">
