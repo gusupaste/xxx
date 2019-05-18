@@ -50,46 +50,63 @@
           :data="chargeTableDate"
           border
           stripe
-          show-header
           style="width: 100%;margin-top: 10px;">
           <el-table-column
             prop="code"
-            label="账单号"
-            width="150">
+            label="学号">
           </el-table-column>
           <el-table-column
             prop="name"
-            label="学生姓名"
-            width="130">
+            label="姓名">
           </el-table-column>
           <el-table-column
             prop="intercity_name"
-            label="所在班级"
-            width="130">
+            label="所在班级">
           </el-table-column>
           <el-table-column
-            prop="hq_name"
-            label="账单类型"
-            width="130">
+            label="备用金余额">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
           </el-table-column>
           <el-table-column
-            prop="opening_date"
-            label="实际应收"
-            width="130">
+            label="待批使用备用金">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
           </el-table-column>
           <el-table-column
-            prop="leader"
-            label="实际实收"
-            width="130">
+            label="当前可用余额">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
           </el-table-column>
           <el-table-column
             prop="telephone"
-            label="制单人"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="status_name"
-            label="制单日期">
+            label="待批结转备用金">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
           </el-table-column>
           <el-table-column
             fixed="right"
