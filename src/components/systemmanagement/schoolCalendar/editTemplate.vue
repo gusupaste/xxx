@@ -410,6 +410,11 @@ export default {
                         _this.addtmp = false;
                         _this.getTemplateInfo();
                         // _this.getCalendar();
+                    } else {
+                        _this.$message({
+                            type:'error',
+                            message:res.data.message
+                        })
                     }
                 })
             } else {

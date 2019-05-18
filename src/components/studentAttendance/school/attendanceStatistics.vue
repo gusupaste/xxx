@@ -31,7 +31,7 @@
           :value="item.center_class_id">
         </el-option>
       </el-select>
-      <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
+      <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
     </p>
     <template>
       <el-table
@@ -84,6 +84,15 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        background
+        layout="pager, next, jumper"
+        next-text="下一页"
+        :page-size="pagesize"
+        :current-page="currentPage"
+        @current-change="handleCurrentChange"
+        :total="total" class="page">
+      </el-pagination>
     </template>
     <!--  弹框  -->
     <el-dialog class="assign-permissions" title="考勤详细概况" :visible.sync="detail" width="50%">
@@ -141,7 +150,10 @@
         should_att: '',
         att_num: '',
         attendance_rate: '',
-        attendance: []
+        attendance: [],
+        pagesize: 10,
+        currentPage: 1,
+        total: 1
       }
     },
     components: {
@@ -157,21 +169,24 @@
             this.months_list = this.academic_year_list[i].months
           }
         }
+      },
+      currentPage () {
+        this.getList(this.currentPage)
       }
     },
     methods: {
       getClass: function () {
         this.loading = true
-        this.$axios.get('/api/attendance/students_attendance/info_list/', {}).then(res => {
+        this.$axios.get('/api/attendance/students_attendance/info_list/').then(res => {
           this.loading = false
           if (res.status === 200) {
             if (res.data.status === 1) {
               this.academic_year_list = res.data.data.academic_year_list
               this.classes = res.data.data.classes
               this.year = this.academic_year_list[0].id
-              this.months = this.academic_year_list[0].months[12]
+              this.months = this.academic_year_list[0].months[0]
               this.class_id = this.classes[0].center_class_id
-              this.getList()
+              this.getList(1)
             } else {
               alert(res.data.message)
             }
@@ -180,13 +195,15 @@
           console.log(err)
         })
       },
-      getList: function () {
+      getList: function (val) {
         this.loading = true
-        this.$axios.get('/api/attendance/students_attendance/annotate/?class_id=' + this.class_id + '&attendance_date=' + this.months + '&page=1', {}).then(res => {
+        this.currentPage = val
+        this.$axios.get('/api/attendance/students_attendance/annotate/?class_id=' + this.class_id + '&attendance_date=' + this.months + '&page=' + this.currentPage, {}).then(res => {
           this.loading = false
           if (res.status === 200) {
             if (res.data.status === 1) {
               this.tableData = res.data.data.results
+              this.total = res.data.data.count
             } else {
               alert(res.data.message)
             }
@@ -195,8 +212,8 @@
           console.log(err)
         })
       },
-      onSubmit() {
-        console.log('submit!')
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage
       },
       attendanceDetail: function (obj) {
         this.detail = true

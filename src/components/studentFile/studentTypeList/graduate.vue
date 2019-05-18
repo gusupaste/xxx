@@ -76,7 +76,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="学年：">
-            <el-select v-model="year" placeholder="请选择活动区域">
+            <el-select v-model="year" placeholder="请选择学年">
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in year_list"

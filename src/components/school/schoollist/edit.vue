@@ -108,12 +108,12 @@
           </el-form-item>
           <br>
           <el-form-item label="建筑面积:" class="append_type">
-            <el-input v-model="formInline.built_up_area" placeholder="请输入">
+            <el-input oninput="value=value.replace(/[^0-9.]/g,'');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" v-model="formInline.built_up_area" placeholder="请输入">
               <span slot="suffix">平方米</span>
             </el-input>
           </el-form-item>
           <el-form-item label="使用面积:" class="append_type">
-            <el-input v-model="formInline.usage_area" placeholder="请输入">
+            <el-input oninput="value=value.replace(/[^0-9.]/g,'');value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3')" v-model="formInline.usage_area" placeholder="请输入">
               <span slot="suffix">平方米</span>
             </el-input>
           </el-form-item>

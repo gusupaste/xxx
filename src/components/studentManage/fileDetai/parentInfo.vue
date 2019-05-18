@@ -50,7 +50,7 @@
                 <el-button type="text"class="red" @click="editParentInfo(scope.row)">
                   <i class="fa fa-pencil green cur"></i>
                 </el-button>
-                <el-button type="text"class="red" @click="deleteParentInfo(scope.row.id)">
+                <el-button type="text"class="red" @click="deleteVisible = true;deleteId = scope.row.id">
                   <i class="fa fa-trash red cur"></i>
                 </el-button>
                 <!--<i class="fa fa-pencil green font-size-20 cur" @click="editParentInfo(scope.row)" ></i>-->
@@ -154,6 +154,13 @@
             <button class="btn bg-green" @click="addParentInfo('ruleForm')">保存</button>
           </div>
         </div>
+      <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
+        <p class="mt26 text-align-center">确认删除该条记录？</p>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="deleteVisible = false">取 消</el-button>
+          <el-button type="success" @click="deleteParentInfo">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 <style scoped>
@@ -171,6 +178,8 @@ export default {
     },
     data(){
         return {
+            deleteId:'',
+            deleteVisible:false,
             ruleFormShow:false,
             parentlist: [],
             Language_options:[],
@@ -324,14 +333,15 @@ export default {
           this.ruleForm.primary_language = parseInt(obj.primary_language);
           this.ruleForm.other_language = parseInt(obj.other_language);*/
         },
-        deleteParentInfo:function(id){
+        deleteParentInfo:function(){
           this.ruleFormShow = false;
-          this.$axios.delete(this.add_par_info + id +'/').then(res=>{
+          this.$axios.delete(this.add_par_info + this.deleteId +'/').then(res=>{
             if(res.status == 200){
               this.$message({
                 type:'success',
                 message:'删除成功！'
               })
+              this.deleteVisible = false;
               this.getParentList();
             }else{
               this.$message.error('删除失败');

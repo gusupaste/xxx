@@ -48,9 +48,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="校园">
-        <el-select v-model="school">
-          <el-option value="" label="全部"></el-option>
+      <el-form-item label="校园：">
+        <el-select v-model="school" :disabled="selectDisable">
           <el-option
             v-for="item in school_list"
             :key="item.id"
@@ -59,16 +58,26 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="班型：">
+        <el-select v-model="class_type" :disabled="selectDisable">
+          <el-option
+            v-for="item in class_type_list"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item>
-        <el-button type="primary">搜索</el-button>
+        <el-button type="primary" :disabled="selectDisable" @click="getAttendanceList">搜索</el-button>
       </el-form-item>
     </el-form>
     <el-container class="school-attendance mt10">
       <el-aside width="70%">
         <p>考勤详细概况：</p>
         <div class="local-month mt10">
-          当月出勤率：<span class="red">0%   </span> ； 4月已过 <span class="red">16 </span> 个工作日 ； 当月有 <span
-          class="red">21  </span> 个工作日
+          当月出勤率：<span class="font-size-20 red">{{rate}}%   </span> ； 4月已过 <span class="font-size-20 red">{{present}} </span> 个工作日 ； 当月有 <span
+          class="font-size-20 red">{{total}}  </span> 个工作日
         </div>
         <el-table
           class="mt10"
@@ -76,7 +85,7 @@
           border
           style="width: 100%">
           <el-table-column
-            prop="class_type"
+            prop="class_name"
             label="班级"
             width="180">
           </el-table-column>
@@ -97,7 +106,7 @@
             prop="address"
             label="操作">
             <template slot-scope="scope">
-              <router-link to="/studentattendance/detail/9">
+              <router-link :to="{path:'/studentattendance/detail/'+scope.row.class_id, query: { class_name: scope.row.class_name }}">
                 <i class="fa fa-search green font-size-20 cur"></i>
               </router-link>
             </template>
@@ -108,17 +117,6 @@
         <p>当月校日历：</p>
         <div class="mt10">
           <calendar></calendar>
-        </div>
-        <div class="calendar-datail">
-          <p>考勤日期说明</p>
-          <div>
-            <span style="background-color:#e51c23" class="calendar-suqre"></span>
-            <span class="mr26">请假</span>
-            <span style="background-color:#ff9800" class="calendar-suqre"></span>
-            <span class="mr26">补登</span>
-            <span style="background-color:#8BC34A" class="calendar-suqre"></span>
-            <span class="mr26">正常出勤</span>
-          </div>
         </div>
       </el-main>
     </el-container>
@@ -135,20 +133,6 @@
     color: #101010;
     border: 1px solid #e3e3e3;
   }
-
-  .attendanceSurvey .calendar-datail {
-    border: 1px solid #bbb;
-    color: #101010;
-    margin-top: 20px;
-    padding: 10px;
-  }
-
-  .attendanceSurvey .calendar-suqre {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-  }
-
   .attendanceSurvey .new-calendar-modal >>> .school-calendar {
     padding: 10px 10px 10px 100px;
   }
@@ -198,17 +182,24 @@
         city_url: '/api/common/select/city_list/', /*省市*/
         brand_url: '/api/common/select/hq_list/', /*品牌*/
         school_url: '/api/common/select/center_list/', /*校园*/
+        class_type_url: '/api/common/select/class_types/', /*班型*/
         intercity_list: [],
         area_list: [],
         city_list: [],
         brand_list: [],
         school_list: [],
+        class_type_list: [],
         intercity: '',
         area: '',
         city: '',
         brand: '',
         school: '',
-        attendanceList: []
+        class_type: '',
+        attendanceList: [],
+        rate: '',
+        present: '',
+        total: '',
+        selectDisable: ''
       }
     },
     components: {
@@ -220,30 +211,48 @@
       this.getCityList(0)
       this.getBrandList()
       this.getSchoolList('', '', '', '')
-      this.getAttendanceList()
     },
     watch: {
       intercity () {
+        this.school = ''
         this.getSchoolList(this.intercity, this.city, this.area, this.brand)
       },
       area () {
+        this.school = ''
         this.getCityList(this.area)
         this.getSchoolList(this.intercity, this.city, this.area, this.brand)
       },
       city () {
+        this.school = ''
         this.getSchoolList(this.intercity, this.city, this.area, this.brand)
       },
       brand () {
+        this.school = ''
         this.getSchoolList(this.intercity, this.city, this.area, this.brand)
+      },
+      school: {
+        handler (newValue, oldValue) {
+          if (newValue === '') {
+            this.selectDisable = true;
+          } else {
+            this.selectDisable = false;
+          }
+          this.class_type = ''
+          this.getClassTypeList(this.school)
+        }
       }
     },
     methods: {
       getAttendanceList () {
-        this.$axios.get('/api/hq/hq_attendance/').then(res => {
+        this.$axios.get('/api/hq/hq_attendance/?center_id=' + this.school + '&class_type_id=' + this.class_type).then(res => {
           this.loading = false
           if (res.status == 200 && res.data.status == 1) {
             this.attendanceList = res.data.data.attendance_list
-            console.log(this.intercity_list)
+            this.rate = res.data.data.rate
+            this.present = res.data.data.present
+            this.total = res.data.data.total
+          } else {
+
           }
         }).catch(err => {
           console.log(err)
@@ -256,7 +265,6 @@
           _this.loading = false
           if (res.status == 200 && res.data.status_code == 1) {
             this.intercity_list = res.data.results
-            console.log(this.intercity_list)
           }
         }).catch(err => {
           console.log(err)
@@ -315,6 +323,20 @@
           _this.loading = false;
           if (res.status == 200 && res.data.status_code == 1) {
             this.school_list = res.data.results;
+            this.school = this.school_list[0].id
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getClassTypeList: function (school_id) {
+        var _this = this;
+        var url = this.class_type_url + '?center_id=' + school_id
+        _this.$axios.get(url).then(res => {
+          _this.loading = false;
+          if (res.status == 200 && res.data.status_code == 1) {
+            this.class_type_list = res.data.results;
+            this.class_type = this.class_type_list[0].id
           }
         }).catch(err => {
           console.log(err)

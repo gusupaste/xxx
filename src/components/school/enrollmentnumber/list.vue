@@ -324,7 +324,7 @@
   .enrollmentnumber >>> .el-table .el-input__inner{
     height: auto;
     line-height: inherit;
-    width: 50px;
+    width: 70px;
   }
   .enrollmentnumber >>> .el-table__footer-wrapper td{
     background-color: rgba(0,0,0,.3);

@@ -41,6 +41,7 @@
                     <el-date-picker
                         v-model="addform.start_date"
                         type="date"
+                        value-format="yyyy-MM-dd"
                         placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
@@ -48,6 +49,7 @@
                     <el-date-picker
                         v-model="addform.end_date"
                         type="date"
+                        value-format="yyyy-MM-dd"
                         placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
@@ -55,8 +57,10 @@
                     <el-button @click="getSubject" type="primary">搜索</el-button>
                 </el-form-item>
                 <br>
-                <el-form-item label="收费政策：">
-                    {{info.name}}
+                <el-form-item label="收费政策：" class="w300_input">
+                    <el-select v-model="saveForm.policy_id">
+                        <el-option v-for="item in policyList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+                    </el-select>
                 </el-form-item>
                 <br>
                 <el-form-item label="费用科目：">
@@ -65,7 +69,7 @@
                         新增
                     </el-button>
                     <el-button v-for="item in checkedSubject" :key="item.id" class="bg-light-grey black" style="border:1px solid #686868;width:auto;padding:8px;height:auto;">
-                        {{item.subject_category}}
+                        {{item.subject}}
                         <span style="cursor:pointer" @click="deleteSubject(item)">
                             <i class="fa fa-minus-circle red cur font-size-20"></i>
                         </span>
@@ -95,14 +99,30 @@
                 label="缴费方式">
                 </el-table-column>
                 <el-table-column
-                prop="price"
+                prop="price_str"
                 label="价格">
                 </el-table-column>
                 <el-table-column
                 prop="address"
+                width="400"
                 label="缴费区间">
                 <template slot-scope="scope">
-                    — —
+                    <el-date-picker
+                    style="width:164px;display:inline-block"
+                        v-model="saveForm.billitem_list[scope.$index].begin_date"
+                        type="date"
+                        value-format="yyyy-MM-dd"
+                        @change="changePayDate">
+                    </el-date-picker>
+                    —
+                    <el-date-picker
+                    style="width:164px;display:inline-block"
+                        v-model="saveForm.billitem_list[scope.$index].end_date"
+                        type="date"
+                        disabledDate="2019-05-16"
+                        value-format="yyyy-MM-dd"
+                        @change="changePayDate">
+                    </el-date-picker>
                 </template>
                 </el-table-column>
                 
@@ -110,7 +130,9 @@
                 prop="address"
                 label="缴费时长">
                 <template slot-scope="scope">
-                    — —
+                    <span v-if="(new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30) > 0">
+                        {{(Math.round((new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30)*2+0.49)/2)}}月
+                    </span>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -224,7 +246,12 @@
                   </el-table-column>
                   <el-table-column
                     prop="subject_category"
-                    label="科目名称"
+                    label="费用类型"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    prop="subject"
+                    label="费用科目"
                     >
                   </el-table-column>
                 </el-table>
@@ -281,12 +308,14 @@
   .createDiscount >>> .el-radio__label{
     display: none !important;
   }
+  .createDiscount >>> .w300_input .el-input__inner {
+    width: 350px;
+    }
 </style>
 <script>
 export default {
     data(){
         return {
-            value1:'2000-09-09',
             addform:{
                 pay_method:'2',
                 date:'',
@@ -305,21 +334,12 @@ export default {
                 policy_id: "",
                 amount: "",
                 actual_amount: "",
-                billitem_list:[
-                    {
-                        policy_item_id: "",
-                        price: "",
-                        begin_date: "",
-                        end_date: "",
-                        amount: "",
-                        actual_amount: "",
-                        rate: ""
-                    }
-                ]
+                billitem_list:[]
             },
             info:{},
             checkedSubject:[],
             checkedSubject1:[],
+            policyList:[],
             subjectList:[],
             searchStr:'',
             studentList:[],
@@ -339,21 +359,53 @@ export default {
     },
     mounted () {
         this.getStudent();
-        this.getYear();
+        this.getYear();        
     },
     methods: {
         saveInfo(){
             var _this = this;
+            if(this.multipleTable.length == 0){
+                this.$message({
+                    type:"error",
+                    message:"请选择学生"
+                });
+                return
+            }
+            if(this.addform.end_date == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择入学日期"
+                });
+                return
+            }
+            if(this.addform.start_date == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择实际缴费日期"
+                });
+                return
+            }
+            if(this.saveForm.billitem_list.length == 0){
+                this.$message({
+                    type:"error",
+                    message:"请选择费用分摊明细"
+                });
+                return
+            }
+            if(this.saveForm.policy_id == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择收费政策"
+                });
+                return
+            }
             this.saveForm.student_id = this.multipleTable[0].id;
             this.saveForm.class_id = this.multipleTable[0].class_id;
             this.saveForm.academic_year_id = this.addform.academic_year_id;
             this.saveForm.planned_payment_date = this.addform.start_date;
             this.saveForm.enter_date = this.addform.end_date;
-            this.saveForm.policy_id = this.info.id;
             this.saveForm.actual_amount = this.totalprice;
             this.saveForm.amount = this.totalamount;
-            this.saveForm.billitem_list = this.checkedSubject;
-            console.log(this.multipleTable);
             console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/',this.saveForm)
             .then(res=>{
@@ -382,11 +434,12 @@ export default {
         },
         sureAddSubject(){
             this.checkedSubject = this.checkedSubject1;
+            this.saveForm.billitem_list = this.checkedSubject1;
             this.totalprice = 0;
             this.totalamount = 0;
             this.checkedSubject.forEach(item=>{
-               this.totalprice += item.price * item.rate /100;
-               this.totalamount += item.price;
+               this.totalprice += (item.price-0) * item.rate /100;
+               this.totalamount += (item.price-0);
             });
             this.subjectVisible=false;
         },
@@ -402,6 +455,21 @@ export default {
                 _this.getInfo();
             })
         },
+        getPolicy(){
+            var _this = this;
+            this.$axios.get('/api/finance/bill/charging_policy_list/',{
+                params:{
+                    center_id:this.info.id,
+                    academic_year_id:this.addform.academic_year_id,
+                }
+            })
+            .then(res=>{
+                console.log(res.data)
+                _this.policyList = res.data.policy_list;
+                // _this.yearList = res.data.data.academic_year_li;
+                // _this.getInfo();
+            })
+        },
         getInfo(){
             var _this = this;
             this.$axios.get('/api/finance/bill/show_policy_item/',{
@@ -411,28 +479,35 @@ export default {
                 }
             })
             .then(res=>{
-                console.log(res.data);
                 _this.info = res.data.data.policy_info;
-                _this.subjectList = res.data.data.policy_item_li;
+                // _this.subjectList = res.data.data.policy_item_li;
+                _this.getPolicy();
             })
         },
         getSubject(){
             console.log(this.multipleTable)
-            console.log(this.addform)
-            // var _this = this;
-            // this.$axios.get('/api/finance/charging_policy/1/get_available_items_for_student/',{
-            //     params:{
-            //         student_id:this.multipleTable[0].id,
-            //         payment_method_id:this.addform.pay_method,
-            //         academic_year_id:this.addform.academic_year_id,
-            //         payment_date:this.addform.start_date,
-            //         enter_date:this.addform.end_date,
-            //     }
-            // })
-            // .then(res=>{
-            //     console.log(res.data);
-            //     _this.subjectList = res.data.data.policy_item_li;
-            // })
+            if(this.multipleTable.length == 0){
+                this.$message({
+                    type:"error",
+                    message:"请选择学生"
+                });
+                return
+            }
+            var _this = this;
+            this.getPolicy();
+            this.$axios.get('/api/finance/charging_policy/1/get_available_items_for_student/',{
+                params:{
+                    student_id:this.multipleTable[0].id,
+                    payment_method_id:this.addform.pay_method,
+                    academic_year_id:this.addform.academic_year_id,
+                    payment_date:this.addform.start_date,
+                    enter_date:this.addform.end_date,
+                }
+            })
+            .then(res=>{
+                _this.subjectList = res.data.available_items;
+                _this.checkedSubject = [];
+            })
         },
         handleSelectionChange(val){
             this.multipleTable1 = val;
@@ -445,6 +520,7 @@ export default {
             this.checkedSubject.splice(index,1);
             this.multipleTable2 = this.checkedSubject;
             this.toggleSelection([val]);
+            this.sureAddSubject();
         },
         toggleSelection(rows) {
             if (rows) {
@@ -453,6 +529,9 @@ export default {
             });
             } 
         },
+        changePayDate(val){
+            console.log(val)
+        }
     }
 }
 </script>
