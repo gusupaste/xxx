@@ -7,7 +7,12 @@
       <div class="content-top">{{schoolInfo.name}}</div>
       <el-col :span="24" style="line-height:2">
         <el-card shadow="always">
-          <p class="bold">基本信息</p>
+          <p class="bold">
+            <span>基本信息</span>
+            <span @click="$router.push('/school/school-edit/'+$route.params.id);">
+              <i class="ml10 cur font-size-14 orange fa fa-pencil"></i>
+            </span>
+          </p>
           <p class="bold">校园名称：{{schoolInfo.name}}(英文全称:{{schoolInfo.other_name}};中文简称:{{schoolInfo.short_name}};英文简称:{{schoolInfo.other_short_name}})</p>
           <p><el-row :gutter="20">
             <el-col :span="4"><div class="grid-content bg-purple"><span>所属区域：</span><span>{{schoolInfo.area_name}}</span></div></el-col>
@@ -201,7 +206,7 @@
             </el-select>
           </el-form-item>
           <br>
-          <el-form-item label="班级描述：" :label-width="formLabelWidth" style="width:100%">
+          <el-form-item label="班级描述：" :label-width="formLabelWidth" style="width:100%" prop="remarks">
             <el-input type="textarea" v-model="addform.remarks" style="min-width:600px"></el-input>
           </el-form-item>
       </el-form>
