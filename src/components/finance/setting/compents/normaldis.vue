@@ -87,9 +87,9 @@
                     <template v-if="con.select_select === 1">且</template>
                     <template v-else-if="con.select_select === 2">或</template>
                   </template>
-
+                  &nbsp;&nbsp;&nbsp;
                   <template v-for="(app,app_index) in item.approve" >
-                    <template>&nbsp;&nbsp;&nbsp;{{app.level_name}}&nbsp;<i v-show="app.level_no !== item.approve.length" class="fa fa-long-arrow-right" :key="app_index"></i></template>
+                    <template>{{app.level_name}}&nbsp;<i v-show="app.level_no !== item.approve.length" class="fa fa-long-arrow-right" :key="app_index"></i>&nbsp;</template>
                   </template>
                 </template>
                 <br>
