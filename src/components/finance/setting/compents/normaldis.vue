@@ -88,8 +88,10 @@
                     <template v-else-if="con.select_select === 2">或</template>
                   </template>
                   &nbsp;&nbsp;&nbsp;
-                  <template v-for="(app,app_index) in item.approve" >
-                    <template>{{app.level_name}}&nbsp;<i v-show="app.level_no !== item.approve.length" class="fa fa-long-arrow-right" :key="app_index"></i>&nbsp;</template>
+                  <template v-for="(app,app_index) in item.approve">
+                    <template>{{app.level_name}}&nbsp;<i v-show="app.level_no !== item.approve.length"
+                                                         class="fa fa-long-arrow-right" :key="app_index"></i>&nbsp;
+                    </template>
                   </template>
                 </template>
                 <br>
@@ -110,6 +112,245 @@
           <el-button type="success" @click="showDiscountVisible = false">修 改</el-button>
         </span>
     </el-dialog>
+    <!--  新增折扣类型  -->
+    <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="800px" class="discountDialog">
+      <el-form ref="discountForm" :model="discountForm" label-width="80px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="折扣名称: ">
+              <el-input v-model="discountForm.name" size="small" placeholder="折扣名称限制15个字" maxlength="15"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="适用校园: ">
+              <el-form :model="searchSchool">
+                <div class="school-wrap_head">
+                  <span>城际：</span>
+                  <el-select v-model="searchSchool.intercity_id" placeholder="请选择">
+                    <el-option label="全部" value=""></el-option>
+                    <el-option v-for="int in intercityList" :key="int.id" :label="int.dept_name"
+                               :value="int.id"></el-option>
+                  </el-select>
+                  <span style="margin-left:20px">区域：</span>
+                  <el-select v-model="searchSchool.area_id" placeholder="请选择">
+                    <el-option label="全部" value=""></el-option>
+                    <el-option v-for="area in areaList" :label="area.name" :value="area.id" :key="area.id"></el-option>
+                  </el-select>
+                  <el-button type="primary" @click="searchSchoolList">搜索</el-button>
+                </div>
+                <div class="school-wrap" style="">
+                  <el-table
+                    ref="multipleTable"
+                    :data="schoolList"
+                    max-height="300"
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    border
+                    @selection-change="handleSelectionChange">
+                    <el-table-column
+                      type="selection"
+                      width="50">
+                    </el-table-column>
+                    <el-table-column
+                      prop="name"
+                      label="校园"
+                      width="200">
+                      <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
+                    </el-table-column>
+                    <el-table-column
+                      prop="name"
+                      label="班级项目"
+                      width="">
+                      <template slot-scope="scope">
+                        <el-checkbox-group v-model="checkList[scope.row.id]" @change="getClassList($event,scope.row)">
+                          <el-checkbox v-for="cla in scope.row.class_types" :key="cla.id" :value="cla.id"
+                                       :label="cla.id">{{cla.name}}
+                          </el-checkbox>
+                        </el-checkbox-group>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </el-form>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="判定条件: ">
+              <el-select v-model="condition_name" placeholder="--请选择--" style="width: 100%;">
+                <el-option
+                  v-for="item in conditionList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <!--<el-row>
+          <el-col :span="24">
+            <el-form-item>
+              <el-table
+                :data="templateList"
+                border
+                :show-header="false"
+                style="width: 95%;margin-top: 20px;">
+                <el-table-column
+                  prop="id">
+                  <template slot-scope="scope">
+                    <el-select v-model="scope.row.select" style="width: 90px;">
+                      <el-option>大于</el-option>
+                      <el-option>小于</el-option>
+                      <el-option>大于等于</el-option>
+                      <el-option>小于等于</el-option>
+                      <el-option>等于</el-option>
+                    </el-select>
+                    <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                    <el-select v-model="scope.row.select2" style="width: 90px;">
+                      <el-option>或</el-option>
+                      <el-option>且</el-option>
+                    </el-select>
+                    <el-select v-model="scope.row.select" style="width: 90px;">
+                      <el-option>大于</el-option>
+                      <el-option>小于</el-option>
+                      <el-option>大于等于</el-option>
+                      <el-option>小于等于</el-option>
+                      <el-option>等于</el-option>
+                    </el-select>
+                    <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                    <el-select v-model="scope.row.select2" style="width: 90px;">
+                      <el-option>或</el-option>
+                      <el-option>且</el-option>
+                    </el-select>
+                  </template>
+                  <el-checkbox v-model="checked"></el-checkbox>
+                </el-table-column>
+                <el-table-column>
+                  <template slot-scope="scope">
+                    <span v-if="scope.row.id">{{ scope.row.sname }}</span>
+                    <el-input v-model="scope.row.sname" v-show="scope.row.id === ''"></el-input>
+                  </template>
+                </el-table-column>
+                <el-table-column width="50">
+                  <template slot-scope="scope">
+                    <el-button class="red" type="text" size="small" @click="deleteList(scope.row)">
+                      <span class="el-icon-delete" style="font-size: 20px;color: #ED6C2E;"></span>
+                    </el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <table style="width: 95%;margin-top: 20px;">
+                <tr>
+                  <td>条件</td>
+                  <td>
+                    <template slot-scope="scope">
+                      <el-select v-model="scope.row.select" style="width: 90px;">
+                        <el-option>大于</el-option>
+                        <el-option>小于</el-option>
+                        <el-option>大于等于</el-option>
+                        <el-option>小于等于</el-option>
+                        <el-option>等于</el-option>
+                      </el-select>
+                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                      <el-select v-model="scope.row.select2" style="width: 90px;">
+                        <el-option>或</el-option>
+                        <el-option>且</el-option>
+                      </el-select>
+                      <el-select v-model="scope.row.select" style="width: 90px;">
+                        <el-option>大于</el-option>
+                        <el-option>小于</el-option>
+                        <el-option>大于等于</el-option>
+                        <el-option>小于等于</el-option>
+                        <el-option>等于</el-option>
+                      </el-select>
+                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                      <el-select v-model="scope.row.select2" style="width: 90px;">
+                        <el-option>或</el-option>
+                        <el-option>且</el-option>
+                      </el-select>
+                    </template>
+                    <el-checkbox v-model="checked"></el-checkbox>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    <template slot-scope="scope">
+                      <el-select v-model="scope.row.select" style="width: 90px;">
+                        <el-option>大于</el-option>
+                        <el-option>小于</el-option>
+                        <el-option>大于等于</el-option>
+                        <el-option>小于等于</el-option>
+                        <el-option>等于</el-option>
+                      </el-select>
+                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                      <el-select v-model="scope.row.select2" style="width: 90px;">
+                        <el-option>或</el-option>
+                        <el-option>且</el-option>
+                      </el-select>
+                      <el-select v-model="scope.row.select" style="width: 90px;">
+                        <el-option>大于</el-option>
+                        <el-option>小于</el-option>
+                        <el-option>大于等于</el-option>
+                        <el-option>小于等于</el-option>
+                        <el-option>等于</el-option>
+                      </el-select>
+                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                      <el-select v-model="scope.row.select2" style="width: 90px;">
+                        <el-option>或</el-option>
+                        <el-option>且</el-option>
+                      </el-select>
+                    </template>
+                    <el-checkbox v-model="checked"></el-checkbox>
+                  </td>
+                  <td></td>
+                </tr>
+                <el-table-column>
+                  <template slot-scope="scope">
+                    <span v-if="scope.row.id">{{ scope.row.sname }}</span>
+                    <el-input v-model="scope.row.sname" v-show="scope.row.id === ''"></el-input>
+                  </template>
+                </el-table-column>
+                <el-table-column width="50">
+                  <template slot-scope="scope">
+                    <el-button class="red" type="text" size="small" @click="deleteList(scope.row)">
+                      <span class="el-icon-delete" style="font-size: 20px;color: #ED6C2E;"></span>
+                    </el-button>
+                  </template>
+                </el-table-column>
+              </table>
+              <span style="cursor:pointer;color: #ED6C2E;" @click="addIfElse">
+                  <i class="icon-font fa fa-calendar-plus-o"></i>
+                  <span class="font-size-14">添加判断条件</span>
+              </span>
+            </el-form-item>
+          </el-col>
+        </el-row>-->
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="互斥折扣: ">
+              <el-checkbox-group v-model="type" style="text-align: left">
+                <el-checkbox label="美食" name="type"></el-checkbox>
+                <el-checkbox label="地推" name="type"></el-checkbox>
+                <el-checkbox label="线下" name="type"></el-checkbox>
+                <el-checkbox label="单纯" name="type"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="addDiscountVisible = false">取 消</el-button>
+          <el-button type="success" @click="addDiscountVisible = false">保 存</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -122,10 +363,32 @@
         currentPage: 1,
         total: 1,
         showDiscountVisible: false,
-        discountForm: []
+        discountForm: [],
+        addDiscountVisible: false,
+        discountName: '',
+        condition_name: '',
+        conditionList: [
+          {
+            id: 0,
+            name: '折扣率'
+          },
+          {
+            id: 1,
+            name: '折扣金额'
+          }
+        ],
+        searchSchool: {
+          intercity_id: '',
+          area_id: ''
+        },
+        intercityList: [],
+        areaList: [],
+        schoolList: [],
+        checkList: {},
       }
     },
     mounted: function () {
+      this.condition_name = this.conditionList[0].id
       this.getUsualDiscountList(1)
     },
     watch: {
@@ -134,6 +397,59 @@
       }
     },
     methods: {
+      getIntercity: function () {
+        this.$axios.get('/api/common/intercity/')
+          .then(res => {
+            this.intercityList = res.data.intercity_list
+          }).catch(err => {
+
+        })
+      },
+      getArea: function () {
+        this.$axios.get('/api/common/select/area_list/')
+          .then(res => {
+            this.areaList = res.data.results
+          }).catch(err => {
+
+        })
+      },
+      searchSchoolList: function () {
+        this.$axios.get('/api/school_calendar/select/center_list/', {
+          params: this.searchSchool
+        }).then(res => {
+          this.schoolList = res.data.results
+          this.schoolList.map((v) => {
+            this.$set(this.checkList, v.id, [])
+          })
+        }).catch(err => {
+
+        })
+      },
+      handleSelectionChange: function (val) {
+        for (let k in this.checkList) {
+          this.checkList[k] = []
+        }
+        val.forEach(item => {
+          console.log(item)
+          var list = []
+          item.class_types.forEach(ele => {
+            list.push(ele.id)
+          })
+          this.checkList[item.id] = list
+        })
+        console.log(this.checkList)
+        this.multipleSelection = val
+      },
+      getClassList: function ($event, id) {
+        var length = $event.length
+        length === 0 ? this.$refs.multipleTable.toggleRowSelection(id, false) : this.$refs.multipleTable.toggleRowSelection(id, true)
+        this.schoolList.forEach(item => {
+          if (item === id) {
+            item.class_type_ids = $event
+          }
+        })
+        console.log(this.schoolList)
+      },
       getUsualDiscountList: function (val) {
         this.currentPage = val
         this.$axios.get('/api/discount/discount_type_management/?type=' + this.type + '&size=' + this.pagesize + '&page=' + this.currentPage)
@@ -167,6 +483,14 @@
           }).catch(err => {
           console.log(err)
         })
+      },
+      addNewDiscount: function (flag) {
+        if (flag === 0) {
+          this.discountName = '新增折扣类型'
+        } else {
+          this.discountName = '编辑折扣类型'
+        }
+        this.addDiscountVisible = true
       }
     }
   }
