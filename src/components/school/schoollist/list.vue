@@ -35,6 +35,8 @@
             :value="item.city_id">
           </el-option>
         </el-select>
+        <span class="padding-left-30">搜索：</span>
+        <el-input class="inline-block" v-model="center_name"></el-input>
         <span class="padding-left-30"><el-button @click="getSchoolList(1)" type="primary">搜索</el-button></span>
         <span class="right">
           <i class="fa fa-plus icon-font"></i>
@@ -186,6 +188,7 @@
         intercity: '',
         arealist:[],
         area: '',
+        center_name: '',
         citylist:[],
         city: '',
         schoolList: [],
