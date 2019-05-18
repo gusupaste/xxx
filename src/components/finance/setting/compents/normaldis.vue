@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="normaldis">
     <div class="select-header" style="min-height: 35px;">
             <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
                 <i class="icon-font fa fa-calendar-plus-o"></i>
@@ -126,7 +126,7 @@
           <el-col :span="24">
             <el-form-item label="适用校园: ">
               <el-form :model="searchSchool">
-                <div class="school-wrap_head">
+                <div>
                   <span>城际：</span>
                   <el-select v-model="searchSchool.intercity_id" placeholder="请选择">
                     <el-option label="全部" value=""></el-option>
@@ -157,7 +157,6 @@
                       prop="name"
                       label="校园"
                       width="200">
-                      <!-- <template slot-scope="scope">{{ scope.row.date }}</template> -->
                     </el-table-column>
                     <el-table-column
                       prop="name"
@@ -177,7 +176,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="8">
             <el-form-item label="判定条件: ">
@@ -192,138 +190,36 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!--<el-row>
+        <el-row>
           <el-col :span="24">
             <el-form-item>
-              <el-table
-                :data="templateList"
-                border
-                :show-header="false"
-                style="width: 95%;margin-top: 20px;">
-                <el-table-column
-                  prop="id">
-                  <template slot-scope="scope">
-                    <el-select v-model="scope.row.select" style="width: 90px;">
-                      <el-option>大于</el-option>
-                      <el-option>小于</el-option>
-                      <el-option>大于等于</el-option>
-                      <el-option>小于等于</el-option>
-                      <el-option>等于</el-option>
-                    </el-select>
-                    <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
-                    <el-select v-model="scope.row.select2" style="width: 90px;">
-                      <el-option>或</el-option>
-                      <el-option>且</el-option>
-                    </el-select>
-                    <el-select v-model="scope.row.select" style="width: 90px;">
-                      <el-option>大于</el-option>
-                      <el-option>小于</el-option>
-                      <el-option>大于等于</el-option>
-                      <el-option>小于等于</el-option>
-                      <el-option>等于</el-option>
-                    </el-select>
-                    <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
-                    <el-select v-model="scope.row.select2" style="width: 90px;">
-                      <el-option>或</el-option>
-                      <el-option>且</el-option>
-                    </el-select>
-                  </template>
-                  <el-checkbox v-model="checked"></el-checkbox>
-                </el-table-column>
-                <el-table-column>
-                  <template slot-scope="scope">
-                    <span v-if="scope.row.id">{{ scope.row.sname }}</span>
-                    <el-input v-model="scope.row.sname" v-show="scope.row.id === ''"></el-input>
-                  </template>
-                </el-table-column>
-                <el-table-column width="50">
-                  <template slot-scope="scope">
-                    <el-button class="red" type="text" size="small" @click="deleteList(scope.row)">
-                      <span class="el-icon-delete" style="font-size: 20px;color: #ED6C2E;"></span>
-                    </el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
-              <table style="width: 95%;margin-top: 20px;">
+              <table class="condition_table">
                 <tr>
-                  <td>条件</td>
+                  <td>条件1:</td>
                   <td>
-                    <template slot-scope="scope">
-                      <el-select v-model="scope.row.select" style="width: 90px;">
+                      <el-select  style="width: 90px;">
                         <el-option>大于</el-option>
                         <el-option>小于</el-option>
                         <el-option>大于等于</el-option>
                         <el-option>小于等于</el-option>
                         <el-option>等于</el-option>
                       </el-select>
-                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
-                      <el-select v-model="scope.row.select2" style="width: 90px;">
+                      <el-input  style="width: 80px;"></el-input>
+                      <el-select  style="width: 90px;">
                         <el-option>或</el-option>
                         <el-option>且</el-option>
                       </el-select>
-                      <el-select v-model="scope.row.select" style="width: 90px;">
-                        <el-option>大于</el-option>
-                        <el-option>小于</el-option>
-                        <el-option>大于等于</el-option>
-                        <el-option>小于等于</el-option>
-                        <el-option>等于</el-option>
-                      </el-select>
-                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
-                      <el-select v-model="scope.row.select2" style="width: 90px;">
-                        <el-option>或</el-option>
-                        <el-option>且</el-option>
-                      </el-select>
-                    </template>
-                    <el-checkbox v-model="checked"></el-checkbox>
                   </td>
-                  <td></td>
+                  <td rowspan="2"><i class="fa fa-trash-o red"></i></td>
                 </tr>
                 <tr>
-                  <td></td>
+                  <td>审批流:</td>
                   <td>
-                    <template slot-scope="scope">
-                      <el-select v-model="scope.row.select" style="width: 90px;">
-                        <el-option>大于</el-option>
-                        <el-option>小于</el-option>
-                        <el-option>大于等于</el-option>
-                        <el-option>小于等于</el-option>
-                        <el-option>等于</el-option>
-                      </el-select>
-                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
-                      <el-select v-model="scope.row.select2" style="width: 90px;">
-                        <el-option>或</el-option>
-                        <el-option>且</el-option>
-                      </el-select>
-                      <el-select v-model="scope.row.select" style="width: 90px;">
-                        <el-option>大于</el-option>
-                        <el-option>小于</el-option>
-                        <el-option>大于等于</el-option>
-                        <el-option>小于等于</el-option>
-                        <el-option>等于</el-option>
-                      </el-select>
-                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
-                      <el-select v-model="scope.row.select2" style="width: 90px;">
-                        <el-option>或</el-option>
-                        <el-option>且</el-option>
-                      </el-select>
-                    </template>
-                    <el-checkbox v-model="checked"></el-checkbox>
+                    <el-input style="width: 100px"></el-input>
+                    <i class="fa fa-long-arrow-right"></i>
+                    <el-input style="width: 100px"></el-input>
                   </td>
-                  <td></td>
                 </tr>
-                <el-table-column>
-                  <template slot-scope="scope">
-                    <span v-if="scope.row.id">{{ scope.row.sname }}</span>
-                    <el-input v-model="scope.row.sname" v-show="scope.row.id === ''"></el-input>
-                  </template>
-                </el-table-column>
-                <el-table-column width="50">
-                  <template slot-scope="scope">
-                    <el-button class="red" type="text" size="small" @click="deleteList(scope.row)">
-                      <span class="el-icon-delete" style="font-size: 20px;color: #ED6C2E;"></span>
-                    </el-button>
-                  </template>
-                </el-table-column>
               </table>
               <span style="cursor:pointer;color: #ED6C2E;" @click="addIfElse">
                   <i class="icon-font fa fa-calendar-plus-o"></i>
@@ -331,7 +227,7 @@
               </span>
             </el-form-item>
           </el-col>
-        </el-row>-->
+        </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="互斥折扣: ">
@@ -385,6 +281,7 @@
         areaList: [],
         schoolList: [],
         checkList: {},
+        templateList: []
       }
     },
     mounted: function () {
@@ -491,8 +388,35 @@
           this.discountName = '编辑折扣类型'
         }
         this.addDiscountVisible = true
-      }
+      },
+      addIfElse:function () {
+        const newObj = {
+          id:'',
+          pname:'',
+          sname:'',
+          select:'',
+          select2:'',
+          input:'',
+        }
+        this.templateList.push(newObj);
+      },
     }
   }
 </script>
-
+<style scoped>
+   .normaldis .discountDialog .school-wrap >>> .el-table th{
+     padding: 0;
+   }
+   .normaldis .discountDialog .condition_table{
+     border: 1px solid #cccccc;
+     border-collapse: collapse;
+     width: 100%;
+   }
+   .normaldis .discountDialog .condition_table td{
+     border: 1px solid #cccccc;
+     padding: 5px;
+   }
+    .normaldis .discountDialog .icon-font{
+      margin-left: 0;
+  }
+</style>
