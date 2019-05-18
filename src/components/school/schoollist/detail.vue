@@ -144,10 +144,10 @@
         <el-form-item label="中文名称：" :label-width="formLabelWidth" prop="name">
             <el-input v-model="addform.name" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="昵称：" :label-width="formLabelWidth">
+          <el-form-item label="昵称：" :label-width="formLabelWidth"  prop="nick_name">
            <el-input v-model="addform.nick_name" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="英文名称：" :label-width="formLabelWidth">
+          <el-form-item label="英文名称：" :label-width="formLabelWidth" prop="other_name">
             <el-input v-model="addform.other_name" placeholder="请输入"></el-input>
           </el-form-item>
           <br>
