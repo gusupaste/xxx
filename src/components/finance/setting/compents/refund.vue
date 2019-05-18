@@ -75,7 +75,7 @@
         </el-table-column>
         <el-table-column
           prop="center_str"
-          label="适用校园">
+          label="校园名称">
         </el-table-column>
         <el-table-column
           prop="academic_year_str"
@@ -87,8 +87,7 @@
         </el-table-column>
         <el-table-column
           prop="start_date"
-          label="发布日期"
-          width="130">
+          label="发布日期">
         </el-table-column>
         <el-table-column
           prop="remarks"
