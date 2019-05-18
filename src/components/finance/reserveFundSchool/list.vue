@@ -5,25 +5,7 @@
     </div>
     <div class="content">
       <div class="select-header">
-        <span>城际：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <span style="margin-left: 10px">区域：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <span style="margin-left: 10px">校园：</span>
+        <span style="margin-left: 10px">学年：</span>
         <el-select v-model="nameSelect" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -44,12 +26,21 @@
         <span style="margin-left: 20px">学生姓名</span>
         <el-input v-model="input" placeholder="输入关键字" style="width: 15%;"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+        <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reservefund')">
+            <i class="icon-font fa fa-calendar-plus-o"></i>
+            <span class="font-cl-blue font-size-14">推迟入园转备用金</span>
+        </span>
+        <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reserve')">
+            <i class="icon-font fa fa-calendar-plus-o"></i>
+            <span class="font-cl-blue font-size-14">缺勤请假转备用金</span>
+        </span>
       </div>
       <div class="list-content">
         <el-table
           :data="chargeTableDate"
           border
           stripe
+          show-header
           style="width: 100%;margin-top: 10px;">
           <el-table-column
             prop="code"
@@ -64,7 +55,7 @@
             label="所在班级">
           </el-table-column>
           <el-table-column
-            label="备用金余额">
+            label="初期余额">
             <el-table-column
               prop="province"
               label="普惠">
@@ -75,7 +66,7 @@
             </el-table-column>
           </el-table-column>
           <el-table-column
-            label="待批使用备用金">
+            label="本学年结转额">
             <el-table-column
               prop="province"
               label="普惠">
@@ -86,7 +77,7 @@
             </el-table-column>
           </el-table-column>
           <el-table-column
-            label="当前可用余额">
+            label="本学年待批使用">
             <el-table-column
               prop="province"
               label="普惠">
@@ -98,7 +89,19 @@
           </el-table-column>
           <el-table-column
             prop="telephone"
-            label="待批结转备用金">
+            label="本学年已使用">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
+          </el-table-column>
+          <el-table-column
+            prop="status_name"
+            label="可用余额">
             <el-table-column
               prop="province"
               label="普惠">
@@ -205,6 +208,7 @@
     width: 100%;
     min-height: 50px;
     margin-top: 20px;
+    line-height: 50px;
   }
   .discountlist .el-select{
     width: 10%;
