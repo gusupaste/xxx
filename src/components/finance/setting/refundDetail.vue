@@ -43,8 +43,7 @@
                 <td rowspan="4" colspan="2" style="width:60px">退费</td>
                 <td colspan="3" style="">
                   已领物品，是否减物品费用&nbsp;&nbsp;&nbsp;
-                  <el-radio v-model="saveForm.radio" label="1">是</el-radio>
-                  <el-radio v-model="saveForm.radio" label="0">否</el-radio>
+                  <el-input type="text" v-model="saveForm.waiji"></el-input>&nbsp;&nbsp;元
                 </td>
               </tr>
               <tr>
