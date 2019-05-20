@@ -14,7 +14,7 @@
                 <el-form-item label="" label-width="120px">
                     <span class="red">可以使用备用金抵扣收费，是否使用备用金？</span>
                     <br>
-                    <el-checkbox  v-model="value1">是，使用备用金</el-checkbox> <el-input style="width:200px"></el-input>
+                    <el-checkbox  v-model="value">是，使用备用金</el-checkbox> <el-input  @input="editfund" v-model="use_fund" style="width:200px"></el-input>
                 </el-form-item>
                 <br>
                 <el-form-item label="收费情况：" label-width="120px">
@@ -33,75 +33,68 @@
                         prop="name"
                         label="助学金">
                         <template slot-scope="scope" >
-                            <el-input v-model="value1" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[3].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="现金">
                         <template slot-scope="scope" >
-                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[0].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="POS刷卡">
                         <template slot-scope="scope" >
-                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[2].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="电汇转账">
                         <template slot-scope="scope" >
-                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[5].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="支票">
                         <template slot-scope="scope" >
-                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[1].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="代扣卡">
                         <template slot-scope="scope" >
-                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
-                        </template>
-                        </el-table-column>
-                        <el-table-column
-                        prop="address"
-                        label="电子支付">
-                        <template slot-scope="scope" >
-                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[4].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="支付宝">
                         <template slot-scope="scope" >
-                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[6].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                         <el-table-column
                         prop="address"
                         label="微信">
                         <template slot-scope="scope" >
-                            <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[7].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                     </el-table>
                 </el-form-item>
                 <el-form-item label="实收金额：" label-width="120px">
-                     ¥{{info.actual_amount}}
+                     ¥{{act_amount}}
                 </el-form-item>
                 <el-form-item label="备用金抵扣：" label-width="120px">
-                     ¥200.00
+                     ¥{{use_fund}}
                 </el-form-item>
                 <el-form-item label="合计：" label-width="120px">
-                     <span class="bold font-size-20 red "> ¥5000.00  </span>
+                     <span class="bold font-size-20 red "> ¥{{addform.pay_amount}}</span>
                 </el-form-item>
                 <el-form-item label="" label-width="120px">
                      <span>合计缴费金额大于应收金额，多余2000.00元将自动结转进备用金</span>
@@ -143,14 +136,17 @@
                 prop="address"
                 label="备用金">
                 <template slot-scope="scope" >
-                    <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                    <span v-if="scope.row.can_reserved_fund === 1">
+                        <el-input v-model="addform.bill_item_list[scope.$index].reserve_fund_used" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                    </span>
+                    
                 </template>
                 </el-table-column>
                 <el-table-column
                 prop="address"
                 label="实收">
                 <template slot-scope="scope" >
-                    <el-input oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                    <el-input v-model="addform.bill_item_list[scope.$index].pay_amount" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -167,21 +163,21 @@
 
             </el-form-item>
             <el-form-item label="开票需求：" label-width="120px">
-                 <el-checkbox  v-model="value1">是</el-checkbox>
+                 <el-checkbox  v-model="is_invoice_if" label="1">是</el-checkbox>
             </el-form-item>
             <el-form-item label="发票标题：" label-width="120px">
-                 <el-input  v-model="value1">是</el-input>
+                 <el-input  v-model="addform.invoice_title"></el-input>
             </el-form-item>
             <el-form-item label="可开票据金额：" label-width="120px">
-                <el-input></el-input>
+                <el-input v-model="addform.invoice_amount"></el-input>
             </el-form-item>
             <el-form-item label="备注：" label-width="120px">
-                 <el-input  type="textarea" style="width:500px" v-model="value1">是</el-input>
+                 <el-input  v-model="addform.invoice_remark" type="textarea" style="width:500px">是</el-input>
             </el-form-item>
         </el-form>
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
-            <button class="btn bg-green">提交</button>
+            <button class="btn bg-green" @click="saveInfo">提交</button>
 
         </div>
     </div>
@@ -237,7 +233,58 @@ export default {
         return {
             list:[1,2,3,4,5,6,7,7,7,],
             value1:'2000-09-09',
+            value:false,
             tableData: [],
+            use_fund:'',
+            addform:{
+                status: 1,
+                pay_amount: 0,
+                pay_method_list: [
+                        {
+                            id: 1,
+                            amount: 0
+                        },
+                        {
+                            id: 2,
+                            amount: 0
+                        },
+                        {
+                            id: 3,
+                            amount: 0
+                        },
+                        {
+                            id: 4,
+                            amount: 0
+                        },
+                        {
+                            id: 5,
+                            amount: 0
+                        },
+                        {
+                            id: 6,
+                            amount: 0
+                        },
+                        {
+                            id: 7,
+                            amount: 0
+                        },
+                        {
+                            id: 8,
+                            amount: 0
+                        }
+                    ],
+                reserve_fund_used: 0,
+                remarks: "",
+                bill_item_list:[{
+
+                }],
+                is_invoice:0,
+                invoice_title:'',
+                invoice_amount:'',
+                invoice_remark:'',
+            },
+            is_invoice_if:false,
+            act_amount:0,
             priceData:[],
             info:{},
             reserved_fund:'',
@@ -255,9 +302,71 @@ export default {
                 console.log(res.data);
                 _this.info = res.data.bill_info;
                 _this.reserved_fund = res.data.reserved_fund;
+                res.data.billitem_li.forEach(item=>{
+                    item.bill_item_id = item.id
+                });
                 _this.tableData = res.data.billitem_li;
+                _this.addform.bill_item_list = res.data.billitem_li;
+                _this.gettotal()
                 // _this.tableData = res.data.bill_history;
             })
+        },
+        editfund(val){
+            this.use_fund = this.use_fund.replace(/[^0-9.]/g,'');
+            if(this.use_fund !== ""){
+                this.value = true;
+            } else {
+                this.value = false;
+            }
+        },
+        saveInfo(){
+            var _this = this;
+            if(this.is_invoice_if){
+                this.addform.is_invoice = 1;
+            } else {
+                this.addform.is_invoice = 0;
+            }
+            this.addform.reserve_fund_used = this.use_fund;
+            console.log(this.addform.reserve_fund_used = this.use_fund)
+            if(this.addform.pay_amount < this.info.amount){
+                this.$message({
+                    type:'error',
+                    message:'实收金额应大于应收金额'
+                })
+                return
+            }
+            this.$axios.post('/api/finance/bill/'+this.$route.params.id+'/pay_bill/',this.addform)
+            .then(res=>{
+                if(res.data.status === 1){
+                    _this.$message({
+                        type:'success',
+                        message:'缴费成功！'
+                    });
+                    _this.$router.push('/financemanagement/billMaking');
+                }
+            })
+        },
+        gettotal(){
+            this.addform.pay_amount = 0;
+            this.addform.pay_method_list.forEach(item=>{
+                this.addform.pay_amount += item.amount-0;
+            });
+            this.act_amount = this.addform.pay_amount;
+            this.addform.pay_amount = this.addform.pay_amount + (this.use_fund-0);
+        }
+    },
+    watch: {
+        'addform.pay_method_list':{
+           handler() {
+               this.gettotal();
+            },
+            deep: true
+        },
+        use_fund(){
+            if(this.use_fund > this.reserved_fund){
+                this.use_fund = this.reserved_fund;
+            }
+            this.gettotal();
         }
     }
 }

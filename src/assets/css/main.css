@@ -55,6 +55,9 @@ html {
   color:#101010;
   font-weight: 600;
 }
+.local_path_style span {
+  font-size: 14px;
+}
 /* 公共背景色 颜色*/
 .bg-grey {
   background-color: #999;
@@ -198,6 +201,10 @@ a {
 .el-table th {
   text-align: center;
   background-color: #f5f5f5;
+}
+.cell {
+  padding-left: 0;
+  padding-right: 0;
 }
 .el-table td{
     text-align: center;
