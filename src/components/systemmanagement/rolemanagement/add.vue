@@ -73,7 +73,7 @@
           tooltip-effect="dark"
           style="width: 100%"
           empty-text=" "
-          @selection-change="handleSelectionChange">
+          @select="openDetails">
           <el-table-column
             type="selection"
             width="55">
@@ -129,7 +129,8 @@
         error_border_rolename: false,
         currentPage: 1,
         pagesize: 10,
-        total: 1
+        total: 1,
+        addUserList:[],
       }
     },
     mounted: function () {
@@ -179,9 +180,6 @@
         this.searchList(1)
         this.adduser = true
         var arrList = [];
-        console.log(this.userList)
-        console.log(this.userCheckList)
-
         for (var i = 0; i < this.userList.length; i++) {
           for (var j = 0; j < this.userCheckList.length; j++) {
             if (this.userList[i].id === this.userCheckList[j].id) {
@@ -190,6 +188,7 @@
             }
           }
         }
+        console.log(arrList);
         this.toggleSelection(arrList)
       },
       searchList: function (val) {
@@ -222,13 +221,38 @@
           }
         })
       },
-      handleSelectionChange(val) {
-        this.userCheckListVal = val
-        this.userCheckListValAll = this.userCheckListValAll.concat(this.userCheckListVal)
+      openDetails:function (row) {
+        this.userCheckListVal = row;
+        var index = row.length-1;
+        this.userCheckListValAll.push(row[index]);
       },
+      /*handleSelectionChange(val) {
+        console.log();
+        var flag = false;
+        var index = -1;
+        for(var x in val){
+          for(var y in this.userCheckListValAll){
+            if(val[x].id == this.userCheckListValAll[y]){
+              flag = true;
+              index = x;
+            }
+          }
+        }
+        if(flag == false && index != -1){
+          this.userCheckListValAll.push(val[index]);
+        }
+          /!*this.userCheckListValAll.push(val[index]);*!/
+        console.log(this.userCheckListValAll)
+        /!*this.userCheckListVal = val*!/
+        /!*console.log(this.userCheckListVal);*!/
+        /!*this.addUserList.push(this.userCheckListVal);*!/
+        /!*console.log(this.addUserList);*!/
+        /!*this.userCheckListValAll = this.userCheckListValAll.concat(this.userCheckListVal);*!/
+      },*/
       checkedUser: function () {
-        this.adduser = false
-        this.userCheckList = this.userCheckListValAll
+        this.adduser = false;
+        this.userCheckList = [];
+        this.userCheckList = this.userCheckList.concat(this.userCheckListValAll);
       },
       saveRole: function () {
         this.loading = true
