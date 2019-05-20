@@ -7,7 +7,7 @@
       <el-col class="box-margin" :span="7">
         <el-card class="box-card add-card" >
           <img src="../../../assets/img/add.png" class="cur" @click="addDialog(0)">
-          <p class="add_text cur">新增品牌</p>
+          <p class="add_text cur">新增学年</p>
         </el-card>
         <!--<el-card shadow="always">
           <img src="../../../assets/img/add.png" class="cur" style="width: 70px" @click="addDialog(0)">
