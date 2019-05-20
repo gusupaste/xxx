@@ -159,6 +159,9 @@ export default {
     position: absolute;
     right: 0;
   }
+  .homePage_menu .userInfo span {
+    font-size: 14px;
+  }
   .homePage_menu .is-active {
     background-color: #f17128 !important;
     border-bottom: none !important;

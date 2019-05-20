@@ -77,6 +77,16 @@
                     </div></el-col>
                   </el-row>
                 </p>
+                <p>
+                  <el-row>
+                    <el-col :span="24">
+                      <div class="grid-content bg-purple">是否已领物品：
+                          <el-radio label="是"></el-radio>
+                          <el-radio label="否"></el-radio>
+                      </div>
+                    </el-col>
+                  </el-row>
+                </p>
                 </el-card>
             </el-col>
         </div>
