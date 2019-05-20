@@ -69,10 +69,10 @@
             </el-menu>
             </div>
             <div class="userInfo">
-              <span>集团端
-                {{premission}}
-                ，你好</span>
-              <i style="cursor:pointer" class="orange el-icon-remove-outline" @click="logout"></i>
+              <span>
+                {{name}}，你好
+              </span>
+              <i style="cursor:pointer" class="orange fa fa-power-off font-size-20" @click="logout"></i>
             </div>
           </div>
         </div>
@@ -88,9 +88,11 @@ export default {
     return {
       active:"",
       premission: 8,
+      name:this.$cookies.get('userInfo').fullname,
     }
   },
   mounted(){
+    console.log(this.$cookies.get('userInfo'))
     this.getActive();
   },
   methods:{
@@ -158,6 +160,9 @@ export default {
     line-height: 60px;
     position: absolute;
     right: 0;
+  }
+  .homePage_menu .userInfo span {
+    font-size: 14px;
   }
   .homePage_menu .is-active {
     background-color: #f17128 !important;

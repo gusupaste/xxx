@@ -275,6 +275,9 @@
         width: 70%;
         text-align: left;
     }
+    .homeView .logo_name {
+        font-size: 24px;
+    }
     .homeView .school_calendar {
         text-align: left;
         margin-left: 5%;

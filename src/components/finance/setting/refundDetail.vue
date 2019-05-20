@@ -10,7 +10,7 @@
           </div>
           <div v-if="$route.params.type === 'add'">
             <span>学校：</span>
-            <el-select v-model="searchform.intercity_id" placeholder="请选择" style="width: 200px">
+            <el-select v-model="saveForm.center" placeholder="请选择" style="width: 200px">
               <el-option
                 v-for="item in school_list"
                 :key="item.id"
@@ -19,7 +19,7 @@
               </el-option>
             </el-select>
             <span>学年：</span>
-            <el-select v-model="searchform.intercity_id" placeholder="请选择" style="width: 200px">
+            <el-select v-model="saveForm.academic_year" placeholder="请选择" style="width: 200px">
               <el-option
                 v-for="item in year_list"
                 :key="item.id"
@@ -51,30 +51,30 @@
               <tr>
                 <td colspan="3">
                   总部外籍子女，退
-                  <el-input type="text" v-model="saveForm.waiji"></el-input> %
+                  <el-input type="text" v-model="saveForm.foreign_employees_per"></el-input> %
                 </td>
               </tr>
               <tr>
                 <td rowspan="2" width="100">总部非外籍子女</td>
                 <td colspan="2">
                   按时提交申请，退
-                  <el-input type="text" v-model="saveForm.feiwaiji1"></el-input> %
+                  <el-input type="text" v-model="saveForm.on_schedule_per"></el-input> %
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
                   未按时提交申请，当月退
-                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input> %，
-                  <el-select v-model="saveForm.xingzheng" placeholder="请选择">
+                  <el-input type="text" v-model="saveForm.not_on_schedule_per"></el-input> %，
+                  <el-select v-model="saveForm.specific_month" placeholder="请选择">
                     <el-option v-for="item in monthOptions"
                                :key="item.value"
                                :label="item.label"
                                :value="item.value"></el-option>
                   </el-select>
                   退
-                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input> %，
+                  <el-input type="text" v-model="saveForm.specific_month_per"></el-input> %，
                   剩余月退
-                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input> %
+                  <el-input type="text" v-model="saveForm.other_month_per"></el-input> %
                 </td>
               </tr>
               <tr>
@@ -85,26 +85,26 @@
                 <td colspan="2">无发票</td>
                 <td colspan="3">
                   减退费金额
-                  <el-input type="text" v-model="saveForm.jiantui"></el-input> %
+                  <el-input type="text" v-model="saveForm.no_invoice"></el-input> %
                 </td>
               </tr>
               <tr>
-                <td rowspan="18" width="90">在校生</td>
-                <td rowspan="11" width="90">学费</td>
+                <td :rowspan="16 + saveForm.condition.length + saveForm.othCondition.length" width="90">在校生</td>
+                <td :rowspan="9 + saveForm.condition.length + saveForm.othCondition.length" width="90">学费</td>
                 <td width="90">转班</td>
                 <td colspan="3">多退少补</td>
               </tr>
               <tr>
-                <td rowspan="6" width="90">退学</td>
-                <td rowspan="3" width="100">月缴</td>
+                <td :rowspan="saveForm.othCondition.length + 5" width="90">退学</td>
+                <td :rowspan="saveForm.othCondition.length + 2" width="100">月缴</td>
                 <td colspan="2">
                   行政手续费
                   <el-input type="text" v-model="saveForm.xingzheng"></el-input> 元
                 </td>
               </tr>
-              <tr>
+              <tr v-for="(oth,ind) in saveForm.othCondition">
                 <td colspan="2">
-                  <el-select v-model="saveForm.xingzheng" placeholder="请选择">
+                  <el-select v-model="saveForm.othCondition.xingzheng" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
                     <el-option v-for="item in monthOptions"
                                :key="item.value"
@@ -132,7 +132,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <i class="el-icon-circle-plus orange cur">添加判定条件</i>
+                  <i class="el-icon-circle-plus orange cur" @click="addTr(1)">添加判定条件</i>
                 </td>
               </tr>
               <tr>
@@ -208,10 +208,10 @@
                   <el-input type="text" v-model="saveForm.liyuan"></el-input>%
                 </td>
               </tr>-->
-              <tr>
-                <td rowspan="2" width="90">缺勤</td>
+              <tr v-for="(con,indexs) in saveForm.condition">
+                <td v-if="indexs === 0" :rowspan="saveForm.condition.length + 1" width="90">缺勤</td>
                 <td colspan="3">
-                  <el-select v-model="saveForm.xingzheng" placeholder="请选择">
+                  <el-select v-model="saveForm.condition.xingzheng" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
                     <el-option v-for="item in monthOptions"
                                :key="item.value"
@@ -239,7 +239,7 @@
               </tr>
               <tr>
                 <td colspan="3">
-                  <i class="el-icon-circle-plus orange cur">添加判定条件</i>
+                  <i class="el-icon-circle-plus orange cur" @click="addTr(0)">添加判定条件</i>
                 </td>
               </tr>
               <tr>
@@ -247,7 +247,7 @@
                 <td colspan="3">
                   <el-radio v-model="saveForm.radio5" label="0">否</el-radio>
                   <el-radio v-model="saveForm.radio5" label="1">
-                    是,结转 x <el-input type="text" v-model="saveForm.quetian"></el-input> % </el-radio>
+                    是，结转 x <el-input type="text" v-model="saveForm.quetian"></el-input> % </el-radio>
                 </td>
               </tr>
               <tr>
@@ -411,6 +411,10 @@
             </tr>
         </tbody>
       </table>
+      <div class="mt26 text-align-center">
+        <button class="btn bg-grey mr26" @click="">取消</button>
+        <button class="btn bg-green" @click="submit('saveForm')">提交</button>
+      </div>
     </div>
 </template>
 <style scoped>
@@ -459,34 +463,34 @@ export default {
   data(){
         return {
           monthOptions: [{
-            value: '1',
+            value: 1,
             label: '1月'
           }, {
-            value: '2',
+            value: 2,
             label: '2月'
           }, {
-            value: '3',
+            value: 3,
             label: '3月'
           }, {
-            value: '4',
+            value: 4,
             label: '4月'
           }, {
-            value: '5',
+            value: 5,
             label: '5月'
           },{
-            value: '6',
+            value: 6,
             label: '6月'
           }, {
-            value: '7',
+            value: 7,
             label: '7月'
           }, {
-            value: '8',
+            value: 8,
             label: '8月'
           }, {
-            value: '9',
+            value: 9,
             label: '9月'
           }, {
-            value: '10',
+            value: 10,
             label: '10月'
           }],
           school_url:'/api/common/select/center_list/',/*校园*/
@@ -497,7 +501,29 @@ export default {
                 intercity_id:'',
             },
             saveForm:{
+              center:'',
+              academic_year:'',
+              condition:[
+                {
+                  xingzheng:'',
+                }
+              ],
+              othCondition:[
+                {
+                  xingzheng:'',
+                }
+              ],
+
               goods_fee:'',
+              foreign_employees_per: '',
+              on_schedule_per: '',
+              not_on_schedule_per: '',
+              specific_month: '',
+              specific_month_per: '',
+              other_month_per: '',
+              no_invoice: '',
+
+
               radio10:'退费',
               radio9:'退费',
               radio8:'退费',
@@ -536,7 +562,8 @@ export default {
               shengyu:'',
               tuifei:'',
             },
-            first_url:'/api/refund_policy/prepared_student_goods/1/',
+            get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center=1&academic_year=1',
+            add_01_url:'/api/refund_policy/prepared_student_refund/',
             tableData: [{
                 date: '2016-05-02',
                 name: '王小虎',
@@ -565,6 +592,17 @@ export default {
         }
     },
     methods:{
+      addTr:function (index) {
+        if(index === 0){
+          var obj = {};
+          obj.xingzheng = '';
+          this.saveForm.condition.push(obj);
+        }else{
+          var obj = {};
+          obj.xingzheng = '';
+          this.saveForm.othCondition.push(obj);
+        }
+      },
       getSchoolList:function () {
         var _this = this;
         var url = this.school_url;
@@ -591,17 +629,64 @@ export default {
         })
       },
         getGoodFee:function () {
-            var _this = this;
-            this.$axios.get(this.first_url,{
-              params:{
-                center_class_year:this.$route.params.id
-              }
-            }).then(res=>{
-              _this.saveForm.goods_fee = res.data.goods_fee;
+            this.$axios.get(this.get_01_url).then(res=>{
+                this.saveForm.goods_fee = res.data.goods_fee;
+                this.saveForm.foreign_employees_per = res.data.foreign_employees_per;
+                this.saveForm.on_schedule_per = res.data.on_schedule_per;
+                this.saveForm.not_on_schedule_per = res.data.not_on_schedule_per;
+                this.saveForm.specific_month = res.data.specific_month;
+                this.saveForm.specific_month_per = res.data.specific_month_per;
+                this.saveForm.other_month_per = res.data.other_month_per;
+                this.saveForm.no_invoice = res.data.no_invoice;
             }).catch(err=>{
               console.log(err)
             })
+        },
+      submit:function (formName) {
+        this.submit_fun1(this.$router.params.type);
+      },
+      submit_fun1:function (type) {
+        var data1 = {
+          center:this.saveForm.center,
+          academic_year:this.saveForm.academic_year,
+          goods_fee:this.saveForm.goods_fee,
+          foreign_employees_per:this.saveForm.foreign_employees_per,
+          on_schedule_per:this.saveForm.on_schedule_per,
+          not_on_schedule_per:this.saveForm.not_on_schedule_per,
+          specific_month:this.saveForm.specific_month,
+          specific_month_per:this.saveForm.specific_month_per,
+          other_month_per:this.saveForm.other_month_per,
+          no_invoice:this.saveForm.no_invoice,
+        };
+        if(type === add){
+          this.$axios.post(this.add_01_url,data1).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_01_url+'1/',data1).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
         }
+
+      },
     },
 
 }

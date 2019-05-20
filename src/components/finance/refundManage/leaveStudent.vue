@@ -66,6 +66,15 @@
               </div></el-col>
             </el-row>
           </p>
+          <p>
+            <el-row>
+              <el-col :span="24">
+                <div class="grid-content bg-purple">
+                  <el-checkbox label="总部及外籍员工子女"></el-checkbox>
+                </div>
+              </el-col>
+            </el-row>
+          </p>
         </el-card>
       </el-col>
     </div>

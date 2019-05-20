@@ -144,6 +144,9 @@ export default {
       }
     },
     watch:{
+      'ruleForm.doctor_phone':function(){
+        this.ruleForm.doctor_phone = this.ruleForm.doctor_phone.replace(/[^\d]/g, '');
+      },
       activeName: {
         handler(newValue, oldValue) {
           if(newValue === 'fourth'){

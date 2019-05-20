@@ -215,7 +215,7 @@
                   </el-table-column>
                 </el-table>
                 <div class="red">
-                    *学生可多选，账单支持批量创建
+                    <!-- *学生可多选，账单支持批量创建 -->
                 </div>
               </el-form-item>
             </el-col>
