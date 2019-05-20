@@ -179,7 +179,7 @@
       addUser: function () {
         this.searchList(1)
         this.adduser = true
-        var arrList = [];
+        /*var arrList = [];
         for (var i = 0; i < this.userList.length; i++) {
           for (var j = 0; j < this.userCheckList.length; j++) {
             if (this.userList[i].id === this.userCheckList[j].id) {
@@ -188,8 +188,7 @@
             }
           }
         }
-        console.log(arrList);
-        this.toggleSelection(arrList)
+        this.toggleSelection(arrList)*/
       },
       searchList: function (val) {
         this.loading = true
@@ -199,7 +198,17 @@
           this.loading = false
           if (res.data.status_code === 1) {
             this.userList = res.data.data.results
-            this.total = res.data.data.count
+            this.total = res.data.data.count;
+            var arrList = [];
+            for (var i = 0; i < this.userList.length; i++) {
+              for (var j = 0; j < this.userCheckListValAll.length; j++) {
+                if (this.userList[i].id === this.userCheckListValAll[j].id) {
+                  arrList.push(this.userList[i])
+                  break
+                }
+              }
+            }
+            this.toggleSelection(arrList)
           }
         }).catch(err => {
           console.log(err)
