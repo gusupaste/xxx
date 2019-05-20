@@ -551,7 +551,6 @@ import refund from './compents/refund'
       getIntercity(){
           var _this = this;
           this.$axios.get('/api/common/intercity/',).then(res=>{
-            console.log(res.data)
             _this.intercityList = res.data.intercity_list;
             // _this.form.intercity_id = res.data.intercity_list[0].id;
           }).catch(err=>{
@@ -571,7 +570,6 @@ import refund from './compents/refund'
             var _this = this;
             this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
-                console.log(res.data)
                 _this.yearList = res.data.results;
                 _this.yearList.forEach(item => {
                     if(item.is_selected === 1){

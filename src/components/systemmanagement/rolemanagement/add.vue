@@ -73,7 +73,7 @@
           tooltip-effect="dark"
           style="width: 100%"
           empty-text=" "
-          @selection-change="handleSelectionChange">
+          @select="openDetails">
           <el-table-column
             type="selection"
             width="55">
@@ -114,6 +114,7 @@
         rolename: '',
         roledesc: '',
         userCheckListVal: [],
+        userCheckListValAll: [],
         userCheckList: [],
         adduser: false,
         display_name: '',
@@ -128,7 +129,8 @@
         error_border_rolename: false,
         currentPage: 1,
         pagesize: 10,
-        total: 1
+        total: 1,
+        addUserList:[],
       }
     },
     mounted: function () {
@@ -177,7 +179,7 @@
       addUser: function () {
         this.searchList(1)
         this.adduser = true
-        var arrList = [];
+        /*var arrList = [];
         for (var i = 0; i < this.userList.length; i++) {
           for (var j = 0; j < this.userCheckList.length; j++) {
             if (this.userList[i].id === this.userCheckList[j].id) {
@@ -186,7 +188,7 @@
             }
           }
         }
-        this.toggleSelection(arrList)
+        this.toggleSelection(arrList)*/
       },
       searchList: function (val) {
         this.loading = true
@@ -196,7 +198,17 @@
           this.loading = false
           if (res.data.status_code === 1) {
             this.userList = res.data.data.results
-            this.total = res.data.data.count
+            this.total = res.data.data.count;
+            var arrList = [];
+            for (var i = 0; i < this.userList.length; i++) {
+              for (var j = 0; j < this.userCheckListValAll.length; j++) {
+                if (this.userList[i].id === this.userCheckListValAll[j].id) {
+                  arrList.push(this.userList[i])
+                  break
+                }
+              }
+            }
+            this.toggleSelection(arrList)
           }
         }).catch(err => {
           console.log(err)
@@ -218,12 +230,38 @@
           }
         })
       },
-      handleSelectionChange(val) {
-        this.userCheckListVal = val
+      openDetails:function (row) {
+        this.userCheckListVal = row;
+        var index = row.length-1;
+        this.userCheckListValAll.push(row[index]);
       },
+      /*handleSelectionChange(val) {
+        console.log();
+        var flag = false;
+        var index = -1;
+        for(var x in val){
+          for(var y in this.userCheckListValAll){
+            if(val[x].id == this.userCheckListValAll[y]){
+              flag = true;
+              index = x;
+            }
+          }
+        }
+        if(flag == false && index != -1){
+          this.userCheckListValAll.push(val[index]);
+        }
+          /!*this.userCheckListValAll.push(val[index]);*!/
+        console.log(this.userCheckListValAll)
+        /!*this.userCheckListVal = val*!/
+        /!*console.log(this.userCheckListVal);*!/
+        /!*this.addUserList.push(this.userCheckListVal);*!/
+        /!*console.log(this.addUserList);*!/
+        /!*this.userCheckListValAll = this.userCheckListValAll.concat(this.userCheckListVal);*!/
+      },*/
       checkedUser: function () {
-        this.adduser = false
-        this.userCheckList = this.userCheckListVal
+        this.adduser = false;
+        this.userCheckList = [];
+        this.userCheckList = this.userCheckList.concat(this.userCheckListValAll);
       },
       saveRole: function () {
         this.loading = true
