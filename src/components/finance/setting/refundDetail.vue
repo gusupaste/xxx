@@ -643,12 +643,12 @@ export default {
             })
         },
       submit:function (formName) {
-        this.submit_fun1(this.$router.params.type);
+        this.submit_fun1(this.$route.params.type);
       },
       submit_fun1:function (type) {
         var data1 = {
-          center:this.saveForm.center,
-          academic_year:this.saveForm.academic_year,
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
           goods_fee:this.saveForm.goods_fee,
           foreign_employees_per:this.saveForm.foreign_employees_per,
           on_schedule_per:this.saveForm.on_schedule_per,
@@ -658,7 +658,7 @@ export default {
           other_month_per:this.saveForm.other_month_per,
           no_invoice:this.saveForm.no_invoice,
         };
-        if(type === add){
+        if(type === 'add'){
           this.$axios.post(this.add_01_url,data1).then(res=>{
             if(res.status == 200){
               this.$message({
