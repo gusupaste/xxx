@@ -89,22 +89,22 @@
                 </td>
               </tr>
               <tr>
-                <td rowspan="18" width="90">在校生</td>
-                <td rowspan="11" width="90">学费</td>
+                <td :rowspan="16 + saveForm.condition.length + saveForm.othCondition.length" width="90">在校生</td>
+                <td :rowspan="9 + saveForm.condition.length + saveForm.othCondition.length" width="90">学费</td>
                 <td width="90">转班</td>
                 <td colspan="3">多退少补</td>
               </tr>
               <tr>
-                <td rowspan="6" width="90">退学</td>
-                <td rowspan="3" width="100">月缴</td>
+                <td :rowspan="saveForm.othCondition.length + 5" width="90">退学</td>
+                <td :rowspan="saveForm.othCondition.length + 2" width="100">月缴</td>
                 <td colspan="2">
                   行政手续费
                   <el-input type="text" v-model="saveForm.xingzheng"></el-input> 元
                 </td>
               </tr>
-              <tr>
+              <tr v-for="(oth,ind) in saveForm.othCondition">
                 <td colspan="2">
-                  <el-select v-model="saveForm.xingzheng" placeholder="请选择">
+                  <el-select v-model="saveForm.othCondition.xingzheng" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
                     <el-option v-for="item in monthOptions"
                                :key="item.value"
@@ -132,7 +132,7 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  <i class="el-icon-circle-plus orange cur">添加判定条件</i>
+                  <i class="el-icon-circle-plus orange cur" @click="addTr(1)">添加判定条件</i>
                 </td>
               </tr>
               <tr>
@@ -208,10 +208,10 @@
                   <el-input type="text" v-model="saveForm.liyuan"></el-input>%
                 </td>
               </tr>-->
-              <tr>
-                <td rowspan="2" width="90">缺勤</td>
+              <tr v-for="(con,indexs) in saveForm.condition">
+                <td v-if="indexs === 0" :rowspan="saveForm.condition.length + 1" width="90">缺勤</td>
                 <td colspan="3">
-                  <el-select v-model="saveForm.xingzheng" placeholder="请选择">
+                  <el-select v-model="saveForm.condition.xingzheng" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
                     <el-option v-for="item in monthOptions"
                                :key="item.value"
@@ -239,7 +239,7 @@
               </tr>
               <tr>
                 <td colspan="3">
-                  <i class="el-icon-circle-plus orange cur">添加判定条件</i>
+                  <i class="el-icon-circle-plus orange cur" @click="addTr(0)">添加判定条件</i>
                 </td>
               </tr>
               <tr>
@@ -497,6 +497,16 @@ export default {
                 intercity_id:'',
             },
             saveForm:{
+              condition:[
+                {
+                  xingzheng:'',
+                }
+              ],
+              othCondition:[
+                {
+                  xingzheng:'',
+                }
+              ],
               goods_fee:'',
               radio10:'退费',
               radio9:'退费',
@@ -565,6 +575,17 @@ export default {
         }
     },
     methods:{
+      addTr:function (index) {
+        if(index === 0){
+          var obj = {};
+          obj.xingzheng = '';
+          this.saveForm.condition.push(obj);
+        }else{
+          var obj = {};
+          obj.xingzheng = '';
+          this.saveForm.othCondition.push(obj);
+        }
+      },
       getSchoolList:function () {
         var _this = this;
         var url = this.school_url;
