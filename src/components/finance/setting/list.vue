@@ -146,6 +146,7 @@
           </el-row>
           <el-row>
             <el-col :span="24">
+
               <el-form-item>
                 <!--<el-table
                   :data="templateList"

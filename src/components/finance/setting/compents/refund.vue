@@ -62,6 +62,10 @@
           </el-option>
         </el-select>
         <span class="padding-left-30"><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
+        <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/refund-config/add/0')">
+            <i class="icon-font fa fa-calendar-plus-o"></i>
+            <span class="font-cl-blue font-size-14">新增退费政策</span>
+        </span>
       </div>
       <el-table
         :data="chargeTable"
@@ -145,8 +149,7 @@ export default {
     },
     methods: {
       configure:function () {
-        console.log("weyhhdgfjhsdfasdg");
-        this.$router.push('/financemanagement/refund-config/1');
+        this.$router.push('/financemanagement/refund-config/edit/1');
       },
       addNewTemplate(){
 

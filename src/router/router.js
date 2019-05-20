@@ -479,7 +479,7 @@ export default new Router({
           component: Setting
         },
         {
-          path: '/financemanagement/refund-config/:id',
+          path: '/financemanagement/refund-config/:type/:id',
           name: 'RefundConfig',
           component: RefundConfig
         },
