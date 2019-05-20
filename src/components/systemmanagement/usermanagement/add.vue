@@ -36,6 +36,11 @@
               <el-input></el-input>
             </el-form-item>
             <i class="fa fa-plus-square-o orange" @click="addOrganization" style="margin-top: 18px"></i>
+            <br>
+            <el-form-item label="权限选择：">
+              <el-radio @change="changepermission" v-model="permission_chose" label="校园"></el-radio>
+              <el-radio @change="changepermission" v-model="permission_chose" label="集团"></el-radio>
+            </el-form-item>
           </el-form>
         </div>
       </div>
@@ -74,13 +79,22 @@
           </el-table>
         </div>
       </div>
-      <div class="content_top">
+      <div class="content_top" v-if="permission_chose == '集团'">
         <p class="bold_black">管辖幼儿园：</p>
         <div class="content padding-20">
           <el-checkbox-group v-model="schoolIds" @change="schoolIdsChange">
             <el-checkbox v-for="(item,index)  in schoolList" :key="index" :label="item.id" style="min-width: 230px">
               【<span>{{item.code}}</span>】<span>{{item.name}}</span></el-checkbox>
           </el-checkbox-group>
+        </div>
+      </div>
+      <div class="content_top" v-if="permission_chose == '校园'">
+        <p class="bold_black">管辖幼儿园：</p>
+        <div class="content padding-20">
+          <el-radio-group v-model="schoolid" >
+            <el-radio v-for="(item,index)  in schoolList" :key="index" :label="item.id" style="min-width: 230px">
+              【<span>{{item.code}}</span>】<span>{{item.name}}</span></el-radio>
+          </el-radio-group>
         </div>
       </div>
       <div class="footer-btn">
@@ -174,7 +188,9 @@
         userCheckList: [],
         boxData: [],
         checkedValue: [],
-        id: 0
+        id: 0,
+        permission_chose:'校园',
+        schoolid:''
       }
     },
     mounted: function () {
@@ -273,6 +289,9 @@
       },
       schoolIdsChange(val) {
         this.schoolIds = val
+      },
+      changepermission(val) {
+        console.log(val)
       },
       addOrganization: function () {
         this.addorganization = true
