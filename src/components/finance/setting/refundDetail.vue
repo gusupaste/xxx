@@ -10,21 +10,20 @@
           </div>
           <div v-if="$route.params.type === 'add'">
             <span>学校：</span>
-            <el-select v-model="searchform.intercity_id" placeholder="请选择">
+            <el-select v-model="searchform.intercity_id" placeholder="请选择" style="width: 200px">
               <el-option
-                v-for="item in intercityList"
+                v-for="item in school_list"
                 :key="item.id"
-                :label="item.dept_name"
+                :label="item.name"
                 :value="item.id">
               </el-option>
             </el-select>
             <span>学年：</span>
-            <el-select v-model="searchform.intercity_id" placeholder="请选择">
-              <el-option value="" label="所有"></el-option>
+            <el-select v-model="searchform.intercity_id" placeholder="请选择" style="width: 200px">
               <el-option
-                v-for="item in intercityList"
+                v-for="item in year_list"
                 :key="item.id"
-                :label="item.dept_name"
+                :label="item.name"
                 :value="item.id">
               </el-option>
             </el-select>
@@ -46,44 +45,36 @@
                 <td rowspan="4" colspan="2" style="width:60px">退费</td>
                 <td colspan="3" style="">
                   已领物品，是否减物品费用&nbsp;&nbsp;&nbsp;
-                  <el-input type="text" v-model="saveForm.waiji"></el-input>&nbsp;&nbsp;元
+                  <el-input type="text" v-model="saveForm.goods_fee"></el-input>&nbsp;&nbsp;元
                 </td>
               </tr>
               <tr>
                 <td colspan="3">
                   总部外籍子女，退
-                  <el-input type="text" v-model="saveForm.waiji"></el-input>%
+                  <el-input type="text" v-model="saveForm.waiji"></el-input> %
                 </td>
               </tr>
               <tr>
                 <td rowspan="2" width="100">总部非外籍子女</td>
                 <td colspan="2">
                   按时提交申请，退
-                  <el-input type="text" v-model="saveForm.feiwaiji1"></el-input>%
+                  <el-input type="text" v-model="saveForm.feiwaiji1"></el-input> %
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
                   未按时提交申请，当月退
-                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>%，
-                  <el-select>
-                    <el-option value="1月"></el-option>
-                    <el-option value="2月"></el-option>
-                    <el-option value="3月"></el-option>
-                    <el-option value="4月"></el-option>
-                    <el-option value="5月"></el-option>
-                    <el-option value="6月"></el-option>
-                    <el-option value="7月"></el-option>
-                    <el-option value="8月"></el-option>
-                    <el-option value="9月"></el-option>
-                    <el-option value="10月"></el-option>
-                    <el-option value="11月"></el-option>
-                    <el-option value="12月"></el-option>
+                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input> %，
+                  <el-select v-model="saveForm.xingzheng" placeholder="请选择">
+                    <el-option v-for="item in monthOptions"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
                   </el-select>
                   退
-                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>%，
+                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input> %，
                   剩余月退
-                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>%
+                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input> %
                 </td>
               </tr>
               <tr>
@@ -94,7 +85,7 @@
                 <td colspan="2">无发票</td>
                 <td colspan="3">
                   减退费金额
-                  <el-input type="text" v-model="saveForm.jiantui"></el-input>%
+                  <el-input type="text" v-model="saveForm.jiantui"></el-input> %
                 </td>
               </tr>
               <tr>
@@ -108,25 +99,17 @@
                 <td rowspan="3" width="100">月缴</td>
                 <td colspan="2">
                   行政手续费
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>元
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> 元
                 </td>
               </tr>
               <tr>
                 <td colspan="2">
-                  <el-select>
-                    <el-option value="当月"></el-option>
-                    <el-option value="1月"></el-option>
-                    <el-option value="2月"></el-option>
-                    <el-option value="3月"></el-option>
-                    <el-option value="4月"></el-option>
-                    <el-option value="5月"></el-option>
-                    <el-option value="6月"></el-option>
-                    <el-option value="7月"></el-option>
-                    <el-option value="8月"></el-option>
-                    <el-option value="9月"></el-option>
-                    <el-option value="10月"></el-option>
-                    <el-option value="11月"></el-option>
-                    <el-option value="12月"></el-option>
+                  <el-select v-model="saveForm.xingzheng" placeholder="请选择">
+                    <el-option key="0" label="当月" value="0"></el-option>
+                    <el-option v-for="item in monthOptions"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
                   </el-select>
                   <el-select>
                     <el-option value="连续"></el-option>
@@ -142,9 +125,9 @@
                     <el-option value="日历"></el-option>
                   </el-select>
                   时，退
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>%，
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> %，
                   剩余月退
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>%，
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> %，
                 </td>
               </tr>
               <tr>
@@ -206,7 +189,7 @@
               <tr>
                 <td colspan="3">
                   未按时提申请，扣月
-                  <el-input type="text" v-model="saveForm.kouyue"></el-input>%
+                  <el-input type="text" v-model="saveForm.kouyue"></el-input> %
                 </td>
               </tr>
               <tr>
@@ -214,9 +197,9 @@
                 <td colspan="3">
                   首月
                   <el-input type="text" v-model="saveForm.beiyongjin"></el-input>
-                  %转备用金，剩余月
+                   % 转备用金，剩余月
                   <el-input type="text" v-model="saveForm.beiyongjin2"></el-input>
-                  %转备用金</td>
+                   % 转备用金</td>
               </tr>
               <!--<tr>
                 <td width="90">离园</td>
@@ -228,20 +211,12 @@
               <tr>
                 <td rowspan="2" width="90">缺勤</td>
                 <td colspan="3">
-                  <el-select>
-                    <el-option value="当月"></el-option>
-                    <el-option value="1月"></el-option>
-                    <el-option value="2月"></el-option>
-                    <el-option value="3月"></el-option>
-                    <el-option value="4月"></el-option>
-                    <el-option value="5月"></el-option>
-                    <el-option value="6月"></el-option>
-                    <el-option value="7月"></el-option>
-                    <el-option value="8月"></el-option>
-                    <el-option value="9月"></el-option>
-                    <el-option value="10月"></el-option>
-                    <el-option value="11月"></el-option>
-                    <el-option value="12月"></el-option>
+                  <el-select v-model="saveForm.xingzheng" placeholder="请选择">
+                    <el-option key="0" label="当月" value="0"></el-option>
+                    <el-option v-for="item in monthOptions"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
                   </el-select>
                   <el-select>
                     <el-option value="连续"></el-option>
@@ -257,9 +232,9 @@
                     <el-option value="日历"></el-option>
                   </el-select>
                   时，转备用金
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>%，
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> % ，
                   剩余月转备用金
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>%，
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> % ，
                 </td>
               </tr>
               <tr>
@@ -272,7 +247,7 @@
                 <td colspan="3">
                   <el-radio v-model="saveForm.radio5" label="0">否</el-radio>
                   <el-radio v-model="saveForm.radio5" label="1">
-                    是,结转x<el-input type="text" v-model="saveForm.quetian"></el-input>%</el-radio>
+                    是,结转 x <el-input type="text" v-model="saveForm.quetian"></el-input> % </el-radio>
                 </td>
               </tr>
               <tr>
@@ -284,7 +259,7 @@
                 <td colspan="">
                   <el-radio v-model="saveForm.radio2" label="0">
                     整月，{{ saveForm.radio9 }}
-                    <el-input type="text" v-model="saveForm.zhengyue"></el-input>%
+                    <el-input type="text" v-model="saveForm.zhengyue"></el-input> %
                   </el-radio>
                 </td>
               </tr>
@@ -293,7 +268,7 @@
                 <!--<td width="60">
                   <el-radio v-model="saveForm.radio2"></el-radio>
                 </td>-->
-                <td colspan=""><el-radio v-model="saveForm.radio2" label="1">非整月,缺勤天数x收费标准，
+                <td colspan=""><el-radio v-model="saveForm.radio2" label="1">非整月,缺勤天数 x 收费标准，
                   {{ saveForm.radio9 }}
                  </el-radio></td>
               </tr>
@@ -314,11 +289,11 @@
                     {{ saveForm.radio9 }}
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <el-radio v-model="saveForm.radio3" label="1">
-                      缺勤天数x
-                      <el-input type="text" v-model="saveForm.quetian"></el-input>元
+                      缺勤天数 x
+                      <el-input type="text" v-model="saveForm.quetian"></el-input> 元
                     </el-radio>&nbsp;&nbsp;&nbsp;&nbsp;
                     <el-radio v-model="saveForm.radio3" label="0">
-                      缺勤天数x（收费标准/<el-input type="text" v-model="saveForm.quetian2"></el-input>天）
+                      缺勤天数 x（ 收费标准 / <el-input type="text" v-model="saveForm.quetian2"></el-input> 天 ）
                     </el-radio>
                   </el-radio>
                 </td>
@@ -328,32 +303,32 @@
                 <td colspan="3">
                   <el-radio v-model="saveForm.radio4" label="0">否</el-radio>
                   <el-radio v-model="saveForm.radio4" label="1">
-                    是,结转x<el-input type="text" v-model="saveForm.quetian"></el-input>%</el-radio>
+                    是,结转 x <el-input type="text" v-model="saveForm.quetian"></el-input> % </el-radio>
                 </td>
               </tr>
               <tr>
                 <td colspan="2">活动费</td>
                 <td colspan="3">
                   当前学期，退
-                  <el-input type="text" v-model="saveForm.dangxue"></el-input>%，
+                  <el-input type="text" v-model="saveForm.dangxue"></el-input> % ，
                   剩余学期，退
-                  <el-input type="text" v-model="saveForm.shengyu"></el-input>%
+                  <el-input type="text" v-model="saveForm.shengyu"></el-input> %
                 </td>
               </tr>
               <tr>
                 <td colspan="2">校车费</td>
                 <td colspan="3">
                   当月，退
-                  <el-input type="text" v-model="saveForm.dangxue"></el-input>%，
+                  <el-input type="text" v-model="saveForm.dangxue"></el-input> % ，
                   剩余月，退
-                  <el-input type="text" v-model="saveForm.shengyu"></el-input>%
+                  <el-input type="text" v-model="saveForm.shengyu"></el-input> %
                 </td>
               </tr>
               <tr>
                 <td colspan="2">无发票</td>
                 <td colspan="3">
                   减退费金额
-                  <el-input type="text" v-model="saveForm.dangxue"></el-input>%
+                  <el-input type="text" v-model="saveForm.dangxue"></el-input> %
                 </td>
               </tr>
           </tbody>
@@ -373,8 +348,8 @@
               <td width="90px" rowspan="5">在校生</td>
               <td width="90px">无发票</td>
               <td colspan="2">
-                金额-金额x
-                <el-input type="text" v-model="saveForm.dangxue"></el-input>%
+                金额-金额 x
+                <el-input type="text" v-model="saveForm.dangxue"></el-input> %
               </td>
             </tr>
             <tr>
@@ -386,9 +361,9 @@
               <td>
                 缺勤{{ saveForm.radio10 }}，当前月
                 <el-input type="text" v-model="saveForm.dangxue"></el-input>
-                %{{ saveForm.radio10 }}，剩余月
+                 % {{ saveForm.radio10 }}，剩余月
                 <el-input type="text" v-model="saveForm.shengyu"></el-input>
-                %{{ saveForm.radio10 }}
+                 % {{ saveForm.radio10 }}
               </td>
             </tr>
             <tr>
@@ -399,9 +374,9 @@
               <td>
                 退学，当前月{{ saveForm.radio6 }}
                 <el-input type="text" v-model="saveForm.dangxue"></el-input>
-                %，剩余月{{ saveForm.radio6 }}
+                 % ，剩余月{{ saveForm.radio6 }}
                 <el-input type="text" v-model="saveForm.shengyu"></el-input>
-                %
+                 %
               </td>
             </tr>
             <tr>
@@ -420,8 +395,8 @@
                   <el-option value="等于"></el-option>
                 </el-select>
                 <el-input type="text" v-model="saveForm.tian"></el-input>
-                天，{{ saveForm.radio7 }}，缺勤天数x
-                <el-input type="text" v-model="saveForm.shengyu"></el-input>元
+                天，{{ saveForm.radio7 }}，缺勤天数 x
+                <el-input type="text" v-model="saveForm.shengyu"></el-input> 元
               </td>
             </tr>
             <tr>
@@ -431,7 +406,7 @@
               </td>
               <td>
                 整月{{ saveForm.radio8 }}
-                <el-input type="text" v-model="saveForm.shengyu"></el-input>%
+                <el-input type="text" v-model="saveForm.shengyu"></el-input> %
               </td>
             </tr>
         </tbody>
@@ -483,6 +458,41 @@ export default {
   components: {ElInput},
   data(){
         return {
+          monthOptions: [{
+            value: '1',
+            label: '1月'
+          }, {
+            value: '2',
+            label: '2月'
+          }, {
+            value: '3',
+            label: '3月'
+          }, {
+            value: '4',
+            label: '4月'
+          }, {
+            value: '5',
+            label: '5月'
+          },{
+            value: '6',
+            label: '6月'
+          }, {
+            value: '7',
+            label: '7月'
+          }, {
+            value: '8',
+            label: '8月'
+          }, {
+            value: '9',
+            label: '9月'
+          }, {
+            value: '10',
+            label: '10月'
+          }],
+          school_url:'/api/common/select/center_list/',/*校园*/
+          year_url:'/api/common/select/academic_year_list/',/*学年*/
+          school_list:[],
+          year_list:[],
             searchform:{
                 intercity_id:'',
             },
@@ -547,14 +557,46 @@ export default {
         }
     },
     mounted:function(){
-        this.getGoodFee();
+        if(this.$route.params.id == 0){
+          this.getSchoolList();
+          this.getYearList();
+        }else{
+          this.getGoodFee();
+        }
     },
     methods:{
+      getSchoolList:function () {
+        var _this = this;
+        var url = this.school_url;
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200 && res.data.status_code == 1) {
+            this.school_list = res.data.results;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      /*学年*/
+      getYearList:function () {
+        var _this = this;
+        var url = this.year_url;
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200 && res.data.status_code == 1) {
+            this.year_list = res.data.results;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
         getGoodFee:function () {
             var _this = this;
-            var fromdata = new FormData();
-            fromdata.append('center_class_year',this.$route.params.id);
-            this.$axios.get(this.first_url,fromdata).then(res=>{
+            this.$axios.get(this.first_url,{
+              params:{
+                center_class_year:this.$route.params.id
+              }
+            }).then(res=>{
               _this.saveForm.goods_fee = res.data.goods_fee;
             }).catch(err=>{
               console.log(err)
