@@ -6,7 +6,7 @@
       <header-nav></header-nav>
       <router-view></router-view>
     </div>
-    <div>
+    <div v-if="this.$route.name == 'login'">
       <router-view></router-view>
     </div>
     

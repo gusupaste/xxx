@@ -80,7 +80,7 @@
             <el-menu-item v-if="permission['school-calendar']['school-calendar-show']" index="/newschoolCalendar" route="/newschoolCalendar">校日历</el-menu-item>
             </el-menu>
             </div>
-            <div class="userInfo">
+            <div class="userInfo bg-dark-blue">
               <span>
                 {{name}}，你好
               </span>
