@@ -3,8 +3,21 @@
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 财务处理 > 财务设置 > <span class="font-cl-blue">配置退费规则</span></p>
       </div>
-        <p class="title">合肥用龙湾幼儿园</p>
-        <div class="select-header select-length" style="line-height:45px">
+        <p class="title" v-if="$route.params.type === 'edit'">合肥用龙湾幼儿园</p>
+        <div class="select-header select-length" style="line-height:45px;margin-top: 10px;">
+          <div v-if="$route.params.type === 'edit'">
+            <span>学年：</span>
+          </div>
+          <div v-if="$route.params.type === 'add'">
+            <span>学校：</span>
+            <el-select v-model="searchform.intercity_id" placeholder="请选择">
+              <el-option
+                v-for="item in intercityList"
+                :key="item.id"
+                :label="item.dept_name"
+                :value="item.id">
+              </el-option>
+            </el-select>
             <span>学年：</span>
             <el-select v-model="searchform.intercity_id" placeholder="请选择">
               <el-option value="" label="所有"></el-option>
@@ -15,17 +28,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-            <span>有效期：</span>
-            <el-select v-model="searchform.intercity_id" placeholder="请选择">
-              <el-option value="" label="所有"></el-option>
-              <el-option
-                v-for="item in intercityList"
-                :key="item.id"
-                :label="item.dept_name"
-                :value="item.id">
-              </el-option>
-            </el-select>
-            <span class="padding-left-30"><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
+          </div>
         </div>
       <table>
           <thead>
@@ -43,8 +46,7 @@
                 <td rowspan="4" colspan="2" style="width:60px">退费</td>
                 <td colspan="3" style="">
                   已领物品，是否减物品费用&nbsp;&nbsp;&nbsp;
-                  <el-radio v-model="saveForm.radio" label="1">是</el-radio>
-                  <el-radio v-model="saveForm.radio" label="0">否</el-radio>
+                  <el-input type="text" v-model="saveForm.waiji"></el-input>&nbsp;&nbsp;元
                 </td>
               </tr>
               <tr>
@@ -62,9 +64,23 @@
               </tr>
               <tr>
                 <td colspan="2">
-                  未按时提交申请，
-                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>
-                  月退
+                  未按时提交申请，当月退
+                  <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>%，
+                  <el-select>
+                    <el-option value="1月"></el-option>
+                    <el-option value="2月"></el-option>
+                    <el-option value="3月"></el-option>
+                    <el-option value="4月"></el-option>
+                    <el-option value="5月"></el-option>
+                    <el-option value="6月"></el-option>
+                    <el-option value="7月"></el-option>
+                    <el-option value="8月"></el-option>
+                    <el-option value="9月"></el-option>
+                    <el-option value="10月"></el-option>
+                    <el-option value="11月"></el-option>
+                    <el-option value="12月"></el-option>
+                  </el-select>
+                  退
                   <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>%，
                   剩余月退
                   <el-input type="text" v-model="saveForm.feiwaiji2"></el-input>%
@@ -471,6 +487,7 @@ export default {
                 intercity_id:'',
             },
             saveForm:{
+              goods_fee:'',
               radio10:'退费',
               radio9:'退费',
               radio8:'退费',
@@ -509,6 +526,7 @@ export default {
               shengyu:'',
               tuifei:'',
             },
+            first_url:'/api/refund_policy/prepared_student_goods/1/',
             tableData: [{
                 date: '2016-05-02',
                 name: '王小虎',
@@ -527,6 +545,22 @@ export default {
                 address: '上海市普陀区金沙江路 1516 弄'
                 }]
         }
-    }
+    },
+    mounted:function(){
+        this.getGoodFee();
+    },
+    methods:{
+        getGoodFee:function () {
+            var _this = this;
+            var fromdata = new FormData();
+            fromdata.append('center_class_year',this.$route.params.id);
+            this.$axios.get(this.first_url,fromdata).then(res=>{
+              _this.saveForm.goods_fee = res.data.goods_fee;
+            }).catch(err=>{
+              console.log(err)
+            })
+        }
+    },
+
 }
 </script>

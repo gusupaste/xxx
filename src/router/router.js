@@ -69,6 +69,9 @@ import DiscountPass from '@/components/finance/discount/pass'
 import DiscountApproval from '@/components/finance/discount/approval'
 import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
+import ReservefundSchool from '@/components/finance/reserveFundSchool/list'
+import CreateReserveSchoolFund from '@/components/finance/reserveFundSchool/createReserve'
+import CreateReserveSchool from '@/components/finance/reserveFundSchool/createReserveFund'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import DiscountApplication from '@/components/finance/discountApplication/list'
 import AdddiscountApplication from '@/components/finance/discountApplication/add'
@@ -107,7 +110,7 @@ import Parent from '@/components/parent/index'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   // base:'/workspace',
   routes: [
     {
@@ -416,6 +419,21 @@ export default new Router({
           component: Reservefund
         },
         {
+          path: '/financemanagement/reservefund-school',
+          name: 'ReservefundSchool',
+          component: ReservefundSchool
+        },
+        {
+          path: '/financemanagement/create-reserve',
+          name: 'CreateReserveSchool',
+          component: CreateReserveSchool
+        },
+        {
+          path: '/financemanagement/create-reservefund',
+          name: 'CreateReserveSchoolFund',
+          component: CreateReserveSchoolFund
+        },
+        {
           path: '/financemanagement/parentbusinessapplication',
           name: 'parentbusinessapplication',
           component: Parentbusinessapplication
@@ -461,7 +479,7 @@ export default new Router({
           component: Setting
         },
         {
-          path: '/financemanagement/refund-config/:id',
+          path: '/financemanagement/refund-config/:type/:id',
           name: 'RefundConfig',
           component: RefundConfig
         },

@@ -46,6 +46,7 @@
               <el-menu-item index="/financemanagement/refund" route="/financemanagement/refund">退费账单</el-menu-item>
               <el-menu-item index="/financemanagement/discountApplication" route="/financemanagement/discountApplication">折扣申请</el-menu-item>
               <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">备用金管理</el-menu-item>
+              <el-menu-item index="/financemanagement/reservefund-school" route="/financemanagement/reservefund-school">备用金管理(校园)</el-menu-item>
               <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
               <el-menu-item index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
               <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>

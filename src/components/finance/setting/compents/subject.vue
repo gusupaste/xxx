@@ -70,7 +70,7 @@
                 <el-row>
                     <el-col :span="12">
                     <el-form-item label="科目名称：" prop="name">
-                        <el-input v-model.trim="editform.name" placeholder="请输入科目名称" maxlength="20"></el-input>
+                        <el-input v-model="editform.name" placeholder="请输入科目名称" maxlength="20"></el-input>
                     </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -191,7 +191,7 @@
             <el-row>
                 <el-col :span="12">
                 <el-form-item label="科目名称：" prop="name">
-                    <el-input disabled v-model.trim="editform2.name" placeholder="请输入科目名称" maxlength="20"></el-input>
+                    <el-input disabled v-model="editform2.name" placeholder="请输入科目名称" maxlength="20"></el-input>
                 </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -342,6 +342,7 @@ export default {
             rules: {
                 name: [
                     { required: true, message: '请输入科目名称', trigger: 'blur' },
+                    { pattern: /^(?!(\s+$))/, message: '请输入科目名称' }
                 ],
                 t_code: [
                     { required: true, message: '请选择科目类型', trigger: 'change' }
@@ -353,6 +354,7 @@ export default {
             rules2: {
                 name: [
                     { required: true, message: '请输入科目名称', trigger: 'blur' },
+                    { pattern: /^(?!(\s+$))/, message: '请输入科目名称' }
                 ],
                 type: [
                     { required: true, message: '请选择科目属性', trigger: 'change' }
@@ -371,7 +373,6 @@ export default {
     },
     methods: {
         toggleSelection(rows) {
-            console.log(rows)
             if(rows){
                 rows.forEach(row => {
                     if(this.$refs.multipleTable2) {
@@ -416,7 +417,6 @@ export default {
             })
             .then(res=>{
                 _this.schoolList = res.data.results;
-                
             });
         },
         getSchool2(){
@@ -429,8 +429,17 @@ export default {
             })
             .then(res=>{
                 _this.newSchoolList = res.data.results;
+                var xxx = [];
+                _this.newSchoolList.forEach(item=>{
+                    _this.checkedList.forEach(ele=>{
+                        if(item.id === ele.id){
+                            var x = _this.newSchoolList.indexOf(item);
+                            xxx.push(_this.newSchoolList[x])
+                        }
+                    })
+                });
                 _this.$nextTick(()=>{
-                    _this.toggleSelection(_this.checkedList);
+                    _this.toggleSelection(xxx);
                 })
             });
             
@@ -461,12 +470,9 @@ export default {
         },
         addSubject2(formName){
             console.log(this.editform2)
-            // this.editform2.hq_id = this.editform2.code
             var _this = this;
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    // this.editform.code =  this.editform.t_code.code;
-                    // this.editform.f_code =  this.editform.t_code.code;
                     this.$axios.put('/api/finance/subject/'+this.edit_id+'/',this.editform2)
                     .then(res=>{
                         if(res.data.status_code === 1){
@@ -519,6 +525,9 @@ export default {
                 _this.checkedList = [];
                 res.data.detail.center_list.forEach(item=>{
                     if(item.selected === 1){
+                        delete item.selected;
+                        delete item.intercity_id;
+                        delete item.hq_id;
                         _this.checkedList.push(item)
                     }
                 })

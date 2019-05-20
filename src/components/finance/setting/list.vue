@@ -10,7 +10,7 @@
                 <subject :brandList="brandList" :intercityList="intercityList"></subject>
             </el-tab-pane>
             <el-tab-pane label="普通折扣" name="second">
-                <normaldis :brandList="brandList" :intercityList="intercityList" :areaList="areaList" :yearList="yearList"></normaldis>
+                <normaldis></normaldis>
             </el-tab-pane>
             <el-tab-pane label="招生折扣" name="third">
                 <recruitdis></recruitdis>
@@ -24,7 +24,7 @@
           </el-tabs>
         </div>
       </div>
-      
+
       <el-dialog title="删除费用科目" :visible.sync="deleteFeeVisible" width="450" class="deleteFee">
         <span>是否确认删除费用科目<span style="color:#006287">【学费】</span>？</span>
         <span slot="footer" class="dialog-footer">
@@ -146,6 +146,7 @@
           </el-row>
           <el-row>
             <el-col :span="24">
+
               <el-form-item>
                 <!--<el-table
                   :data="templateList"
@@ -360,8 +361,8 @@
           <el-button type="success" @click="showDiscountVisible = false">修 改</el-button>
         </span>
       </el-dialog>
-      
-      
+
+
       <el-dialog :title="reservefundName" :visible.sync="reservefundVisible" width="700px">
         <el-form ref="reserveForm" :model="reserveForm" label-width="80px">
           <el-row>
@@ -654,7 +655,7 @@ import refund from './compents/refund'
   .settinglist >>>.school_table_wrap {
     width: 100%;
   }
-  
+
   .settinglist >>> .school_table_wrap .el-form-item__content{
     width: 80%;
   }
