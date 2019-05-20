@@ -114,6 +114,7 @@
         rolename: '',
         roledesc: '',
         userCheckListVal: [],
+        userCheckListValAll: [],
         userCheckList: [],
         adduser: false,
         display_name: '',
@@ -178,6 +179,9 @@
         this.searchList(1)
         this.adduser = true
         var arrList = [];
+        console.log(this.userList)
+        console.log(this.userCheckList)
+
         for (var i = 0; i < this.userList.length; i++) {
           for (var j = 0; j < this.userCheckList.length; j++) {
             if (this.userList[i].id === this.userCheckList[j].id) {
@@ -220,10 +224,11 @@
       },
       handleSelectionChange(val) {
         this.userCheckListVal = val
+        this.userCheckListValAll = this.userCheckListValAll.concat(this.userCheckListVal)
       },
       checkedUser: function () {
         this.adduser = false
-        this.userCheckList = this.userCheckListVal
+        this.userCheckList = this.userCheckListValAll
       },
       saveRole: function () {
         this.loading = true
