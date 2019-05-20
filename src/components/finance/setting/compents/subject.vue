@@ -191,7 +191,7 @@
             <el-row>
                 <el-col :span="12">
                 <el-form-item label="科目名称：" prop="name">
-                    <el-input disabled v-model.trim="editform2.name" placeholder="请输入科目名称" maxlength="20"></el-input>
+                    <el-input disabled v-model="editform2.name" placeholder="请输入科目名称" maxlength="20"></el-input>
                 </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -342,6 +342,7 @@ export default {
             rules: {
                 name: [
                     { required: true, message: '请输入科目名称', trigger: 'blur' },
+                    { pattern: /^(?!(\s+$))/, message: '请输入科目名称' }
                 ],
                 t_code: [
                     { required: true, message: '请选择科目类型', trigger: 'change' }
@@ -353,6 +354,7 @@ export default {
             rules2: {
                 name: [
                     { required: true, message: '请输入科目名称', trigger: 'blur' },
+                    { pattern: /^(?!(\s+$))/, message: '请输入科目名称' }
                 ],
                 type: [
                     { required: true, message: '请选择科目属性', trigger: 'change' }
