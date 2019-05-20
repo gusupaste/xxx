@@ -196,11 +196,12 @@ a {
 
 /* 表格公共样式 */
 .el-table th {
+  text-align: center;
   background-color: #f5f5f5;
-  text-align: center;
 }
-.el-table td {
-  text-align: center;
+.el-table td{
+    text-align: center;
+    padding: 5px 0;
 }
 
 .el-table__empty-text {
