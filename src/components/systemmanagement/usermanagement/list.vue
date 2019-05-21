@@ -49,7 +49,7 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <i @click="addUser(scope.row.id)" class="fa fa-pencil-square-o orange"></i>
+            <i @click="addUser(scope.row.id)" class="fa fa-pencil-square-o orange font-size-20"></i>
           </template>
         </el-table-column>
       </el-table>
