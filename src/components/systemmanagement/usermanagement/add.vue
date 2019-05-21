@@ -1,7 +1,8 @@
 <template>
   <div class="addusermanagement wrap">
     <div class="header">
-      <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">新增用户</span></p>
+      <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue" v-if="this.$route.query.type === 'add'">新增用户</span>
+        <span class="font-cl-blue" v-if="this.$route.query.type === 'edit'">编辑用户</span></p>
     </div>
     <div class="header-top">
       <div>
@@ -84,7 +85,7 @@
         <div class="content padding-20">
           <el-checkbox-group v-model="schoolIds" @change="schoolIdsChange">
             <el-checkbox v-for="(item,index)  in schoolList" :key="index" :label="item.id" style="min-width: 230px">
-              【<span>{{item.code}}</span>】<span>{{item.name}}</span></el-checkbox>
+              <!--【<span>{{item.code}}</span>】--><span>{{item.name}}</span></el-checkbox>
           </el-checkbox-group>
         </div>
       </div>
@@ -93,7 +94,7 @@
         <div class="content padding-20">
           <el-radio-group v-model="schoolid"  @change="schoolIdsChange2">
             <el-radio v-for="(item,index)  in schoolList" :key="index" :label="item.id" style="min-width: 230px">
-              【<span>{{item.code}}</span>】<span>{{item.name}}</span></el-radio>
+              <!--【<span>{{item.code}}</span>】--><span>{{item.name}}</span></el-radio>
           </el-radio-group>
         </div>
       </div>
@@ -112,13 +113,14 @@
     <!--角色权限分配 弹框-->
     <el-dialog class="assign-permissions" title="角色权限分配" :visible.sync="assignpermissions" width="50%">
       <div class="dialog_content">
-        <p>
+        <p style="line-height: 30px;">
           <span>角色名称：</span><span>{{rolename}}</span>
-        <hr hidden>
+          <br>
+        <!--<hr hidden>-->
         <span>角色描述：</span><span>{{roledesc}}</span>
         </p>
-        <hr class="line-solid">
-        <p>被赋予该角色的系统用户：</p>
+        <!--<hr class="line-solid">-->
+        <p style="line-height: 40px;margin-top: 10px">被赋予该角色的系统用户：</p>
         <template>
           <el-table
             :data="userCheckList"
@@ -134,7 +136,7 @@
             </el-table-column>
           </el-table>
         </template>
-        <p>该角色所需的系统权限：</p>
+        <p style="line-height: 40px">该角色所需的系统权限：</p>
         <el-collapse :data="boxData" @change="handleChange">
           <div v-for="(item,index) in boxData" :key="index">
             <el-collapse-item :name="index">
@@ -145,7 +147,7 @@
                 <el-table :data="item.permissions" border style="width: 100%">
                   <el-table-column prop="name" label="权限">
                   </el-table-column>
-                  <el-table-column prop="description" label="申明">
+                  <el-table-column prop="description" label="说明">
                   </el-table-column>
                   <el-table-column label="允许">
                     <template slot-scope="scope">
@@ -168,6 +170,11 @@
   export default {
     data() {
       return {
+        rulesForm:{
+          display_name:'',
+          username:'',
+          password:''
+        },
         display_name: '',
         username: '',
         password: '',
@@ -306,7 +313,7 @@
         } else {
           this.getRoleList(1)
         }
-        
+
       },
       addOrganization: function () {
         this.addorganization = true
