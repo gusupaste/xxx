@@ -116,7 +116,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="折扣名称: ">
-              <el-input v-model="discountForm.name" size="small" placeholder="折扣名称限制15个字" maxlength="15"></el-input>
+              <el-input v-model="name" size="small" placeholder="折扣名称限制15个字" maxlength="15"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -161,7 +161,9 @@
                       width="">
                       <template slot-scope="scope">
                         <el-checkbox-group v-model="checkList[scope.row.id]" @change="getClassList($event,scope.row)">
-                          <el-checkbox v-for="cla in scope.row.class_types" :key="cla.id" :value="cla.id" :label="cla.id">{{cla.name}}</el-checkbox>
+                          <el-checkbox v-for="cla in scope.row.class_types" :key="cla.id" :value="cla.id"
+                                       :label="cla.id">{{cla.name}}
+                          </el-checkbox>
                         </el-checkbox-group>
                       </template>
                     </el-table-column>
@@ -188,38 +190,48 @@
         <el-row>
           <el-col :span="24">
             <el-form-item>
-              <table ref="template_condition" style="width: 90%">
-                <table class="condition_table" v-for="(table,index) in tableConditionData" :key="index">
+              <table id="id-add-table" style="width: 100%" v-for="(table,index) in tableForm">
+                <table class="condition_table">
                   <tr>
                     <td style="width: 5rem" class="text-align-center">条件1:</td>
                     <td class="select-pere">
-                      <template v-for="(list,index) in td_condition_list">
-                        <el-select style="width: 100px;" v-model="list.condition_sele" :key="index">
-                          <el-option v-for="sele in list.condition_select_list" :key="sele.id"
-                                     :value="sele.id" :label="sele.name"
-                          ></el-option>
+                      <template v-for="(con,con_index) in table.condition">
+                        <el-select style="width: 100px;" v-model="con.select_name">
+                          <el-option value=">" label="大于"></el-option>
+                          <el-option value="<" label="小于"></el-option>
+                          <el-option value=">=" label="大于等于"></el-option>
+                          <el-option value="<=" label="小于等于"></el-option>
+                          <el-option value="=" label="等于"></el-option>
                         </el-select>
-                        <el-input style="width: 80px;" v-model="list.condition_input" :key="index"><i
-                          v-show="condition_name === 0"
-                          slot="suffix"
-                          class="fa fa-percent"></i>
+                        <el-input style="width: 80px;" v-model="con.select_value"><i v-show="condition_name === 0"
+                                                                                     slot="suffix"
+                                                                                     class="fa fa-percent"></i>
                         </el-input>
-                        <el-select style="width: 90px;" v-model="list.condition_sele2" :key="index"
-                                   @change="addContion($event,index)">
-                          <el-option v-for="sele2 in list.condition_select2_list" :key="sele2.id"
-                                     :value="sele2.id" :label="sele2.name"></el-option>
+                        <el-select style="width: 90px;" v-model="con.select_select"
+                                   @change="addContion($event,con_index,index)">
+                          <el-option :value="Number(0)" label="-请选择-"></el-option>
+                          <el-option :value="Number(1)" label="且"></el-option>
+                          <el-option :value="Number(2)" label="或"></el-option>
                         </el-select>
                       </template>
                     </td>
-                    <td style="width: 2rem" rowspan="2" class="text-align-center"><i @click="tr_delete"
+                    <td style="width: 2rem" rowspan="2" class="text-align-center"><i @click="tr_delete(index)"
                                                                                      class="fa fa-trash-o red"></i></td>
                   </tr>
                   <tr>
                     <td class="text-align-center">审批流:</td>
                     <td>
-                      <el-input style="width: 100px"></el-input>
-                      <i class="fa fa-long-arrow-right"></i>
-                      <el-input style="width: 100px"></el-input>
+                      <template v-for="(app,app_index) in table.approve">
+                        <el-select style="width: 120px;" :key="app.id" v-model="app.role_id"
+                                   @change="addApprove($event,app_index,index)">
+                          <el-option v-for="role in roleList"
+                                     :key="role.id"
+                                     :value="role.id"
+                                     :label="role.name"></el-option>
+                        </el-select>
+                        <span style="color: #A0A0A0" v-show="app.role_id !== 0"><i
+                          class="fa fa-long-arrow-right"></i></span>
+                      </template>
                     </td>
                   </tr>
                 </table>
@@ -234,8 +246,11 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="互斥折扣: ">
-              <el-checkbox-group v-model="exist_discount_type_value" style="text-align: left">
-                <el-checkbox name="type" v-for="type in exist_discount_type" :key="type.id" :value="type.id" :label="type.name"></el-checkbox>
+              <el-checkbox-group v-model="exist_discount_type_value" style="text-align: left"
+                                 @change="checkedDiscountTypeValue">
+                <el-checkbox name="type" v-for="(type,index) in exist_discount_type" :key="index"
+                             :label="type.id">{{type.name}}
+                </el-checkbox>
               </el-checkbox-group>
             </el-form-item>
           </el-col>
@@ -244,7 +259,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
           <el-button @click="addDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="addDiscountVisible = false">保 存</el-button>
+          <el-button type="success" @click="saveNormaldis">保 存</el-button>
         </span>
     </el-dialog>
   </div>
@@ -281,53 +296,17 @@
         areaList: [],
         schoolList: [],
         checkList: {},
-        tableConditionData: [],
-        td_condition_list: [
-          {
-            condition_sele: 0,
-            condition_select_list: [
-              {
-                id: 0,
-                name: '大于'
-              },
-              {
-                id: 1,
-                name: '小于'
-              },
-              {
-                id: 2,
-                name: '大于等于'
-              },
-              {
-                id: 3,
-                name: '小于等于'
-              },
-              {
-                id: 4,
-                name: '等于'
-              }
-            ],
-            condition_input: '',
-            condition_sele2: 0,
-            condition_select2_list: [
-              {
-                id: 0,
-                name: '-请选择-'
-              },
-              {
-                id: 1,
-                name: '且'
-              },
-              {
-                id: 2,
-                name: '或'
-              }
-            ]
-          }
-        ],
-        exist_discount_type_value: '',
+        exist_discount_type_value: [],
         exist_discount_type: [],
-        multipleSelection: []
+        multipleSelection: [],
+        name: '',
+        tableForm: [],
+        roleList: [
+          {
+            id: 0,
+            name: '-请选择-'
+          }
+        ]
       }
     },
     mounted: function () {
@@ -372,17 +351,23 @@
       },
       /* 多选校园事件 */
       handleSelectionChange: function (val) {
+        this.multipleSelection = []
         for (let k in this.checkList) {
           this.checkList[k] = []
         }
         val.forEach(item => {
+          var obj = {
+            center_id: item.id,
+            class_types: []
+          }
           var list = []
           item.class_types.forEach(ele => {
+            obj.class_types.push(ele.id)
             list.push(ele.id)
           })
+          this.multipleSelection.push(obj) //传到后台的数据
           this.checkList[item.id] = list
         })
-        this.multipleSelection = val //传到后台的数据
       },
       /* 选某个班级 则选中整个校园 */
       getClassList: function ($event, id) {
@@ -417,7 +402,9 @@
       /* 查看详情 */
       usualDiscountDetail: function (id) {
         this.showDiscountVisible = true
-        this.$axios.get('/api/discount/discount_type_management/' + id + '/list_info/')
+        this.$axios.get('/api/discount/discount_type_management/' + id + '/list_info/', {
+          params: this.searchSchool
+        })
           .then(res => {
             if (res.status === 200) {
               if (res.data.status_code === 1) {
@@ -432,83 +419,116 @@
       },
       /* 弹框 新增.编辑 */
       addNewDiscount: function (flag) {
+        this.getRoleList()
+        this.exist_discount_type_value = []
         if (flag === 0) {
           this.discountName = '新增折扣类型'
           this.searchSchoolList() //学校.班级
           this.getExistDiscountType() //互斥折扣
+          this.name = ''
+          var obj = {
+            id: '',
+            condition: [
+              {
+                id: 0,
+                select_value: '',
+                select_select: 0,
+                select_name: '>'
+              }
+            ],
+            approve: [
+              {
+                id: 0,
+                level_no: 1,
+                role_id: 0,
+                role_name: ''
+              }
+            ]
+          }
+          this.tableForm = []
+          this.tableForm.push(obj)
+          this.condition_name = this.conditionList[0].id
         } else {
           this.discountName = '编辑折扣类型'
+          this.getDetailById(flag) //编辑接口
         }
         this.addDiscountVisible = true
-        this.condition_name = this.conditionList[0].id
+      },
+      /* 审批流 所有角色 */
+      getRoleList: function () {
+        this.$axios.get('/api/user/get_roles/')
+          .then(res => {
+            this.roleList = this.roleList.concat(res.data.data)
+          }).catch(err => {
+
+        })
       },
       addIfElse: function () {
-        const newObj = {
+        var obj = {
           id: '',
-          pname: '',
-          sname: '',
-          select: '',
-          select2: '',
-          input: '',
-        }
-        this.templateList.push(newObj);
-      },
-      /* 添加条件.审批流 */
-      addContion: function (val, index) {
-        if (index === this.td_condition_list.length - 1) { //最后一个才有添加机会
-          if (val !== 0) {
-            const obj = {
-              condition_sele: 0,
-              condition_select_list: [
-                {
-                  id: 0,
-                  name: '大于'
-                },
-                {
-                  id: 1,
-                  name: '小于'
-                },
-                {
-                  id: 2,
-                  name: '大于等于'
-                },
-                {
-                  id: 3,
-                  name: '小于等于'
-                },
-                {
-                  id: 4,
-                  name: '等于'
-                }
-              ],
-              condition_input: '',
-              condition_sele2: 0,
-              condition_select2_list: [
-                {
-                  id: 0,
-                  name: '-请选择-'
-                },
-                {
-                  id: 1,
-                  name: '且'
-                },
-                {
-                  id: 2,
-                  name: '或'
-                }
-              ]
+          condition: [
+            {
+              id: 0,
+              select_value: '',
+              select_select: 0,
+              select_name: '>'
             }
-            this.td_condition_list.push(obj)
+          ],
+          approve: [
+            {
+              id: 0,
+              level_no: 1,
+              role_id: 0,
+              role_name: ''
+            }
+          ]
+        }
+        this.tableForm.push(obj)
+      },
+      /* 添加条件 */
+      addContion: function (val, conIndex, index) {
+        if (this.tableForm[index].condition.length - 1 === conIndex) {
+          if (val !== 0) {
+            var obj = {
+              id: 0,
+              select_value: '',
+              select_select: 0,
+              select_name: '>'
+            }
+            this.tableForm[index].condition.push(obj)
           }
-        } else { //删除
+        } else {
           if (val === 0) {
-            this.td_condition_list.splice(index + 1, this.td_condition_list.length)
+            this.tableForm[index].condition.splice(conIndex + 1, this.tableForm[index].condition.length)
+          }
+        }
+      },
+      /* 添加审批流 */
+      addApprove: function (val, conIndex, index) {
+        for (var i = 0; i < this.roleList.length; i++) {
+          if (val === this.roleList[i].id) {
+            this.tableForm[index].approve[conIndex].role_name = this.roleList[i].name
+          }
+        }
+        if (this.tableForm[index].approve.length - 1 === conIndex) {
+          if (val !== 0) {
+            var obj = {
+              id: 0,
+              level_no: conIndex + 2,
+              role_id: 0,
+              role_name: ''
+            }
+            this.tableForm[index].approve.push(obj)
+          }
+        } else {
+          if (val === 0) {
+            this.tableForm[index].approve.splice(conIndex + 1, this.tableForm[index].approve.length)
           }
         }
       },
       /* 删除条件.审批流 */
-      tr_delete: function () {
-
+      tr_delete: function (index) {
+        this.tableForm.splice(index, 1)
       },
       /* 互斥折扣 */
       getExistDiscountType: function () {
@@ -517,6 +537,57 @@
             this.exist_discount_type = res.data.data
           }).catch(err => {
 
+        })
+      },
+      /*  编辑  */
+      getDetailById: function (id) {
+        this.$axios.get('/api/discount/discount_type_management/' + id + '/discount_type_info/')
+          .then(res => {
+            this.name = res.data.data.discount_type.name
+            this.condition_name = res.data.data.discount_type.condition_status
+            this.schoolList = res.data.data.center_list
+            this.tableForm = res.data.data.condition_list
+            //默认添加末尾的 审批流
+            for (var i = 0; i < this.tableForm.length; i++) {
+              var len = this.tableForm[i].approve.length
+              var obj = {
+                id: 0,
+                level_no: len + 1,
+                role_id: 0,
+                role_name: ''
+              }
+              this.tableForm[i].approve.push(obj)
+            }
+            this.schoolList.map((v) => {
+              this.$set(this.checkList, v.id, [])
+            })
+            this.exist_discount_type = res.data.data.mutexs
+            this.exist_discount_type_value = res.data.data.mutex_list
+          }).catch(err => {
+        })
+      },
+      /* 互斥折扣的多选 */
+      checkedDiscountTypeValue: function (val) {
+        console.log(val)
+      },
+      /*  折扣类型  */
+      saveNormaldis: function () {
+        //删除最后一个审批流
+        var tableFormTemp = this.tableForm
+        for (var i = 0; i < tableFormTemp.length; i++) {
+          tableFormTemp[i].approve.pop()
+        }
+        this.$axios.post('/api/discount/discount_type_management/',{
+          center_class_type_list: this.multipleSelection,
+          name: this.name,
+          type: 0,
+          mutex_list: this.exist_discount_type_value,
+          condition_status: this.condition_name,
+          conditions: tableFormTemp
+        }).then(res => {
+              this.$message.success("保存成功")
+              this.addDiscountVisible = false
+          }).catch(err => {
         })
       }
     }
