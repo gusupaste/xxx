@@ -149,7 +149,7 @@
                   </el-table-column>
                   <el-table-column label="允许">
                     <template slot-scope="scope">
-                      <input type="checkbox" v-model="checkedValue" :value="scope.row.id"/>
+                      <input type="checkbox" disabled="true" v-model="checkedValue" :value="scope.row.id"/>
                     </template>
                   </el-table-column>
                 </el-table>
