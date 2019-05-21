@@ -107,7 +107,7 @@
             label="实际应收"
             >
             <template slot-scope="scope">
-                <router-link :to="'/financemanagement/edit/'+scope.row.id" v-if="scope.row.bill_status === 0">
+                <router-link :to="'/financemanagement/createDiscount/?id='+scope.row.id" v-if="scope.row.bill_status === 0">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>

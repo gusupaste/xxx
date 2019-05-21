@@ -25,11 +25,11 @@
                 <el-form-item label="学业计划：">
                     <el-select v-model="addform.pay_method">
                         <!-- <el-option label="日缴" value="1"></el-option> -->
-                        <el-option label="月缴" value="2"></el-option>
+                        <el-option label="月缴" :value="2"></el-option>
                         <!-- <el-option label="一次性缴费" value="3"></el-option> -->
-                        <el-option label="学期缴费" value="4"></el-option>
-                        <el-option label="寒暑假" value="5"></el-option>
-                        <el-option label="年缴" value="6"></el-option>
+                        <el-option label="学期缴费" :value="4"></el-option>
+                        <el-option label="寒暑假" :value="5"></el-option>
+                        <el-option label="年缴" :value="6"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="缴费账期：">
@@ -174,7 +174,7 @@
           <p class="mt20">
               <span class="mr10">搜索：</span>
               <el-input v-model="searchStr" class="w250_input" style="width:250px" placeholder="输入学号、学生姓名或家长姓名"></el-input>
-              <el-button type="primary" @click="getStudent">搜索</el-button>
+              <el-button type="primary" @click="getStudent(2)">搜索</el-button>
           </p>
           
           <el-row class="mt20">
@@ -316,7 +316,7 @@ export default {
     data(){
         return {
             addform:{
-                pay_method:'2',
+                pay_method:2,
                 date:'',
                 academic_year_id:1,
                 start_date:'',
@@ -354,12 +354,14 @@ export default {
             tableData: [],
             multipleTable2:[],
             multipleTable:[],
-            multipleTable1:[]
+            multipleTable1:[],
+            id:'',
+            reviewInfo:{}
         }
     },
     mounted () {
-        this.getStudent();
-        this.getYear();        
+        this.getStudent(1);
+        this.getYear();  
     },
     methods: {
         saveInfo(){
@@ -413,6 +415,7 @@ export default {
             this.saveForm.enter_date = this.addform.end_date;
             this.saveForm.actual_amount = this.totalprice;
             this.saveForm.amount = this.totalamount;
+            this.saveForm.pay_method = this.addform.pay_method;
             console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/',this.saveForm)
             .then(res=>{
@@ -426,7 +429,7 @@ export default {
                 }
             })
         },
-        getStudent(){
+        getStudent(val){
             var _this = this;
             this.addform.date = this.$options.filters['formatDate2'](new Date());
             this.$axios.get('/api/finance/bill/show_bill_student/',{
@@ -437,7 +440,14 @@ export default {
             })
             .then(res=>{
                 _this.studentList = res.data.data.student_li;
-                _this.schoolName = res.data.data.center_name;
+                _this.schoolName = res.data.data.center_name;    
+                if(val === 1){
+                    if(_this.$route.query.id){
+                    _this.$nextTick(()=>{
+                        _this.getDiscountInfo();
+                    })
+                }
+                }
             })
         },
         sureAddSubject(){
@@ -454,6 +464,26 @@ export default {
         sureAddStudent(){
             this.multipleTable = [this.choosePerson];
             this.innerVisible = false;
+        },
+        getDiscountInfo(){
+            var _this = this;
+            this.id = this.$route.query.id;
+            this.$axios.get('/api/finance/bill/'+this.id+'/info_single_bill/')
+            .then(res=>{        
+                _this.addform = Object.assign({},res.data.data.bill_info);
+                _this.addform.start_date = res.data.data.bill_info.planned_payment_date;
+                _this.addform.end_date = res.data.data.bill_info.enter_date;
+                _this.addform.pay_method = res.data.data.bill_info.pay_method_id;
+                _this.saveForm.policy_id = res.data.data.bill_info.policy_id;
+                _this.studentList.forEach(item=>{
+                    if(item.id == _this.addform.student_id){
+                        _this.choosePerson = item;
+                        _this.multipleTable = [item];
+                    }
+                });
+                _this.getSubject();
+                _this.checkedSubject = res.data.data.billitem_li; 
+            })
         },
         getYear(){
             var _this = this;

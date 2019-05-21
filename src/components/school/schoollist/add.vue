@@ -214,8 +214,6 @@
           code:'',
           created_by:'',
           created_by_str:'',
-          date_created:'',
-          date_updated:'',
           email:'',
           fax:'',
           hq:'',
