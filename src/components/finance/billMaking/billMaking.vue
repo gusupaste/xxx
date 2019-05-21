@@ -176,7 +176,8 @@ export default {
                 class_id:'',
                 search_str:'',
                 page:1,
-                size:10
+                size:10,
+                center_id:this.$cookies.get('userInfo').center.id
             }
         }
     },
@@ -199,7 +200,11 @@ export default {
         },
         searchInfo(){
             var _this = this;
-            this.$axios.get('/api/finance/bill/search_info/')
+            this.$axios.get('/api/finance/bill/search_info/',{
+                params:{
+                    center_id:this.searchform.center_id
+                }
+            })
             .then(res=>{
                 console.log(res.data.data)
                 this.academic_year_li = res.data.data.academic_year_li;

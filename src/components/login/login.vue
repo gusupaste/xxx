@@ -97,7 +97,7 @@ export default {
         localStorage.setItem('user_password',this.password);
         localStorage.setItem('user_name',this.username);
       }
-      _this.$axios.post('http://134.175.93.59:8000/jwt-token-auth/',{
+      _this.$axios.post('/jwt-token-auth/',{
         username:_this.username,
         password:_this.password
       }).then(res=>{
