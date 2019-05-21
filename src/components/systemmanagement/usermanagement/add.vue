@@ -32,10 +32,15 @@
             <el-form-item label="Email：">
               <el-input v-model="email"></el-input>
             </el-form-item>
-            <el-form-item label="所属组织：">
+            <!-- <el-form-item label="所属组织：">
               <el-input></el-input>
             </el-form-item>
-            <i class="fa fa-plus-square-o orange" @click="addOrganization" style="margin-top: 18px"></i>
+            <i class="fa fa-plus-square-o orange" @click="addOrganization" style="margin-top: 18px"></i> -->
+            <br>
+            <el-form-item label="权限选择：">
+              <el-radio :disabled="disabled" @change="changepermission" v-model="permission_chose"  :label="3">校园</el-radio>
+              <el-radio :disabled="disabled" @change="changepermission" v-model="permission_chose"  :label="2">总部</el-radio>
+            </el-form-item>
           </el-form>
         </div>
       </div>
@@ -74,13 +79,22 @@
           </el-table>
         </div>
       </div>
-      <div class="content_top">
+      <div class="content_top" v-if="permission_chose == 2">
         <p class="bold_black">管辖幼儿园：</p>
         <div class="content padding-20">
           <el-checkbox-group v-model="schoolIds" @change="schoolIdsChange">
             <el-checkbox v-for="(item,index)  in schoolList" :key="index" :label="item.id" style="min-width: 230px">
               【<span>{{item.code}}</span>】<span>{{item.name}}</span></el-checkbox>
           </el-checkbox-group>
+        </div>
+      </div>
+      <div class="content_top" v-if="permission_chose == 3">
+        <p class="bold_black">管辖幼儿园：</p>
+        <div class="content padding-20">
+          <el-radio-group v-model="schoolid"  @change="schoolIdsChange2">
+            <el-radio v-for="(item,index)  in schoolList" :key="index" :label="item.id" style="min-width: 230px">
+              【<span>{{item.code}}</span>】<span>{{item.name}}</span></el-radio>
+          </el-radio-group>
         </div>
       </div>
       <div class="footer-btn">
@@ -174,15 +188,18 @@
         userCheckList: [],
         boxData: [],
         checkedValue: [],
-        id: 0
+        id: 0,
+        permission_chose:3,
+        schoolid:'',
+        disabled:false
       }
     },
     mounted: function () {
       this.id = Number(this.$route.query.id)
       if (this.id !== 0) {
-        this.getUser()
+        this.getUser();
+        this.disabled = true;
       }else{
-        this.getRoleList(0)
         this.getRoleList(1)
       }
       this.getSchoolList()
@@ -197,6 +214,7 @@
             var data = res.data.data
             this.display_name = data.display_name
             this.username = data.username
+            this.permission_chose = data.account_type
             this.password = data.password
             this.respassword = data.password
             this.first_name = data.first_name
@@ -204,6 +222,7 @@
             this.email = data.email
             this.display_name = data.display_name
             this.schoolIds = data.centers
+            this.schoolid = data.centers[0]
             this.headquartersLength = data.roles.hq_roles.length
             this.roleList = this.roleList.concat(data.roles.hq_roles)
             this.roleList = this.roleList.concat(data.roles.center_roles)
@@ -241,7 +260,7 @@
             if (status === 0) {
               this.headquartersLength = res.data.data.length
             }
-            this.roleList = this.roleList.concat(res.data.data)
+            this.roleList = res.data.data
           }
         }).catch(err => {
           console.log(err)
@@ -260,10 +279,10 @@
         })
       },
       tableRowClassName({row, rowIndex}) {
-        if (rowIndex < this.headquartersLength) {
-          return 'warning-row'
-        }
-        return ''
+        // if (rowIndex < this.headquartersLength) {
+        //   return 'warning-row'
+        // }
+        // return ''
       },
       userIdsChange(val) {
         this.userIds = []
@@ -273,6 +292,18 @@
       },
       schoolIdsChange(val) {
         this.schoolIds = val
+      },
+      schoolIdsChange2(val) {
+        this.schoolIds = [val];
+      },
+      changepermission(val) {
+        this.schoolIds = [];
+        if(val == 2) {
+          this.getRoleList(0)
+        } else {
+          this.getRoleList(1)
+        }
+        
       },
       addOrganization: function () {
         this.addorganization = true
@@ -329,7 +360,7 @@
           last_name: this.last_name,
           email: this.email,
           organization_list: [],
-          account_type: 0,
+          account_type: this.permission_chose,
           role_list: this.userIds,
           center_list: this.schoolIds
         }).then(res => {

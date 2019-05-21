@@ -296,7 +296,6 @@ export default {
                    item.class_type_ids=$event;
                }
             })
-            console.log(this.schoolList);
         },
         getIntercity(){
             var _this = this;
@@ -425,14 +424,12 @@ export default {
                this.checkList[k] = [];
             }
             val.forEach(item=>{
-                console.log(item)
                 var list = [];
                 item.class_types.forEach(ele=>{
                     list.push(ele.id);
                 })
                 this.checkList[item.id] = list;
             })
-            console.log(this.checkList)
             this.multipleSelection = val;
         },
     },
