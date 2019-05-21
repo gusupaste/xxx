@@ -89,45 +89,51 @@
                 </td>
               </tr>
               <tr>
-                <td :rowspan="16 + saveForm.condition.length + saveForm.othCondition.length" width="90">在校生</td>
-                <td :rowspan="9 + saveForm.condition.length + saveForm.othCondition.length" width="90">学费</td>
+                <td :rowspan="16 + saveForm.month_pay.length + saveForm.month_pay.length" width="90">在校生</td>
+                <td :rowspan="9 + saveForm.month_pay.length + saveForm.month_pay.length" width="90">学费</td>
                 <td width="90">转班</td>
                 <td colspan="3">多退少补</td>
               </tr>
               <tr>
-                <td :rowspan="saveForm.othCondition.length + 5" width="90">退学</td>
-                <td :rowspan="saveForm.othCondition.length + 2" width="100">月缴</td>
+                <td :rowspan="saveForm.month_pay.length + 5" width="90">退学</td>
+                <td :rowspan="saveForm.month_pay.length + 2" width="100">月缴</td>
                 <td colspan="2">
                   行政手续费
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> 元
+                  <el-input type="text" v-model="saveForm.handling_fee"></el-input> 元
                 </td>
               </tr>
-              <tr v-for="(oth,ind) in saveForm.othCondition">
+              <tr v-for="(oth,ind) in saveForm.month_pay">
                 <td colspan="2">
-                  <el-select v-model="saveForm.othCondition.xingzheng" placeholder="请选择">
+                  <el-select v-model="oth.specific_month" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
                     <el-option v-for="item in monthOptions"
                                :key="item.value"
                                :label="item.label"
                                :value="item.value"></el-option>
                   </el-select>
-                  <el-select>
-                    <el-option value="连续"></el-option>
-                    <el-option value="累计"></el-option>
+                  <el-select v-model="oth.method_type">
+                    <el-option v-for="item in method_type"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
                   </el-select>
-                  <el-select>
-                    <el-option value="大于"></el-option>
-                    <el-option value="等于"></el-option>
+                  <el-select v-model="oth.compare_type" placeholder="请选择">
+                    <el-option v-for="item in compare_type"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
                   </el-select>
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>个
-                  <el-select>
-                    <el-option value="校日历"></el-option>
-                    <el-option value="日历"></el-option>
+                  <el-input type="text" v-model="oth.number_of_days"></el-input>个
+                  <el-select v-model="oth.calendar_type">
+                    <el-option v-for="item in calendar_type"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
                   </el-select>
                   时，退
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> %，
+                  <el-input type="text" v-model="oth.refund_per"></el-input> %，
                   剩余月退
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> %，
+                  <el-input type="text" v-model="oth.other_month_refund_per"></el-input> %，
                 </td>
               </tr>
               <tr>
@@ -139,14 +145,14 @@
                 <td rowspan="" width="100">学期缴</td>
                 <td colspan="2">
                   不满
-                  <el-input type="text" v-model="saveForm.yuefen1"></el-input>
+                  <el-input type="text" v-model="saveForm.number_of_month"></el-input>
                   个月时，无法享受学期优惠价格；
                   <!--<el-select>
                     <el-option value="小于"></el-option>
                     <el-option value="大于等于"></el-option>
                   </el-select>-->大于等于
-                  <span>{{ saveForm.yuefen1 }}</span>
-                  个月时，学费原价转月缴
+                  <span>{{ saveForm.number_of_month }}</span>
+                  个月时，学期优惠价格转月缴
                 </td>
               </tr>
               <!--<tr>
@@ -171,7 +177,7 @@
                     <el-option value="大于等于"></el-option>
                   </el-select>-->大于等于
                   <span>{{ saveForm.yuefen1 }}</span>
-                  个月时，学费原价转月缴
+                  个月时，学期优惠价格转月缴
                 </td>
               </tr>
               <!--<tr>
@@ -189,7 +195,7 @@
               <tr>
                 <td colspan="3">
                   未按时提申请，扣月
-                  <el-input type="text" v-model="saveForm.kouyue"></el-input> %
+                  <el-input type="text" v-model="saveForm.not_on_schedule_per1"></el-input> %
                 </td>
               </tr>
               <tr>
@@ -208,10 +214,10 @@
                   <el-input type="text" v-model="saveForm.liyuan"></el-input>%
                 </td>
               </tr>-->
-              <tr v-for="(con,indexs) in saveForm.condition">
-                <td v-if="indexs === 0" :rowspan="saveForm.condition.length + 1" width="90">缺勤</td>
+              <tr v-for="(con,indexs) in saveForm.month_pay">
+                <td v-if="indexs === 0" :rowspan="saveForm.month_pay.length + 1" width="90">缺勤</td>
                 <td colspan="3">
-                  <el-select v-model="saveForm.condition.xingzheng" placeholder="请选择">
+                  <el-select v-model="con.specific_month" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
                     <el-option v-for="item in monthOptions"
                                :key="item.value"
@@ -462,6 +468,27 @@ export default {
   components: {ElInput},
   data(){
         return {
+          method_type:[{
+            value: 1,
+            label: '累计'
+          }, {
+            value: 2,
+            label: '连续'
+          }],
+          calendar_type:[{
+            value: 1,
+            label: '日历'
+          }, {
+            value: 2,
+            label: '校日历'
+          }],
+          compare_type:[{
+            value: 1,
+            label: '大于等于'
+          }, {
+            value: 2,
+            label: '小于'
+          }],
           monthOptions: [{
             value: 1,
             label: '1月'
@@ -497,22 +524,9 @@ export default {
           year_url:'/api/common/select/academic_year_list/',/*学年*/
           school_list:[],
           year_list:[],
-            searchform:{
-                intercity_id:'',
-            },
             saveForm:{
               center:'',
               academic_year:'',
-              condition:[
-                {
-                  xingzheng:'',
-                }
-              ],
-              othCondition:[
-                {
-                  xingzheng:'',
-                }
-              ],
 
               goods_fee:'',
               foreign_employees_per: '',
@@ -522,7 +536,21 @@ export default {
               specific_month_per: '',
               other_month_per: '',
               no_invoice: '',
-
+              handling_fee:'',
+              not_on_schedule_per1: '',
+              month_pay: [
+                {
+                  news:false,
+                  specific_month: '0',
+                  method_type: '',
+                  compare_type: '',
+                  number_of_days: '',
+                  calendar_type: '',
+                  refund_per: '',
+                  other_month_refund_per: '',
+                }
+              ],
+              number_of_month:'',
 
               radio10:'退费',
               radio9:'退费',
@@ -563,24 +591,11 @@ export default {
               tuifei:'',
             },
             get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center=1&academic_year=1',
+            get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center=1&academic_year=1',
+            get_03_url:'/api/refund_policy/student_quit_term/info/?center=1&academic_year=1',
             add_01_url:'/api/refund_policy/prepared_student_refund/',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                }]
+            add_02_url:'/api/refund_policy/student_quit_month/',
+            add_03_url:'/api/refund_policy/student_quit_term/',
         }
     },
     mounted:function(){
@@ -589,6 +604,8 @@ export default {
           this.getYearList();
         }else{
           this.getGoodFee();
+          this.getMonthPay();
+          this.getTermPay();
         }
     },
     methods:{
@@ -596,11 +613,19 @@ export default {
         if(index === 0){
           var obj = {};
           obj.xingzheng = '';
-          this.saveForm.condition.push(obj);
+          this.saveForm.month_pay.push(obj);
         }else{
-          var obj = {};
-          obj.xingzheng = '';
-          this.saveForm.othCondition.push(obj);
+          var obj = {
+            news:true,
+            specific_month:'',
+            method_type: '',
+            compare_type: '',
+            number_of_days: '',
+            calendar_type: '',
+            refund_per: '',
+            other_month_refund_per: '',
+          };
+          this.saveForm.month_pay.push(obj);
         }
       },
       getSchoolList:function () {
@@ -628,22 +653,57 @@ export default {
           console.log(err)
         })
       },
-        getGoodFee:function () {
-            this.$axios.get(this.get_01_url).then(res=>{
-                this.saveForm.goods_fee = res.data.goods_fee;
-                this.saveForm.foreign_employees_per = res.data.foreign_employees_per;
-                this.saveForm.on_schedule_per = res.data.on_schedule_per;
-                this.saveForm.not_on_schedule_per = res.data.not_on_schedule_per;
-                this.saveForm.specific_month = res.data.specific_month;
-                this.saveForm.specific_month_per = res.data.specific_month_per;
-                this.saveForm.other_month_per = res.data.other_month_per;
-                this.saveForm.no_invoice = res.data.no_invoice;
-            }).catch(err=>{
-              console.log(err)
-            })
-        },
+      getGoodFee:function () {
+        this.$axios.get(this.get_01_url).then(res=>{
+            this.saveForm.goods_fee = res.data.goods_fee;
+            this.saveForm.foreign_employees_per = res.data.foreign_employees_per;
+            this.saveForm.on_schedule_per = res.data.on_schedule_per;
+            this.saveForm.not_on_schedule_per = res.data.not_on_schedule_per;
+            this.saveForm.specific_month = res.data.specific_month;
+            this.saveForm.specific_month_per = res.data.specific_month_per;
+            this.saveForm.other_month_per = res.data.other_month_per;
+            this.saveForm.no_invoice = res.data.no_invoice;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getMonthPay:function () {
+        this.$axios.get(this.get_02_url).then(res=>{
+          this.saveForm.handling_fee = res.data.handling_fee;
+          this.saveForm.not_on_schedule_per1 = res.data.not_on_schedule_per;
+          this.saveForm.month_pay = [];
+          for(var x in res.data.month_pay){
+            var obj = {};
+            if(res.data.month_pay[x].specific_month){
+              obj.specific_month = res.data.month_pay[x].specific_month;
+            }else{
+              obj.specific_month = '0';
+            }
+            obj.news = false;
+            obj.method_type = res.data.month_pay[x].method_type;
+            obj.compare_type = res.data.month_pay[x].compare_type;
+            obj.number_of_days = res.data.month_pay[x].number_of_days;
+            obj.calendar_type = res.data.month_pay[x].calendar_type;
+            obj.refund_per = res.data.month_pay[x].refund_per;
+            obj.other_month_refund_per = res.data.month_pay[x].other_month_refund_per;
+            this.saveForm.month_pay.push(obj);
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getTermPay:function () {
+        this.$axios.get(this.get_03_url).then(res=>{
+          this.saveForm.number_of_month = res.data.number_of_month;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       submit:function (formName) {
-        this.submit_fun1(this.$route.params.type);
+        var type = this.$route.params.type;
+        this.submit_fun1(type);
+        this.submit_fun2(type);
+        this.submit_fun3(type);
       },
       submit_fun1:function (type) {
         var data1 = {
@@ -687,7 +747,96 @@ export default {
         }
 
       },
+      submit_fun2:function (type) {
+        var list = [];
+        for(var y in this.saveForm.month_pay){
+          var obj = {};
+          if(this.saveForm.month_pay[y].specific_month !== '0'){
+            obj.specific_month = this.saveForm.month_pay[y].specific_month;
+          }
+          obj.method_type = this.saveForm.month_pay[y].method_type;
+          obj.compare_type = this.saveForm.month_pay[y].compare_type;
+          obj.number_of_days = this.saveForm.month_pay[y].number_of_days;
+          obj.calendar_type = this.saveForm.month_pay[y].calendar_type;
+          obj.refund_per = this.saveForm.month_pay[y].refund_per;
+          obj.other_month_refund_per = this.saveForm.month_pay[y].other_month_refund_per;
+          list.push(obj);
+        }
+        var data2 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          handling_fee:this.saveForm.handling_fee,
+          not_on_schedule_per:this.saveForm.not_on_schedule_per1,
+          month_pay_list:list,
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_02_url,data2).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_02_url+'1/',data2).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun3:function (type) {
+        var data3 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          compare_type:2,
+          number_of_month: parseInt(this.saveForm.number_of_month),
+          price_type: 1
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_03_url,data3).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_03_url+'1/',data3).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
     },
+
 
 }
 </script>
