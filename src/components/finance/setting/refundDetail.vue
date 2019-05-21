@@ -89,8 +89,8 @@
                 </td>
               </tr>
               <tr>
-                <td :rowspan="16 + saveForm.month_pay.length + saveForm.month_pay.length" width="90">在校生</td>
-                <td :rowspan="9 + saveForm.month_pay.length + saveForm.month_pay.length" width="90">学费</td>
+                <td :rowspan="16 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">在校生</td>
+                <td :rowspan="9 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">学费</td>
                 <td width="90">转班</td>
                 <td colspan="3">多退少补</td>
               </tr>
@@ -202,9 +202,9 @@
                 <td width="90">休学</td>
                 <td colspan="3">
                   首月
-                  <el-input type="text" v-model="saveForm.beiyongjin"></el-input>
+                  <el-input type="text" v-model="saveForm.on_schedule_per"></el-input>
                    % 转备用金，剩余月
-                  <el-input type="text" v-model="saveForm.beiyongjin2"></el-input>
+                  <el-input type="text" v-model="saveForm.other_on_schedule_per"></el-input>
                    % 转备用金</td>
               </tr>
               <!--<tr>
@@ -214,8 +214,8 @@
                   <el-input type="text" v-model="saveForm.liyuan"></el-input>%
                 </td>
               </tr>-->
-              <tr v-for="(con,indexs) in saveForm.month_pay">
-                <td v-if="indexs === 0" :rowspan="saveForm.month_pay.length + 1" width="90">缺勤</td>
+              <tr v-for="(con,indexs) in saveForm.month_pay2">
+                <td v-if="indexs === 0" :rowspan="saveForm.month_pay2.length + 1" width="90">缺勤</td>
                 <td colspan="3">
                   <el-select v-model="con.specific_month" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
@@ -224,7 +224,30 @@
                                :label="item.label"
                                :value="item.value"></el-option>
                   </el-select>
-                  <el-select>
+                  <el-select v-model="con.method_type">
+                    <el-option v-for="item in method_type"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
+                  </el-select>
+                  <el-select v-model="con.compare_type" placeholder="请选择">
+                    <el-option v-for="item in compare_type"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
+                  </el-select>
+                  <el-input type="text" v-model="con.number_of_days"></el-input>个
+                  <el-select v-model="con.calendar_type">
+                    <el-option v-for="item in calendar_type"
+                               :key="item.value"
+                               :label="item.label"
+                               :value="item.value"></el-option>
+                  </el-select>
+                  时，转备用金
+                  <el-input type="text" v-model="con.reserve_fund_per"></el-input> %，
+                  剩余月转备用金
+                  <el-input type="text" v-model="con.other_month_reserve_fund_per"></el-input> %，
+                  <!--<el-select>
                     <el-option value="连续"></el-option>
                     <el-option value="累计"></el-option>
                   </el-select>
@@ -240,7 +263,7 @@
                   时，转备用金
                   <el-input type="text" v-model="saveForm.xingzheng"></el-input> % ，
                   剩余月转备用金
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> % ，
+                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> % ，-->
                 </td>
               </tr>
               <tr>
@@ -253,7 +276,7 @@
                 <td colspan="3">
                   <el-radio v-model="saveForm.radio5" label="0">否</el-radio>
                   <el-radio v-model="saveForm.radio5" label="1">
-                    是，结转 x <el-input type="text" v-model="saveForm.quetian"></el-input> % </el-radio>
+                    是，结转 x <el-input type="text" v-model="saveForm.fee_refund_money_per"></el-input> % </el-radio>
                 </td>
               </tr>
               <tr>
@@ -265,7 +288,7 @@
                 <td colspan="">
                   <el-radio v-model="saveForm.radio2" label="0">
                     整月，{{ saveForm.radio9 }}
-                    <el-input type="text" v-model="saveForm.zhengyue"></el-input> %
+                    <el-input type="text" v-model="saveForm.full_month_per"></el-input> %
                   </el-radio>
                 </td>
               </tr>
@@ -284,22 +307,22 @@
                 </td>-->
                 <td colspan="">
                   <el-radio v-model="saveForm.radio2" label="2">
-                    <el-select v-model="saveForm.lianxu">
+                    <el-select v-model="saveForm.method_type">
                       <el-option value="连续"></el-option>
                     </el-select>
-                    <el-select v-model="saveForm.dayu">
+                    <el-select v-model="saveForm.compare_type">
                       <el-option value="大于"></el-option>
                     </el-select>
-                    <el-input type="text" v-model="saveForm.tian"></el-input>
+                    <el-input type="text" v-model="saveForm.days"></el-input>
                     天，
                     {{ saveForm.radio9 }}
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <el-radio v-model="saveForm.radio3" label="1">
-                      缺勤天数 x
-                      <el-input type="text" v-model="saveForm.quetian"></el-input> 元
-                    </el-radio>&nbsp;&nbsp;&nbsp;&nbsp;
                     <el-radio v-model="saveForm.radio3" label="0">
-                      缺勤天数 x（ 收费标准 / <el-input type="text" v-model="saveForm.quetian2"></el-input> 天 ）
+                      缺勤天数 x
+                      <el-input type="text" v-model="saveForm.days_fee"></el-input> 元
+                    </el-radio>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <el-radio v-model="saveForm.radio3" label="1">
+                      缺勤天数 x（ 收费标准 / <el-input type="text" v-model="saveForm.charges_days"></el-input> 天 ）
                     </el-radio>
                   </el-radio>
                 </td>
@@ -309,7 +332,7 @@
                 <td colspan="3">
                   <el-radio v-model="saveForm.radio4" label="0">否</el-radio>
                   <el-radio v-model="saveForm.radio4" label="1">
-                    是,结转 x <el-input type="text" v-model="saveForm.quetian"></el-input> % </el-radio>
+                    是,结转 x <el-input type="text" v-model="saveForm.meal_refund_money_per"></el-input> % </el-radio>
                 </td>
               </tr>
               <tr>
@@ -527,7 +550,6 @@ export default {
             saveForm:{
               center:'',
               academic_year:'',
-
               goods_fee:'',
               foreign_employees_per: '',
               on_schedule_per: '',
@@ -540,8 +562,7 @@ export default {
               not_on_schedule_per1: '',
               month_pay: [
                 {
-                  news:false,
-                  specific_month: '0',
+                  specific_month: '',
                   method_type: '',
                   compare_type: '',
                   number_of_days: '',
@@ -552,6 +573,25 @@ export default {
               ],
               number_of_month:'',
               number_of_month2:'',
+              other_on_schedule_per:'',
+              on_schedule_per: '',
+              month_pay2:[
+                {
+                  specific_month: '',
+                  method_type: '',
+                  compare_type: '',
+                  number_of_days: '',
+                  calendar_type: '',
+                  reserve_fund_per:'',
+                  other_month_reserve_fund_per:'',
+                }
+              ],
+              full_month_per:'',
+              compare_type:'',
+              method_type:'',
+              days:'',
+              days_fee:'',
+              charges_days:'',
 
               radio10:'退费',
               radio9:'退费',
@@ -595,10 +635,18 @@ export default {
             get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center=1&academic_year=1',
             get_03_url:'/api/refund_policy/student_quit_term/info/?center=1&academic_year=1',
             get_04_url:'/api/refund_policy/student_quit_year/info/?center=1&academic_year=1',
+            get_05_url:'/api/refund_policy/student_suspend/info/?center=1&academic_year=1',
+            get_06_url:'/api/refund_policy/student_absence/info/?center=1&academic_year=1',
+            get_07_url:'/api/refund_policy/student_vacation/info/?center=1&academic_year=1',
+            get_08_url:'/api/refund_policy/student_meal/info/?center=1&academic_year=1',
             add_01_url:'/api/refund_policy/prepared_student_refund/',
             add_02_url:'/api/refund_policy/student_quit_month/',
             add_03_url:'/api/refund_policy/student_quit_term/',
             add_04_url:'/api/refund_policy/student_quit_year/',
+            add_05_url:'/api/refund_policy/student_suspend/',
+            add_06_url:'/api/refund_policy/student_absence/',
+            add_07_url:'/api/refund_policy/student_vacation/',
+            add_08_url:'/api/refund_policy/student_meal/',
         }
     },
     mounted:function(){
@@ -610,17 +658,27 @@ export default {
           this.getMonthPay();
           this.getTermPay();
           this.getYearPay();
+          this.getStudentSuspend();
+          this.getStudentAabsence();
+          this.getStudentVacation();
+          this.getStudentMeal();
         }
     },
     methods:{
       addTr:function (index) {
         if(index === 0){
-          var obj = {};
-          obj.xingzheng = '';
-          this.saveForm.month_pay.push(obj);
+          var obj = {
+            specific_month:'',
+            method_type: '',
+            compare_type: '',
+            number_of_days: '',
+            calendar_type: '',
+            reserve_fund_per:'',
+            other_month_reserve_fund_per:'',
+          };
+          this.saveForm.month_pay2.push(obj);
         }else{
           var obj = {
-            news:true,
             specific_month:'',
             method_type: '',
             compare_type: '',
@@ -683,7 +741,6 @@ export default {
             }else{
               obj.specific_month = '0';
             }
-            obj.news = false;
             obj.method_type = res.data.month_pay[x].method_type;
             obj.compare_type = res.data.month_pay[x].compare_type;
             obj.number_of_days = res.data.month_pay[x].number_of_days;
@@ -710,12 +767,87 @@ export default {
           console.log(err)
         })
       },
+      getStudentSuspend:function () {
+        this.$axios.get(this.get_05_url).then(res=>{
+          this.saveForm.other_on_schedule_per = res.data.other_on_schedule_per;
+          this.saveForm.on_schedule_per = res.data.on_schedule_per;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getStudentAabsence:function () {
+        this.$axios.get(this.get_06_url).then(res=>{
+         /* this.saveForm.handling_fee2 = res.data.handling_fee;
+          this.saveForm.not_on_schedule_per2 = res.data.not_on_schedule_per;*/
+          if(res.data.month_pay.length > 0){
+            this.saveForm.month_pay2 = [];
+            for(var x in res.data.month_pay){
+              var obj = {};
+              if(res.data.month_pay[x].specific_month){
+                obj.specific_month = res.data.month_pay[x].specific_month;
+              }else{
+                obj.specific_month = '0';
+              }
+              obj.method_type = res.data.month_pay[x].method_type;
+              obj.compare_type = res.data.month_pay[x].compare_type;
+              obj.number_of_days = res.data.month_pay[x].number_of_days;
+              obj.calendar_type = res.data.month_pay[x].calendar_type;
+              obj.reserve_fund_per = res.data.month_pay[x].reserve_fund_per;
+              obj.other_month_reserve_fund_per = res.data.month_pay[x].other_month_reserve_fund_per;
+              this.saveForm.month_pay2.push(obj);
+            }
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getStudentVacation:function () {
+        this.$axios.get(this.get_07_url).then(res=>{
+          this.saveForm.fee_refund_money_per = res.data.fee_refund_money_per;
+          this.saveForm.meal_refund_money_per = res.data.meal_refund_money_per;
+          if(res.data.fee_refund_money_per !== 0){
+            this.saveForm.radio5 = '1'
+          }else{
+            this.saveForm.radio5 = '0'
+          }
+          if(res.data.meal_refund_money_per !== 0){
+            this.saveForm.radio4 = '1'
+          }else{
+            this.saveForm.radio4 = '0'
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getStudentMeal:function () {
+        this.$axios.get(this.get_08_url).then(res=>{
+          if(res.data.return_type === 1){
+            this.saveForm.radio9 = '退费';
+          }else{
+            this.saveForm.radio9 = '转备用金';
+          }
+          if(res.data.full_month_per){
+            this.saveForm.radio2 = '0';
+            this.saveForm.full_month_per = res.data.full_month_per;
+          }else if(res.data.is_standard_return){
+            this.saveForm.radio2 = '1';
+          }else if(res.data.days){
+            this.saveForm.radio2 = '2';
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       submit:function (formName) {
         var type = this.$route.params.type;
         this.submit_fun1(type);
         this.submit_fun2(type);
         this.submit_fun3(type);
         this.submit_fun4(type);
+        this.submit_fun5(type);
+        this.submit_fun6(type);
+        this.submit_fun7(type);
+        this.submit_fun8(type);
       },
       submit_fun1:function (type) {
         var data1 = {
@@ -870,6 +1002,191 @@ export default {
           })
         }else{
           this.$axios.put(this.add_04_url+'1/',data4).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun5:function (type) {
+        var data5 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          other_on_schedule_per:this.saveForm.other_on_schedule_per,
+          on_schedule_per: this.saveForm.on_schedule_per,
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_05_url,data5).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_05_url+'1/',data5).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun6:function (type) {
+        var list = [];
+        for(var y in this.saveForm.month_pay2){
+          var obj = {};
+          if(this.saveForm.month_pay2[y].specific_month !== '0'){
+            obj.specific_month = this.saveForm.month_pay2[y].specific_month;
+          }
+          obj.method_type = this.saveForm.month_pay2[y].method_type;
+          obj.compare_type = this.saveForm.month_pay2[y].compare_type;
+          obj.number_of_days = this.saveForm.month_pay2[y].number_of_days;
+          obj.calendar_type = this.saveForm.month_pay2[y].calendar_type;
+          obj.reserve_fund_per = this.saveForm.month_pay2[y].reserve_fund_per;
+          obj.other_month_reserve_fund_per = this.saveForm.month_pay2[y].other_month_reserve_fund_per;
+          list.push(obj);
+        }
+        var data6 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          month_pay_list:list,
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_06_url,data6).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_06_url+'1/',data6).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun7:function (type) {
+        var meal = '';
+        var fee = '';
+        if(this.saveForm.radio4 === '0'){/*0否*/
+          meal = 0;
+        }else{
+          meal = this.saveForm.meal_refund_money_per;
+        }
+        if(this.saveForm.radio5 === '0'){/*0否*/
+          fee = 0;
+        }else{
+          fee = this.saveForm.fee_refund_money_per;
+        }
+        var data7 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          meal_refund_money_per:meal,
+          fee_refund_money_per:fee,
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_07_url,data7).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_07_url+'1/',data7).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun8:function (type) {
+        var obj = {};
+        obj.center = this.saveForm.center || 1;
+        obj.academic_year = this.saveForm.academic_year || 1;
+        if(this.saveForm.radio9 = '退费'){
+          obj.return_type = 1;
+        }else{
+          obj.return_type = 2;
+        }
+        if(this.saveForm.radio2 === '0'){
+          obj.full_month_per = this.saveForm.full_month_per;
+        }else if(this.saveForm.radio2 === '1'){
+          obj.is_standard_return = true;
+        }else if(this.saveForm.radio2 === '2'){
+          obj.compare_type = this.saveForm.compare_type;
+          obj.method_type = this.saveForm.method_type;
+          obj.days = this.saveForm.days;
+          if(this.saveForm.radio3 === '0'){
+            obj.days_fee = this.saveForm.days_fee;
+          }else{
+            obj.charges_days = this.saveForm.charges_days;
+          }
+        }
+        if(type === 'add'){
+          this.$axios.post(this.add_07_url,obj).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_07_url+'1/',obj).then(res=>{
             if(res.status == 200){
               this.$message({
                 type:'success',
