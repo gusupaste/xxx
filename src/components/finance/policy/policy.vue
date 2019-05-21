@@ -149,6 +149,7 @@ export default {
         }
     },
     created () {
+        this.searchform.center_id = this.$cookies.get('userInfo').center.id;
         this.searchList(1);
     },
     methods: {

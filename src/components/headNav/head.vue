@@ -47,19 +47,19 @@
             <!-- 财务处理 -->
             <el-submenu index="6" v-if="permission['finance']['finance-show']">
               <template slot="title">财务处理</template>
-              <el-menu-item index="/financemanagement/charge" route="/financemanagement/charge">收费账单</el-menu-item>
-              <el-menu-item index="/financemanagement/policy" route="/financemanagement/policy">收费政策(校园)</el-menu-item>
-              <el-menu-item index="/financemanagement/billMaking" route="/financemanagement/billMaking">账单制作(校园)</el-menu-item>
-              <el-menu-item index="/financemanagement/paymentprocessing" route="/financemanagement/paymentprocessing">缴费处理(校园)</el-menu-item>
-              <el-menu-item index="/financemanagement/refund" route="/financemanagement/refund">退费账单</el-menu-item>
-              <el-menu-item index="/financemanagement/discountApplication" route="/financemanagement/discountApplication">折扣申请</el-menu-item>
-              <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">备用金管理</el-menu-item>
-              <el-menu-item index="/financemanagement/reservefund-school" route="/financemanagement/reservefund-school">备用金管理(校园)</el-menu-item>
-              <el-menu-item index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
-              <el-menu-item index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
-              <el-menu-item index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
-              <el-menu-item index="/financemanagement/revenueList" route="/financemanagement/revenueList">收入确认</el-menu-item>
-              <el-menu-item index="/financemanagement/refund-manage" route="/financemanagement/refund-manage">退费管理（校园）</el-menu-item>
+              <el-menu-item v-if="permission['finance']['Charge bill']" index="/financemanagement/charge" route="/financemanagement/charge">收费账单</el-menu-item>
+              <el-menu-item v-if="permission['finance']['charging-policy-campus']" index="/financemanagement/policy" route="/financemanagement/policy">收费政策</el-menu-item>
+              <el-menu-item v-if="permission['finance']['bill-making-campus']" index="/financemanagement/billMaking" route="/financemanagement/billMaking">账单制作</el-menu-item>
+              <el-menu-item v-if="permission['finance']['payment-processing-campus']" index="/financemanagement/paymentprocessing" route="/financemanagement/paymentprocessing">缴费处理</el-menu-item>
+              <el-menu-item v-if="permission['finance']['refund-account']" index="/financemanagement/refund" route="/financemanagement/refund">退费账单</el-menu-item>
+              <el-menu-item v-if="permission['finance']['discount-application']" index="/financemanagement/discountApplication" route="/financemanagement/discountApplication">折扣申请</el-menu-item>
+              <el-menu-item v-if="permission['finance']['reserve-fund-management-hq']" index="/financemanagement/reservefund" route="/financemanagement/reservefund">备用金管理</el-menu-item>
+              <el-menu-item v-if="permission['finance']['reserve-fund-management-campus']" index="/financemanagement/reservefund-school" route="/financemanagement/reservefund-school">备用金管理</el-menu-item>
+              <el-menu-item v-if="permission['finance']['student-discount']" index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
+              <el-menu-item v-if="permission['finance']['parent-business-application-inquiry']" index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
+              <el-menu-item v-if="permission['finance']['financial-setup']" index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
+              <el-menu-item v-if="permission['finance']['revenue-recognition']" index="/financemanagement/revenueList" route="/financemanagement/revenueList">收入确认</el-menu-item>
+              <el-menu-item v-if="permission['finance']['refund-management-campus']" index="/financemanagement/refund-manage" route="/financemanagement/refund-manage">退费管理</el-menu-item>
             </el-submenu>
             <!-- 工作流 -->
             <el-menu-item v-if="permission['workflow']['workflow-show']" index="/workflow/list" route="/workflow/list">工作流</el-menu-item>
