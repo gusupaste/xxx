@@ -14,7 +14,7 @@
           </el-option>
         </el-select>
         <span class="padding-left-30">搜索：</span>
-        <el-input type="text" v-model="display_name" placeholder="请输入"></el-input>
+        <el-input type="text" v-model="display_name" placeholder="请输入用户名"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getUserList(1)">搜索</el-button></span>
         <span class="right">
           <el-button class="orange" type="text" @click="addUser(0)">
@@ -168,7 +168,13 @@
     },
     methods: {
       addUser: function (id) {
-        this.$router.push({name: 'usermanagement-add', query: {id: id}})
+        var type = 'add';
+        if(id === 0){
+          type = 'add';
+        }else{
+          type = 'edit';
+        }
+        this.$router.push({name: 'usermanagement-add', query: {id: id,type:type}})
       },
       roleType: function (val) {
         this.type = val

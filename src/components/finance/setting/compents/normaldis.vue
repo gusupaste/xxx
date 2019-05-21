@@ -246,8 +246,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item label="互斥折扣: ">
-              <el-checkbox-group v-model="exist_discount_type_value" style="text-align: left"
-                                 @change="checkedDiscountTypeValue">
+              <el-checkbox-group v-model="exist_discount_type_value" style="text-align: left">
                 <el-checkbox name="type" v-for="(type,index) in exist_discount_type" :key="index"
                              :label="type.id">{{type.name}}
                 </el-checkbox>
@@ -268,6 +267,7 @@
   export default {
     data() {
       return {
+        id: 0,
         type: 0,
         usualDiscountList: [],
         pagesize: 10,
@@ -452,6 +452,7 @@
           this.discountName = '编辑折扣类型'
           this.getDetailById(flag) //编辑接口
         }
+        this.id = flag
         this.addDiscountVisible = true
       },
       /* 审批流 所有角色 */
@@ -545,7 +546,6 @@
           .then(res => {
             this.name = res.data.data.discount_type.name
             this.condition_name = res.data.data.discount_type.condition_status
-            this.schoolList = res.data.data.center_list
             this.tableForm = res.data.data.condition_list
             //默认添加末尾的 审批流
             for (var i = 0; i < this.tableForm.length; i++) {
@@ -558,17 +558,26 @@
               }
               this.tableForm[i].approve.push(obj)
             }
-            this.schoolList.map((v) => {
+            this.schoolList = res.data.data.center_list
+            this.schoolList.map(v => {
               this.$set(this.checkList, v.id, [])
+            })
+            //选中 显示
+            this.schoolList.forEach(v => {
+              var list = []
+              if (v.status === 1) {
+                v.class_types.forEach(ele => {
+                  if (ele.status === 1) {
+                    list.push(ele.id)
+                  }
+                })
+              }
+              this.checkList[v.id] = list
             })
             this.exist_discount_type = res.data.data.mutexs
             this.exist_discount_type_value = res.data.data.mutex_list
           }).catch(err => {
         })
-      },
-      /* 互斥折扣的多选 */
-      checkedDiscountTypeValue: function (val) {
-        console.log(val)
       },
       /*  折扣类型  */
       saveNormaldis: function () {
@@ -577,18 +586,38 @@
         for (var i = 0; i < tableFormTemp.length; i++) {
           tableFormTemp[i].approve.pop()
         }
-        this.$axios.post('/api/discount/discount_type_management/',{
-          center_class_type_list: this.multipleSelection,
-          name: this.name,
-          type: 0,
-          mutex_list: this.exist_discount_type_value,
-          condition_status: this.condition_name,
-          conditions: tableFormTemp
-        }).then(res => {
+        /*  新增  */
+        if (this.id === 0) {
+          this.$axios.post('/api/discount/discount_type_management/', {
+            center_class_type_list: this.multipleSelection,
+            name: this.name,
+            type: 0,
+            mutex_list: this.exist_discount_type_value,
+            condition_status: this.condition_name,
+            conditions: tableFormTemp
+          }).then(res => {
+            this.$message.success("保存成功")
+            this.addDiscountVisible = false
+          }).catch(err => {
+          })
+        } else {
+          this.$axios.post('/api/discount/discount_type_management/' + this.id + '/update_class_type/', {
+            center_class_type_list: this.multipleSelection,
+            name: this.name,
+            mutex_list: this.exist_discount_type_value,
+            condition_status: this.condition_name,
+          }).then(res => {
+            this.$axios.post('/api/discount/discount_type_management/' + this.id + '/update_condition/', {
+              conditions: tableFormTemp
+            }).then(res => {
               this.$message.success("保存成功")
               this.addDiscountVisible = false
+            }).catch(err => {
+            })
           }).catch(err => {
-        })
+          })
+        }
+
       }
     }
   }
