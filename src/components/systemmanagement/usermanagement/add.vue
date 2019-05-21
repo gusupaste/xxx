@@ -149,7 +149,7 @@
                   </el-table-column>
                   <el-table-column label="允许">
                     <template slot-scope="scope">
-                      <input type="checkbox" v-model="checkedValue" :value="scope.row.id"/>
+                      <input type="checkbox" disabled="true" v-model="checkedValue" :value="scope.row.id"/>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -211,28 +211,31 @@
         this.$axios.get(url).then(res => {
           this.loading = false
           if (res.data.status_code === 1) {
-            var data = res.data.data
-            this.display_name = data.display_name
-            this.username = data.username
-            this.permission_chose = data.account_type
-            this.password = data.password
-            this.respassword = data.password
-            this.first_name = data.first_name
-            this.last_name = data.last_name
-            this.email = data.email
-            this.display_name = data.display_name
-            this.schoolIds = data.centers
-            this.schoolid = data.centers[0]
-            this.headquartersLength = data.roles.hq_roles.length
-            this.roleList = this.roleList.concat(data.roles.hq_roles)
-            this.roleList = this.roleList.concat(data.roles.center_roles)
-            var arrList = []
+            var data = res.data.data;
+            this.display_name = data.display_name;
+            this.username = data.username;
+            this.permission_chose = data.account_type;
+            this.password = data.password;
+            this.respassword = data.password;
+            this.first_name = data.first_name;
+            this.last_name = data.last_name;
+            this.email = data.email;
+            this.display_name = data.display_name;
+            this.schoolIds = data.centers;
+            this.schoolid = data.centers[0];
+            if(data.account_type === 3){
+              this.roleList = data.roles.center_roles;
+            } else {
+              this.roleList = data.roles.hq_roles;
+            }
+            this.headquartersLength = data.roles.hq_roles.length;
+            var arrList = [];
             for (var i = 0; i < this.roleList.length; i++) {
               if (this.roleList[i].status === 1) {
                 arrList.push(this.roleList[i])
               }
             }
-            this.toggleSelection(arrList)
+            this.toggleSelection(arrList);
           }
         }).catch(err => {
           console.log(err)

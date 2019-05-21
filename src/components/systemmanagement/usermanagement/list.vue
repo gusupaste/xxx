@@ -8,7 +8,7 @@
         <el-select v-model="value" @change="roleType" placeholder="请选择">
           <el-option
             v-for="item in options"
-            :key="item"
+            :key="item.id"
             :label="item.type"
             :value="item.value">
           </el-option>
@@ -16,7 +16,13 @@
         <span class="padding-left-30">搜索：</span>
         <el-input type="text" v-model="display_name" placeholder="请输入"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getUserList(1)">搜索</el-button></span>
-        <span class="right"><el-button class="orange" type="text" @click="addUser(0)"><i class="fa fa-plus-square"></i>&nbsp;新增用户</el-button></span>
+        <span class="right">
+          <el-button class="orange" type="text" @click="addUser(0)">
+            <i class="fa fa-plus-square font-size-20"></i>
+            &nbsp;
+            <span style="font-size:14px">新增用户</span>
+            </el-button>
+        </span>
       </p>
       <el-table
         :data="userList"
@@ -35,13 +41,14 @@
         <el-table-column
           label="所属组织">
           <template slot-scope="scope">
-            <span v-for="item in scope.row.organizations">{{item.name}}<br></span>
+            <span v-for="(item,index) in scope.row.organizations" :key="index">{{item.name}}<br></span>
           </template>
         </el-table-column>
         <el-table-column
           label="所属角色">
           <template slot-scope="scope">
-            <a class="font-cl-blue" v-for="item in scope.row.roles"
+            <a class="font-cl-blue" v-for="(item,index) in scope.row.roles"
+            :key="index"
                @click="assignPermissions(item.id)">{{item.name}}<br></a>
           </template>
         </el-table-column>
@@ -130,11 +137,11 @@
           },
           {
             type: '总部',
-            value: 0
+            value: 2
           },
           {
             type: '校园',
-            value: 1
+            value: 3
           }],
         display_name: '',
         type: -1,

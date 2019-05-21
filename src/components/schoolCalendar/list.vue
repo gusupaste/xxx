@@ -1,12 +1,12 @@
 <template>
     <div class="wrap viewClendar">
         <div class="header">
-            <p class="local_path_style">YOU ARE HERE : 校园 > 校园列表 > 开班概况 > <span class="font-cl-blue">查看校日历</span></p>
+            <p class="local_path_style">YOU ARE HERE : <span class="font-cl-blue">校日历</span></p>
         </div>
         <div class="header">
         </div>
         <div class="school-name mt10">
-            校园名称：{{name}}
+            校园名称：{{center.name}}
         </div>
         <div style="margin-top:20px">
             <span>班级类型：</span>
@@ -61,54 +61,48 @@ import Calendar from 'vue-calendar-component';
 export default {
     data(){
         return {
-            list:[1,2,3,4,5,6,7,8,9,10,11,12],
-            name:this.$cookies.get('userInfo').fullname,
-            id:this.$cookies.get('userInfo').pk,
             type:'',
             yearList:[],
             textTop:['Su','Mo','Tu','We','Th','Fr','Sa'],
             classTypeList:[],
             year:'',
-            monthList:[]
+            monthList:[],
+            center:{}
         }
     },
     created () {
-        this.getYear();
-        this.getClass(); 
-        console.log()  
-
+        this.center = this.$cookies.get('userInfo').center;
+        this.getClass();
     },
     methods: {
         getYear(){
             var _this = this;
             this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
-                console.log(res.data)
                 _this.yearList = res.data.results;
                 _this.yearList.forEach(item => {
                     if(item.is_selected === 1){
                         _this.year = item.id;
                     }
                 });
-                _this.getCalendar();
+                
             })
         },
         getClass(){
             var _this = this;
-            this.$axios.get('/api/center/class/?center_id='+this.id)
+            this.$axios.get('/api/center/class/?center_id='+this.center.id)
             .then(res=>{
-                console.log(res.data)
                 _this.classTypeList = res.data.class_type_list;
                 _this.type = res.data.class_type_list[0].id;
+                _this.getYear();
             })
         },
         getCalendar(){
             var _this = this;
             _this.monthList = [];
-            console.log(this.year)
             this.$axios.get('/api/school_calendar/calendar/show_calendar_days/',{
                 params:{
-                    center_id:this.id,
+                    center_id:this.center.id,
                     class_type_id:this.type,
                     academic_year_id:this.year
                 }
@@ -136,10 +130,14 @@ export default {
   },
   watch: {
       year(){
-          this.getCalendar()
+          if(this.type !== ""){
+              this.getCalendar()
+          }
       },
       type(){
-          this.getCalendar()
+          if(this.year !== ""){
+              this.getCalendar()
+          }
       },
   }
 }
