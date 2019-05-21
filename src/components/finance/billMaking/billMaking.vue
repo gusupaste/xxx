@@ -112,7 +112,7 @@
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
                 </router-link>
-                <router-link :to="'/financemanagement/dollar/'+scope.row.id">
+                <router-link :to="'/financemanagement/dollar/'+scope.row.id" v-if="scope.row.bill_status === 0">
                     <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>

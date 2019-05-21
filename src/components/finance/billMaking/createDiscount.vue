@@ -54,7 +54,7 @@
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item>
-                    <el-button @click="getSubject" type="primary">搜索</el-button>
+                    <el-button @click="getSubject" type="primary">搜索费用科目</el-button>
                 </el-form-item>
                 <br>
                 <el-form-item label="收费政策：" class="w300_input">
@@ -86,13 +86,11 @@
                 style="width: 100%">
                 <el-table-column
                 prop="subject_category"
-                label="费用类型"
-                width="180">
+                label="费用类型">
                 </el-table-column>
                 <el-table-column
                 prop="subject"
-                label="费用科目"
-                width="180">
+                label="费用科目">
                 </el-table-column>
                 <el-table-column
                 prop="payment_method"
@@ -112,7 +110,7 @@
                         v-model="saveForm.billitem_list[scope.$index].begin_date"
                         type="date"
                         value-format="yyyy-MM-dd"
-                        @change="changePayDate">
+                        @change="changePayDate($event,scope.row)">
                     </el-date-picker>
                     —
                     <el-date-picker
@@ -121,7 +119,7 @@
                         type="date"
                         disabledDate="2019-05-16"
                         value-format="yyyy-MM-dd"
-                        @change="changePayDate">
+                        @change="changePayDate($event,scope.row)">
                     </el-date-picker>
                 </template>
                 </el-table-column>
@@ -130,9 +128,10 @@
                 prop="address"
                 label="缴费时长">
                 <template slot-scope="scope">
-                    <span v-if="(new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30) > 0">
+                    <span>{{scope.row.during}}</span>月
+                    <!-- <span v-if="(new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30) > 0">
                         {{(Math.round((new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30)*2+0.49)/2)}}月
-                    </span>
+                    </span> -->
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -334,7 +333,8 @@ export default {
                 policy_id: "",
                 amount: "",
                 actual_amount: "",
-                billitem_list:[]
+                billitem_list:[],
+                center_id:this.$cookies.get('userInfo').center.id
             },
             info:{},
             checkedSubject:[],
@@ -399,6 +399,13 @@ export default {
                 });
                 return
             }
+            if(this.addform.end_date < this.addform.start_date ){
+                this.$message({
+                    type:"error",
+                    message:"入学日期必须大于实际缴费日期"
+                });
+                return
+            }
             this.saveForm.student_id = this.multipleTable[0].id;
             this.saveForm.class_id = this.multipleTable[0].class_id;
             this.saveForm.academic_year_id = this.addform.academic_year_id;
@@ -424,7 +431,8 @@ export default {
             this.addform.date = this.$options.filters['formatDate2'](new Date());
             this.$axios.get('/api/finance/bill/show_bill_student/',{
                 params:{
-                    search_str:this.searchStr
+                    search_str:this.searchStr,
+                    center_id:this.saveForm.center_id
                 }
             })
             .then(res=>{
@@ -449,7 +457,11 @@ export default {
         },
         getYear(){
             var _this = this;
-            this.$axios.get('/api/finance/bill/show_academic_year/')
+            this.$axios.get('/api/finance/bill/show_academic_year/',{
+                params:{
+                    center_id:this.saveForm.center_id
+                }
+            })
             .then(res=>{
                 _this.yearList = res.data.data.academic_year_li;
                 _this.getInfo();
@@ -476,6 +488,7 @@ export default {
                 params:{
                     academic_year_id:this.addform.academic_year_id,
                     payment_method:this.addform.pay_method,
+                    center_id:this.saveForm.center_id
                 }
             })
             .then(res=>{
@@ -529,8 +542,31 @@ export default {
             });
             } 
         },
-        changePayDate(val){
-            console.log(val)
+        changePayDate(val,row){
+            console.log(row.begin_date)
+            console.log(row.end_date)
+            var _this = this;
+            if(row.begin_date  && row.end_date ) {
+                if(row.end_date<row.begin_date) {
+                    this.$message({
+                        type:'error',
+                        message:'结束时间必须大于开始时间'
+                    })
+                    return
+                }
+                this.$axios.get('/api/finance/select/total_month_count/',{
+                    params:{
+                        center_id:this.saveForm.center_id,
+                        class_type_id:this.multipleTable[0].class_id,
+                        from_date:row.begin_date,
+                        to_date:row.end_date
+                    }
+                }).then(res=>{
+                    console.log(res)
+                    row.during = res.data.data;
+                })
+            }
+            
         }
     }
 }
