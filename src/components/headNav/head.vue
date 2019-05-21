@@ -20,17 +20,17 @@
             <!-- 入学管理 -->
             <el-submenu index="/entranceManage" v-if="permission['enrollment-management']['enrollment-management-show']">
               <template slot="title">入学管理</template>
-              <el-menu-item index="/entranceManage/intentional-admission" route="/entranceManage/intentional-admission">意向入学缴费</el-menu-item>
-              <el-menu-item index="/entranceManage/admission-registration" route="/entranceManage/admission-registration">预备生入园登记</el-menu-item>
+              <el-menu-item v-if="permission['enrollment-management']['Intentionality-enrol-pay-list']" index="/entranceManage/intentional-admission" route="/entranceManage/intentional-admission">意向入学缴费</el-menu-item>
+              <el-menu-item v-if="permission['enrollment-management']['Registration-of-Preparatory-Students']" index="/entranceManage/admission-registration" route="/entranceManage/admission-registration">预备生入园登记</el-menu-item>
             </el-submenu>
             <!-- 校园 -->
             <el-submenu index="/school" v-if="permission.campus['campus-show']">
                 <template slot="title">校园</template>
-                <el-menu-item index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
-                <el-menu-item index="/school/school-list" route="/school/school-list">校园列表</el-menu-item>
-                <el-menu-item index="/school/discountbudget-list" route="/school/discountbudget-list">校园折扣预算</el-menu-item>
-                <el-menu-item index="/school/enrollmentnumber-list" route="/school/enrollmentnumber-list">校园招生目标数</el-menu-item>
-                <el-menu-item index="/school/revenuetarget-list" route="/school/revenuetarget-list">校园收入目标</el-menu-item>
+                <el-menu-item v-if="permission['campus']['Intercity-list']" index="/school/intercity-list" route="/school/intercity-list">城际列表</el-menu-item>
+                <el-menu-item v-if="permission['campus']['Campus-list']" index="/school/school-list" route="/school/school-list">校园列表</el-menu-item>
+                <el-menu-item v-if="permission['campus']['Campus-Discount-Budget']" index="/school/discountbudget-list" route="/school/discountbudget-list">校园折扣预算</el-menu-item>
+                <el-menu-item v-if="permission['campus']['campus-enrollment-Target-number']" index="/school/enrollmentnumber-list" route="/school/enrollmentnumber-list">校园招生目标数</el-menu-item>
+                <el-menu-item v-if="permission['campus']['campus-revenue-target']" index="/school/revenuetarget-list" route="/school/revenuetarget-list">校园收入目标</el-menu-item>
             </el-submenu>
             <!-- 学生档案 -->
             <el-menu-item v-if="permission['student-archives']['student-archives-show']" index="/studentFile/studentFileList" route="/studentFile/studentFileList">学生档案</el-menu-item>
@@ -41,8 +41,8 @@
             <!-- 学生考勤校园 -->
             <el-submenu index="5" v-if="permission['student-attendance-campus']['student-attendance-campus-show']">
               <template slot="title">学生考勤</template>
-              <el-menu-item index="/studentattendance/attendanceDaily" route="/studentattendance/attendanceDaily">每日考勤</el-menu-item>
-              <el-menu-item index="/studentattendance/attendanceStatistics" route="/studentattendance/attendanceStatistics">考勤统计</el-menu-item>
+              <el-menu-item v-if="permission['student-attendance-campus']['daily-attendance']" index="/studentattendance/attendanceDaily" route="/studentattendance/attendanceDaily">每日考勤</el-menu-item>
+              <el-menu-item v-if="permission['student-attendance-campus']['attendance statistics']" index="/studentattendance/attendanceStatistics" route="/studentattendance/attendanceStatistics">考勤统计</el-menu-item>
             </el-submenu>
             <!-- 财务处理 -->
             <el-submenu index="6" v-if="permission['finance']['finance-show']">
@@ -68,13 +68,13 @@
             <!-- 系统管理 -->
             <el-submenu index="7" v-if="permission['system-management']['system-management-show']">
               <template slot="title">系统管理</template>
-              <el-menu-item index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">品牌管理</el-menu-item>
-              <el-menu-item index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">学年定义</el-menu-item>
-              <el-menu-item index="/systemmanagement/settlement-area" route="/systemmanagement/settlement-area">结算区间定义</el-menu-item>
-              <el-menu-item index="/systemmanagement/processDefinition" route="/systemmanagement/processDefinition">流程定义</el-menu-item>
-              <el-menu-item index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
-              <el-menu-item index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>
-              <el-menu-item index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
+              <el-menu-item v-if="permission['system-management']['brand-management']" index="/systemmanagement/brand-management" route="/systemmanagement/brand-management">品牌管理</el-menu-item>
+              <el-menu-item v-if="permission['system-management']['definition-of-academic-year']" index="/systemmanagement/academic-year" route="/systemmanagement/academic-year">学年定义</el-menu-item>
+              <el-menu-item v-if="permission['system-management']['definition-of-settlement-interval']" index="/systemmanagement/settlement-area" route="/systemmanagement/settlement-area">结算区间定义</el-menu-item>
+              <el-menu-item v-if="permission['system-management']['process-definition']" index="/systemmanagement/processDefinition" route="/systemmanagement/processDefinition">流程定义</el-menu-item>
+              <el-menu-item v-if="permission['system-management']['user-management']" index="/systemmanagement/usermanagement" route="/systemmanagement/usermanagement">用户管理</el-menu-item>
+              <el-menu-item v-if="permission['system-management']['role-management']" index="/systemmanagement/rolemanagement" route="/systemmanagement/rolemanagement">角色管理</el-menu-item>
+              <el-menu-item v-if="permission['system-management']['school-calendar-management']" index="/schoolCalendarList" route="/schoolCalendarList">校日历管理</el-menu-item>
             </el-submenu>
             <!-- 校日历 -->
             <el-menu-item v-if="permission['school-calendar']['school-calendar-show']" index="/newschoolCalendar" route="/newschoolCalendar">校日历</el-menu-item>
@@ -122,11 +122,17 @@ export default {
         }
       },
       getInfo(){
-          console.log(this.$cookies.get('userInfo'))
-        if(this.$cookies.get('userInfo') !== null) {
-          this.name =  this.$cookies.get('userInfo').fullname;
-          this.permission =  this.$cookies.get('userInfo').user_permissions;
+        var _this = this;
+        if(_this.$cookies.get('userInfo') !== null){
+          this.permission =  _this.$cookies.get('userInfo').user_permissions;
         }
+        this.$axios.get('/api/common/get_user_permission_and_centers/')
+        .then(res=>{
+          console.log(res.data)
+          _this.$cookies.set('userInfo',res.data.data);
+          _this.name =  _this.$cookies.get('userInfo').fullname;
+          _this.permission =  _this.$cookies.get('userInfo').user_permissions;
+        })
       },
       success(res){
         this.premission = res;
@@ -135,6 +141,9 @@ export default {
         localStorage.removeItem('tabName');
         console.log(key,keyPath)
         this.$cookies.set('key',key);
+      },
+      getPermission(){
+        
       }
   }
 }

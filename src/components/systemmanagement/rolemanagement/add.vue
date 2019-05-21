@@ -35,7 +35,7 @@
       <p>该角色所需的系统权限：</p>
       <el-collapse :data="boxData" @change="handleChange">
         <div v-for="(item,index) in boxData" :key="index">
-          <el-collapse-item :name="index">
+          <el-collapse-item :name="index" >
             <template slot="title">
               <li style="line-height: 0" name="selectColor">{{item.name}}</li>
             </template>
@@ -47,7 +47,7 @@
                 </el-table-column>
                 <el-table-column label="允许">
                   <template slot-scope="scope">
-                    <input type="checkbox" v-model="checkedValue" :value="scope.row.id"/>
+                    <input type="checkbox" :disabled="scope.row.type !== 2 && scope.row.type != permission_status" v-model="checkedValue" :value="scope.row.id"/>
                   </template>
                 </el-table-column>
               </el-table>
@@ -131,10 +131,11 @@
         pagesize: 10,
         total: 1,
         addUserList:[],
+        permission_status:Number(this.$route.query.status)
       }
     },
-    mounted: function () {
-      this.id = Number(this.$route.query.id)
+    created: function () {
+      this.id = Number(this.$route.query.id);
       if (this.id !== 0) {
         this.getRole()
       }
@@ -168,9 +169,13 @@
         this.loading = true
         var url = '/api/user/permissions_management/'
         this.$axios.get(url).then(res => {
-          this.loading = false
+          this.loading = false;
           if (res.data.status_code === 1) {
-            this.boxData = res.data.data
+            res.data.data.forEach(item=>{
+              if(item.type == 2 || item.type == this.permission_status){
+                this.boxData.push(item)
+              }
+            })
           }
         }).catch(err => {
           console.log(err)

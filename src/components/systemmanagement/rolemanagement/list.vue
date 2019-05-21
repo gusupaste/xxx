@@ -30,7 +30,9 @@
           </el-tab-pane>
           <el-tab-pane label="校园" name="second">
             <span class="right"><el-button class="orange" type="text" @click="addRole(0)"><i
-              class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
+              class="fa fa-plus-square font-size-20"></i>&nbsp;
+              <span class="font-size-14">新增角色</span>
+              </el-button></span>
             <el-table
               :data="roleList"
               border

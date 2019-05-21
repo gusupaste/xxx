@@ -112,7 +112,7 @@
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
                 </router-link>
-                <router-link :to="'/financemanagement/dollar/'+scope.row.id">
+                <router-link :to="'/financemanagement/dollar/'+scope.row.id" v-if="scope.row.bill_status === 0">
                     <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
@@ -176,7 +176,8 @@ export default {
                 class_id:'',
                 search_str:'',
                 page:1,
-                size:10
+                size:10,
+                center_id:this.$cookies.get('userInfo').center.id
             }
         }
     },
@@ -199,7 +200,11 @@ export default {
         },
         searchInfo(){
             var _this = this;
-            this.$axios.get('/api/finance/bill/search_info/')
+            this.$axios.get('/api/finance/bill/search_info/',{
+                params:{
+                    center_id:this.searchform.center_id
+                }
+            })
             .then(res=>{
                 console.log(res.data.data)
                 this.academic_year_li = res.data.data.academic_year_li;
