@@ -308,10 +308,16 @@
                 <td colspan="">
                   <el-radio v-model="saveForm.radio2" label="2">
                     <el-select v-model="saveForm.method_type">
-                      <el-option value="连续"></el-option>
+                      <el-option v-for="item in method_type"
+                                 :key="item.value"
+                                 :label="item.label"
+                                 :value="item.value"></el-option>
                     </el-select>
-                    <el-select v-model="saveForm.compare_type">
-                      <el-option value="大于"></el-option>
+                    <el-select v-model="saveForm.compare_type" placeholder="请选择">
+                      <el-option v-for="item in compare_type"
+                                 :key="item.value"
+                                 :label="item.label"
+                                 :value="item.value"></el-option>
                     </el-select>
                     <el-input type="text" v-model="saveForm.days"></el-input>
                     天，
@@ -1153,7 +1159,7 @@ export default {
         var obj = {};
         obj.center = this.saveForm.center || 1;
         obj.academic_year = this.saveForm.academic_year || 1;
-        if(this.saveForm.radio9 = '退费'){
+        if(this.saveForm.radio9 === '退费'){
           obj.return_type = 1;
         }else{
           obj.return_type = 2;
@@ -1173,7 +1179,7 @@ export default {
           }
         }
         if(type === 'add'){
-          this.$axios.post(this.add_07_url,obj).then(res=>{
+          this.$axios.post(this.add_08_url,obj).then(res=>{
             if(res.status == 200){
               this.$message({
                 type:'success',
@@ -1186,7 +1192,7 @@ export default {
             console.log(err)
           })
         }else{
-          this.$axios.put(this.add_07_url+'1/',obj).then(res=>{
+          this.$axios.put(this.add_08_url+'1/',obj).then(res=>{
             if(res.status == 200){
               this.$message({
                 type:'success',
