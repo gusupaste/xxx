@@ -7,7 +7,7 @@
         <div class="clearfix mt10">
             <el-form inline>
                 <el-form-item label="学生：">
-                    <el-button  style="border-raius:20px" @click="innerVisible=true">
+                    <el-button v-if="!is_edit" style="border-raius:20px" @click="innerVisible=true">
                         <i class="fa fa-search"></i>添加
                     </el-button>
                 </el-form-item>
@@ -128,7 +128,7 @@
                 prop="address"
                 label="缴费时长">
                 <template slot-scope="scope">
-                    <span>{{scope.row.during}}</span>月
+                    <span>{{scope.row.pay_month}}</span>月
                     <!-- <span v-if="(new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30) > 0">
                         {{(Math.round((new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30)*2+0.49)/2)}}月
                     </span> -->
@@ -163,7 +163,8 @@
         </div>
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">取消</button>
-            <button class="btn bg-green" @click="saveInfo">保存</button>
+            <button class="btn bg-green" v-if="!is_edit" @click="saveInfo">保存</button>
+            <button class="btn bg-green" v-if="is_edit" @click="editInfo">保存</button>
         </div>
         <!-- 添加学生 -->
       <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
@@ -356,7 +357,8 @@ export default {
             multipleTable:[],
             multipleTable1:[],
             id:'',
-            reviewInfo:{}
+            reviewInfo:{},
+            is_edit:false
         }
     },
     mounted () {
@@ -429,6 +431,71 @@ export default {
                 }
             })
         },
+        editInfo(){
+            var _this = this;
+            if(this.multipleTable.length == 0){
+                this.$message({
+                    type:"error",
+                    message:"请选择学生"
+                });
+                return
+            }
+            if(this.addform.end_date == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择入学日期"
+                });
+                return
+            }
+            if(this.addform.start_date == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择实际缴费日期"
+                });
+                return
+            }
+            if(this.saveForm.billitem_list.length == 0){
+                this.$message({
+                    type:"error",
+                    message:"请选择费用分摊明细"
+                });
+                return
+            }
+            if(this.saveForm.policy_id == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择收费政策"
+                });
+                return
+            }
+            if(this.addform.end_date < this.addform.start_date ){
+                this.$message({
+                    type:"error",
+                    message:"入学日期必须大于实际缴费日期"
+                });
+                return
+            }
+            this.saveForm.student_id = this.multipleTable[0].id;
+            this.saveForm.class_id = this.multipleTable[0].class_id;
+            this.saveForm.academic_year_id = this.addform.academic_year_id;
+            this.saveForm.planned_payment_date = this.addform.start_date;
+            this.saveForm.enter_date = this.addform.end_date;
+            this.saveForm.actual_amount = this.totalprice;
+            this.saveForm.amount = this.totalamount;
+            this.saveForm.pay_method = this.addform.pay_method;
+            console.log(this.saveForm);
+            this.$axios.post('/api/finance/bill/'+this.id+'/set_bill_info/',this.saveForm)
+            .then(res=>{
+                console.log(res.data)
+                if(res.data.status === 1){
+                    _this.$message({
+                        type:"success",
+                        message:"保存成功！"
+                    })
+                    _this.$router.push('/financemanagement/billMaking');
+                }
+            })
+        },
         getStudent(val){
             var _this = this;
             this.addform.date = this.$options.filters['formatDate2'](new Date());
@@ -443,9 +510,10 @@ export default {
                 _this.schoolName = res.data.data.center_name;    
                 if(val === 1){
                     if(_this.$route.query.id){
-                    _this.$nextTick(()=>{
-                        _this.getDiscountInfo();
-                    })
+                        _this.is_edit = true;
+                        _this.$nextTick(()=>{
+                            _this.getDiscountInfo();
+                        })
                 }
                 }
             })
@@ -471,18 +539,19 @@ export default {
             this.$axios.get('/api/finance/bill/'+this.id+'/info_single_bill/')
             .then(res=>{        
                 _this.addform = Object.assign({},res.data.data.bill_info);
-                _this.addform.start_date = res.data.data.bill_info.planned_payment_date;
-                _this.addform.end_date = res.data.data.bill_info.enter_date;
-                _this.addform.pay_method = res.data.data.bill_info.pay_method_id;
-                _this.saveForm.policy_id = res.data.data.bill_info.policy_id;
+                _this.$set(_this.addform,'start_date',res.data.data.bill_info.planned_payment_date)
+                _this.$set(_this.addform,'end_date',res.data.data.bill_info.enter_date)
+                _this.$set(_this.saveForm,'policy_id',res.data.data.bill_info.policy_id)
+                _this.$set(_this.addform,'pay_method',res.data.data.bill_info.pay_method_id)
                 _this.studentList.forEach(item=>{
                     if(item.id == _this.addform.student_id){
                         _this.choosePerson = item;
                         _this.multipleTable = [item];
                     }
                 });
-                _this.getSubject();
+                // _this.getSubject();
                 _this.checkedSubject = res.data.data.billitem_li; 
+                _this.saveForm.billitem_list = res.data.data.billitem_li;
             })
         },
         getYear(){
@@ -560,6 +629,8 @@ export default {
         },
         deleteSubject(val){
             var index = this.checkedSubject.indexOf(val);
+            console.log(index)
+            console.log(this.checkedSubject)
             this.checkedSubject.splice(index,1);
             this.multipleTable2 = this.checkedSubject;
             this.toggleSelection([val]);
@@ -568,13 +639,13 @@ export default {
         toggleSelection(rows) {
             if (rows) {
             rows.forEach(row => {
-                this.$refs.multipleTable2.toggleRowSelection(row,false);
+                if(this.$refs.multipleTable2){
+                    this.$refs.multipleTable2.toggleRowSelection(row,false);
+                }
             });
             } 
         },
         changePayDate(val,row){
-            console.log(row.begin_date)
-            console.log(row.end_date)
             var _this = this;
             if(row.begin_date  && row.end_date ) {
                 if(row.end_date<row.begin_date) {
@@ -593,7 +664,7 @@ export default {
                     }
                 }).then(res=>{
                     console.log(res)
-                    row.during = res.data.data;
+                    row.pay_month = res.data.data;
                 })
             }
             
