@@ -345,25 +345,25 @@
                 <td colspan="2">活动费</td>
                 <td colspan="3">
                   当前学期，退
-                  <el-input type="text" v-model="saveForm.dangxue"></el-input> % ，
+                  <el-input type="text" v-model="saveForm.current_term_per"></el-input> % ，
                   剩余学期，退
-                  <el-input type="text" v-model="saveForm.shengyu"></el-input> %
+                  <el-input type="text" v-model="saveForm.last_term_per"></el-input> %
                 </td>
               </tr>
               <tr>
                 <td colspan="2">校车费</td>
                 <td colspan="3">
                   当月，退
-                  <el-input type="text" v-model="saveForm.dangxue"></el-input> % ，
+                  <el-input type="text" v-model="saveForm.current_month_per"></el-input> % ，
                   剩余月，退
-                  <el-input type="text" v-model="saveForm.shengyu"></el-input> %
+                  <el-input type="text" v-model="saveForm.last_month_per"></el-input> %
                 </td>
               </tr>
               <tr>
                 <td colspan="2">无发票</td>
                 <td colspan="3">
                   减退费金额
-                  <el-input type="text" v-model="saveForm.dangxue"></el-input> %
+                  <el-input type="text" v-model="saveForm.refund_money_per"></el-input> %
                 </td>
               </tr>
           </tbody>
@@ -384,7 +384,7 @@
               <td width="90px">无发票</td>
               <td colspan="2">
                 金额-金额 x
-                <el-input type="text" v-model="saveForm.dangxue"></el-input> %
+                <el-input type="text" v-model="saveForm.refund_money_per2"></el-input> %
               </td>
             </tr>
             <tr>
@@ -395,9 +395,9 @@
               </td>
               <td>
                 缺勤{{ saveForm.radio10 }}，当前月
-                <el-input type="text" v-model="saveForm.dangxue"></el-input>
+                <el-input type="text" v-model="saveForm.current_month_per2"></el-input>
                  % {{ saveForm.radio10 }}，剩余月
-                <el-input type="text" v-model="saveForm.shengyu"></el-input>
+                <el-input type="text" v-model="saveForm.last_month_per2"></el-input>
                  % {{ saveForm.radio10 }}
               </td>
             </tr>
@@ -408,40 +408,44 @@
               </td>
               <td>
                 退学，当前月{{ saveForm.radio6 }}
-                <el-input type="text" v-model="saveForm.dangxue"></el-input>
+                <el-input type="text" v-model="saveForm.current_month_per3"></el-input>
                  % ，剩余月{{ saveForm.radio6 }}
-                <el-input type="text" v-model="saveForm.shengyu"></el-input>
+                <el-input type="text" v-model="saveForm.last_month_per3"></el-input>
                  %
               </td>
             </tr>
             <tr>
               <td width="90px" rowspan="2">餐费</td>
-              <td>
+              <td rowspan="2">
                 <el-radio v-model="saveForm.radio7" label="退费"></el-radio>
                 <el-radio v-model="saveForm.radio7" label="转备用金"></el-radio>
               </td>
               <td>
-                <el-select>
-                  <el-option value="连续"></el-option>
-                  <el-option value="累计"></el-option>
+                <el-select v-model="saveForm.method_type5">
+                  <el-option v-for="item in method_type"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
                 </el-select>
-                <el-select>
-                  <el-option value="大于"></el-option>
-                  <el-option value="等于"></el-option>
+                <el-select v-model="saveForm.compare_type5" placeholder="请选择">
+                  <el-option v-for="item in compare_type"
+                             :key="item.value"
+                             :label="item.label"
+                             :value="item.value"></el-option>
                 </el-select>
-                <el-input type="text" v-model="saveForm.tian"></el-input>
+                <el-input type="text" v-model="saveForm.days5"></el-input>
                 天，{{ saveForm.radio7 }}，缺勤天数 x
-                <el-input type="text" v-model="saveForm.shengyu"></el-input> 元
+                <el-input type="text" v-model="saveForm.days_fee5"></el-input> 元
               </td>
             </tr>
             <tr>
-              <td>
+              <!--<td>
                 <el-radio v-model="saveForm.radio8" label="退费"></el-radio>
                 <el-radio v-model="saveForm.radio8" label="转备用金"></el-radio>
-              </td>
+              </td>-->
               <td>
-                整月{{ saveForm.radio8 }}
-                <el-input type="text" v-model="saveForm.shengyu"></el-input> %
+                整月{{ saveForm.radio7 }}
+                <el-input type="text" v-model="saveForm.full_month_per2"></el-input> %
               </td>
             </tr>
         </tbody>
@@ -596,8 +600,23 @@ export default {
               compare_type:'',
               method_type:'',
               days:'',
-              days_fee:'',
+              days_fee:0,
               charges_days:'',
+              current_term_per:'',
+              last_term_per:'',
+              current_month_per:'',
+              last_month_per:'',
+              refund_money_per:'',
+              refund_money_per2:'',
+              current_month_per2:'',
+              last_month_per2:'',
+              current_month_per3:'',
+              last_month_per3:'',
+              full_month_per2:'',
+              method_type5:'',
+              compare_type5:'',
+              days5:'',
+              days_fee5:'',
 
               radio10:'退费',
               radio9:'退费',
@@ -609,33 +628,6 @@ export default {
               radio3:'0',
               radio4:'0',
               radio5:'0',
-              quetian:'',
-              quetian2:'',
-              waiji:'',
-              feiwaiji1:'',
-              feiwaiji2:'',
-              jiantui:'',
-              liyuan:'',
-              xingzheng:'',
-              dangyue:'',
-              yuefen:'',
-              yuanjia:'',
-              yuefen1:'',
-              yuanjia1:'',
-              yuefen2:'',
-              yuanjia2:'',
-              yuefen3:'',
-              yuanjia3:'',
-              kouyue:'',
-              beiyongjin:'',
-              beiyongjin2:'',
-              zhengyue:'',
-              lianxu:'',
-              dayu:'',
-              tian:'',
-              dangxue:'',
-              shengyu:'',
-              tuifei:'',
             },
             get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center=1&academic_year=1',
             get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center=1&academic_year=1',
@@ -645,6 +637,13 @@ export default {
             get_06_url:'/api/refund_policy/student_absence/info/?center=1&academic_year=1',
             get_07_url:'/api/refund_policy/student_vacation/info/?center=1&academic_year=1',
             get_08_url:'/api/refund_policy/student_meal/info/?center=1&academic_year=1',
+            get_09_url:'/api/refund_policy/activity_fee/info/?center=1&academic_year=1',
+            get_10_url:'/api/refund_policy/school_bus_fee/info/?center=1&academic_year=1',
+            get_11_url:'/api/refund_policy/no_invoice/info/?center=1&academic_year=1',
+            get_12_url:'/api/refund_policy/cheap_no_invoice/info/?center=1&academic_year=1',
+            get_13_url:'/api/refund_policy/cheap_absence/info/?center=1&academic_year=1',
+            get_14_url:'/api/refund_policy/cheap_quit/info/?center=1&academic_year=1',
+            get_15_url:'/api/refund_policy/cheap_meal_fee/info/?center=1&academic_year=1',
             add_01_url:'/api/refund_policy/prepared_student_refund/',
             add_02_url:'/api/refund_policy/student_quit_month/',
             add_03_url:'/api/refund_policy/student_quit_term/',
@@ -653,6 +652,14 @@ export default {
             add_06_url:'/api/refund_policy/student_absence/',
             add_07_url:'/api/refund_policy/student_vacation/',
             add_08_url:'/api/refund_policy/student_meal/',
+            add_09_url:'/api/refund_policy/activity_fee/',
+            add_10_url:'/api/refund_policy/school_bus_fee/',
+            add_11_url:'/api/refund_policy/no_invoice/',
+            add_12_url:'/api/refund_policy/cheap_no_invoice/',
+            add_13_url:'/api/refund_policy/cheap_absence/',
+            add_14_url:'/api/refund_policy/cheap_quit/',
+            add_15_url:'/api/refund_policy/cheap_meal_fee/',
+            success_flag:[],
         }
     },
     mounted:function(){
@@ -668,6 +675,13 @@ export default {
           this.getStudentAabsence();
           this.getStudentVacation();
           this.getStudentMeal();
+          this.getActivityFee();
+          this.getSchoolBusFee();
+          this.getNoInvoice();
+          this.getCheapNoInvoice();
+          this.getCheapAbsence();
+          this.getCheapQuit();
+          this.getCheapMealFee();
         }
     },
     methods:{
@@ -827,10 +841,10 @@ export default {
       },
       getStudentMeal:function () {
         this.$axios.get(this.get_08_url).then(res=>{
-          if(res.data.return_type === 1){
-            this.saveForm.radio9 = '退费';
-          }else{
+          if(res.data.return_type === 2){
             this.saveForm.radio9 = '转备用金';
+          }else{
+            this.saveForm.radio9 = '退费';
           }
           if(res.data.full_month_per){
             this.saveForm.radio2 = '0';
@@ -839,12 +853,107 @@ export default {
             this.saveForm.radio2 = '1';
           }else if(res.data.days){
             this.saveForm.radio2 = '2';
+            if(res.data.charges_days){
+              this.saveForm.radio3 = '1';
+              this.saveForm.days = '';
+              this.saveForm.charges_days = res.data.charges_days;
+            }else{
+              this.saveForm.radio3 = '0';
+              this.saveForm.days = res.data.days;
+              this.saveForm.charges_days = '';
+            }
+            this.saveForm.compare_type = res.data.compare_type;
+            this.saveForm.method_type = res.data.method_type;
+            this.saveForm.return_type = res.data.return_type;
           }
         }).catch(err=>{
           console.log(err)
         })
       },
+      getActivityFee:function () {
+        this.$axios.get(this.get_09_url).then(res=>{
+          if(res.data.current_term_per){
+            this.saveForm.current_term_per = res.data.current_term_per;
+            this.saveForm.last_term_per = res.data.last_term_per;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getSchoolBusFee:function () {
+        this.$axios.get(this.get_10_url).then(res=>{
+          if(res.data.current_month_per){
+            this.saveForm.current_month_per = res.data.current_month_per;
+            this.saveForm.last_month_per = res.data.last_month_per;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getNoInvoice:function () {
+        this.$axios.get(this.get_11_url).then(res=>{
+          if(res.data.refund_money_per) {
+            this.saveForm.refund_money_per = res.data.refund_money_per;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getCheapNoInvoice:function () {
+        this.$axios.get(this.get_12_url).then(res=>{
+          if(res.data.current_month_per){
+            this.saveForm.refund_money_per2 = res.data.refund_money_per ;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getCheapAbsence:function () {
+        this.$axios.get(this.get_13_url).then(res=>{
+            if(res.data.return_type === 2){
+              this.saveForm.radio10 = '退费';
+            }else{
+              this.saveForm.radio10 = '转备用金'
+            }
+            this.saveForm.current_month_per2 = res.data.current_month_per;
+            this.saveForm.last_month_per2 = res.data.last_month_per;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getCheapQuit:function () {
+        this.$axios.get(this.get_14_url).then(res=>{
+          if(res.data.return_type){
+            if(res.data.return_type === 2){
+              this.saveForm.radio6 = '转备用金'
+            }else{
+              this.saveForm.radio6 = '退费'
+            }
+            this.saveForm.current_month_per3 = res.data.current_month_per;
+            this.saveForm.last_month_per3 = res.data.last_month_per;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getCheapMealFee:function () {
+        this.$axios.get(this.get_15_url).then(res=>{
+          if(res.data.return_type === 2){
+            this.saveForm.radio7 = '转备用金'
+          }else{
+            this.saveForm.radio7 = '退费'
+          }
+          this.saveForm.full_month_per2 = res.data.full_month_per;
+          this.saveForm.method_type5 = res.data.method_type;
+          this.saveForm.compare_type5 = res.data.compare_type;
+          this.saveForm.days5 = res.data.days;
+          this.saveForm.days_fee5 = res.data.days_fee;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       submit:function (formName) {
+        this.success_flag = [];
         var type = this.$route.params.type;
         this.submit_fun1(type);
         this.submit_fun2(type);
@@ -854,6 +963,13 @@ export default {
         this.submit_fun6(type);
         this.submit_fun7(type);
         this.submit_fun8(type);
+        this.submit_fun9(type);
+        this.submit_fun10(type);
+        this.submit_fun11(type);
+        this.submit_fun12(type);
+        this.submit_fun13(type);
+        this.submit_fun14(type);
+        this.submit_fun15(type);
       },
       submit_fun1:function (type) {
         var data1 = {
@@ -871,6 +987,7 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_01_url,data1).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('01');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -884,6 +1001,7 @@ export default {
         }else{
           this.$axios.put(this.add_01_url+'1/',data1).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('01');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -922,6 +1040,7 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_02_url,data2).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('02');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -935,6 +1054,7 @@ export default {
         }else{
           this.$axios.put(this.add_02_url+'1/',data2).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('02');
               this.$message({
                 type:'success',
                 message:'编辑成功！'
@@ -959,6 +1079,7 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_03_url,data3).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('03');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -972,6 +1093,7 @@ export default {
         }else{
           this.$axios.put(this.add_03_url+'1/',data3).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('03');
               this.$message({
                 type:'success',
                 message:'编辑成功！'
@@ -996,6 +1118,7 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_04_url,data4).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('04');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -1009,6 +1132,7 @@ export default {
         }else{
           this.$axios.put(this.add_04_url+'1/',data4).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('04');
               this.$message({
                 type:'success',
                 message:'编辑成功！'
@@ -1032,6 +1156,7 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_05_url,data5).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('05');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -1045,6 +1170,7 @@ export default {
         }else{
           this.$axios.put(this.add_05_url+'1/',data5).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('05');
               this.$message({
                 type:'success',
                 message:'编辑成功！'
@@ -1081,6 +1207,7 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_06_url,data6).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('06');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -1094,6 +1221,7 @@ export default {
         }else{
           this.$axios.put(this.add_06_url+'1/',data6).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('06');
               this.$message({
                 type:'success',
                 message:'编辑成功！'
@@ -1129,6 +1257,7 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_07_url,data7).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('07');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -1142,6 +1271,7 @@ export default {
         }else{
           this.$axios.put(this.add_07_url+'1/',data7).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('07');
               this.$message({
                 type:'success',
                 message:'编辑成功！'
@@ -1181,6 +1311,7 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_08_url,obj).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('08');
               this.$message({
                 type:'success',
                 message:'保存成功！'
@@ -1194,6 +1325,289 @@ export default {
         }else{
           this.$axios.put(this.add_08_url+'1/',obj).then(res=>{
             if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun9:function (type) {
+        var data9 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          current_term_per:this.saveForm.current_term_per,
+          last_term_per:this.saveForm.last_term_per,
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_09_url,data9).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('09');
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_09_url+'1/',data9).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun10:function (type) {
+        var data10 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          current_month_per:this.saveForm.current_month_per,
+          last_month_per:this.saveForm.last_month_per,
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_10_url,data10).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_10_url+'1/',data10).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun11:function (type) {
+        var data11 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          refund_money_per:this.saveForm.refund_money_per,
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_11_url,data11).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_11_url+'1/',data11).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun12:function (type) {
+        var data12 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          refund_money_per:this.saveForm.refund_money_per2,
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_12_url,data12).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_11_url+'1/',data11).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun13:function (type) {
+        var obj = {};
+        obj.center = this.saveForm.center || 1;
+        obj.academic_year = this.saveForm.academic_year || 1;
+        if(this.saveForm.radio10 === '退费'){
+          obj.return_type = 1;
+        }else{
+          obj.return_type = 2;
+        }
+        obj.current_month_per = this.saveForm.current_month_per2;
+        obj.last_month_per = this.saveForm.last_month_per2;
+        if(type === 'add'){
+          this.$axios.post(this.add_13_url,obj).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_13_url+'1/',obj).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun14:function (type) {
+        var obj = {};
+        obj.center = this.saveForm.center || 1;
+        obj.academic_year = this.saveForm.academic_year || 1;
+        if(this.saveForm.radio6 === '退费'){
+          obj.return_type = 1;
+        }else{
+          obj.return_type = 2;
+        }
+        obj.current_month_per = this.saveForm.current_month_per3;
+        obj.last_month_per = this.saveForm.last_month_per3;
+        if(type === 'add'){
+          this.$axios.post(this.add_14_url,obj).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_14_url+'1/',obj).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun15:function (type) {
+        var obj = {};
+        obj.center = this.saveForm.center || 1;
+        obj.academic_year = this.saveForm.academic_year || 1;
+        if(this.saveForm.radio7 === '退费'){
+          obj.return_type = 1;
+        }else{
+          obj.return_type = 2;
+        }
+        /*if(){
+
+        }*/
+        obj.full_month_per = this.saveForm.full_month_per2;
+        obj.method_type = this.saveForm.method_type5;
+        obj.compare_type = this.saveForm.compare_type5;
+        obj.days = this.saveForm.days5;
+        obj.days_fee = this.saveForm.days_fee5;
+        if(type === 'add'){
+          this.$axios.post(this.add_15_url,obj).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_15_url+'1/',obj).then(res=>{
+            if(res.status == 200){
+              this.success_flag.push('08');
               this.$message({
                 type:'success',
                 message:'编辑成功！'
@@ -1208,6 +1622,16 @@ export default {
 
       },
     },
+    watch: {
+      success_flag: {
+        handler(newValue, oldValue) {
+          /*if(newValue === 'second'){
+            this.getStudentList();
+          }*/
+        },
+        deep: true
+      }
+  }
 
 
 }
