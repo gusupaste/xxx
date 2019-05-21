@@ -170,13 +170,13 @@
                 <td rowspan="" width="100">年缴</td>
                 <td colspan="2">
                   不满
-                  <el-input type="text" v-model="saveForm.yuefen1"></el-input>
+                  <el-input type="text" v-model="saveForm.number_of_month2"></el-input>
                   个月时，无法享受学期优惠价格；
                   <!--<el-select>
                     <el-option value="小于"></el-option>
                     <el-option value="大于等于"></el-option>
                   </el-select>-->大于等于
-                  <span>{{ saveForm.yuefen1 }}</span>
+                  <span>{{ saveForm.number_of_month2 }}</span>
                   个月时，学期优惠价格转月缴
                 </td>
               </tr>
@@ -551,6 +551,7 @@ export default {
                 }
               ],
               number_of_month:'',
+              number_of_month2:'',
 
               radio10:'退费',
               radio9:'退费',
@@ -593,9 +594,11 @@ export default {
             get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center=1&academic_year=1',
             get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center=1&academic_year=1',
             get_03_url:'/api/refund_policy/student_quit_term/info/?center=1&academic_year=1',
+            get_04_url:'/api/refund_policy/student_quit_year/info/?center=1&academic_year=1',
             add_01_url:'/api/refund_policy/prepared_student_refund/',
             add_02_url:'/api/refund_policy/student_quit_month/',
             add_03_url:'/api/refund_policy/student_quit_term/',
+            add_04_url:'/api/refund_policy/student_quit_year/',
         }
     },
     mounted:function(){
@@ -606,6 +609,7 @@ export default {
           this.getGoodFee();
           this.getMonthPay();
           this.getTermPay();
+          this.getYearPay();
         }
     },
     methods:{
@@ -699,11 +703,19 @@ export default {
           console.log(err)
         })
       },
+      getYearPay:function () {
+        this.$axios.get(this.get_04_url).then(res=>{
+          this.saveForm.number_of_month2 = res.data.number_of_month;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       submit:function (formName) {
         var type = this.$route.params.type;
         this.submit_fun1(type);
         this.submit_fun2(type);
         this.submit_fun3(type);
+        this.submit_fun4(type);
       },
       submit_fun1:function (type) {
         var data1 = {
@@ -821,6 +833,43 @@ export default {
           })
         }else{
           this.$axios.put(this.add_03_url+'1/',data3).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'编辑成功！'
+              })
+            }else{
+              this.$message.error('编辑失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }
+
+      },
+      submit_fun4:function (type) {
+        var data4 = {
+          center:this.saveForm.center || 1,
+          academic_year:this.saveForm.academic_year || 1,
+          compare_type:2,
+          number_of_month: parseInt(this.saveForm.number_of_month2),
+          price_type: 1
+        };
+        if(type === 'add'){
+          this.$axios.post(this.add_04_url,data4).then(res=>{
+            if(res.status == 200){
+              this.$message({
+                type:'success',
+                message:'保存成功！'
+              })
+            }else{
+              this.$message.error('保存失败');
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        }else{
+          this.$axios.put(this.add_04_url+'1/',data4).then(res=>{
             if(res.status == 200){
               this.$message({
                 type:'success',
