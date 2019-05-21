@@ -544,7 +544,6 @@
           .then(res => {
             this.name = res.data.data.discount_type.name
             this.condition_name = res.data.data.discount_type.condition_status
-            this.schoolList = res.data.data.center_list
             this.tableForm = res.data.data.condition_list
             //默认添加末尾的 审批流
             for (var i = 0; i < this.tableForm.length; i++) {
@@ -557,8 +556,24 @@
               }
               this.tableForm[i].approve.push(obj)
             }
-            this.schoolList.map((v) => {
+            this.schoolList = res.data.data.center_list
+            this.schoolList.map(v => {
               this.$set(this.checkList, v.id, [])
+            })
+            //选中 显示
+            for (let k in this.checkList) {
+              this.checkList[k] = []
+            }
+            this.schoolList.forEach(v => {
+              var list = []
+              if (v.status === 1) {
+                v.class_types.forEach(ele => {
+                  if (ele.status === 1) {
+                    list.push(ele.id)
+                  }
+                })
+              }
+              this.checkList[v.id] = list
             })
             this.exist_discount_type = res.data.data.mutexs
             this.exist_discount_type_value = res.data.data.mutex_list
@@ -566,25 +581,27 @@
         })
       },
       /*  折扣类型  */
-      saveNormaldis: function () {
-        //删除最后一个审批流
-        var tableFormTemp = this.tableForm
-        for (var i = 0; i < tableFormTemp.length; i++) {
-          tableFormTemp[i].approve.pop()
-        }
-        this.$axios.post('/api/discount/discount_type_management/',{
-          center_class_type_list: this.multipleSelection,
-          name: this.name,
-          type: 0,
-          mutex_list: this.exist_discount_type_value,
-          condition_status: this.condition_name,
-          conditions: tableFormTemp
-        }).then(res => {
-              this.$message.success("保存成功")
-              this.addDiscountVisible = false
+      saveNormaldis:
+
+        function () {
+          //删除最后一个审批流
+          var tableFormTemp = this.tableForm
+          for (var i = 0; i < tableFormTemp.length; i++) {
+            tableFormTemp[i].approve.pop()
+          }
+          this.$axios.post('/api/discount/discount_type_management/', {
+            center_class_type_list: this.multipleSelection,
+            name: this.name,
+            type: 0,
+            mutex_list: this.exist_discount_type_value,
+            condition_status: this.condition_name,
+            conditions: tableFormTemp
+          }).then(res => {
+            this.$message.success("保存成功")
+            this.addDiscountVisible = false
           }).catch(err => {
-        })
-      }
+          })
+        }
     }
   }
 </script>
