@@ -267,6 +267,7 @@
   export default {
     data() {
       return {
+        id: 0,
         type: 0,
         usualDiscountList: [],
         pagesize: 10,
@@ -451,6 +452,7 @@
           this.discountName = '编辑折扣类型'
           this.getDetailById(flag) //编辑接口
         }
+        this.id = flag
         this.addDiscountVisible = true
       },
       /* 审批流 所有角色 */
@@ -561,9 +563,6 @@
               this.$set(this.checkList, v.id, [])
             })
             //选中 显示
-            for (let k in this.checkList) {
-              this.checkList[k] = []
-            }
             this.schoolList.forEach(v => {
               var list = []
               if (v.status === 1) {
@@ -581,14 +580,14 @@
         })
       },
       /*  折扣类型  */
-      saveNormaldis:
-
-        function () {
-          //删除最后一个审批流
-          var tableFormTemp = this.tableForm
-          for (var i = 0; i < tableFormTemp.length; i++) {
-            tableFormTemp[i].approve.pop()
-          }
+      saveNormaldis: function () {
+        //删除最后一个审批流
+        var tableFormTemp = this.tableForm
+        for (var i = 0; i < tableFormTemp.length; i++) {
+          tableFormTemp[i].approve.pop()
+        }
+        /*  新增  */
+        if (this.id === 0) {
           this.$axios.post('/api/discount/discount_type_management/', {
             center_class_type_list: this.multipleSelection,
             name: this.name,
@@ -601,7 +600,25 @@
             this.addDiscountVisible = false
           }).catch(err => {
           })
+        } else {
+          this.$axios.post('/api/discount/discount_type_management/' + this.id + '/update_class_type/', {
+            center_class_type_list: this.multipleSelection,
+            name: this.name,
+            mutex_list: this.exist_discount_type_value,
+            condition_status: this.condition_name,
+          }).then(res => {
+            this.$axios.post('/api/discount/discount_type_management/' + this.id + '/update_condition/', {
+              conditions: tableFormTemp
+            }).then(res => {
+              this.$message.success("保存成功")
+              this.addDiscountVisible = false
+            }).catch(err => {
+            })
+          }).catch(err => {
+          })
         }
+
+      }
     }
   }
 </script>
