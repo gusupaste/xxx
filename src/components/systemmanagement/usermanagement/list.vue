@@ -16,7 +16,13 @@
         <span class="padding-left-30">搜索：</span>
         <el-input type="text" v-model="display_name" placeholder="请输入"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getUserList(1)">搜索</el-button></span>
-        <span class="right"><el-button class="orange" type="text" @click="addUser(0)"><i class="fa fa-plus-square"></i>&nbsp;新增用户</el-button></span>
+        <span class="right">
+          <el-button class="orange" type="text" @click="addUser(0)">
+            <i class="fa fa-plus-square font-size-20"></i>
+            &nbsp;
+            <span style="font-size:14px">新增用户</span>
+            </el-button>
+        </span>
       </p>
       <el-table
         :data="userList"
