@@ -45,7 +45,7 @@ export default {
     },
     data(){
         return {
-            year_url:'/api/student/student/1/academic_year_history/',
+            year_url:'/api/student/student/'+this.$route.params.id+'/academic_year_history/',
             yearlist: [],
         }
     },
