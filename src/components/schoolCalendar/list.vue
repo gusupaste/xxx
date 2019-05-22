@@ -39,9 +39,6 @@
                 <span class="mr26">寒暑假</span>
             </div>
         </div>
-        <div style="margin-top:20px;text-align:center">
-            <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
-        </div>
     </div>
 </template>
 <style scoped>

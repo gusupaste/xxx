@@ -7,7 +7,7 @@
         <div class="list-content">
           <div class="select-header">
             <span>学年：</span>
-            <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 20%;">
+            <el-select v-model="nameSelect" placeholder="--请选择--" >
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -15,8 +15,12 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <span>账单类型：</span>
-            <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 20%;">
+            <span class="ml20">账单类型：</span>
+            <el-select v-model="nameSelect" placeholder="--请选择--" >
+              <el-option ></el-option>
+            </el-select>
+            <span class="ml20">账单状态：</span>
+            <el-select v-model="nameSelect" placeholder="--请选择--" >
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -24,17 +28,8 @@
                 :value="item.value">
               </el-option>
             </el-select>
-            <span>账单状态：</span>
-            <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 20%;">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-            <span>学生：</span>
-            <el-input v-model="input" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
+            <span class="ml20">学生：</span>
+            <el-input v-model="input" class="search_input" placeholder="输入科目编码或名称" style="width: 220px;"></el-input>
             <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
             <!--<span class="right" style="cursor:pointer" @click="addNewTemplate(0)">
               <i class="icon-font fa fa-calendar-plus-o"></i>
@@ -48,48 +43,39 @@
             style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column
-              type="selection"
-              width="55">
+              type="selection">
             </el-table-column>
             <el-table-column
               prop="code"
-              label="账单类型"
-              width="180">
+              label="账单类型">
             </el-table-column>
             <el-table-column
               prop="name"
-              label="学生姓名"
-              min-width="180">
+              label="学生姓名">
             </el-table-column>
             <el-table-column
               prop="intercity_name"
-              label="学年"
-              min-width="180">
+              label="学年">
             </el-table-column>
             <el-table-column
               prop="intercity_name"
-              label="折前金额"
-              min-width="180">
+              label="折前金额">
             </el-table-column>
             <el-table-column
               prop="hq_name"
-              label="缴费金额"
-              min-width="180">
+              label="缴费金额">
             </el-table-column>
             <el-table-column
               prop="hq_name"
-              label="使用备用金金额"
-              min-width="180">
+              label="使用备用金金额">
             </el-table-column>
             <el-table-column
               prop="hq_name"
-              label="缴费日期"
-              min-width="180">
+              label="缴费日期">
             </el-table-column>
             <el-table-column
               prop="hq_name"
-              label="状态"
-              min-width="180">
+              label="状态">
             </el-table-column>
             <el-table-column
               fixed="right"
@@ -672,32 +658,7 @@
     data() {
       return {
         nameSelect:[],
-        options1:[{
-          value: 'all',
-          label: '所有'
-        },{
-          value: '选项4',
-          label: '折扣率'
-        }, {
-          value: '选项5',
-          label: '折扣金额'
-        }],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
+        options1:[],
         operation:[
           {
             id:1,
@@ -714,52 +675,8 @@
         input:'',
         activeName:'first',
         disabledSelect:false,
-        chargeTableDate:[
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          },
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          }
-        ],
-        chargeFunTableDate:[
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-            checked:'',
-          },
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-            checked:'',
-          }
-        ],
+        chargeTableDate:[],
+        chargeFunTableDate:[],
         addFeeVisible:false,
         deleteFeeVisible:false,
         addDiscountVisible:false,
@@ -800,24 +717,7 @@
           resource:'1',
         },
         radio:'1',
-        templateList: [
-          {
-            id:1,
-            pname:'家长姓名1',
-            sname:'学生姓名1',
-            select:'',
-            select2:'',
-            input:'',
-          },
-          {
-            id:2,
-            pname:'家长姓名2',
-            sname:'学生姓名2',
-            select:'',
-            select2:'',
-            input:'',
-          }
-        ],
+        templateList: [],
         selectCheckbox:[
           {
             id:1,
@@ -922,8 +822,10 @@
 
 <style scoped>
   .paymentprocessing{
-    color: rgba(160, 160, 160, 1);
     text-align: left;
+  }
+  .paymentprocessing >>> .search_input .el-input__inner{
+    width: 100%;
   }
   .paymentprocessing .bold{
     font-weight: bold;
@@ -1019,9 +921,6 @@
   }
   .paymentprocessing >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
     text-align: center;
-  }
-  .paymentprocessing >>> .el-input__inner {
-    width: -webkit-fill-available;
   }
   .paymentprocessing >>> .el-tabs__nav-wrap {
     border-bottom: 1px solid #e6e6e6;

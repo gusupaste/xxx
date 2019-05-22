@@ -36,19 +36,19 @@
                 导入
             </el-button>
             <span class="udline font-cl-blue ml10">下载模板</span>
-            <span class="ml10">
+            <span class="ml10" v-if="permission['finance']['Create-payment-bills']">
                 <router-link to="/financemanagement/createDiscount">
                     <i class="fa fa-plus-square icon-font"></i>
                     <span class="font-size-14 orange">创建缴费账单</span>
                 </router-link>
             </span>
-            <span class="ml10">
+            <span class="ml10" v-if="permission['finance']['Advance-Fee-Payment-create']">
                 <router-link to="/financemanagement/costpremium/">
                     <i class="fa fa-plus-square icon-font"></i>
                     <span class="font-size-14 orange">提前入学费用补缴</span>
                 </router-link>
             </span>
-            <span class="ml10">
+            <span class="ml10" v-if="permission['finance']['Payment-of-Academic-Change-Fees-create']">
                 <router-link to="/financemanagement/billMakingAcademicChange">
                     <i class="fa fa-plus-square icon-font"></i>
                     <span class="font-size-14 orange">学业变更费用补缴</span>
@@ -107,12 +107,12 @@
             label="实际应收"
             >
             <template slot-scope="scope">
-                <router-link :to="'/financemanagement/createDiscount/?id='+scope.row.id" v-if="scope.row.bill_status === 0">
+                <router-link :to="'/financemanagement/createDiscount/?id='+scope.row.id" v-if="permission['finance']['bill-editor'] && scope.row.bill_status === 0">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
                 </router-link>
-                <router-link :to="'/financemanagement/dollar/'+scope.row.id" v-if="scope.row.bill_status === 0">
+                <router-link :to="'/financemanagement/dollar/'+scope.row.id" v-if="permission['finance']['bill-payment'] && scope.row.bill_status === 0">
                     <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
@@ -164,6 +164,7 @@ export default {
     data() {
         return {
             dialogTableVisible:false,
+            permission : this.$cookies.get('userInfo').user_permissions,
             gridData: [],
             tableData: [],
             count:1,
