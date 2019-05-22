@@ -128,7 +128,6 @@ export default {
         }
         this.$axios.get('/api/common/get_user_permission_and_centers/')
         .then(res=>{
-          console.log(res.data)
           _this.$cookies.set('userInfo',res.data.data);
           _this.name =  _this.$cookies.get('userInfo').fullname;
           _this.permission =  _this.$cookies.get('userInfo').user_permissions;
@@ -139,7 +138,6 @@ export default {
       },
       handleSelect(key, keyPath) {
         localStorage.removeItem('tabName');
-        console.log(key,keyPath)
         this.$cookies.set('key',key);
       },
       getPermission(){

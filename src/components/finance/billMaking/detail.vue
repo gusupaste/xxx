@@ -178,8 +178,8 @@
         </div>
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
-            <button v-if="bill_info.status === 0" class="btn bg-green">编辑</button>
-            <button v-if="bill_info.status === 0"  class="btn bg-dark-orange">缴费</button>
+            <button v-if="permission['finance']['bill-editor'] && bill_info.status === 0" class="btn bg-green">编辑</button>
+            <button v-if="permission['finance']['bill-editor'] && bill_info.status === 0"  class="btn bg-dark-orange">缴费</button>
         </div>
     </div>
 </template>
@@ -217,6 +217,7 @@ export default {
         return {
             bill_info:{},
             tableData: [],
+            permission : this.$cookies.get('userInfo').user_permissions,
             id:this.$route.params.id
         }
     },

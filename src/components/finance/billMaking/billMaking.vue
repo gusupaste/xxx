@@ -129,31 +129,6 @@
             layout="prev, pager, next,jumper"
             :total="count">
         </el-pagination>
-        <!-- 收费政策详情 -->
-        <el-dialog title="政策详情" :visible.sync="dialogTableVisible">
-            <p class="title-style" style="color:#333030">政策标题：合肥御龙湾校园2009-2010学年收费政策</p>
-            <p class="mt10">
-                <el-form inline style="border-bottom:1px solid #d2d2d2">
-                    <el-form-item label="适用校园：">
-                        <span>北京cbd</span>
-                    </el-form-item>
-                    <el-form-item label="适用学年：">
-                        <span>2019-2020</span>
-                    </el-form-item>
-                    <el-form-item label="有效期：">
-                        <span>2019、09/09-2020/09/09</span>
-                    </el-form-item>
-                </el-form>
-            </p>
-            <el-table :data="gridData">
-                <el-table-column property="date" label="费用项目" ></el-table-column>
-                <el-table-column property="name" label="班级类型" ></el-table-column>
-                <el-table-column property="address" label="缴费方式"></el-table-column>
-                <el-table-column property="address" label="适用范围"></el-table-column>
-                <el-table-column property="address" label="价格"></el-table-column>
-                <el-table-column property="address" label="备注"></el-table-column>
-            </el-table>
-        </el-dialog>
     </div>
 </template>
 <style lang="" scoped>
@@ -188,7 +163,6 @@ export default {
     },
     methods: {
         getList(val){
-            var _this = this;
             this.searchform.page = val;
             this.$axios.get('/api/finance/bill/',{
                 params:this.searchform
@@ -200,7 +174,6 @@ export default {
             })
         },
         searchInfo(){
-            var _this = this;
             this.$axios.get('/api/finance/bill/search_info/',{
                 params:{
                     center_id:this.searchform.center_id

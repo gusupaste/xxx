@@ -144,23 +144,23 @@
                     max-height="300"
                     tooltip-effect="dark"
                     style="width: 90%"
-                    border
-                    @selection-change="handleSelectionChange">
+                    border>
                     <el-table-column
-                      type="selection"
-                      width="50">
-                    </el-table-column>
-                    <el-table-column
-                      prop="name"
-                      label="校园"
-                      width="200">
-                    </el-table-column>
-                    <el-table-column
-                      prop="name"
-                      label="班级项目"
-                      width="">
+                      label="校园">
                       <template slot-scope="scope">
-                        <el-checkbox-group v-model="checkList[scope.row.id]" @change="getClassList($event,scope.row)">
+                        <el-checkbox-group v-model="checkSchoolList[scope.row.id]"
+                                           @change="getSchoolList($event,scope.row)">
+                          <el-checkbox :value="scope.row.id" :label="scope.row.id">{{scope.row.name}}
+                          </el-checkbox>
+                        </el-checkbox-group>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="name"
+                      label="班级项目">
+                      <template slot-scope="scope">
+                        <el-checkbox-group v-model="checkList[scope.row.id]"
+                                           @change="getClassList($event,scope.row)">
                           <el-checkbox v-for="cla in scope.row.class_types" :key="cla.id" :value="cla.id"
                                        :label="cla.id">{{cla.name}}
                           </el-checkbox>
@@ -196,19 +196,20 @@
                     <td style="width: 5rem" class="text-align-center">条件1:</td>
                     <td class="select-pere">
                       <template v-for="(con,con_index) in table.condition">
-                        <el-select style="width: 100px;" v-model="con.select_name">
+                        <el-select style="width: 100px;" v-model="con.select_name" :key="con_index">
                           <el-option value=">" label="大于"></el-option>
                           <el-option value="<" label="小于"></el-option>
                           <el-option value=">=" label="大于等于"></el-option>
                           <el-option value="<=" label="小于等于"></el-option>
                           <el-option value="=" label="等于"></el-option>
                         </el-select>
-                        <el-input style="width: 80px;" v-model="con.select_value"><i v-show="condition_name === 0"
-                                                                                     slot="suffix"
-                                                                                     class="fa fa-percent"></i>
+                        <el-input style="width: 80px;" v-model="con.select_value" :key="con_index"><i
+                          v-show="condition_name === 0"
+                          slot="suffix"
+                          class="fa fa-percent"></i>
                         </el-input>
                         <el-select style="width: 90px;" v-model="con.select_select"
-                                   @change="addContion($event,con_index,index)">
+                                   @change="addContion($event,con_index,index)" :key="con_index">
                           <el-option :value="Number(0)" label="-请选择-"></el-option>
                           <el-option :value="Number(1)" label="且"></el-option>
                           <el-option :value="Number(2)" label="或"></el-option>
@@ -222,7 +223,7 @@
                     <td class="text-align-center">审批流:</td>
                     <td>
                       <template v-for="(app,app_index) in table.approve">
-                        <el-select style="width: 120px;" :key="app.id" v-model="app.role_id"
+                        <el-select style="width: 120px;" :key="app_index" v-model="app.role_id"
                                    @change="addApprove($event,app_index,index)">
                           <el-option v-for="role in roleList"
                                      :key="role.id"
@@ -296,9 +297,9 @@
         areaList: [],
         schoolList: [],
         checkList: {},
+        checkSchoolList: {},
         exist_discount_type_value: [],
         exist_discount_type: [],
-        multipleSelection: [],
         name: '',
         tableForm: [],
         roleList: [
@@ -344,40 +345,36 @@
           this.schoolList = res.data.data
           this.schoolList.map((v) => {
             this.$set(this.checkList, v.id, [])
+            this.$set(this.checkSchoolList, v.id, [])
           })
         }).catch(err => {
 
         })
       },
-      /* 多选校园事件 */
-      handleSelectionChange: function (val) {
-        this.multipleSelection = []
-        for (let k in this.checkList) {
-          this.checkList[k] = []
-        }
-        val.forEach(item => {
-          var obj = {
-            center_id: item.id,
-            class_types: []
-          }
+      getSchoolList: function ($event, obj) {
+        var length = $event.length
+        if (length !== 0) {
           var list = []
-          item.class_types.forEach(ele => {
-            obj.class_types.push(ele.id)
-            list.push(ele.id)
+          obj.class_types.forEach(c => {
+            list.push(c.id)
           })
-          this.multipleSelection.push(obj) //传到后台的数据
-          this.checkList[item.id] = list
-        })
+          this.checkList[obj.id] = list
+          this.checkSchoolList[obj.id] = [obj.id]
+        } else {
+          this.checkList[obj.id] = []
+          this.checkSchoolList[obj.id] = []
+        }
       },
       /* 选某个班级 则选中整个校园 */
-      getClassList: function ($event, id) {
+      getClassList: function ($event, obj) {
         var length = $event.length
-        length === 0 ? this.$refs.multipleTable.toggleRowSelection(id, false) : this.$refs.multipleTable.toggleRowSelection(id, true)
-        this.schoolList.forEach(item => {
-          if (item === id) {
-            item.class_type_ids = $event
-          }
-        })
+        if (length !== 0) {
+          this.checkList[obj.id] = $event
+          this.checkSchoolList[obj.id] = [obj.id]
+        } else {
+          this.checkList[obj.id] = []
+          this.checkSchoolList[obj.id] = []
+        }
       },
       /* 页面列表 */
       getUsualDiscountList: function (val) {
@@ -549,30 +546,43 @@
             this.tableForm = res.data.data.condition_list
             //默认添加末尾的 审批流
             for (var i = 0; i < this.tableForm.length; i++) {
-              var len = this.tableForm[i].approve.length
-              var obj = {
-                id: 0,
-                level_no: len + 1,
-                role_id: 0,
-                role_name: ''
+              if (this.tableForm[i].approve === undefined) {
+                this.$set(this.tableForm[i], 'approve', [])
+                var obj = {
+                  id: 0,
+                  level_no: 1,
+                  role_id: 0,
+                  role_name: ''
+                }
+                this.tableForm[i].approve.push(obj)
+              } else {
+                var len = this.tableForm[i].approve.length
+                var obj2 = {
+                  id: 0,
+                  level_no: len + 1,
+                  role_id: 0,
+                  role_name: ''
+                }
+                this.tableForm[i].approve.push(obj2)
               }
-              this.tableForm[i].approve.push(obj)
             }
             this.schoolList = res.data.data.center_list
             this.schoolList.map(v => {
               this.$set(this.checkList, v.id, [])
+              this.$set(this.checkSchoolList, v.id, [])
             })
             //选中 显示
             this.schoolList.forEach(v => {
-              var list = []
               if (v.status === 1) {
+                var list = []
                 v.class_types.forEach(ele => {
                   if (ele.status === 1) {
                     list.push(ele.id)
                   }
                 })
+                this.checkList[v.id] = list
+                this.checkSchoolList[v.id] = [v.id]
               }
-              this.checkList[v.id] = list
             })
             this.exist_discount_type = res.data.data.mutexs
             this.exist_discount_type_value = res.data.data.mutex_list
@@ -581,6 +591,17 @@
       },
       /*  折扣类型  */
       saveNormaldis: function () {
+        var multipleSelection = []
+        for (var i = 0; i < this.schoolList.length; i++) {
+          if (this.checkSchoolList[this.schoolList[i].id].length > 0) {
+            var obj = {
+              center_id: this.checkSchoolList[this.schoolList[i].id][0],
+              class_types: this.checkList[this.schoolList[i].id]
+            }
+            multipleSelection.push(obj)
+          }
+        }
+        console.log(multipleSelection)
         //删除最后一个审批流
         var tableFormTemp = this.tableForm
         for (var i = 0; i < tableFormTemp.length; i++) {
@@ -589,7 +610,7 @@
         /*  新增  */
         if (this.id === 0) {
           this.$axios.post('/api/discount/discount_type_management/', {
-            center_class_type_list: this.multipleSelection,
+            center_class_type_list: multipleSelection,
             name: this.name,
             type: 0,
             mutex_list: this.exist_discount_type_value,
@@ -603,7 +624,7 @@
           })
         } else {
           this.$axios.post('/api/discount/discount_type_management/' + this.id + '/update_class_type/', {
-            center_class_type_list: this.multipleSelection,
+            center_class_type_list: multipleSelection,
             name: this.name,
             mutex_list: this.exist_discount_type_value,
             condition_status: this.condition_name,
@@ -627,6 +648,14 @@
 <style scoped>
   .normaldis .discountDialog .school-wrap >>> .el-table th {
     padding: 0;
+  }
+
+  .normaldis .discountDialog .school-wrap >>> .el-table td {
+    text-align: left;
+  }
+
+  .normaldis .discountDialog .school-wrap >>> .cell {
+    text-align: left;
   }
 
   .normaldis .discountDialog .condition_table {

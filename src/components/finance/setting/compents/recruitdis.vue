@@ -87,8 +87,13 @@
               <el-date-picker
                 v-model="discountForm.start_date"
                 type="date"
+                :editable="false"
+                :clearable="false"
                 placeholder="选择日期"
-                value-format="yyyy-MM-dd">
+                value-format="yyyy-MM-dd"
+                :picker-options="pickerBefore"
+                @focus="Before"
+              >
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -97,8 +102,12 @@
               <el-date-picker
                 v-model="discountForm.end_date"
                 type="date"
+                :editable="false"
+                :clearable="false"
                 placeholder="选择日期"
-                value-format="yyyy-MM-dd">
+                value-format="yyyy-MM-dd"
+                :picker-options="pickerAfter"
+                @focus="After">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -119,9 +128,9 @@
           <el-col :span="12">
             <el-form-item label="缴费方式: ">
               <el-select v-model="discountForm.pay_type">
-                <el-option :value="Number(2)" label="月缴"></el-option>
-                <el-option :value="Number(1)" label="学期缴"></el-option>
                 <el-option :value="Number(0)" label="年缴"></el-option>
+                <el-option :value="Number(1)" label="学期缴"></el-option>
+                <el-option :value="Number(2)" label="月缴"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -157,16 +166,16 @@
                     max-height="300"
                     tooltip-effect="dark"
                     style="width: 90%"
-                    border
-                    @selection-change="handleSelectionChange">
+                    border>
                     <el-table-column
-                      type="selection"
-                      width="50">
-                    </el-table-column>
-                    <el-table-column
-                      prop="name"
-                      label="校园"
-                      width="200">
+                      label="校园">
+                      <template slot-scope="scope">
+                        <el-checkbox-group v-model="checkSchoolList[scope.row.id]"
+                                           @change="getSchoolList($event,scope.row)">
+                          <el-checkbox :value="scope.row.id" :label="scope.row.id">{{scope.row.name}}
+                          </el-checkbox>
+                        </el-checkbox-group>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="name"
@@ -216,6 +225,7 @@
         pagesize: 10,
         currentPage: 1,
         total: 1,
+        discountName: '',
         addDiscountVisible: false,
         searchSchool: {
           intercity_id: '',
@@ -225,10 +235,13 @@
         areaList: [],
         schoolList: [],
         checkList: {},
-        discountForm: [],
+        checkSchoolList: {},
+        discountForm: {},
         multipleSelection: [],
         exist_discount_type_value: [],
-        exist_discount_type: []
+        exist_discount_type: [],
+        pickerBefore: {},
+        pickerAfter: {}
       }
     },
     mounted: function () {
@@ -240,6 +253,26 @@
       }
     },
     methods: {
+      Before () {
+        if (this.discountForm.end_date !== '') {
+          var date = new Date(new Date(this.discountForm.end_date).getTime() - 24 * 60 * 60 * 1000)
+          this.pickerBefore = {
+            disabledDate (time) {
+              return time.getTime() > date
+            }
+          }
+        }
+      },
+      After () {
+        if (this.discountForm.start_date !== '') {
+          var date = new Date(this.discountForm.start_date).getTime()
+          this.pickerAfter = {
+            disabledDate (time) {
+              return time.getTime() <= date
+            }
+          }
+        }
+      },
       getEnrollmentDiscountList: function (val) {
         this.currentPage = val
         this.$axios.get('/api/discount/discount_type_management/?type=' + this.type + '&size=' + this.pagesize + '&page=' + this.currentPage)
@@ -262,7 +295,14 @@
           this.discountName = '新增折扣类型'
           this.searchSchoolList() //学校.班级
           this.getExistDiscountType() //互斥折扣
-          this.name = ''
+          this.discountForm = {
+            name: '',
+            start_date: '',
+            end_date: '',
+            pay_end_date: '',
+            pay_type: 0,
+            discount_money: ''
+          }
         } else {
           this.discountName = '编辑折扣类型'
           this.getDetailById(flag) //编辑接口
@@ -277,18 +317,20 @@
             this.schoolList = res.data.data.center_list
             this.schoolList.map(v => {
               this.$set(this.checkList, v.id, [])
+              this.$set(this.checkSchoolList, v.id, [])
             })
             //选中 显示
             this.schoolList.forEach(v => {
-              var list = []
               if (v.status === 1) {
+                var list = []
                 v.class_types.forEach(ele => {
-                  //if (ele.status === 1) {
+                  if (ele.status === 1) {
                     list.push(ele.id)
-                  //}
+                  }
                 })
+                this.checkList[v.id] = list
+                this.checkSchoolList[v.id] = [v.id]
               }
-              this.checkList[v.id] = list
             })
             this.exist_discount_type = res.data.data.mutexs
             this.exist_discount_type_value = res.data.data.mutex_list
@@ -330,46 +372,53 @@
           this.schoolList = res.data.data
           this.schoolList.map((v) => {
             this.$set(this.checkList, v.id, [])
+            this.$set(this.checkSchoolList, v.id, [])
           })
         }).catch(err => {
 
         })
       },
-      /* 多选校园事件 */
-      handleSelectionChange: function (val) {
-        this.multipleSelection = []
-        for (let k in this.checkList) {
-          this.checkList[k] = []
-        }
-        val.forEach(item => {
-          var obj = {
-            center_id: item.id,
-            class_types: []
-          }
+      getSchoolList: function ($event, obj) {
+        var length = $event.length
+        if (length !== 0) {
           var list = []
-          item.class_types.forEach(ele => {
-            obj.class_types.push(ele.id)
-            list.push(ele.id)
+          obj.class_types.forEach(c => {
+            list.push(c.id)
           })
-          this.multipleSelection.push(obj) //传到后台的数据
-          this.checkList[item.id] = list
-        })
+          this.checkList[obj.id] = list
+          this.checkSchoolList[obj.id] = [obj.id]
+        } else {
+          this.checkList[obj.id] = []
+          this.checkSchoolList[obj.id] = []
+        }
       },
       /* 选某个班级 则选中整个校园 */
-      getClassList: function ($event, id) {
+      getClassList: function ($event, obj) {
         var length = $event.length
-        length === 0 ? this.$refs.multipleTable.toggleRowSelection(id, false) : this.$refs.multipleTable.toggleRowSelection(id, true)
-        this.schoolList.forEach(item => {
-          if (item === id) {
-            item.class_type_ids = $event
-          }
-        })
+        if (length !== 0) {
+          this.checkList[obj.id] = $event
+          this.checkSchoolList[obj.id] = [obj.id]
+        } else {
+          this.checkList[obj.id] = []
+          this.checkSchoolList[obj.id] = []
+        }
       },
       saveRecruitdis: function () {
+        var multipleSelection = []
+        for (var i = 0; i < this.schoolList.length; i++) {
+          if (this.checkSchoolList[this.schoolList[i].id].length > 0) {
+            var obj = {
+              center_id: this.checkSchoolList[this.schoolList[i].id][0],
+              class_types: this.checkList[this.schoolList[i].id]
+            }
+            multipleSelection.push(obj)
+          }
+        }
+        //验证
         /*  新增  */
         if (this.id === 0) {
           this.$axios.post('/api/discount/discount_type_management/', {
-            center_class_type_list: this.multipleSelection,
+            center_class_type_list: multipleSelection,
             name: this.discountForm.name,
             start_date: this.discountForm.start_date,
             end_date: this.discountForm.end_date,
@@ -386,7 +435,7 @@
           })
         } else {
           this.$axios.post('/api/discount/discount_type_management/' + this.id + '/update_class_type/', {
-            center_class_type_list: this.multipleSelection,
+            center_class_type_list: multipleSelection,
             name: this.discountForm.name,
             start_date: this.discountForm.start_date,
             end_date: this.discountForm.end_date,

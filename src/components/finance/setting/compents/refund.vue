@@ -62,7 +62,7 @@
           </el-option>
         </el-select>
         <span class="padding-left-30"><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
-        <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/refund-config/add/0')">
+        <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/refund-config/add/0/0/')">
             <i class="icon-font fa fa-calendar-plus-o"></i>
             <span class="font-cl-blue font-size-14">新增退费政策</span>
         </span>
@@ -74,29 +74,29 @@
         show-header
         style="width: 100%;margin-top: 10px;">
         <el-table-column
-          prop="name"
+          prop="c_name"
           label="退费政策">
         </el-table-column>
         <el-table-column
-          prop="center_str"
+          prop="center_name"
           label="校园名称">
         </el-table-column>
         <el-table-column
-          prop="academic_year_str"
+          prop="year_name"
           label="学年">
         </el-table-column>
         <el-table-column
-          prop="expiry_date"
+          prop="validity"
           label="有效期">
         </el-table-column>
-        <el-table-column
+        <!--<el-table-column
           prop="start_date"
           label="发布日期">
         </el-table-column>
         <el-table-column
           prop="remarks"
           label="备注">
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column
           fixed="right"
           label="操作">
@@ -137,6 +137,7 @@ export default {
               page:1,
               size:10
             },
+            getRefund_url:'/api/refund_policy/policy_list/records/',
             options:[],
             nameSelect:[],
             input:'',
@@ -147,12 +148,24 @@ export default {
             ],
         }
     },
+    mounted: function () {
+      this.getRefund()
+    },
     methods: {
-      configure:function () {
-        this.$router.push('/financemanagement/refund-config/edit/1');
+      configure:function (obj) {
+        this.$router.push('/financemanagement/refund-config/edit/'+obj.center_id+'/'+obj.year_id+'/');
       },
-      addNewTemplate(){
-
+      getRefund:function () {
+        this.loading = true
+        this.$axios.get(this.getRefund_url).then(res => {
+          this.loading = false
+          this.chargeTable = res.data;
+          for(var x in res.data){
+            this.chargeTable[x].c_name = res.data[x].center_name + res.data[x].year_name + '退费政策';
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       },
       changePage(){
 

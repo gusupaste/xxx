@@ -6,35 +6,25 @@
       <div class="content" style="margin-top: 15px">
         <div class="select-header">
           <span>学年：</span>
-          <el-select v-model="nameSelect" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select v-model="searchForm.academic_year_id" placeholder="--请选择--" >
+              <el-option label="所有" value=""></el-option>
+              <el-option v-for="item in academic_year_li" :value="item.id" :key="item.id" :label="item.year"></el-option>
           </el-select>
           <span style="margin-left: 10px">班级：</span>
-          <el-select v-model="nameSelect" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select v-model="searchForm.class_id" placeholder="请选择">
+            <el-option label="所有" value=""></el-option>
+              <el-option v-for="item in class_li" :value="item.id" :key="item.id" :label="item.class_name"></el-option>
           </el-select>
           <span style="margin-left: 10px">账单状态：</span>
-          <el-select v-model="nameSelect" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select v-model="searchForm.bill_status" placeholder="--请选择--" >
+              <el-option label="所有" value=""></el-option>
+              <el-option label="已确认" value="1"></el-option>
+              <el-option label="待批" value="2"></el-option>
+              <el-option label="被驳回" value="4"></el-option>
           </el-select>
           <span style="margin-left: 20px">搜索：</span>
-          <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" style="width: auto"></el-input>
-          <span><el-button type="primary" @click="searchList">搜索</el-button></span>
+          <el-input v-model="searchForm.search_name" placeholder="输入学号、学生姓名或者学生卡号" style="width: auto"></el-input>
+          <span><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
           <span class="right" style="cursor:pointer" @click="addNewDiscount(1)">
               <i class="icon-font fa fa-calendar-plus-o"></i>
               <span class="font-cl-blue font-size-14" >毕业/离园退费账单</span>
@@ -97,6 +87,15 @@
               </template>
             </el-table-column>
           </el-table>
+          <el-pagination
+              class="mt26"
+              background
+              :current-page="searchForm.page"
+              @current-change="handleCurrentChange"
+              :page-size="10"
+              layout="prev, pager, next,jumper"
+              :total="count">
+          </el-pagination>
         </div>
       </div>
     </div>
@@ -106,100 +105,59 @@
   export default {
     data() {
       return {
-        options1:[{
-          value: 'all',
-          label: '所有'
-        },{
-          value: '选项4',
-          label: '折扣率'
-        }, {
-          value: '选项5',
-          label: '折扣金额'
-        }],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        chargeTableDate:[
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          },
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          }
-        ],
-        chargeFunTableDate:[
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-            checked:'',
-          },
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-            checked:'',
-          }
-        ],
+        academic_year_li:[],
+        class_li:[],
+        count:0,
+        searchForm:{
+          academic_year_id:'',
+          class_id:'',
+          bill_status:'',
+          search_name:'',
+          page:1,
+          size:10,
+          center_id:this.$cookies.get('userInfo').center.id,
+        },
+        chargeTableDate:[] 
       };
+    },
+    created () {
+        this.searchInfo();
+        this.searchList(1);
     },
     methods: {
       showRefundInfo:function (param) {
         this.$router.push('/financemanagement/refund-detail/9');
       },
-      addNewDiscount:function (flag) {
-        if(flag === 0){
-          this.$router.push('/financemanagement/preparatory-student');
-        }else{
-          this.$router.push('/financemanagement/leave-student');
-        }
-      }
-    },
-    watch:{
+      handleCurrentChange(val){
+        this.searchList(val)
+      },
+      searchInfo(){
+            this.$axios.get('/api/finance/bill/search_info/',{
+                params:{
+                    center_id:this.searchForm.center_id
+                }
+            })
+            .then(res=>{
+              console.log(res.data)
+                this.academic_year_li = res.data.data.academic_year_li;
+                this.class_li = res.data.data.class_li;
+            })
+      },
+      searchList(id){
+        this.searchForm.page = id;
+        this.$axios.get('/api/finance/refund/',{
+          params:this.searchForm
+        }).then(res=>{
+          this.chargeTableDate = res.data.bill_li;
+          this.count = res.data.count;
+        })
+      },
     },
   }
 </script>
 
 <style scoped>
   .settinglist{
-    color: rgba(160, 160, 160, 1);
     text-align: left;
   }
   .settinglist .select-header{
