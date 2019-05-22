@@ -175,7 +175,7 @@
         this.$axios.get('/api/workflow/workflow_management/apply_list/?name=' + this.name + '&approve_status=' + this.approve_status + '&page=1&size=10').then(res => {
           this.loading = false
           if (res.data.status_code === 1) {
-            this.applyList = res.data.data
+            this.applyList = res.data.data.results
           }
         }).catch(err => {
           console.log(err)
