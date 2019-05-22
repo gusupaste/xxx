@@ -307,7 +307,6 @@ export default {
                     }
                 }
             })
-
         },
         getStudent(name){
             //注：student_status='Prepare'预备生，student_status='Formal'在校生，不传表示所有
