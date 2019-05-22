@@ -1,10 +1,10 @@
 <template>
   <div class="parentbusinessapplication wrap">
     <div class="header">
-      <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">校园招生目标数</span></p>
+      <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">家长业务申请查询</span></p>
     </div>
     <div class="header-top">
-      <p><span>城际：</span>
+      <p><span >城际：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -13,7 +13,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span>区域：</span>
+        <span class="ml20">区域：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -22,7 +22,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span>校园：</span>
+        <span class="ml20">校园：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -31,7 +31,7 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span>申请类型：</span>
+        <span class="ml20">申请类型：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -40,11 +40,11 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span>申请日期：</span>
+        <span class="ml20">申请日期：</span>
         <el-date-picker class="date_style" type="date" placeholder="选择日期"></el-date-picker>
         <span>到</span>
         <el-date-picker class="date_style" type="date" placeholder="选择日期"></el-date-picker>
-        <span>状态：</span>
+        <span class="ml20">状态：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -53,11 +53,12 @@
             :value="item.value">
           </el-option>
         </el-select>
-        <span>学生信息：</span>
-        <el-input type="text" placeholder="请输入"></el-input>
+        <span class="ml20">学生信息：</span>
+        <el-input type="text" placeholder="请输入"  class="search_input" style="width:220px"></el-input>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
       </p>
       <el-table
+      class="mt26"
         :data="tableList"
         border
         stripe
@@ -139,59 +140,8 @@
         value: '-所有-',
         detaildialog: false,
         canceldialog: false,
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        tableList: [{
-          id: '1',
-          no: '20131120',
-          name: 'tom',
-          student_status: '在校生',
-          business_type: '离园退费',
-          parent_name: '家长A',
-          telephone: '18890987654',
-          update_date: '2018-01-01',
-          apply_date: '2019-12-12',
-          status: '未使用'
-        },
-          {
-            id: '2',
-            no: '20131133',
-            name: 'jerry',
-            student_status: '在校生',
-            business_type: '离园退费',
-            parent_name: '家长A',
-            telephone: '18890987654',
-            update_date: '2018-01-01',
-            apply_date: '2019-12-12',
-            status: '未使用'
-          },
-          {
-            id: '3',
-            no: '20131155',
-            name: 'hello',
-            student_status: '在校生',
-            business_type: '离园退费',
-            parent_name: '家长A',
-            telephone: '18890987654',
-            update_date: '2018-01-01',
-            apply_date: '2019-12-12',
-            status: '未使用'
-          }
-        ]
+        options: [],
+        tableList: []
       }
     },
     methods: {
@@ -207,7 +157,6 @@
 
 <style scoped>
   .parentbusinessapplication {
-    color: rgba(160, 160, 160, 1);
     text-align: left;
   }
 
@@ -218,16 +167,13 @@
   .parentbusinessapplication .header-top p {
     font-size: 14px;
   }
-  .parentbusinessapplication >>> .el-date-editor.el-input,.parentbusinessapplication >>> .el-date-editor.el-input__inner{
-    width: 164px;
-    height: 36px;
-  }
+ 
   .parentbusinessapplication >>> .el-select{
     margin-bottom: 10px;
   }
   .parentbusinessapplication >>> .el-input{
-    width: 164px;
-    height: 36px;
+    width: 145px;
+    height: 32px;
   }
 
   /*表格内容居中*/
@@ -237,5 +183,8 @@
 
   .parentbusinessapplication >>> .el-dialog__footer {
     text-align: center;
+  }
+  .parentbusinessapplication >>> .search_input .el-input__inner{
+    width: 100%;
   }
 </style>
