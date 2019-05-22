@@ -598,6 +598,7 @@
           }).then(res => {
             this.$message.success("保存成功")
             this.addDiscountVisible = false
+            this.getUsualDiscountList(1)
           }).catch(err => {
           })
         } else {
@@ -612,6 +613,7 @@
             }).then(res => {
               this.$message.success("保存成功")
               this.addDiscountVisible = false
+              this.getUsualDiscountList(1)
             }).catch(err => {
             })
           }).catch(err => {
