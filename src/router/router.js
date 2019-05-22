@@ -478,7 +478,7 @@ export default new Router({
           component: Setting
         },
         {
-          path: '/financemanagement/refund-config/:type/:id',
+          path: '/financemanagement/refund-config/:type/:center_id/:year/',
           name: 'RefundConfig',
           component: RefundConfig
         },

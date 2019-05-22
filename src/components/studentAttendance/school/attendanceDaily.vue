@@ -41,13 +41,11 @@
         style="width: 100%">
         <el-table-column
           prop="student_no"
-          label="学号"
-          min-width="60">
+          label="学号">
         </el-table-column>
         <el-table-column
           prop="name"
-          label="学生姓名"
-          width="180">
+          label="学生姓名">
           <template slot-scope="scope">
             <a class="font-cl-blue" @click="attendanceDetail">{{ scope.row.name }}</a>
           </template>
@@ -64,41 +62,41 @@
             <span>{{class_name}}</span>
           </template>
         </el-table-column>
-        <el-table-column
+        <!--<el-table-column
           prop="arrivalDate"
           label="到校日期">
           <template slot-scope="scope">
-            <span>--</span>
+            <span>&#45;&#45;</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="temperature_school"
           label="体温">
           <template slot-scope="scope">
-            <span>--</span>
+            <span>&#45;&#45;</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="departureDate"
           label="离开时间">
           <template slot-scope="scope">
-            <span>--</span>
+            <span>&#45;&#45;</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="temperature_family"
           label="体温">
           <template slot-scope="scope">
-            <span>--</span>
+            <span>&#45;&#45;</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="surrogate"
           label="接送人">
           <template slot-scope="scope">
-            <span>--</span>
+            <span>&#45;&#45;</span>
           </template>
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column
           prop="status"
           label="状态">
@@ -139,6 +137,9 @@
   .attendanceDaily .local-month >>> .el-button {
     height: 0;
     float: right;
+  }
+  .attendanceDaily >>> .el-input__inner{
+    width:inherit;
   }
 </style>
 <script>

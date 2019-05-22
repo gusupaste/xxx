@@ -629,23 +629,21 @@ export default {
               radio4:'0',
               radio5:'0',
             },
-            centerId:1,
-            academic_year:1,
-            get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_03_url:'/api/refund_policy/student_quit_term/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_04_url:'/api/refund_policy/student_quit_year/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_05_url:'/api/refund_policy/student_suspend/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_06_url:'/api/refund_policy/student_absence/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_07_url:'/api/refund_policy/student_vacation/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_08_url:'/api/refund_policy/student_meal/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_09_url:'/api/refund_policy/activity_fee/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_10_url:'/api/refund_policy/school_bus_fee/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_11_url:'/api/refund_policy/no_invoice/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_12_url:'/api/refund_policy/cheap_no_invoice/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_13_url:'/api/refund_policy/cheap_absence/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_14_url:'/api/refund_policy/cheap_quit/info/?center='+this.centerId+'&academic_year='+this.academic_year,
-            get_15_url:'/api/refund_policy/cheap_meal_fee/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_03_url:'/api/refund_policy/student_quit_term/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_04_url:'/api/refund_policy/student_quit_year/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_05_url:'/api/refund_policy/student_suspend/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_06_url:'/api/refund_policy/student_absence/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_07_url:'/api/refund_policy/student_vacation/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_08_url:'/api/refund_policy/student_meal/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_09_url:'/api/refund_policy/activity_fee/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_10_url:'/api/refund_policy/school_bus_fee/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_11_url:'/api/refund_policy/no_invoice/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_12_url:'/api/refund_policy/cheap_no_invoice/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_13_url:'/api/refund_policy/cheap_absence/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_14_url:'/api/refund_policy/cheap_quit/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
+            get_15_url:'/api/refund_policy/cheap_meal_fee/info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
             add_01_url:'/api/refund_policy/prepared_student_refund/',
             add_02_url:'/api/refund_policy/student_quit_month/',
             add_03_url:'/api/refund_policy/student_quit_term/',
@@ -665,7 +663,7 @@ export default {
         }
     },
     mounted:function(){
-        if(this.$route.params.id == 0){
+        if(this.$route.params.type === 'add'){
           this.getSchoolList();
           this.getYearList();
         }else{
