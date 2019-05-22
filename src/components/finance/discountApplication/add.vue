@@ -48,6 +48,25 @@
                     <el-select v-model="value1"></el-select>
                 </el-form-item>
                 <br>
+                <el-form-item label="拟入学日期：" label-width="120px">
+                    <el-date-picker
+                        v-model="value1"
+                        type="date"
+                        placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="拟缴费日期：" label-width="120px">
+                    <el-date-picker
+                        v-model="value1"
+                        type="date"
+                        placeholder="选择日期">
+                    </el-date-picker>
+                </el-form-item>
+                <br>
+                <el-form-item label="学费正价：" label-width="120px">
+                    -----
+                </el-form-item>
+                <br>
                 <el-form-item label="家长姓名：" label-width="120px">
                     -----
                 </el-form-item>
@@ -71,43 +90,15 @@
                        </el-select>
                     </el-form-item>
                     <br>
-                    <el-form-item label="拟入学日期：" label-width="120px">
-                        <el-date-picker
-                            v-model="value1"
-                            type="date"
-                            placeholder="选择日期">
-                        </el-date-picker>
-                    </el-form-item>
-                    <el-form-item label="拟缴费日期：" label-width="120px">
-                        <el-date-picker
-                            v-model="value1"
-                            type="date"
-                            placeholder="选择日期">
-                        </el-date-picker>
-                    </el-form-item>
-                    <br>
-                    <el-form-item label="学费正价：" label-width="120px">
-                        -----
-                    </el-form-item>
-                    <br>
+                    
                     <el-form-item label="申请折扣：" label-width="120px">
                         <el-input placeholder="请输入内容" v-model="input2">
                             <template slot="append">%</template>
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="应缴总额：" label-width="120px">
-                        2019/02/27
-                    </el-form-item>
-                    <el-form-item label="折扣总额：" label-width="120px">
-                        2019/02/27
-                    </el-form-item>
-                    <el-form-item label="优惠金额：" label-width="120px">
-                        2019/02/27
-                    </el-form-item>
                     <br>
-                    <el-form-item label="备注：" label-width="120px" style="width:100%" class="text-area">
+                    <el-form-item label="备注：" label-width="120px" style="width:100%;" class="text-area" >
                         <el-input
-                           
                             type="textarea"
                             :rows="2"
                             placeholder="请输入内容"
@@ -134,10 +125,18 @@
                         <el-button @click.prevent="removeDomain(domain)">删除</el-button>
                     </el-form-item>
                 </el-form>
-                
-                
-                
             </el-form-item>
+             <el-form inline style="padding:10px 20px;">
+                    <el-form-item label="应缴总额：" label-width="120px">
+                        2019/02/27
+                    </el-form-item>
+                    <el-form-item label="折扣总额：" label-width="120px">
+                        2019/02/27
+                    </el-form-item>
+                    <el-form-item label="优惠金额：" label-width="120px">
+                        2019/02/27
+                    </el-form-item>
+                </el-form>
             <el-form-item>
                 <el-button @click="addDomain" class="bg-orange white">
                     <i class="fa fa-plus"></i>
@@ -145,6 +144,8 @@
                 </el-button>
             </el-form-item>
         </el-form>
+        <p class="mt26 font-cl-blue"></p>
+        
         <div class="mt26 text-align-center">
             <button class="btn bg-grey">取消</button>
             <button class="btn bg-green">提交</button>
@@ -198,7 +199,7 @@
      margin-bottom: 10px;
   }
   .adddiscountApplication >>> .head-form .el-form-item {
-      width:20%;
+      /* width:20%; */
   }
   .adddiscountApplication >>> .head-form .el-form {
       padding:20px;

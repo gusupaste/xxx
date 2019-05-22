@@ -4,7 +4,7 @@
         <p class="local_path_style">YOU ARE HERE : 财务处理 > 折扣申请 > <span class="font-cl-blue">折扣详情</span></p>
       </div>
       <p class="black mt26 clearfix" style="padding-bottom:15px;border-bottom:1px solid #bbb">
-          <span class="left">折扣申请学生：曹旭</span>
+          <span class="left font-size-14 bold">折扣申请学生：曹旭</span>
           <span class="right ">
               <span>状态：</span>
               <span class="green">审核通过</span>
@@ -14,9 +14,7 @@
               <span class="red">审核中</span>
           </span>
       </p>
-        <div class="content-top">员工子女折扣</div>
-        <div class="clearfix">
-
+      <div class="clearfix mt26">
             <el-col :span="24" class="card-type">
                 <el-card shadow="always" class="clearfix">
                     <p class="baseInfo">&nbsp;</p>
@@ -27,6 +25,18 @@
                                 <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：.00</div></el-col>
                                 <el-col :span="10"><div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div></el-col>
                             </el-row>
+                        </p>
+                    </div>
+                </el-card>
+            </el-col>
+        </div>
+        <div class="content-top">员工子女折扣</div>
+        <div class="clearfix">
+            <el-col :span="24" class="card-type">
+                <el-card shadow="always" class="clearfix" style="padding:20px">
+                    <p class="baseInfo">&nbsp;</p>
+                    <div style="width:90%" class="left">
+                        <p class="" style="border-bottom:1px solid #bbb">
                             <el-row :gutter="20">
                                 <el-col :span="5"><div class="grid-content bg-purple">申请折扣：20%</div></el-col>
                                 <el-col :span="5"><div class="grid-content bg-purple">应缴总额：10000元</div></el-col>
@@ -50,18 +60,12 @@
             </el-col>
         </div>
         <div class="content-top">园长折扣</div>
-        <div class="clearfix">
-
+        <div class="clearfix" >
             <el-col :span="24" class="card-type">
-                <el-card shadow="always" class="clearfix">
+                <el-card shadow="always" class="clearfix" style="padding:20px">
                     <p class="baseInfo">&nbsp;</p>
                     <div style="width:90%" class="left">
                         <p class="" style="border-bottom:1px solid #bbb">
-                            <el-row :gutter="20">
-                                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：-12</div></el-col>
-                                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：.00</div></el-col>
-                                <el-col :span="10"><div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div></el-col>
-                            </el-row>
                             <el-row :gutter="20">
                                 <el-col :span="5"><div class="grid-content bg-purple">申请折扣：20%</div></el-col>
                                 <el-col :span="5"><div class="grid-content bg-purple">应缴总额：10000元</div></el-col>
