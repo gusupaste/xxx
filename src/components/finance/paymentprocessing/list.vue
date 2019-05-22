@@ -93,14 +93,14 @@
             </el-table-column>
           </el-table>
           <el-pagination
-            class="mt26"
-            background
-            :current-page="searchForm.page"
-            @current-change="handleCurrentChange"
-            :page-size="10"
-            layout="prev, pager, next,jumper"
-            :total="count">
-        </el-pagination>
+              class="mt26"
+              background
+              :current-page="searchForm.page"
+              @current-change="handleCurrentChange"
+              :page-size="10"
+              layout="prev, pager, next,jumper"
+              :total="count">
+          </el-pagination>
         </div>
       </div>
     </div>
