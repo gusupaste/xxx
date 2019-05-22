@@ -629,8 +629,8 @@ export default {
               radio4:'0',
               radio5:'0',
             },
-            centerId:1,
-            academic_year:1,
+            centerId:this.$route.params.center_id,
+            academic_year:this.$route.params.year,
             get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center='+this.centerId+'&academic_year='+this.academic_year,
             get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center='+this.centerId+'&academic_year='+this.academic_year,
             get_03_url:'/api/refund_policy/student_quit_term/info/?center='+this.centerId+'&academic_year='+this.academic_year,
@@ -665,7 +665,7 @@ export default {
         }
     },
     mounted:function(){
-        if(this.$route.params.id == 0){
+        if(this.$route.params.type === 'add'){
           this.getSchoolList();
           this.getYearList();
         }else{
