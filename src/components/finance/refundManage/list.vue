@@ -23,7 +23,7 @@
               <el-option label="被驳回" value="4"></el-option>
           </el-select>
           <span style="margin-left: 20px">搜索：</span>
-          <el-input v-model="searchForm.search_name" placeholder="输入学号、学生姓名或者学生卡号" style="width: auto"></el-input>
+          <el-input v-model="searchForm.search_name" placeholder="输入学号、学生姓名或家长姓名" style="width: auto"></el-input>
           <span><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
           <span class="right" style="cursor:pointer" @click="addNewDiscount(1)">
               <i class="icon-font fa fa-calendar-plus-o"></i>
@@ -44,39 +44,39 @@
             <el-table-column
               label="账单号">
               <template slot-scope="scope">
-                <el-button type="text" size="small" @click="showRefundInfo(scope.row)">{{scope.row.code}}</el-button>
+                <el-button type="text" size="small" @click="showRefundInfo(scope.row)">{{scope.row.bill_no}}</el-button>
               </template>
             </el-table-column>
             <el-table-column
-              prop="hq_name"
+              prop="bill_type_str"
               label="账单类型">
             </el-table-column>
             <el-table-column
-              prop="hq_name"
+              prop="student_no"
               label="学号">
             </el-table-column>
             <el-table-column
-              prop="name"
+              prop="student_name"
               label="姓名">
             </el-table-column>
             <el-table-column
-              prop="intercity_name"
+              prop="klass"
               label="所在班级">
             </el-table-column>
             <el-table-column
-              prop="opening_date"
+              prop="refund_amount"
               label="退费金额（不包含备用金）">
             </el-table-column>
             <el-table-column
-              prop="leader"
+              prop="billing_date"
               label="创建日期">
             </el-table-column>
             <el-table-column
-              prop="telephone"
+              prop="creator_name"
               label="创建人">
             </el-table-column>
             <el-table-column
-              prop="telephone"
+              prop="status_str"
               label="账单状态">
             </el-table-column>
             <el-table-column
@@ -148,7 +148,7 @@
         this.$axios.get('/api/finance/refund/',{
           params:this.searchForm
         }).then(res=>{
-          this.chargeTableDate = res.data.bill_li;
+          this.chargeTableDate = res.data.results;
           this.count = res.data.count;
         })
       },

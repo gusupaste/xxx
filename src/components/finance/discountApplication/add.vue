@@ -29,10 +29,20 @@
                 </el-form-item>
                 <br>
                 <el-form-item label="学业计划：" label-width="120px">
-                    <el-select v-model="value1"></el-select>
+                    <el-select  v-model="selected_plan">
+                      <el-option v-for="plan in plans" 
+                        :key="plan.id" 
+                        :label="plan.name" 
+                        :value="plan.id"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="申请学年：" label-width="120px">
-                    <el-select v-model="value1"></el-select>
+                    <el-select v-model="selected_year">
+                      <el-option v-for="year in years" 
+                        :key="year.id"
+                        :label="year.name"
+                        :value="year.id"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="申请学期：" label-width="120px">
                     <el-select v-model="value1"></el-select>
@@ -146,13 +156,13 @@
                     <el-input class="w250_input" placeholder="输入学号、学生姓名或家长姓名"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">搜索</el-button>
+                    <el-button type="primary" @click="getStudent('')">搜索</el-button>
                 </el-form-item>
             </el-form>
             <el-table :data="tableData">
-                <el-table-column property="date" label="学生姓名" width="150"></el-table-column>
-                <el-table-column property="name" label="学号" width="200"></el-table-column>
-                <el-table-column property="address" label="联系人"></el-table-column>
+                <el-table-column property="name" label="学生姓名" width="150"></el-table-column>
+                <el-table-column property="student_no" label="学号" width="200"></el-table-column>
+                <el-table-column property="id" label="联系人"></el-table-column>
             </el-table>
             <p class="mt10 ml20">
                 <ul>
@@ -217,6 +227,10 @@ export default {
     data(){
         return {
             dialogTableVisible:false,
+            plans:[],
+            years:[],
+            selected_plan: null,
+            selected_year: null,
             value1:'2000-09-09',
             fileList:[],
             tableData: [{
@@ -244,6 +258,12 @@ export default {
                 }
         }
     },
+    mounted: function () {
+        this.$nextTick(function () {
+            this.loadData();
+            this.getStudent("");
+        })
+    },
     methods: {
          addDomain() {
             this.dynamicValidateForm.domains.push({
@@ -257,6 +277,51 @@ export default {
             this.dynamicValidateForm.domains.splice(index, 1)
             }
         },
+        loadData() {
+            var _this = this;
+
+            // this.$axios.post('/api/finance/bill/'+this.$route.params.id+'/pay_bill/',this.addform)
+            // .then(res=>{
+            //     if(res.data.status === 1){
+            //         _this.$message({
+            //             type:'success',
+            //             message:'缴费成功！'
+            //         });
+            //         _this.$router.push('/financemanagement/billMaking');
+            //     }
+            // })
+
+            this.$axios.get('http://192.168.1.197:8000/api/discount/select/payment_method_list/')
+            .then(res=>{
+                console.log(res.data)
+                _this.plans = res.data.results;
+            })
+
+            this.$axios.get('http://192.168.1.197:8000/api/common/select/academic_year_list/')
+            .then(res=>{
+                console.log(res.data)
+                _this.years = res.data.results;
+                for(var key in res.data.results){
+                    if(res.data.results[key].is_selected){
+                        _this.selected_year = res.data.results[key].id
+                    }
+                }
+            })
+        },
+        getStudent(name){
+            //注：student_status='Prepare'预备生，student_status='Formal'在校生，不传表示所有
+            var _this = this;
+
+            this.$axios.get('http://192.168.1.197:8000/api/finance/select/students/',
+            {
+                "search_name":name,
+                "student_status":"", 
+            }).then(res=>{
+                console.log("**********")
+                console.log(res.data)
+                _this.tableData = res.data.results;
+            })
+        }
     }
 }
 </script>

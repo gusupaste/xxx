@@ -153,8 +153,5 @@
     width: 80%;
     min-height: 200px;
   }
-  .parent >>> .el-date-editor.el-input,.parent >>> .el-date-editor.el-input__inner{
-    width: 164px;
-    height: 36px;
-  }
+  
 </style>
