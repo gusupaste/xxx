@@ -55,7 +55,6 @@ import BillDetail from '@/components/finance/charge/billDetail'
 import BillMaking from '@/components/finance/billMaking/billMaking'
 import Costpremium from '@/components/finance/billMaking/costpremium'
 import BillMakingDetail from '@/components/finance/billMaking/detail'
-import BillMakingEdit from '@/components/finance/billMaking/edit'
 import BillMakingDollar from '@/components/finance/billMaking/dollar'
 import BillMakingAcademicChange from '@/components/finance/billMaking/academicChange'
 import CreateDiscount from '@/components/finance/billMaking/createDiscount'
@@ -200,7 +199,7 @@ export default new Router({
       meta: { requiresAuth: true, keepAlive: false },
     },
     {
-      path: '/studentManage',/*家长信息*/
+      path: '/studentManage',
       name: 'studentManage',
       component: StudentManage,
       meta: { requiresAuth: true, keepAlive: false },
@@ -444,12 +443,12 @@ export default new Router({
           component: Paymentprocessing
         },
         {
-          path: '/financemanagement/payBillDetail',
+          path: '/financemanagement/payBillDetail/:id',
           name: 'payBillDetail',
           component: PayBillDetail
         },
         {
-          path: '/financemanagement/billInfo',
+          path: '/financemanagement/billInfo/:id',
           name: 'billInfo',
           component: BillInfo
         },
@@ -507,11 +506,6 @@ export default new Router({
           path: '/financemanagement/billMakingDetail/:id',
           name: 'BillMakingDetail',
           component: BillMakingDetail
-        },
-        {
-          path: '/financemanagement/edit/:id',
-          name: 'BillMakingEdit',
-          component: BillMakingEdit
         },
         {
           path: '/financemanagement/dollar/:id',
