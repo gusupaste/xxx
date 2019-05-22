@@ -39,6 +39,37 @@
                 </el-card>
             </el-col>
         </div>
+          <div class="mt26 tableList">
+            <p class="font-size-14 bold">审批记录：</p>
+            <el-table
+              class="mt10"
+              :data="bill_history"
+              border
+              style="width: 100%">
+              <el-table-column
+                prop="billing_date"
+                label="审批节点"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="actual_amount"
+                label="审批角色"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop="reserved_fund_use"
+                label="审批结果">
+              </el-table-column>
+              <el-table-column
+                prop="creator"
+                label="审批意见">
+              </el-table-column>
+              <el-table-column
+                prop="bill_status"
+                label="审批日期">
+              </el-table-column>
+            </el-table>
+        </div>
         <div class="mt26 tableList">
             <p class="font-size-14 bold">账单明细信息：</p>
             <el-table
@@ -99,39 +130,39 @@
           </span>
         </div>
         <div class="mt26 tableList">
-        <p class="font-size-14 bold">历史账单：</p>
-        <el-table
-          class="mt10"
-          :data="bill_history"
-          border
-          style="width: 100%">
-          <el-table-column
-            prop="billing_date"
-            label="缴费日期"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="actual_amount"
-            label="缴费金额"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="reserved_fund_use"
-            label="备用金抵扣">
-          </el-table-column>
-          <el-table-column
-            prop="creator"
-            label="收款人">
-          </el-table-column>
-          <el-table-column
-            prop="bill_status"
-            label="费用状态">
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="操作">
-          </el-table-column>
-        </el-table>
+          <p class="font-size-14 bold">历史账单：</p>
+          <el-table
+            class="mt10"
+            :data="bill_history"
+            border
+            style="width: 100%">
+            <el-table-column
+              prop="billing_date"
+              label="缴费日期"
+              width="180">
+            </el-table-column>
+            <el-table-column
+              prop="actual_amount"
+              label="缴费金额"
+              width="180">
+            </el-table-column>
+            <el-table-column
+              prop="reserved_fund_use"
+              label="备用金抵扣">
+            </el-table-column>
+            <el-table-column
+              prop="creator"
+              label="收款人">
+            </el-table-column>
+            <el-table-column
+              prop="bill_status"
+              label="费用状态">
+            </el-table-column>
+            <el-table-column
+              prop="address"
+              label="操作">
+            </el-table-column>
+          </el-table>
       </div>
         <div class="mt26 tableList" style="line-height:30px" >
           <p class="font-size-14 bold">缴费信息：</p>
@@ -219,19 +250,10 @@
               prop="date_created"
               label="上传日期">
             </el-table-column>
-            <el-table-column
-              prop="address"
-              label="操作">
-              <template slot-scope="scope">
-                <el-button class="red" type="text" size="small" @click="deleteFile(scope.row.id)">
-                  <span class="el-icon-delete" style="font-size: 20px;"></span>
-                </el-button>
-              </template>
-            </el-table-column>
           </el-table>
         </div>
         <div class="mt26 text-align-center">
-          <button class="btn bg-grey">返回</button>
+          <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
           <button class="btn bg-green">提交</button>
         </div>
     </div>
