@@ -363,7 +363,7 @@
                 <td colspan="2">无发票</td>
                 <td colspan="3">
                   减退费金额
-                  <el-input type="text" v-model="saveForm.refund_money_per"></el-input> %
+                  <el-input type="text" v-model="saveForm.refund_money_per2"></el-input> %
                 </td>
               </tr>
           </tbody>
@@ -384,7 +384,7 @@
               <td width="90px">无发票</td>
               <td colspan="2">
                 金额-金额 x
-                <el-input type="text" v-model="saveForm.refund_money_per2"></el-input> %
+                <el-input type="text" v-model="saveForm.refund_money_per4"></el-input> %
               </td>
             </tr>
             <tr>
@@ -608,6 +608,7 @@ export default {
               last_month_per:'',
               refund_money_per:'',
               refund_money_per2:'',
+              refund_money_per4:'',
               current_month_per2:'',
               last_month_per2:'',
               current_month_per3:'',
@@ -617,7 +618,6 @@ export default {
               compare_type5:'',
               days5:'',
               days_fee5:'',
-
               radio10:'退费',
               radio9:'退费',
               radio8:'退费',
@@ -629,21 +629,23 @@ export default {
               radio4:'0',
               radio5:'0',
             },
-            get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center=1&academic_year=1',
-            get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center=1&academic_year=1',
-            get_03_url:'/api/refund_policy/student_quit_term/info/?center=1&academic_year=1',
-            get_04_url:'/api/refund_policy/student_quit_year/info/?center=1&academic_year=1',
-            get_05_url:'/api/refund_policy/student_suspend/info/?center=1&academic_year=1',
-            get_06_url:'/api/refund_policy/student_absence/info/?center=1&academic_year=1',
-            get_07_url:'/api/refund_policy/student_vacation/info/?center=1&academic_year=1',
-            get_08_url:'/api/refund_policy/student_meal/info/?center=1&academic_year=1',
-            get_09_url:'/api/refund_policy/activity_fee/info/?center=1&academic_year=1',
-            get_10_url:'/api/refund_policy/school_bus_fee/info/?center=1&academic_year=1',
-            get_11_url:'/api/refund_policy/no_invoice/info/?center=1&academic_year=1',
-            get_12_url:'/api/refund_policy/cheap_no_invoice/info/?center=1&academic_year=1',
-            get_13_url:'/api/refund_policy/cheap_absence/info/?center=1&academic_year=1',
-            get_14_url:'/api/refund_policy/cheap_quit/info/?center=1&academic_year=1',
-            get_15_url:'/api/refund_policy/cheap_meal_fee/info/?center=1&academic_year=1',
+            centerId:1,
+            academic_year:1,
+            get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_03_url:'/api/refund_policy/student_quit_term/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_04_url:'/api/refund_policy/student_quit_year/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_05_url:'/api/refund_policy/student_suspend/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_06_url:'/api/refund_policy/student_absence/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_07_url:'/api/refund_policy/student_vacation/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_08_url:'/api/refund_policy/student_meal/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_09_url:'/api/refund_policy/activity_fee/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_10_url:'/api/refund_policy/school_bus_fee/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_11_url:'/api/refund_policy/no_invoice/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_12_url:'/api/refund_policy/cheap_no_invoice/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_13_url:'/api/refund_policy/cheap_absence/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_14_url:'/api/refund_policy/cheap_quit/info/?center='+this.centerId+'&academic_year='+this.academic_year,
+            get_15_url:'/api/refund_policy/cheap_meal_fee/info/?center='+this.centerId+'&academic_year='+this.academic_year,
             add_01_url:'/api/refund_policy/prepared_student_refund/',
             add_02_url:'/api/refund_policy/student_quit_month/',
             add_03_url:'/api/refund_policy/student_quit_term/',
@@ -667,24 +669,27 @@ export default {
           this.getSchoolList();
           this.getYearList();
         }else{
-          this.getGoodFee();
-          this.getMonthPay();
-          this.getTermPay();
-          this.getYearPay();
-          this.getStudentSuspend();
-          this.getStudentAabsence();
-          this.getStudentVacation();
-          this.getStudentMeal();
-          this.getActivityFee();
-          this.getSchoolBusFee();
-          this.getNoInvoice();
-          this.getCheapNoInvoice();
-          this.getCheapAbsence();
-          this.getCheapQuit();
-          this.getCheapMealFee();
+          this.getLists();
         }
     },
     methods:{
+      getLists:function () {
+        this.getGoodFee();
+        this.getMonthPay();
+        this.getTermPay();
+        this.getYearPay();
+        this.getStudentSuspend();
+        this.getStudentAabsence();
+        this.getStudentVacation();
+        this.getStudentMeal();
+        this.getActivityFee();
+        this.getSchoolBusFee();
+        this.getNoInvoice();
+        this.getCheapNoInvoice();
+        this.getCheapAbsence();
+        this.getCheapQuit();
+        this.getCheapMealFee();
+      },
       addTr:function (index) {
         if(index === 0){
           var obj = {
@@ -893,7 +898,7 @@ export default {
       getNoInvoice:function () {
         this.$axios.get(this.get_11_url).then(res=>{
           if(res.data.refund_money_per) {
-            this.saveForm.refund_money_per = res.data.refund_money_per;
+            this.saveForm.refund_money_per2 = res.data.refund_money_per;
           }
         }).catch(err=>{
           console.log(err)
@@ -901,8 +906,8 @@ export default {
       },
       getCheapNoInvoice:function () {
         this.$axios.get(this.get_12_url).then(res=>{
-          if(res.data.current_month_per){
-            this.saveForm.refund_money_per2 = res.data.refund_money_per ;
+          if(res.data.refund_money_per){
+            this.saveForm.refund_money_per4 = res.data.refund_money_per ;
           }
         }).catch(err=>{
           console.log(err)
@@ -911,9 +916,9 @@ export default {
       getCheapAbsence:function () {
         this.$axios.get(this.get_13_url).then(res=>{
             if(res.data.return_type === 2){
-              this.saveForm.radio10 = '退费';
-            }else{
               this.saveForm.radio10 = '转备用金'
+            }else{
+              this.saveForm.radio10 = '退费';
             }
             this.saveForm.current_month_per2 = res.data.current_month_per;
             this.saveForm.last_month_per2 = res.data.last_month_per;
@@ -1419,7 +1424,7 @@ export default {
         var data11 = {
           center:this.saveForm.center || 1,
           academic_year:this.saveForm.academic_year || 1,
-          refund_money_per:this.saveForm.refund_money_per,
+          refund_money_per:this.saveForm.refund_money_per2,
         };
         if(type === 'add'){
           this.$axios.post(this.add_11_url,data11).then(res=>{
@@ -1456,7 +1461,7 @@ export default {
         var data12 = {
           center:this.saveForm.center || 1,
           academic_year:this.saveForm.academic_year || 1,
-          refund_money_per:this.saveForm.refund_money_per2,
+          refund_money_per:this.saveForm.refund_money_per4,
         };
         if(type === 'add'){
           this.$axios.post(this.add_12_url,data12).then(res=>{
@@ -1473,7 +1478,7 @@ export default {
             console.log(err)
           })
         }else{
-          this.$axios.put(this.add_11_url+'1/',data11).then(res=>{
+          this.$axios.put(this.add_12_url+'1/',data12).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
               this.$message({
@@ -1625,9 +1630,10 @@ export default {
     watch: {
       success_flag: {
         handler(newValue, oldValue) {
-          /*if(newValue === 'second'){
-            this.getStudentList();
-          }*/
+          console.log(newValue.length);
+          if(newValue.length == 15){
+            this.getLists();
+          }
         },
         deep: true
       }
