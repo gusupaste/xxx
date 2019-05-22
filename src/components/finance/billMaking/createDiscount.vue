@@ -543,6 +543,7 @@ export default {
                 _this.$set(_this.addform,'end_date',res.data.data.bill_info.enter_date)
                 _this.$set(_this.saveForm,'policy_id',res.data.data.bill_info.policy_id)
                 _this.$set(_this.addform,'pay_method',res.data.data.bill_info.pay_method_id)
+                _this.$set(_this.addform,'date',res.data.data.bill_info.billing_date)
                 _this.studentList.forEach(item=>{
                     if(item.id == _this.addform.student_id){
                         _this.choosePerson = item;
@@ -551,7 +552,9 @@ export default {
                 });
                 // _this.getSubject();
                 _this.checkedSubject = res.data.data.billitem_li; 
+                _this.checkedSubject1 = res.data.data.billitem_li; 
                 _this.saveForm.billitem_list = res.data.data.billitem_li;
+                _this.sureAddSubject();
             })
         },
         getYear(){

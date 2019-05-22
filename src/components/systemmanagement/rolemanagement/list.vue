@@ -8,7 +8,9 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="总部" name="first">
             <span class="right"><el-button class="orange" type="text" @click="addRole(0)"><i
-              class="fa fa-plus-square"></i>&nbsp;新增角色</el-button></span>
+              class="fa fa-plus-square font-size-20"></i>&nbsp;
+              <span style="font-size:14px">新增角色</span>
+              </el-button></span>
             <el-table
               :data="roleList"
               border

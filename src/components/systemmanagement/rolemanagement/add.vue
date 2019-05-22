@@ -130,12 +130,15 @@
         currentPage: 1,
         pagesize: 10,
         total: 1,
+        role_type:0,
         addUserList:[],
         permission_status:Number(this.$route.query.status)
       }
     },
     created: function () {
       this.id = Number(this.$route.query.id);
+      this.permission_status == 1 ? this.role_type = 3:this.role_type = 2;
+      console.log(this.role_type)
       if (this.id !== 0) {
         this.getRole()
       }
@@ -198,7 +201,7 @@
       searchList: function (val) {
         this.loading = true
         this.currentPage = val
-        var url = '/api/user/users_management/all_users/?display_name=' + this.display_name + '&page=' + this.currentPage + '&size=' + this.pagesize
+        var url = '/api/user/users_management/all_users/?display_name=' + this.display_name + '&page=' + this.currentPage + '&size=' + this.pagesize + '&role_type=' + this.role_type
         this.$axios.get(url).then(res => {
           this.loading = false
           if (res.data.status_code === 1) {

@@ -53,11 +53,6 @@
               show-header
               style="width: 100%;margin-top: 10px;">
               <el-table-column
-                prop="code"
-                label="账单号"
-                width="150">
-              </el-table-column>
-              <el-table-column
                 prop="name"
                 label="学生姓名"
                 width="130">
@@ -69,27 +64,31 @@
               </el-table-column>
               <el-table-column
                 prop="hq_name"
-                label="账单类型"
+                label="折扣类型"
                 width="130">
               </el-table-column>
               <el-table-column
                 prop="opening_date"
-                label="实际应收"
+                label="入学日期"
                 width="130">
               </el-table-column>
               <el-table-column
                 prop="leader"
-                label="实际实收"
+                label="正价"
                 width="130">
               </el-table-column>
               <el-table-column
                 prop="telephone"
-                label="制单人"
+                label="折扣"
                 width="130">
               </el-table-column>
               <el-table-column
                 prop="status_name"
-                label="制单日期">
+                label="优惠金额合计">
+              </el-table-column>
+              <el-table-column
+                prop="status_name"
+                label="申请日期">
               </el-table-column>
               <el-table-column
                 fixed="right"

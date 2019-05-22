@@ -225,8 +225,12 @@ a {
   line-height: 0;
 }
 .el-input__inner {
-  width: 164px;
-  height: 36px;
+  width: 145px;
+  height: 32px;
+  font-size: 12px;
+}
+.el-input__icon {
+  line-height: 32px;
 }
 .btn {
   width: 84px;
@@ -252,7 +256,7 @@ a {
   margin-bottom: 10px !important;
 } */
 .w250_input .el-input__inner {
-  width: 250px;
+  width: 220px;
 }
 /* tabs公共样式 */
 .el-tabs__item.is-active {
