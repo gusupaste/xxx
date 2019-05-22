@@ -109,6 +109,9 @@ html {
 .bd-grey {
   border:1px solid #999;
 }
+.bd-orange {
+  border:1px solid #f17128;
+}
 /* 其他 */
 .left {
   float: left;
@@ -181,6 +184,9 @@ a {
 
 .font-size-14 {
   font-size: 14px;
+}
+.font-size-16 {
+  font-size: 16px;
 }
 
 .font-size-20 {

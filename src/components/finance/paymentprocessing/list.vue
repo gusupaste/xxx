@@ -27,19 +27,15 @@
             <span class="ml20">账单状态：</span>
             <el-select v-model="searchForm.bill_status" placeholder="--请选择--" >
               <el-option label="所有" value=""></el-option>
-              <el-option label="草稿" value="0"></el-option>
-              <el-option label="确认" value="1"></el-option>
+              <!-- <el-option label="草稿" value="0"></el-option> -->
+              <el-option label="已确认" value="1"></el-option>
               <el-option label="待批" value="2"></el-option>
-              <el-option label="已批准" value="3"></el-option>
-              <el-option label="已拒绝" value="4"></el-option>
+              <!-- <el-option label="已批准" value="3"></el-option> -->
+              <el-option label="被驳回" value="4"></el-option>
             </el-select>
             <span class="ml20">学生：</span>
             <el-input v-model="searchForm.search_str" class="search_input" placeholder="输入学生名称" style="width: 220px;"></el-input>
             <span class="padding-left-30"><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
-            <!--<span class="right" style="cursor:pointer" @click="addNewTemplate(0)">
-              <i class="icon-font fa fa-calendar-plus-o"></i>
-              <span class="font-cl-blue font-size-14" >新增费用科目</span>
-          </span>-->
           </div>
           <el-table
             ref="multipleTable"
@@ -139,11 +135,11 @@
       handleCurrentChange(val){
         this.searchList(val)
       },
-      editSchool(){
-        this.$router.push('/financemanagement/billInfo/'+val.id)
+      editSchool(val){
+        this.$router.push('/financemanagement/payBillDetail/'+val.id) 
       },
       showInfo(val){
-        this.$router.push('/financemanagement/payBillDetail/'+val.id)
+        this.$router.push('/financemanagement/billInfo/'+val.id)
       },
       searchList(id){
         this.searchForm.page = id;
