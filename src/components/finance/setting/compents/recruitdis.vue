@@ -28,11 +28,21 @@
         min-width="60">
       </el-table-column>
       <el-table-column
-        label="缴费区间"
-        min-width="80">
+        label="缴费截至日期"
+        min-width="60">
         <template slot-scope="scope">
-          <span>{{scope.row.pay_start_date}}至{{scope.row.pay_end_date}}</span>
+          <span>{{scope.row.pay_end_date}}</span>
         </template>
+      </el-table-column>
+      <el-table-column
+        prop="pay_type"
+        label="缴费方式"
+        min-width="60">
+      </el-table-column>
+      <el-table-column
+        prop="discount_money"
+        label="折扣金额"
+        min-width="60">
       </el-table-column>
       <el-table-column
         prop="centers"
@@ -77,7 +87,8 @@
               <el-date-picker
                 v-model="discountForm.start_date"
                 type="date"
-                placeholder="选择日期">
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -86,7 +97,8 @@
               <el-date-picker
                 v-model="discountForm.end_date"
                 type="date"
-                placeholder="选择日期">
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -97,7 +109,8 @@
               <el-date-picker
                 v-model="discountForm.pay_end_date"
                 type="date"
-                placeholder="选择日期">
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -114,7 +127,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="10">
             <el-form-item label="缴费金额: ">
               <el-input v-model="discountForm.discount_money" size="small" placeholder="缴费金额"></el-input>
             </el-form-item>
@@ -247,8 +260,8 @@
         this.exist_discount_type_value = []
         if (flag === 0) {
           this.discountName = '新增折扣类型'
-          //this.searchSchoolList() //学校.班级
-          //this.getExistDiscountType() //互斥折扣
+          this.searchSchoolList() //学校.班级
+          this.getExistDiscountType() //互斥折扣
           this.name = ''
         } else {
           this.discountName = '编辑折扣类型'
@@ -280,6 +293,15 @@
             this.exist_discount_type = res.data.data.mutexs
             this.exist_discount_type_value = res.data.data.mutex_list
           }).catch(err => {
+        })
+      },
+      /* 互斥折扣 */
+      getExistDiscountType: function () {
+        this.$axios.get('/api/discount/discount_type_management/get_exist_discount_type/')
+          .then(res => {
+            this.exist_discount_type = res.data.data
+          }).catch(err => {
+
         })
       },
       /* 下拉框 城际列表 */
@@ -359,7 +381,7 @@
           }).then(res => {
             this.$message.success("保存成功")
             this.addDiscountVisible = false
-            this.getUsualDiscountList(1)
+            this.getEnrollmentDiscountList(1)
           }).catch(err => {
           })
         } else {
@@ -373,6 +395,9 @@
             discount_money: this.discountForm.discount_money,
             mutex_list: this.exist_discount_type_value,
           }).then(res => {
+            this.$message.success("保存成功")
+            this.addDiscountVisible = false
+            this.getEnrollmentDiscountList(1)
           }).catch(err => {
           })
         }
