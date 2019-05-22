@@ -145,10 +145,10 @@
                     </el-form-item>
                     <el-form-item label="家庭住址：" prop="address" label-width="150px" class="enroll-info">
                       <el-select class="select-region" v-model="p_city_id" placeholder="省" @change="proinit(1)">
-                        <el-option v-for="pro in provinceList" :label="pro.city_name" :value="pro.city_id" :key="pro.id"></el-option>
+                        <el-option v-for="pro in provinceList" :label="pro.city_name" :value="pro.id" :key="pro.id"></el-option>
                       </el-select>
                       <el-select class="select-region" v-model="c_city_id" placeholder="市" @change="proinit(2)">
-                        <el-option v-for="city in cityList" :label="city.city_name" :value="city.city_id" :key="city.id"></el-option>
+                        <el-option v-for="city in cityList" :label="city.city_name" :value="city.id" :key="city.id"></el-option>
                       </el-select>
                       <el-select class="select-region" v-model="studentInfo.town" placeholder="区">
                         <el-option v-for="town in townList" :label="town.city_name" :value="town.id" :key="town.id"></el-option>
@@ -341,10 +341,10 @@ export default {
     },
     proinit(type){
       if(type === 1){
-        this.studentInfo.c_city_id = "";
-        this.studentInfo.town_id = "";
+        this.c_city_id = "";
+        this.studentInfo.town = "";
       } else {
-        this.studentInfo.town_id = "";
+        this.studentInfo.town = "";
       }
     },
     getOptions:function(){
@@ -394,10 +394,10 @@ export default {
           this.studentInfo.nick_name = res.data.detail.nick_name;
           this.studentInfo.enter_date = res.data.detail.enter_date;
           this.studentInfo.first_pay_date = res.data.detail.first_pay_date;
-          this.studentInfo.certificate_type = res.data.detail.certificate_type;
+          this.studentInfo.certificate_type = parseInt(res.data.detail.certificate_type);
           this.studentInfo.certificate_no = res.data.detail.certificate_no;
           this.studentInfo.nationality = parseInt(res.data.detail.nationality);
-          this.studentInfo.religion = res.data.detail.religion;
+          this.studentInfo.religion = parseInt(res.data.detail.religion);
           this.studentInfo.date_of_birth = res.data.detail.date_of_birth;
           this.studentInfo.gender = res.data.detail.gender;
           this.studentInfo.is_employee_child = res.data.detail.is_employee_child;
@@ -413,6 +413,7 @@ export default {
           this.preferred_grade_type_name = res.data.detail.preferred_grade_type_name;
           this.preferred_class_type_name = res.data.detail.preferred_class_type_name;
           this.newType = [];
+          this.town_id = '';
           var falsg = false;
           if(res.data.detail.is_employee_child == 1){
             this.newType.push('is_employee_child');
@@ -450,6 +451,7 @@ export default {
               this.studentInfo.has_siblings_in_eton = 1;
             }
           }
+          console.log(this.studentInfo);
           this.$axios.put(this.saveStudent,this.studentInfo).then(res=>{
             if(res.status == 200){
               this.$message({
