@@ -223,7 +223,7 @@
                     <td class="text-align-center">审批流:</td>
                     <td>
                       <template v-for="(app,app_index) in table.approve">
-                        <el-select style="width: 120px;" :key="app.id" v-model="app.role_id"
+                        <el-select style="width: 120px;" :key="app_index" v-model="app.role_id"
                                    @change="addApprove($event,app_index,index)">
                           <el-option v-for="role in roleList"
                                      :key="role.id"
@@ -547,7 +547,7 @@
             //默认添加末尾的 审批流
             for (var i = 0; i < this.tableForm.length; i++) {
               if (this.tableForm[i].approve === undefined) {
-                this.tableForm[i].approve = []
+                this.$set(this.tableForm[i], 'approve', [])
                 var obj = {
                   id: 0,
                   level_no: 1,
@@ -555,7 +555,6 @@
                   role_name: ''
                 }
                 this.tableForm[i].approve.push(obj)
-                console.log(this.tableForm[i])
               } else {
                 var len = this.tableForm[i].approve.length
                 var obj2 = {
