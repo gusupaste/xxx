@@ -49,7 +49,7 @@
         label="操作"
         min-width="40">
         <template slot-scope="scope">
-          <el-button style="color: orange" type="text" size="small" @click="addNewDiscount(1)">编辑</el-button>
+          <el-button style="color: orange" type="text" size="small" @click="addNewDiscount(scope.row.id)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,17 +62,160 @@
       @current-change="handleCurrentChange"
       :total="total" class="page">
     </el-pagination>
+    <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="800px" class="discountDialog">
+      <el-form ref="discountForm" v-model="discountForm" label-width="100px">
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label="折扣名称: ">
+              <el-input v-model="discountForm.name" size="small" placeholder="折扣名称限制15个字" maxlength="15"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="折扣生效日期: " label-width="100">
+              <el-date-picker
+                v-model="discountForm.start_date"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="折扣失效日期: " label-width="100">
+              <el-date-picker
+                v-model="discountForm.end_date"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="缴费截止日期: ">
+              <el-date-picker
+                v-model="discountForm.pay_end_date"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="缴费方式: ">
+              <el-select v-model="discountForm.pay_type">
+                <el-option :value="Number(2)" label="月缴"></el-option>
+                <el-option :value="Number(1)" label="学期缴"></el-option>
+                <el-option :value="Number(0)" label="年缴"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="缴费金额: ">
+              <el-input v-model="discountForm.discount_money" size="small" placeholder="缴费金额"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="适用校园: ">
+              <el-form :model="searchSchool">
+                <div>
+                  <span>城际：</span>
+                  <el-select v-model="searchSchool.intercity_id" placeholder="请选择">
+                    <el-option label="全部" value=""></el-option>
+                    <el-option v-for="int in intercityList" :key="int.id" :label="int.dept_name"
+                               :value="int.id"></el-option>
+                  </el-select>
+                  <span style="margin-left:20px">区域：</span>
+                  <el-select v-model="searchSchool.area_id" placeholder="请选择">
+                    <el-option label="全部" value=""></el-option>
+                    <el-option v-for="area in areaList" :label="area.name" :value="area.id" :key="area.id"></el-option>
+                  </el-select>
+                </div>
+                <div class="school-wrap" style="">
+                  <el-table
+                    ref="multipleTable"
+                    :data="schoolList"
+                    max-height="300"
+                    tooltip-effect="dark"
+                    style="width: 90%"
+                    border
+                    @selection-change="handleSelectionChange">
+                    <el-table-column
+                      type="selection"
+                      width="50">
+                    </el-table-column>
+                    <el-table-column
+                      prop="name"
+                      label="校园"
+                      width="200">
+                    </el-table-column>
+                    <el-table-column
+                      prop="name"
+                      label="班级项目"
+                      width="">
+                      <template slot-scope="scope">
+                        <el-checkbox-group v-model="checkList[scope.row.id]" @change="getClassList($event,scope.row)">
+                          <el-checkbox v-for="cla in scope.row.class_types" :key="cla.id" :value="cla.id"
+                                       :label="cla.id">{{cla.name}}
+                          </el-checkbox>
+                        </el-checkbox-group>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </el-form>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="互斥折扣: ">
+              <el-checkbox-group v-model="exist_discount_type_value" style="text-align: left">
+                <el-checkbox name="type" v-for="(type,index) in exist_discount_type" :key="index"
+                             :label="type.id">{{type.name}}
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="addDiscountVisible = false">取 消</el-button>
+          <el-button type="success" @click="saveRecruitdis">保 存</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
+        id: 0,
         type: 1,
         enrollmentDiscountList: [],
         pagesize: 10,
         currentPage: 1,
-        total: 1
+        total: 1,
+        addDiscountVisible: false,
+        searchSchool: {
+          intercity_id: '',
+          area_id: ''
+        },
+        intercityList: [],
+        areaList: [],
+        schoolList: [],
+        checkList: {},
+        discountForm: [],
+        multipleSelection: [],
+        exist_discount_type_value: [],
+        exist_discount_type: []
       }
     },
     mounted: function () {
@@ -99,6 +242,140 @@
           }).catch(err => {
           console.log(err)
         })
+      },
+      addNewDiscount: function (flag) {
+        this.exist_discount_type_value = []
+        if (flag === 0) {
+          this.discountName = '新增折扣类型'
+          //this.searchSchoolList() //学校.班级
+          //this.getExistDiscountType() //互斥折扣
+          this.name = ''
+        } else {
+          this.discountName = '编辑折扣类型'
+          this.getDetailById(flag) //编辑接口
+        }
+        this.id = flag
+        this.addDiscountVisible = true
+      },
+      getDetailById: function (id) {
+        this.$axios.get('/api/discount/discount_type_management/' + id + '/discount_type_info/')
+          .then(res => {
+            this.discountForm = res.data.data.discount_type
+            this.schoolList = res.data.data.center_list
+            this.schoolList.map(v => {
+              this.$set(this.checkList, v.id, [])
+            })
+            //选中 显示
+            this.schoolList.forEach(v => {
+              var list = []
+              if (v.status === 1) {
+                v.class_types.forEach(ele => {
+                  //if (ele.status === 1) {
+                    list.push(ele.id)
+                  //}
+                })
+              }
+              this.checkList[v.id] = list
+            })
+            this.exist_discount_type = res.data.data.mutexs
+            this.exist_discount_type_value = res.data.data.mutex_list
+          }).catch(err => {
+        })
+      },
+      /* 下拉框 城际列表 */
+      getIntercity: function () {
+        this.$axios.get('/api/common/intercity/')
+          .then(res => {
+            this.intercityList = res.data.intercity_list
+          }).catch(err => {
+
+        })
+      },
+      /* 下拉框 区域列表 */
+      getArea: function () {
+        this.$axios.get('/api/common/select/area_list/')
+          .then(res => {
+            this.areaList = res.data.results
+          }).catch(err => {
+
+        })
+      },
+      /* 校园.班级列表 */
+      searchSchoolList: function () {
+        this.$axios.get('/api/discount/discount_type_management/all_center_class_type/', {
+          params: this.searchSchool
+        }).then(res => {
+          this.schoolList = res.data.data
+          this.schoolList.map((v) => {
+            this.$set(this.checkList, v.id, [])
+          })
+        }).catch(err => {
+
+        })
+      },
+      /* 多选校园事件 */
+      handleSelectionChange: function (val) {
+        this.multipleSelection = []
+        for (let k in this.checkList) {
+          this.checkList[k] = []
+        }
+        val.forEach(item => {
+          var obj = {
+            center_id: item.id,
+            class_types: []
+          }
+          var list = []
+          item.class_types.forEach(ele => {
+            obj.class_types.push(ele.id)
+            list.push(ele.id)
+          })
+          this.multipleSelection.push(obj) //传到后台的数据
+          this.checkList[item.id] = list
+        })
+      },
+      /* 选某个班级 则选中整个校园 */
+      getClassList: function ($event, id) {
+        var length = $event.length
+        length === 0 ? this.$refs.multipleTable.toggleRowSelection(id, false) : this.$refs.multipleTable.toggleRowSelection(id, true)
+        this.schoolList.forEach(item => {
+          if (item === id) {
+            item.class_type_ids = $event
+          }
+        })
+      },
+      saveRecruitdis: function () {
+        /*  新增  */
+        if (this.id === 0) {
+          this.$axios.post('/api/discount/discount_type_management/', {
+            center_class_type_list: this.multipleSelection,
+            name: this.discountForm.name,
+            start_date: this.discountForm.start_date,
+            end_date: this.discountForm.end_date,
+            pay_end_date: this.discountForm.pay_end_date,
+            pay_type: this.discountForm.pay_type,
+            discount_money: this.discountForm.discount_money,
+            type: 1,
+            mutex_list: this.exist_discount_type_value,
+          }).then(res => {
+            this.$message.success("保存成功")
+            this.addDiscountVisible = false
+            this.getUsualDiscountList(1)
+          }).catch(err => {
+          })
+        } else {
+          this.$axios.post('/api/discount/discount_type_management/' + this.id + '/update_class_type/', {
+            center_class_type_list: this.multipleSelection,
+            name: this.discountForm.name,
+            start_date: this.discountForm.start_date,
+            end_date: this.discountForm.end_date,
+            pay_end_date: this.discountForm.pay_end_date,
+            pay_type: this.discountForm.pay_type,
+            discount_money: this.discountForm.discount_money,
+            mutex_list: this.exist_discount_type_value,
+          }).then(res => {
+          }).catch(err => {
+          })
+        }
       },
       handleCurrentChange: function (currentPage) {
         this.currentPage = currentPage
