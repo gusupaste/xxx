@@ -161,6 +161,9 @@ export default {
       searchText:'',
       year:'',
       in_type:'',
+      form:{
+        
+      }
     }
   },
   methods:{

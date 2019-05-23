@@ -4,7 +4,7 @@
       <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">家长业务申请查询</span></p>
     </div>
     <div class="header-top">
-      <p><span >城际：</span>
+      <p><span>城际：</span>
         <el-select class="select_lip" v-model="value" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -54,11 +54,11 @@
           </el-option>
         </el-select>
         <span class="ml20">学生信息：</span>
-        <el-input type="text" placeholder="请输入"  class="search_input" style="width:220px"></el-input>
+        <el-input type="text" placeholder="请输入" class="search_input" style="width:220px"></el-input>
         <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
       </p>
       <el-table
-      class="mt26"
+        class="mt26"
         :data="tableList"
         border
         stripe
@@ -112,134 +112,176 @@
         </el-table-column>
       </el-table>
     </div>
+    <el-button @click="applicationDetail" class="font-cl-blue" type="text" size="small">详情</el-button>
     <!--编辑 弹框-->
     <el-dialog title="详情页面" class="el-dialog-table" :visible.sync="detaildialog" width="50%">
-      <table class="table">
-        <tbody>
-        <tr>
-          <td colspan="4">学生信息</td>
-        </tr>
-        <tr>
-          <td>学生姓名<span class="red">*</span></td>
-          <td>史诗</td>
-          <td>所在校园<span class="red">*</span></td>
-          <td>金坛碧水华庭校园</td>
-        </tr>
-        <tr>
-          <td>所在班级<span class="red">*</span></td>
-          <td>大三班</td>
-          <td>班级主讲</td>
-          <td><el-input placeholder="请输入"></el-input></td>
-        </tr>
-        <tr>
-          <td>学生状态</td>
-          <td colspan="3">
-            <el-radio-group v-model="radio">
-              <el-radio :lable="1">预备生</el-radio>
-              <el-radio :lable="2">在校生</el-radio>
-              <el-radio :lable="3">离园生</el-radio>
-            </el-radio-group>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4">申请人/家长信息</td>
-        </tr>
-        <tr>
-          <td>申请人姓名<span class="red">*</span></td>
-          <td><el-input placeholder="请输入"></el-input></td>
-          <td>申请人身份<span class="red">*</span></td>
-          <td><el-radio-group v-model="radio">
-            <el-radio :lable="1">家长</el-radio>
-            <el-radio :lable="2">校园人员</el-radio>
-          </el-radio-group></td>
-        </tr>
-        <tr>
-          <td>家长姓名<span class="red">*</span></td>
-          <td><el-input placeholder="请输入"></el-input></td>
-          <td>与学生关系<span class="red">*</span></td>
-          <td><el-radio-group v-model="radio">
-            <el-radio :lable="1">父亲</el-radio>
-            <el-radio :lable="2">母亲</el-radio>
-            <el-radio :lable="3">其他</el-radio>
-          </el-radio-group></td>
-        </tr>
-        <tr>
-          <td>联系电话</td>
-          <td><el-input placeholder="请输入"></el-input></td>
-          <td>手机号码<span class="red">*</span></td>
-          <td><el-input placeholder="请输入"></el-input></td>
-        </tr>
-        <tr>
-          <td>邮件地址<span class="red">*</span></td>
-          <td colspan="3"><el-input placeholder="请输入"></el-input></td>
-        </tr>
-        <tr>
-          <td colspan="4">申请信息</td>
-        </tr>
-        <tr>
-          <td rowspan="2">申请类别<span class="red">*</span></td>
-          <td rowspan="2"><el-radio-group v-model="radio">
-            <el-radio :lable="1">离园退费</el-radio>
-            <el-radio :lable="2">中止用餐</el-radio>
-            <el-radio :lable="3">用餐变更</el-radio>
-            <el-radio :lable="3">中止校车</el-radio>
-            <el-radio :lable="3">校车变更</el-radio>
-            <el-radio :lable="3">班级变更</el-radio>
-            <el-radio :lable="3">休学申请</el-radio>
-            <el-radio :lable="3">转园申请</el-radio>
-          </el-radio-group></td>
-          <td >申请原因<span class="red">*</span></td>
-          <td><el-checkbox-group v-model="checkList">
-            <el-checkbox label="毕业"></el-checkbox>
-            <el-checkbox label="居所搬迁/工作调动/家庭其他原因"></el-checkbox>
-            <el-checkbox label="路途遥远"></el-checkbox>
-            <el-checkbox label="出国"></el-checkbox>
-            <el-checkbox label="孩子太小/生病"></el-checkbox>
-            <el-checkbox label="转公立园/国际学校"></el-checkbox>
-            <el-checkbox label="教师更好频繁"></el-checkbox>
-            <el-checkbox label="教师水平低/态度不好/蒙氏不专业"></el-checkbox>
-            <el-checkbox label="缺外教/外教更换/外教水平差"></el-checkbox>
-            <el-checkbox label="课程不系统"></el-checkbox>
-            <el-checkbox label="孩子学不到知识"></el-checkbox>
-            <el-checkbox label="孩子英语能力没有提高"></el-checkbox>
-            <el-checkbox label="校园真题服务质量/服务意识"></el-checkbox>
-            <el-checkbox label="园长能力/态度"></el-checkbox>
-            <el-checkbox label="校园安全/班级看管"></el-checkbox>
-            <el-checkbox label="饮食"></el-checkbox>
-            <el-checkbox label="家园沟通"></el-checkbox>
-            <el-checkbox label="缺校车/校车线路"></el-checkbox>
-          </el-checkbox-group></td>
-        </tr>
-        <tr>
-          <td>起止日期</td>
-          <td><el-date-picker
-            v-model="value1"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
-            <span>至</span>
-            <el-date-picker
-              v-model="value1"
-              type="date"
-              placeholder="选择日期">
-            </el-date-picker></td>
-        </tr>
-        <tr>
-          <td>变更/离园日期<span class="red">*</span></td>
-          <td><el-input placeholder="请输入"></el-input></td>
-          <td>提交日期</td>
-          <td>3/14/2019</td>
-        </tr>
-        <tr>
-          <td>备注</td>
-          <td colspan="3"><textarea></textarea></td>
-        </tr>
-        </tbody>
-      </table>
-      <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="detaildialog = false">取 消</el-button>
-          <el-button type="success" @click="detaildialog = false">保 存</el-button>
-        </span>
+      <el-form :inline="true" label-width="120px" :model="application_detail" :rules="rules" ref="application_detail">
+        <table class="table" :data="parentApplicationDetail">
+          <tbody>
+          <tr>
+            <td colspan="4">学生信息</td>
+          </tr>
+          <tr>
+            <td>学生姓名<span class="red">*</span></td>
+            <td>{{parentApplicationDetail.student_info.name}}</td>
+            <td>所在校园<span class="red">*</span></td>
+            <td>{{parentApplicationDetail.student_info.grade_name}}</td>
+          </tr>
+          <tr>
+            <td>所在班级<span class="red">*</span></td>
+            <td>{{parentApplicationDetail.student_info.class_name}}</td>
+            <td>班级主讲</td>
+            <td>
+              <el-form-item prop="main_speaker">
+                <el-input v-model="application_detail.main_speaker" placeholder="请输入"></el-input>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td>学生状态</td>
+            <td colspan="3">
+              <el-radio-group v-model="parentApplicationDetail.student_info.status">
+                <el-radio v-if="parentApplicationDetail.student_info.status === 'Prepare'" label="Prepare">预备生
+                </el-radio>
+                <el-radio v-else disabled label="Prepare">预备生</el-radio>
+                <el-radio v-if="parentApplicationDetail.student_info.status === 'Formal'" label="Formal">在校生</el-radio>
+                <el-radio v-else disabled label="Formal">在校生</el-radio>
+                <el-radio v-if="parentApplicationDetail.student_info.status === 'Abort'" label="Abort">离园生</el-radio>
+                <el-radio v-else disabled label="Abort">离园生</el-radio>
+                <el-radio v-if="parentApplicationDetail.student_info.status === 'Graduation'" label="Graduation">毕业生
+                </el-radio>
+                <el-radio v-else disabled label="Graduation">毕业生</el-radio>
+              </el-radio-group>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">申请人/家长信息</td>
+          </tr>
+          <tr>
+            <td>申请人姓名<span class="red">*</span></td>
+            <td>
+              <el-form-item prop="applicant_name">
+                <el-input placeholder="请输入" v-model.trim="application_detail.applicant_name"></el-input>
+              </el-form-item>
+
+            </td>
+            <td>申请人身份<span class="red">*</span></td>
+            <td>
+              <el-form-item prop="applicant_identity">
+                <el-radio-group v-model="application_detail.applicant_identity">
+                  <el-radio :label="Number(1)">家长</el-radio>
+                  <el-radio :label="Number(2)">校园人员</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td>家长姓名<span class="red">*</span></td>
+            <td>
+              <el-form-item prop="parent_name">
+                <el-input placeholder="请输入" v-model.trim="application_detail.parent_name"></el-input>
+              </el-form-item>
+            </td>
+            <td>与学生关系<span class="red">*</span></td>
+            <td>
+              <el-form-item prop="relationship">
+                <el-radio-group v-model="application_detail.relationship">
+                  <el-radio :label="Number(1)">父亲</el-radio>
+                  <el-radio :label="Number(2)">母亲</el-radio>
+                  <el-radio :label="Number(3)">其他</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td>联系电话</td>
+            <td>
+              <el-form-item prop="telephone">
+              <el-input placeholder="请输入" v-model="application_detail.telephone"></el-input>
+              </el-form-item>
+            </td>
+            <td>手机号码<span class="red">*</span></td>
+            <td>
+              <el-form-item prop="cell_phone">
+                <el-input placeholder="请输入" v-model.trim="application_detail.cell_phone"></el-input>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td>邮件地址<span class="red">*</span></td>
+            <td colspan="3">
+              <el-form-item prop="email">
+                <el-input placeholder="请输入" v-model.trim="application_detail.email"></el-input>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">申请信息</td>
+          </tr>
+          <tr>
+            <td rowspan="2">申请类别<span class="red">*</span></td>
+            <td rowspan="2" style="width: 200px">
+              <el-form-item prop="application_type">
+                <el-radio-group v-model="application_detail.application_type">
+                  <el-radio v-for="type in parentApplicationDetail.application_type" :key="type.id" :label="type.id">
+                    {{type.name}}
+                  </el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </td>
+            <td>申请原因<span class="red">*</span></td>
+            <td>
+              <el-form-item prop="application_reason">
+                <el-checkbox-group v-model="application_detail.application_reason">
+                  <el-checkbox v-for="reason in parentApplicationDetail.application_reason" :key="reason.id"
+                               :label="reason.id">{{reason.name}}
+                  </el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td>起止日期</td>
+            <td>
+              <el-date-picker
+                v-model="application_detail.start_date"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+              <span>至</span>
+              <el-date-picker
+                v-model="application_detail.end_date"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </td>
+          </tr>
+          <tr>
+            <td>变更/离园日期<span class="red">*</span></td>
+            <td>
+              <el-form-item prop="effective_date">
+                <el-date-picker
+                  v-model="application_detail.effective_date"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy-MM-dd">
+                </el-date-picker>
+              </el-form-item>
+            </td>
+            <td>提交日期</td>
+            <td>{{new Date() | formatDate}}</td>
+          </tr>
+          <tr>
+            <td>备注</td>
+            <td colspan="3"><textarea v-model="application_detail.remark"></textarea></td>
+          </tr>
+          </tbody>
+        </table>
+      </el-form>
+      <div slot="footer" class="dialog-footer text-align-center">
+        <el-button @click="detaildialog = false">取 消</el-button>
+        <el-button type="success" @click="saveApplication('application_detail')">保 存</el-button>
+      </div>
     </el-dialog>
     <!--作废 弹框-->
     <el-dialog title="作废业务申请" :visible.sync="canceldialog" width="50%">
@@ -248,7 +290,7 @@
       </div>
       <span slot="footer" class="dialog-footer text-align-center">
           <el-button @click="canceldialog = false">取 消</el-button>
-          <el-button type="success" @click="canceldialog = false">确 定</el-button>
+          <el-button type="success">确 定</el-button>
         </span>
     </el-dialog>
   </div>
@@ -256,26 +298,144 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         value: '-所有-',
         detaildialog: false,
         canceldialog: false,
         options: [],
-        tableList: []
+        tableList: [],
+        parentApplicationDetail: {
+          student_info: {},
+          application_type: [],
+          application_reason: []
+        },
+        application_detail: {
+          id: '',
+          main_speaker: '',
+          applicant_name: '',
+          applicant_identity: '',
+          parent_name: '',
+          relationship: '',
+          telephone: '',
+          cell_phone: '',
+          email: '',
+          application_type: '',
+          application_reason: [],
+          start_date: '',
+          end_date: '',
+          effective_date: '',
+          remark: ''
+        },
+        rules: {
+          applicant_name: [
+            {required: true, message: '请输入申请人姓名', trigger: 'blur'},
+          ],
+          applicant_identity: [
+            {required: true, message: '请选择申请人身份', trigger: 'change'},
+          ],
+          parent_name: [
+            {required: true, message: '请输入家长姓名', trigger: 'blur'},
+          ],
+          relationship: [
+            {required: true, message: '请选择与学生关系', trigger: 'change'},
+          ],
+          cell_phone: [
+            {required: true, message: '请输入手机号码', trigger: 'blur'},
+          ],
+          email: [
+            {required: true, message: '请输入郵箱地址', trigger: 'blur'},
+          ],
+          application_type: [
+            {required: true, message: '请选择申请类别', trigger: 'change'},
+          ],
+          application_reason: [
+            {required: true, message: '请选择申请原因', trigger: 'change'},
+          ],
+          effective_date: [
+            {required: true, message: '请选择变更/离园日期', trigger: 'change'},
+          ]
+        }
       }
     },
+    mounted: function () {
+      this.getApplication()
+    },
     methods: {
+      getApplication: function () {
+        this.$axios.get('/api/application/application/')
+          .then(res => {
+            //this.intercityList = res.data.intercity_list
+          }).catch(err => {
+        })
+      },
       applicationDetail: function () {
         this.detaildialog = true
         this.getStudentInfo()
+        this.getApplicationType()
+        this.getApplicationReason()
       },
       getStudentInfo: function () {
         this.$axios.get('/api/application/student_info/210518143/')
           .then(res => {
-            this.intercityList = res.data.intercity_list
+            this.parentApplicationDetail.student_info = res.data
+            this.application_detail.id = res.data.id
           }).catch(err => {
 
+        })
+      },
+      getApplicationType: function () {
+        this.$axios.get('/api/application/application_type')
+          .then(res => {
+            this.parentApplicationDetail.application_type = res.data
+          }).catch(err => {
+
+        })
+      },
+      getApplicationReason: function () {
+        this.$axios.get('/api/application/application_reason')
+          .then(res => {
+            this.parentApplicationDetail.application_reason = res.data
+          }).catch(err => {
+
+        })
+      },
+      saveApplication: function (formName) {
+        console.log(this.$refs[formName])
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$axios.post('/api/application/application/', {
+              student_id: this.application_detail.id,
+              main_speaker: this.application_detail.main_speaker,
+              applicant_name: this.application_detail.applicant_name,
+              applicant_identity: this.application_detail.applicant_identity,
+              parent_name: this.application_detail.parent_name,
+              relationship: this.application_detail.relationship,
+              telephone: this.application_detail.telephone,
+              cell_phone: this.application_detail.cell_phone,
+              email: this.application_detail.email,
+              application_type: this.application_detail.application_type,
+              application_reason: this.application_detail.application_reason,
+              start_date: this.application_detail.start_date,
+              end_date: this.application_detail.end_date,
+              effective_date: this.application_detail.effective_date,
+              remark: this.application_detail.remark
+            })
+              .then(res => {
+                console.log(res)
+                if (res.data.status_code == 1) {
+                  this.$message({
+                    type: 'success',
+                    message: '保存成功！'
+                  })
+                  this.$router.go(-1)
+                }
+              }).catch(err => {
+            })
+          } else {
+            console.log('error submit!!')
+            return false
+          }
         })
       },
       applicationCancel: function () {
@@ -297,11 +457,12 @@
   .parentbusinessapplication .header-top p {
     font-size: 14px;
   }
- 
-  .parentbusinessapplication >>> .el-select{
+
+  .parentbusinessapplication >>> .el-select {
     margin-bottom: 10px;
   }
-  .parentbusinessapplication >>> .el-input{
+
+  .parentbusinessapplication >>> .el-input {
     width: 145px;
     height: 32px;
   }
@@ -314,26 +475,38 @@
   .parentbusinessapplication >>> .el-dialog__footer {
     text-align: center;
   }
-  .parentbusinessapplication >>> .search_input .el-input__inner{
+
+  .parentbusinessapplication >>> .search_input .el-input__inner {
     width: 100%;
   }
 
-  .parentbusinessapplication .el-dialog-table table{
+  .parentbusinessapplication .el-dialog-table table {
     border: 2px #ccc solid;
     border-collapse: collapse;
     width: 100%;
   }
-  .parentbusinessapplication .el-dialog-table td{
+
+  .parentbusinessapplication .el-dialog-table td {
     border: 2px #ccc solid;
     padding: 5px;
     min-width: 100px;
   }
-  .parentbusinessapplication .el-dialog-table textarea{
+
+  .parentbusinessapplication .el-dialog-table textarea {
     width: 80%;
     min-height: 200px;
   }
-  .parentbusinessapplication .el-dialog-table >>> .el-date-editor.el-input,.parent >>> .el-date-editor.el-input__inner{
-    width: 145px;
+
+  .parentbusinessapplication .el-dialog-table >>> .el-input__inner, .parentbusinessapplication .el-dialog-table >>> .el-input {
+    width: 200px;
     height: 32px;
+  }
+
+  .parentbusinessapplication .el-dialog-table >>> .el-radio {
+    margin-right: 15px;
+  }
+
+  .parentbusinessapplication .el-dialog-table >>> .el-form-item__content {
+    line-height: 0;
   }
 </style>

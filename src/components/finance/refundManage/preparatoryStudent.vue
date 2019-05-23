@@ -15,10 +15,10 @@
                       <span class="font-size-14">添加</span>
                     </span>
                   </div></el-col>
-                  <el-col :span="5"><div class="grid-content bg-purple">学生姓名：28342368476</div></el-col>
-                  <el-col :span="5"><div class="grid-content bg-purple">学号：大二班</div></el-col>
-                  <el-col :span="5"><div class="grid-content bg-purple">所在班级：大二班</div></el-col>
-                  <el-col :span="5"><div class="grid-content bg-purple">学生当前状态：大二班</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">学生姓名：{{studentInfo.name}}</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">学号：{{studentInfo.student_no}}</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">所在班级：{{studentInfo.student_class}}</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">学生当前状态：{{studentInfo.status_str}}</div></el-col>
                 </el-row>
                 </p>
                 <p>
@@ -81,8 +81,8 @@
                   <el-row>
                     <el-col :span="24">
                       <div class="grid-content bg-purple">是否已领物品：
-                          <el-radio label="是"></el-radio>
-                          <el-radio label="否"></el-radio>
+                          <el-radio :label="2" v-model="is_thing" >是</el-radio>
+                          <el-radio :label="1" v-model="is_thing" >否</el-radio>
                       </div>
                     </el-col>
                   </el-row>
@@ -129,7 +129,7 @@
                 label="单价">
                 </el-table-column>
               </el-table-column>
-              <el-table-column label="需退费情况描述">
+              <el-table-column class="is_dark" label="需退费情况描述">
                 <el-table-column
                   prop="address"
                   label="扣款">
@@ -183,11 +183,12 @@
             </el-upload></p>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey">返回</button>
+            <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
+            <button class="btn bg-green">提交</button>
         </div>
       <add-project v-if="addProjectVisible"></add-project>
 
-      <add-student v-if="addStudentVisible"></add-student>
+      <add-student @getStudent="getStudent" v-if="addStudentVisible" :status="status"></add-student>
     </div>
 </template>
 <style scoped>
@@ -202,11 +203,9 @@
     border-radius: 3px;
     color: #3E7193;
   }
-  .preparatoryStudent .card-type {
-      line-height: 30px;
-  }
-  .preparatoryStudent .el-card__body {
+  .preparatoryStudent >>> .el-card__body {
       padding: 30px 70px 10px 70px;
+      line-height: 40px;
   }
   .preparatoryStudent .tableList {
       color:#101010;
@@ -235,26 +234,37 @@ export default {
           value2:'',
           radio2:'',
           fileList:[],
+          nameSelect:[],
+          student_id:'',
+          studentInfo:{},
+          options:[],
+          is_thing:1,
+          status:'Prepare',
           addProjectVisible:false,
           addStudentVisible:false,
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                }]
+            tableData: []
         }
+    },
+    methods: {
+      pickerOptions1(){
+
+      },
+      getStudentInfo(val){
+        var _this = this;
+        this.$axios.get('/api/finance/refund/student_info',{
+          params:{
+            student_id:this.student_id
+          }
+        }).then(res=>{
+          console.log(res.data);
+          _this.studentInfo = res.data.data;
+        })
+      },
+      getStudent(val){
+        this.student_id = val;
+        console.log(888)
+        this.getStudentInfo(val)
+      }
     }
 }
 </script>
