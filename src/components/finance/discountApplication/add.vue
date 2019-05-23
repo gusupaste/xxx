@@ -154,16 +154,19 @@
             <p>合肥御龙湾幼儿园</p>
             <el-form inline style="border:none" class="mt10">
                 <el-form-item  label="搜索：">
-                    <el-input class="w250_input" placeholder="输入学号、学生姓名或家长姓名"></el-input>
+                    <el-input class="w250_input" v-model="search_name" placeholder="输入学号、学生姓名或家长姓名"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="getStudent('')">搜索</el-button>
+                    <el-button type="primary" @click="getStudent(search_name)">搜索</el-button>
                 </el-form-item>
             </el-form>
-            <el-table :data="tableData">
+            <el-table :data="tableData"
+                height="280"
+                highlight-current-row
+                @current-change="handleCurrentChange">
                 <el-table-column property="name" label="学生姓名" width="150"></el-table-column>
                 <el-table-column property="student_no" label="学号" width="200"></el-table-column>
-                <el-table-column property="id" label="联系人"></el-table-column>
+                <el-table-column property="guardians_str" label="联系人"></el-table-column>
             </el-table>
             <p class="mt10 ml20">
                 <ul>
@@ -172,7 +175,7 @@
             </p>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogTableVisible = false"  class="bg-grey white bd-grey">取 消</el-button>
-                <el-button type="primary" @click="dialogTableVisible = false" class="bg-green white bd-green">确 定</el-button>
+                <el-button type="primary" @click="confirmStudent" class="bg-green white bd-green">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -230,33 +233,19 @@ export default {
             dialogTableVisible:false,
             plans:[],
             years:[],
+            search_name: "",
             selected_plan: null,
             selected_year: null,
-            value1:'2000-09-09',
+            selected_student_id: [],
+            value1:'',
             fileList:[],
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
+            tableData: [],
+            dynamicValidateForm: {
+                domains: [{
+                    value: ''
                 }],
-                dynamicValidateForm: {
-                    domains: [{
-                        value: ''
-                    }],
-                    email: ''
-                }
+                email: ''
+            }
         }
     },
     mounted: function () {
@@ -312,15 +301,28 @@ export default {
         getStudent(name){
             //注：student_status='Prepare'预备生，student_status='Formal'在校生，不传表示所有
             var _this = this;
-
+            console.log(name);
             this.$axios.get('http://192.168.1.197:8000/api/finance/select/students/',
             {
-                "search_name":name,
-                "student_status":"", 
+                params:{
+                    search_name:name,
+                    student_status:"", 
+                }
             }).then(res=>{
-                console.log("**********")
                 console.log(res.data)
                 _this.tableData = res.data.results;
+            })
+        },
+        handleCurrentChange(val) {
+            var _this = this;
+            console.log(val);
+            _this.selected_student_id = val.id;
+        },
+        confirmStudent() {
+            var _this = this;
+            this.$axios.get('http://192.168.1.197:8000/api/student/student/'+_this.selected_student_id+'/student_profile/')
+            .then(res=>{
+                console.log(res.data)
             })
         }
     }
