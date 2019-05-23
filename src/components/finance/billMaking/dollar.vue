@@ -344,7 +344,7 @@ export default {
                 } else {
                     _this.$message({
                         type:'error',
-                        message:res.data.message
+                        message:res.data.error
                     });
                 }
             })
