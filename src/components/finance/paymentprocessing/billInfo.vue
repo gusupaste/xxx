@@ -43,29 +43,29 @@
             <p class="font-size-14 bold">审批记录：</p>
             <el-table
               class="mt10"
-              :data="bill_history"
+              :data="approve_history"
               border
               style="width: 100%">
               <el-table-column
-                prop="billing_date"
+                prop="approve_level"
                 label="审批节点"
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="actual_amount"
+                prop="approve_user_role_name"
                 label="审批角色"
                 width="180">
               </el-table-column>
               <el-table-column
-                prop="reserved_fund_use"
+                prop="status_name"
                 label="审批结果">
               </el-table-column>
               <el-table-column
-                prop="creator"
+                prop="remark"
                 label="审批意见">
               </el-table-column>
               <el-table-column
-                prop="bill_status"
+                prop="date_created"
                 label="审批日期">
               </el-table-column>
             </el-table>
@@ -251,7 +251,7 @@
         </div>
         <div class="mt26 text-align-center">
           <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
-          <button class="btn bg-green">提交</button>
+          <!-- <button class="btn bg-green">提交</button> -->
         </div>
     </div>
 </template>
@@ -310,6 +310,7 @@ export default {
             action:"http://etonkids.taidii.cn/api/finance/bill/"+this.$route.params.id+"/upload_billpay_attach/",
             tableData: [],
             bill_history: [],
+            approve_history: [],
             billitem_li: [],
             billpay_attach_li: [],
             billpay_item_li: [],
@@ -330,6 +331,7 @@ export default {
         .then(res=>{
           this.bill_info = res.data.bill_info;
           this.bill_history = res.data.bill_history;
+          this.approve_history = res.data.approve_history;
           this.billitem_li = res.data.billitem_li;
           this.billpay_item_li = res.data.billpay_item_li;
           this.billpay_attach_li = res.data.billpay_attach_li;

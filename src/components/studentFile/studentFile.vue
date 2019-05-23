@@ -95,6 +95,9 @@
       margin: 0 auto;
 
   }
+  .studentFile >>> .el-input{
+    width: auto;
+  }
   .studentFile >>> .el-tabs__header {
       border-bottom: 2px solid #ccc;
   }

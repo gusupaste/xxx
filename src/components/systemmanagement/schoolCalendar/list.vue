@@ -58,7 +58,7 @@
                 <el-form :model="addform" :rules="rules" ref="addform">
                     <el-form-item label="模板名称：" :label-width="formLabelWidth" prop="template_name">
                         <el-input maxlength="50" v-model="addform.template_name" class="w250_input" placeholder="请输入">
-                           
+
                         </el-input>
                     </el-form-item>
                     <el-form-item label="学年：" :label-width="formLabelWidth" prop="addyear">
@@ -149,13 +149,13 @@
         border-bottom: 1px solid #d5d5d5;
     }
     .schoolCalendarList  >>> .header p{
-        font-size: 14px
+        font-size: 12px
     }
     .schoolCalendarList  >>> .el-checkbox-group{
         text-align: left;
     }
     .schoolCalendarList >>> .el-dialog__title{
-        font-size: 14px;
+        font-size: 12px;
     }
     .schoolCalendarList >>> .el-dialog{
         min-width: 600px;
@@ -189,7 +189,7 @@
        height: 50px;
     }
     .schoolCalendarList .canlendar-title{
-        font-size: 14px;
+        font-size: 12px;
         color:#006287;
         font-weight: 600;
     }
@@ -292,7 +292,7 @@ export default {
             length === 0?
             this.$refs.multipleTable.toggleRowSelection(id,false):this.$refs.multipleTable.toggleRowSelection(id,true);
             this.schoolList.forEach(item=>{
-               if(item == id){        
+               if(item == id){
                    item.class_type_ids=$event;
                }
             })
@@ -339,7 +339,7 @@ export default {
                     _this.dialogFormVisible = false;
                     _this.copy_success = true;
                     _this.getTemplate();
-                } 
+                }
             }).catch(err=>{
 
             })

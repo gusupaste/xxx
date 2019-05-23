@@ -189,9 +189,9 @@
         })
         .then(res=>{
             _this.editForm = res.data.detail;
-            _this.editDiscount = true; 
+            _this.editDiscount = true;
         })
-        
+
       },
       handleClose(){
         this.$refs['editForm'].resetFields();
@@ -277,7 +277,7 @@
             return false;
           }
         });
-            
+
         },
       changePage(val){
         this.getList(val);
@@ -299,10 +299,10 @@
       border-bottom: 1px solid #d5d5d5;
   }
   .discountbudget  .header p{
-      font-size: 14px;
+      font-size: 12px;
   }
   .discountbudget >>> .el-dialog__title{
-      font-size: 14px;
+      font-size: 12px;
   }
   .discountbudget >>> .el-dialog{
       min-width: 600px;

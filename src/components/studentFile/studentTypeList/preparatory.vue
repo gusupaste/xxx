@@ -2,7 +2,8 @@
   <div class="studentFile">
       <div class="formwrap">
         <el-form label-width="100px" inline>
-          <el-form-item label="城际：">
+          <p class="mb10">
+          <span>城际：</span>
             <el-select v-model="intercity" @change="interChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
               <el-option
@@ -12,8 +13,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="区域：">
+          <span class="padding-left-30">区域：</span>
             <el-select v-model="area" @change="areaChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
@@ -23,8 +23,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="省市：">
+          <span class="padding-left-30">省市：</span>
             <el-select v-model="city" @change="interChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
@@ -34,8 +33,7 @@
                 :value="item.city_id">
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="品牌：">
+          <span class="padding-left-30">品牌：</span>
             <el-select v-model="brand" @change="allChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
@@ -45,8 +43,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="校园：">
+          <span class="padding-left-30">校园：</span>
             <el-select v-model="school" @change="schoolChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
@@ -56,8 +53,7 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="班级：">
+          <span class="padding-left-30">班级：</span>
             <el-select v-model="class_val" v-bind:disabled="selectDisable">
               <el-option value="" label="全部"></el-option>
               <el-option
@@ -67,15 +63,15 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="学生性别：">
+          <span class="padding-left-30">学生性别：</span>
             <el-select v-model="gender" placeholder="请选择活动区域">
               <el-option value="" label="全部"></el-option>
               <el-option label="男" value="M"></el-option>
               <el-option label="女" value="F"></el-option>
             </el-select>
-          </el-form-item>
-          <el-form-item label="入学日期：">
+          </p>
+          <p>
+          <span>入学日期：</span>
             <el-date-picker
               v-model="dateValue"
               type="daterange"
@@ -84,13 +80,10 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
-          </el-form-item>
-          <el-form-item label="搜索：">
+          <span class="padding-left-30">搜索：</span>
             <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="getStudentList">搜索</el-button>
-          </el-form-item>
+            <span class="padding-left-30"><el-button type="primary" @click="getStudentList">搜索</el-button></span>
+          </p>
         </el-form>
       </div>
       <div class="studentFileList">

@@ -188,7 +188,7 @@
 
 <style  scoped>
  .settlementArea .header p{
-   font-size: 14px;
+   font-size: 12px;
  }
  .settlementArea{
    color: rgba(160, 160, 160, 1);

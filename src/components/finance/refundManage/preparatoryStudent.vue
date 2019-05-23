@@ -350,7 +350,9 @@ export default {
         this.$axios.post('/api/finance/refund/add_refund_bill/',{
           bill:this.addForm
         }).then(res=>{
-          console.log(res)
+          if(res.data.data.status === 1){
+            _this.$router.push('/financemanagement/refund-manage')
+          }
         })
       },
       deleteRefund(val){

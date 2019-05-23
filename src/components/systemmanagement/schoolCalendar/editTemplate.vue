@@ -241,10 +241,10 @@
         border-bottom: 1px solid #d5d5d5;
     }
     .new-calendar-modal  .header p{
-        font-size: 14px;
+        font-size: 12px;
     }
     .new-calendar-modal >>> .el-dialog__title{
-        font-size: 14px;
+        font-size: 12px;
     }
     .new-calendar-modal >>> .el-dialog{
         min-width: 600px;
@@ -269,7 +269,7 @@
     .new-calendar-modal >>> .el-date-editor input{
         width: 100%;
     }
-   
+
     .new-calendar-modal >>> .el-table th, .new-calendar-modal >>> .el-table td{
         background-color: #fff;
         text-align: center;
@@ -293,7 +293,7 @@
     .new-calendar-modal >>> .school-calendar {
         padding: 10px 10px 10px 100px;
     }
-   
+
     .new-calendar-modal >>> .el-icon-close{
         color:#101010;
         font-size: 20px;
@@ -428,7 +428,7 @@ export default {
             var _this = this;
             this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_template_calendar_day_detail/?date='+newdata)
             .then(res=>{
-                _this.form = res.data.detail; 
+                _this.form = res.data.detail;
                 _this.$set(_this.form,'date_from',newdata);
                 _this.$set(_this.form,'date_to',newdata);
                 _this.edit_Calendar = true;

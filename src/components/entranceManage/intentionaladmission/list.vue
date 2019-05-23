@@ -10,41 +10,41 @@
         </div>
         <div class="list-content">
           <el-table
-            :data="chargeTableDate"
+            :data="tableDate"
             border
             stripe
             show-header
             style="width: 100%;margin-top: 10px;">
             <el-table-column
-              prop="code"
+              prop="student_name"
               label="学生姓名">
             </el-table-column>
             <el-table-column
-              prop="name"
+              prop="sex"
               label="性别">
             </el-table-column>
             <el-table-column
-              prop="intercity_name"
+              prop="birthday"
               label="出生日期">
             </el-table-column>
             <el-table-column
-              prop="intercity_name"
+              prop="intent_class_id"
               label="申请就读班级">
             </el-table-column>
             <el-table-column
-              prop="hq_name"
+              prop="intent_school_date"
               label="计划入学时间">
             </el-table-column>
             <el-table-column
-              prop="hq_name"
+              prop="customer_name"
               label="联系人">
             </el-table-column>
             <el-table-column
-              prop="hq_name"
+              prop="phone"
               label="联系电话">
             </el-table-column>
             <el-table-column
-              prop="hq_name"
+              prop="creation_date"
               label="创建日期">
             </el-table-column>
             <el-table-column
@@ -73,52 +73,26 @@
   export default {
     data() {
       return {
-        nameSelect:[],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value1:'',
-        value2:'',
+        tableDate:[],
         input:'',
         activeName:'first',
-        chargeTableDate:[
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          },
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          }
-        ]
       };
     },
+    mounted: function () {
+      this.getList();
+    },
     methods: {
+      getList:function () {
+        this.loading = true
+        this.$axios.get('/api/student/potential_student/').then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            this.tableDate = res.data.results;
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       handleClose (){
 
       },
