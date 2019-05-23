@@ -251,7 +251,7 @@
         </div>
         <div class="mt26 text-align-center">
           <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
-          <button class="btn bg-green">提交</button>
+          <!-- <button class="btn bg-green">提交</button> -->
         </div>
     </div>
 </template>
