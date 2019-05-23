@@ -245,7 +245,7 @@
         </div>
         <div class="mt26 text-align-center">
           <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
-          <button class="btn bg-green">提交</button>
+          <button v-if="bill_info.status_id === 1" class="btn bg-green" @click="submit">提交</button>
         </div>
     </div>
 </template>
@@ -349,6 +349,16 @@ export default {
           message:'上传成功！'
         })
         this.getInfo();
+      },
+      submit(){
+        var _this = this;
+        this.$axios.post('/api/finance/bill/'+this.id+'/approve_bill/')
+        .then(res=>{
+          console.log(res.data)
+          if(res.data.status === 1){
+            this.$router.push('/financemanagement/paymentprocessing')
+          }
+        })
       },
       deleteFile(val){
         this.$axios.post('/api/finance/bill/del_billpay_attach/',{
