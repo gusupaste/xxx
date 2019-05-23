@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="recruitdis">
     <div class="select-header" style="min-height: 35px;line-height: 35px;margin-bottom: 10px;">
                 <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
                   <i class="icon-font fa fa-calendar-plus-o"></i>
@@ -457,4 +457,13 @@
     }
   }
 </script>
+<style scoped>
+  .recruitdis .discountDialog .school-wrap >>> .el-table td {
+    text-align: left;
+  }
+
+  .recruitdis .discountDialog .school-wrap >>> .cell {
+    text-align: left;
+  }
+</style>
 

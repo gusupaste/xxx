@@ -5,9 +5,10 @@
     </div>
     <p class="mt10">
       <span>学年：</span>
-      <el-select v-model="year" placeholder="请选择">
+      <el-select v-model="year" placeholder="请选择学年">
+        <el-option value="" label="全部"></el-option>
         <el-option
-          v-for="item in academic_year_list"
+          v-for="item in year_list"
           :key="item.id"
           :label="item.name"
           :value="item.id">
@@ -17,18 +18,18 @@
       <el-select v-model="months" placeholder="请选择">
         <el-option
           v-for="(item,index) in months_list"
-          :key="index"
-          :label="item"
-          :value="item">
+          :key="item.value"
+          :label="item.name"
+          :value="item.value">
         </el-option>
       </el-select>
       <span>班级：</span>
       <el-select v-model="class_id" placeholder="请选择">
         <el-option
           v-for="item in classes"
-          :key="item.center_class_id"
+          :key="item.id"
           :label="item.center_class__name"
-          :value="item.center_class_id">
+          :value="item.id">
         </el-option>
       </el-select>
       <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
@@ -54,33 +55,33 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="class"
+          prop="class_name"
           label="班级">
         </el-table-column>
         <el-table-column
-          prop="should_att"
+          prop="total"
           label="应出勤天数">
         </el-table-column>
         <el-table-column
-          prop="att_num"
+          prop="present"
           label="实际出勤天数">
         </el-table-column>
         <el-table-column
-          prop="personal_num"
+          prop="personal"
           label="事假">
         </el-table-column>
         <el-table-column
-          prop="sick_num"
+          prop="sick"
           label="病假">
         </el-table-column>
         <el-table-column
-          prop="with_family"
-          label="休学">
+          prop="absent"
+          label="缺勤">
         </el-table-column>
         <el-table-column
           label="出勤率">
           <template slot-scope="scope">
-            <span>{{scope.row.attendance_rate}}%</span>
+            <span>{{scope.row.present_rate}}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -102,7 +103,7 @@
             <span class="font-size-20 bold">{{student_name}} </span><span style="margin: 10px">|</span>
             应出勤天数：<span class="font-size-20 orange">{{should_att}}</span> 个工作日 ；
             实际出勤天数：<span class="font-size-20 orange">{{att_num}}</span> 个工作日 ；
-            出勤率：<span class="font-size-20 orange">{{attendance_rate}}%</span>
+            出勤率：<span class="font-size-20 orange">{{attendance_rate}}</span>
           </div>
           <div style="width:80%;margin:0 auto">
             <div class="mt10 text-align-center">
@@ -153,29 +154,95 @@
         attendance: [],
         pagesize: 10,
         currentPage: 1,
-        total: 1
+        total: 1,
+        year_url:'/api/common/select/academic_year_list/',/*学年*/
+        month_url:'/api/common/select/months_for_academic_year/?academic_year_id=',
+        getList_url:'/api/attendance/students_attendance/annotate/?attendance_date=',
+        year_list:[],
       }
     },
     components: {
       Calendar
     },
     mounted: function () {
-      this.getClass()
+      this.getYearList(1);
+      /*this.getClass();
+      this.getList();*/
     },
     watch: {
-      year() {
-        for (var i = 0; i < this.academic_year_list.length; i++) {
-          if (this.year === this.academic_year_list[i].id) {
-            this.months_list = this.academic_year_list[i].months
-          }
-        }
+      year: {
+        handler(newValue, oldValue) {
+          this.getMonth(this.year,0);
+        },
+        deep: true
       },
       currentPage () {
         this.getList(this.currentPage)
       }
     },
     methods: {
-      getClass: function () {
+      /*学年*/
+      getYearList:function (i) {
+        var _this = this;
+        var url = this.year_url;
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200 && res.data.status_code == 1) {
+            this.year_list = res.data.results;
+            for(var x in this.year_list){
+              if(this.year_list[x].is_selected == 1){
+                this.year = this.year_list[x].id;
+                this.getMonth(this.year,i);
+              }
+            }
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getMonth(year,index){
+        var _this = this;
+        var url = this.month_url + year;
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200 && res.data.status_code == 1) {
+            this.months_list = res.data.results;
+            var flag = false;
+            for(var x in this.months_list){
+              if(this.months_list[x].is_selected == 1){
+                this.months = this.months_list[x].value;
+                flag = true;
+              }
+            }
+            if(flag == false){
+              this.months = this.months_list[0].value;
+            }
+          }
+          this.getClass(index);
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getClass: function (index) {
+        this.loading = true
+        this.$axios.get('/api/attendance/students_attendance/classes/?academic_year_id='+this.year).then(res => {
+          this.loading = false
+          if (res.data.status === 1) {
+            this.classes = res.data.data.classes;
+            if(this.classes.length > 0){
+              this.class_id = this.classes[0].id
+            }else{
+              this.class_id = '';
+            }
+            if(index === 1){
+              this.getList();
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      /*getClass: function () {
         this.loading = true
         this.$axios.get('/api/attendance/students_attendance/info_list/').then(res => {
           this.loading = false
@@ -194,11 +261,14 @@
         }).catch(err => {
           console.log(err)
         })
-      },
+      },*/
       getList: function (val) {
         this.loading = true
         this.currentPage = val
-        this.$axios.get('/api/attendance/students_attendance/annotate/?class_id=' + this.class_id + '&attendance_date=' + this.months + '&page=' + this.currentPage, {}).then(res => {
+        /*this.$axios.get('/api/attendance/students_attendance/annotate/?class_id=' + this.class_id + '&attendance_date='
+          + this.months + '&page=' + this.currentPage, {}).then(res => {*/
+        var url = this.getList_url+ this.year +'&class_id='+ this.class_id;
+        this.$axios.get(url, {}).then(res => {
           this.loading = false
           if (res.status === 200) {
             if (res.data.status === 1) {
@@ -218,9 +288,9 @@
       attendanceDetail: function (obj) {
         this.detail = true
         this.student_name = obj.student_name
-        this.should_att = obj.should_att
-        this.att_num = obj.att_num
-        this.attendance_rate = obj.attendance_rate
+        this.should_att = obj.total
+        this.att_num = obj.present
+        this.attendance_rate = obj.present_rate
         var year = this.months.substr(0, 4)
         var month = this.months.substr(5, 2)
         if (month < 10) {

@@ -190,26 +190,27 @@
         <el-row>
           <el-col :span="24">
             <el-form-item>
+              {{ tableForm }}
               <table id="id-add-table" style="width: 100%" v-for="(table,index) in tableForm">
                 <table class="condition_table">
                   <tr>
                     <td style="width: 5rem" class="text-align-center">条件1:</td>
                     <td class="select-pere">
                       <template v-for="(con,con_index) in table.condition">
-                        <el-select style="width: 100px;" v-model="con.select_name" :key="con_index">
+                        <el-select style="width: 100px;" v-model="con.select_name">
                           <el-option value=">" label="大于"></el-option>
                           <el-option value="<" label="小于"></el-option>
                           <el-option value=">=" label="大于等于"></el-option>
                           <el-option value="<=" label="小于等于"></el-option>
                           <el-option value="=" label="等于"></el-option>
                         </el-select>
-                        <el-input style="width: 80px;" v-model="con.select_value" :key="con_index"><i
+                        <el-input style="width: 80px;" v-model="con.select_value"><i
                           v-show="condition_name === 0"
                           slot="suffix"
                           class="fa fa-percent"></i>
                         </el-input>
                         <el-select style="width: 90px;" v-model="con.select_select"
-                                   @change="addContion($event,con_index,index)" :key="con_index">
+                                   @change="addContion($event,con_index,index)">
                           <el-option :value="Number(0)" label="-请选择-"></el-option>
                           <el-option :value="Number(1)" label="且"></el-option>
                           <el-option :value="Number(2)" label="或"></el-option>
@@ -485,6 +486,7 @@
       },
       /* 添加条件 */
       addContion: function (val, conIndex, index) {
+        console.log(this.tableForm);
         if (this.tableForm[index].condition.length - 1 === conIndex) {
           if (val !== 0) {
             var obj = {
@@ -502,17 +504,17 @@
         }
       },
       /* 添加审批流 */
-      addApprove: function (val, conIndex, index) {
+      addApprove: function (val, appIndex, index) {
         for (var i = 0; i < this.roleList.length; i++) {
           if (val === this.roleList[i].id) {
-            this.tableForm[index].approve[conIndex].role_name = this.roleList[i].name
+            this.tableForm[index].approve[appIndex].role_name = this.roleList[i].name
           }
         }
-        if (this.tableForm[index].approve.length - 1 === conIndex) {
+        if (this.tableForm[index].approve.length - 1 === appIndex) {
           if (val !== 0) {
             var obj = {
               id: 0,
-              level_no: conIndex + 2,
+              level_no: appIndex + 2,
               role_id: 0,
               role_name: ''
             }
@@ -520,9 +522,10 @@
           }
         } else {
           if (val === 0) {
-            this.tableForm[index].approve.splice(conIndex + 1, this.tableForm[index].approve.length)
+            this.tableForm[index].approve.splice(appIndex + 1, this.tableForm[index].approve.length)
           }
         }
+        console.log(this.tableForm);
       },
       /* 删除条件.审批流 */
       tr_delete: function (index) {

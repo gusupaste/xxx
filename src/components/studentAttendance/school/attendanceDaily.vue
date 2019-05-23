@@ -16,9 +16,9 @@
       <el-select v-model="class_id" placeholder="请选择">
         <el-option
           v-for="item in classList"
-          :key="item.center_class_id"
+          :key="item.id"
           :label="item.center_class__name"
-          :value="item.center_class_id">
+          :value="item.id">
         </el-option>
       </el-select>
       <span class="padding-left-30"><el-button type="primary" @click="getAttendanceList">搜索</el-button></span>
@@ -53,13 +53,13 @@
         <el-table-column
           label="考勤日期">
           <template slot-scope="scope">
-            <span>{{attendance_date_name}}</span>
+            <span>{{scope.row.attendance_date}}</span>
           </template>
         </el-table-column>
         <el-table-column
           label="班级">
           <template slot-scope="scope">
-            <span>{{class_name}}</span>
+            <span>{{scope.row.class_name}}</span>
           </template>
         </el-table-column>
         <!--<el-table-column
@@ -101,14 +101,14 @@
           prop="status"
           label="状态">
           <template slot-scope="scope">
-            <span name="select_present" hidden>{{scope.row.is_present}}</span>
-            <span v-if="is_confirmed">{{scope.row.is_present}}</span>
-            <el-select v-else v-model="scope.row.is_present" placeholder="请选择">
+            <span name="select_present" hidden>{{scope.row.status}}</span>
+            <span v-if="is_confirmed">{{scope.row.status}}</span>
+            <el-select v-else v-model="scope.row.status" placeholder="请选择">
               <el-option
                 v-for="item in status_list"
-                :key="item.name"
+                :key="item.id"
                 :label="item.name"
-                :value="item.name">
+                :value="item.id">
               </el-option>
             </el-select>
           </template>
@@ -151,7 +151,6 @@
         attendance_date: new Date(),
         clearable: false,
         class_id: '',
-        class_name: '',
         classList: [],
         total: 0,
         present: 0,
@@ -161,16 +160,20 @@
         is_confirmed: false,
         status_list: [
           {
+            id:0,
             name: '出勤'
           },
           {
+            id:1,
             name: '休学'
           },
           {
-            name: '事假'
+            id:2,
+            name: '病假'
           },
           {
-            name: '病假'
+            id:3,
+            name: '事假'
           }
         ],
         detail: false,
@@ -201,7 +204,7 @@
           this.loading = false
           if (res.data.status === 1) {
             this.classList = res.data.data.classes
-            this.class_id = this.classList[0].center_class_id
+            this.class_id = this.classList[0].id
             this.getAttendanceList()
           }
         }).catch(err => {
@@ -210,23 +213,24 @@
       },
       getAttendanceList: function () {
         this.loading = true
-        this.$axios.get('/api/attendance/students_attendance/?class_id=' + this.class_id + '&attendance_date=' + this.attendance_date).then(res => {
+        this.$axios.get('/api/attendance/students_attendance/?class_id=' + this.class_id + '&attendance_date=' + this.attendance_date
+        ).then(res => {
           this.loading = false
-          if (res.data.status === 1) {
-            this.total = res.data.data.total
-            this.present = res.data.data.present
-            this.absent = res.data.data.absent
-            this.attendance_date_name = res.data.data.attendance_date
-            this.class_name = res.data.data.center_class[0].name
-            this.attendanceList = res.data.data.students
-            for (var i = 0; i < this.attendanceList.length; i++) {
-              this.student_ids_temp.push(this.attendanceList[i].id)
-            }
-            this.is_confirmed = res.data.data.is_confirmed
-            if (this.is_confirmed) {
-              this.sureSave()
-            }
+          this.total = res.data.data.total
+          this.present = res.data.data.present
+          this.absent = res.data.data.absent
+          /*this.attendance_date_name = res.data.data.attendance_date*/
+          this.attendanceList = res.data.data.students
+          /*if(res.data.data.is_verified == true && res.data.data.is_confirmed == true){
+
+          }*/
+          /*for (var i = 0; i < this.attendanceList.length; i++) {
+            this.student_ids_temp.push(this.attendanceList[i].id)
           }
+          this.is_confirmed = res.data.data.is_confirmed
+          if (this.is_confirmed) {
+            this.sureSave()
+          }*/
         }).catch(err => {
           console.log(err)
         })
