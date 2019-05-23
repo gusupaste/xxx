@@ -145,10 +145,6 @@
                     <el-input v-model="addform.bill_item_list[scope.$index].pay_amount" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                 </template>
                 </el-table-column>
-                <el-table-column
-                prop="address"
-                label="本期余额">
-                </el-table-column>
             </el-table>
         </div>
         <div class="line-under">
