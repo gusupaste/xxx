@@ -600,7 +600,7 @@ export default {
             })
         },
         getSubject(){
-            console.log(this.multipleTable)
+            console.log(this.saveForm.policy_id)
             if(this.multipleTable.length == 0){
                 this.$message({
                     type:"error",
@@ -608,9 +608,16 @@ export default {
                 });
                 return
             }
+            if(this.saveForm.policy_id == ""){
+                this.$message({
+                    type:"error",
+                    message:"请选择收费政策"
+                });
+                return
+            }
             var _this = this;
             this.getPolicy();
-            this.$axios.get('/api/finance/charging_policy/1/get_available_items_for_student/',{
+            this.$axios.get('/api/finance/charging_policy/'+this.saveForm.policy_id+'/get_available_items_for_student/',{
                 params:{
                     student_id:this.multipleTable[0].id,
                     payment_method_id:this.addform.pay_method,
