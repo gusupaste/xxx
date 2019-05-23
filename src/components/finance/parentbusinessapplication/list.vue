@@ -58,15 +58,13 @@
       <p>
         <span>状态：</span>
         <el-select class="select_lip" v-model="form.status_id" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
+          <el-option label="所有" value="0"></el-option>
+          <el-option label="作废" value="-1"></el-option>
+          <el-option label="同意" value="1"></el-option>
         </el-select>
         <span class="ml20">学生信息：</span>
-        <el-input type="text" placeholder="请输入" v-model="form.student_info" class="search_input" style="width:220px"></el-input>
+        <el-input type="text" placeholder="请输入" v-model="form.student_info" class="search_input"
+                  style="width:220px"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getApplication">搜索</el-button></span>
       </p>
       <el-table
@@ -318,14 +316,13 @@
           area_id: '',
           application_type_id: '',
           application_data: '',
-          status_id: '',
+          status_id: "0",
           student_info: ''
         },
         intercityList: [],
         arealist: [],
         schoolList: [],
         application_type: [],
-        status: [],
         tableList: {},
         detaildialog: false,
         canceldialog: false,
@@ -434,7 +431,7 @@
         })
       },
       getApplication: function () {
-        this.$axios.get('/api/application/application/',{
+        this.$axios.get('/api/application/application/', {
           params: this.from
         })
           .then(res => {
@@ -587,7 +584,7 @@
     line-height: 0;
   }
 
-  .parentbusinessapplication >>> .el-date-editor .el-range__icon{
+  .parentbusinessapplication >>> .el-date-editor .el-range__icon {
     margin-left: 0;
   }
 </style>
