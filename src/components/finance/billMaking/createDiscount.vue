@@ -573,7 +573,7 @@ export default {
             var _this = this;
             this.$axios.get('/api/finance/bill/charging_policy_list/',{
                 params:{
-                    center_id:this.info.id,
+                    center_id:this.saveForm.center_id,
                     academic_year_id:this.addform.academic_year_id,
                 }
             })
