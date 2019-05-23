@@ -27,7 +27,7 @@
                             <el-row :gutter="20">
                                 <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：{{ entry_date }}</div></el-col>
                                 <el-col :span="5"><div class="grid-content bg-purple">拟缴费日期：{{ prepare_pay_date }}</div></el-col>
-                                <el-col :span="10"><div class="grid-content bg-purple">学费正价：{{ policy }}—{{ subject }}—{{ amount }}元</div></el-col>
+                                <el-col :span="10"><div class="grid-content bg-purple">学费正价：{{ policy }} - {{ subject }} - {{ amount }}元</div></el-col>
                             </el-row>
                         </p>
                     </div>
