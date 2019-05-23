@@ -153,20 +153,26 @@
             border
             style="width: 100%">
               <el-table-column
-                prop="date"
+                prop="refund_direct"
                 label="扣款/退款">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="item"
                 label="项目名称">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="remarks"
                 label="情况说明">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="amount"
                 label="金额小计">
+              </el-table-column>
+              <el-table-column
+                label="操作">
+                <template slot-scope="scope">
+                    <i @click="deleteRefund(scope.row)" class="fa fa-trash red font-size-20 cur"></i>
+                </template>
               </el-table-column>
           </el-table>
         </div>
@@ -185,7 +191,7 @@
             <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
             <button class="btn bg-green">提交</button>
         </div>
-      <add-project v-if="addProjectVisible"></add-project>
+      <add-project @addSubject="addSubject" v-if="addProjectVisible"></add-project>
 
       <add-student @getStudent="getStudent" v-if="addStudentVisible" :status="status"></add-student>
     </div>
@@ -225,7 +231,7 @@
   .preparatoryStudent .price_wrap {
       height: 50px;
       margin-top: 15px;
-      background-color: rgba(255, 152, 0, 0.14);
+      background-color: #fff;
       text-align: right;
       line-height: 50px;
       color: #101010;
@@ -316,6 +322,14 @@ export default {
         this.student_id = val;
         this.getStudentInfo(val)
         this.getBillfo(val)
+      },
+      addSubject(val){
+        this.tableData.push(val);
+        console.log(val)
+      },
+      deleteRefund(val){
+        var index = this.tableData.indexOf(val);
+        this.tableData.splice(index,1);
       },
       searchInfo(){
             var _this = this;

@@ -97,7 +97,7 @@
                      <span class="bold font-size-20 red "> ¥{{addform.pay_amount}}</span>
                 </el-form-item>
                 <el-form-item label="" label-width="120px">
-                     <span>合计缴费金额大于应收金额，多余2000.00元将自动结转进备用金</span>
+                     <span>合计缴费金额大于应收金额，多余{{left_money}}元将自动结转进备用金</span>
                 </el-form-item>
             </el-form>
         </div>
@@ -127,10 +127,6 @@
                 <el-table-column
                 prop="address"
                 label="折后应收">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="欠费">
                 </el-table-column>
                 <el-table-column
                 prop="address"
@@ -327,7 +323,9 @@ export default {
                 this.addform.is_invoice = 0;
             }
             this.addform.reserve_fund_used = this.use_fund;
-            console.log(this.addform.reserve_fund_used = this.use_fund)
+            // this.addform.bill_item_list.forEach(item=>{
+                
+            // })
             if(this.addform.pay_amount < this.info.amount){
                 this.$message({
                     type:'error',
@@ -343,6 +341,11 @@ export default {
                         message:'缴费成功！'
                     });
                     _this.$router.push('/financemanagement/billMaking');
+                } else {
+                    _this.$message({
+                        type:'error',
+                        message:res.data.message
+                    });
                 }
             })
         },
@@ -367,6 +370,11 @@ export default {
                 this.use_fund = this.reserved_fund;
             }
             this.gettotal();
+        }
+    },
+    computed: {
+        left_money(){
+            return this.addform.pay_amount-this.info.amount
         }
     }
 }

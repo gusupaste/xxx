@@ -190,7 +190,7 @@ export default new Router({
       path: '/parent',/*家长信息*/
       name: 'parent',
       component: Parent,
-      meta: { requiresAuth: true, keepAlive: false },
+      // meta: { requiresAuth: true, keepAlive: false },
     },
     {
       path: '/parentInfo',/*家长信息*/

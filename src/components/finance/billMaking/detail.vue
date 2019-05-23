@@ -26,9 +26,9 @@
                     </el-row></p>
                 <p>
                     <el-row :gutter="20">
-                        <el-col :span="5"><div class="grid-content bg-purple">学生姓名：{{bill_info.student_name}}</div></el-col>
+                        <el-col :span="5"><div class="grid-content bg-purple">学生姓名：{{bill_info.name}}</div></el-col>
                         <el-col :span="5"><div class="grid-content bg-purple">所在校园：{{bill_info.center_name}}</div></el-col>
-                        <el-col :span="5"><div class="grid-content bg-purple">所在班级：{{bill_info.klass_name}}</div></el-col>
+                        <el-col :span="5"><div class="grid-content bg-purple">所在班级：{{bill_info.class_name}}</div></el-col>
                     </el-row>
                 </p>
                 <p>
@@ -81,12 +81,12 @@
                 stripe
                 style="width: 100%">
                 <el-table-column
-                prop="charging_policy_name"
+                prop="subject_category"
                 label="费用类型"
                 width="">
                 </el-table-column>
                 <el-table-column
-                prop="subject_name"
+                prop="subject"
                 label="费用科目"
                 width="">
                 </el-table-column>
@@ -98,7 +98,7 @@
                 prop="address"
                 label="缴费区间">
                     <template slot-scope="scope">
-                        {{scope.row.effective_begin_date}}——{{scope.row.effective_end_date}}
+                        {{scope.row.begin_date}}——{{scope.row.end_date}}
                     </template>
                 </el-table-column>
                 <el-table-column

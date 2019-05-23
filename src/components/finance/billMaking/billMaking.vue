@@ -104,7 +104,7 @@
             </el-table-column>
             <el-table-column
             prop="name"
-            label="实际应收"
+            label="操作"
             >
             <template slot-scope="scope">
                 <router-link :to="'/financemanagement/createDiscount/?id='+scope.row.id" v-if="permission['finance']['bill-editor'] && scope.row.bill_status === 0">
