@@ -26,41 +26,32 @@
                   <el-col :span="6"><div class="grid-content bg-purple">最后出勤日期：
                     <el-date-picker
                       style="width: 10%;"
-                      v-model="value2"
+                      v-model="otherInfo.effective_date"
                       align="right"
                       type="date"
-                      placeholder="选择日期"
-                      :picker-options="pickerOptions1">
+                      disabled
+                      placeholder="选择日期">
                     </el-date-picker>
                   </div></el-col>
                   <el-col :span="6"><div class="grid-content bg-purple">申请退费日期：
                     <el-date-picker
+                      disabled
                       style="width: 10%;"
-                      v-model="value2"
+                      v-model="otherInfo.create_date"
                       align="right"
                       type="date"
-                      placeholder="选择日期"
-                      :picker-options="pickerOptions1">
+                      placeholder="选择日期">
                     </el-date-picker>
                   </div></el-col>
                   <el-col :span="6"><div class="grid-content bg-purple">学年：
-                    <el-select v-model="nameSelect" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                      </el-option>
-                    </el-select>
+                    <!-- <el-select  v-model="nameSelect" placeholder="请选择">
+                      <el-option v-for="item in academic_year_li" :key="item.id" :value="item.id" :label="item.year"></el-option>
+                    </el-select> -->
+                    <el-input disabled v-model="otherInfo.academic_year"></el-input>
                   </div></el-col>
                   <el-col :span="6"><div class="grid-content bg-purple">单据申请信息：
-                    <el-select v-model="nameSelect" placeholder="请选择">
-                      <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                      </el-option>
+                    <el-select v-model="addForm.bill_id" placeholder="请选择">
+                      <el-option v-for="item in billInfo" :label="item.application_name" :key="item.id" :value="item.id"></el-option>
                     </el-select>
                   </div></el-col>
                 </el-row>
@@ -81,8 +72,8 @@
                   <el-row>
                     <el-col :span="24">
                       <div class="grid-content bg-purple">是否已领物品：
-                          <el-radio :label="2" v-model="is_thing" >是</el-radio>
-                          <el-radio :label="1" v-model="is_thing" >否</el-radio>
+                          <el-radio :label="true" v-model="is_thing" >是</el-radio>
+                          <el-radio :label="false" v-model="is_thing" >否</el-radio>
                       </div>
                     </el-col>
                   </el-row>
@@ -96,50 +87,58 @@
             <p class="remarks">2.新生物品费相关项目以学校实际物品领用情况酌情处理，如果发生物品领用，请按物品价格相应扣款</p>
             <el-table
                 class="mt10"
-                :data="tableData"
+                :data="subjectList"
                 border
                 style="width: 100%">
               <el-table-column label="已缴费情况描述">
                 <el-table-column
-                prop="date"
+                prop="subject_name"
                 label="缴费项目">
                 </el-table-column>
                 <el-table-column
-                prop="name"
+                prop="payment_method_name"
                 label="缴费方式">
                 </el-table-column>
                 <el-table-column
                 prop="address"
                 label="起止日期">
+                <template slot-scope="scope">
+                  {{scope.row.effective_begin_date}} —— {{scope.row.effective_end_date}}
+                </template>
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="pay_month"
                 label="校日历总数">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="amount"
                 label="实际应缴费用">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="actual_amount"
                 label="缴费金额">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="price"
                 label="单价">
                 </el-table-column>
               </el-table-column>
               <el-table-column class="is_dark" label="需退费情况描述">
                 <el-table-column
-                  prop="address"
+                  prop="deduction_amount"
                   label="扣款">
                 </el-table-column>
                 <el-table-column
-                  prop="address"
+                  prop="sub_total"
                   label="应退转金额小计">
                 </el-table-column>
               </el-table-column>
             </el-table>
+            <div class="price_wrap">
+              <span>
+                备用金：<b class="red font-size-16">{{otherInfo.reserved_fund_amount}}</b>
+              </span>
+            </div>
         </div>
         <div class="mt26 tableList">
           <p>制度外退费（其他扣款/退费项目明细）
@@ -210,6 +209,9 @@
   .preparatoryStudent .tableList {
       color:#101010;
   }
+  .preparatoryStudent .el-input {
+      width:auto;
+  }
   .preparatoryStudent hr {
     margin: 10px 0;
     border: 0px;
@@ -219,6 +221,18 @@
     color: #999999;
     font-size: 12px;
     line-height:24px;
+  }
+  .preparatoryStudent .price_wrap {
+      height: 50px;
+      margin-top: 15px;
+      background-color: rgba(255, 152, 0, 0.14);
+      text-align: right;
+      line-height: 50px;
+      color: #101010;
+  }
+  .preparatoryStudent .price_wrap span{
+     display: inline-block;
+     margin-right: 20px;
   }
 </style>
 <script>
@@ -231,24 +245,32 @@ export default {
   },
     data(){
         return {
-          value2:'',
+          center_id:this.$cookies.get('userInfo').center.id,
           radio2:'',
           fileList:[],
-          nameSelect:[],
+          academic_year_li:[],
+          addForm:{
+            bill_id:''
+          },
+          billInfo:[],
+          subjectList:[],
+          refundList:[],
+          otherInfo:{
+            reserved_fund_amount:0
+          },
           student_id:'',
           studentInfo:{},
-          options:[],
-          is_thing:1,
+          is_thing:true,
           status:'Prepare',
           addProjectVisible:false,
           addStudentVisible:false,
-            tableData: []
+          tableData: []
         }
     },
+    created () {
+        this.searchInfo()
+    },
     methods: {
-      pickerOptions1(){
-
-      },
       getStudentInfo(val){
         var _this = this;
         this.$axios.get('/api/finance/refund/student_info',{
@@ -256,14 +278,60 @@ export default {
             student_id:this.student_id
           }
         }).then(res=>{
-          console.log(res.data);
           _this.studentInfo = res.data.data;
+        })
+      },
+      getBillfo(val){
+        var _this = this;
+        this.$axios.get('/api/finance/refund/leave_apply_records/',{
+          params:{
+            student_id:this.student_id
+          }
+        }).then(res=>{
+          _this.billInfo = res.data.data;
+        })
+      },
+      getOtherfo(){
+        var _this = this;
+        this.$axios.get('/api/finance/refund/prepare_refund_info/',{
+          params:{
+            application_id:this.addForm.bill_id
+          }
+        }).then(res=>{
+          _this.subjectList = [];
+          _this.refundList = [];
+          _this.otherInfo = res.data.data;
+          res.data.data.bills.forEach(item=>{
+            item.items.forEach(ele=>{
+              _this.subjectList.push(ele);
+            })
+            item.refund_items.forEach(ele2=>{
+              _this.refundList.push(ele2);
+            })
+          });
+          console.log(_this.subjectList)
         })
       },
       getStudent(val){
         this.student_id = val;
-        console.log(888)
         this.getStudentInfo(val)
+        this.getBillfo(val)
+      },
+      searchInfo(){
+            var _this = this;
+            this.$axios.get('/api/finance/bill/search_info/',{
+                params:{
+                    center_id:this.center_id
+                }
+            })
+            .then(res=>{
+                _this.academic_year_li = res.data.data.academic_year_li;
+            })
+        },
+    },
+    watch: {
+      'addForm.bill_id'(){
+        this.getOtherfo()
       }
     }
 }
