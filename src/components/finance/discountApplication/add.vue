@@ -85,9 +85,12 @@
                 <p class="font-cl-blue">新增折扣{{index+1}}：</p>
                 <el-form inline style="padding:20px;">
                     <el-form-item label="选择折扣类型：" label-width="120px">
-                       <el-select class="w250_input">
-
-                       </el-select>
+                        <el-select class="w250_input" v-model="selected_type" @change="changeType">
+                          <el-option v-for="type in first_discount_type" 
+                            :key="type.id"
+                            :label="type.name"
+                            :value="type.id"></el-option>
+                        </el-select>
                     </el-form-item>
                     <br>
                     
@@ -133,7 +136,7 @@
                     <el-form-item label="折扣总额：" label-width="120px">
                         2019/02/27
                     </el-form-item>
-                    <el-form-item label="优惠金额：" label-width="120px">
+                    <el-form-item label="折后金额：" label-width="120px">
                         2019/02/27
                     </el-form-item>
                 </el-form>
@@ -236,7 +239,11 @@ export default {
             search_name: "",
             selected_plan: null,
             selected_year: null,
-            selected_student_id: [],
+            selected_student_id: null,
+            selected_student_info: {},
+            first_discount_type:[],
+            selected_type: "",
+
             value1:'',
             fileList:[],
             tableData: [],
@@ -252,6 +259,7 @@ export default {
         this.$nextTick(function () {
             this.loadData();
             this.getStudent("");
+            this.getDiscountType();
         })
     },
     methods: {
@@ -324,6 +332,24 @@ export default {
             .then(res=>{
                 console.log(res.data)
             })
+        },
+        confirmStudent() {
+            var _this = this;
+            this.$axios.get('http://192.168.1.197:8000/api/student/student/'+_this.selected_student_id+'/student_profile/')
+            .then(res=>{
+                console.log(res.data)
+            })
+        },
+        getDiscountType(){
+            var _this = this;
+            this.$axios.get('http://134.175.93.59:8000/api/discount/discount_type_management/get_available_discount_type/')
+            .then(res=>{
+                console.log(res.data)
+                _this.first_discount_type = res.data.data;
+            })
+        },
+        changeType(val){
+            console.log(val);
         }
     }
 }
