@@ -408,7 +408,7 @@ export default new Router({
           component: DiscountApproval
         },
         {
-          path: '/financemanagement/dismissed/:id',
+          path: '/financemanagement/dismissed/:id/:status',
           name: 'discountDismissed',
           component: DiscountDismissed
         },
