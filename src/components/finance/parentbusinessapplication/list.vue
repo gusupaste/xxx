@@ -5,57 +5,67 @@
     </div>
     <div class="header-top">
       <p><span>城际：</span>
-        <el-select class="select_lip" v-model="value" placeholder="请选择">
+        <el-select v-model="form.intercity_id" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in intercityList"
+            :key="item.id"
+            :label="item.dept_name"
+            :value="item.id">
           </el-option>
         </el-select>
         <span class="ml20">区域：</span>
-        <el-select class="select_lip" v-model="value" placeholder="请选择">
+        <el-select v-model="form.area_id" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in arealist"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
         <span class="ml20">校园：</span>
-        <el-select class="select_lip" v-model="value" placeholder="请选择">
+        <el-select v-model="form.center_id" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in schoolList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
+
         <span class="ml20">申请类型：</span>
-        <el-select class="select_lip" v-model="value" placeholder="请选择">
+        <el-select class="select_lip" v-model="form.application_type_id" placeholder="请选择">
+          <el-option value="" label="所有"></el-option>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
+            v-for="item in application_type"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
           </el-option>
         </el-select>
         <span class="ml20">申请日期：</span>
-        <el-date-picker class="date_style" type="date" placeholder="选择日期"></el-date-picker>
-        <span>到</span>
-        <el-date-picker class="date_style" type="date" placeholder="选择日期"></el-date-picker>
-        <span class="ml20">状态：</span>
-        <el-select class="select_lip" v-model="value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
+        <el-date-picker
+          v-model="form.application_data"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="yyyy-MM-dd">
+        </el-date-picker>
+      </p>
+      <p>
+        <span>状态：</span>
+        <el-select class="select_lip" v-model="form.status_id" placeholder="请选择">
+          <el-option label="所有" value="0"></el-option>
+          <el-option label="作废" value="-1"></el-option>
+          <el-option label="同意" value="1"></el-option>
         </el-select>
         <span class="ml20">学生信息：</span>
-        <el-input type="text" placeholder="请输入" class="search_input" style="width:220px"></el-input>
-        <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
+        <el-input type="text" placeholder="请输入" v-model="form.student_info" class="search_input"
+                  style="width:220px"></el-input>
+        <span class="padding-left-30"><el-button type="primary" @click="getApplication">搜索</el-button></span>
       </p>
       <el-table
         class="mt26"
@@ -197,7 +207,7 @@
             <td>联系电话</td>
             <td>
               <el-form-item prop="telephone">
-              <el-input placeholder="请输入" v-model="application_detail.telephone"></el-input>
+                <el-input placeholder="请输入" v-model="application_detail.telephone"></el-input>
               </el-form-item>
             </td>
             <td>手机号码<span class="red">*</span></td>
@@ -300,11 +310,22 @@
   export default {
     data() {
       return {
-        value: '-所有-',
+        form: {
+          intercity_id: '',
+          center_id: '',
+          area_id: '',
+          application_type_id: '',
+          application_data: '',
+          status_id: "0",
+          student_info: ''
+        },
+        intercityList: [],
+        arealist: [],
+        schoolList: [],
+        application_type: [],
+        tableList: {},
         detaildialog: false,
         canceldialog: false,
-        options: [],
-        tableList: [],
         parentApplicationDetail: {
           student_info: {},
           application_type: [],
@@ -359,20 +380,68 @@
       }
     },
     mounted: function () {
+      this.getIntercity()
+      this.getArea()
+      this.getSchool()
+      this.getApplicationType()
       this.getApplication()
     },
+    watch: {
+      'form.intercity_id'() {
+        this.form.center_id = "";
+        this.getSchool();
+      },
+      'form.area_id'() {
+        this.form.center_id = "";
+        this.getSchool();
+      },
+    },
     methods: {
-      getApplication: function () {
-        this.$axios.get('/api/application/application/')
+      getIntercity() {
+        var _this = this;
+        this.$axios.get('/api/common/intercity/',).then(res => {
+          console.log(res.data)
+          _this.intercityList = res.data.intercity_list;
+          // _this.form.intercity_id = res.data.intercity_list[0].id;
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getArea() {
+        var _this = this;
+        _this.$axios.get('/api/common/select/area_list/',)
           .then(res => {
-            //this.intercityList = res.data.intercity_list
+            _this.arealist = res.data.results;
+          }).catch(err => {
+          console.log(err)
+        })
+      },
+      getSchool() {
+        var _this = this;
+        this.$axios.get('/api/common/select/center_list/', {
+          params: {
+            intercity_id: this.form.intercity_id,
+            area_id: this.form.area_id,
+          }
+        })
+          .then(res => {
+            _this.schoolList = res.data.results;
+          }).catch(err => {
+          console.log(err)
+        })
+      },
+      getApplication: function () {
+        this.$axios.get('/api/application/application/', {
+          params: this.from
+        })
+          .then(res => {
+            //this.tableList = res.data.intercity_list
           }).catch(err => {
         })
       },
       applicationDetail: function () {
         this.detaildialog = true
         this.getStudentInfo()
-        this.getApplicationType()
         this.getApplicationReason()
       },
       getStudentInfo: function () {
@@ -388,6 +457,7 @@
         this.$axios.get('/api/application/application_type')
           .then(res => {
             this.parentApplicationDetail.application_type = res.data
+            this.application_type = res.data
           }).catch(err => {
 
         })
@@ -502,11 +572,19 @@
     height: 32px;
   }
 
+  .parentbusinessapplication >>> .el-range-editor.el-input__inner {
+    padding: 0;
+  }
+
   .parentbusinessapplication .el-dialog-table >>> .el-radio {
     margin-right: 15px;
   }
 
   .parentbusinessapplication .el-dialog-table >>> .el-form-item__content {
     line-height: 0;
+  }
+
+  .parentbusinessapplication >>> .el-date-editor .el-range__icon {
+    margin-left: 0;
   }
 </style>

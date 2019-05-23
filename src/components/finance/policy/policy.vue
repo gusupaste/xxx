@@ -176,6 +176,7 @@ export default {
           }
       },
       getSpanArr(data) {
+        this.spanArr = [];
         for (var i = 0; i < this.detailForm.items.length; i++) {
               if (i === 0) {
                     this.spanArr.push(1);

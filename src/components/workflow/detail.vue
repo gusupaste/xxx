@@ -4,7 +4,7 @@
       <p class="local_path_style">YOU ARE HERE : 工作流 > <span class="font-cl-blue">审批详情</span></p>
     </div>
     <p class="black mt26 clearfix" style="padding-bottom:15px;border-bottom:1px solid #bbb">
-      <span class="left">折扣申请学生：曹旭</span>
+      <span class="left"><span v-if="detilCode === 'RB'">折扣</span>申请学生：{{ student_name }}</span>
       <span class="right ">
               <span>状态：</span>
               <span v-if="form_status === 0" class="orange">审批中</span>
@@ -12,9 +12,97 @@
               <span v-if="form_status === 2" class="red">已拒绝</span>
           </span>
     </p>
-    <div class="content-top">员工子女折扣</div>
+    <div class="clearfix mt26" v-if="detilCode === 'RB'">
+      <el-col :span="24" class="card-type">
+        <el-card shadow="always" class="clearfix">
+          <p class="baseInfo">&nbsp;</p>
+          <div style="width:90%" class="left">
+            <p class="" style="border-bottom:1px solid #bbb">
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">拟入学日期：{{ entry_date }}</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">拟缴费日期：{{ prepare_pay_date }}</div></el-col>
+                <el-col :span="10"><div class="grid-content bg-purple">学费正价：{{ policy }} - {{ subject }} - {{ amount }}元</div></el-col>
+              </el-row>
+            </p>
+          </div>
+        </el-card>
+      </el-col>
+    </div>
+    <div v-for="(item,index) in discount_form_item">
+      <div class="content-top">员工子女折扣</div>
+      <div class="clearfix">
+        <el-col :span="24" class="card-type">
+          <el-card shadow="always" class="clearfix">
+            <p class="baseInfo">&nbsp;</p>
+            <div style="width:90%" class="left">
+              <p class="" style="border-bottom:1px solid #bbb">
+                <!--<el-row :gutter="20">
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">拟入学日期：{{ entry_date }}</div>
+                  </el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">拟缴费日期：{{ prepare_pay_date }}</div>
+                  </el-col>
+                  <el-col :span="10">
+                    <div class="grid-content bg-purple">学费正价：{{ policy }} - {{ subject }} - {{ amount }}元</div>
+                  </el-col>
+                </el-row>-->
+                <el-row :gutter="20">
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">申请折扣：{{ item.rate_or_price }}
+                      <span v-if="item.discount_type__condition_status === 1">元</span>
+                      <span v-if="item.discount_type__condition_status === 0">%</span></div>
+                  </el-col>
+                  <!--<el-col :span="5">
+                    <div class="grid-content bg-purple">应缴总额：{{ amount }}元</div>
+                  </el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">优惠金额：{{ amount - actual_amount }}元</div>
+                  </el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">折后总额：{{ actual_amount }}元</div>
+                  </el-col>-->
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">备注：— —/03/01</div>
+                  </el-col>
+                </el-row>
+              </p>
+              <p>
+                <el-row :gutter="20">
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">相关附件：</div>
+                  </el-col>
+                </el-row>
+                <!--<el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
+                  <el-col :span="5"><a download="download" class="grid-content bg-purple"
+                                       href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
+                </el-row>-->
+              </p>
+            </div>
+          </el-card>
+        </el-col>
+      </div>
+    </div>
+    <div class="clearfix mt26" v-if="detilCode === 'RB'">
+      <el-col :span="24" class="card-type">
+        <el-card shadow="always" class="clearfix">
+          <p class="baseInfo">&nbsp;</p>
+          <div style="width:90%" class="left">
+            <p class="" style="border-bottom:1px solid #bbb">
+              <el-row :gutter="20">
+                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：{{ amount }}元</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">优惠金额：{{ amount - actual_amount }}元</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">折后总额：{{ actual_amount }}元</div></el-col>
+              </el-row>
+            </p>
+          </div>
+        </el-card>
+      </el-col>
+    </div>
+    <!--<div class="content-top">园长折扣</div>
     <div class="clearfix">
-
       <el-col :span="24" class="card-type">
         <el-card shadow="always" class="clearfix">
           <p class="baseInfo">&nbsp;</p>
@@ -65,61 +153,7 @@
           </div>
         </el-card>
       </el-col>
-    </div>
-    <div class="content-top">园长折扣</div>
-    <div class="clearfix">
-
-      <el-col :span="24" class="card-type">
-        <el-card shadow="always" class="clearfix">
-          <p class="baseInfo">&nbsp;</p>
-          <div style="width:90%" class="left">
-            <p class="" style="border-bottom:1px solid #bbb">
-              <el-row :gutter="20">
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">拟入学日期：-12</div>
-                </el-col>
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">拟入学日期：.00</div>
-                </el-col>
-                <el-col :span="10">
-                  <div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div>
-                </el-col>
-              </el-row>
-              <el-row :gutter="20">
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">申请折扣：20%</div>
-                </el-col>
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">应缴总额：10000元</div>
-                </el-col>
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">优惠金额：2000元</div>
-                </el-col>
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">折后总额：8000元</div>
-                </el-col>
-              </el-row>
-              <el-row :gutter="20">
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">备注：— —/03/01</div>
-                </el-col>
-              </el-row>
-            </p>
-            <p>
-              <el-row :gutter="20">
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">相关附件：</div>
-                </el-col>
-              </el-row>
-              <el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
-                <el-col :span="5"><a download="download" class="grid-content bg-purple"
-                                     href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
-              </el-row>
-            </p>
-          </div>
-        </el-card>
-      </el-col>
-    </div>
+    </div>-->
     <div class="mt26 tableList">
       <p>审批记录：</p>
       <el-table
@@ -215,6 +249,7 @@
   export default {
     data() {
       return {
+        detilCode:this.$route.query.formKindCode,
         status: Number(this.$route.query.status),
         formId: Number(this.$route.query.formId),
         formKindId: Number(this.$route.query.formKindId),
@@ -233,13 +268,45 @@
           }
         ],
         remark: '',
-        date: new Date()
+        date: new Date(),
+        student_name:'',
+        actual_amount:'',
+        prepare_pay_date:'',
+        entry_date:'',
+        discount_form_item:[],
+        policy:'',
+        subject:'',
       }
     },
     mounted: function () {
-      this.getDetail()
+      this.getDetail();
+      if(this.detilCode === 'RB'){
+        this.getDiscount();
+      }
     },
     methods: {
+      /*折扣*/
+      getDiscount:function () {
+        var _this = this;
+        this.loading = true
+        var url = '/api/discount/discount_management/'+this.formId+'/get_discount_info/';
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200 && res.data.status_code == 1) {
+            this.student_name = res.data.data.student_name;
+            this.amount = res.data.data.amount;
+            this.actual_amount = res.data.data.actual_amount;
+            this.prepare_pay_date = res.data.data.prepare_pay_date;
+            this.entry_date = res.data.data.entry_date;
+            this.discount_form_item = res.data.data.discount_form_item;
+            this.policy = res.data.data.policy;
+            this.subject = res.data.data.subject;
+            /*this.tableData = res.data.data.form_approve_data;*/
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       getDetail: function () {
         var url = ''
         if (this.status === 0) {
