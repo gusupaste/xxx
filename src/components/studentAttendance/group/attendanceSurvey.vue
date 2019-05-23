@@ -105,7 +105,7 @@
           <el-table-column
             label="操作">
             <template slot-scope="scope">
-              <router-link :to="{path:'/studentattendance/detail/'+scope.row.class_id, query: { class_name: scope.row.class_name }}">
+              <router-link :to="{path:'/studentattendance/detail/'+scope.row.id, query: { class_name: scope.row.class_name }}">
                 <i class="fa fa-search green font-size-20 cur"></i>
               </router-link>
             </template>

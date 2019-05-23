@@ -103,6 +103,9 @@ html {
 .white{
   color: #fff;
 }
+.grey{
+  color: grey;
+}
 .bd-green {
   border:1px solid #8bc34a;
 }
