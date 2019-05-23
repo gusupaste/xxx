@@ -50,7 +50,7 @@
                     <el-input disabled v-model="otherInfo.academic_year"></el-input>
                   </div></el-col>
                   <el-col :span="6"><div class="grid-content bg-purple">单据申请信息：
-                    <el-select v-model="addForm.bill_id" placeholder="请选择">
+                    <el-select v-model="addForm.application_id" placeholder="请选择">
                       <el-option v-for="item in billInfo" :label="item.application_name" :key="item.id" :value="item.id"></el-option>
                     </el-select>
                   </div></el-col>
@@ -58,14 +58,19 @@
                 </p>
                 <p>
                   <el-row>
-                    <el-col :span="24"><div class="grid-content bg-purple">离园原因：
-                      <el-radio-group v-model="radio2">
-                        <el-radio :label="3">居所搬迁/父母工作调动</el-radio>
-                        <el-radio :label="6">家庭变故</el-radio>
-                        <el-radio :label="9">生病</el-radio>
-                        <el-radio :label="10">毕业</el-radio>
-                      </el-radio-group>
-                    </div></el-col>
+                    <el-col :span="24">
+                      <div class="grid-content bg-purple">离园原因：
+                        <el-radio-group v-model="addForm.leave_reason">
+                          <el-radio label="居所搬迁/父母工作调动">居所搬迁/父母工作调动</el-radio>
+                          <el-radio label="家庭变故">家庭变故</el-radio>
+                          <el-radio label="生病">生病</el-radio>
+                          <el-radio label="毕业">毕业</el-radio>
+                        </el-radio-group>
+                      </div>
+                      <div class="grid-content bg-purple">其他：
+                          <el-input v-model="addForm.reason_remark"></el-input>
+                      </div>
+                    </el-col>
                   </el-row>
                 </p>
                 <p>
@@ -149,7 +154,7 @@
           </p>
           <el-table
             class="mt10"
-            :data="tableData"
+            :data="addForm.refund_items"
             border
             style="width: 100%">
               <el-table-column
@@ -175,6 +180,11 @@
                 </template>
               </el-table-column>
           </el-table>
+          <div class="price_wrap">
+              <span>
+                实际应退金额合计：<b class="red font-size-16">{{addForm.refund_amount}}</b>
+              </span>
+            </div>
         </div>
         <div class="mt26 tableList">
           <p>相关附件：
@@ -189,7 +199,7 @@
         </div>
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
-            <button class="btn bg-green">提交</button>
+            <button class="btn bg-green" @click="submitForm">提交</button>
         </div>
       <add-project @addSubject="addSubject" v-if="addProjectVisible"></add-project>
 
@@ -256,7 +266,11 @@ export default {
           fileList:[],
           academic_year_li:[],
           addForm:{
-            bill_id:''
+            application_id:'',
+            bill_type: "PRB",
+            refund_items:[],
+            refund_amount:0,
+            reason_remark:''
           },
           billInfo:[],
           subjectList:[],
@@ -270,7 +284,6 @@ export default {
           status:'Prepare',
           addProjectVisible:false,
           addStudentVisible:false,
-          tableData: []
         }
     },
     created () {
@@ -301,7 +314,7 @@ export default {
         var _this = this;
         this.$axios.get('/api/finance/refund/prepare_refund_info/',{
           params:{
-            application_id:this.addForm.bill_id
+            application_id:this.addForm.application_id
           }
         }).then(res=>{
           _this.subjectList = [];
@@ -324,12 +337,32 @@ export default {
         this.getBillfo(val)
       },
       addSubject(val){
-        this.tableData.push(val);
-        console.log(val)
+        this.addForm.refund_items.push(val);
+        this.getRefund_amount();
+      },
+      submitForm(){
+        var _this = this;
+        this.subjectList.forEach(item=>{
+          item.balance_amount = item.sub_total
+        })
+        this.addForm.items = this.subjectList;
+        console.log(this.addForm)
+        this.$axios.post('/api/finance/refund/add_refund_bill/',{
+          bill:this.addForm
+        }).then(res=>{
+          console.log(res)
+        })
       },
       deleteRefund(val){
-        var index = this.tableData.indexOf(val);
-        this.tableData.splice(index,1);
+        var index = this.addForm.refund_items.indexOf(val);
+        this.addForm.refund_items.splice(index,1);
+        this.getRefund_amount();
+      },
+      getRefund_amount(){
+        this.addForm.refund_amount = 0;
+        this.addForm.refund_items.forEach(item=>{
+          this.addForm.refund_amount += Number(item.amount)
+        })
       },
       searchInfo(){
             var _this = this;
@@ -344,7 +377,7 @@ export default {
         },
     },
     watch: {
-      'addForm.bill_id'(){
+      'addForm.application_id'(){
         this.getOtherfo()
       }
     }
