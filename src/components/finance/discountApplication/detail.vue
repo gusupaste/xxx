@@ -4,7 +4,7 @@
         <p class="local_path_style">YOU ARE HERE : 财务处理 > 折扣申请 > <span class="font-cl-blue">折扣详情</span></p>
       </div>
       <p class="black mt26 clearfix" style="padding-bottom:15px;border-bottom:1px solid #bbb">
-          <span class="left font-size-14 bold">折扣申请学生：曹旭</span>
+          <span class="left font-size-14 bold">折扣申请学生：{{ student_name }}</span>
           <span class="right ">
               <span>状态：</span>
               <span class="green">审核通过</span>
@@ -65,7 +65,7 @@
                         <p class="" style="border-bottom:1px solid #bbb">
                             <el-row :gutter="20">
                                 <el-col :span="5"><div class="grid-content bg-purple">申请折扣：20%</div></el-col>
-                                
+
                             </el-row>
                             <el-row :gutter="20">
                                 <el-col :span="5"><div class="grid-content bg-purple">备注：— —/03/01</div></el-col>
@@ -90,7 +90,7 @@
                     <div style="width:90%" class="left">
                         <p class="" style="border-bottom:1px solid #bbb">
                             <el-row :gutter="20">
-                                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：10000元</div></el-col>
+                                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：{{ amount }}元</div></el-col>
                                 <el-col :span="5"><div class="grid-content bg-purple">优惠金额：2000元</div></el-col>
                                 <el-col :span="5"><div class="grid-content bg-purple">折后总额：8000元</div></el-col>
                             </el-row>
@@ -174,6 +174,8 @@
 export default {
     data(){
         return {
+          student_name:'',
+          amount:'',
             tableData: [{
                 date: '2016-05-02',
                 name: '王小虎',
@@ -191,6 +193,24 @@ export default {
                 name: '王小虎',
                 address: '上海市普陀区金沙江路 1516 弄'
                 }]
+        }
+    },
+    mounted:function () {
+        this.getInfo();
+    },
+    methods:{
+        getInfo:function(){
+          var _this = this;
+          var url = '/api/discount/discount_management/'+this.$route.params.id+'/get_discount_info/';
+          _this.$axios.get(url).then(res=>{
+            _this.loading = false;
+            if(res.status == 200 && res.data.status_code == 1) {
+              this.student_name = res.data.data.student_name;
+              this.amount = res.data.data.amount;
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
         }
     }
 }
