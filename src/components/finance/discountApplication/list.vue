@@ -1,21 +1,45 @@
 <template>
     <div class="wrap discountApplication">
        <div class="header">
-            <p class="local_path_style">You Are Here ：财务处理 > <span class="font-cl-blue">折扣申请</span></p>
+            <p class="local_path_style">YOU ARE HERE ：财务处理 > <span class="font-cl-blue">折扣申请</span></p>
         </div>
         <div class="clearfix mt26">
             <el-form inline class=" left">
                 <el-form-item label="学年：" >
-                    <el-select v-model="value"></el-select>
+                  <el-select v-model="year" placeholder="请选择学年">
+                    <el-option value="" label="全部"></el-option>
+                    <el-option
+                      v-for="item in year_list"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
                 <el-form-item label="班级：">
-                    <el-select v-model="value"></el-select>
+                  <el-select v-model="class_val">
+                    <el-option value="" label="全部"></el-option>
+                    <el-option
+                      v-for="item in class_list"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
                 <el-form-item label="状态：">
-                    <el-select v-model="value"></el-select>
+                    <el-select v-model="typeValue">
+                      <el-option value="" label="全部"></el-option>
+                      <el-option
+                        v-for="item in status_list"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                      </el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="搜索：">
-                    <el-input v-model="value" class="w250_input"></el-input>
+                    <el-input v-model="searchText" class="w250_input"></el-input>
                 </el-form-item>
                 <el-form-item >
                     <el-button type="primary">搜索</el-button>
@@ -31,50 +55,44 @@
             border
             style="width: 100%">
             <el-table-column
-            prop="date"
-            label="学生姓名"
-            width="180">
+            prop="student_name"
+            label="学生姓名">
             </el-table-column>
             <el-table-column
-            prop="name"
-            label="所在班级"
-            width="180">
+            prop="center_class_name"
+            label="所在班级">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="form_status"
             label="折扣类型">
             </el-table-column>
             <el-table-column
-            prop="address"
-            label="申请区间">
-            </el-table-column>
-            <el-table-column
-            prop="address"
+            prop="amount"
             label="正价">
             </el-table-column>
             <el-table-column
-            prop="address"
             label="折扣">
+              <template slot-scope="scope">
+                  {{ scope.row.amount - scope.row.actual_amount }}
+              </template>
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="actual_amount"
             label="优惠金额合计">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="apply_date"
             label="申请日期">
             </el-table-column>
             <el-table-column
-            prop="address"
+            prop="form_status"
             label="状态">
             </el-table-column>
             <el-table-column
             prop="address"
             label="操作">
-            <template slot-scope="slote">
-                <i class="fa fa-pencil-square-o orange font-size-20 cur"></i>
-                <i class="fa fa-search orange font-size-20 ml10 cur" @click="$router.push('/financemanagement/discountApplicationDetail')"></i>
-                <i class="fa fa-print green font-size-20 ml10 cur"></i>
+            <template slot-scope="scope">
+                <i class="fa fa-search orange font-size-20 ml10 cur" @click="$router.push('/financemanagement/discountApplicationDetail/'+ scope.row.form_id)"></i>
             </template>
             </el-table-column>
         </el-table>
@@ -85,21 +103,102 @@ export default {
     data () {
         return {
             value:"",
-            tableData: []
+            tableData: [],
+            year_url:'/api/common/select/academic_year_list/',/*学年*/
+            klass_url:'/api/common/select/class_list/?center_id=3',/*班级*/
+            status_list:[
+              {
+                id:0,
+                name:'审批中'
+              },
+              {
+                id:1,
+                name:'已批准'
+              },
+              {
+                id:2,
+                name:'已拒绝'
+              },
+            ],
+            list_url:'',
+            year_list:[],
+            class_list:[],
+            year:'',
+            class_val:'',
+            typeValue:'',
+            searchText:'',
         }
     },
     created () {
+        this.getYearList();
+        this.getClassList();
         this.getList();
     },
     methods: {
-        getList(){
+        /*学年*/
+        getYearList:function () {
+          var _this = this;
+          var url = this.year_url;
+          _this.$axios.get(url).then(res=>{
+            _this.loading = false;
+            if(res.status == 200 && res.data.status_code == 1) {
+              this.year_list = res.data.results;
+              for(var x in this.year_list){
+                if(this.year_list[x].is_selected == 1){
+                  this.year = this.year_list[x].id;
+                }
+              }
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+        },
+        /*班级*/
+        getClassList:function () {
+          var _this = this;
+          _this.$axios.get(this.klass_url).then(res => {
+            _this.loading = false;
+            if (res.status == 200 && res.data.status_code == 1) {
+              this.class_list = res.data.results;
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+        },
+        /*列表*/
+        getList:function () {
+          var _this = this;
+          var index1 = this.year;
+          var index2 = this.class_val;
+          var index3 = this.typeValue;
+          if(this.year === ''){
+            index1 = -1;
+          }
+          if(this.class_val === ''){
+            index2 = -1;
+          }
+          if(this.typeValue === ''){
+            index3 = -1;
+          }
+          var url = '/api/discount/discount_management/?is_hq=0&academic_year_id='+ index1
+            +'&center_class_id='+ index2+'&type='+index3+'&student_name='+ this.searchText;
+          _this.$axios.get(url).then(res => {
+            _this.loading = false;
+            if (res.status == 200 && res.data.status_code == 1) {
+              this.tableData = res.data.data.results;
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+        },
+        /*getList(){
             var _this = this;
-            this.$axios.get('/api/finance/bill/')
+            /!*this.$axios.get('/api/finance/bill/')
             .then(res=>{
                 console.log(res.data.data)
                 this.tableData = res.data.data.bill_li
-            })
-        }
+            })*!/
+        }*/
     }
 }
 </script>
