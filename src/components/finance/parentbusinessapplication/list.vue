@@ -47,12 +47,14 @@
         </el-select>
         <span class="ml20">申请日期：</span>
         <el-date-picker
-          v-model="application_data"
+          v-model="application_date"
+          :editable="false"
+          :clearable="false"
           type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          @change="dataChange"
+          @change="dateChange"
           value-format="yyyy-MM-dd">
         </el-date-picker>
       </p>
@@ -280,8 +282,8 @@
           center_id: '',
           area_id: '',
           application_type_id: '',
-          start_data: '',
-          end_data: '',
+          start_date: '',
+          end_date: '',
           status_id: "2",
           student_name: ''
         },
@@ -291,7 +293,7 @@
         application_type: [],
         application_reason: [],
         tableList: {},
-        application_data: [],
+        application_date: [],
         detaildialog: false,
         canceldialog: false,
         application_detail: {},
@@ -311,11 +313,22 @@
       'form.intercity_id'() {
         this.form.center_id = "";
         this.getSchool();
+        this.getList()
       },
       'form.area_id'() {
         this.form.center_id = "";
         this.getSchool();
+        this.getList()
       },
+      'form.center_id'() {
+        this.getList()
+      },
+      'form.application_type_id'() {
+        this.getList()
+      },
+      'form.status_id'() {
+        this.getList()
+      }
     },
     methods: {
       getIntercity() {
@@ -356,9 +369,10 @@
 
         })
       },
-      dataChange: function (val) {
-        this.form.start_data = val[0]
-        this.form.end_data = val[1]
+      dateChange: function (val) {
+        this.form.start_date = val[0]
+        this.form.end_date = val[1]
+        this.getList()
       },
       getList: function () {
         this.$axios.get('/api/application/application/', {
@@ -410,8 +424,8 @@
           type: this.change_status
         })
           .then(res => {
-            if(res.data.status === 1) {
-              this.$message("成功")
+            if (res.data.status === 1) {
+              this.$message.success("成功")
               this.canceldialog = false
               this.getList()
             }
@@ -494,7 +508,8 @@
   .parentbusinessapplication >>> .el-date-editor .el-range__icon {
     margin-left: 0;
   }
-  .parentbusinessapplication >>> .el-radio__input.is-checked .el-radio__inner{
+
+  .parentbusinessapplication >>> .el-radio__input.is-checked .el-radio__inner {
     background: #f17128;
     border: #f17128;
   }
