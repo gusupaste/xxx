@@ -91,7 +91,7 @@
     .fileDetail .recordHead {
         border-bottom: 1px solid #bbb;
         color:#101010;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 600;
         padding: 10px;
     }
