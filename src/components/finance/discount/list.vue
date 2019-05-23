@@ -415,7 +415,12 @@
       },
       getStudentInfo:function (type) {
         var _this = this;
-        var url = this.getList_url+ '-1&type='+type+'&center_id=50';
+        var d_type = -1;
+        if(this.dis_type !== ''){
+          d_type = this.dis_type;
+        }
+        var url = this.getList_url+ d_type +'&type='+type+'&center_id='+this.school+
+          '&province_id='+this.city+'&area_id='+this.area+'&intercity_id='+this.intercity+'&hq_id='+this.brand;
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200 && res.data.status_code == 1) {
