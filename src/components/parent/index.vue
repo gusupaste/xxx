@@ -26,16 +26,10 @@
           <td>学生状态</td>
           <td colspan="3">
             <el-radio-group v-model="parentApplicationDetail.student_info.status">
-              <el-radio v-if="parentApplicationDetail.student_info.status === 'Prepare'" label="Prepare">预备生
-              </el-radio>
-              <el-radio v-else disabled label="Prepare">预备生</el-radio>
-              <el-radio v-if="parentApplicationDetail.student_info.status === 'Formal'" label="Formal">在校生</el-radio>
-              <el-radio v-else disabled label="Formal">在校生</el-radio>
-              <el-radio v-if="parentApplicationDetail.student_info.status === 'Abort'" label="Abort">离园生</el-radio>
-              <el-radio v-else disabled label="Abort">离园生</el-radio>
-              <el-radio v-if="parentApplicationDetail.student_info.status === 'Graduation'" label="Graduation">毕业生
-              </el-radio>
-              <el-radio v-else disabled label="Graduation">毕业生</el-radio>
+              <el-radio disabled label="Prepare">预备生</el-radio>
+              <el-radio disabled label="Formal">在校生</el-radio>
+              <el-radio disabled label="Abort">离园生</el-radio>
+              <el-radio disabled label="Graduation">毕业生</el-radio>
             </el-radio-group>
           </td>
         </tr>
@@ -285,7 +279,7 @@
                       type: 'success',
                       message: '保存成功！'
                     })
-                    //this.$router.go(-1)
+                    this.$router.go(-1)
                   }
                 }).catch(err => {
               })
@@ -323,5 +317,10 @@
   }
   .parent >>> .el-form-item__content {
     line-height: 0;
+  }
+
+  .parent >>> .el-radio__input.is-checked .el-radio__inner{
+    background: #f17128;
+    border: #f17128;
   }
 </style>
