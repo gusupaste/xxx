@@ -132,7 +132,9 @@
             <td>{{parentApplicationDetail.student_info.class_name}}</td>
             <td>班级主讲</td>
             <td>
-              <el-input v-model="application_detail.main_speaker" placeholder="请输入"></el-input>
+              <el-form-item prop="main_speaker">
+                <el-input v-model="application_detail.main_speaker" placeholder="请输入"></el-input>
+              </el-form-item>
             </td>
           </tr>
           <tr>
@@ -194,7 +196,9 @@
           <tr>
             <td>联系电话</td>
             <td>
+              <el-form-item prop="telephone">
               <el-input placeholder="请输入" v-model="application_detail.telephone"></el-input>
+              </el-form-item>
             </td>
             <td>手机号码<span class="red">*</span></td>
             <td>
@@ -501,7 +505,8 @@
   .parentbusinessapplication .el-dialog-table >>> .el-radio {
     margin-right: 15px;
   }
-  .parentbusinessapplication .el-dialog-table >>> .el-form-item__content{
+
+  .parentbusinessapplication .el-dialog-table >>> .el-form-item__content {
     line-height: 0;
   }
 </style>
