@@ -110,6 +110,12 @@
               <calendar ref="calendar"
                         :markDateMore='attendance'
               ></calendar>
+              <!--<Calendar
+                ref="Calendar"
+                :textTop="textTop"
+                :markDateMore='day_list'
+                :sundayStart="true"
+              ></Calendar>-->
             </div>
             <div class="calendar-datail">
               <p>考勤状态说明</p>
@@ -121,7 +127,7 @@
                 <span style="background-color:#c5e1a5" class="calendar-suqre"></span>
                 <span class="mr26">正常出勤</span>
                 <span style="background-color:#9fa8da" class="calendar-suqre"></span>
-                <span class="mr26">休学</span>
+                <span class="mr26">缺勤</span>
               </div>
             </div>
           </div>
@@ -143,6 +149,7 @@
         months: '',
         class_id: '',
         academic_year_list: [],
+        textTop:['Su','Mo','Tu','We','Th','Fr','Sa'],
         months_list: [],
         classes: [],
         tableData: [],
@@ -158,6 +165,7 @@
         year_url:'/api/common/select/academic_year_list/',/*学年*/
         month_url:'/api/common/select/months_for_academic_year/?academic_year_id=',
         getList_url:'/api/attendance/students_attendance/annotate/?attendance_date=',
+        getStudentAtt_url:'/api/attendance/students_attendance/student_attendance_annotate/?attendance_date=',
         year_list:[],
       }
     },
@@ -285,38 +293,43 @@
       handleCurrentChange: function (currentPage) {
         this.currentPage = currentPage
       },
+      getStudentOne:function (id) {
+        var url = this.getStudentAtt_url+ this.months +'&class_id='+ this.class_id +'&student_id=1';
+        this.$axios.get(url, {}).then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            var dates = res.data.day_list;
+            for(var x in dates){
+              var data = {};
+              data.date = dates[x].date;
+              if(dates[x].className === -1){
+                data.className = 'mark0';
+              }else if(dates[x].className === 0){
+                data.className = 'mark1';
+              }else if(dates[x].className === 1){
+                data.className = 'mark2';
+              }else if(dates[x].className === 2){
+                data.className = 'mark3';
+              }else if(dates[x].className === 3){
+                data.className = 'mark4';
+              }
+              this.attendance.push(data);
+            }
+            this.$nextTick(() => {
+              this.$refs.calendar.ChoseMonth(this.months)
+            });
+            this.detail = true
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       attendanceDetail: function (obj) {
-        this.detail = true
+        this.getStudentOne(obj.student_id);
         this.student_name = obj.student_name
         this.should_att = obj.total
         this.att_num = obj.present
-        this.attendance_rate = obj.present_rate
-        var year = this.months.substr(0, 4)
-        var month = this.months.substr(5, 2)
-        if (month < 10) {
-          month = this.months.substr(6, 1)
-        }
-        var arr = obj.attendance
-        for (var i = 0; i < arr.length; i++) {
-          var son = new Object
-          //alert(this.months.substr(8, 2))
-          son.date = year + '/' + month + '/' + (i + 1)
-          if (arr[i] === '1') {
-            son.className = 'mark1'
-          } else if (arr[i] === '2') {
-            son.className = 'mark2'
-          } else if (arr[i] === '3') {
-            son.className = 'mark3'
-          } else if (arr[i] === '4') {
-            son.className = 'mark4'
-          } else {
-            son.className = 'mark0'
-          }
-          this.attendance.push(son)
-        }
-        this.$nextTick(() => {
-          this.$refs.calendar.ChoseMonth(this.months)
-        });
+        this.attendance_rate = obj.present_rate;
       }
     }
   }
@@ -397,7 +410,7 @@
   }
 
   .attendanceStatistics >>> .mark1 {
-    background-color: #f28e91;
+    background-color: #c5e1a5;
   }
 
   .attendanceStatistics >>> .mark2 {
@@ -405,7 +418,7 @@
   }
 
   .attendanceStatistics >>> .mark3 {
-    background-color: #c5e1a5;
+    background-color: #f28e91;
   }
 
   .attendanceStatistics >>> .mark4 {
