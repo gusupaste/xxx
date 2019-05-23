@@ -190,13 +190,12 @@
         <el-row>
           <el-col :span="24">
             <el-form-item>
-              {{ tableForm }}
-              <table id="id-add-table" style="width: 100%" v-for="(table,index) in tableForm">
+              <table id="id-add-table" style="width: 100%" v-for="(table,index) in tableForm" :key="index">
                 <table class="condition_table">
                   <tr>
                     <td style="width: 5rem" class="text-align-center">条件1:</td>
                     <td class="select-pere">
-                      <template v-for="(con,con_index) in table.condition">
+                      <span v-for="(con,con_index) in table.condition" :key="index + con_index">
                         <el-select style="width: 100px;" v-model="con.select_name">
                           <el-option value=">" label="大于"></el-option>
                           <el-option value="<" label="小于"></el-option>
@@ -215,7 +214,7 @@
                           <el-option :value="Number(1)" label="且"></el-option>
                           <el-option :value="Number(2)" label="或"></el-option>
                         </el-select>
-                      </template>
+                      </span>
                     </td>
                     <td style="width: 2rem" rowspan="2" class="text-align-center"><i @click="tr_delete(index)"
                                                                                      class="fa fa-trash-o red"></i></td>
@@ -223,8 +222,8 @@
                   <tr>
                     <td class="text-align-center">审批流:</td>
                     <td>
-                      <template v-for="(app,app_index) in table.approve">
-                        <el-select style="width: 120px;" :key="app_index" v-model="app.role_id"
+                      <span v-for="(app,app_index) in table.approve" :key="index + app_index">
+                        <el-select style="width: 120px;" v-model="app.role_id"
                                    @change="addApprove($event,app_index,index)">
                           <el-option v-for="role in roleList"
                                      :key="role.id"
@@ -233,7 +232,7 @@
                         </el-select>
                         <span style="color: #A0A0A0" v-show="app.role_id !== 0"><i
                           class="fa fa-long-arrow-right"></i></span>
-                      </template>
+                      </span>
                     </td>
                   </tr>
                 </table>
@@ -249,7 +248,7 @@
           <el-col :span="24">
             <el-form-item label="互斥折扣: ">
               <el-checkbox-group v-model="exist_discount_type_value" style="text-align: left">
-                <el-checkbox name="type" v-for="(type,index) in exist_discount_type" :key="index"
+                <el-checkbox name="type" v-for="type in exist_discount_type" :key="index + type.id"
                              :label="type.id">{{type.name}}
                 </el-checkbox>
               </el-checkbox-group>
