@@ -168,7 +168,7 @@
     export default {
       data() {
         return {
-          no: 210518143,
+          no: Number(this.$route.query.no),
           parentApplicationDetail: {
             student_info: {},
             application_type: [],

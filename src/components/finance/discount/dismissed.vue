@@ -154,8 +154,8 @@
         </el-table>
       </div>
         <div class="mt26 text-align-center">
-                <button class="btn bg-grey">返回</button>
-                <!--<button class="btn bg-green">提交</button>-->
+                <button class="btn bg-grey" @click="cancel">返回</button>
+          <!--<button class="btn bg-green">提交</button>-->
         </div>
     </div>
 </template>
@@ -213,6 +213,9 @@ export default {
       this.getInfo();
     },
     methods:{
+      cancel:function () {
+        this.$router.push('/financemanagement/discount');
+      },
       getInfo:function(){
         var _this = this;
         var url = '/api/discount/discount_management/'+this.$route.params.id+'/get_discount_info/';
