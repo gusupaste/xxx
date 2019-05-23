@@ -125,9 +125,6 @@
           <span>
             已收金额合计：<b class="red font-size-16">{{bill_info.pay_amount}}</b>
           </span>
-          <span>
-            当期余额：<b class="red font-size-16">0</b>
-          </span>
         </div>
         <div class="mt26 tableList">
           <p class="font-size-14 bold">历史账单：</p>
