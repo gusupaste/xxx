@@ -32,11 +32,10 @@ axios.interceptors.request.use(
   config => {
     // config.baseURL = 'http://192.168.1.197:8000'; //陈帅taidiinet
     // config.baseURL = 'http://192.168.199.157:8000'; //陈帅taidiinet
-    config.baseURL = 'http://192.168.1.203:8000'; //郭醒taidiinet
+    // config.baseURL = 'http://192.168.1.203:8000'; //郭醒taidiinet
     // config.baseURL = 'http://192.168.1.187:8000'; //徐文琪taidiinet
-    // config.baseURL = 'http://134.175.93.59:8000';
-    // config.baseURL = 'http://192.168.199.157:8000';
-    // config.baseURL = 'http://etonkids.taidii.cn/';
+    // config.baseURL = 'http://134.175.93.59:8000'; //翟帅帅
+    // config.baseURL = 'http://etonkids.taidii.cn/'; //dev
     config.headers.post['Content-Type'] = 'application/json;utf-8';
     config.headers.common['Authorization'] = "jwt "+VueCookies.get('token') || '';
     // config.headers.common["If-Modified-Since"] = 0;
