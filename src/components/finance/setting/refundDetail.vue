@@ -451,7 +451,7 @@
         </tbody>
       </table>
       <div class="mt26 text-align-center">
-        <button class="btn bg-grey mr26" @click="">取消</button>
+        <button class="btn bg-grey mr26" @click="cancel">取消</button>
         <button class="btn bg-green" @click="submit('saveForm')">提交</button>
       </div>
     </div>
@@ -671,6 +671,10 @@ export default {
         }
     },
     methods:{
+      cancel:function () {
+        console.log('as.dkklghjkshdjkg');
+        this.$router.push('/financemanagement/setting');
+      },
       getLists:function () {
         this.getGoodFee();
         this.getMonthPay();

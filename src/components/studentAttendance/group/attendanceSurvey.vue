@@ -69,14 +69,14 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :disabled="selectDisable" @click="getAttendanceList">搜索</el-button>
+        <el-button type="primary" :disabled="selectDisable" @click="getAttendanceListType">搜索</el-button>
       </el-form-item>
     </el-form>
     <el-container class="school-attendance mt10">
       <el-aside width="70%">
         <p>考勤详细概况：</p>
         <div class="local-month mt10">
-          当月出勤率：<span class="font-size-20 red">{{rate}}%   </span> ； 4月已过 <span class="font-size-20 red">{{present}} </span> 个工作日 ； 当月有 <span
+          当月出勤率：<span class="font-size-20 red">{{rate}}%   </span> ； 当月已过 <span class="font-size-20 red">{{present}} </span> 个工作日 ； 当月有 <span
           class="font-size-20 red">{{total}}  </span> 个工作日
         </div>
         <el-table
@@ -90,20 +90,19 @@
             width="180">
           </el-table-column>
           <el-table-column
-            prop="attendance_num"
+            prop="total"
             label="应到学生数"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="students_num"
+            prop="present"
             label="当前实际签到数">
           </el-table-column>
           <el-table-column
-            prop="attendance_rate"
+            prop="present_rate"
             label="出勤率">
           </el-table-column>
           <el-table-column
-            prop="address"
             label="操作">
             <template slot-scope="scope">
               <router-link :to="{path:'/studentattendance/detail/'+scope.row.class_id, query: { class_name: scope.row.class_name }}">
@@ -243,8 +242,25 @@
       }
     },
     methods: {
+      getAttendanceListType:function () {
+        if(this.class_type !== ''){
+          this.getAttendanceList ();
+        }else{
+          this.$message.warning('请选择班型');
+        }
+      },
       getAttendanceList () {
         this.$axios.get('/api/hq/hq_attendance/?center_id=' + this.school + '&class_type_id=' + this.class_type).then(res => {
+          this.loading = false
+          if (res.status == 200) {
+            this.attendanceList = res.data.data.class_list
+            this.rate = res.data.data.all_present_rate
+            this.present = res.data.data.passed_workday
+            this.total = res.data.data.total_workday
+          } else {
+
+          }
+        /*this.$axios.get('/api/hq/hq_attendance/?center_id=' + this.school + '&class_type_id=' + this.class_type).then(res => {
           this.loading = false
           if (res.status == 200 && res.data.status == 1) {
             this.attendanceList = res.data.data.attendance_list
@@ -253,7 +269,7 @@
             this.total = res.data.data.total
           } else {
 
-          }
+          }*/
         }).catch(err => {
           console.log(err)
         })
