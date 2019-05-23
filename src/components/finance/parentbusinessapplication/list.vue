@@ -445,7 +445,7 @@
   }
 
   .parentbusinessapplication .header-top p {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .parentbusinessapplication >>> .el-select {

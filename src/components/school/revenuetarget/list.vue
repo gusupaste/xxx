@@ -176,7 +176,7 @@
           params:this.form
         })
         .then(res=>{
-            res.data.results.forEach(item=>{    
+            res.data.results.forEach(item=>{
               item.edit = false;
               if(item.total == ''){
                 item.total = '— —';
@@ -210,7 +210,7 @@
                 type:'success',
                 message:'编辑成功！'
               })
-            row.edit = false;  
+            row.edit = false;
             // _this.getList();
             }
         })
@@ -270,7 +270,7 @@
   }
 
   .enrollmentnumber .header-top p {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .enrollmentnumber >>> .el-button--text {

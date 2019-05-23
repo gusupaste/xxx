@@ -141,7 +141,7 @@ export default {
         this.$cookies.set('key',key);
       },
       getPermission(){
-        
+
       }
   }
 }
@@ -186,7 +186,7 @@ export default {
     right: 0;
   }
   .homePage_menu .userInfo span {
-    font-size: 14px;
+    font-size: 12px;
   }
   .homePage_menu .is-active {
     background-color: #f17128 !important;

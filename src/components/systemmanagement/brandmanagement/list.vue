@@ -163,7 +163,7 @@
 </template>
 <style scoped>
   .brandmanagement .header p{
-    font-size: 14px;
+    font-size: 12px;
   }
   .brandmanagement{
     color: rgba(160, 160, 160, 1);

@@ -235,11 +235,11 @@
         border-bottom: 1px solid #d5d5d5;
     }
     .new-calendar-modal  .header p{
-        font-size: 14px;
+        font-size: 12px;
         margin: 10px 0px;
     }
     .new-calendar-modal >>> .el-dialog__title{
-        font-size: 14px;
+        font-size: 12px;
     }
     .new-calendar-modal >>> .el-dialog{
         min-width: 600px;
