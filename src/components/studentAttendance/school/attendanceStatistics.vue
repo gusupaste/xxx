@@ -126,8 +126,8 @@
                 <span class="mr26">病假</span>
                 <span style="background-color:#c5e1a5" class="calendar-suqre"></span>
                 <span class="mr26">正常出勤</span>
-                <span style="background-color:#9fa8da" class="calendar-suqre"></span>
-                <span class="mr26">缺勤</span>
+                <!--<span style="background-color:#9fa8da" class="calendar-suqre"></span>
+                <span class="mr26">缺勤</span>-->
               </div>
             </div>
           </div>
@@ -275,7 +275,7 @@
         this.currentPage = val
         /*this.$axios.get('/api/attendance/students_attendance/annotate/?class_id=' + this.class_id + '&attendance_date='
           + this.months + '&page=' + this.currentPage, {}).then(res => {*/
-        var url = this.getList_url+ this.year +'&class_id='+ this.class_id;
+        var url = this.getList_url+ this.months +'&class_id='+ this.class_id;
         this.$axios.get(url, {}).then(res => {
           this.loading = false
           if (res.status === 200) {
@@ -296,7 +296,10 @@
       getStudentOne:function (id) {
         var url = this.getStudentAtt_url+ this.months +'&class_id='+ this.class_id +'&student_id=1';
         this.$axios.get(url, {}).then(res => {
-          this.loading = false
+          this.loading = false;
+          this.should_att = res.data.report_data.total_workday
+          this.att_num = res.data.report_data.passed_workday
+          this.attendance_rate = res.data.report_data.present_rate;
           if (res.status === 200) {
             var dates = res.data.day_list;
             for(var x in dates){
@@ -327,9 +330,9 @@
       attendanceDetail: function (obj) {
         this.getStudentOne(obj.student_id);
         this.student_name = obj.student_name
-        this.should_att = obj.total
+        /*this.should_att = obj.total
         this.att_num = obj.present
-        this.attendance_rate = obj.present_rate;
+        this.attendance_rate = obj.present_rate;*/
       }
     }
   }

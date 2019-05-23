@@ -13,7 +13,7 @@
       <el-form-item label="学生：">
         <el-select v-model="student_id" @change="getDetailInfo">
           <el-option
-            v-for="item in students_info"
+            v-for="item in students_list"
             :key="item.id"
             :label="item.name"
             :value="item.id">
@@ -44,8 +44,8 @@
               <span class="mr26">病假</span>
               <span style="background-color:#c5e1a5" class="calendar-suqre"></span>
               <span class="mr26">正常出勤</span>
-              <span style="background-color:#9fa8da" class="calendar-suqre"></span>
-              <span class="mr26">休学</span>
+              <!--<span style="background-color:#9fa8da" class="calendar-suqre"></span>
+              <span class="mr26">休学</span>-->
             </div>
           </div>
         </div>
@@ -123,13 +123,12 @@
   .attendanceDetail >>> .wh_container {
     max-width: 100%;
   }
-
   .attendanceDetail >>> .mark0 {
     background-color: white;
   }
 
   .attendanceDetail >>> .mark1 {
-    background-color: #f28e91;
+    background-color: #c5e1a5;
   }
 
   .attendanceDetail >>> .mark2 {
@@ -137,7 +136,7 @@
   }
 
   .attendanceDetail >>> .mark3 {
-    background-color: #c5e1a5;
+    background-color: #f28e91;
   }
 
   .attendanceDetail >>> .mark4 {
@@ -160,6 +159,8 @@
         att_num: 0,
         should_att: 0,
         attendance: [],
+        getStudentAtt_url:'/api/attendance/students_attendance/student_attendance_annotate/?',
+        student_url:'/api/center/select/students_for_center_class_year/?center_class_year_id=1',
         formLabelAlign: {
           name: '',
           region: '',
@@ -171,57 +172,53 @@
       Calendar
     },
     mounted: function () {
-      this.getDetailInfo()
+      this.getStudentInfo();
+      /*this.getDetailInfo();*/
     },
     methods: {
+      getStudentInfo: function () {
+        this.$axios.get('/api/center/select/students_for_center_class_year/?center_class_year_id=' + this.class_id).then(res => {
+          this.loading = false
+          if (res.status == 200 && res.data.status_code == 1) {
+            this.students_list = res.data.results;
+            this.student_id = res.data.results[0].id;
+            this.getDetailInfo();
+          }else{
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+    },
       getDetailInfo: function () {
         if (this.student_id === 0) {
           this.student_id = ''
         }
-        this.$axios.get('/api/hq/hq_attendance/detail_info/?class_id=' + this.class_id + '&student_id=' + this.student_id).then(res => {
-          this.loading = false
-          if (res.status == 200 && res.data.status == 1) {
-            this.students_info = res.data.data.students_info
-            if (this.student_id === '') {
-              this.student_id = this.students_info[0].id
-              this.student_name = this.students_info[0].name
-            } else {
-              for (var i = 0; i < this.students_info.length; i++) {
-                if (this.student_id === this.students_info[i].id) {
-                  this.student_name = this.students_info[i].name
-                  break
+          var url = this.getStudentAtt_url+ 'class_id='+ this.class_id +'&student_id=1';
+          this.$axios.get(url, {}).then(res => {
+            this.loading = false
+            if (res.status === 200) {
+              var dates = res.data.day_list;
+              for(var x in dates){
+                var data = {};
+                data.date = dates[x].date;
+                if(dates[x].className === -1){
+                  data.className = 'mark0';
+                }else if(dates[x].className === 0){
+                  data.className = 'mark1';
+                }else if(dates[x].className === 1){
+                  data.className = 'mark2';
+                }else if(dates[x].className === 2){
+                  data.className = 'mark3';
+                }else if(dates[x].className === 3){
+                  data.className = 'mark4';
                 }
+                this.attendance.push(data);
               }
+              this.$nextTick(() => {
+                this.$refs.calendar.ChoseMonth(this.months)
+              });
+              this.detail = true
             }
-            this.should_att = res.data.data.should_att
-            this.att_num = res.data.data.att_num
-            this.attendance_rate = res.data.data.attendance_rate
-            var arr = res.data.data.attendance
-            var months = document.getElementById('span_date').innerHTML
-            var year = months.substr(0, 4)
-            var month = months.substr(5, 2)
-            if (month < 10) {
-              month = months.substr(6, 1)
-            }
-            for (var i = 0; i < arr.length; i++) {
-              var son = new Object()
-              son.date = year + '/' + month + '/' + (i + 1)
-              if (arr[i] === '1') {
-                son.className = 'mark1'
-              } else if (arr[i] === '2') {
-                son.className = 'mark2'
-              } else if (arr[i] === '3') {
-                son.className = 'mark3'
-              } else if (arr[i] === '4') {
-                son.className = 'mark4'
-              } else {
-                son.className = 'mark0'
-              }
-              this.attendance.push(son)
-            }
-          } else {
-
-          }
         }).catch(err => {
           console.log(err)
         })
