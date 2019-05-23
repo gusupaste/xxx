@@ -528,7 +528,7 @@ export default new Router({
           component: AdddiscountApplication
         },
         {
-          path: '/financemanagement/discountApplicationDetail/:id',
+          path: '/financemanagement/discountApplicationDetail/:id/:status',
           name: 'DiscountApplicationDetail',
           component: DiscountApplicationDetail
         },

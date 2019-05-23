@@ -92,7 +92,7 @@
             prop="address"
             label="操作">
             <template slot-scope="scope">
-                <i class="fa fa-search orange font-size-20 ml10 cur" @click="$router.push('/financemanagement/discountApplicationDetail/'+ scope.row.form_id)"></i>
+                <i class="fa fa-search orange font-size-20 ml10 cur" @click="routerPush(scope.row)"></i>
             </template>
             </el-table-column>
         </el-table>
@@ -109,7 +109,7 @@ export default {
             status_list:[
               {
                 id:0,
-                name:'审批中'
+                name:'待审批'
               },
               {
                 id:1,
@@ -135,6 +135,17 @@ export default {
         this.getList();
     },
     methods: {
+        routerPush:function (obj) {
+          var status = 0;
+          if(obj.form_status === '待审批'){
+            status = 0;
+          }else if(obj.form_status === '已批准'){
+            status = 1;
+          }else{
+            status = 2;
+          }
+          this.$router.push('/financemanagement/discountApplicationDetail/'+ obj.form_id+'/'+status);
+        },
         /*学年*/
         getYearList:function () {
           var _this = this;
