@@ -70,6 +70,12 @@ export default {
     created () {
         this.center = this.$cookies.get('userInfo').center;
         this.getClass();
+        // 改写插件方法
+        Calendar.methods.clickDay = function(item,index){
+            if (item.otherMonth === "nowMonth" && !item.dayHide) {
+                this.getList(this.myDate, item.date);
+            }
+        }
     },
     methods: {
         getYear(){

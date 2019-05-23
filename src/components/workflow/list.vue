@@ -56,7 +56,7 @@
               label="操作">
               <template slot-scope="scope">
                 <el-button type="text" size="small"
-                           @click="approveDetail(0,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level)">查看
+                           @click="approveDetail(0,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level,scope.row.form_kind__code)">查看
                 </el-button>
               </template>
             </el-table-column>
@@ -181,10 +181,10 @@
           console.log(err)
         })
       },
-      approveDetail: function (status, formId, formKindId, approveLevel) {
+      approveDetail: function (status, formId, formKindId, approveLevel, formKindCode) {
         this.$router.push({
           name: 'workflowDetail',
-          query: {status: status, formId: formId, formKindId: formKindId, approveLevel: approveLevel}
+          query: {status: status, formId: formId, formKindId: formKindId, approveLevel: approveLevel, formKindCode: formKindCode}
         })
       },
       handleClick: function (val) {
