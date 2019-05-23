@@ -82,7 +82,7 @@
           <td>手机号码<span class="red">*</span></td>
           <td>
             <el-form-item prop="cell_phone">
-              <el-input placeholder="请输入" maxlength="11" oninput ="value=value.replace(/[^0-10.]/g,'')" v-model.trim="application_detail.cell_phone"></el-input>
+              <el-input placeholder="请输入" maxlength="11" oninput ="value=value.replace(/[^0-9.]/g,'')" v-model.trim="application_detail.cell_phone"></el-input>
             </el-form-item>
           </td>
         </tr>
