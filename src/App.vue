@@ -2,11 +2,11 @@
 <template>
   <div id="app">
     <!-- 其他页 -->
-    <div v-if="this.$route.name !== 'login'">
+    <div v-if="this.$route.name !== 'login' && this.$route.name !== 'parent'">
       <header-nav></header-nav>
       <router-view></router-view>
     </div>
-    <div v-if="this.$route.name == 'login'">
+    <div v-if="this.$route.name == 'login' || this.$route.name == 'parent'">
       <router-view></router-view>
     </div>
     

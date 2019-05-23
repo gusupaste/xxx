@@ -136,6 +136,20 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="12">
+            <el-form-item label="学年: ">
+              <el-select v-model="discountForm.academic_year_id">
+                <el-option
+                  v-for="item in yearList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="10">
             <el-form-item label="缴费金额: ">
               <el-input v-model="discountForm.discount_money" size="small" placeholder="缴费金额"></el-input>
@@ -234,6 +248,7 @@
         intercityList: [],
         areaList: [],
         schoolList: [],
+        yearList: [],
         checkList: {},
         checkSchoolList: {},
         discountForm: {},
@@ -246,6 +261,7 @@
     },
     mounted: function () {
       this.getEnrollmentDiscountList(1)
+      this.getYear()
     },
     watch: {
       currentPage () {
@@ -301,6 +317,7 @@
             end_date: '',
             pay_end_date: '',
             pay_type: 0,
+            academic_year_id: this.yearList[0].id,
             discount_money: ''
           }
         } else {
@@ -309,6 +326,12 @@
         }
         this.id = flag
         this.addDiscountVisible = true
+      },
+      getYear(){
+        this.$axios.get('/api/common/select/academic_year_list/')
+          .then(res=>{
+            this.yearList = res.data.results;
+          })
       },
       getDetailById: function (id) {
         this.$axios.get('/api/discount/discount_type_management/' + id + '/discount_type_info/')
@@ -423,6 +446,7 @@
             start_date: this.discountForm.start_date,
             end_date: this.discountForm.end_date,
             pay_end_date: this.discountForm.pay_end_date,
+            academic_year_id: this.discountForm.academic_year_id,
             pay_type: this.discountForm.pay_type,
             discount_money: this.discountForm.discount_money,
             type: 1,
@@ -441,6 +465,7 @@
             end_date: this.discountForm.end_date,
             pay_end_date: this.discountForm.pay_end_date,
             pay_type: this.discountForm.pay_type,
+            academic_year_id: this.discountForm.academic_year_id,
             discount_money: this.discountForm.discount_money,
             mutex_list: this.exist_discount_type_value,
           }).then(res => {

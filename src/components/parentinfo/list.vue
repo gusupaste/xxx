@@ -282,7 +282,7 @@
 </template>
 <style scoped>
   .parentinfo .header p{
-    font-size: 14px;
+    font-size: 12px;
   }
   .parentinfo{
     color: rgba(160, 160, 160, 1);

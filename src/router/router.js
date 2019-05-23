@@ -190,7 +190,7 @@ export default new Router({
       path: '/parent',/*家长信息*/
       name: 'parent',
       component: Parent,
-      meta: { requiresAuth: true, keepAlive: false },
+      // meta: { requiresAuth: true, keepAlive: false },
     },
     {
       path: '/parentInfo',/*家长信息*/
@@ -408,7 +408,7 @@ export default new Router({
           component: DiscountApproval
         },
         {
-          path: '/financemanagement/dismissed/:id',
+          path: '/financemanagement/dismissed/:id/:status',
           name: 'discountDismissed',
           component: DiscountDismissed
         },
@@ -528,7 +528,7 @@ export default new Router({
           component: AdddiscountApplication
         },
         {
-          path: '/financemanagement/discountApplicationDetail/:id',
+          path: '/financemanagement/discountApplicationDetail/:id/:status',
           name: 'DiscountApplicationDetail',
           component: DiscountApplicationDetail
         },

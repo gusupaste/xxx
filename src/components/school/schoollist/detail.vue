@@ -109,7 +109,7 @@
                       </el-table>
                     </div>
             </div>
-            
+
           </el-tab-pane>
           <el-tab-pane label="基础设施" name="second">
               <div style="padding:0 20px">
@@ -318,7 +318,7 @@
           title="添加老师"
           :visible.sync="addinnerVisible"
           append-to-body>
-          <p style="font-size:16px">{{schoolInfo.name}}</p>
+          <p style="font-size:12px">{{schoolInfo.name}}</p>
           <p class="mt10">
             <span>搜索：</span>
             <el-input v-model="searchPerson" style="width:164px"></el-input>
@@ -370,7 +370,7 @@
         border-bottom: 1px solid #d5d5d5;
     }
     .schooldetail >>> .el-dialog__title{
-        font-size: 14px;
+        font-size: 12px;
     }
     .schooldetaill >>> .el-dialog{
         min-width: 600px;
@@ -647,7 +647,7 @@
         this.delete_name = item.name;
         this.delete_id = item.id;
       },
-      editClass(item){   
+      editClass(item){
         this.delete_name = item.name;
         this.edit_id = item.id;
         var _this = this;
@@ -659,7 +659,7 @@
 
         })
       },
-      sureUpdate(formName){   
+      sureUpdate(formName){
         var _this = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -745,7 +745,7 @@
             console.log('error submit!!');
             return false;
           }
-        }); 
+        });
       },
       viewSchoolCalendar(item){
         console.log(this.schoolInfo)
@@ -768,7 +768,7 @@
           } else {
             this.editform.status = 1;
           }
-        } 
+        }
       },
       addClass(formName){
           this.dialogFormVisible=true;

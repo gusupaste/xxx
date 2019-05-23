@@ -272,15 +272,18 @@
         letter-spacing: 5px;
     }
     .homeView .user_search_wrap {
-        width: 70%;
+        width: 73%;
         text-align: left;
     }
     .homeView .logo_name {
         font-size: 24px;
     }
+    .homeView >>>.w250_input .el-input__inner{
+      width: 165px !important;
+    }
     .homeView .school_calendar {
         text-align: left;
-        margin-left: 5%;
+        margin-left: 2%;
         width: 300px;
     }
     .homeView .viewAll{

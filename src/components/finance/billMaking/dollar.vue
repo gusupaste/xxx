@@ -97,7 +97,7 @@
                      <span class="bold font-size-20 red "> ¥{{addform.pay_amount}}</span>
                 </el-form-item>
                 <el-form-item label="" label-width="120px">
-                     <span>合计缴费金额大于应收金额，多余2000.00元将自动结转进备用金</span>
+                     <span>合计缴费金额大于应收金额，多余{{left_money}}元将自动结转进备用金</span>
                 </el-form-item>
             </el-form>
         </div>
@@ -130,10 +130,6 @@
                 </el-table-column>
                 <el-table-column
                 prop="address"
-                label="欠费">
-                </el-table-column>
-                <el-table-column
-                prop="address"
                 label="备用金">
                 <template slot-scope="scope" >
                     <span v-if="scope.row.can_reserved_fund === 1">
@@ -148,10 +144,6 @@
                 <template slot-scope="scope" >
                     <el-input v-model="addform.bill_item_list[scope.$index].pay_amount" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                 </template>
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="本期余额">
                 </el-table-column>
             </el-table>
         </div>
@@ -327,7 +319,9 @@ export default {
                 this.addform.is_invoice = 0;
             }
             this.addform.reserve_fund_used = this.use_fund;
-            console.log(this.addform.reserve_fund_used = this.use_fund)
+            // this.addform.bill_item_list.forEach(item=>{
+                
+            // })
             if(this.addform.pay_amount < this.info.amount){
                 this.$message({
                     type:'error',
@@ -343,6 +337,11 @@ export default {
                         message:'缴费成功！'
                     });
                     _this.$router.push('/financemanagement/billMaking');
+                } else {
+                    _this.$message({
+                        type:'error',
+                        message:res.data.error
+                    });
                 }
             })
         },
@@ -367,6 +366,11 @@ export default {
                 this.use_fund = this.reserved_fund;
             }
             this.gettotal();
+        }
+    },
+    computed: {
+        left_money(){
+            return this.addform.pay_amount-this.info.amount
         }
     }
 }

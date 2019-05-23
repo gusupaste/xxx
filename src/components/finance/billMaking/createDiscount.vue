@@ -427,7 +427,7 @@ export default {
                         type:"success",
                         message:"保存成功！"
                     })
-                    _this.$router.push('/financemanagement/billMaking');
+                    _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
                 }
             })
         },
@@ -492,7 +492,7 @@ export default {
                         type:"success",
                         message:"保存成功！"
                     })
-                    _this.$router.push('/financemanagement/billMaking');
+                    _this.$router.push('/financemanagement/dollar/'+res.data.bill_id);
                 }
             })
         },
@@ -539,6 +539,7 @@ export default {
             this.$axios.get('/api/finance/bill/'+this.id+'/info_single_bill/')
             .then(res=>{        
                 _this.addform = Object.assign({},res.data.data.bill_info);
+                _this.multipleTable.push(res.data.data.bill_info);
                 _this.$set(_this.addform,'start_date',res.data.data.bill_info.planned_payment_date)
                 _this.$set(_this.addform,'end_date',res.data.data.bill_info.enter_date)
                 _this.$set(_this.saveForm,'policy_id',res.data.data.bill_info.policy_id)
@@ -573,7 +574,7 @@ export default {
             var _this = this;
             this.$axios.get('/api/finance/bill/charging_policy_list/',{
                 params:{
-                    center_id:this.info.id,
+                    center_id:this.saveForm.center_id,
                     academic_year_id:this.addform.academic_year_id,
                 }
             })
@@ -600,7 +601,7 @@ export default {
             })
         },
         getSubject(){
-            console.log(this.multipleTable)
+            console.log(this.saveForm.policy_id)
             if(this.multipleTable.length == 0){
                 this.$message({
                     type:"error",
@@ -608,9 +609,16 @@ export default {
                 });
                 return
             }
+            if(this.saveForm.policy_id == ""){
+                this.$message({
+                    type:"error",
+                    message:"请选择收费政策"
+                });
+                return
+            }
             var _this = this;
             this.getPolicy();
-            this.$axios.get('/api/finance/charging_policy/1/get_available_items_for_student/',{
+            this.$axios.get('/api/finance/charging_policy/'+this.saveForm.policy_id+'/get_available_items_for_student/',{
                 params:{
                     student_id:this.multipleTable[0].id,
                     payment_method_id:this.addform.pay_method,
@@ -632,8 +640,6 @@ export default {
         },
         deleteSubject(val){
             var index = this.checkedSubject.indexOf(val);
-            console.log(index)
-            console.log(this.checkedSubject)
             this.checkedSubject.splice(index,1);
             this.multipleTable2 = this.checkedSubject;
             this.toggleSelection([val]);
@@ -650,6 +656,7 @@ export default {
         },
         changePayDate(val,row){
             var _this = this;
+            console.log(this.multipleTable)
             if(row.begin_date  && row.end_date ) {
                 if(row.end_date<row.begin_date) {
                     this.$message({

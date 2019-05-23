@@ -86,6 +86,7 @@ export default {
     return {
        orgOptions: {},
        list:[1,2,3,4,5,6,7,81,],
+       chargeTableDate:[],
        form: {
         name: '',
         region: '',
@@ -94,6 +95,7 @@ export default {
         delivery: false,
         type: [],
         resource: '',
+        
         desc: ''
       }
     }

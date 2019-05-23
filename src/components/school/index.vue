@@ -21,7 +21,7 @@
   left: 95px;
   top: 99px;
   height: 20px;
-  font-size: 14px;
+  font-size: 12px;
   /* text-align: left; */
   font-family: SourceHanSansSC-regular;
 }
