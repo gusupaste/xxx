@@ -47,11 +47,12 @@
         </el-select>
         <span class="ml20">申请日期：</span>
         <el-date-picker
-          v-model="form.application_data"
+          v-model="application_data"
           type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          @change="dataChange"
           value-format="yyyy-MM-dd">
         </el-date-picker>
       </p>
@@ -83,38 +84,47 @@
           label="姓名">
         </el-table-column>
         <el-table-column
-          prop="student_status"
           label="学生状态">
+          <template slot-scope="scope">
+              <span v-show="scope.row.student_status === 'Prepare'">预备生</span>
+              <span v-show="scope.row.student_status === 'Formal'">在校生</span>
+              <span v-show="scope.row.student_status === 'Abort'">离园生</span>
+              <span v-show="scope.row.student_status === 'Graduation'">毕业生</span>
+          </template>
         </el-table-column>
         <el-table-column
-          prop="business_type"
+          prop="application_type"
           label="业务类型">
         </el-table-column>
         <el-table-column
-          prop="parent_name"
+          prop="parent"
           label="家长姓名">
         </el-table-column>
         <el-table-column
-          prop="telephone"
+          prop="phone"
           label="联系电话">
         </el-table-column>
         <el-table-column
-          prop="update_date"
+          prop="effective_date"
           label="变更日期">
         </el-table-column>
         <el-table-column
-          prop="apply_date"
+          prop="create_date"
           label="申请日期">
         </el-table-column>
         <el-table-column
           prop="status"
           label="状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.is_use">已使用</span>
+            <span v-else>未使用</span>
+          </template>
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="applicationDetail(scope.row)" class="font-cl-blue" type="text" size="small">详情
+            <el-button @click="applicationDetail(scope.row.no)" class="font-cl-blue" type="text" size="small">详情
             </el-button>
             <span style="color: #EBEEF5">|</span>
             <el-button @click="applicationCancel(scope.row)" class="orange" type="text" size="small">作废</el-button>
@@ -122,7 +132,6 @@
         </el-table-column>
       </el-table>
     </div>
-    <el-button @click="applicationDetail" class="font-cl-blue" type="text" size="small">详情</el-button>
     <!--编辑 弹框-->
     <el-dialog title="详情页面" class="el-dialog-table" :visible.sync="detaildialog" width="50%">
       <el-form :inline="true" label-width="120px" :model="application_detail" :rules="rules" ref="application_detail">
@@ -315,7 +324,8 @@
           center_id: '',
           area_id: '',
           application_type_id: '',
-          application_data: '',
+          start_data: '',
+          end_data: '',
           status_id: "0",
           student_info: ''
         },
@@ -324,6 +334,7 @@
         schoolList: [],
         application_type: [],
         tableList: {},
+        application_data: [],
         detaildialog: false,
         canceldialog: false,
         parentApplicationDetail: {
@@ -399,17 +410,15 @@
     methods: {
       getIntercity() {
         var _this = this;
-        this.$axios.get('/api/common/intercity/',).then(res => {
-          console.log(res.data)
+        this.$axios.get('/api/common/intercity/').then(res => {
           _this.intercityList = res.data.intercity_list;
-          // _this.form.intercity_id = res.data.intercity_list[0].id;
         }).catch(err => {
           console.log(err)
         })
       },
       getArea() {
         var _this = this;
-        _this.$axios.get('/api/common/select/area_list/',)
+        _this.$axios.get('/api/common/select/area_list/')
           .then(res => {
             _this.arealist = res.data.results;
           }).catch(err => {
@@ -432,20 +441,20 @@
       },
       getApplication: function () {
         this.$axios.get('/api/application/application/', {
-          params: this.from
+          params: this.form
         })
           .then(res => {
-            //this.tableList = res.data.intercity_list
+            this.tableList = res.data
           }).catch(err => {
         })
       },
-      applicationDetail: function () {
+      applicationDetail: function (no) {
         this.detaildialog = true
-        this.getStudentInfo()
+        this.getStudentInfo(no)
         this.getApplicationReason()
       },
-      getStudentInfo: function () {
-        this.$axios.get('/api/application/student_info/210518143/')
+      getStudentInfo: function (no) {
+        this.$axios.get('/api/application/student_info/' + no)
           .then(res => {
             this.parentApplicationDetail.student_info = res.data
             this.application_detail.id = res.data.id
@@ -471,7 +480,6 @@
         })
       },
       saveApplication: function (formName) {
-        console.log(this.$refs[formName])
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$axios.post('/api/application/application/', {
@@ -492,8 +500,7 @@
               remark: this.application_detail.remark
             })
               .then(res => {
-                console.log(res)
-                if (res.data.status_code == 1) {
+                if (res.data.status === 1) {
                   this.$message({
                     type: 'success',
                     message: '保存成功！'
@@ -510,6 +517,10 @@
       },
       applicationCancel: function () {
         this.canceldialog = true
+      },
+      dataChange: function (val) {
+        this.form.start_data = val[0]
+        this.form.end_data = val[1]
       }
     }
   }
