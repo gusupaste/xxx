@@ -251,7 +251,7 @@
           <td>变更/离园日期<span class="red">*</span></td>
           <td>{{application_detail.effective_date}}</td>
           <td>提交日期</td>
-          <td>{{new Date() | formatDate}}</td>
+          <td>{{application_detail.create_date}}</td>
         </tr>
         <tr>
           <td>备注</td>
@@ -391,7 +391,6 @@
         this.$axios.get('/api/application/application/' + id)
           .then(res => {
             this.application_detail = res.data[0]
-            console.log(this.application_detail)
           }).catch(err => {
         })
       },
