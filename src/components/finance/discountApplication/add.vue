@@ -563,7 +563,7 @@ export default {
                 "center_name": _this.userInfo.center.name,
                 "student_id": _this.selected_student_info.id,
                 "student_name": _this.selected_student_info.name,
-                "student_status": _this.selected_student_info.status,
+                "student_status": _this.selected_student_info.student_status,
                 "class_type_id": _this.selected_student_info.class_type_id,
                 "center_class_id": _this.selected_student_info.center_class_id,
                 "center_class_year_id": _this.selected_student_info.center_class_year_id,
@@ -572,7 +572,7 @@ export default {
                 "prepare_pay_date": _this.pay_date,
                 "apply_term": 0,
                 "entry_date": _this.from_date,
-                "subject_id": 1111,
+                "subject_id": 1,
                 "policy_id": _this.selected_policy,
                 "policy_item_id": _this.selected_way,
                 "price": _this.sholud_price,
@@ -580,24 +580,7 @@ export default {
                 "actual_amount": 9999.99856,
                 "parents_name": _this.selected_student_info.guardian_name,
                 "apply_phone": _this.selected_student_info.guardian_telephone,
-                "discount_type_list": [
-                    {
-                        "condition_list": [],
-                        "id": 28,
-                        "condition_status": 0,
-                        "name": "翟帅来测试",
-                        "remark": "备注",
-                        "rate_or_price": 51
-                    },
-                    {
-                        "condition_list": [],
-                        "id": 28,
-                        "condition_status": 0,
-                        "name": "翟帅来测试",
-                        "remark": "备注",
-                        "rate_or_price": 51
-                    }
-                ]
+                "discount_type_list": list
             })
             .then(res=>{
                 console.log(res.data)
