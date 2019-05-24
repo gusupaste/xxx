@@ -260,50 +260,51 @@
         </span>
       </el-dialog>
       <el-dialog title="预备生离园登记" :visible.sync="leaveVisible" width="750px">
-        <el-form ref="operationForm" :model="operationForm" :rules="rules" label-width="80px">
+        <el-form ref="leveForm" :model="leveForm" :rules="rules" label-width="80px">
           <div class="oper-div">
-            <span class="title-span">学生基本信息</span><hr>
+            <span class="title-span">学生基本信息</span>
+            <hr>
             <el-row>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">姓名:</span>
-                  <span>迪小贝</span>
-                </p>
-                <p class="lable-p">
-                  <span class="labels">所属校园:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.name }}</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels">学年计划:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.academic_year }}</span>
                 </p>
               </el-col>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">年龄:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.age }}</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels">意向班级:</span>
-                  <span>迪小贝</span>
-                </p>
-                <p class="lable-p">
-                  <span class="labels">缴费区间:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.preferred_center_name }}</span>
                 </p>
               </el-col>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">性别:</span>
-                  <span>迪小贝</span>
-                </p>
-                <p class="lable-p">
-                  <span class="labels" style="width: 90px;">主教老师:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.gender }} </span>
                 </p>
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">预计入学日期:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.preferred_admission_date }}</span>
+                </p>
+              </el-col>
+              <el-col :span="8">
+                <p class="lable-p">
+                  <span class="labels">缴费区间:</span>
+                  <span>{{ studentInfo.age }}</span>
+                </p>
+              </el-col>
+              <el-col :span="16">
+                <p class="lable-p">
+                  <span class="labels">所属校园:</span>
+                  <span>{{ studentInfo.center_name }}</span>
                 </p>
               </el-col>
             </el-row>
@@ -315,15 +316,15 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">离园申请:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentRemark }}</span>
                 </p>
               </el-col>
-              <el-col :span="8">
+              <!--<el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">离园访谈:</span>
                   <span>迪小贝</span>
                 </p>
-              </el-col>
+              </el-col>-->
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">所在学年:</span>
@@ -333,27 +334,26 @@
             </el-row>
             <el-form-item label="离园日期">
               <el-date-picker
-                v-model="value1"
+                v-model="leveForm.leave_date"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="离园原因">
-              <el-radio-group v-model="radio2">
-                <el-radio :label="3">居所搬迁/父母工作调动</el-radio><br>
-                <el-radio :label="6">家庭变故</el-radio><br>
-                <el-radio :label="9">生病</el-radio><br>
-                <el-radio :label="12">其他</el-radio>
-              </el-radio-group>
-              <el-select v-model="nameSelect" @change="operationSelect(nameSelect)" placeholder="--请选择--" style="width: 180px;">
+                <el-radio v-model="leveForm.leave_reason" label="居所搬迁/父母工作调动"></el-radio><br>
+                <el-radio v-model="leveForm.leave_reason" label="家庭变故"></el-radio><br>
+                <el-radio v-model="leveForm.leave_reason" label="生病"></el-radio><br>
+                <el-radio v-model="leveForm.leave_reason" label="其他"></el-radio>
+              <!--<el-select v-model="leveForm.leave_reason" placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 180px;">
                 <el-option
                   v-for="item in operations"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value">
                 </el-option>
-              </el-select>
-              <el-input style="width: 180px;"></el-input>
+              </el-select>-->
+              <el-input style="width: 180px;" v-model="otherText"></el-input>
             </el-form-item>
           </div><hr>
           <p style="font-size: 10px;color: red;line-height: 20px;">*1.请确认该学生所有缺勤转备用金都已完成,否则不可提交离园登记</p>
@@ -362,7 +362,7 @@
         <span slot="footer" class="dialog-footer">
           <el-button @click="leaveVisible = false">取 消</el-button>
           <el-button @click="leaveShowVisible = true;leaveVisible = false">缺勤转备用金</el-button>
-          <el-button type="success">保 存</el-button>
+          <el-button type="success" @click="saveLeave('leveForm')">保 存</el-button>
         </span>
       </el-dialog>
       <el-dialog title="预备生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
@@ -380,6 +380,7 @@
     data() {
       return {
         radio2:'',
+        studentRemark:'',
         early_title:'提前入学申请',
         earlyVisible:false,
         leaveVisible:false,
@@ -393,6 +394,7 @@
           class_obj:'',
           remarks:''
         },
+        otherText:'',
         class_url:'/api/center/select/center_class_year_list/?center_id=',
         in_class_list:[],
         classList:[
@@ -494,6 +496,11 @@
         operationForm:{
 
         },
+        leveForm:{
+          name:'',
+          leave_reason: '',
+          leave_date: '',
+        },
         studentInfo:{}
       };
     },
@@ -522,7 +529,9 @@
         })
       },
       getStudentInfo:function (id,academic_year_id,center_id) {
-        this.getClassList(center_id,academic_year_id);
+        if(this.operationVisible === true){
+          this.getClassList(center_id,academic_year_id);
+        }
         var url = '/api/student/preparing_admission/'+id;
         this.loading = true
         this.$axios.get(url).then(res => {
@@ -560,6 +569,35 @@
           }
         })
       },
+      saveLeave:function (formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            var x = this.leveForm.leave_reason;
+            if(this.leveForm.leave_reason === '其他'){
+              x = this.otherText;
+            }
+            var obj = {
+              name:this.studentInfo.name,
+              leave_reason: x,
+              leave_date: this.leveForm.leave_date,
+            };
+            this.$axios.put('/api/student/prepare_list_student/'+this.studentInfo.id + '/',obj).then(res => {
+              if (res.status == 201) {
+                this.$message({
+                  type: 'success',
+                  message: '保存成功！'
+                })
+              } else {
+                this.$message.error('保存失败');
+              }
+            }).catch(err => {
+              this.$message.error('未缴纳备用金');
+            })
+          }else{
+            return false;
+          }
+        })
+      },
       handleClose (){
 
       },
@@ -581,6 +619,8 @@
           this.earlyVisible = true;
         }else{
           this.leaveVisible = true;
+          this.getStudentInfo(id,academic_year_id,center_id);
+          /*this.studentRemark = */
         }
       },
     }
