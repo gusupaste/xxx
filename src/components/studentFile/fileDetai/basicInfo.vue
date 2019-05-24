@@ -278,13 +278,13 @@ export default {
     }
   },
   mounted:function(){
-    if(localStorage.getItem('tabName') === 'first'){
+    /*if(localStorage.getItem('tabName') === 'first'){*/
       this.getOptions();
       this.getCountryOptions();
       this.getIntercity_list();
       this.getYearList();
       this.getStudentInfo();
-    }
+    /*}*/
   },
   methods:{
     /*省份*/
@@ -431,7 +431,9 @@ export default {
             this.newType.push('is_employee_child');
           }
           this.p_city_id = res.data.detail.province_city.province;
+          this.getcity_list();
           this.c_city_id = res.data.detail.province_city.city;
+          this.gettown_list();
         }
       }).catch(err=>{
         console.log(err)

@@ -278,13 +278,13 @@
       }
     },
     mounted:function(){
-      if(localStorage.getItem('studentTabName') === 'first'){
+      /*if(localStorage.getItem('studentTabName') === 'first'){*/
         this.getOptions();
         this.getCountryOptions();
         this.getIntercity_list();
         this.getYearList();
         this.getStudentInfo();
-      }
+      /*}*/
     },
     methods:{
       /*省份*/
