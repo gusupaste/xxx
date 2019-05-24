@@ -28,28 +28,23 @@
             style="width: 100%;margin-top: 10px;">
             <el-table-column
               prop="form_title"
-              label="流程名称"
-              min-width="180">
+              label="流程名称">
             </el-table-column>
             <el-table-column
               prop="apply_user__display_name"
-              label="发起人"
-              min-width="180">
+              label="发起人">
             </el-table-column>
             <el-table-column
               prop="date_created"
-              label="流程创建时间"
-              min-width="180">
+              label="流程创建时间">
             </el-table-column>
             <el-table-column
               prop="approve_user_role_name"
-              label="当前节点"
-              min-width="180">
+              label="当前节点">
             </el-table-column>
             <el-table-column
               prop="form_status"
-              label="表单状态"
-              min-width="180">
+              label="表单状态">
             </el-table-column>
             <el-table-column
               fixed="right"
@@ -85,28 +80,27 @@
             style="width: 100%;margin-top: 10px;">
             <el-table-column
               prop="form_title"
-              label="流程名称"
-              min-width="220">
+              label="流程名称">
             </el-table-column>
             <el-table-column
               prop="date_created"
-              label="流程创建时间"
-              min-width="180">
+              label="流程创建时间">
             </el-table-column>
             <el-table-column
               prop="approve_user_role_name"
-              label="当前节点"
-              min-width="180">
+              label="当前节点">
             </el-table-column>
             <el-table-column
               prop="approve_user_name"
-              label="审批人"
-              min-width="150">
+              label="审批人">
             </el-table-column>
             <el-table-column
               prop="date_updated"
-              label="任务分配时间"
-              min-width="180">
+              label="任务分配时间">
+            </el-table-column>
+            <el-table-column
+              prop="form_status"
+              label="审批状态">
             </el-table-column>
             <el-table-column
               fixed="right"
