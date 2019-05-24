@@ -58,6 +58,7 @@
                         v-model="from_date"
                         type="date"
                         format="yyyy-MM-dd"
+                        :picker-options="pickerOptions" 
                         @change="getShouldPrice"
                         placeholder="选择日期">
                     </el-date-picker>
@@ -72,13 +73,13 @@
                 </el-form-item>
                 <br>
                 <el-form-item label="学费正价：" label-width="120px">
-                    <el-select v-model="selected_policy">
+                    <el-select v-model="selected_policy" @change="getChargingWay">
                       <el-option v-for="item in charging_policy" 
                         :key="item.id"
                         :label="item.name"
                         :value="item.id"></el-option>
                     </el-select>
-                    <el-select v-model="selected_way">
+                    <el-select v-model="selected_way" @change="getPriceMonth">
                       <el-option v-for="item in charging_way" 
                         :key="item.id"
                         :label="item.subject_name"
@@ -115,7 +116,7 @@
                     <br>
                     
                     <el-form-item label="申请折扣：" label-width="120px">
-                        <el-input placeholder="请输入内容" v-model="discount_price[itemindex]">
+                        <el-input placeholder="请输入内容" v-model="discount_price[itemindex]" @change="amountPrice">
                             <template v-if="condition_status[itemindex] === 0" slot="append">%</template>
                         </el-input>
                     </el-form-item>
@@ -151,13 +152,13 @@
             </el-form-item>
              <el-form inline style="padding:10px 20px;">
                     <el-form-item label="应缴总额：" label-width="120px">
-                        --
+                        {{ amount_price }}
                     </el-form-item>
                     <el-form-item label="折扣总额：" label-width="120px">
-                        --
+                        {{ discount_count }}
                     </el-form-item>
                     <el-form-item label="折后金额：" label-width="120px">
-                        --
+                        {{ total_price }}
                     </el-form-item>
                 </el-form>
             <el-form-item>
@@ -254,6 +255,13 @@
 export default {
     data(){
         return {
+            startDate: new Date('2019-05-05').getTime(),
+            endDate: new Date('2019-05-10').getTime(),
+            pickerOptions: {
+                // disabledDate: (time) => {
+                //     return time.getTime() > new Date('2019-05-10').getTime() || time.getTime() < new Date('2019-05-05').getTime()
+                // }
+            },
             today: this.getNowFormatDate(),
             userInfo: this.$cookies.get('userInfo'),
             dialogTableVisible:false,
@@ -268,7 +276,7 @@ export default {
             charging_policy: [],
             selected_policy: null,
             charging_way: [],
-            selected_way: [],
+            selected_way: null,
             from_date: null,
             pay_date: null,
             sholud_price: null,
@@ -279,6 +287,9 @@ export default {
             discount_price: [],
             discount_remark: [],
 
+            amount_price:"--",
+            discount_count:"--",
+            total_price:"--",
             terms:[
                 {
                     id: 0,
@@ -294,8 +305,6 @@ export default {
                 },
             ],
 
-            value1:'',
-            input2:'',
             fileList:[],
             tableData: [],
             dynamicValidateForm: {
@@ -317,24 +326,31 @@ export default {
         })
     },
     methods: {
-         
+        changeRange(start,end){
+            this.pickerOptions = Object.assign({},this.pickerOptions,{
+              disabledDate: (time) => {
+                return time.getTime() > new Date(end).getTime() || time.getTime() < new Date(start).getTime()
+              }
+            })
+        },
         // 加载学业计划 申请学年
         loadData() {
             let _this = this;
-            this.$axios.get('http://192.168.1.197:8000/api/discount/select/payment_method_list/')
+            this.$axios.get('/api/discount/select/payment_method_list/')
             .then(res=>{
                 console.log(res.data)
                 _this.plans = res.data.results;
                 // _this.selected_plan = res.data.results[0].id;
             })
 
-            this.$axios.get('http://192.168.1.197:8000/api/common/select/academic_year_list/')
+            this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
                 console.log(res.data)
                 _this.years = res.data.results;
                 for(var key in res.data.results){
                     if(res.data.results[key].is_selected){
-                        _this.selected_year = res.data.results[key].id
+                        _this.selected_year = res.data.results[key].id;
+                        _this.yearSelected();
                     }
                 }
             })
@@ -346,7 +362,7 @@ export default {
                 if (_this.years[key].id == _this.selected_year) {
                     console.log("开始日期"+_this.years[key].start_date)
                     console.log("结束日期"+_this.years[key].end_date)
-                    //TODO 限制入学日期范围
+                    _this.changeRange(_this.years[key].start_date, _this.years[key].end_date)
                 }
             }
             _this.getShouldPrice();
@@ -355,8 +371,7 @@ export default {
         getStudent(name){
             //注：student_status='Prepare'预备生，student_status='Formal'在校生，不传表示所有
             let _this = this;
-            console.log(name);
-            this.$axios.get('http://192.168.1.197:8000/api/finance/select/students/',
+            this.$axios.get('/api/finance/select/students/',
             {
                 params:{
                     search_name:name,
@@ -370,14 +385,13 @@ export default {
         // 选中学生
         handleCurrentChange(val) {
             let _this = this;
-            console.log(val);
             _this.selected_student_id = val.id;
         },
         // 确认学生
         confirmStudent() {
             let _this = this;
             _this.dialogTableVisible = false
-            this.$axios.get('http://192.168.1.197:8000/api/student/student/'+_this.selected_student_id+'/student_profile/',
+            this.$axios.get('/api/student/student/'+_this.selected_student_id+'/student_profile/',
             {
                 params:{
                     academic_year_id: _this.selected_year
@@ -394,18 +408,15 @@ export default {
         // 计算学费正价
         getShouldPrice(){
             let _this = this;
-            console.log("hhhhhhhhhhh"+_this.selected_student_id)
             if (_this.selected_student_id) {
-                console.log("有学生")
                 _this.getChargingPolicy()
             }else{
-                console.log("没有学生")
             }
         },
         // 获取某校某学年学费政策
         getChargingPolicy() {
             let _this = this;
-            this.$axios.get('http://192.168.1.197:8000/api/finance/charging_policy/policies_for_center/',
+            this.$axios.get('/api/finance/charging_policy/policies_for_center/',
             {
                 params:{
                     center_id: _this.userInfo.center.id,
@@ -418,13 +429,17 @@ export default {
                 if (res.data.policy_list.length>0) {
                     _this.selected_policy = res.data.policy_list[0].id;
                     _this.getChargingWay();
+                }else{
+                    _this.selected_policy = "";
+                    _this.sholud_price = "";
+                    _this.amountPrice();
                 }
             })
         },
         // 具体收费方式
         getChargingWay() {
             let _this = this;
-            this.$axios.get('http://192.168.1.197:8000/api/finance/charging_policy/'+_this.selected_policy+'/get_available_items_for_student/',
+            this.$axios.get('/api/finance/charging_policy/'+_this.selected_policy+'/get_available_items_for_student/',
             {
                 params:{
                     student_id: _this.selected_student_info.id,
@@ -433,12 +448,15 @@ export default {
                 }
             })
             .then(res=>{
-                console.log("********************************************")
                 console.log(res.data)
                 _this.charging_way = res.data.available_items;
                 if(res.data.available_items.length > 0){
                     _this.selected_way = res.data.available_items[0].id;
                     _this.getPriceMonth();
+                }else{
+                    _this.sholud_price = "";
+                    _this.selected_way = "";
+                    _this.amountPrice();
                 }
             })
         },
@@ -453,7 +471,7 @@ export default {
                 return;
             }
 
-            this.$axios.get('http://192.168.1.197:8000/api/discount/discount_management/get_pay_month_count/',
+            this.$axios.get('/api/discount/discount_management/get_pay_month_count/',
             {
                 params:{
                     academic_year_id: _this.selected_year,
@@ -464,14 +482,13 @@ export default {
                 }
             })
             .then(res=>{
-                console.log("---------------------------")
-                console.log(res.data.month_count)
+                console.log(res.data)
                 for(let key in _this.charging_way){
                     if (_this.charging_way[key].id == _this.selected_way) {
                         _this.sholud_price = parseFloat(_this.charging_way[key].price)*res.data.month_count
+                        _this.amountPrice();
                     }
                 }
-                
             })
         },
 
@@ -485,28 +502,22 @@ export default {
         // 获取折扣类型
         getDiscountType(index){
             let _this = this;
-            console.log(_this.selected_discount_type);
-            this.$axios.post('http://134.175.93.59:8000/api/discount/discount_type_management/get_available_discount_type/',
+            this.$axios.post('/api/discount/discount_type_management/get_available_discount_type/',
             {
                 availabled_list: _this.selected_discount_type,
             })
             .then(res=>{
                 console.log(res.data)
-                console.log("********************************************")
                 _this.discount_type.push(res.data.data);
-                console.log(_this.discount_type[index]);
             })
         },
         // 折扣类型切换
         changeType(index){
-            console.log(index);
             for(let key in this.discount_type[index]){
                 if (this.selected_discount_type[index] == this.discount_type[index][key].id) {
                     this.condition_status[index] = this.discount_type[index][key].condition_status;
                 }
             }
-            console.log(this.condition_status);
-            console.log(this.selected_discount_type[index]);
             this.removeDomain(index);
         },
         addDomain() {
@@ -520,33 +531,32 @@ export default {
                     });
                     return;
                 }
-                _this.dynamicValidateForm.domains.push({
-                    value: '',
-                    key: Date.now()
-                })
-                _this.getDiscountType(length);
             }
+            _this.dynamicValidateForm.domains.push({
+                value: '',
+                key: Date.now()
+            })
+            _this.getDiscountType(length);
          },
          removeDomain(index) {
             var length = this.dynamicValidateForm.domains.length;
-            console.log(length)
-            console.log(index)
-            if (index !== -1) {
+            if (index !== -2) {
                 this.dynamicValidateForm.domains.splice(index+1, (length-index-1))
                 this.selected_discount_type.splice(index+1, (length-index-1))
                 this.discount_type.splice(index+1, (length-index-1))
             }
+            this.amountPrice();
         },
         // 保存折扣设置
         saveDiscount(){
             let _this = this;
-            if (!(_this.sholud_price)) {
-                _this.$message({
-                    type:'error',
-                    message:'请将内容填写完整再提交！'
-                });
-                return
+            var selected_subject = null;
+            for(let key in _this.charging_way ){
+                if ( _this.selected_way == _this.charging_way[key].id ) {
+                    selected_subject = _this.charging_way[key].subject;
+                }
             }
+
             var list = [];
             for(let index in _this.dynamicValidateForm.domains){
                 for(let key in _this.discount_type[index]){
@@ -557,37 +567,88 @@ export default {
                     }
                 }
             }
-            console.log(list);
-            this.$axios.post('http://134.175.93.59:8000/api/discount/discount_management/',
-            {
+
+            if (_this.sholud_price || _this.selected_student_info.id || _this.selected_student_info.class_type_id || _this.selected_student_info.center_class_id || _this.selected_student_info.center_class_year_id || _this.selected_plan || _this.selected_year || selected_subject || _this.selected_policy || _this.selected_way){
+                _this.$message({
+                    type:'error',
+                    message:'请将所缺内容填写完整！'
+                });
+                return
+            }
+            _this.$axios.post('/api/discount/discount_management/',{
                 "center_name": _this.userInfo.center.name,
                 "student_id": _this.selected_student_info.id,
-                "student_name": _this.selected_student_info.name,
+                "student_name": _this.selected_student_info.student_name,
                 "student_status": _this.selected_student_info.student_status,
                 "class_type_id": _this.selected_student_info.class_type_id,
                 "center_class_id": _this.selected_student_info.center_class_id,
                 "center_class_year_id": _this.selected_student_info.center_class_year_id,
                 "payment_method_id": _this.selected_plan,
                 "academic_year_id": _this.selected_year,
-                "prepare_pay_date": _this.pay_date,
+                "prepare_pay_date": _this.getDateStr(_this.pay_date),
                 "apply_term": 0,
-                "entry_date": _this.from_date,
-                "subject_id": 1,
+                "entry_date": _this.getDateStr(_this.from_date),
+                "subject_id": selected_subject,
                 "policy_id": _this.selected_policy,
                 "policy_item_id": _this.selected_way,
-                "price": _this.sholud_price,
-                "amount": 15634.78945,
-                "actual_amount": 9999.99856,
+                "price": _this.amount_price,
+                "amount": _this.discount_count,
+                "actual_amount": _this.total_price,
                 "parents_name": _this.selected_student_info.guardian_name,
                 "apply_phone": _this.selected_student_info.guardian_telephone,
                 "discount_type_list": list
             })
             .then(res=>{
                 console.log(res.data)
-                console.log("********************************************")
-                _this.discount_type.push(res.data.data);
-                console.log(_this.discount_type[index]);
+                if (res.data.status_code == 1) {
+                    this.$message({
+                      type: 'success',
+                      message: '保存成功！'
+                    })
+                    this.$router.go(-1);
+                }
             })
+        },
+
+        // 计算折扣金额
+        amountPrice(){
+            let _this = this;
+            if (!_this.sholud_price) {
+                _this.amount_price = "--"
+                _this.discount_count = "--"
+                _this.total_price = "--"
+                return
+            }else{
+                _this.amount_price = _this.sholud_price;
+            }
+            var price = _this.sholud_price;
+            var status = [];
+            var count = [];
+            for(let index in _this.dynamicValidateForm.domains){
+                for(let key in _this.discount_type[index]){
+                    if (_this.discount_type[index][key].id == _this.selected_discount_type[index]) {
+                        if (_this.discount_price[index]) {
+                            status.push(_this.discount_type[index][key].condition_status)
+                            count.push(parseFloat(_this.discount_price[index]))
+                        }
+                    }
+                }
+            }
+            console.log(status);
+            console.log(count);
+            for(let index in status){
+                if (status[index] == 0) {
+                    price = price*count[index]/100;
+                }
+            }
+            for(let index in status){
+                if (status[index] == 1) {
+                    price = price-count[index];
+                }
+            }
+            _this.discount_count = _this.sholud_price - price;
+            _this.total_price = price;
+            console.log("*******折后金额********"+price)
         },
 
 
