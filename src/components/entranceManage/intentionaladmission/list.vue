@@ -51,16 +51,11 @@
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                <router-link to="/financemanagement/createDiscount" >
+                <router-link :to="'/financemanagement/createDiscount?student='+scope.row.id" >
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
                 </router-link>
-                <!--<router-link :to="'/financemanagement/dollar/'+scope.row.id" v-if="permission['finance']['bill-payment'] && scope.row.bill_status === 0">
-                    <span style="padding:0 20px;">
-                        <i class="fa fa-dollar font-size-20 green"></i>
-                    </span>
-                </router-link>-->
               </template>
           </el-table-column>
         </el-table>
