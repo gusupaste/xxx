@@ -316,15 +316,15 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">离园申请:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentRemark }}</span>
                 </p>
               </el-col>
-              <el-col :span="8">
+              <!--<el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">离园访谈:</span>
                   <span>迪小贝</span>
                 </p>
-              </el-col>
+              </el-col>-->
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">所在学年:</span>
@@ -353,7 +353,7 @@
                   :value="item.value">
                 </el-option>
               </el-select>-->
-              <el-input style="width: 180px;"></el-input>
+              <el-input style="width: 180px;" v-model="otherText"></el-input>
             </el-form-item>
           </div><hr>
           <p style="font-size: 10px;color: red;line-height: 20px;">*1.请确认该学生所有缺勤转备用金都已完成,否则不可提交离园登记</p>
@@ -380,6 +380,7 @@
     data() {
       return {
         radio2:'',
+        studentRemark:'',
         early_title:'提前入学申请',
         earlyVisible:false,
         leaveVisible:false,
@@ -393,6 +394,7 @@
           class_obj:'',
           remarks:''
         },
+        otherText:'',
         class_url:'/api/center/select/center_class_year_list/?center_id=',
         in_class_list:[],
         classList:[
@@ -570,9 +572,13 @@
       saveLeave:function (formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
+            var x = this.leveForm.leave_reason;
+            if(this.leveForm.leave_reason === '其他'){
+              x = this.otherText;
+            }
             var obj = {
               name:this.studentInfo.name,
-              leave_reason: this.leveForm.leave_reason,
+              leave_reason: x,
               leave_date: this.leveForm.leave_date,
             };
             this.$axios.put('/api/student/prepare_list_student/'+this.studentInfo.id + '/',obj).then(res => {
@@ -614,6 +620,7 @@
         }else{
           this.leaveVisible = true;
           this.getStudentInfo(id,academic_year_id,center_id);
+          /*this.studentRemark = */
         }
       },
     }
