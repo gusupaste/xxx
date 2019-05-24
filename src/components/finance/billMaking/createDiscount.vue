@@ -1,9 +1,10 @@
 <template>
     <div class="createDiscount wrap">
       <div class="header">
-        <p class="local_path_style">YOU ARE HERE : 财务处理 > 账单制作 > <span class="font-cl-blue">创建缴费账单</span></p>
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > 账单制作 > <span class="font-cl-blue" v-if="!is_edit" >创建缴费账单</span>
+          <span class="font-cl-blue" v-if="is_edit" >编辑缴费账单</span></p>
       </div>
-        <div class="content-top mt26">创建缴费账单</div>
+        <div class="content-top mt26"><span class="font-cl-blue" v-if="!is_edit" >创建缴费账单</span><span class="font-cl-blue" v-if="is_edit" >编辑缴费账单</span></div>
         <div class="clearfix mt10">
             <el-form inline>
                 <el-form-item label="学生：">
@@ -53,7 +54,7 @@
                         placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
-                
+
                 <br>
                 <el-form-item label="收费政策：" class="w300_input">
                     <el-select v-model="saveForm.policy_id">
@@ -124,7 +125,7 @@
                     </el-date-picker>
                 </template>
                 </el-table-column>
-                
+
                 <el-table-column
                 prop="address"
                 label="缴费时长">
@@ -181,7 +182,7 @@
               <el-input v-model="searchStr" class="w250_input" style="width:250px" placeholder="输入学号、学生姓名或家长姓名"></el-input>
               <el-button type="primary" @click="getStudent(2)">搜索</el-button>
           </p>
-          
+
           <el-row class="mt20">
             <el-col :span="24">
               <el-form-item label="" label-width="40">
@@ -367,8 +368,8 @@ export default {
     },
     created () {
         this.getStudent(1);
-        this.getYear();  
-        
+        this.getYear();
+
     },
     methods: {
         saveInfo(){
@@ -512,7 +513,7 @@ export default {
             })
             .then(res=>{
                 _this.studentList = res.data.data.student_li;
-                _this.schoolName = res.data.data.center_name;    
+                _this.schoolName = res.data.data.center_name;
                 if(val === 1){
                     if(_this.$route.query.id){
                         _this.is_edit = true;
@@ -546,13 +547,13 @@ export default {
                 this.multipleTable = [res.data.student_profile];
                 this.innerVisible = false;
             })
-            
+
         },
         getDiscountInfo(){
             var _this = this;
             this.id = this.$route.query.id;
             this.$axios.get('/api/finance/bill/'+this.id+'/info_single_bill/')
-            .then(res=>{        
+            .then(res=>{
                 _this.addform = Object.assign({},res.data.data.bill_info);
                 _this.multipleTable.push(res.data.data.bill_info);
                 _this.$set(_this.addform,'start_date',res.data.data.bill_info.planned_payment_date)
@@ -567,9 +568,9 @@ export default {
                     }
                 });
                 // _this.getSubject();
-                _this.checkedSubject = res.data.data.billitem_li; 
-                
-                _this.checkedSubject1 = res.data.data.billitem_li; 
+                _this.checkedSubject = res.data.data.billitem_li;
+
+                _this.checkedSubject1 = res.data.data.billitem_li;
                 _this.saveForm.billitem_list = res.data.data.billitem_li;
                 _this.sureAddSubject();
             })
@@ -601,7 +602,7 @@ export default {
                 }
             }).then(res=>{
                 var index = this.checkedSubject.indexOf(row);
-                
+
                 console.log(index)
                 if(res.data.data.is_have_enroll_discount){
                     this.checkedSubject[index].total = this.checkedSubject[index].total - res.data.data.discount_money;
@@ -618,7 +619,7 @@ export default {
                         })
                 }
                 };
-                
+
             })
         },
         getYear(){
@@ -724,7 +725,7 @@ export default {
                     this.$refs.multipleTable2.toggleRowSelection(row,false);
                 }
             });
-            } 
+            }
         },
         changePayDate(val,row){
             var _this = this;
@@ -750,7 +751,7 @@ export default {
                     _this.getDiscount(row)
                 })
             }
-            
+
         }
     },
     watch: {
