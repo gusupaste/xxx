@@ -125,8 +125,8 @@
         this.searchList(1);
     },
     methods: {
-      showRefundInfo:function (param) {
-        this.$router.push('/financemanagement/refund-detail/9');
+      showRefundInfo(param) {
+        this.$router.push('/financemanagement/refund-detail/'+param.id);
       },
       handleCurrentChange(val){
         this.searchList(val)

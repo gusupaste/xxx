@@ -369,7 +369,7 @@
   }
 
   .rolemanagementadd >>> .el-input {
-    width: 164px;
+    width: 145px;
   }
 
   .rolemanagementadd .border_red >>> .el-input__inner {

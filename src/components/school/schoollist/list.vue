@@ -36,7 +36,7 @@
           </el-option>
         </el-select>
         <span class="padding-left-30">搜索：</span>
-        <el-input style="width:164px" class="inline-block" placeholder="输入校园名称搜索" v-model="center_name"></el-input>
+        <el-input style="width:145px" class="inline-block" placeholder="输入校园名称搜索" v-model="center_name"></el-input>
         <span class="padding-left-30"><el-button @click="getSchoolList(1)" type="primary">搜索</el-button></span>
         <span class="right">
           <i class="fa fa-plus icon-font"></i>

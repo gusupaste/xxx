@@ -158,7 +158,7 @@
                 label="金额小计">
               </el-table-column>
           </el-table>
-          <hr><p class="right">实际应退金额合集：<span class="red">10600.00</span></p>
+          <hr><p class="right">实际应退金额合集：<span class="red bold font-size-16">10600.00</span></p>
         </div>
         <div class="mt26 tableList">
           <p>相关附件：</p>
@@ -186,7 +186,7 @@
           </el-table>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey">返回</button>
+            <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
         </div>
     </div>
 </template>
@@ -221,24 +221,21 @@
 export default {
     data(){
         return {
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                }]
+            tableData: [],
+            id:this.$route.params.id
         }
+    },
+    created () {
+      this.getInfo()
+    },
+    methods: {
+      getInfo(){
+        var _this = this;
+        this.$axios.get('/api/finance/refund/'+this.id+'/')
+        .then(res=>{
+          console.log(res.data)
+        })
+      }
     }
 }
 </script>

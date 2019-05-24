@@ -124,7 +124,7 @@
   }
 
   .attendanceDaily >>> .el-input {
-    width: 164px;
+    width: 145px;
   }
 
   .attendanceDaily .local-month {

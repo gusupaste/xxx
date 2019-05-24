@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class='homePage_menu' >
-        <div class="clearfix" style="background-color: #0b6289">
+        <div class="clearfix" style="background-color: #0b6289;font-size:14px">
           <div class="head-menu">
             <img src="../../assets/img/logo.png" alt="">
             <div class="menuwrap" style="width:890px">
