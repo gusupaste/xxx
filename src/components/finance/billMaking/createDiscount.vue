@@ -421,10 +421,8 @@ export default {
             this.saveForm.actual_amount = this.totalprice;
             this.saveForm.amount = this.totalamount;
             this.saveForm.pay_method = this.addform.pay_method;
-            console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/',this.saveForm)
             .then(res=>{
-                console.log(res.data)
                 if(res.data.status === 1){
                     _this.$message({
                         type:"success",
@@ -486,7 +484,6 @@ export default {
             this.saveForm.actual_amount = this.totalprice;
             this.saveForm.amount = this.totalamount;
             this.saveForm.pay_method = this.addform.pay_method;
-            console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/'+this.id+'/set_bill_info/',this.saveForm)
             .then(res=>{
                 if(res.data.status === 1){
@@ -500,7 +497,7 @@ export default {
         },
         getStudent(val){
             var _this = this;
-            this.addform.date = this.$options.filters['formatDate2'](new Date());
+            this.addform.date = this.$options.filters['formatDate'](new Date());
             this.$axios.get('/api/finance/bill/show_bill_student/',{
                 params:{
                     search_str:this.searchStr,
@@ -532,8 +529,18 @@ export default {
             this.subjectVisible=false;
         },
         sureAddStudent(){
-            this.multipleTable = [this.choosePerson];
-            this.innerVisible = false;
+            var _this = this;
+            this.$axios.get('/api/student/student/'+this.choosePerson.id+'/student_profile/',{
+                params:{
+                    academic_year_id:this.addform.academic_year_id,
+                }
+            }).then(res=>{
+                res.data.student_profile.name = res.data.student_profile.student_name;
+                res.data.student_profile.student_no = this.choosePerson.student_no;
+                this.multipleTable = [res.data.student_profile];
+                this.innerVisible = false;
+            })
+            
         },
         getDiscountInfo(){
             var _this = this;
@@ -561,6 +568,28 @@ export default {
                 _this.sureAddSubject();
             })
         },
+        getDiscount(row){
+            var _this = this;
+            this.$axios.get('/api/discount/discount_management/get_matching_discount/',{
+                params:{
+                    autoal_pay_date:this.addform.start_date,
+                    form_created_date:'2019-05-24',
+                    class_type_id:this.multipleTable[0].class_type_id,
+                    student_id:this.multipleTable[0].id,
+                    center_class_id:this.multipleTable[0].center_class_id,
+                    center_class_year_id:this.multipleTable[0].center_class_year_id,
+                    payment_method_id:this.addform.pay_method,
+                    subject_id:row.subject_id,
+                    policy_id:this.saveForm.policy_id,
+                    policy_item_id:row.id,
+                    academic_year_id:this.addform.academic_year_id,
+                    month:row.pay_month
+                }
+            }).then(res=>{
+                console.log('******');
+                console.log(res.data)
+            })
+        },
         getYear(){
             var _this = this;
             this.$axios.get('/api/finance/bill/show_academic_year/',{
@@ -582,7 +611,6 @@ export default {
                 }
             })
             .then(res=>{
-                console.log(res.data)
                 _this.policyList = res.data.policy_list;
             })
         },
@@ -602,7 +630,6 @@ export default {
             })
         },
         getSubject(){
-            console.log(this.multipleTable)
             if(this.multipleTable.length == 0){
                 this.$message({
                     type:"error",
@@ -630,6 +657,7 @@ export default {
             })
             .then(res=>{
                 res.data.available_items.forEach(item=>{
+                    item.subject_id = item.subject;
                     item.subject = item.subject_name;
                     item.subject_category = item.subject_category_name;
                     item.payment_method = item.payment_method_name;
@@ -664,7 +692,7 @@ export default {
         },
         changePayDate(val,row){
             var _this = this;
-            console.log(this.multipleTable)
+            console.log(row)
             if(row.begin_date  && row.end_date ) {
                 if(row.end_date<row.begin_date) {
                     this.$message({
@@ -681,8 +709,8 @@ export default {
                         to_date:row.end_date
                     }
                 }).then(res=>{
-                    console.log(res)
                     row.pay_month = res.data.data;
+                    _this.getDiscount(row)
                 })
             }
             

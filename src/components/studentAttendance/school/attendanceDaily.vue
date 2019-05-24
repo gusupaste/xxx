@@ -30,7 +30,7 @@
       <el-button v-else-if="permission['student-attendance-campus']['attendance_confirm'] && status === 1" @click="cancelSure" type="info">取消确认</el-button>
       <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && status === 2" @click="attendanceCheck" type="warning">核 对</el-button>
       <span v-else-if="permission['student-attendance-campus']['attendance_verify']"></span>
-      <el-button v-else type="success">保 存</el-button>
+      <el-button v-else type="success" @click="attendanceSure">保 存</el-button>
     </div>
     <template>
       <el-table
