@@ -167,6 +167,7 @@
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">取消</button>
             <button class="btn bg-green" v-if="!is_edit" @click="saveInfo">保存</button>
+            <button class="btn bg-orange" v-if="!is_edit" @click="saveInfo">缴费</button>
             <button class="btn bg-green" v-if="is_edit" @click="editInfo">保存</button>
         </div>
         <!-- 添加学生 -->
