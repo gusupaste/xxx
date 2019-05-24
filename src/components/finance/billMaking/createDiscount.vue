@@ -137,7 +137,7 @@
                 label="应收">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
-                        {{scope.row.pay_month*scope.row.price}}
+                        {{scope.row.total}}
                     </span>
                 </template>
                 </el-table-column>
@@ -570,10 +570,17 @@ export default {
         },
         getDiscount(row){
             var _this = this;
+            if(this.addform.start_date == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择实际缴费日期获取折后应收"
+                });
+                return
+            }
             this.$axios.get('/api/discount/discount_management/get_matching_discount/',{
                 params:{
                     autoal_pay_date:this.addform.start_date,
-                    form_created_date:'2019-05-24',
+                    form_created_date:this.addform.date,
                     class_type_id:this.multipleTable[0].class_type_id,
                     student_id:this.multipleTable[0].id,
                     center_class_id:this.multipleTable[0].center_class_id,
@@ -583,11 +590,29 @@ export default {
                     policy_id:this.saveForm.policy_id,
                     policy_item_id:row.id,
                     academic_year_id:this.addform.academic_year_id,
-                    month:row.pay_month
+                    month:row.pay_month,
+                    price:row.price
                 }
             }).then(res=>{
-                console.log('******');
-                console.log(res.data)
+                var index = this.checkedSubject.indexOf(row);
+                
+                console.log(index)
+                if(res.data.data.is_have_enroll_discount){
+                    this.checkedSubject[index].total = this.checkedSubject[index].total - res.data.data.discount_money;
+                    if(res.data.datais_have_ordinary_discount){
+                        res.data.data.ordinary_discount_date.forEach(item=>{
+                            if(item.discount_condition_status == 1) {
+                                this.checkedSubject[index].total -= item.rate_or_price
+                            }
+                        })
+                        res.data.data.ordinary_discount_date.forEach(item=>{
+                            if(item.discount_condition_status == 0) {
+                                this.checkedSubject[index].total *= item.rate_or_price
+                            }
+                        })
+                }
+                };
+                
             })
         },
         getYear(){
@@ -644,6 +669,13 @@ export default {
                 });
                 return
             }
+            if(this.addform.start_date == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择实际缴费日期"
+                });
+                return
+            }
             var _this = this;
             this.getPolicy();
             this.$axios.get('/api/finance/charging_policy/'+this.saveForm.policy_id+'/get_available_items_for_student/',{
@@ -663,8 +695,6 @@ export default {
                     item.payment_method = item.payment_method_name;
                 })
                 _this.subjectList = res.data.available_items;
-                console.log(_this.subjectList[0].pay_month)
-                console.log(_this.subjectList[0].price)
                 _this.checkedSubject = [];
             })
         },
@@ -710,11 +740,19 @@ export default {
                     }
                 }).then(res=>{
                     row.pay_month = res.data.data;
+                    row.total = row.pay_month*row.price;
                     _this.getDiscount(row)
                 })
             }
             
         }
+    },
+    watch: {
+        // 'addform.start_date'(){
+        //     if(this.multipleTable.length !== 0) {
+        //         this.getDiscount()
+        //     }
+        // }
     }
 }
 </script>
