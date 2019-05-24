@@ -45,7 +45,9 @@
                 <td rowspan="4" colspan="2" style="width:60px">退费</td>
                 <td colspan="3" style="">
                   已领物品，是否减物品费用&nbsp;&nbsp;&nbsp;
-                  <el-input type="text" v-model="saveForm.goods_fee"></el-input>&nbsp;&nbsp;元
+                  <!--<el-input type="text" v-model="saveForm.goods_fee"></el-input>&nbsp;&nbsp;元-->
+                  <el-radio v-model="saveForm.goods_fee" :label="false">否</el-radio>
+                  <el-radio v-model="saveForm.goods_fee" :label="true">是</el-radio>
                 </td>
               </tr>
               <tr>
@@ -560,7 +562,7 @@ export default {
             saveForm:{
               center:'',
               academic_year:'',
-              goods_fee:'',
+              goods_fee:false,
               foreign_employees_per: '',
               on_schedule_per: '',
               not_on_schedule_per: '',

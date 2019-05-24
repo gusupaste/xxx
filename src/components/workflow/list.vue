@@ -114,7 +114,7 @@
               width="80">
               <template slot-scope="scope">
                 <el-button type="text" size="small"
-                           @click="approveDetail(1,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level)">查看
+                           @click="approveDetail(1,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level,scope.row.form_kind__code)">查看
                 </el-button>
               </template>
             </el-table-column>
