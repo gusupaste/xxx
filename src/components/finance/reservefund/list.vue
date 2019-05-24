@@ -254,7 +254,7 @@
         this.class_year_id = ''
         this.getYearClassList()
       },
-      class_id() {
+      class_year_id() {
         this.getList()
       },
       intercity_id () {
@@ -381,7 +381,7 @@
             area_id: this.area_id,
             city_id: this.city_id,
             brand_id: this.brand_id,
-            school_id: this.school_id,
+            center_id: this.school_id,
             class_id: this.class_id
           }
         })
