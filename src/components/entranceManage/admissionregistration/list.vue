@@ -9,26 +9,26 @@
           <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
         </div>
         <div class="list-content">
-          <div class="studentFileCard left" v-for="(item , index) in list " :key="index">
+          <div class="studentFileCard left" v-for="(item , index) in studentList " :key="index">
             <div style="padding:20px" @click="$router.push('/studentFile/studentFileDetail/9')">
               <div class="avatar inline-block">
                 <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o" aria-hidden="true"></i>
               </div>
               <div class="card-content inline-block">
                 <p>
-                  <span style="font-size:15px;font-weight:600">学生A</span>
+                  <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
                   <!--<i style="font-size:15px;color:#ff7f7f;" class="fa fa-mars" aria-hidden="true"></i>-->
                   <i style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
                 </p>
-                <p>出生日期：1020/11/09</p>
-                <p>意向学年：00000</p>
-                <p>意向信息：北京校园</p>
-                <p>拟入学日期：1020/11/09</p>
+                <p>出生日期：{{ item.date_of_birth }}</p>
+                <p>意向学年：{{ item.preferred_academic_year }}</p>
+                <p>意向信息：{{ item.date_of_birth }}</p>
+                <p>拟入学日期：{{ item.preferred_admission_date }}</p>
               </div>
             </div>
             <div class="card-footer clearfix">
               <span>执行操作</span>
-              <el-select v-model="nameSelect" @change="operationSelect(nameSelect)" placeholder="--请选择--" style="width: 60%;">
+              <el-select v-model="nameSelect" @change="operationSelect(nameSelect,item.id,item.academic_year_id,item.center_id)" placeholder="--请选择--" style="width: 60%;">
                 <el-option
                   v-for="item in operations"
                   :key="item.value"
@@ -41,7 +41,7 @@
         </div>
       </div>
       <el-dialog title="预备生入园登记" :visible.sync="operationVisible" width="750px">
-        <el-form ref="operationForm" :model="operationForm" :rules="rules" label-width="80px">
+        <el-form  ref="reulsForm" :model="reulsForm" :rules="rules" label-width="80px">
           <div class="oper-div">
             <span class="title-span">学生基本信息</span>
             <hr>
@@ -49,43 +49,43 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">姓名:</span>
-                  <span>迪小贝</span>
-                </p>
-                <p class="lable-p">
-                  <span class="labels">所属校园:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.name }}</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels">学年计划:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.academic_year }}</span>
                 </p>
               </el-col>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">年龄:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.age }}</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels">意向班级:</span>
-                  <span>迪小贝</span>
-                </p>
-                <p class="lable-p">
-                  <span class="labels">缴费区间:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.preferred_center_name }}</span>
                 </p>
               </el-col>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">性别:</span>
-                  <span>迪小贝</span>
-                </p>
-                <p class="lable-p">
-                  <span class="labels" style="width: 90px;">主教老师:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.gender }} </span>
                 </p>
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">预计入学日期:</span>
-                  <span>迪小贝</span>
+                  <span>{{ studentInfo.preferred_admission_date }}</span>
+                </p>
+              </el-col>
+              <el-col :span="8">
+                <p class="lable-p">
+                  <span class="labels">缴费区间:</span>
+                  <span>{{ studentInfo.age }}</span>
+                </p>
+              </el-col>
+              <el-col :span="16">
+                <p class="lable-p">
+                  <span class="labels">所属校园:</span>
+                  <span>{{ studentInfo.center_name }}</span>
                 </p>
               </el-col>
             </el-row>
@@ -93,35 +93,47 @@
           <div class="oper-div">
             <span class="title-span">入园登记</span>
             <br><hr><br>
-            <el-form-item label="入园日期">
+            <el-form-item label="入学日期" prop="in_class_date">
               <el-date-picker
-                v-model="value1"
+                v-model="reulsForm.in_class_date"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="安排入班">
-              <el-select v-model="nameSelect" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
+            <el-form-item label="安排入班" required>
+              <el-col :span="8">
+                <el-form-item prop="status">
+                  <el-select v-model="reulsForm.status" placeholder="请选择">
+                    <el-option v-for="fre in classList" :label="fre.name" :value="fre.id" :key="fre.id"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item prop="class_obj">
+                  <el-select v-model="reulsForm.class_obj" placeholder="请选择">
+                    <el-option
+                      v-for="item in in_class_list"
+                      :key="item.id"
+                      :label="item.center_class__name"
+                      :value="item.id">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
             </el-form-item>
             <el-form-item label="备注">
               <el-input type="textarea"
                         :rows="2"
                         placeholder="请输入内容"
-                        v-model="value1">
+                        v-model="reulsForm.remarks">
               </el-input>
             </el-form-item>
           </div>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="operationVisible = false">取 消</el-button>
-          <el-button type="success">保 存</el-button>
+          <el-button type="success" @click="saveForm('reulsForm')">保 存</el-button>
         </span>
       </el-dialog>
       <el-dialog :title="early_title" :visible.sync="earlyVisible" width="750px">
@@ -373,6 +385,44 @@
         leaveVisible:false,
         leaveShowVisible:false,
         nameSelect:[],
+        studentList:[],
+        rules:{},
+        reulsForm:{
+          in_class_date:'',
+          status:'',
+          class_obj:'',
+          remarks:''
+        },
+        class_url:'/api/center/select/center_class_year_list/?center_id=',
+        in_class_list:[],
+        classList:[
+          {
+            id:'In',
+            name:'就读'
+          },
+          {
+            id:'ExchangeOut',
+            name:'转出'
+          },
+          {
+            id:'Prepare',
+            name:'预分班'
+          },
+        ],
+        rules:{
+          class_obj: [
+            { required: true, message: '请选择', trigger: 'change' }
+          ],
+          status: [
+            { required: true, message: '请选择班级', trigger: 'change' }
+          ],
+          sign_up_date: [
+            { required: true, message: '请选择日期', trigger: 'change' }
+          ],
+          in_class_date: [
+            { required: true, message: '请选择日期', trigger: 'change' }
+          ],
+        },
         operations:[{
           value: 1,
           label: '入园登记'
@@ -444,9 +494,72 @@
         operationForm:{
 
         },
+        studentInfo:{}
       };
     },
+    mounted: function () {
+      this.getStudentList();
+    },
     methods: {
+      getClassList:function(center_id,academic_year_id){
+        var url = this.class_url + center_id + '&academic_year_id=' + academic_year_id;
+        this.$axios.get(url).then(res=>{
+          this.in_class_list = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getStudentList:function () {
+        var url = '/api/student/prepare_list_student/';
+        this.loading = true
+        this.$axios.get(url).then(res => {
+          this.loading = false
+          if (res.status == 200) {
+            this.studentList = res.data.results
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getStudentInfo:function (id,academic_year_id,center_id) {
+        this.getClassList(center_id,academic_year_id);
+        var url = '/api/student/preparing_admission/'+id;
+        this.loading = true
+        this.$axios.get(url).then(res => {
+          this.loading = false
+          if (res.status == 200) {
+            this.studentInfo = res.data;
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      saveForm:function (formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            var obj = {};
+            obj.status = this.reulsForm.status;
+            obj.sign_up_date = this.reulsForm.in_class_date;
+            obj.student = this.studentInfo.id;
+            obj.class_obj = this.reulsForm.class_obj;
+            obj.remarks = this.reulsForm.remarks;
+            this.$axios.post('/api/student/preparing_admission/', obj).then(res => {
+              if (res.status == 201) {
+                this.$message({
+                  type: 'success',
+                  message: '保存成功！'
+                })
+              } else {
+                this.$message.error('保存失败');
+              }
+            }).catch(err => {
+              console.log(err)
+            })
+          }else{
+            return false;
+          }
+        })
+      },
       handleClose (){
 
       },
@@ -456,9 +569,10 @@
       editSchool:function (param,index) {
           this.$router.push('/financemanagement/billDetail');
       },
-      operationSelect:function(val){
+      operationSelect:function(val,id,academic_year_id,center_id){
         if(val === 1){
           this.operationVisible = true;
+          this.getStudentInfo(id,academic_year_id,center_id);
         }else if(val === 2){
           this.early_title = '预备生提前入学申请';
           this.earlyVisible = true;
@@ -481,6 +595,9 @@
   .admissionRegistrationlist .bold{
     font-weight: bold;
     color: black;
+  }
+  .admissionRegistrationlist >>>.el-form-item{
+    margin-bottom: 20px;
   }
   .admissionRegistrationlist .content{
     margin-top: 10px;

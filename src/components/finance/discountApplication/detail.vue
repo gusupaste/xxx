@@ -140,7 +140,7 @@
             </el-table>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey">返回</button>
+            <button class="btn bg-grey" @click="$router.push('/financemanagement/discountApplication')">返回</button>
         </div>
     </div>
 </template>
