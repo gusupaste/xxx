@@ -2,9 +2,8 @@
   <div class="studentFile">
       <div class="formwrap">
         <el-form label-width="100px" inline>
-          <p class="mb10">
-          <span>城际：</span>
-            <el-select v-model="intercity" @change="interChangeFun">
+          <el-form-item label="城际：">
+              <el-select v-model="intercity" @change="interChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
               <el-option
                 v-for="item in intercity_list"
@@ -13,8 +12,9 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          <span class="padding-left-30">区域：</span>
-            <el-select v-model="area" @change="areaChangeFun">
+          </el-form-item>
+          <el-form-item label="区域：">
+              <el-select v-model="area" @change="areaChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in area_list"
@@ -23,8 +23,9 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          <span class="padding-left-30">省市：</span>
-            <el-select v-model="city" @change="interChangeFun">
+          </el-form-item>
+          <el-form-item label="省市：">
+              <el-select v-model="city" @change="interChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in city_list"
@@ -33,8 +34,9 @@
                 :value="item.city_id">
               </el-option>
             </el-select>
-          <span class="padding-left-30">品牌：</span>
-            <el-select v-model="brand" @change="allChangeFun">
+          </el-form-item>
+          <el-form-item label="品牌：">
+              <el-select v-model="brand" @change="allChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in brand_list"
@@ -43,8 +45,9 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          <span class="padding-left-30">校园：</span>
-            <el-select v-model="school" @change="schoolChangeFun">
+          </el-form-item>
+          <el-form-item label="校园：">
+              <el-select v-model="school" @change="schoolChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in school_list"
@@ -53,8 +56,9 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          <span class="padding-left-30">班级：</span>
-            <el-select v-model="class_val" v-bind:disabled="selectDisable">
+          </el-form-item>
+          <el-form-item label="班级：">
+              <el-select v-model="class_val" v-bind:disabled="selectDisable">
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in class_list"
@@ -63,16 +67,16 @@
                 :value="item.id">
               </el-option>
             </el-select>
-          <span class="padding-left-30">学生性别：</span>
-            <el-select v-model="gender" placeholder="请选择活动区域">
+          </el-form-item>
+          <el-form-item label="学生性别：">
+              <el-select v-model="gender" placeholder="请选择活动区域">
               <el-option value="" label="全部"></el-option>
               <el-option label="男" value="M"></el-option>
               <el-option label="女" value="F"></el-option>
             </el-select>
-          </p>
-          <p>
-          <span>入学日期：</span>
-            <el-date-picker
+          </el-form-item>
+          <el-form-item label="入学日期：">
+              <el-date-picker
               v-model="dateValue"
               type="daterange"
               value-format="yyyy-MM-dd"
@@ -80,10 +84,13 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
-          <span class="padding-left-30">搜索：</span>
-            <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
-            <span class="padding-left-30"><el-button type="primary" @click="getStudentList">搜索</el-button></span>
-          </p>
+          </el-form-item>
+          <el-form-item label="搜索：">
+              <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
+          </el-form-item>
+          <el-form-item label="">
+              <el-button type="primary" @click="getStudentList">搜索</el-button>
+          </el-form-item>
         </el-form>
       </div>
       <div class="studentFileList">
