@@ -16,15 +16,15 @@
             show-header
             style="width: 100%;margin-top: 10px;">
             <el-table-column
-              prop="student_name"
+              prop="name"
               label="学生姓名">
             </el-table-column>
             <el-table-column
-              prop="sex"
+              prop="gender"
               label="性别">
             </el-table-column>
             <el-table-column
-              prop="birthday"
+              prop="date_of_birth"
               label="出生日期">
             </el-table-column>
             <el-table-column
