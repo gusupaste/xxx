@@ -8,7 +8,7 @@
         <el-tab-pane label="我的审批任务" name="first">
           <div class="select-header">
             <span>审批状态</span>
-            <el-select v-model="approve_status" placeholder="--请选择--" style="width: 20%;" @change="getApproveList">
+            <el-select v-model="approve_status" placeholder="--请选择--" style="width: 20%;" @change="getApproveList(1)">
               <el-option
                 v-for="item in approveStatusList"
                 :key="item.id"
@@ -18,7 +18,7 @@
             </el-select>
             <span>搜索</span>
             <el-input v-model="name" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
-            <span class="padding-left-30"><el-button type="primary" @click="getApproveList">搜索</el-button></span>
+            <span class="padding-left-30"><el-button type="primary" @click="getApproveList(1)">搜索</el-button></span>
           </div>
           <el-table
             :data="approveList"
@@ -51,11 +51,21 @@
               label="操作">
               <template slot-scope="scope">
                 <el-button type="text" size="small"
-                           @click="approveDetail(0,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level,scope.row.form_kind__code)">查看
+                           @click="approveDetail(0,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level,scope.row.form_kind__code)">
+                  查看
                 </el-button>
               </template>
             </el-table-column>
           </el-table>
+          <el-pagination
+            background
+            layout="pager, next, jumper"
+            next-text="下一页"
+            :page-size="pagesize"
+            :current-page="currentPage"
+            @current-change="handleCurrentChange"
+            :total="total" class="page">
+          </el-pagination>
         </el-tab-pane>
         <el-tab-pane label="我发起的工作流" name="second">
           <div class="select-header">
@@ -108,11 +118,21 @@
               width="80">
               <template slot-scope="scope">
                 <el-button type="text" size="small"
-                           @click="approveDetail(1,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level,scope.row.form_kind__code)">查看
+                           @click="approveDetail(1,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level,scope.row.form_kind__code)">
+                  查看
                 </el-button>
               </template>
             </el-table-column>
           </el-table>
+          <el-pagination
+            background
+            layout="pager, next, jumper"
+            next-text="下一页"
+            :page-size="pagesize2"
+            :current-page="currentPage2"
+            @current-change="handleCurrentChange2"
+            :total="total2" class="page">
+          </el-pagination>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -145,31 +165,49 @@
         name: '',
         activeName: 'first',
         approveList: [],
-        applyList: []
+        applyList: [],
+        pagesize: 10,
+        currentPage: 1,
+        total: 1,
+        pagesize2: 10,
+        currentPage2: 1,
+        total2: 1
       }
     },
     mounted: function () {
       this.approve_status = this.approveStatusList[0].id
-      this.getApproveList()
+      this.getApproveList(1)
+    },
+    watch: {
+      currentPage () {
+        this.getApproveList(this.currentPage)
+      },
+      currentPage2 () {
+        this.getApplyList(this.currentPage2)
+      }
     },
     methods: {
-      getApproveList: function () {
+      getApproveList: function (val) {
+        this.currentPage = val
         this.loading = true
-        this.$axios.get('/api/workflow/workflow_management/approve_list/?name=' + this.name + '&approve_status=' + this.approve_status + '&page=1&size=10').then(res => {
+        this.$axios.get('/api/workflow/workflow_management/approve_list/?name=' + this.name + '&approve_status=' + this.approve_status + '&page=' + this.currentPage + '&size=' + this.pagesize).then(res => {
           this.loading = false
           if (res.data.status_code === 1) {
             this.approveList = res.data.data.results
+            this.total = res.data.data.count
           }
         }).catch(err => {
           console.log(err)
         })
       },
-      getApplyList: function () {
+      getApplyList: function (val) {
+        this.currentPage2 = val
         this.loading = true
-        this.$axios.get('/api/workflow/workflow_management/apply_list/?name=' + this.name + '&approve_status=' + this.approve_status + '&page=1&size=10').then(res => {
+        this.$axios.get('/api/workflow/workflow_management/apply_list/?name=' + this.name + '&approve_status=' + this.approve_status + '&page=' + this.currentPage2 + '&size=' + this.pagesize2).then(res => {
           this.loading = false
           if (res.data.status_code === 1) {
             this.applyList = res.data.data.results
+            this.total2 = res.data.data.count
           }
         }).catch(err => {
           console.log(err)
@@ -178,17 +216,29 @@
       approveDetail: function (status, formId, formKindId, approveLevel, formKindCode) {
         this.$router.push({
           name: 'workflowDetail',
-          query: {status: status, formId: formId, formKindId: formKindId, approveLevel: approveLevel, formKindCode: formKindCode}
+          query: {
+            status: status,
+            formId: formId,
+            formKindId: formKindId,
+            approveLevel: approveLevel,
+            formKindCode: formKindCode
+          }
         })
       },
       handleClick: function (val) {
         this.approve_status = this.approveStatusList[0].id
         this.name = ''
         if (val === 'second') {
-          this.getApplyList()
+          this.getApplyList(1)
         } else {
-          this.getApproveList()
+          this.getApproveList(1)
         }
+      },
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage
+      },
+      handleCurrentChange2: function (currentPage2) {
+        this.currentPage2 = currentPage2
       }
     }
   }
