@@ -642,13 +642,13 @@ export default {
             console.log(status);
             console.log(count);
             for(let index in status){
-                if (status[index] == 0) {
-                    price = price*count[index]/100;
+                if (status[index] == 1) {
+                    price = price-count[index];
                 }
             }
             for(let index in status){
-                if (status[index] == 1) {
-                    price = price-count[index];
+                if (status[index] == 0) {
+                    price = price*count[index]/100;
                 }
             }
             _this.discount_count = _this.sholud_price - price;
