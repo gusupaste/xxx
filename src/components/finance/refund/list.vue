@@ -110,7 +110,7 @@
                 <el-button type="primary" @click="searchList(1);">搜索</el-button>
             </el-form-item>
           </el-form>
-      <div class="list-content">
+      <div class="list-content mt20">
         <el-tabs v-model="status" @tab-click="handleClick">
           <el-tab-pane label="审核通过" name="1"></el-tab-pane>
           <el-tab-pane label="审批中" name="2"></el-tab-pane>
