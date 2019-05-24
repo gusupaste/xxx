@@ -255,8 +255,6 @@
 export default {
     data(){
         return {
-            startDate: new Date('2019-05-05').getTime(),
-            endDate: new Date('2019-05-10').getTime(),
             pickerOptions: {
                 // disabledDate: (time) => {
                 //     return time.getTime() > new Date('2019-05-10').getTime() || time.getTime() < new Date('2019-05-05').getTime()
@@ -321,8 +319,6 @@ export default {
             this.loadData();
             this.getStudent("");
             this.getDiscountType(0);
-            // this.getChargingPolicy();
-            // this.getChargingWay();
         })
     },
     methods: {
