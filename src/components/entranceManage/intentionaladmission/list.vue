@@ -28,11 +28,11 @@
               label="出生日期">
             </el-table-column>
             <el-table-column
-              prop="intent_class_id"
+              prop="preferred_class"
               label="申请就读班级">
             </el-table-column>
             <el-table-column
-              prop="intent_school_date"
+              prop="preferred_date"
               label="计划入学时间">
             </el-table-column>
             <el-table-column
@@ -40,11 +40,11 @@
               label="联系人">
             </el-table-column>
             <el-table-column
-              prop="phone"
+              prop="customer_phone"
               label="联系电话">
             </el-table-column>
             <el-table-column
-              prop="creation_date"
+              prop="start_trial_date"
               label="创建日期">
             </el-table-column>
             <el-table-column
