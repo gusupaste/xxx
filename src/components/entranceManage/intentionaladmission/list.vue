@@ -81,22 +81,8 @@
       this.getList();
     },
     methods: {
-<<<<<<< Updated upstream
-      getList:function () {
-        this.loading = true
-        var url = '/api/student/potential_student/';
-        if(this.input !== ''){
-          url = url + '?search=' + this.input;
-        }
-        this.$axios.get(url).then(res => {
-          this.loading = false
-          if (res.status === 200) {
-            this.tableDate = res.data.results;
-=======
-
       getList: function () {
-        console.log()
-        /*this.$axios.get('/api/student/student/student_list/', {
+        this.$axios.get('/api/student/student/student_list/', {
           params: {
             student_type: 'Potential',
             condition: this.input
@@ -104,11 +90,10 @@
         }).then(res => {
           if (res.status === 200 && res.data.status === 1) {
             this.tableDate = res.data.results.results
->>>>>>> Stashed changes
           }
         }).catch(err => {
           console.log(err)
-        })*/
+        })
       },
       editSchool: function (param, index) {
         this.$router.push('/financemanagement/billDetail');
