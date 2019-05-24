@@ -8,10 +8,10 @@
             <el-col :span="24" class="card-type">
                 <el-card shadow="always">
                 <p class="bold" style="border-bottom:1px solid #bbb">
-                    <span class="mr26">制单人：曹旭</span>
+                    <span class="mr26">制单人：{{bill.creator_name}}</span>
                     <span class="mr26">制单日期：{{application.create_date}}</span>
                     <span class="mr26">状态：
-                        <span>已确认</span>
+                        <span>{{bill.status}}</span>
                     </span>
                 </p>
                 <p>
@@ -32,7 +32,7 @@
                 </p>
                 <p>
                   <el-row>
-                    <el-col :span="8"><div class="grid-content bg-purple">离园原因：搬家</div></el-col>
+                    <el-col :span="8"><div class="grid-content bg-purple">离园原因：{{bill.leave_reason}}</div></el-col>
                   </el-row>
                 </p>
                 </el-card>
@@ -78,57 +78,56 @@
                 style="width: 100%">
               <el-table-column label="已缴费情况描述">
                 <el-table-column
-                prop="date"
+                prop="subject_name"
                 label="缴费项目">
                 </el-table-column>
                 <el-table-column
-                prop="name"
+                prop="payment_method_name"
                 label="缴费方式">
                 </el-table-column>
                 <el-table-column
                 prop="address"
                 label="起止日期">
+                <template slot-scope="scope">
+                  {{scope.row.effective_begin_date}} — {{scope.row.effective_end_date}}
+                </template>
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="pay_month"
                 label="校日历总数">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="amount"
                 label="折前价">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="actual_amount"
                 label="折后价">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="price"
                 label="单价">
                 </el-table-column>
               </el-table-column>
               <el-table-column label="需退费情况描述">
                 <el-table-column
-                  prop="date"
-                  label="退费当月出勤天数">
-                </el-table-column>
-                <el-table-column
-                  prop="name"
+                  prop="remained_days"
                   label="剩余校日历总数">
                 </el-table-column>
                 <el-table-column
-                  prop="address"
+                  prop="refund_count"
                   label="应退计数">
                 </el-table-column>
                 <el-table-column
-                  prop="address"
+                  prop="deduction_price"
                   label="折扣单价">
                 </el-table-column>
                 <el-table-column
-                  prop="address"
-                  label="不足通知期扣款">
+                  prop="balance_amount"
+                  label="扣款">
                 </el-table-column>
                 <el-table-column
-                  prop="address"
+                  prop="subtotal"
                   label="应退转金额小计">
                 </el-table-column>
               </el-table-column>
