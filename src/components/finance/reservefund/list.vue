@@ -5,38 +5,6 @@
     </div>
     <div class="content">
       <div class="select-header">
-        <template v-if="permission['finance']['reserve-fund-management-campus']">
-          <span>学年：</span>
-          <el-select v-model="academic_year_id" placeholder="请选择">
-            <el-option value="" label="全部"></el-option>
-            <el-option
-              v-for="item in year_list"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-          <span class="padding-left-30">班级：</span>
-          <el-select v-model="class_year_id" placeholder="请选择">
-            <el-option
-              v-for="item in class_year_list"
-              :key="item.id"
-              :label="item.center_class__name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-          <span class="padding-left-30">学生姓名：</span>
-          <el-input v-model="search_name" placeholder="请输入学生姓名" class="search_input"></el-input>
-          <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
-          <!--<span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reservefund')">
-            <i class="icon-font fa fa-calendar-plus-o"></i>
-            <span class="font-cl-blue font-size-14">推迟入园转备用金</span>
-        </span>-->
-          <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reserve')">
-            <i class="icon-font fa fa-calendar-plus-o"></i>
-            <span class="font-cl-blue font-size-14">缺勤请假转备用金</span>
-        </span>
-        </template>
         <template v-if="permission['finance']['reserve-fund-management-hq']" class="select-header">
           <span>城际：</span>
           <el-select v-model="intercity_id">
@@ -88,22 +56,41 @@
               :value="item.id">
             </el-option>
           </el-select>
-          <span class="padding-left-30">班级：</span>
-          <el-select v-model="class_id" :disabled="selectDisable">
+        </template>
+        <p>
+          <span>学年：</span>
+          <el-select v-model="academic_year_id" placeholder="请选择">
             <el-option value="" label="全部"></el-option>
             <el-option
-              v-for="item in class_list"
+              v-for="item in year_list"
               :key="item.id"
               :label="item.name"
               :value="item.id">
             </el-option>
           </el-select>
-          <p>
-            <span>学生姓名：</span>
-            <el-input v-model="search_name" placeholder="请输入学生姓名" class="search_input"></el-input>
-            <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
-          </p>
-        </template>
+          <span class="padding-left-30">班级：</span>
+          <el-select v-model="class_year_id" placeholder="请选择">
+            <el-option
+              v-for="item in class_year_list"
+              :key="item.id"
+              :label="item.center_class__name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+          <span class="padding-left-30">学生姓名：</span>
+          <el-input v-model="search_name" placeholder="请输入学生姓名" class="search_input"></el-input>
+          <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
+          <template v-if="permission['finance']['reserve-fund-management-campus']">
+            <!--<span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reservefund')">
+              <i class="icon-font fa fa-calendar-plus-o"></i>
+              <span class="font-cl-blue font-size-14">推迟入园转备用金</span>
+          </span>-->
+            <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reserve')">
+            <i class="icon-font fa fa-calendar-plus-o"></i>
+            <span class="font-cl-blue font-size-14">缺勤请假转备用金</span>
+        </span>
+          </template>
+        </p>
       </div>
       <div class="list-content">
         <el-table
@@ -227,7 +214,6 @@
         city_list: [],
         brand_list: [],
         school_list: [],
-        class_list: [],
         academic_year_id: '',
         class_year_id: '',
         search_name: '',
@@ -236,8 +222,6 @@
         city_id: '',
         brand_id: '',
         school_id: '',
-        class_id: '',
-        selectDisable: ''
       }
     },
     mounted: function () {
@@ -250,69 +234,36 @@
       this.getList()
     },
     watch: {
+      intercity_id() {
+        this.school_id = ''
+        this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
+      },
+      area_id() {
+        this.school_id = ''
+        this.getCityList(this.area)
+        this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
+      },
+      city_id() {
+        this.school_id = ''
+        this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
+      },
+      brand_id() {
+        this.school_id = ''
+        this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
+      },
+      school_id() {
+          this.class_year_id = ''
+          this.getYearClassList()
+      },
       academic_year_id() {
         this.class_year_id = ''
         this.getYearClassList()
       },
       class_year_id() {
         this.getList()
-      },
-      intercity_id () {
-        this.school_id = ''
-        this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
-      },
-      area_id () {
-        this.school_id = ''
-        this.getCityList(this.area)
-        this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
-      },
-      city_id () {
-        this.school_id = ''
-        this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
-      },
-      brand_id () {
-        this.school_id = ''
-        this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
-      },
-      school_id: {
-        handler (newValue, oldValue) {
-          if (newValue === '') {
-            this.selectDisable = true;
-          } else {
-            this.selectDisable = false;
-          }
-          this.class_id = ''
-          this.getClassList(this.school_id)
-        }
       }
     },
     methods: {
-      /*学年*/
-      getYearList: function () {
-        this.$axios.get('/api/common/select/academic_year_list/')
-          .then(res => {
-            this.year_list = res.data.results
-            for (var x in this.year_list) {
-              if (this.year_list[x].is_selected === 1) {
-                this.academic_year_id = this.year_list[x].id
-              }
-            }
-            this.getYearClassList()
-          }).catch(err => {
-          console.log(err)
-        })
-      },
-      /*学年下的班级*/
-      getYearClassList: function () {
-        this.$axios.get('/api/center/select/center_year_class_list/?academic_year_id=' + this.academic_year_id)
-          .then(res => {
-            this.class_year_list = res.data.results
-            this.class_year_id = this.class_year_list[0].id
-            this.getList()
-          }).catch(err => {
-          console.log(err)
-        })
-      },
       /*城际*/
       getIntercityList: function () {
         this.$axios.get('/api/common/select/intercity_list/')
@@ -363,11 +314,29 @@
           console.log(err)
         })
       },
-      /*班级*/
-      getClassList: function (school) {
-        this.$axios.get('/api/common/select/class_list/?center_id=' + school).then(res => {
-          this.class_list = res.data.results
-        }).catch(err => {
+      /*学年*/
+      getYearList: function () {
+        this.$axios.get('/api/common/select/academic_year_list/')
+          .then(res => {
+            this.year_list = res.data.results
+            for (var x in this.year_list) {
+              if (this.year_list[x].is_selected === 1) {
+                this.academic_year_id = this.year_list[x].id
+              }
+            }
+            this.getYearClassList()
+          }).catch(err => {
+          console.log(err)
+        })
+      },
+      /*学年下的班级*/
+      getYearClassList: function () {
+        this.$axios.get('/api/center/select/center_year_class_list/?academic_year_id=' + this.academic_year_id + '&center_id=' + this.school_id)
+          .then(res => {
+            this.class_year_list = res.data.results
+            this.class_year_id = this.class_year_list[0].id
+            this.getList()
+          }).catch(err => {
           console.log(err)
         })
       },
@@ -381,8 +350,7 @@
             area_id: this.area_id,
             city_id: this.city_id,
             brand_id: this.brand_id,
-            center_id: this.school_id,
-            class_id: this.class_id
+            center_id: this.school_id
           }
         })
           .then(res => {

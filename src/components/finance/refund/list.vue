@@ -264,7 +264,6 @@
 
       },
       handleClick (tab,event){
-        console.log(tab.label)
         this.searchform.status = tab.label;
         this.searchList(1);
       },
@@ -308,7 +307,6 @@
       getIntercity(){
           var _this = this;
           this.$axios.get('/api/common/intercity/',).then(res=>{
-            console.log(res.data)
             _this.intercityList = res.data.intercity_list;
             // _this.form.intercity_id = res.data.intercity_list[0].id;
           }).catch(err=>{
@@ -374,7 +372,6 @@
             size:10,
           }
         }).then(res=>{
-          console.log(res.data)
           _this.countList = res.data.bill_li;
           _this.count = res.data.count;
         })
