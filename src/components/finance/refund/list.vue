@@ -369,6 +369,7 @@
             end_date:this.searchform.date_from[1],
             class_li:JSON.stringify(class_list),
             page:this.searchform.page,
+            status:this.searchform.status,
             size:10,
           }
         }).then(res=>{
