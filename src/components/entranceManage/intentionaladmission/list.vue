@@ -6,7 +6,7 @@
     <div class="content">
       <div class="select-header">
         <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
       </div>
         <div class="list-content">
           <el-table
@@ -59,6 +59,15 @@
               </template>
           </el-table-column>
         </el-table>
+          <el-pagination
+            background
+            layout="pager, next, jumper"
+            next-text="下一页"
+            :page-size="pagesize"
+            :current-page="currentPage"
+            @current-change="handleCurrentChange"
+            :total="total" class="page">
+          </el-pagination>
       </div>
     </div>
   </div>
@@ -70,15 +79,23 @@
       return {
         tableDate: [],
         input: '',
-        //permission : this.$cookies.get('userInfo').user_permissions,
+        pagesize: 10,
+        currentPage: 1,
+        total: 1,
       };
     },
     mounted: function () {
-      this.getList();
+      this.getList(1);
+    },
+    watch: {
+      currentPage () {
+        this.getList(this.currentPage)
+      }
     },
     methods: {
-      getList: function () {
-        this.$axios.get('/api/student/student/student_list/', {
+      getList: function (val) {
+        this.currentPage = val
+        this.$axios.get('/api/student/student/student_list/?size=' + this.pagesize + '&page=' + this.currentPage, {
           params: {
             student_type: 'Potential',
             condition: this.input
@@ -86,6 +103,7 @@
         }).then(res => {
           if (res.status === 200 && res.data.status === 1) {
             this.tableDate = res.data.results.results
+            this.total = res.data.results.count
           }
         }).catch(err => {
           console.log(err)
@@ -93,7 +111,10 @@
       },
       editSchool: function (param, index) {
         this.$router.push('/financemanagement/billDetail');
-      }
+      },
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage
+      },
     }
   }
 </script>
