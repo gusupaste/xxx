@@ -6,7 +6,7 @@
       <div class="content">
         <div class="select-header">
           <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" style="width: 25%;"></el-input>
-          <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+          <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
         </div>
         <div class="list-content">
           <el-table
@@ -84,7 +84,11 @@
     methods: {
       getList:function () {
         this.loading = true
-        this.$axios.get('/api/student/potential_student/').then(res => {
+        var url = '/api/student/potential_student/';
+        if(this.input !== ''){
+          url = url + '?search=' + this.input;
+        }
+        this.$axios.get(url).then(res => {
           this.loading = false
           if (res.status === 200) {
             this.tableDate = res.data.results;

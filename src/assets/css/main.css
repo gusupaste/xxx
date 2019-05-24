@@ -230,7 +230,7 @@ a {
 
 /*button input select  textarea公共样式 */
 .el-button {
-  height: 36px;
+  height: 32px;
   line-height: 0;
 }
 .el-input__inner {
