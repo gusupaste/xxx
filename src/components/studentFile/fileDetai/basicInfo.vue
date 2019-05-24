@@ -431,9 +431,9 @@ export default {
             this.newType.push('is_employee_child');
           }
           this.p_city_id = res.data.detail.province_city.province;
-          this.getcity_list();
+          /*this.getcity_list();*/
           this.c_city_id = res.data.detail.province_city.city;
-          this.gettown_list();
+          /*this.gettown_list();*/
         }
       }).catch(err=>{
         console.log(err)
