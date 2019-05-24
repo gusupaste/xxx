@@ -327,7 +327,7 @@ export default {
                 start_date:'',
                 end_date:''
             },
-            choosePerson:'',
+            choosePerson:{},
             saveForm:{
                 status: 1,
                 student_id: "",
@@ -365,9 +365,10 @@ export default {
             is_edit:false
         }
     },
-    mounted () {
+    created () {
         this.getStudent(1);
         this.getYear();  
+        
     },
     methods: {
         saveInfo(){
@@ -497,6 +498,10 @@ export default {
             })
         },
         getStudent(val){
+            if(this.$route.query.student){
+                this.choosePerson.id = Number(this.$route.query.student);
+                this.sureAddStudent()
+            }
             var _this = this;
             this.addform.date = this.$options.filters['formatDate'](new Date());
             this.$axios.get('/api/finance/bill/show_bill_student/',{

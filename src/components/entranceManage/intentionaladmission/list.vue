@@ -6,7 +6,7 @@
     <div class="content">
       <div class="select-header">
         <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
       </div>
         <div class="list-content">
           <el-table
@@ -28,11 +28,11 @@
               label="出生日期">
             </el-table-column>
             <el-table-column
-              prop="intent_class_id"
+              prop="preferred_class"
               label="申请就读班级">
             </el-table-column>
             <el-table-column
-              prop="intent_school_date"
+              prop="preferred_date"
               label="计划入学时间">
             </el-table-column>
             <el-table-column
@@ -40,30 +40,34 @@
               label="联系人">
             </el-table-column>
             <el-table-column
-              prop="phone"
+              prop="customer_phone"
               label="联系电话">
             </el-table-column>
             <el-table-column
-              prop="creation_date"
+              prop="start_trial_date"
               label="创建日期">
             </el-table-column>
             <el-table-column
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                <router-link to="/financemanagement/createDiscount" >
+                <router-link :to="'/financemanagement/createDiscount?student='+scope.row.id" >
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
                 </router-link>
-                <!--<router-link :to="'/financemanagement/dollar/'+scope.row.id" v-if="permission['finance']['bill-payment'] && scope.row.bill_status === 0">
-                    <span style="padding:0 20px;">
-                        <i class="fa fa-dollar font-size-20 green"></i>
-                    </span>
-                </router-link>-->
               </template>
           </el-table-column>
         </el-table>
+          <el-pagination
+            background
+            layout="pager, next, jumper"
+            next-text="下一页"
+            :page-size="pagesize"
+            :current-page="currentPage"
+            @current-change="handleCurrentChange"
+            :total="total" class="page">
+          </el-pagination>
       </div>
     </div>
   </div>
@@ -75,15 +79,23 @@
       return {
         tableDate: [],
         input: '',
-        //permission : this.$cookies.get('userInfo').user_permissions,
+        pagesize: 10,
+        currentPage: 1,
+        total: 1,
       };
     },
     mounted: function () {
-      this.getList();
+      this.getList(1);
+    },
+    watch: {
+      currentPage () {
+        this.getList(this.currentPage)
+      }
     },
     methods: {
-      getList: function () {
-        this.$axios.get('/api/student/student/student_list/', {
+      getList: function (val) {
+        this.currentPage = val
+        this.$axios.get('/api/student/student/student_list/?size=' + this.pagesize + '&page=' + this.currentPage, {
           params: {
             student_type: 'Potential',
             condition: this.input
@@ -91,6 +103,7 @@
         }).then(res => {
           if (res.status === 200 && res.data.status === 1) {
             this.tableDate = res.data.results.results
+            this.total = res.data.results.count
           }
         }).catch(err => {
           console.log(err)
@@ -98,7 +111,10 @@
       },
       editSchool: function (param, index) {
         this.$router.push('/financemanagement/billDetail');
-      }
+      },
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage
+      },
     }
   }
 </script>
