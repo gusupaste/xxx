@@ -253,7 +253,7 @@
       },
       school_id() {
           this.class_year_id = ''
-          this.getClassList(this.school_id)
+          this.getYearClassList()
       },
       academic_year_id() {
         this.class_year_id = ''
