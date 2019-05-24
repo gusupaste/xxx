@@ -10,11 +10,11 @@
           <td>学生姓名<span class="red">*</span></td>
           <td>{{parentApplicationDetail.student_info.name}}</td>
           <td>所在校园<span class="red">*</span></td>
-          <td>{{parentApplicationDetail.student_info.grade_name}}</td>
+          <td>{{parentApplicationDetail.student_info.class_name}}</td>
         </tr>
         <tr>
           <td>所在班级<span class="red">*</span></td>
-          <td>{{parentApplicationDetail.student_info.class_name}}</td>
+          <td>{{parentApplicationDetail.student_info.grade_name}}</td>
           <td>班级主讲</td>
           <td>
             <el-form-item prop="main_speaker">

@@ -26,10 +26,11 @@
     <div class="local-month">
       在校学生总数：<span class="orange">{{total}}</span>人 ； 学生出勤人数 <span class="red">{{present}} </span> 人 ； 学生缺勤人数 <span
       class="green">{{absent}}  </span> 人
-      <el-button v-if="sure" @click="attendanceSure" type="warning">确 定</el-button>
-      <el-button v-if="pendingCheck" @click="cancelSure" type="info">取消确认</el-button>
-      <el-button v-if="check" @click="attendanceCheck" type="warning">核 对</el-button>
-      <el-button v-if="save" type="success">保 存</el-button>
+      <el-button v-if="permission['student-attendance-campus']['attendance_confirm'] && status === 0" @click="attendanceSure" type="warning">确 定</el-button>
+      <el-button v-else-if="permission['student-attendance-campus']['attendance_confirm'] && status === 1" @click="cancelSure" type="info">取消确认</el-button>
+      <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && status === 2" @click="attendanceCheck" type="warning">核 对</el-button>
+      <span v-else-if="permission['student-attendance-campus']['attendance_verify']"></span>
+      <el-button v-else type="success">保 存</el-button>
     </div>
     <template>
       <el-table
@@ -124,7 +125,7 @@
   }
 
   .attendanceDaily >>> .el-input {
-    width: 164px;
+    width: 145px;
   }
 
   .attendanceDaily .local-month {
@@ -181,7 +182,8 @@
         pendingCheck: false,
         check: false,
         save: false,
-        student_ids_temp: []
+        student_ids_temp: [],
+        permission: {},
       }
     },
     components: {
@@ -189,6 +191,7 @@
     },
     mounted: function () {
       this.getClass()
+      this.permission = this.$cookies.get('userInfo').user_permissions
     },
     methods: {
       successTip (message) {

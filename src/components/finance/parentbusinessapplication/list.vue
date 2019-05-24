@@ -155,11 +155,11 @@
           <td>学生姓名<span class="red">*</span></td>
           <td>{{application_detail.student_name}}</td>
           <td>所在校园<span class="red">*</span></td>
-          <td>{{application_detail.grade_name}}</td>
+          <td>{{application_detail.class_name}}</td>
         </tr>
         <tr>
           <td>所在班级<span class="red">*</span></td>
-          <td>{{application_detail.class_name}}</td>
+          <td>{{application_detail.grade_name}}</td>
           <td>班级主讲</td>
           <td>{{application_detail.main_speaker}}</td>
         </tr>

@@ -53,14 +53,15 @@
                         placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item>
-                    <el-button @click="getSubject" type="primary">搜索费用科目</el-button>
-                </el-form-item>
+                
                 <br>
                 <el-form-item label="收费政策：" class="w300_input">
                     <el-select v-model="saveForm.policy_id">
                         <el-option v-for="item in policyList" :key="item.id" :value="item.id" :label="item.name"></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="getSubject" type="primary">搜索费用科目</el-button>
                 </el-form-item>
                 <br>
                 <el-form-item label="费用科目：">
@@ -106,7 +107,7 @@
                 label="缴费区间">
                 <template slot-scope="scope">
                     <el-date-picker
-                    style="width:164px;display:inline-block"
+                    style="width:145px;display:inline-block"
                         v-model="saveForm.billitem_list[scope.$index].begin_date"
                         type="date"
                         value-format="yyyy-MM-dd"
@@ -114,7 +115,7 @@
                     </el-date-picker>
                     —
                     <el-date-picker
-                    style="width:164px;display:inline-block"
+                    style="width:145px;display:inline-block"
                         v-model="saveForm.billitem_list[scope.$index].end_date"
                         type="date"
                         disabledDate="2019-05-16"
@@ -486,7 +487,6 @@ export default {
             console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/'+this.id+'/set_bill_info/',this.saveForm)
             .then(res=>{
-                console.log(res.data)
                 if(res.data.status === 1){
                     _this.$message({
                         type:"success",
@@ -581,8 +581,6 @@ export default {
             .then(res=>{
                 console.log(res.data)
                 _this.policyList = res.data.policy_list;
-                // _this.yearList = res.data.data.academic_year_li;
-                // _this.getInfo();
             })
         },
         getInfo(){
@@ -601,7 +599,7 @@ export default {
             })
         },
         getSubject(){
-            console.log(this.saveForm.policy_id)
+            console.log(this.multipleTable)
             if(this.multipleTable.length == 0){
                 this.$message({
                     type:"error",
@@ -628,6 +626,11 @@ export default {
                 }
             })
             .then(res=>{
+                res.data.available_items.forEach(item=>{
+                    item.subject = item.subject_name;
+                    item.subject_category = item.subject_category_name;
+                    item.payment_method = item.payment_method_name;
+                })
                 _this.subjectList = res.data.available_items;
                 _this.checkedSubject = [];
             })

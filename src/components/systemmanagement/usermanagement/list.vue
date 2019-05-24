@@ -273,7 +273,7 @@
   }
 
   .usermanagement >>> .el-input {
-    width: 164px;
+    width: 145px;
     height: 36px;
   }
 
