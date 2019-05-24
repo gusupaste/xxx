@@ -113,33 +113,29 @@
 
       </div>
       <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
+          <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
             <div style="padding:20px">
               <div class="avatar inline-block">
                 <img src="../../../assets/img/logo.png" alt="">
               </div>
               <div class="card-content inline-block">
-                  <p>
-                    <span style="font-size:15px;font-weight:600">学生A</span>
-                    <i style="font-size:15px;color:#ff7f7f" class="fa fa-times-circle"></i>
-                  </p>
-                  <p>出生日期：1020/11/09</p>
-                  <p>学号：00000</p>
-                  <p>所在校园：北京校园</p>
+                <p>
+                  <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
+                  <i style="font-size:15px;color:#ff7f7f" class="fa fa-times-circle"></i>
+                </p>
+                <p>出生日期：{{ item.date_of_birth }}</p>
+                <p>学号：{{ item.student_no }}</p>
+                <p>所在校园：{{ item.center_name }}</p>
               </div>
             </div>
             <div class="card-footer clearfix">
                 <span class="left" style="border-right: 1px solid #fff;">
                     <p>入学日期</p>
-                    <p>2017/09/09</p>
+                    <p>{{ item.enter_date }}</p>
                 </span>
-                <span class="left" style="border-right: 1px solid #fff;">
-                    <p>入学日期</p>
-                    <p>1027</p>
-                </span>
-                <span class="left">
-                    <p>入学日期</p>
-                    <p>1027</p>
+              <span class="left">
+                    <p>离园日期</p>
+                    <p>{{ item.leave_date || '---' }}</p>
                 </span>
             </div>
           </div>
@@ -187,7 +183,7 @@
   .student_leave .studentFileCard .card-footer span {
     display: inline-block;
     text-align: center;
-    width: 33%;
+    width: 49%;
     line-height: 17px;
   }
   .student_leave .studentFileCard  img{
