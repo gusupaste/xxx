@@ -116,7 +116,7 @@
                     <br>
                     
                     <el-form-item label="申请折扣：" label-width="120px">
-                        <el-input placeholder="请输入内容" v-model="discount_price[itemindex]" @change="amountPrice">
+                        <el-input placeholder="请输入内容" v-model="discount_price[itemindex]" @change="amountPrice" oninput ="value=value.replace(/[^0-9.]/g,'')">
                             <template v-if="condition_status[itemindex] === 0" slot="append">%</template>
                         </el-input>
                     </el-form-item>
@@ -130,7 +130,7 @@
                         </el-input>
                     </el-form-item>
                     <br>
-                    <!-- <el-form-item label="相关附件：" label-width="120px">
+                    <el-form-item label="相关附件：" label-width="120px">
                         <el-upload
                             class="upload-demo"
                             action="https://jsonplaceholder.typicode.com/posts/"
@@ -143,7 +143,7 @@
                             :file-list="fileList">
                             <el-button size="small" type="primary" class="orange" style="background-color:#fff;border:1px solid #f17218"> <i class="fa fa-upload"></i> 上传</el-button>
                         </el-upload>
-                    </el-form-item> -->
+                    </el-form-item>
                     <br>
                     <el-form-item label=" " label-width="120px">
                         <el-button @click.prevent="removeDomain(itemindex-1)">删除</el-button>
@@ -557,14 +557,23 @@ export default {
             for(let index in _this.dynamicValidateForm.domains){
                 for(let key in _this.discount_type[index]){
                     if (_this.discount_type[index][key].id == _this.selected_discount_type[index]) {
-                        _this.discount_type[index][key]['rate_or_price'] = _this.discount_price[index];
+                        _this.discount_type[index][key]['rate_or_price'] = parseFloat(_this.discount_price[index]);
                         _this.discount_type[index][key]['remark'] = _this.discount_remark[index];
                         list.push(_this.discount_type[index][key]);
                     }
                 }
             }
-
-            if (_this.sholud_price || _this.selected_student_info.id || _this.selected_student_info.class_type_id || _this.selected_student_info.center_class_id || _this.selected_student_info.center_class_year_id || _this.selected_plan || _this.selected_year || selected_subject || _this.selected_policy || _this.selected_way){
+            console.log(_this.sholud_price)
+            console.log(_this.selected_student_info.id)
+            console.log(_this.selected_student_info.class_type_id)
+            console.log(_this.selected_student_info.center_class_id)
+            console.log(_this.selected_student_info.center_class_year_id)
+            console.log(_this.selected_plan)
+            console.log(_this.selected_year)
+            console.log(selected_subject)
+            console.log(_this.selected_policy)
+            console.log(_this.selected_way)
+            if (!(_this.sholud_price || _this.selected_student_info.id || _this.selected_student_info.class_type_id || _this.selected_student_info.center_class_id || _this.selected_student_info.center_class_year_id || _this.selected_plan || _this.selected_year || selected_subject || _this.selected_policy || _this.selected_way || _this.pay_date || _this.from_date)){
                 _this.$message({
                     type:'error',
                     message:'请将所缺内容填写完整！'
