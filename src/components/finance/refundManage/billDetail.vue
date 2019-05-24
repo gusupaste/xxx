@@ -3,31 +3,31 @@
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">退费管理</span></p>
       </div>
-        <div class="content-top">预备生退费账单</div>
+        <div class="content-top">{{bill.bill_type}}</div>
         <div class="clearfix">
             <el-col :span="24" class="card-type">
                 <el-card shadow="always">
                 <p class="bold" style="border-bottom:1px solid #bbb">
                     <span class="mr26">制单人：曹旭</span>
-                    <span class="mr26">制单日期：2019/02/26</span>
+                    <span class="mr26">制单日期：{{application.create_date}}</span>
                     <span class="mr26">状态：
                         <span>已确认</span>
                     </span>
                 </p>
                 <p>
                 <el-row>
-                  <el-col :span="6"><div class="grid-content bg-purple">学生姓名：学生A</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">学号：28342368476</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">所在班级：大二班</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">学生当前状态：大二班</div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple">学生姓名：{{student.name}}</div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple">学号：{{student.student_no}}</div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple">所在班级：{{student.student_class}}</div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple">学生当前状态：{{student.status_str}}</div></el-col>
                 </el-row>
                 </p>
                 <p>
                 <el-row>
-                  <el-col :span="6"><div class="grid-content bg-purple">最后出勤日期：2019/03/01</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">申请退费日期：2018-2019学年</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">学年：2019/01/30</div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple">单据申请信息：2019/01/30</div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple">最后出勤日期：{{application.effective_date}}</div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple">申请退费日期：{{application.create_date}}</div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple">学年：{{application.academic_year}}</div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple">单据申请信息：{{application.application_name}}</div></el-col>
                 </el-row>
                 </p>
                 <p>
@@ -42,29 +42,29 @@
             <p>审批记录：</p>
             <el-table
                 class="mt10"
-                :data="tableData"
+                :data="approve_history"
                 border
                 style="width: 100%">
                 <el-table-column
-                prop="date"
+                prop="approve_level"
                 label="审批节点"
                 width="180">
                 </el-table-column>
                 <el-table-column
-                prop="name"
+                prop="approve_user_name"
                 label="审批角色"
                 width="180">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="status_name"
                 label="审批结果">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="remark"
                 label="审批意见">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="date_created"
                 label="审批日期">
                 </el-table-column>
             </el-table>
@@ -73,7 +73,7 @@
             <p>退费明细（标准项目）：</p>
             <el-table
                 class="mt10"
-                :data="tableData"
+                :data="bill.items"
                 border
                 style="width: 100%">
               <el-table-column label="已缴费情况描述">
@@ -133,32 +133,37 @@
                 </el-table-column>
               </el-table-column>
             </el-table>
+            <div class="price_wrap">
+              <span>
+                备用金：<b class="red font-size-16">{{bill.reserved_fund_amount}}</b>
+              </span>
+            </div>
         </div>
         <div class="mt26 tableList">
           <p>制度外退费（其他扣款/退费项目明细）：</p>
           <el-table
             class="mt10"
-            :data="tableData"
+            :data="bill.refund_items"
             border
             style="width: 100%">
               <el-table-column
-                prop="date"
+                prop="refund_direct"
                 label="扣款/退款">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="item"
                 label="项目名称">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="remarks"
                 label="情况说明">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="amount"
                 label="金额小计">
               </el-table-column>
           </el-table>
-          <hr><p class="right">实际应退金额合集：<span class="red bold font-size-16">10600.00</span></p>
+          <hr><p class="right">实际应退金额合集：<span class="red bold font-size-16">{{total}}</span></p>
         </div>
         <div class="mt26 tableList">
           <p>相关附件：</p>
@@ -216,13 +221,30 @@
     border: 0px;
     border-bottom: 1px solid #ddd;
   }
+  .billDetail .price_wrap {
+      height: 50px;
+      margin-top: 15px;
+      background-color: #fff;
+      text-align: right;
+      line-height: 50px;
+      color: #101010;
+  }
+  .billDetail .price_wrap span{
+     display: inline-block;
+     margin-right: 20px;
+  }
 </style>
 <script>
 export default {
     data(){
         return {
             tableData: [],
-            id:this.$route.params.id
+            id:this.$route.params.id,
+            bill:{},
+            student:{},
+            application:{},
+            approve_history:[],
+            total:0
         }
     },
     created () {
@@ -234,8 +256,17 @@ export default {
         this.$axios.get('/api/finance/refund/'+this.id+'/')
         .then(res=>{
           console.log(res.data)
+          _this.bill = res.data.data.bill;
+          _this.student = res.data.data.student;
+          _this.application = res.data.data.application;
+          _this.approve_history = res.data.data.approve_history;
+          _this.bill.refund_items.forEach(item=>{
+            _this.total += Number(item.amount)
+          });
         })
       }
+    },
+    computed: {
     }
 }
 </script>

@@ -292,7 +292,7 @@ export default {
     methods: {
       getStudentInfo(val){
         var _this = this;
-        this.$axios.get('/api/finance/refund/student_info',{
+        this.$axios.get('/api/finance/refund/student_info/',{
           params:{
             student_id:this.student_id
           }
@@ -343,7 +343,7 @@ export default {
       submitForm(){
         var _this = this;
         this.subjectList.forEach(item=>{
-          item.balance_amount = item.sub_total
+          item.balance_amount = item.deduction_amount
         })
         this.addForm.items = this.subjectList;
         console.log(this.addForm)
