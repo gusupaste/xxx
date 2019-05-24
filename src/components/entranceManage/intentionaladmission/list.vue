@@ -51,17 +51,17 @@
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                  <router-link to="/financemanagement/edit/9">
+                <router-link to="/financemanagement/createDiscount" >
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
-              </router-link>
-              <router-link to="/financemanagement/dollar/9">
+                </router-link>
+                <!--<router-link :to="'/financemanagement/dollar/'+scope.row.id" v-if="permission['finance']['bill-payment'] && scope.row.bill_status === 0">
                     <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
-              </router-link>
-            </template>
+                </router-link>-->
+              </template>
           </el-table-column>
         </el-table>
       </div>
@@ -74,7 +74,8 @@
     data() {
       return {
         tableDate: [],
-        input: ''
+        input: '',
+        //permission : this.$cookies.get('userInfo').user_permissions,
       };
     },
     mounted: function () {

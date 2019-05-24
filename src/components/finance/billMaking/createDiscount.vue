@@ -130,14 +130,16 @@
                 label="缴费时长">
                 <template slot-scope="scope">
                     <span>{{scope.row.pay_month}}</span>月
-                    <!-- <span v-if="(new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30) > 0">
-                        {{(Math.round((new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30)*2+0.49)/2)}}月
-                    </span> -->
                 </template>
                 </el-table-column>
                 <el-table-column
                 prop="price"
                 label="应收">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.pay_month">
+                        {{scope.row.pay_month*scope.row.price}}
+                    </span>
+                </template>
                 </el-table-column>
                 <el-table-column
                 prop="rate"
@@ -553,6 +555,7 @@ export default {
                 });
                 // _this.getSubject();
                 _this.checkedSubject = res.data.data.billitem_li; 
+                
                 _this.checkedSubject1 = res.data.data.billitem_li; 
                 _this.saveForm.billitem_list = res.data.data.billitem_li;
                 _this.sureAddSubject();
@@ -632,6 +635,8 @@ export default {
                     item.payment_method = item.payment_method_name;
                 })
                 _this.subjectList = res.data.available_items;
+                console.log(_this.subjectList[0].pay_month)
+                console.log(_this.subjectList[0].price)
                 _this.checkedSubject = [];
             })
         },
