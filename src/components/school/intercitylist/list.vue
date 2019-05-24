@@ -45,7 +45,7 @@
             <el-input v-model.number="form.code" maxlength="10"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="person">
-            <el-input v-model="form.person.name" disabled style="width:164px"></el-input>
+            <el-input v-model="form.person.name" disabled style="width:145px"></el-input>
             <el-button type="primary" @click="getmana" style="height:40px">
               <i class="fa fa-search"></i>
             </el-button>
@@ -67,7 +67,7 @@
             <el-input v-model.number="checkedItem.dept_code"  maxlength="10"></el-input>
           </el-form-item>
           <el-form-item label="负责人：" prop="manager_name">
-            <el-input v-model="checkedItem.manager_name" disabled style="width:164px"></el-input>
+            <el-input v-model="checkedItem.manager_name" disabled style="width:145px"></el-input>
             <el-button type="primary" @click="getmana" style="height:40px">
               <i class="fa fa-search"></i>
             </el-button>
@@ -122,7 +122,7 @@
           append-to-body>
           <p>
             <span>员工姓名：</span>
-            <el-input v-model="searchPerson" style="width:164px"></el-input>
+            <el-input v-model="searchPerson" style="width:145px"></el-input>
             <el-button type="primary" @click="getPerson(1)">查询</el-button>
           </p>
           <el-table

@@ -53,14 +53,15 @@
                         placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item>
-                    <el-button @click="getSubject" type="primary">搜索费用科目</el-button>
-                </el-form-item>
+                
                 <br>
                 <el-form-item label="收费政策：" class="w300_input">
                     <el-select v-model="saveForm.policy_id">
                         <el-option v-for="item in policyList" :key="item.id" :value="item.id" :label="item.name"></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="getSubject" type="primary">搜索费用科目</el-button>
                 </el-form-item>
                 <br>
                 <el-form-item label="费用科目：">
@@ -106,7 +107,7 @@
                 label="缴费区间">
                 <template slot-scope="scope">
                     <el-date-picker
-                    style="width:164px;display:inline-block"
+                    style="width:145px;display:inline-block"
                         v-model="saveForm.billitem_list[scope.$index].begin_date"
                         type="date"
                         value-format="yyyy-MM-dd"
@@ -114,7 +115,7 @@
                     </el-date-picker>
                     —
                     <el-date-picker
-                    style="width:164px;display:inline-block"
+                    style="width:145px;display:inline-block"
                         v-model="saveForm.billitem_list[scope.$index].end_date"
                         type="date"
                         disabledDate="2019-05-16"
@@ -129,14 +130,16 @@
                 label="缴费时长">
                 <template slot-scope="scope">
                     <span>{{scope.row.pay_month}}</span>月
-                    <!-- <span v-if="(new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30) > 0">
-                        {{(Math.round((new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30)*2+0.49)/2)}}月
-                    </span> -->
                 </template>
                 </el-table-column>
                 <el-table-column
                 prop="price"
                 label="应收">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.pay_month">
+                        {{scope.row.pay_month*scope.row.price}}
+                    </span>
+                </template>
                 </el-table-column>
                 <el-table-column
                 prop="rate"
@@ -418,10 +421,8 @@ export default {
             this.saveForm.actual_amount = this.totalprice;
             this.saveForm.amount = this.totalamount;
             this.saveForm.pay_method = this.addform.pay_method;
-            console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/',this.saveForm)
             .then(res=>{
-                console.log(res.data)
                 if(res.data.status === 1){
                     _this.$message({
                         type:"success",
@@ -483,10 +484,8 @@ export default {
             this.saveForm.actual_amount = this.totalprice;
             this.saveForm.amount = this.totalamount;
             this.saveForm.pay_method = this.addform.pay_method;
-            console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/'+this.id+'/set_bill_info/',this.saveForm)
             .then(res=>{
-                console.log(res.data)
                 if(res.data.status === 1){
                     _this.$message({
                         type:"success",
@@ -498,7 +497,7 @@ export default {
         },
         getStudent(val){
             var _this = this;
-            this.addform.date = this.$options.filters['formatDate2'](new Date());
+            this.addform.date = this.$options.filters['formatDate'](new Date());
             this.$axios.get('/api/finance/bill/show_bill_student/',{
                 params:{
                     search_str:this.searchStr,
@@ -530,8 +529,18 @@ export default {
             this.subjectVisible=false;
         },
         sureAddStudent(){
-            this.multipleTable = [this.choosePerson];
-            this.innerVisible = false;
+            var _this = this;
+            this.$axios.get('/api/student/student/'+this.choosePerson.id+'/student_profile/',{
+                params:{
+                    academic_year_id:this.addform.academic_year_id,
+                }
+            }).then(res=>{
+                res.data.student_profile.name = res.data.student_profile.student_name;
+                res.data.student_profile.student_no = this.choosePerson.student_no;
+                this.multipleTable = [res.data.student_profile];
+                this.innerVisible = false;
+            })
+            
         },
         getDiscountInfo(){
             var _this = this;
@@ -553,9 +562,32 @@ export default {
                 });
                 // _this.getSubject();
                 _this.checkedSubject = res.data.data.billitem_li; 
+                
                 _this.checkedSubject1 = res.data.data.billitem_li; 
                 _this.saveForm.billitem_list = res.data.data.billitem_li;
                 _this.sureAddSubject();
+            })
+        },
+        getDiscount(row){
+            var _this = this;
+            this.$axios.get('/api/discount/discount_management/get_matching_discount/',{
+                params:{
+                    autoal_pay_date:this.addform.start_date,
+                    form_created_date:'2019-05-24',
+                    class_type_id:this.multipleTable[0].class_type_id,
+                    student_id:this.multipleTable[0].id,
+                    center_class_id:this.multipleTable[0].center_class_id,
+                    center_class_year_id:this.multipleTable[0].center_class_year_id,
+                    payment_method_id:this.addform.pay_method,
+                    subject_id:row.subject_id,
+                    policy_id:this.saveForm.policy_id,
+                    policy_item_id:row.id,
+                    academic_year_id:this.addform.academic_year_id,
+                    month:row.pay_month
+                }
+            }).then(res=>{
+                console.log('******');
+                console.log(res.data)
             })
         },
         getYear(){
@@ -579,10 +611,7 @@ export default {
                 }
             })
             .then(res=>{
-                console.log(res.data)
                 _this.policyList = res.data.policy_list;
-                // _this.yearList = res.data.data.academic_year_li;
-                // _this.getInfo();
             })
         },
         getInfo(){
@@ -601,7 +630,6 @@ export default {
             })
         },
         getSubject(){
-            console.log(this.saveForm.policy_id)
             if(this.multipleTable.length == 0){
                 this.$message({
                     type:"error",
@@ -628,7 +656,15 @@ export default {
                 }
             })
             .then(res=>{
+                res.data.available_items.forEach(item=>{
+                    item.subject_id = item.subject;
+                    item.subject = item.subject_name;
+                    item.subject_category = item.subject_category_name;
+                    item.payment_method = item.payment_method_name;
+                })
                 _this.subjectList = res.data.available_items;
+                console.log(_this.subjectList[0].pay_month)
+                console.log(_this.subjectList[0].price)
                 _this.checkedSubject = [];
             })
         },
@@ -656,7 +692,7 @@ export default {
         },
         changePayDate(val,row){
             var _this = this;
-            console.log(this.multipleTable)
+            console.log(row)
             if(row.begin_date  && row.end_date ) {
                 if(row.end_date<row.begin_date) {
                     this.$message({
@@ -673,8 +709,8 @@ export default {
                         to_date:row.end_date
                     }
                 }).then(res=>{
-                    console.log(res)
                     row.pay_month = res.data.data;
+                    _this.getDiscount(row)
                 })
             }
             

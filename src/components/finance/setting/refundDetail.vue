@@ -45,7 +45,9 @@
                 <td rowspan="4" colspan="2" style="width:60px">退费</td>
                 <td colspan="3" style="">
                   已领物品，是否减物品费用&nbsp;&nbsp;&nbsp;
-                  <el-input type="text" v-model="saveForm.goods_fee"></el-input>&nbsp;&nbsp;元
+                  <!--<el-input type="text" v-model="saveForm.goods_fee"></el-input>&nbsp;&nbsp;元-->
+                  <el-radio v-model="saveForm.goods_fee" :label="false">否</el-radio>
+                  <el-radio v-model="saveForm.goods_fee" :label="true">是</el-radio>
                 </td>
               </tr>
               <tr>
@@ -89,20 +91,22 @@
                 </td>
               </tr>
               <tr>
-                <td :rowspan="16 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">在校生</td>
-                <td :rowspan="9 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">学费</td>
+                <td :rowspan="15 + saveForm.month_pay2.length" width="90">在校生</td>
+                <td :rowspan="8 + saveForm.month_pay2.length" width="90">学费</td>
+                <!--<td :rowspan="16 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">在校生</td>
+                <td :rowspan="9 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">学费</td>-->
                 <td width="90">转班</td>
                 <td colspan="3">多退少补</td>
               </tr>
               <tr>
-                <td :rowspan="saveForm.month_pay.length + 5" width="90">退学</td>
-                <td :rowspan="saveForm.month_pay.length + 2" width="100">月缴</td>
+                <td :rowspan="4" width="90">退学</td>
+                <!--<td :rowspan="saveForm.month_pay.length + 2" width="100">月缴</td>-->
                 <td colspan="2">
                   行政手续费
                   <el-input type="text" v-model="saveForm.handling_fee"></el-input> 元
                 </td>
               </tr>
-              <tr v-for="(oth,ind) in saveForm.month_pay">
+              <!--<tr v-for="(oth,ind) in saveForm.month_pay">
                 <td colspan="2">
                   <el-select v-model="oth.specific_month" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
@@ -135,12 +139,12 @@
                   剩余月退
                   <el-input type="text" v-model="oth.other_month_refund_per"></el-input> %，
                 </td>
-              </tr>
-              <tr>
+              </tr>-->
+              <!--<tr>
                 <td colspan="2">
                   <i class="el-icon-circle-plus orange cur" @click="addTr(1)">添加判定条件</i>
                 </td>
-              </tr>
+              </tr>-->
               <tr>
                 <td rowspan="" width="100">学期缴</td>
                 <td colspan="2">
@@ -152,7 +156,7 @@
                     <el-option value="大于等于"></el-option>
                   </el-select>-->大于等于
                   <span>{{ saveForm.number_of_month }}</span>
-                  个月时，学期优惠价格转月缴
+                  个月时，学期优惠价格转缺勤
                 </td>
               </tr>
               <!--<tr>
@@ -177,7 +181,7 @@
                     <el-option value="大于等于"></el-option>
                   </el-select>-->大于等于
                   <span>{{ saveForm.number_of_month2 }}</span>
-                  个月时，学期优惠价格转月缴
+                  个月时，学期优惠价格转缺勤
                 </td>
               </tr>
               <!--<tr>
@@ -560,7 +564,7 @@ export default {
             saveForm:{
               center:'',
               academic_year:'',
-              goods_fee:'',
+              goods_fee:false,
               foreign_employees_per: '',
               on_schedule_per: '',
               not_on_schedule_per: '',
@@ -705,7 +709,7 @@ export default {
           };
           this.saveForm.month_pay2.push(obj);
         }else{
-          var obj = {
+          /*var obj = {
             specific_month:'',
             method_type: '',
             compare_type: '',
@@ -714,7 +718,7 @@ export default {
             refund_per: '',
             other_month_refund_per: '',
           };
-          this.saveForm.month_pay.push(obj);
+          this.saveForm.month_pay.push(obj);*/
         }
       },
       getSchoolList:function () {
@@ -760,7 +764,7 @@ export default {
         this.$axios.get(this.get_02_url).then(res=>{
           this.saveForm.handling_fee = res.data.handling_fee;
           this.saveForm.not_on_schedule_per1 = res.data.not_on_schedule_per;
-          this.saveForm.month_pay = [];
+          /*this.saveForm.month_pay = [];
           for(var x in res.data.month_pay){
             var obj = {};
             if(res.data.month_pay[x].specific_month){
@@ -775,7 +779,7 @@ export default {
             obj.refund_per = res.data.month_pay[x].refund_per;
             obj.other_month_refund_per = res.data.month_pay[x].other_month_refund_per;
             this.saveForm.month_pay.push(obj);
-          }
+          }*/
         }).catch(err=>{
           console.log(err)
         })
@@ -1024,7 +1028,7 @@ export default {
       },
       submit_fun2:function (type) {
         var list = [];
-        for(var y in this.saveForm.month_pay){
+        /*for(var y in this.saveForm.month_pay){
           var obj = {};
           if(this.saveForm.month_pay[y].specific_month !== '0'){
             obj.specific_month = this.saveForm.month_pay[y].specific_month;
@@ -1036,13 +1040,13 @@ export default {
           obj.refund_per = this.saveForm.month_pay[y].refund_per;
           obj.other_month_refund_per = this.saveForm.month_pay[y].other_month_refund_per;
           list.push(obj);
-        }
+        }*/
         var data2 = {
           center:this.saveForm.center || 1,
           academic_year:this.saveForm.academic_year || 1,
           handling_fee:this.saveForm.handling_fee,
           not_on_schedule_per:this.saveForm.not_on_schedule_per1,
-          month_pay_list:list,
+          /*month_pay_list:list,*/
         };
         if(type === 'add'){
           this.$axios.post(this.add_02_url,data2).then(res=>{

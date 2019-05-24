@@ -73,22 +73,22 @@
               :span-method="objectSpanMethod"
               style="width: 100%;">
               <el-table-column
-                prop="subject_category"
+                prop="subject_category_name"
                 label="费用项目"
                 >
               </el-table-column>
               <el-table-column
-                prop="subject"
-                label=""
+                prop="subject_name"
+                label="费用科目"
                 >
               </el-table-column>
               <el-table-column
-                prop="class_type"
+                prop="class_type_name"
                 label="班级类型"
                 >
               </el-table-column>
               <el-table-column
-                prop="payment_method"
+                prop="payment_method_name"
                 label="缴费方式"
                 >
               </el-table-column>

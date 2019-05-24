@@ -171,7 +171,7 @@
             <el-date-picker
               @change="changeDate($event,1)"
               value-format="yyyy-MM-dd"
-              style="width:164px"
+              style="width:145px"
               v-model="addform.start_date"
               type="date"
               placeholder="选择日期">
@@ -251,7 +251,7 @@
             <el-date-picker
               @change="changeDate($event,2)"
               value-format="yyyy-MM-dd"
-              style="width:164px"
+              style="width:145px"
               v-model="editform.start_date"
               type="date"
               placeholder="选择日期">
@@ -321,7 +321,7 @@
           <p style="font-size:12px">{{schoolInfo.name}}</p>
           <p class="mt10">
             <span>搜索：</span>
-            <el-input v-model="searchPerson" style="width:164px"></el-input>
+            <el-input v-model="searchPerson" style="width:145px"></el-input>
             <el-button type="primary" @click="getTeacherList(1)">搜索</el-button>
           </p>
           <el-table

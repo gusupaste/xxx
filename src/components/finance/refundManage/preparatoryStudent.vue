@@ -343,7 +343,7 @@ export default {
       submitForm(){
         var _this = this;
         this.subjectList.forEach(item=>{
-          item.balance_amount = item.sub_total
+          item.balance_amount = item.deduction_amount
         })
         this.addForm.items = this.subjectList;
         console.log(this.addForm)

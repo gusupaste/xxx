@@ -302,12 +302,7 @@
         exist_discount_type: [],
         name: '',
         tableForm: [],
-        roleList: [
-          {
-            id: 0,
-            name: '-请选择-'
-          }
-        ]
+        roleList: []
       }
     },
     mounted: function () {
@@ -456,6 +451,12 @@
       getRoleList: function () {
         this.$axios.get('/api/user/get_roles/')
           .then(res => {
+            this.roleList = [
+              {
+                id: 0,
+                name: '-请选择-'
+              }
+            ]
             this.roleList = this.roleList.concat(res.data.data)
           }).catch(err => {
 
