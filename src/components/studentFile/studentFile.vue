@@ -1,156 +1,283 @@
 <template>
   <div class="studentFile wrap">
-      <p>YOU ARE HERE : <span class="font-cl-blue">学生档案</span></p>
-      <div class="formwrap">
-        <el-form ref="form" :model="form" label-width="100px" inline>
-          <el-form-item label="学生类型：">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-          <el-form-item label="城际：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="区域：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="品牌：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="校园：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="学生性别：">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="入学日期：">
-            <el-col :span="11">
-              <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2" style="text-align:center"> 至 </el-col>
-            <el-col :span="11">
-              <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="搜索：">
-            <el-input placeholder="输入学号、学生姓名或者学生卡号"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" >搜索</el-button>
-          </el-form-item>
-        </el-form>
-        
-      </div>
-      <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item , index) in list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
-            <div style="padding:20px">
-              <div class="avatar inline-block">
-                <img src="../../assets/img/logo.png" alt="">
-              </div>
-              <div class="card-content inline-block">
-                  <p>
-                    <span style="font-size:15px;font-weight:600">学生A</span>
-                    <i style="font-size:15px;color:#ff7f7f" class="fa fa-times-circle"></i>
-                    <span class="studentType">预备生</span>
-                  </p>
-                  <p>出生日期：1020/11/09</p>
-                  <p>学号：00000</p>
-                  <p>所在校园：北京校园</p>
-              </div>
-            </div>
-            <div class="card-footer clearfix">
-                <span class="left" style="border-right: 1px solid #fff;">
-                    <p>入学日期</p>
-                    <p>2017/09/09</p>
-                </span>
-                <span class="left" style="border-right: 1px solid #fff;">
-                    <p>入学日期</p>
-                    <p>1027</p>
-                </span>
-                <span class="left">
-                    <p>入学日期</p>
-                    <p>1027</p>
-                </span>
-            </div>
-          </div>
-      </div>
+    <div class="header">
+      <p class="local_path_style">YOU ARE HERE : <span class="font-cl-blue">学生档案</span></p>
+    </div>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="预备生" name="first">
+          <preparatory :intercity_list="intercity_list"
+                       :area_list="area_list"
+                       :city_list="city_list"
+                       :brand_list="brand_list"
+                       :school_list="school_list"
+                       :class_list="class_list"
+                       :student_list="student_list"
+                       :activeTabs="activeName"
+                       @getCityList="getCityList"
+                       @getSchoolList="getSchoolList"
+                       @getClassList="getClassList"
+                       @getStudentList="getStudentList"></preparatory>
+      </el-tab-pane>
+      <el-tab-pane label="在校生" name="second">
+        <in-school :intercity_list="intercity_list"
+                   :area_list="area_list"
+                   :city_list="city_list"
+                   :brand_list="brand_list"
+                   :school_list="school_list"
+                   :class_list="class_list"
+                   :student_list="student_list"
+                   :activeTabs="activeName"
+                   @getCityList="getCityList"
+                   @getSchoolList="getSchoolList"
+                   @getClassList="getClassList"
+                   @getStudentList="getStudentList"></in-school>
+      </el-tab-pane>
+      <el-tab-pane label="毕业生" name="third">
+        <graduate :intercity_list="intercity_list"
+                  :area_list="area_list"
+                  :city_list="city_list"
+                  :brand_list="brand_list"
+                  :school_list="school_list"
+                  :class_list="class_list"
+                  :student_list="student_list"
+                  :year_list="year_list"
+                  :activeTabs="activeName"
+                  @getCityList="getCityList"
+                  @getSchoolList="getSchoolList"
+                  @getClassList="getClassList"
+                  @getStudentList="getStudentList"></graduate>
+      </el-tab-pane>
+      <el-tab-pane label="中途离园生" name="fourth">
+        <leave :intercity_list="intercity_list"
+               :area_list="area_list"
+               :city_list="city_list"
+               :brand_list="brand_list"
+               :school_list="school_list"
+               :class_list="class_list"
+               :student_list="student_list"
+               :year_list="year_list"
+               :activeTabs="activeName"
+               @getCityList="getCityList"
+               @getSchoolList="getSchoolList"
+               @getClassList="getClassList"
+               @getStudentList="getStudentList"></leave>
+      </el-tab-pane>
+      <el-tab-pane label="毕业班学生" name="fifth">
+        <graduating-class :intercity_list="intercity_list"
+                          :area_list="area_list"
+                          :city_list="city_list"
+                          :brand_list="brand_list"
+                          :school_list="school_list"
+                          :class_list="class_list"
+                          :student_list="student_list"
+                          :activeTabs="activeName"
+                          @getCityList="getCityList"
+                          @getSchoolList="getSchoolList"
+                          @getClassList="getClassList"
+                          @getStudentList="getStudentList"></graduating-class>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
-<style lang="">
-  .studentFile .formwrap {
-    margin-top: 20px;
+<style scoped>
+  .studentFile >>> .el-tabs__active-bar {
+        background-color:#f17128 !important;
+        height: 3px;
   }
-  .studentFile .studentFileList {
-    margin-top: 20px;
+  .studentFile >>> .el-tabs__item {
+      height: 40px;
+      width: 200px;
+      text-align: center;
   }
-  .studentFile .studentFileCard {
-    cursor: pointer;
-    margin-right: 5%;
-    margin-bottom: 40px;
-    border: 1px solid #bbb;
-    width: 27%;
-    font-size: 12px;
-    -webkit-box-shadow: rgba(11,98,137,.2) 0px 0px 4px; 
-    -moz-box-shadow: rgba(11,98,137,.2) 0px 0px 4px; 
-    box-shadow: rgba(11,98,137,.2) 0px 0px 4px; 
+  .studentFile >>> .el-tabs__nav {
+      float: none;
+      width: 80%;
+      margin: 0 auto;
+
   }
-  .studentFile .studentFileCard .card-content{
-    margin-left: 20px;
-    vertical-align: top;
-    line-height: 25px;
+  .studentFile >>> .el-input{
+    width: auto;
   }
-  .studentFile .studentFileCard .card-content .studentType{
-    background-color: #ED6C2E;
-    border-radius: 5px;
-    color: #fff;
-    padding: 2px 5px;
+  .studentFile >>> .el-tabs__header {
+      border-bottom: 2px solid #ccc;
   }
-  .studentFile .studentFileCard .card-footer{
-    background-color: #999;
-    padding: 10px;
-    font-size: 12px;
-    color:#fff;
-  }
-  .studentFile .studentFileCard .card-footer span {
-    display: inline-block;
-    text-align: center;
-    width: 33%;
-    line-height: 17px;
-  }
-  .studentFile .studentFileCard  img{
-    width: 100px;
-    height: 100px;
+
+  .studentFile >>> .el-tab-pane {
+      border: none;
   }
 </style>
 <script>
+import Leave from './studentTypeList/leave';
+import Graduate from './studentTypeList/graduate';
+import GraduatingClass from './studentTypeList/graduating_class';
+import Preparatory from './studentTypeList/preparatory';
+import InSchool from './studentTypeList/inschool';
 export default {
   data(){
     return {
-         list:[1,2,3,4,5,6,7,81,],
-         form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
+      activeName: 'first',
+      int_url:'/api/common/select/intercity_list/',/*城际*/
+      area_url:'/api/common/select/area_list/',/*区域*/
+      city_url:'/api/common/select/city_list/',/*省市*/
+      brand_url:'/api/common/select/hq_list/',/*品牌*/
+      school_url:'/api/common/select/center_list/',/*校园*/
+      klass_url:'/api/common/select/class_list/?center_id=',/*班级*/
+      year_url:'/api/common/select/academic_year_list/',/*班级*/
+      student_url:'/api/student/student/student_list/',/*学生*/
+      intercity_list:[],
+      area_list:[],
+      city_list:[],
+      brand_list:[],
+      school_list:[],
+      class_list:[],
+      year_list:[],
+      student_list:[],
     }
-  }
+  },
+  components:{
+    Graduate,
+    Leave,
+    GraduatingClass,
+    InSchool,
+    Preparatory
+  },
+  mounted:function(){
+    this.getIntercityList();
+    this.getAreaList();
+    this.getCityList(0);
+    this.getBrandList();
+    this.getSchoolList('','','','');
+    this.getYearList();
+  },
+  methods:{
+    handleClick(tab, event) {
+      // console.log(tab, event);
+    },
+    /*城际*/
+    getIntercityList:function () {
+      var _this = this;
+      _this.$axios.get(this.int_url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.intercity_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*区域*/
+    getAreaList:function () {
+      var _this = this;
+      _this.$axios.get(this.area_url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.area_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*省市*/
+    getCityList:function (code) {
+      var _this = this;
+      var url = '';
+      if(code !== 0){
+        url = this.city_url + '?area_id=' + code;
+      }else{
+        url = this.city_url;
+      }
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.city_list = [];
+          this.city_list = res.data.results;
+          this.city = '';
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*品牌*/
+    getBrandList:function () {
+      var _this = this;
+      _this.$axios.get(this.brand_url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.brand_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*校园*/
+    /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
+    getSchoolList:function (intercity_id,province_id,area_id,hq_id) {
+      var _this = this;
+      var url = this.school_url + '?intercity_id=' + intercity_id + '&province_id=' + province_id + '&area_id=' + area_id + '&hq_id=' + hq_id;
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.school_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*班级*/
+    getClassList:function (school) {
+      var _this = this;
+      var url = this.klass_url + school;
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.class_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*学年*/
+    getYearList:function () {
+      var _this = this;
+      var url = this.year_url;
+      _this.$axios.get(url).then(res=>{
+        _this.loading = false;
+        if(res.status == 200 && res.data.status_code == 1) {
+          this.year_list = res.data.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*获取学生*/
+    getStudentList:function (data) {
+      var _this = this;
+      var url = this.student_url;
+      _this.$axios.get(url,{
+        params:{
+          student_type:data.student_type,
+          center_ids:data.center_ids,
+          class_id:data.class_id,
+          date_from:data.date_from,
+          date_to:data.date_to,
+          gender:data.gender,
+          condition:data.condition,
+        }
+      }).then(res=>{
+        if(res.status == 200 && res.data.status == 1) {
+          this.student_list = res.data.results.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+      /*_this.$axios.post(url,data).then(res=>{
+        if(res.status == 200 && res.data.status == 1) {
+          this.student_list = res.data.results.results;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })*/
+    },
+  },
 }
 </script>

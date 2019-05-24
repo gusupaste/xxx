@@ -12,9 +12,9 @@
             prefix-icon="fa fa-user-o"
             v-model="username">
           </el-input>
-          <el-input 
-            placeholder="请输入密码" 
-            v-model="password" 
+          <el-input
+            placeholder="请输入密码"
+            v-model="password"
             prefix-icon="fa fa-lock"
             show-password style="margin-top:26px">
           </el-input>
@@ -25,7 +25,7 @@
     </div>
   </div>
 </template>
-<style lang="">
+<style scoped>
   .login-page {
     background:url('../../assets/img/login-bg.png') no-repeat;
     width:100%;
@@ -56,14 +56,15 @@
     padding:40px;
     text-align: left;
   }
-  .login-page .el-input__inner {
+  .login-page >>> .el-input__inner {
     color: #333;
+    width: 100%;
   }
-  .login-page .el-checkbox__label {
+  .login-page >>> .el-checkbox__label {
     font-size: 12px;
     color:#666 !important;
   }
-  .login-page .is-checked .el-checkbox__inner {
+  .login-page >>> .is-checked .el-checkbox__inner {
     border-color:#f16f26 !important;
     background-color: #f16f26 !important;
   }
@@ -96,21 +97,16 @@ export default {
         localStorage.setItem('user_password',this.password);
         localStorage.setItem('user_name',this.username);
       }
-      _this.$axios.post('http://134.175.93.59:8000/jwt-token-auth/',{
+      _this.$axios.post('/jwt-token-auth/',{
         username:_this.username,
         password:_this.password
       }).then(res=>{
         _this.loading = false;
           if(res.status == 200) {
-            console.log(res)
-            _this.$store.state.user_Info = res.data.user;
-            _this.$store.state.user_Token = res.data.token;
-            localStorage.setItem('user_Info',JSON.stringify(res.data.user));
-            localStorage.setItem('user_name',_this.username);
-            localStorage.setItem('user_password',_this.password);
-            localStorage.setItem('user_Token',JSON.stringify(res.data.token));
+            _this.$cookies.set('token',res.data.token);
+            _this.$cookies.set('userInfo',res.data.user);
+            _this.$cookies.remove('key');
             _this.$router.push('/home');
-            _this.$emit('success',999)
           }
       }).catch(err=>{
         console.log(err)

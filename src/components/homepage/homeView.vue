@@ -8,22 +8,33 @@
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="学生查询" name="first">
                         <div>
-                            <div style="line-height:50px">
-                                <label for="" style="margin-left:0">城际：</label>
-                                <el-select v-model="intercity" placeholder="-请选择-">
-                                    
-                                </el-select>
-                                <label for="">区域：</label>
-                                <el-select v-model="area" placeholder="-请选择-">
-            
-                                </el-select>
-                                <label for="">校园：</label>
-                                <el-select v-model="campus" placeholder="-请选择-">
-                    
-                                </el-select>
-                                <label for="">搜索：</label>
-                                <el-input style="width:250px" v-model="search" placeholder="请输入关键字"></el-input>
-                                <button class="btn bg-blue">搜索</button>
+                            <div>
+                                <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                                    <el-form-item label="城际：">
+                                        <el-select v-model="formInline.region" placeholder="活动区域">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="区域：">
+                                        <el-select v-model="formInline.region" placeholder="活动区域">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="校园：">
+                                        <el-select v-model="formInline.region" placeholder="活动区域">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="搜索：">
+                                        <el-input class="w250_input" v-model="formInline.user" placeholder="审批人"></el-input>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-button type="primary" @click="onSubmit">搜索</el-button>
+                                    </el-form-item>
+                                </el-form>
                             </div>
                             <div>
                                 <el-table
@@ -62,40 +73,53 @@
                                 v-if="studentList.length>0"
                                     background
                                     :page-size="2"
-                                    @size-change="handleSizeChange" 
+                                    @size-change="handleSizeChange"
                                     @current-change="handleCurrentChange"
                                     layout="prev, pager, next"
-                                    :total="studentList.length">
+                                    :total="30000">
                                 </el-pagination>
                             </div>
                         </div>
                         <div class="to_do-list">
                                 <p style="font-size:14px;font-weight:600">待办事项</p>
                                 <div style="margin-top:20px">
-                                    <div style="line-height:50px">
-                                        <label for="" style="margin-left:0">城际：</label>
-                                        <el-select v-model="intercity" placeholder="-请选择-">
-                        
-                                        </el-select>
-                                        <label for="">区域：</label>
-                                        <el-select v-model="area" placeholder="-请选择-">
-                    
-                                        </el-select>
-                                        <label for="">校园：</label>
-                                        <el-select v-model="campus" placeholder="-请选择-">
-                            
-                                        </el-select>
-                                        <label for="">类型：</label>
-                                        <el-select v-model="campus" placeholder="-请选择-">
-                            
-                                        </el-select>
-                                        <el-select v-model="campus" placeholder="-请选择-">
-                            
-                                        </el-select>
-                                        <br>
-                                        <label for="" >搜索：</label>
-                                        <el-input style="width:250px;" v-model="search" placeholder="请输入关键字"></el-input>
-                                        <button class="btn bg-blue">搜索</button>
+                                    <div>
+                                        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                                            <el-form-item label="城际：">
+                                                <el-select v-model="formInline.region" placeholder="活动区域">
+                                                    <el-option label="区域一" value="shanghai"></el-option>
+                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                </el-select>
+                                            </el-form-item>
+                                            <el-form-item label="区域：">
+                                                <el-select v-model="formInline.region" placeholder="活动区域">
+                                                    <el-option label="区域一" value="shanghai"></el-option>
+                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                </el-select>
+                                            </el-form-item>
+                                            <el-form-item label="校园：">
+                                                <el-select v-model="formInline.region" placeholder="活动区域">
+                                                    <el-option label="区域一" value="shanghai"></el-option>
+                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                </el-select>
+                                            </el-form-item>
+                                            <el-form-item label="类型：">
+                                                <el-select v-model="formInline.region" placeholder="活动区域">
+                                                    <el-option label="区域一" value="shanghai"></el-option>
+                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                </el-select>
+                                                <el-select v-model="formInline.region" placeholder="活动区域">
+                                                    <el-option label="区域一" value="shanghai"></el-option>
+                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                </el-select>
+                                            </el-form-item>
+                                            <el-form-item label="搜索：">
+                                                <el-input class="w250_input" v-model="formInline.user" placeholder="审批人"></el-input>
+                                            </el-form-item>
+                                            <el-form-item>
+                                                <el-button type="primary" @click="onSubmit">搜索</el-button>
+                                            </el-form-item>
+                                        </el-form>
                                     </div>
                                     <div>
                                         <el-table
@@ -134,7 +158,7 @@
                                         v-if="thingsList.length>0"
                                             background
                                             :page-size="2"
-                                            @size-change="handleSizeChangeThings" 
+                                            @size-change="handleSizeChangeThings"
                                             @current-change="handleCurrentChangeThings"
                                             layout="prev, pager, next"
                                             :total="thingsList.length">
@@ -144,22 +168,35 @@
                             </div>
                     </el-tab-pane>
                     <el-tab-pane label="家长查询" name="second">
-                        <div>
-                            <label for="" style="margin-left:0">城际：</label>
-                            <el-select v-model="intercity" placeholder="-请选择-">
-            
-                            </el-select>
-                            <label for="">区域：</label>
-                            <el-select v-model="area" placeholder="-请选择-">
-        
-                            </el-select>
-                            <label for="">校园：</label>
-                            <el-select v-model="campus" placeholder="-请选择-">
-                
-                            </el-select>
-                            <label for="">搜索：</label>
-                            <el-input style="width:250px" v-model="search" placeholder="请输入关键字"></el-input>
-                            <button class="btn bg-blue">搜索</button>
+                        <div >
+                            <div>
+                                <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                                    <el-form-item label="城际：">
+                                        <el-select v-model="formInline.region" placeholder="活动区域">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="区域：">
+                                        <el-select v-model="formInline.region" placeholder="活动区域">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="校园：">
+                                        <el-select v-model="formInline.region" placeholder="活动区域">
+                                            <el-option label="区域一" value="shanghai"></el-option>
+                                            <el-option label="区域二" value="beijing"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="搜索：">
+                                        <el-input class="w250_input" v-model="formInline.user" placeholder="审批人"></el-input>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-button type="primary" @click="onSubmit">搜索</el-button>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
                             <div>
                                 <el-table
                                     :data="ParentsList.slice((ParentscurrentPage-1)*Parentspagesize,ParentscurrentPage*Parentspagesize)"
@@ -197,7 +234,7 @@
                                 v-if="ParentsList.length>0"
                                     background
                                     :page-size="2"
-                                    @size-change="handleSizeChangeParents" 
+                                    @size-change="handleSizeChangeParents"
                                     @current-change="handleCurrentChangeParents"
                                     layout="prev, pager, next"
                                     :total="ParentsList.length">
@@ -214,7 +251,7 @@
                         <img src="../../assets/img/logo.png" alt="">
                         <div class="calendarYear">{{year}}</div>
                         <div class="calendarMonth">— &nbsp;&nbsp;{{month}}&nbsp;&nbsp; —</div>
-                        <calendar></calendar>
+                        <vue-event-calendar :events="demoEvents"></vue-event-calendar>
                     </div>
                     <div class="viewAll" @click="viewAll">查看全部</div>
                 </div>
@@ -222,7 +259,7 @@
         </div>
     </div>
 </template>
-<style lang="">
+<style scoped>
     .homeView .big-bg {
         background:url('../../assets/img/login-bg.png') no-repeat;
         width: 100%;
@@ -235,82 +272,64 @@
         letter-spacing: 5px;
     }
     .homeView .user_search_wrap {
-        height: 200px;
-        width: 70%;
+        width: 73%;
         text-align: left;
-        /* border: 1px solid red; */
     }
-    .homeView .user_search_wrap label {
-        /* margin-left: 20px; */
+    .homeView .logo_name {
+        font-size: 24px;
+    }
+    .homeView >>>.w250_input .el-input__inner{
+      width: 165px !important;
     }
     .homeView .school_calendar {
         text-align: left;
-        margin-left: 5%;
+        margin-left: 2%;
         width: 300px;
-        /* height: 400px; */
-        /* border: 1px dashed red; */
-    }
-    .homeView .el-input--suffix .el-input__inner {
-        width: 164px;
-        height: 36px;
-    }
-    .homeView .el-input__inner {
-        width: 250px;
-        height: 36px;
-    }
-    .homeView .el-tabs__item.is-active {
-        color:#f17128 !important;
-    }
-    .homeView .el-tabs__active-bar {
-        background-color:#f17128 !important;
-    }
-    .homeView .el-tabs__item {
-        font-weight: 600;
-    }
-    .homeView .el-tabs__nav-wrap::after {
-        background-color:#fff !important;
     }
     .homeView .viewAll{
         text-align: center;
         height: 36px;
-        line-height: 36px;  
+        line-height: 36px;
         background-color: #fafafa;
         border-top: 1px solid #ccc;
         cursor: pointer;
     }
-    .homeView .events-wrapper{
+    .homeView >>> .events-wrapper{
         display: none;
     }
-    .homeView .calendar_border{
+    .homeView >>> .calendar_border{
         border: 1px solid #ccc;
-        -webkit-box-shadow: #ccc 0px 0px 3px; 
-        -moz-box-shadow: #ccc 0px 0px 3px; 
-        box-shadow: #ccc 0px 0px 3px; 
+        -webkit-box-shadow: #ccc 0px 0px 3px;
+        -moz-box-shadow: #ccc 0px 0px 3px;
+        box-shadow: #ccc 0px 0px 3px;
         margin-top: 20px;
         font-size: 12px !important;
     }
-    .homeView .cal-wrapper{
+    .homeView >>> .cal-wrapper{
        width: 100%;
        padding: 0;
     }
-    .homeView .cal-body{
+    .homeView >>> .cal-body{
        padding: 0 30px;
     }
-    .homeView .weeks .item{
+    .homeView >>>.weeks .item{
        color:#54a3e2;
        font-size: 12px;
     }
-    .homeView .dates .date-num{
+    .homeView >>>.dates  .date-num{
        font-size: 12px !important;
        line-height: 30px;
     }
-    .homeView .calendar_border img{
+    .homeView .calendar_border  img{
        width: 260px;
        height: 150px;
        margin: 0 auto;
     }
-    .homeView .cal-header{
+    .homeView >>> .cal-header{
       display: none;
+    }
+    .homeView >>> .el-form-item{
+      margin-bottom: 10px;
     }
     .homeView .calendarYear {
         text-align: center;
@@ -323,32 +342,38 @@
         text-align: center;
         margin-top: 5px;
     }
-    .homeView .el-table__empty-text {
+    .homeView >>> .el-table__empty-text {
         color:#E51C23;
         width: 98%;
         text-align: left;
     }
-    .homeView .has-gutter th {
+    .homeView >>> .has-gutter >>> th {
         background-color: #f5f5f5;
     }
-    .homeView .to_do-list {
+    .homeView >>> .to_do-list {
         border-top: 1px solid #ccc;
         padding-top: 20px;
         margin-top: 20px;
     }
 </style>
 <script>
-import Calendar from '@/components/homepage/calendar'
+import { mapGetters,mapActions } from "vuex";
 export default {
     data() {
         return {
+            formInline: {
+                user: '',
+                region: '',
+                city:'',
+                school:''
+            },
             activeName: 'first',
             StudentcurrentPage:1,
-            Studentpagesize:2,    
+            Studentpagesize:2,
             ParentscurrentPage:1,
-            Parentspagesize:2, 
-            ThingscurrentPage:1,   
-            Thingspagesize:2,   
+            Parentspagesize:2,
+            ThingscurrentPage:1,
+            Thingspagesize:2,
             intercity:'',
             area:'',
             campus:'',
@@ -483,7 +508,18 @@ export default {
                 class:'一(1)班',
                 contacts:'102020202030'
             }],
+            demoEvents: [{
+                date: '2016/12/15',
+                title: 'eat',
+                desc: 'longlonglong description'
+            },{
+                date: '2016/11/12',
+                title: 'this is a title'
+            }],
         }
+    },
+    created () {
+
     },
     methods:{
         handleClick(tab, event) {
@@ -509,10 +545,16 @@ export default {
         },
         viewAll:function(){
             this.tableData = []
-        }
+        },
+        onSubmit() {
+        console.log('submit!');
+      }
     },
     components:{
-        Calendar
+
+    },
+    computed: {
+        // ...mapGetters(['getArea']),
     }
 }
 </script>

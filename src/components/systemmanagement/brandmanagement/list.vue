@@ -1,145 +1,192 @@
 <template>
     <div class='brandmanagement wrap'>
       <div class="header">
-        <p>YOU ARE HERE : 系统管理 >> <span>品牌管理</span></p>
+        <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">品牌管理</span></p>
       </div>
       <div class="brandmanagement-content">
         <div class="content-top">
           <div class="top">
             <span class="top-span">班级项目：</span>
-            <el-button class="el-button" type="primary" @click="manageBrand(-1)">管理</el-button><br>
-            <span class="top-span-bot">双语班 ； 国际班 ； 慧智班 ； 慧乐班 ；慧智双语班级 ； 慧智普通班  </span>
+            <el-button class="el-button" type="primary" @click="classManageVisible = true">管理</el-button><br>
+            <span v-model="class_type" class="top-span-bot">
+              <span v-for="klass in class_type" :key="klass.id">{{klass.name}};&nbsp;&nbsp;</span>
+            </span>
           </div>
           <div class="top">
             <span class="top-span">年级项目：</span>
-            <el-button class="el-button" type="primary" @click="manageBrand(0)">管理</el-button><br>
-            <span class="top-span-bot">国际班；双语班；</span>
+            <el-button class="el-button" type="primary" @click="yearManageVisible = true">管理</el-button><br>
+            <span v-model="grade_type" class="top-span-bot">
+              <span v-for="grade in grade_type" :key="grade.id">{{grade.name}};&nbsp;&nbsp;</span>
+            </span>
           </div>
         </div>
         <div class="content">
-          <div class="intercity-list">
-            <el-card class="box-card">
-              <span class="el-icon-circle-plus-outline span-button" @click="addAndEditBrand(-1,0)"></span>
+          <div class="intercity-list class-right">
+            <el-card class="box-card add-card" >
+              <img src="../../../assets/img/add.png" class="cur" @click="addAndEditBrand(-1,0)">
+              <p class="add_text cur">新增品牌</p>
             </el-card>
           </div>
-          <div class="intercity-list">
+          <div class="intercity-list" v-for="(card,index) in cardList" :key="index"
+               :class="(index + 2) % 4 == 0 ?'':'class-right'">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
-                <span class="city-name font-cl-blue" style="line-height: 32px">智慧班</span>
-                <el-button type="text" @click="addAndEditBrand(1,1)">
+                <span class="city-name font-cl-blue">{{ card.name }} </span>
+                <el-button type="text" @click="addAndEditBrand(1,card.id)">
                   <span class="el-icon-edit-outline" style="font-size: 20px;color: #ED6C2E;"></span>
                 </el-button>
               </div>
-              <!--<ul>
-                <li style="border-bottom: 1px solid #ddd;line-height: 60px;">
-                  <div class="card-li-div">
-                    <span class="el-card-li">班级项目：<span>国际班</span></span><br>
-                    <span class="el-card-li" style="textOverflow: ellipsis;whiteSpace: nowrap;">双语班；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版</span>
-                  </div>
-                </li>
-                <li style="border-bottom: 1px solid #ddd;line-height: 60px;">
-                  <div class="card-li-div">
-                    <span class="el-card-li">年级项目：<span>国际班</span></span><br>
-                    <span class="el-card-li" style="textOverflow: ellipsis;whiteSpace: nowrap;">双语班；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版；智慧版</span>
-                  </div>
-                </li>
-              </ul>-->
               <ul>
                 <li>
-                  <span class="el-card-li">班级项目：<span>国际班</span></span><br>
+                  <span class="el-card-li">班级项目：</span>
+                  <span class="spanLi span-font"><span v-for="ctype in card.class_types">{{ ctype.name }};&nbsp;</span></span>
+                  <br>
                 </li>
                 <li>
-                  <span class="el-card-li">年级项目：大班，中班，小班</span><br>
+                  <span class="el-card-li">年级项目：</span>
+                  <span class="spanLi"><span v-for="gtype in card.grade_types" style="">{{ gtype.name }};&nbsp;</span></span><br>
                 </li>
               </ul>
             </el-card>
           </div>
         </div>
       </div>
-      <el-dialog title="新增品牌" :visible.sync="addbrandVisible" width="50%" style="padding: 30px 60px;">
-        <el-form label-width="80px">
-          <el-form-item label="品牌名称">
-            <el-input v-model="brandName" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-          </el-form-item>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="addbrandVisible = false">取 消</el-button>
-          <el-button type="success" @click="addbrandVisible = false">保 存</el-button>
-        </span>
-      </el-dialog>
-
-      <el-dialog :title="manageTitle" :visible.sync="brandManageVisible" width="70%">
+      <el-dialog title="班级管理" :visible.sync="classManageVisible" min-width="600px">
         <el-table
-          :data="tableData"
+          :data="class_type"
           border
-          style="width: 100%">
+          style="width: 100%;text-align: center !important;">
           <el-table-column
-            :label="columnLabel1"
+            label="班级类型编码"
             width="220">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.no" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
-              <span v-if="scope.row.edit === true">{{ scope.row.name }}</span>
+              <el-input v-model="scope.row.code" maxlength="15" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
+              <span v-if="scope.row.edit === true">{{ scope.row.code }}</span>
             </template>
           </el-table-column>
           <el-table-column
-            :label="columnLabel2">
+            label="班级类型">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.name" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
+              <el-input v-model="scope.row.name"  maxlength="50" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
               <span v-if="scope.row.edit === true">{{ scope.row.name }}</span>
             </template>
           </el-table-column>
           <el-table-column
             prop="address"
             label="操作"
-            width="220">
+            width="80">
             <template slot-scope="scope">
-              <el-button v-show="scope.row.id" @click="editManage(scope.row)" type="text" size="small"><span class="el-icon-edit"></span></el-button>
-              <el-button @click="deleteButton(scope.row)" type="text" size="small"><span class="el-icon-delete"></span></el-button>
+              <el-button v-show="scope.row.id" @click="scope.row.edit = false" type="text" size="small"><span class="el-icon-edit"></span></el-button>
+              <el-button @click="deleteButton(scope.row,0)" type="text" size="small"><span class="el-icon-delete"></span></el-button>
             </template>
           </el-table-column>
-          <el-th class="addClassButton">
-            <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton" style="padding: 15px;">&nbsp;&nbsp;新增班级类型</i>
-          </el-th>
         </el-table>
         <div class="addClassButton">
-          <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton" style="padding: 15px;">&nbsp;&nbsp;新增班级类型</i>
+          <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton(0)" style="padding: 15px;">&nbsp;&nbsp;新增班级类型</i>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="brandManageVisible = false">取 消</el-button>
-          <el-button type="success" @click="brandManageVisible = false">保 存</el-button>
+          <el-button @click="classManageVisible = false">取 消</el-button>
+          <el-button type="success" @click="saveClassManage(0)">保 存</el-button>
         </span>
       </el-dialog>
 
-      <el-dialog :title="brandName" :visible.sync="editbrandVisible" width="70%">
+      <el-dialog title="年级管理" :visible.sync="yearManageVisible" min-width="600px">
+        <el-table
+          :data="grade_type"
+          border
+          style="width: 100%;text-align: center !important;">
+          <el-table-column
+            label="年级类型编码"
+            width="220">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.code"  maxlength="15" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
+              <span v-if="scope.row.edit === true">{{ scope.row.code }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="年级类型">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.name"  maxlength="50" placeholder="请输入内容" v-if="scope.row.edit === false"></el-input>
+              <span v-if="scope.row.edit === true">{{ scope.row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="操作"
+            width="80">
+            <template slot-scope="scope">
+              <el-button v-show="scope.row.id" @click="scope.row.edit = false" type="text" size="small"><span class="el-icon-edit"></span></el-button>
+              <el-button @click="deleteButton(scope.row,1)" type="text" size="small"><span class="el-icon-delete"></span></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="addClassButton">
+          <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton(1)" style="padding: 15px;">&nbsp;&nbsp;新增年级类型</i>
+        </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="yearManageVisible = false">取 消</el-button>
+          <el-button type="success" @click="saveClassManage(1)">保 存</el-button>
+        </span>
+      </el-dialog>
+
+      <el-dialog :title="brandName" :visible.sync="editbrandVisible" min-width="600px">
         <el-form ref="editForm" :model="editForm" :rules="rules" label-width="80px">
-          <el-form-item label="品牌名称">
-            <el-input v-model="editForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
+          <el-form-item label="品牌名称" prop="name">
+            <el-input v-model.trim="editForm.name" size="small" placeholder="品牌名称限制50个字" maxlength="50"></el-input>
           </el-form-item>
-          <el-form-item label="班级项目">
+          <el-form-item label="班级项目" prop="klass">
             <el-checkbox-group v-model="editForm.klass" style="text-align: left;padding-left: 5px;">
-              <el-checkbox v-for="type1 in klassType" :key="index" :label="type1.name"></el-checkbox>
+              <el-checkbox v-for="(klass,index) in class_type" :key="index" :label="klass.id">{{ klass.name }}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item label="年级项目">
+          <el-form-item label="年级项目" prop="grade">
             <el-checkbox-group v-model="editForm.grade" style="text-align: left;padding-left: 5px;">
-              <el-checkbox v-for="type2 in gradeType" :key="index" :label="type2.name"></el-checkbox>
+              <el-checkbox v-for="(grade,ind) in grade_type" :key="ind" :label="grade.id">{{grade.name}}</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editbrandVisible = false">取 消</el-button>
-          <el-button type="success" @click="editbrandVisible = false">保 存</el-button>
+          <el-button class="bg-red white" v-if="editForm.id !== ''" @click="deleteBrandInfo(editForm.id)">删 除</el-button>
+          <el-button type="success" @click="saveBrand('editForm')">保 存</el-button>
+        </span>
+      </el-dialog>
+
+      <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
+        <p class="mt26 text-align-center">确认删除？</p>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="deleteVisible = false">取 消</el-button>
+          <el-button type="success" @click="sureDelete">确 定</el-button>
         </span>
       </el-dialog>
     </div>
 </template>
-<style>
+<style scoped>
   .brandmanagement .header p{
-    font-size: 14px;
+    font-size: 12px;
   }
   .brandmanagement{
     color: rgba(160, 160, 160, 1);
     text-align: left;
+  }
+  .brandmanagement .add-card{
+    text-align: center;
+    position: relative;
+    /*background:url('../../../assets/img/add.png') no-repeat;*/
+    background-position: 0;
+  }
+  .brandmanagement .add-card img{
+    width: 100px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+  }
+  .brandmanagement .add-card .add_text{
+    position: absolute;
+    top: 77%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
   .brandmanagement .content-top{
     min-height: 120px;
@@ -156,46 +203,39 @@
     font-size: 10px;
     line-height: 40px;
   }
-  .brandmanagement .content-top .el-button{
-    padding: 5px 10px;
+  .brandmanagement >>> .content-top .el-button{
+    height: 0 !important;
     font-size: 10px;
     background-color: #ED6C2E;
     border-color: #ED6C2E;
   }
-  .brandmanagement .intercity-list{
-    width: 210px;
-    height: 300px;
-    display: inline-block;
+  .brandmanagement >>> .intercity-list{
+    width: 23.5%;
+    /*display: inline-block;*/
+    /*margin-right: 2%;*/
+    float: left;
+  }
+  .brandmanagement .class-right{
     margin-right: 2%;
   }
-  .brandmanagement .intercity-list:last-child{
-    margin-right: 0;
-  }
-  .brandmanagement .intercity-li{
-    border: 1px solid #ddd;
-    padding: 5px 20px;
-    border-radius: 50px;
-    background-color: #ddd;
-    margin-bottom: 5px;
-    cursor: pointer;
-  }
   .brandmanagement .el-card{
-    width: 180px;
-    height: 160px;
+    height: 220px;
     padding: 0 20px;
+    margin-bottom: 20px;
   }
-  .brandmanagement .el-card .el-button--text{
+  .brandmanagement >>> .el-card .el-button--text{
     float: right;
-    margin-top: 5px;
     padding: 0;
   }
-  .brandmanagement .el-card__header{
+  .brandmanagement >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+    text-align: center !important;
+  }
+  .brandmanagement >>> .el-card__header{
     padding: 10px 0px;
   }
-  .brandmanagement .el-card__body {
+  .brandmanagement >>> .el-card__body {
     padding: 0px 0px;
     overflow: auto;
-    height: 185px;
   }
   .brandmanagement .el-card__body ul{
     color: #A0A0A0;
@@ -206,28 +246,16 @@
   }
   .brandmanagement .el-card__body ul li{
     padding: 15px 0px;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
   }
   .brandmanagement .span-button{
     font-size: 70px;
     text-align: center;
-    margin-top: 40px;
-    margin-left: 55px;
+    margin-top: 75px;
+    margin-left: 80px;
     cursor: pointer;
-  }
-  .brandmanagement .el-dialog__body {
-    color: #606266;
-    font-size: 14px;
-  }
-  .brandmanagement .el-input__inner{
-    width: 80%;
-  }
-  .brandmanagement .el-dialog__footer{
-    text-align: center;
-  }
-  .brandmanagement .e-card-p{
-    line-height: 30px;
-    background-color: #ddd;
-    padding: 5px;
   }
   .brandmanagement .el-card-li{
     font-size: 8px;
@@ -235,10 +263,17 @@
     width: 100%;
     overflow: hidden;
   }
-  .brandmanagement .el-card-li span{
+  .brandmanagement .spanLi{
+    width: 60%;
+    position: absolute;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .brandmanagement .span-font{
     color: #333333;
     font-weight: bold;
-    line-height: 20px !important;
+    /*line-height: 20px !important;*/
   }
   .brandmanagement .el-table--enable-row-transition .el-table__body td,.brandmanagement .el-table th>.cell{
     text-align: center;
@@ -252,16 +287,16 @@
   .brandmanagement .addClassButton i{
     cursor: pointer;
   }
-  .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+  .brandmanagement >>>.el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
    padding: 0 !important;
   }
-  .brandmanagement .card-li-div{
-    width: 155px;
-    height: 58px;
-    position: absolute;
-    display: inline;
-    line-height: 20px;
-    padding-top: 10px;
+  .brandmanagement .city-name{
+    line-height: 40px;
+    width: 90%;
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>
 <script>
@@ -270,197 +305,109 @@
     },
     data() {
       return {
+        class_type:[],
+        grade_type:[],
         brandName:'添加品牌',
-        klass:'',
-        addbrandVisible: false,
+        cardList:[],
         editbrandVisible: false,
-        brandManageVisible: false,
-        brandName: '',
+        classManageVisible:false,
+        yearManageVisible:false,
+        deleteVisible:false,
+        isdisabledFn:true,
         editForm:{
           id:'',
           name:'',
           klass:[],
           grade:[],
         },
+        deleteForm:{
+          id:'',
+          type:'',
+        },
         rules: {
           name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
-          ]
+            {required: true, message: '请输入品牌名称', trigger: 'blur'},
+            {min: 0, max: 50, message: '长度在 0 到 50 个字符', trigger: 'blur'}
+          ],
+          klass: [
+            { type: 'array', required: true, message: '请至少选择一个班级项目', trigger: 'change' }
+          ],
+          grade: [
+            { type: 'array', required: true, message: '请至少选择一个年级项目', trigger: 'change' }
+          ],
         },
-        manageTitle:'班级管理',
-        typeChebox:[],
-        klassType:[
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
-        gradeType:[
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
-        type:[
-          {
-            name: "幼儿园1",
-            id: 1,
-          },
-          {
-            name: "幼儿园2",
-            id: 2
-          },
-          {
-            name: "幼儿园3",
-            id: 3
-          }
-        ],
-        tableData: [{
-          id: 1,
-          no:'1',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          edit: true,
-          type:[{
-            id:7,
-            checkName:'checkbox7',
-          },
-            {
-              id:7,
-              checkName:'checkbox7',
-            },
-            {
-              id:7,
-              checkName:'checkbox7',
-            }],
-          },{
-          id: 2,
-          no:'2',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄',
-          edit: true,
-          che:[],
-          type:[{
-            id:7,
-            checkName:'checkbox7',
-          },
-            {
-              id:7,
-              checkName:'checkbox7',
-            },
-            {
-              id:7,
-              checkName:'checkbox7',
-            }],
-        }, {
-          id: 3,
-          no:'3',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄',
-          edit: true,
-          che:[],
-          type:[{
-            id:7,
-            checkName:'checkbox7',
-          },
-            {
-              id:7,
-              checkName:'checkbox7',
-            },
-            {
-              id:7,
-              checkName:'checkbox7',
-            }],
-        }, {
-          id: 4,
-          no:'4',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄',
-          edit: true,
-          che:[],
-          type:[{
-            id:1,
-            checkName:'checkbox1',
-          },
-          {
-            id:2,
-            checkName:'checkbox2',
-          },
-          {
-            id:3,
-            checkName:'checkbox3',
-          }],
-        }],
-        columnLabel1:'班级类型编码',
-        columnLabel2:'班级类型',
-        multipleSelection:'',
       };
     },
+    mounted:function(){
+      this.getClassType();
+      this.getGradeType();
+      this.getBrandList();
+    },
     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      addDialog: function () {
-        this.addbrandVisible = true;
-        this.brandName = '';
-      },
-      manageBrand: function (flag) {
-        this.brandManageVisible = true;
-        if(flag == -1){
-          this.manageTitle = '班级管理';
-          this.columnLabel1 = '班级类型编码';
-          this.columnLabel2 = '班级类型';
-        }else{
-          this.manageTitle = '年级管理';
-          this.columnLabel1 = '年级类型编码';
-          this.columnLabel2 = '年级类型';
-        }
-      },
-      addClassButton: function(){
-        const obj = {
+      addClassButton: function(flag){
+        var obj = {
           id:'',
-          no:'',
+          sort_order:'',
           name: '',
-          address: '',
+          code: '',
           edit: false,
         }
-        this.tableData.push(obj);
-      },
-      editManage:function(obj){
-        const index = this.tableData.findIndex(item => item.id === obj.id);
-        this.tableData[index].edit = false;
-      },
-      deleteButton: function(obj){
-        this.tableData.splice(this.tableData.findIndex(item => item.id === obj.id), 1);
-      },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
+        if(flag === 0){
+          this.class_type.push(obj);
+        }else{
+          this.grade_type.push(obj);
         }
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
+      deleteButton: function(obj,flag){
+        if(obj.id === ''){
+          console.log(obj);
+          if(flag === 0){//班级
+            this.class_type.splice(this.class_type.findIndex(item => item.id === obj.id), 1);
+          }else if(flag === 1){//年级
+            this.grade_type.splice(this.grade_type.findIndex(item => item.id === obj.id), 1);
+          }
+        }else{
+          this.deleteForm.id = obj.id;
+          this.deleteForm.type = flag === 0 ? 'cl_type' : 'gr_type';
+          this.deleteVisible = true;
+        }
+      },
+      sureDelete:function(){
+        var _this = this;
+        var url = '/api/common/';
+        if(_this.deleteForm.type === 'cl_type'){
+          url = url + 'class_type/'+_this.deleteForm.id+'/';
+        }else{
+          url = url + 'grade_type/'+_this.deleteForm.id+'/';
+        }
+        _this.$axios.delete(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 204) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            });
+            if(this.deleteForm.type === 'cl_type'){//班级
+              this.class_type.splice(this.class_type.findIndex(item => item.id === this.deleteForm.id), 1);
+            }else if(this.deleteForm.type === 'gr_type'){//年级
+              this.grade_type.splice(this.grade_type.findIndex(item => item.id === this.deleteForm.id), 1);
+            }
+          }else if(res.status === 200 && res.data.status === 1){
+            var car_name = '';
+            if(_this.deleteForm.type === 'cl_type'){
+              car_name = '班级';
+            }else{
+              car_name = '年级';
+            }
+            this.$message({
+              message: '该'+car_name+'已被使用，不能删除',
+              type: 'warning'
+            });
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+        this.deleteVisible = false;
       },
       addAndEditBrand:function(num,id){
         this.editbrandVisible = true;
@@ -469,10 +416,292 @@
         }else{
           this.brandName = '编辑品牌';
         }
+        if(id === 0){
+          this.editForm.id = '';
+          this.editForm.name = '';
+          this.editForm.klass = [];
+          this.editForm.grade = [];
+        }else{
+          this.editBrandInfo(id);
+        }
       },
-      handleClick(row) {
-        console.log(row);
-      }
+      getClassType: function () {
+        var _this = this;
+        _this.loading = true;
+        var url = '/api/common/class_type/';
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            this.class_type = [];
+            var class_types = res.data;
+            for(var x in class_types){
+              var obj = {};
+              obj.id = class_types[x].id;
+              obj.name = class_types[x].name;
+              obj.sort_order = class_types[x].sort_order;
+              obj.code = class_types[x].code;
+              obj.edit = true;
+              this.class_type.push(obj);
+            }
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getGradeType:function () {
+        var _this = this;
+        _this.loading = true;
+        var url = '/api/common/grade_type/';
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            this.grade_type=[];
+            var grade_types = res.data;
+            for(var x in grade_types){
+              var obj = {};
+              obj.id = grade_types[x].id;
+              obj.name = grade_types[x].name;
+              obj.sort_order = grade_types[x].sort_order;
+              obj.code = grade_types[x].code;
+              obj.edit = true;
+              this.grade_type.push(obj);
+            }
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getBrandList:function () {
+        var _this = this;
+        _this.loading = true;
+        var url = '/api/hq/hq/';
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            this.cardList = res.data;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      editBrandInfo:function (brandId) {
+        var _this = this;
+        _this.loading = true;
+        var url = '/api/hq/hq/'+brandId+'/';
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            var new_obj = res.data[0];
+            this.editForm.grade = new_obj.grade_types;
+            this.editForm.klass = new_obj.class_types;
+            this.editForm.name = new_obj.name;
+            this.editForm.id = new_obj.id;
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      deleteBrandInfo:function (brandId) {
+        var _this = this;
+        _this.loading = true;
+        var url = '/api/hq/hq/'+brandId+'/';
+        _this.$axios.delete(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 204) {
+            this.$message.success('删除成功');
+            this.editbrandVisible = false;
+            this.getBrandList();
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      saveBrand:function (formName) {
+        console.log("44544221245645");
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            var _this = this;
+            _this.loading = true;
+            var url = '/api/hq/hq/';
+            console.log(_this.editForm.id);
+            if (_this.editForm.id !== '') {
+              url = url + _this.editForm.id + '/';
+              _this.$axios.put(url, {
+                name: _this.editForm.name,
+                class_types: _this.editForm.klass,
+                grade_types: _this.editForm.grade,
+              }).then(res => {
+                _this.loading = false;
+                if (res.status == 200) {
+                  this.$message({
+                    message: '保存成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message.error('保存失败');
+                }
+                _this.editbrandVisible = false;
+                _this.getBrandList();
+              }).catch(err => {
+                console.log(err)
+              })
+            } else {
+              _this.$axios.post(url, {
+                name: _this.editForm.name,
+                class_types: _this.editForm.klass,
+                grade_types: _this.editForm.grade,
+              }).then(res => {
+                _this.loading = false;
+                if (res.status == 200) {
+                  this.$message({
+                    message: '保存成功',
+                    type: 'success'
+                  });
+                } else {
+                  this.$message.error('保存失败');
+                }
+                _this.editbrandVisible = false;
+                _this.getBrandList();
+              }).catch(err => {
+                console.log(err)
+              })
+            }
+          }else{
+            return false;
+          }
+        })
+      },
+      saveClassManage:function (flag) {
+          var types = [];
+          var url = '';
+          if(flag === 0){
+            types = this.class_type;
+            url = '/api/common/class_type/';
+          }else{
+            types = this.grade_type;
+            url = '/api/common/grade_type/';
+          }
+          var flagtt = false;
+          for(var x in types){
+            if(types[x].id === ''){
+              flagtt = true;
+              if(types[x].name !== ''){
+                var _this = this;
+                _this.loading = true;
+                _this.$axios.post(url, {
+                  name: types[x].name,
+                  sort_order: 0,
+                  code: types[x].code,
+                }).then(res => {
+                  _this.loading = false;
+                  if (res.status == 201) {
+                    this.$message({
+                      message: '保存成功',
+                      type: 'success'
+                    });
+                  } else {
+                    this.$message.error('保存失败');
+                  }
+                  if(x == types.length - 1){
+                    if(flag === 0){
+                      this.classManageVisible = false;
+                      this.getClassType();
+                    }else{
+                      this.yearManageVisible = false;
+                      this.getGradeType();
+                    }
+                  }
+                }).catch(err => {
+                  console.log(err)
+                })
+              }else{
+                this.$message.error('名称不能为空');
+              }
+            }else if(types[x].edit === false){
+              if(types[x].name !== '') {
+                flagtt = true;
+                var _this = this;
+                _this.loading = true;
+                var n_url = url + types[x].id + '/';
+                _this.$axios.put(n_url, {
+                  name: types[x].name,
+                  sort_order: 0,
+                  code: types[x].code,
+                }).then(res => {
+                  _this.loading = false;
+                  if (res.status == 200) {
+                    this.$message({
+                      message: '保存成功',
+                      type: 'success'
+                    });
+                  } else {
+                    this.$message.error('保存失败');
+                  }
+                  if (x == types.length - 1) {
+                    if (flag === 0) {
+                      this.classManageVisible = false;
+                      this.getClassType();
+                    } else {
+                      this.yearManageVisible = false;
+                      this.getGradeType();
+                    }
+                  }
+                }).catch(err => {
+                  console.log(err)
+                })
+              }else{
+                this.$message.error('名称不能为空');
+              }
+            }
+          }
+          if(flagtt === false){
+            this.classManageVisible = false;
+            this.yearManageVisible = false;
+          }
+      },
+    },
+    computed: {
+      klass() {
+        return this.editForm.klass;
+      },
+      grade() {
+        return this.editForm.grade;
+      },
+    },
+    watch:{
+      classManageVisible:{
+        handler(newValue, oldValue) {
+          this.getClassType();
+        },
+        deep: true
+      },
+      yearManageVisible:{
+        handler(newValue, oldValue) {
+          this.getGradeType();
+        },
+        deep: true
+      },
+      /*klass: {
+        handler(newValue, oldValue) {
+          if(newValue.length > 0 && this.editForm.grade.length > 0) {
+            this.isdisabledFn = false;
+          }else{
+            this.isdisabledFn = true;
+          }
+        },
+        deep: true
+      },
+      grade: {
+        handler(newValue, oldValue) {
+          if(newValue.length > 0 && this.editForm.klass.length > 0) {
+            this.isdisabledFn = false;
+          }else{
+            this.isdisabledFn = true;
+          }
+        },
+        deep: true
+      },*/
+
     }
   }
 </script>

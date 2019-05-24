@@ -1,7 +1,7 @@
 <template>
   <div class="discountlist wrap">
     <div class="header">
-      <p>YOU ARE HERE : 财务处理 >> <span>备用金管理</span></p>
+      <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">备用金管理</span></p>
     </div>
     <div class="content">
       <div class="select-header">
@@ -50,46 +50,63 @@
           :data="chargeTableDate"
           border
           stripe
-          show-header
           style="width: 100%;margin-top: 10px;">
           <el-table-column
             prop="code"
-            label="账单号"
-            width="150">
+            label="学号">
           </el-table-column>
           <el-table-column
             prop="name"
-            label="学生姓名"
-            width="130">
+            label="姓名">
           </el-table-column>
           <el-table-column
             prop="intercity_name"
-            label="所在班级"
-            width="130">
+            label="所在班级">
           </el-table-column>
           <el-table-column
-            prop="hq_name"
-            label="账单类型"
-            width="130">
+            label="备用金余额">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
           </el-table-column>
           <el-table-column
-            prop="opening_date"
-            label="实际应收"
-            width="130">
+            label="待批使用备用金">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
           </el-table-column>
           <el-table-column
-            prop="leader"
-            label="实际实收"
-            width="130">
+            label="当前可用余额">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
           </el-table-column>
           <el-table-column
             prop="telephone"
-            label="制单人"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="status_name"
-            label="制单日期">
+            label="待批结转备用金">
+            <el-table-column
+              prop="province"
+              label="普惠">
+            </el-table-column>
+            <el-table-column
+              prop="city"
+              label="非普惠">
+            </el-table-column>
           </el-table-column>
           <el-table-column
             fixed="right"
@@ -175,7 +192,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .discountlist{
     color: rgba(160, 160, 160, 1);
     text-align: left;
@@ -192,23 +209,10 @@
   .discountlist .el-select{
     width: 10%;
   }
-  .discountlist .list-content .el-menu--horizontal>.el-menu-item{
-    float: none;
-    width: 150px;
-    display: inline-block;
-    text-align: center;
-    color: #ED6C2E;
+  .discountlist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+    text-align: center !important;
   }
-  .discountlist .el-table td, .el-table th{
-    text-align: center;
-  }
-  .discountlist .el-menu--horizontal>.el-menu-item.is-active{
-    border-bottom: 2px solid #ED6C2E !important;
-  }
-  .discountlist .el-menu.el-menu--horizontal{
-    padding-left: 50%;
-  }
-  .discountlist .new-calendar-modal .el-table td, .el-table th.is-leaf{
-    border-bottom: none !important;
+  .discountlist >>> .el-input__inner {
+    width: -webkit-fill-available;
   }
 </style>

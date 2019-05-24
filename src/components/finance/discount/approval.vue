@@ -1,9 +1,11 @@
 <template>
     <div class="approval wrap">
-        <p>You Are Here  ：财务处理  >  学生折扣  >   <span class="font-cl-blue">折扣详情</span></p>
+      <div class="header">
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > 学生折扣 > <span class="font-cl-blue">折扣详情</span></p>
+      </div>
         <div class="content-top">员工子女折扣</div>
         <div class="clearfix">
-            
+
             <el-col :span="24" class="card-type">
                 <el-card shadow="always" class="clearfix">
                     <p class="baseInfo">基本信息</p>
@@ -118,7 +120,7 @@
         </div>
     </div>
 </template>
-<style lang="">
+<style scoped>
   .approval .content-top{
     font-weight: 600;
     background-color: #DCECF3;

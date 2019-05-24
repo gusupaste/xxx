@@ -1,8 +1,8 @@
 <template>
     <div class="new-calendar-modal wrap" style="text-align:left">
-            <div class="header">
-                <p>You Are Here  ：系统管理  > 校日历管理  > <span class="font-cl-blue">编辑校日历</span></p>
-            </div>
+      <div class="header">
+        <p class="local_path_style">YOU ARE HERE : 系统管理 > 校日历管理 > <span class="font-cl-blue">编辑校日历</span></p>
+      </div>
             <el-form :model="form" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth" style="margin-bottom:0;font-weight:600">
                     <!-- <el-input v-model="form.name" auto-complete="off"></el-input> -->
@@ -11,47 +11,8 @@
                 </el-form-item>
                 <el-form-item label="学年：" :label-width="formLabelWidth" style="margin-bottom:0">
                     2018-2019学年
-                    <!-- <el-select v-model="form.region" placeholder="请选择活动区域">
-                        
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select> -->
                 </el-form-item>
             </el-form>
-                <!-- <el-form-item label="学校：" :label-width="formLabelWidth">
-                   <span style="cursor:pointer" @click="dialogFormVisible= true">
-                        <i class="green fa fa-plus-square" style="font-size:18px"></i> <span class="green"> 添加校园</span>
-                   </span>
-                    <div class="school-wrap">
-                        <div>
-                            <el-table
-                                ref="multipleTable"
-                                :data="tableData3"
-                                tooltip-effect="dark"
-                                style="width: 100%"
-                                border=""
-                                @selection-change="handleSelectionChange">
-                                <el-table-column
-                                prop="name"
-                                label="校园"
-                              >
-                                </el-table-column>
-                                <el-table-column
-                                prop="address"
-                                label="班级项目"
-                                show-overflow-tooltip>
-                                </el-table-column>
-                                <el-table-column
-                              
-                                label="操作">
-                                <template slot-scope="scope">
-                                        <i @click="delete_dialogVisible=true" class="orange fa fa-trash-o" style="font-size:20px;cursor:pointer"></i>
-                                </template>
-                                </el-table-column>
-                            </el-table>
-                        </div>
-                    </div>
-                </el-form-item> -->
                 <div class="mt26">
                     <span>定义校日历：</span>
                     <span style="color:#f17128;padding:10px;display:inline-block;cursor:pointer" @click="add_Calendar=true">
@@ -59,7 +20,7 @@
                             设定校日历
                     </span>
                     <div class="school-calendar">
-                        
+
                         <p style="color:#999;font-size:12px">新增的日期类型将在下方日历表中以色块的方式区分类别展示，可点击相应区块修改或删除</p>
                         <div class="calendar-list">
                             <Calendar
@@ -84,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-            
+
             <div>
                 <span style="display:inline-block;width:100px;vertical-align:top">备注：</span>
                 <el-input type="textarea" style="width:92%;height:100px"></el-input>
@@ -133,7 +94,7 @@
                         </el-table-column>
                     </el-table>
                     </div>
-                    
+
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:20px">
                     <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
@@ -266,76 +227,59 @@
             </el-dialog>
     </div>
 </template>
-<style lang="">
-    .new-calendar-modal .el-dialog__header{
+<style scoped>
+    .new-calendar-modal >>> .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;
         font-size: 12px !important;
         border-bottom: 1px solid #d5d5d5;
     }
     .new-calendar-modal  .header p{
-        font-size: 14px;
+        font-size: 12px;
         margin: 10px 0px;
     }
-    .new-calendar-modal .el-dialog__title{
-        font-size: 14px;
+    .new-calendar-modal >>> .el-dialog__title{
+        font-size: 12px;
     }
-    .new-calendar-modal .el-dialog{
+    .new-calendar-modal >>> .el-dialog{
         min-width: 600px;
     }
     .new-calendar-modal .school-wrap{
         border: 1px solid #bbb;
     }
-    .new-calendar-modal .dialog-footer{
+    .new-calendar-modal >>> .dialog-footer{
         margin-top: 50px;
         text-align: center;
     }
-    .new-calendar-modal .calendar-datail{
+    .new-calendar-modal >>> .calendar-datail{
         border: 1px solid #bbb;
         margin-top: 20px;
         padding: 10px;
     }
-    .new-calendar-modal .school-wrap_head{
+    .new-calendar-modal >>> .school-wrap_head{
         border: 1px solid #bbb;
         border-bottom: none;
         padding: 10px;
     }
-    .new-calendar-modal .el-table th,.el-table td{
+    .new-calendar-modal >>>.el-table th,.new-calendar-modal >>>.el-table td{
         background-color: #fff;
         text-align: center;
     }
-    .new-calendar-modal  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    .new-calendar-modal  >>> .el-checkbox__input.is-checked .el-checkbox__inner, .new-calendar-modal  >>> .el-checkbox__input.is-indeterminate .el-checkbox__inner {
         border-color: #ED6C2E;
         background-color: #ED6C2E;
     }
-    .new-calendar-modal .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    .new-calendar-modal >>> .el-table--border td, .new-calendar-modal  >>> .el-table--border th, .new-calendar-modal  >>> .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
         border-right: 1px solid #bbb;
         border-bottom: 1px solid #bbb;
     }
-    .new-calendar-modal .el-table td, .el-table th.is-leaf {
+    .new-calendar-modal >>> .el-table td, .new-calendar-modal  >>> .el-table th.is-leaf {
         border-bottom: 1px solid #bbb;
     }
-    .new-calendar-modal .scrollbar{
-        width: 30px;
-        height: 300px;
-        margin: 0 auto;
-    }
-    .el-table::-webkit-scrollbar {
-            width: 15px;     
-            height: 1px;
-        }
-    .el-table::-webkit-scrollbar-thumb {
-            -webkit-box-shadow: inset 0 0 5px #aaa;
-            background: #bbb;
-        }
-    .el-table::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-            background: #EDEDED;
-    }
-    .new-calendar-modal .school-calendar {
+    .new-calendar-modal >>> .school-calendar {
         padding: 10px 10px 10px 100px;
     }
-    .new-calendar-modal .wh_container {
+    .new-calendar-modal >>> .wh_container {
         width: 20%;
         margin-right: 4%;
         margin-top: 20px;
@@ -343,42 +287,42 @@
         border: 1px solid #d9d9d9;
         /* padding: 5px; */
     }
-    .new-calendar-modal .wh_content:nth-child(2) {
+    .new-calendar-modal >>> .wh_content:nth-child(2) {
         background-color: #f7f7f7;
         border: 1px solid #d9d9d9;
     }
-    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] {
+    .new-calendar-modal >>> .wh_content_all[data-v-2ebcbc83] {
         background-color: #fff;
     }
-    .new-calendar-modal .wh_item_date {
+    .new-calendar-modal >>> .wh_item_date {
        color:#101010;
        font-size: 12px;
     }
-    .new-calendar-modal .wh_content_item {
+    .new-calendar-modal >>> .wh_content_item {
        color:#101010;
        font-size: 12px;
     }
-    .new-calendar-modal .wh_content {
+    .new-calendar-modal >>> .wh_content {
        padding: 0;
     }
-    .new-calendar-modal .calendar-suqre {
+    .new-calendar-modal >>> .calendar-suqre {
        display: inline-block;
        width:10px;
        height:10px;
     }
-    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] li{
+    .new-calendar-modal >>> .wh_content_all[data-v-2ebcbc83] li{
         color:#101010;
         font-size: 12px;
     }
-    .new-calendar-modal .el-icon-close{
+    .new-calendar-modal >>> .el-icon-close{
         color:#101010;
         font-size: 20px;
     }
-    .new-calendar-modal .delete-dialog .el-dialog__body {
+    .new-calendar-modal >>> .delete-dialog .el-dialog__body {
         line-height: 50px;
         text-align: center;
     }
-    .new-calendar-modal .delete-dialog .addcalendar-dialog .el-dialog__body {
+    .new-calendar-modal >>> .delete-dialog .addcalendar-dialog .el-dialog__body {
         text-align: left;
     }
 </style>
@@ -451,10 +395,10 @@ export default {
       console.log(data); //跳到了本月
     },
     handleSelectionChange(){
-        
+
     },
     arr(){
-        
+
     }
     },
     components: {

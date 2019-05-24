@@ -1,6 +1,6 @@
 <template>
     <div class="billDetail wrap">
-        <p>You Are Here  ：财务处理  >  收费账单  >   <span class="font-cl-blue">确认账单明细</span></p>
+        <p class="local_path_style">You Are Here  ：财务处理 > 收费账单 > <span class="font-cl-blue">确认账单明细</span></p>
         <div class="content-top">制单信息（预制订单）</div>
         <div class="clearfix">
             <el-col :span="24" class="card-type">
@@ -111,7 +111,7 @@
         </div>
     </div>
 </template>
-<style lang="">
+<style scoped>
   .billDetail .content-top{
     font-weight: 600;
     background-color: #DCECF3;

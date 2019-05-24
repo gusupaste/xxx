@@ -1,7 +1,7 @@
 <template>
 <div class="settlementArea wrap">
   <div class="header">
-    <p>YOU ARE HERE : 系统管理 >> <span>结算区间定义</span></p>
+    <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">结算区间定义</span></p>
   </div>
   <div class="settlementArea-content">
     <div class="content">
@@ -188,7 +188,7 @@
 
 <style  scoped>
  .settlementArea .header p{
-   font-size: 14px;
+   font-size: 12px;
  }
  .settlementArea{
    color: rgba(160, 160, 160, 1);
@@ -213,6 +213,9 @@
  }
  .settlementArea .el-pagination.is-background .el-pager li:not(.disabled).active{
    background-color: orange;
+ }
+ .settlementArea >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+   text-align: center !important;
  }
  .settlementArea .div-page{
    display: -webkit-inline-box;

@@ -1,6 +1,8 @@
+/* main */
 * {
   margin: 0;
   padding: 0;
+  font-size: 12px;
 }
 
 body {
@@ -15,7 +17,6 @@ html {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
-  height: 100%;
   min-width: 1200px;
 }
 
@@ -31,76 +32,102 @@ html {
   width: 90%;
   min-width: 1200px;
   margin: 0 auto;
-  padding: 20px 0;
-  font-size: 14px;
+  padding: 20px 10px 30px 10px;
+  font-size: 12px;
   text-align: left;
 }
-
-.btn {
-  width: 84px;
-  height: 36px;
-  line-height: 36px;
-  border-radius: 2px;
-  color: #fff;
-  border: none;
+.circle{
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-color: #f2b804;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100px;
+  color:#006287;
+  border: 2px solid #006287;
+  font-size: 100px;
   cursor: pointer;
-  font-size: 14px;
 }
-
+.school-name {
+  font-size: 18px;
+  color:#101010;
+  font-weight: 600;
+}
+.local_path_style span {
+  font-size: 12px;
+}
+/* 公共背景色 颜色*/
 .bg-grey {
   background-color: #999;
 }
-
+.bg-light-grey {
+  background-color: #e3e3e3;
+}
 .bg-green {
   background-color: #8bc34a;
 }
-
 .bg-dark-blue {
   background-color: #0b6289;
 }
-
 .bg-blue {
   background-color: #54a3e2;
 }
-
 .bg-orange {
   background-color: #f17128;
 }
-
+.bg-dark-orange {
+  background-color: #F6691E;
+}
+.bg-red {
+  background-color: red;
+}
 .green {
   color: #8BC34A;
 }
-
+.orange {
+  color: #f17128;
+}
+.blue {
+  color: #54a3e2;
+}
+.black {
+  color: #101010 !important;
+}
+.red {
+  color: red;
+}
+.font-cl-blue {
+  color: #0b6289;
+}
+.white{
+  color: #fff;
+}
+.grey{
+  color: grey;
+}
+.bd-green {
+  border:1px solid #8bc34a;
+}
+.bd-grey {
+  border:1px solid #999;
+}
+.bd-orange {
+  border:1px solid #f17128;
+}
+/* 其他 */
 .left {
   float: left;
 }
-
 .right {
   float: right;
+}
+.text-align-center {
+  text-align: center;
 }
 .inline-block {
   display: inline-block;
 }
-.mt10 {
-  margin-top: 10px;
-}
-
-.mt26 {
-  margin-top: 26px;
-}
-
-.mr26 {
-  margin-right: 26px;
-}
-
-.padding-left-30 {
-  padding-left: 30px;
-}
-
-.text-align-center {
-  text-align: center;
-}
-
 .title-style {
   font-size: 16px;
   color:#101010;
@@ -110,40 +137,46 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
-
-.el-pagination {
-  text-align: center;
+.mt10 {
   margin-top: 10px;
 }
 
-.el-pagination.is-background .el-pager li:not(.disabled).active {
-  background-color: #fd8300;
+.mt26 {
+  margin-top: 26px;
+}
+.mt20 {
+  margin-top: 20px;
 }
 
-.clearfix:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden
+.mr26 {
+  margin-right: 26px;
+}
+.mr10 {
+  margin-right: 10px;
 }
 
-.orange {
-  color: #f17128;
+.mb10{
+  margin-bottom: 10px;
 }
-
-.red {
-  color: red;
+.ml10{
+  margin-left: 10px;
 }
-
-.font-cl-blue {
-  color: #0b6289;
+.ml20{
+  margin-left: 20px;
 }
-
-.white{
-  color: white;
+.padding-left-30 {
+  padding-left: 30px;
 }
-
+.cur {
+  cursor: pointer;
+}
+.udline {
+  text-decoration: underline;
+}
+.bold {
+  font-weight: 600;
+}
+/* 字号公共样式 */
 .font-size-5 {
   font-size: 5px;
 }
@@ -154,6 +187,13 @@ a {
 
 .font-size-14 {
   font-size: 14px;
+}
+.font-size-16 {
+  font-size: 16px;
+}
+
+.font-size-20 {
+  font-size: 18px !important;
 }
 
 /* 图标公共样式 */
@@ -167,9 +207,17 @@ a {
 
 /* 表格公共样式 */
 .el-table th {
+  text-align: center;
   background-color: #f5f5f5;
 }
-
+.cell {
+  padding-left: 0;
+  padding-right: 0;
+}
+.el-table td{
+    text-align: center;
+    padding: 5px 0;
+}
 .el-table__empty-text {
   color: #E51C23;
   width: 98%;
@@ -178,4 +226,252 @@ a {
 .bold_black{
   font-weight: bold;
   color: black;
+}
+
+/*button input select  textarea公共样式 */
+.el-button {
+  height: 32px;
+  line-height: 0;
+}
+.el-input__inner {
+  width: 145px;
+  height: 32px;
+  font-size: 12px;
+}
+.el-input__icon {
+  line-height: 32px;
+}
+.btn {
+  width: 84px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 2px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+.dialog-footer .bg-green:hover {
+  color:#fff;
+  border:1px solid #8bc34a;
+  background-color:#8bc34a;
+}
+.dialog-footer .bg-grey:hover {
+  color:#fff;
+  border:1px solid #999;
+  background-color:#999;
+}
+.w250_input .el-input__inner {
+  width: 180px;
+}
+.search_input {
+  width: 220px;
+}
+.search_input .el-input__inner{
+  width: 100%;
+}
+/* tabs公共样式 */
+.el-tabs__item.is-active {
+  color:#f17128 !important;
+}
+.el-tabs__active-bar {
+  background-color:#f17128 !important;
+}
+.el-tabs__nav-wrap::after {
+  background-color:#fff !important;
+}
+.el-tabs__item {
+  font-weight: 600;
+  /* width: 100% !important; */
+}
+.el-submenu__title{
+  font-size: 12px !important;
+}
+.el-menu-item{
+  font-size: 12px !important;
+}
+.el-tabs__item:hover {
+  color:#f17128;
+  font-weight: 600;
+}
+/* 分页公共样式 */
+.el-pagination {
+  text-align: center;
+  margin-top: 10px;
+}
+.is-in-pagination .el-input__inner {
+  width: 50px;
+}
+.el-pager .number ,.btn-next span{
+  font-size: 12px;
+  background-color:#fff !important;
+  color: #666;
+  border: 1px solid #dcdcdc;
+}
+.btn-next span {
+  padding: 0 10px;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #fd8300 !important;
+  border: 1px solid #fd8300;
+  font-size: 12px;
+}
+.el-pager li.active+li {
+  border: 1px solid #dcdcdc;
+}
+/* 子菜单导航样式 */
+.local_path_style {
+  color: rgba(160, 160, 160, 1);
+  font-size: 12px;
+  font-family: SourceHanSansSC-regular;
+}
+/* checkbox 公共样式 */
+.el-checkbox__label {
+  font-size: 12px;
+  color:#666 !important;
+}
+.is-checked .el-checkbox__inner {
+  border-color:#f16f26 !important;
+  background-color: #f16f26 !important;
+}
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color:#f17128;
+  border-color:#f17128;
+}
+.el-radio__input.is-checked+.el-radio__label {
+  color:#f17128;
+}
+.el-radio__input.is-checked .el-radio__inner {
+  background:#f17128;
+  border-color:#f17128;
+}
+/* dialog样式 */
+.el-dialog__headerbtn .el-dialog__close {
+  color:#101010;
+}
+.el-dialog__header{
+  background-color: #f5f5f5;
+  padding: 15px;
+  font-size: 12px !important;
+  border-bottom: 1px solid #d5d5d5;
+}
+.el-dialog__title{
+  font-size: 12px;
+}
+.el-dialog{
+  min-width: 600px;
+  max-width: 1000px;
+}
+.el-dialog__footer {
+  text-align: center;
+}
+.el-dialog__body {
+  padding:10px 20px 30px 20px;
+}
+.el-form-item__label{
+  font-size: 12px !important;
+}
+.el-form-item {
+  margin-bottom: 10px;
+}
+.el-tabs__item{
+  font-size: 12px !important;
+}
+
+/*日历公共样式*/
+.wh_chose_day{
+    background-color: #fff !important;
+    border-radius: 0 !important;
+    color: #101010 !important;
+}
+.wh_item_date:hover{
+    background-color: #fff !important;
+    color: #101010 !important;
+}
+.S:hover{
+    background-color: #f28e91 !important;
+    color: #fff !important;
+}
+.P:hover{
+    background-color: #ffcc80 !important;
+    color: #fff !important;
+}
+.V:hover{
+    background-color: #c5e1a5 !important;
+    color: #fff !important;
+}
+.wh_other_dayhide:hover{
+    background-color: #fff !important;
+    color: #bfbfbf !important;
+}
+.S{
+    color:#fff !important;
+    border-radius:0;
+    background-color: #f28e91 !important;
+}
+.P{
+    color:#fff !important;
+    border-radius:0;
+    background-color: #ffcc80 !important;
+}
+.V{
+    color:#fff !important;
+    border-radius:0;
+    background-color: #c5e1a5 !important;
+}
+.N{
+    color:#101010 !important;
+    border-radius:0;
+    background-color: #fff !important;
+}
+.wh_isToday{
+    border-radius: 0 !important;
+}
+.wh_container {
+    width: 20%;
+    min-width:300px;
+    margin-right: 4% !important;
+    margin-top: 20px !important;
+    display: inline-block;
+    border: 1px solid #d9d9d9;
+    min-height: 340px;
+    vertical-align: top;
+    /* padding: 5px; */
+}
+.wh_content:nth-child(2) {
+    background-color: #f7f7f7;
+    border: 1px solid #d9d9d9;
+}
+.wh_content_all{
+    background-color: #fff !important;
+}
+.wh_item_date {
+    color:#101010;
+    font-size: 12px;
+}
+.wh_other_dayhide{
+    color:#bbb;
+    font-size: 12px;
+}
+.wh_item_date:hover {
+    /* background-color: #fff; */
+}
+.wh_content_item {
+    color:#101010 !important;
+    font-size: 12px !important;
+}
+.wh_top_changge li:first-child ,.wh_top_changge li:nth-child(3) {
+    display: none !important;
+}
+.wh_content {
+    padding: 0;
+}
+.calendar-suqre {
+    display: inline-block;
+    width:10px;
+    height:10px;
+}
+.wh_content_all li{
+    color:#101010 !important;
+    font-size: 12px !important;
 }

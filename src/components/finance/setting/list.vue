@@ -1,356 +1,39 @@
 <template>
     <div class="settinglist wrap">
       <div class="header">
-        <p>YOU ARE HERE : 财务处理 >> <span>财务设置</span></p>
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">财务设置</span></p>
       </div>
-      <div class="content">
+      <div class="content mt26">
         <div class="list-content">
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="费用科目" name="first">
-              <div class="select-header">
-                <span>搜索科目</span>
-                <el-input v-model="input" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
-                <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
-                <span class="right" style="cursor:pointer" @click="addNewTemplate(0)">
-                  <i class="icon-font fa fa-calendar-plus-o"></i>
-                  <span class="font-cl-blue font-size-14" >新增费用科目</span>
-              </span>
-              </div>
-              <el-table
-                :data="chargeTableDate"
-                border
-                stripe
-                show-header
-                style="width: 100%;margin-top: 10px;">
-                <el-table-column
-                  prop="code"
-                  label="科目编码"
-                  width="180">
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  label="科目名称"
-                  min-width="180">
-                </el-table-column>
-                <el-table-column
-                  prop="intercity_name"
-                  label="应用范围"
-                  min-width="180">
-                </el-table-column>
-                <el-table-column
-                  prop="hq_name"
-                  label="备注"
-                  min-width="180">
-                </el-table-column>
-                <el-table-column
-                  fixed="right"
-                  label="操作">
-                  <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="addNewTemplate(1)">编辑</el-button>
-                    <span style="color: #999999">|</span>
-                    <el-button class="red" type="text" size="small" @click="deleteFeeVisible = true">删除</el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
+                <subject :brandList="brandList" :intercityList="intercityList"></subject>
             </el-tab-pane>
-            <el-tab-pane label="折扣设置" name="second">
-              <div class="select-header" style="min-height: 35px;">
-                <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
-                  <i class="icon-font fa fa-calendar-plus-o"></i>
-                  <span class="font-cl-blue font-size-14" >新增折扣类型</span>
-              </span>
-              </div>
-              <el-table
-                :data="chargeTableDate"
-                border
-                stripe
-                show-header
-                style="width: 100%;">
-                <el-table-column
-                  prop="code"
-                  label="折扣类型"
-                  width="140">
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  label="属性"
-                  width="140">
-                </el-table-column>
-                <el-table-column
-                  prop="intercity_name"
-                  label="开始日期"
-                  width="160">
-                </el-table-column>
-                <el-table-column
-                  prop="hq_name"
-                  label="截止日期"
-                  width="160">
-                </el-table-column>
-                <el-table-column
-                  prop="hq_name"
-                  label="缴费区间"
-                  min-width="160">
-                </el-table-column>
-                <el-table-column
-                  prop="hq_name"
-                  label="适用校园"
-                  min-width="120">
-                </el-table-column>
-                <el-table-column
-                  prop="hq_name"
-                  label="备注">
-                </el-table-column>
-                <el-table-column
-                  fixed="right"
-                  label="操作"
-                  width="120">
-                  <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="showDiscountVisible = true">查看详情</el-button>
-                    <span style="color: #999999">|</span>
-                    <el-button style="color: orange" type="text" size="small" @click="addNewDiscount(1)">编辑</el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
+            <el-tab-pane label="普通折扣" name="second">
+                <normaldis></normaldis>
             </el-tab-pane>
-            <el-tab-pane label="收费政策" name="third">
-              <div class="select-header select-length">
-                <span>城际：</span>
-                <el-select v-model="nameSelect" placeholder="--区域--">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <span style="margin-left: 10px">区域：</span>
-                <el-select v-model="nameSelect" placeholder="请选择">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <span style="margin-left: 10px">校园：</span>
-                <el-select v-model="nameSelect" placeholder="请选择">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <span style="margin-left: 10px">学年：</span>
-                <el-select v-model="nameSelect" placeholder="请选择">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
-              </div>
-              <el-table
-                :data="chargeFunTableDate"
-                border
-                stripe
-                show-header
-                style="width: 100%;margin-top: 10px;">
-                <el-table-column
-                  prop="code"
-                  label="收费政策"
-                  width="250">
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  label="适用校园">
-                </el-table-column>
-                <el-table-column
-                  prop="intercity_name"
-                  label="学年"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="hq_name"
-                  label="有效期"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="opening_date"
-                  label="发布日期"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="leader"
-                  label="备注">
-                </el-table-column>
-                <el-table-column
-                  fixed="right"
-                  label="操作"
-                  width="80">
-                  <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="showDiscountVisible = true" style="color: #ED6C2E">复制</el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
+            <el-tab-pane label="招生折扣" name="third">
+                <recruitdis></recruitdis>
             </el-tab-pane>
-            <el-tab-pane label="备用金" name="fore">
-              <el-table
-                :data="chargeTableDate"
-                border
-                stripe
-                show-header
-                style="width: 100%;margin-top: 10px;">
-                <el-table-column
-                  prop="code"
-                  label="账单号"
-                  width="150">
-                </el-table-column>
-                <el-table-column
-                  prop="name"
-                  label="学生姓名"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="intercity_name"
-                  label="所在班级"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="hq_name"
-                  label="账单类型"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="opening_date"
-                  label="实际应收"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="leader"
-                  label="实际实收"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="telephone"
-                  label="制单人"
-                  width="130">
-                </el-table-column>
-                <el-table-column
-                  prop="status_name"
-                  label="制单日期">
-                </el-table-column>
-              </el-table>
+            <el-tab-pane label="收费政策" name="fore">
+                <charge :brandList="brandList" :intercityList="intercityList" :areaList="areaList" :yearList="yearList"></charge>
+            </el-tab-pane>
+            <el-tab-pane label="退费政策" name="five">
+                <refund></refund>
             </el-tab-pane>
           </el-tabs>
         </div>
       </div>
-      <el-dialog :title="feeName" :visible.sync="addFeeVisible" width="50%">
-        <el-form ref="feeForm" :model="feeForm" :rules="rules" label-width="80px">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="科目名称">
-                <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="科目类型">
-                <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="科目编码">
-                <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="是否必须">
-                <el-input v-model="feeForm.name" size="small" placeholder="品牌名称限制15个字" maxlength="15"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="应用范围">
-                  <el-radio v-model="radio" label="1" @change="changeRadio(1)">所有校园</el-radio><br>
-                  <el-radio v-model="radio" label="2" @change="changeRadio(2)">指定校园</el-radio>
-              </el-form-item>
-            </el-col>
-            <el-col :span="16">
-              <el-form-item style="margin-left:-80px;padding-top: 50px;">
-                <span>品牌：</span>
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;" v-bind:disabled="disabledSelect">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-                <span>城际：</span>
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;" v-bind:disabled="disabledSelect">
-                  <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item>
-                <el-table
-                  :data="templateList"
-                  border
-                  :show-header="false"
-                  style="width: 95%;margin-top: 20px;">
-                  <el-table-column
-                    prop="id"
-                    width="50">
-                    <el-checkbox v-model="checked" v-bind:disabled="disabledSelect"></el-checkbox>
-                  </el-table-column>
-                  <el-table-column
-                    prop="sname">
-                  </el-table-column>
-                </el-table>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="备注说明">
-                <el-input type="textarea"
-                  :rows="2"
-                  placeholder="请输入内容"
-                  v-model="feeForm.remarks">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="addFeeVisible = false">取 消</el-button>
-          <el-button type="success" @click="addFeeVisible = false">保 存</el-button>
-        </span>
-      </el-dialog>
-      <el-dialog title="删除费用科目" :visible.sync="deleteFeeVisible" width="40%" class="deleteFee">
+
+      <el-dialog title="删除费用科目" :visible.sync="deleteFeeVisible" width="450" class="deleteFee">
         <span>是否确认删除费用科目<span style="color:#006287">【学费】</span>？</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="deleteFeeVisible = false">取 消</el-button>
           <el-button type="success" @click="deleteFeeVisible = false">保 存</el-button>
         </span>
       </el-dialog>
-      <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="70%" class="discountDialog">
-        <el-form ref="discountForm" :model="discountForm" :rules="rules" label-width="80px">
+      <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="780px" class="discountDialog">
+        <el-form ref="discountForm" :model="discountForm"  label-width="80px">
           <el-row>
             <el-col :span="12">
               <el-form-item label="折扣名称">
@@ -463,37 +146,49 @@
           </el-row>
           <el-row>
             <el-col :span="24">
+
               <el-form-item>
-                <el-table
+                <!--<el-table
                   :data="templateList"
                   border
                   :show-header="false"
                   style="width: 95%;margin-top: 20px;">
                   <el-table-column
-                    prop="id"
-                    width="350">
+                    prop="id">
                     <template slot-scope="scope">
-                      <el-select v-model="scope.row.select" style="width: 100px;">
+                      <el-select v-model="scope.row.select" style="width: 90px;">
                         <el-option>大于</el-option>
                         <el-option>小于</el-option>
                         <el-option>大于等于</el-option>
                         <el-option>小于等于</el-option>
                         <el-option>等于</el-option>
                       </el-select>
-                      <el-input v-model="scope.row.input" style="width: 90px;"></el-input>
-                      <el-select v-model="scope.row.select2" style="width: 100px;">
+                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                      <el-select v-model="scope.row.select2" style="width: 90px;">
+                        <el-option>或</el-option>
+                        <el-option>且</el-option>
+                      </el-select>
+                      <el-select v-model="scope.row.select" style="width: 90px;">
+                        <el-option>大于</el-option>
+                        <el-option>小于</el-option>
+                        <el-option>大于等于</el-option>
+                        <el-option>小于等于</el-option>
+                        <el-option>等于</el-option>
+                      </el-select>
+                      <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                      <el-select v-model="scope.row.select2" style="width: 90px;">
                         <el-option>或</el-option>
                         <el-option>且</el-option>
                       </el-select>
                     </template>
                     <el-checkbox v-model="checked"></el-checkbox>
                   </el-table-column>
-                  <el-table-column>
+                  &lt;!&ndash;<el-table-column>
                     <template slot-scope="scope">
                       <span v-if="scope.row.id">{{ scope.row.sname }}</span>
                       <el-input v-model="scope.row.sname" v-show="scope.row.id === ''"></el-input>
                     </template>
-                  </el-table-column>
+                  </el-table-column>&ndash;&gt;
                   <el-table-column width="50">
                     <template slot-scope="scope">
                       <el-button class="red" type="text" size="small" @click="deleteList(scope.row)">
@@ -501,7 +196,88 @@
                       </el-button>
                     </template>
                   </el-table-column>
-                </el-table>
+                </el-table>-->
+                <table style="width: 95%;margin-top: 20px;">
+                  <tr>
+                    <td>条件</td>
+                    <td>
+                      <template slot-scope="scope">
+                        <el-select v-model="scope.row.select" style="width: 90px;">
+                          <el-option>大于</el-option>
+                          <el-option>小于</el-option>
+                          <el-option>大于等于</el-option>
+                          <el-option>小于等于</el-option>
+                          <el-option>等于</el-option>
+                        </el-select>
+                        <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                        <el-select v-model="scope.row.select2" style="width: 90px;">
+                          <el-option>或</el-option>
+                          <el-option>且</el-option>
+                        </el-select>
+                        <el-select v-model="scope.row.select" style="width: 90px;">
+                          <el-option>大于</el-option>
+                          <el-option>小于</el-option>
+                          <el-option>大于等于</el-option>
+                          <el-option>小于等于</el-option>
+                          <el-option>等于</el-option>
+                        </el-select>
+                        <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                        <el-select v-model="scope.row.select2" style="width: 90px;">
+                          <el-option>或</el-option>
+                          <el-option>且</el-option>
+                        </el-select>
+                      </template>
+                      <el-checkbox v-model="checked"></el-checkbox>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <template slot-scope="scope">
+                        <el-select v-model="scope.row.select" style="width: 90px;">
+                          <el-option>大于</el-option>
+                          <el-option>小于</el-option>
+                          <el-option>大于等于</el-option>
+                          <el-option>小于等于</el-option>
+                          <el-option>等于</el-option>
+                        </el-select>
+                        <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                        <el-select v-model="scope.row.select2" style="width: 90px;">
+                          <el-option>或</el-option>
+                          <el-option>且</el-option>
+                        </el-select>
+                        <el-select v-model="scope.row.select" style="width: 90px;">
+                          <el-option>大于</el-option>
+                          <el-option>小于</el-option>
+                          <el-option>大于等于</el-option>
+                          <el-option>小于等于</el-option>
+                          <el-option>等于</el-option>
+                        </el-select>
+                        <el-input v-model="scope.row.input" style="width: 80px;"></el-input>
+                        <el-select v-model="scope.row.select2" style="width: 90px;">
+                          <el-option>或</el-option>
+                          <el-option>且</el-option>
+                        </el-select>
+                      </template>
+                      <el-checkbox v-model="checked"></el-checkbox>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <!--<el-table-column>
+                    <template slot-scope="scope">
+                      <span v-if="scope.row.id">{{ scope.row.sname }}</span>
+                      <el-input v-model="scope.row.sname" v-show="scope.row.id === ''"></el-input>
+                    </template>
+                  </el-table-column>-->
+                  <el-table-column width="50">
+                    <template slot-scope="scope">
+                      <el-button class="red" type="text" size="small" @click="deleteList(scope.row)">
+                        <span class="el-icon-delete" style="font-size: 20px;color: #ED6C2E;"></span>
+                      </el-button>
+                    </template>
+                  </el-table-column>
+                </table>
                 <span style="cursor:pointer;color: #ED6C2E;" @click="addIfElse">
                   <i class="icon-font fa fa-calendar-plus-o"></i>
                   <span class="font-size-14" >添加判断条件</span>
@@ -524,8 +300,8 @@
           <el-button type="success" @click="addDiscountVisible = false">保 存</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="折扣详情预览" :visible.sync="showDiscountVisible" width="55%" class="discountShow">
-        <el-form ref="discountForm" :model="discountForm" :rules="rules" label-width="80px">
+      <el-dialog title="折扣详情预览" :visible.sync="showDiscountVisible" width="600px" class="discountShow">
+        <el-form ref="discountForm" :model="discountForm"  label-width="80px">
           <el-row>
             <el-col :span="24">
               <el-form-item label="折扣名称"><span style="color: #ED6C2E;font-size: 18px;">员工中子女折扣</span></el-form-item>
@@ -582,112 +358,147 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="showDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="showDiscountVisible = false">保 存</el-button>
+          <el-button type="success" @click="showDiscountVisible = false">修 改</el-button>
+        </span>
+      </el-dialog>
+
+
+      <el-dialog :title="reservefundName" :visible.sync="reservefundVisible" width="700px">
+        <el-form ref="reserveForm" :model="reserveForm" label-width="80px">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="城际" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="区域" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="省份" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="城市" label-width="40">
+                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="学校" label-width="40">
+                <el-table
+                  :data="templateList"
+                  border
+                  :show-header="false"
+                  style="width: 610px;margin-top: 20px;">
+                  <el-table-column
+                    prop="id"
+                    width="180">
+                    <el-checkbox v-model="checked">【2015】金华家园</el-checkbox>
+                  </el-table-column>
+                  <el-table-column>
+                    <el-checkbox-group v-model="type" style="text-align: left">
+                      <el-checkbox label="美食" name="type"></el-checkbox>
+                      <el-checkbox label="地推" name="type"></el-checkbox>
+                      <el-checkbox label="线下" name="type"></el-checkbox>
+                      <el-checkbox label="单纯" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="addFeeVisible = false">取 消</el-button>
+          <el-button type="success" @click="addFeeVisible = false">保 存</el-button>
         </span>
       </el-dialog>
     </div>
 </template>
 
 <script>
+import subject from './compents/subject';
+import normaldis from './compents/normaldis';
+import recruitdis from './compents/recruitdis';
+import charge from './compents/charge'
+import refund from './compents/refund'
   export default {
     data() {
       return {
+        brandList:[],
+        intercityList: [],
+        areaList: [],
+        yearList: [],
+        academic_year_id:'',
         nameSelect:[],
-        options1:[{
-          value: 'all',
-          label: '所有'
-        },{
-          value: '选项4',
-          label: '折扣率'
-        }, {
-          value: '选项5',
-          label: '折扣金额'
-        }],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        operation:[
-          {
-            id:1,
-            name:'所有学校',
-          },
-          {
-            id:2,
-            name:'指定校园',
-          }
-        ],
+        options1:[],
+        options:[],
+        checked:'',
+        operation:[],
         value1:'',
         value2:'',
         value9:'',
         input:'',
         activeName:'first',
         disabledSelect:false,
-        chargeTableDate:[
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          },
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          }
-        ],
-        chargeFunTableDate:[
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          },
-          {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          }
-        ],
+        chargeFunTableDate:[],
         addFeeVisible:false,
         deleteFeeVisible:false,
         addDiscountVisible:false,
         showDiscountVisible:false,
+        showPolicyVisible:false,
+        innerVisible:false,
+        reservefundVisible:false,
         discountName:'新增折扣类型',
         feeName:'新增费用项目',
+        reservefundName:'添加校园',
         type:[],
         discountForm:{
+          id:1,
+          name:'合肥御龙湾校园',
+          schools:[],
+
+          resource:1,
+          select:[],
+        },
+        policyForm:{
           id:'',
+          title:'合肥御龙湾校园2009-2010学年收费政策',
           name:'',
           remarks:'',
           resource:1,
@@ -699,64 +510,78 @@
           remarks:'',
           resource:'1',
         },
+        reserveForm:{
+          id:'',
+          name:'',
+          remarks:'',
+          resource:'1',
+        },
         radio:'1',
-        templateList: [
-          {
-            id:1,
-            pname:'家长姓名1',
-            sname:'学生姓名1',
-            select:'',
-            select2:'',
-            input:'',
-          },
-          {
-            id:2,
-            pname:'家长姓名2',
-            sname:'学生姓名2',
-            select:'',
-            select2:'',
-            input:'',
-          }
-        ],
+        templateList: [],
         selectCheckbox:[
-          {
-            id:1,
-            name:'员工子女折扣',
-          },
-          {
-            id:2,
-            name:'园长折扣',
-          },
-          {
-            id:3,
-            name:'事业部拓展折扣',
-          },
-          {
-            id:4,
-            name:'兄弟姐妹折扣',
-          },
-          {
-            id:5,
-            name:'总经理折扣',
-          },
-          {
-            id:6,
-            name:'其他折扣',
-          },
         ],
       };
+    },
+    components: {
+      subject,
+      normaldis,
+      recruitdis,
+      charge,
+      refund
+    },
+    created () {
+      this.getBrand();
+      this.getIntercity();
+      this.getArea();
+      this.getYear();
     },
     methods: {
       handleClose (){
 
       },
-      searchList: function() {
-
+      getBrand(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/hq_list/',)
+          .then(res=>{
+            _this.brandList = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
       },
-      editSchool:function (param) {
+      getIntercity(){
+          var _this = this;
+          this.$axios.get('/api/common/intercity/',).then(res=>{
+            _this.intercityList = res.data.intercity_list;
+            // _this.form.intercity_id = res.data.intercity_list[0].id;
+          }).catch(err=>{
+            console.log(err)
+        })
+      },
+      getArea(){
+          var _this = this;
+          _this.$axios.get('/api/common/select/area_list/',)
+          .then(res=>{
+            _this.areaList = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
+      getYear(){
+            var _this = this;
+            this.$axios.get('/api/common/select/academic_year_list/')
+            .then(res=>{
+                _this.yearList = res.data.results;
+                _this.yearList.forEach(item => {
+                    if(item.is_selected === 1){
+                        _this.academic_year_id = item.id;
+                    }
+                });
+            })
+        },
+      editSchool(param) {
         this.$router.push('/school/school-edit/'+param.id);
       },
-      addNewTemplate:function (flag) {
+      addNewTemplate(flag) {
         if(flag === 0){
           this.feeName = '新增费用科目';
         }else{
@@ -793,6 +618,17 @@
         }
         this.templateList.push(newObj);
       },
+      handleClick(){
+
+      },
+      addNewReservefund:function (flag) {
+        if(flag === 0){
+          this.reservefundName = '添加校园';
+        }else{
+          this.reservefundName = '编辑校园';
+        }
+        this.reservefundVisible = true;
+      }
     },
     watch:{
       disabledSelect: {
@@ -809,57 +645,54 @@
   }
 </script>
 
-<style>
+<style scoped>
   .settinglist{
     color: rgba(160, 160, 160, 1);
     text-align: left;
+  }
+  .settinglist >>>.school_table_wrap {
+    width: 100%;
+  }
+
+  .settinglist >>> .school_table_wrap .el-form-item__content{
+    width: 80%;
   }
   .settinglist .bold{
     font-weight: bold;
     color: black;
   }
-  .settinglist .select-header,.chargelist .list-content{
+  .settinglist .select-header,.settinglist .list-content{
     width: 100%;
     min-height: 50px;
   }
-  .settinglist .el-select{
-    width: 25%;
-  }
-  .settinglist .el-tabs__item{
+  .settinglist >>> .el-tabs__item{
     width: 150px;
     text-align: center;
-    color: #ED6C2E;
   }
-  .settinglist .el-tabs__item.is-active{
+  .settinglist >>> .el-tabs__item.is-active{
     color: #ED6C2E;
     border-bottom: 2px solid #ED6C2E !important;
   }
-  .settinglist .el-table td, .el-table th{
-    text-align: center;
-  }
-  .settinglist .el-menu--horizontal>.el-menu-item.is-active{
+  .settinglist >>> .el-menu--horizontal>.el-menu-item.is-active{
     border-bottom: 2px solid #ED6C2E !important;
   }
-  .settinglist .el-menu.el-menu--horizontal{
-    padding-left: 50%;
-  }
-  .settinglist .el-tabs__active-bar{
+  .settinglist >>> .el-tabs__active-bar{
     background-color: #ED6C2E;
     width: 0px !important;
   }
-  .settinglist .el-tabs__item:hover{
+  .settinglist >>> .el-tabs__item:hover{
     color:#ED6C2E;
   }
-  .settinglist .el-tabs__item{
+  .settinglist >>> .el-tabs__item{
     padding: 0 0 !important;
   }
-  .settinglist .el-tabs__nav-scroll{
+  .settinglist >>> .el-tabs__nav-scroll{
     padding-left: 50%;
   }
-  .settinglist #tab-first{
-    margin-left: -300px;
-  }
-  .settinglist .el-tabs__active-bar is-top{
+  .settinglist >>> #tab-first{
+     margin-left: -350px;
+   }
+  .settinglist >>> .el-tabs__active-bar is-top{
     width: 0px !important;
   }
   .settinglist .el-textarea{
@@ -868,10 +701,10 @@
   .settinglist .el-radio__input{
     line-height: 3.5 !important;
   }
-  .settinglist .el-dialog__footer{
+  .settinglist >>> .el-dialog__footer{
     text-align: center;
   }
-  .settinglist .deleteFee .el-dialog__body{
+  .settinglist .deleteFee >>> .el-dialog__body{
     text-align: center;
   }
   .settinglist .discountDialog .el-checkbox-group{
@@ -883,14 +716,43 @@
   .settinglist .discountShow .el-form-item__label{
     width: 120px !important;
   }
-  .settinglist .discountShow .el-form-item__content{
+  .settinglist .discountShow >>> .el-form-item__content{
     display: -webkit-box;
     margin-left: 120px !important;
   }
-  .settinglist .discountShow .el-dialog__body{
+  .settinglist >>> .discountShow .el-dialog__body{
     padding-top: 5px !important;
   }
-  .settinglist .select-length .el-select{
-    width: 15%;
+  .settinglist .select-header, .settinglist .list-content{
+    min-height: 50px;
+  }
+  .settinglist .policyClass{
+    width: 100%;
+    min-height: 50px;
+  }
+  .settinglist .policyClass p{
+    color: #333333;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .settinglist .policyClass span{
+    color: #bbbbbb;
+    font-size: 10px;
+  }
+  .settinglist .policyClass .button_color{
+    border-color: #006287;
+    color: #006287;
+  }
+  .settinglist .copyPolicyShow .el-select{
+    width: 80%;
+  }
+  .settinglist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+    text-align: center;
+  }
+  .settinglist >>> .el-input__inner {
+    width: -webkit-fill-available;
+  }
+  .settinglist >>> .el-tabs__nav-wrap {
+    border-bottom: 1px solid #e6e6e6;
   }
 </style>

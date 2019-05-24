@@ -1,81 +1,48 @@
 <template>
     <div class="new-calendar-modal wrap" style="text-align:left">
-            <div class="header">
-                <p>You Are Here  ：系统管理  > 校日历管理  > <span class="font-cl-blue">编辑校日历</span></p>
-            </div>
-            <el-form :model="form" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
+      <div class="header">
+        <p class="local_path_style">YOU ARE HERE : 系统管理 > 校日历管理 > <span class="font-cl-blue">编辑校日历</span></p>
+      </div>
+            <el-form :model="info" style="margin-top:20px;border:1px solid #ccc;padding:10px 0">
                 <el-form-item label="模板名称：" :label-width="formLabelWidth" style="margin-bottom:0;font-weight:600">
                     <!-- <el-input v-model="form.name" auto-complete="off"></el-input> -->
-                    <span>模板一</span>
+                    <span>{{renderInfo.name}}</span>
                     <i class="fa fa-edit icon-font" @click="addtmp=true" style="cursor:pointer"></i>
                 </el-form-item>
                 <el-form-item label="学年：" :label-width="formLabelWidth" style="margin-bottom:0">
-                    2018-2019学年
-                    <!-- <el-select v-model="form.region" placeholder="请选择活动区域">
-                        
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select> -->
+                    {{renderInfo.academic_year_name}}
+                </el-form-item>
+                <el-form-item label="备注：" :label-width="formLabelWidth">
+                    {{renderInfo.remarks}}
                 </el-form-item>
             </el-form>
-                <!-- <el-form-item label="学校：" :label-width="formLabelWidth">
-                   <span style="cursor:pointer" @click="dialogFormVisible= true">
-                        <i class="green fa fa-plus-square" style="font-size:18px"></i> <span class="green"> 添加校园</span>
-                   </span>
-                    <div class="school-wrap">
-                        <div>
-                            <el-table
-                                ref="multipleTable"
-                                :data="tableData3"
-                                tooltip-effect="dark"
-                                style="width: 100%"
-                                border=""
-                                @selection-change="handleSelectionChange">
-                                <el-table-column
-                                prop="name"
-                                label="校园"
-                              >
-                                </el-table-column>
-                                <el-table-column
-                                prop="address"
-                                label="班级项目"
-                                show-overflow-tooltip>
-                                </el-table-column>
-                                <el-table-column
-                              
-                                label="操作">
-                                <template slot-scope="scope">
-                                        <i @click="delete_dialogVisible=true" class="orange fa fa-trash-o" style="font-size:20px;cursor:pointer"></i>
-                                </template>
-                                </el-table-column>
-                            </el-table>
-                        </div>
-                    </div>
-                </el-form-item> -->
                 <div class="mt26">
                     <span>定义校日历：</span>
-                    <span style="color:#f17128;padding:10px;display:inline-block;cursor:pointer" @click="add_Calendar=true">
+                    <!-- <span style="color:#f17128;padding:10px;display:inline-block;cursor:pointer" @click="add_Calendar=true">
                             <i class="fa fa-plus-square-o"></i>
                             设定校日历
-                    </span>
+                    </span> -->
                     <div class="school-calendar">
-                        
+
                         <p style="color:#999;font-size:12px">新增的日期类型将在下方日历表中以色块的方式区分类别展示，可点击相应区块修改或删除</p>
                         <div class="calendar-list">
                             <Calendar
-                                v-for="(i,index) in list"
+                                ref="Calendar"
+                                v-for="(i,index) in monthList"
                                 :key='index'
+                                :textTop="textTop"
+                                :markDateMore='i.list'
                                 v-on:choseDay="clickDay"
-                                v-on:changeMonth="changeDate"
                                 v-on:isToday="clickToday"
+                                v-on:changeMonth="changeMonth"
                                 :sundayStart="true"
                                 ></Calendar>
                         </div>
                         <div class="calendar-datail">
                             <p>校日历日期说明</p>
                             <div>
-                                <span style="background-color:#e51c23" class="calendar-suqre"></span>
-                                <span class="mr26">休息日</span>
+                                <span style="background-color:#f28e91" class="calendar-suqre"></span>
+                                <span class="mr26">休假日</span>
                                 <span style="background-color:#ff9800" class="calendar-suqre"></span>
                                 <span class="mr26">职业发展日</span>
                                 <span style="background-color:#8BC34A" class="calendar-suqre"></span>
@@ -84,14 +51,8 @@
                         </div>
                     </div>
                 </div>
-            
-            <div>
-                <span style="display:inline-block;width:100px;vertical-align:top">备注：</span>
-                <el-input type="textarea" style="width:92%;height:100px"></el-input>
-            </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="cancelModal" style="background-color:#bbb;color:#fff">取 消</el-button>
-                <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                <el-button @click="$router.go(-1)" style="background-color:#bbb;color:#fff">返 回</el-button>
             </div>
             <!-- 添加学校 -->
             <el-dialog title="添加学校" :visible.sync="dialogFormVisible">
@@ -133,11 +94,11 @@
                         </el-table-column>
                     </el-table>
                     </div>
-                    
+
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:20px">
                     <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                    <el-button type="primary"  style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
                 </div>
             </el-dialog>
             <!-- 删除学校 -->
@@ -218,101 +179,110 @@
                 <el-form :model="form">
                     <el-form-item label="日期从：" :label-width="formLabelWidth">
                         <el-date-picker
-                            v-model="value8"
+                            v-model="form.date_from"
                             type="date"
                             placeholder="选择日期"
-                            default-value="2010-10-01">
+                            value-format="yyyy-MM-dd"
+                            >
                         </el-date-picker>
                         <span style="padding:0 20px;">到</span>
                         <el-date-picker
-                            v-model="value8"
+                            v-model="form.date_to"
                             type="date"
                             placeholder="选择日期"
-                            default-value="2010-10-01">
+                            value-format="yyyy-MM-dd"
+                            >
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="类型：" :label-width="formLabelWidth">
-                        <el-select v-model="form.region" placeholder="请选择活动区域">
-                            <el-option label="区域一" value="shanghai"></el-option>
-                            <el-option label="区域二" value="beijing"></el-option>
+                        <el-select v-model="form.day_type" placeholder="请选择">
+                            <el-option label="工作日" value="N"></el-option>
+                            <el-option label="职业发展日" value="P"></el-option>
+                            <el-option label="休假日" value="S"></el-option>
+                            <el-option label="寒暑假" value="V"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="描述：" :label-width="formLabelWidth">
-                        <el-input type="textarea" v-model="form.desc"></el-input>
+                        <el-input type="textarea" v-model="form.remarks" maxlength="100"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
                     <el-button @click="edit_Calendar=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                    <el-button type="primary" @click="setDayType" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
                 </div>
             </el-dialog>
             <!-- 新增校日历模板 -->
-            <el-dialog title="新增校日历模版" :visible.sync="addtmp">
-                <el-form :model="form">
-                    <el-form-item label="模板名称：" :label-width="formLabelWidth">
-                        <el-input v-model="form.name" auto-complete="off"></el-input>
+            <el-dialog title="编辑校日历模版" :visible.sync="addtmp">
+                <el-form :model="info" :rules="rules" ref="info">
+                    <el-form-item label="模板名称：" :label-width="formLabelWidth" prop="name">
+                        <el-input maxlength="50" v-model="info.name" auto-complete="off" class="w250_input" placeholder="请输入"></el-input>
                     </el-form-item>
-                    <el-form-item label="学年：" :label-width="formLabelWidth">
-                        <el-select v-model="form.region" placeholder="请选择活动区域">
-                            <el-option label="区域一" value="shanghai"></el-option>
-                            <el-option label="区域二" value="beijing"></el-option>
+                    <el-form-item label="学年：" :label-width="formLabelWidth" prop="academic_year">
+                        <el-select v-model="info.academic_year" placeholder="请选择学年">
+                           <el-option v-for="yea in yearList"  :label="yea.name" :key="yea.id"   :value="yea.id"></el-option>
                         </el-select>
+                    </el-form-item>
+                    <el-form-item label="备注：" :label-width="formLabelWidth">
+                        <el-input type="textarea" v-model="info.remarks" maxlength="100"></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:0">
                     <el-button @click="addtmp=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-                    <el-button type="primary" @click="cancelModal" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">确 定</el-button>
+                    <el-button type="primary" @click="editTemplate('info')" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">确 定</el-button>
                 </div>
             </el-dialog>
     </div>
 </template>
-<style lang="">
-    .new-calendar-modal .el-dialog__header{
+<style scoped>
+    .new-calendar-modal >>> .el-dialog__header{
         background-color: #f5f5f5;
         padding: 15px;
         font-size: 12px !important;
         border-bottom: 1px solid #d5d5d5;
     }
     .new-calendar-modal  .header p{
-        font-size: 14px;
-        margin: 10px 0px;
+        font-size: 12px;
     }
-    .new-calendar-modal .el-dialog__title{
-        font-size: 14px;
+    .new-calendar-modal >>> .el-dialog__title{
+        font-size: 12px;
     }
-    .new-calendar-modal .el-dialog{
+    .new-calendar-modal >>> .el-dialog{
         min-width: 600px;
     }
     .new-calendar-modal .school-wrap{
         border: 1px solid #bbb;
     }
-    .new-calendar-modal .dialog-footer{
+    .new-calendar-modal >>> .dialog-footer{
         margin-top: 50px;
         text-align: center;
     }
-    .new-calendar-modal .calendar-datail{
+    .new-calendar-modal >>> .calendar-datail{
         border: 1px solid #bbb;
         margin-top: 20px;
         padding: 10px;
     }
-    .new-calendar-modal .school-wrap_head{
+    .new-calendar-modal >>> .school-wrap_head{
         border: 1px solid #bbb;
         border-bottom: none;
         padding: 10px;
     }
-    .new-calendar-modal .el-table th,.el-table td{
+    .new-calendar-modal >>> .el-date-editor input{
+        width: 100%;
+    }
+
+    .new-calendar-modal >>> .el-table th, .new-calendar-modal >>> .el-table td{
         background-color: #fff;
         text-align: center;
     }
-    .new-calendar-modal  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    .new-calendar-modal  >>> .el-checkbox__input.is-checked .el-checkbox__inner, .new-calendar-modal  >>> .el-checkbox__input.is-indeterminate .el-checkbox__inner {
         border-color: #ED6C2E;
         background-color: #ED6C2E;
     }
-    .new-calendar-modal .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    .new-calendar-modal >>> .el-table--border td, .new-calendar-modal >>> .el-table--border th, .new-calendar-modal >>> .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
         border-right: 1px solid #bbb;
         border-bottom: 1px solid #bbb;
     }
-    .new-calendar-modal .el-table td, .el-table th.is-leaf {
+    .new-calendar-modal >>>.el-table td, .new-calendar-modal >>> .el-table th.is-leaf {
         border-bottom: 1px solid #bbb;
     }
     .new-calendar-modal .scrollbar{
@@ -320,65 +290,19 @@
         height: 300px;
         margin: 0 auto;
     }
-    .el-table::-webkit-scrollbar {
-            width: 15px;     
-            height: 1px;
-        }
-    .el-table::-webkit-scrollbar-thumb {
-            -webkit-box-shadow: inset 0 0 5px #aaa;
-            background: #bbb;
-        }
-    .el-table::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-            background: #EDEDED;
-    }
-    .new-calendar-modal .school-calendar {
+    .new-calendar-modal >>> .school-calendar {
         padding: 10px 10px 10px 100px;
     }
-    .new-calendar-modal .wh_container {
-        width: 20%;
-        margin-right: 4%;
-        margin-top: 20px;
-        display: inline-block;
-        border: 1px solid #d9d9d9;
-        /* padding: 5px; */
-    }
-    .new-calendar-modal .wh_content:nth-child(2) {
-        background-color: #f7f7f7;
-        border: 1px solid #d9d9d9;
-    }
-    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] {
-        background-color: #fff;
-    }
-    .new-calendar-modal .wh_item_date {
-       color:#101010;
-       font-size: 12px;
-    }
-    .new-calendar-modal .wh_content_item {
-       color:#101010;
-       font-size: 12px;
-    }
-    .new-calendar-modal .wh_content {
-       padding: 0;
-    }
-    .new-calendar-modal .calendar-suqre {
-       display: inline-block;
-       width:10px;
-       height:10px;
-    }
-    .new-calendar-modal .wh_content_all[data-v-2ebcbc83] li{
-        color:#101010;
-        font-size: 12px;
-    }
-    .new-calendar-modal .el-icon-close{
+
+    .new-calendar-modal >>> .el-icon-close{
         color:#101010;
         font-size: 20px;
     }
-    .new-calendar-modal .delete-dialog .el-dialog__body {
+    .new-calendar-modal >>> .delete-dialog .el-dialog__body {
         line-height: 50px;
         text-align: center;
     }
-    .new-calendar-modal .delete-dialog .addcalendar-dialog .el-dialog__body {
+    .new-calendar-modal >>> .delete-dialog .addcalendar-dialog .el-dialog__body {
         text-align: left;
     }
 </style>
@@ -388,7 +312,21 @@ export default {
     data() {
         return {
             addtmp:false,
-            list:[1,2,3,4,5,6,7,8,9,10,11,12],
+            list:[],
+            info:{},
+            renderInfo:{},
+            template_id:this.$route.params.id,
+            yearList:[],
+            monthList:[],
+            rules:{
+                name: [
+                    { required: true, message: '请输入模板名称', trigger: 'blur' }
+                ],
+                academic_year: [
+                    { required: true, message: '请选择学年', trigger: 'change' }
+                ],
+            },
+            textTop:['Su','Mo','Tu','We','Th','Fr','Sa'],
             dialogFormVisible:false,
             delete_dialogVisible:false,
             delete_Calendar:false,
@@ -396,69 +334,135 @@ export default {
             edit_Calendar:false,
             value8:"2019-09-08",
             form: {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
+                date_from:'2019-09-08',
+                date_to:'',
+                remarks:'',
+                day_type:'P'
             },
-            tableData3: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
-                formLabelWidth: '120px'
+            tableData3: [],
+            formLabelWidth: '120px'
             }
         },
+    mounted () {
+        this.getYear();
+        this.getTemplateInfo();
+        // 改写插件方法
+        Calendar.methods.clickDay = function(item,index){
+            if (item.otherMonth === "nowMonth" && !item.dayHide) {
+                this.getList(this.myDate, item.date);
+            }
+        }
+    },
     methods:{
         cancelModal(){
-        this.$emit('closeDialog', false);
-      },
-      clickDay(data) {
-      console.log(data); //选中某天
-    },
-    changeDate(data) {
-      console.log(data); //左右点击切换月份
-    },
-    clickToday(data) {
-      console.log(data); //跳到了本月
-    },
-    handleSelectionChange(){
-        
-    },
-    arr(){
-        
-    }
+
+        },
+        changeMonth(){
+            return false;
+        },
+        getTemplateInfo(){
+            var _this = this;
+            this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_detail/')
+            .then(res=>{
+               _this.info = Object.assign({}, res.data.detail);;
+               _this.renderInfo =  Object.assign({}, res.data.detail);
+               _this.getCalendar();
+            })
+        },
+        getYear(){
+            var _this = this;
+            this.$axios.get('/api/common/select/academic_year_list/')
+            .then(res=>{
+                _this.yearList = res.data.results;
+            })
+        },
+        getCalendar(){
+            var _this = this;
+            _this.monthList = [];
+            this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/show_template_calendar_days/')
+            .then(res=>{
+                res.data.results.forEach(item=>{
+                    var son = new Object;
+                    son.time = item.year+'/'+item.month;
+                    son.list = item.days;
+                    _this.monthList.push(son)
+                });
+                _this.$nextTick(()=> {
+                    _this.initCalendar();
+                });
+            })
+        },
+        editTemplate(formName){
+            var _this = this;
+            this.$refs[formName].validate((valid) => {
+            if (valid) {
+                this.$axios.put('/api/school_calendar/calendar_template/'+this.template_id+'/',{
+                    academic_year:_this.info.academic_year,
+                    name:_this.info.name,
+                    remarks:_this.info.remarks
+                })
+                .then(res=>{
+                    if(res.data.status_code === 1){
+                        _this.$message({
+                            type:'success',
+                            message:'编辑成功！'
+                        })
+                        _this.addtmp = false;
+                        _this.getTemplateInfo();
+                        // _this.getCalendar();
+                    } else {
+                        _this.$message({
+                            type:'error',
+                            message:res.data.message
+                        })
+                    }
+                })
+            } else {
+                console.log('error submit!!');
+                return false;
+            }
+            });
+        },
+        clickDay(data) {
+            var newdata = data.replace(/\//g,'-');
+            var _this = this;
+            this.$axios.get('/api/school_calendar/calendar_template/'+this.template_id+'/view_template_calendar_day_detail/?date='+newdata)
+            .then(res=>{
+                _this.form = res.data.detail;
+                _this.$set(_this.form,'date_from',newdata);
+                _this.$set(_this.form,'date_to',newdata);
+                _this.edit_Calendar = true;
+            })
+        },
+        setDayType(){
+            var _this = this;
+            this.$axios.post('/api/school_calendar/calendar_template/'+this.template_id+'/edit_template_calendar_day/',this.form)
+            .then(res=>{
+                if(res.data.status_code === 1){
+                    _this.edit_Calendar = false;
+                    _this.$message({
+                        type:'success',
+                        message:'添加成功！'
+                    });
+                    _this.getTemplateInfo();
+                }
+            })
+        },
+        clickToday(data) {
+
+        },
+        handleSelectionChange(){
+
+        },
+        initCalendar(){
+            var _this = this;
+            this.monthList.forEach((item,index)=>{
+                this.$refs.Calendar[index].ChoseMonth(item.time,false)
+            });
+        }
     },
     components: {
-    Calendar
+        Calendar
   }
 }
 </script>
