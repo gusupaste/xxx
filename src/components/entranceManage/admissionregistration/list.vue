@@ -5,7 +5,7 @@
       </div>
       <div class="content">
         <div class="select-header">
-          <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" style="width: 25%;"></el-input>
+          <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
           <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
         </div>
         <div class="list-content">

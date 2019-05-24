@@ -278,13 +278,13 @@
       }
     },
     mounted:function(){
-      if(localStorage.getItem('studentTabName') === 'first'){
+      /*if(localStorage.getItem('studentTabName') === 'first'){*/
         this.getOptions();
         this.getCountryOptions();
         this.getIntercity_list();
         this.getYearList();
         this.getStudentInfo();
-      }
+      /*}*/
     },
     methods:{
       /*省份*/
@@ -394,10 +394,10 @@
             this.studentInfo.nick_name = res.data.detail.nick_name;
             this.studentInfo.enter_date = res.data.detail.enter_date;
             this.studentInfo.first_pay_date = res.data.detail.first_pay_date;
-            this.studentInfo.certificate_type = parseInt(res.data.detail.certificate_type);
+            this.studentInfo.certificate_type = parseInt(res.data.detail.certificate_type) || '';
             this.studentInfo.certificate_no = res.data.detail.certificate_no;
-            this.studentInfo.nationality = parseInt(res.data.detail.nationality);
-            this.studentInfo.religion = parseInt(res.data.detail.religion);
+            this.studentInfo.nationality = parseInt(res.data.detail.nationality) || '';
+            this.studentInfo.religion = parseInt(res.data.detail.religion) || '';
             this.studentInfo.date_of_birth = res.data.detail.date_of_birth;
             this.studentInfo.gender = res.data.detail.gender;
             this.studentInfo.is_employee_child = res.data.detail.is_employee_child;
