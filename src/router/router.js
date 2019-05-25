@@ -68,6 +68,7 @@ import DiscountPass from '@/components/finance/discount/pass'
 import DiscountApproval from '@/components/finance/discount/approval'
 import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
+import createReservefund from '@/components/finance/reserveFund/createReserveFund'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import DiscountApplication from '@/components/finance/discountApplication/list'
 import AdddiscountApplication from '@/components/finance/discountApplication/add'
@@ -413,6 +414,11 @@ export default new Router({
           path: '/financemanagement/reservefund',
           name: 'Reservefund',
           component: Reservefund
+        },
+        {
+          path: '/financemanagement/create-reserve',
+          name: 'createReservefund',
+          component: createReservefund
         },
         {
           path: '/financemanagement/parentbusinessapplication',

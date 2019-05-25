@@ -98,7 +98,19 @@ export default {
     return {
       active:"",
       name:'',
-      permission:{}
+      permission:{
+        'campus':{},
+        'enrollment-management':{},
+        'student-management':{},
+        'finance':{},
+        'student-attendance-campus':{},
+        'parent-information':{},
+        'school-calendar':{},
+        'student-archives':{},
+        'student-attendance-hq':{},
+        'system-management':{},
+        'workflow':{},
+      }
     }
   },
   created(){
