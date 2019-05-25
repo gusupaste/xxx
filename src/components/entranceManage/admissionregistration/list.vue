@@ -56,7 +56,7 @@
                 </p>
                 <p class="lable-p">
                   <span class="labels">学年计划:</span>
-                  <span>{{ studentInfo.academic_year }}</span>
+                  <span>{{ studentInfo.academic_year_name }}</span>
                 </p>
               </el-col>
               <el-col :span="8">
@@ -66,13 +66,14 @@
                 </p>
                 <p class="lable-p">
                   <span class="labels">意向班级:</span>
-                  <span>{{ studentInfo.preferred_center_name }}</span>
+                  <span>{{ studentInfo.preferred_class }}</span>
                 </p>
               </el-col>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">性别:</span>
-                  <span>{{ studentInfo.gender }}&nbsp;</span>
+                  <span v-if="studentInfo.gender === 'M'">男</span>
+                  <span v-if="studentInfo.gender === 'F'">女</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">预计入学日期:</span>
@@ -82,7 +83,7 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">缴费区间:</span>
-                  <span>{{ studentInfo.age }}</span>
+                  <span>&nbsp;</span>
                 </p>
               </el-col>
               <el-col :span="16">
@@ -542,7 +543,7 @@
         if(this.operationVisible === true){
           this.getClassList(center_id,academic_year_id);
         }
-        var url = '/api/student/preparing_admission/'+id;
+        var url = '/api/student/prepare_list_student/'+id;
         this.loading = true
         this.$axios.get(url).then(res => {
           this.loading = false
@@ -568,6 +569,7 @@
                   type: 'success',
                   message: '保存成功！'
                 })
+                this.operationVisible = false;
               } else {
                 this.$message.error('保存失败');
               }

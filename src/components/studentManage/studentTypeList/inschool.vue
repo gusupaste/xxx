@@ -793,8 +793,8 @@ export default {
           status_name:'12312313',
         }
       ],
-      year_url:'/api/student/student/1/academic_year_history/',
-      class_url:'/api/center/select/center_class_year_list/?center_id=',
+      year_url:'',
+      class_url:'/api/center/select/center_class_year_list/',
       input_school:'/api/student/student_management/create_enrollment_registration/',
       in_class_list:[],
       yearlist: [],
@@ -840,16 +840,16 @@ export default {
       this.reulsForm.class_obj = '';
       this.getClassList(id);
     },
-    getYearHistory:function () {
+    getYearHistory:function (id) {
       var _this = this;
-      this.$axios.get(this.year_url).then(res=>{
+      this.$axios.get('/api/student/student/'+id+'/academic_year_history/').then(res=>{
         _this.yearlist = res.data.results;
       }).catch(err=>{
         console.log(err)
       })
     },
     getClassList:function(id){
-      var url = this.class_url + '3' + '&academic_year_id=' + id;
+      var url = this.class_url + '?academic_year_id=' + id;
       this.$axios.get(url).then(res=>{
         this.in_class_list = res.data.results;
       }).catch(err=>{
@@ -881,7 +881,7 @@ export default {
     },
     operationSelect:function(val,id){
       if(val === 1){
-        this.getYearHistory();
+        this.getYearHistory(id);
         this.getStudentInfo(id);
         this.operationVisible = true;
         this.reulsForm.academic_year = '';
@@ -909,6 +909,7 @@ export default {
                 type: 'success',
                 message: '保存成功！'
               })
+              this.getYearHistory();
             } else {
               this.$message.error('保存失败');
             }

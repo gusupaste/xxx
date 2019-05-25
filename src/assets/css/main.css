@@ -375,6 +375,9 @@ a {
 .el-form-item {
   margin-bottom: 10px;
 }
+.el-form-item__error {
+  position: static !important;
+}
 /* .is-required {
   margin-bottom: 22px ;
 } */
