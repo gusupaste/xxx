@@ -677,10 +677,11 @@ export default {
     },
     methods:{
       delete_attend:function(index){
-        this.month
+        if(this.saveForm.month_pay2.length > 1){
+          this.saveForm.month_pay2.splice(index,1);
+        }
       },
       cancel:function () {
-        console.log('as.dkklghjkshdjkg');
         this.$router.push('/financemanagement/setting');
       },
       getLists:function () {
