@@ -283,7 +283,7 @@
               this.tableData = res.data.data.results
               this.total = res.data.data.count
             } else {
-              alert(res.data.message)
+              this.$message.warning(res.data.message);
             }
           }
         }).catch(err => {
