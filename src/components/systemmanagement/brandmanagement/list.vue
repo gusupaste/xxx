@@ -147,8 +147,16 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="editbrandVisible = false">取 消</el-button>
-          <el-button class="bg-red white" v-if="editForm.id !== ''" @click="deleteBrandInfo(editForm.id)">删 除</el-button>
+          <el-button class="bg-red white" v-if="editForm.id !== ''"
+                     @click="deleteBrandInfoVisible = true">删 除</el-button>
           <el-button type="success" @click="saveBrand('editForm')">保 存</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog title="确认删除" :visible.sync="deleteBrandInfoVisible" width="400px">
+        <p class="mt26 text-align-center">确认删除？</p>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="deleteBrandInfoVisible = false">取 消</el-button>
+          <el-button type="success" @click="deleteBrandInfo">确 定</el-button>
         </span>
       </el-dialog>
 
@@ -305,6 +313,7 @@
     },
     data() {
       return {
+        deleteBrandInfoVisible:false,
         class_type:[],
         grade_type:[],
         brandName:'添加品牌',
@@ -501,15 +510,16 @@
           console.log(err)
         })
       },
-      deleteBrandInfo:function (brandId) {
+      deleteBrandInfo:function () {
         var _this = this;
         _this.loading = true;
-        var url = '/api/hq/hq/'+brandId+'/';
+        var url = '/api/hq/hq/'+this.editForm.id+'/';
         _this.$axios.delete(url).then(res=>{
           _this.loading = false;
           if(res.status == 204) {
             this.$message.success('删除成功');
             this.editbrandVisible = false;
+            this.deleteBrandInfoVisible = false;
             this.getBrandList();
           }
         }).catch(err=>{
