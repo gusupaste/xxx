@@ -4,7 +4,7 @@
       <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">用户管理</span></p>
     </div>
     <div class="header-top">
-      <p><span>角色：</span>
+      <p class="mb10"><span>角色：</span>
         <el-select v-model="value" @change="roleType" placeholder="请选择">
           <el-option
             v-for="item in options"

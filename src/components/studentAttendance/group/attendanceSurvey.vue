@@ -3,7 +3,7 @@
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : <span class="font-cl-blue">学生考勤</span></p>
     </div>
-    <p class="mb10 mt10">
+    <p class="mb10 mt10" style="line-height: 45px">
       <span>城际：</span>
       <el-select v-model="intercity">
         <el-option value="" label="全部" aria-selected="true"></el-option>
@@ -62,7 +62,8 @@
           :value="item.id">
         </el-option>
       </el-select>
-      <span class="padding-left-30"><el-button class="" type="primary" :disabled="selectDisable" @click="getAttendanceListType">搜索</el-button></span>
+      <span class="padding-left-30"><el-button class="" type="primary" :disabled="selectDisable"
+                                               @click="getAttendanceListType">搜索</el-button></span>
     </p>
     <el-container class="school-attendance mt10">
       <el-aside width="70%">
@@ -155,6 +156,10 @@
   .attendanceSurvey >>> .wh_item_date {
     color: #101010;
     font-size: 12px;
+  }
+
+  .attendanceSurvey >>> .el-input__inner {
+    height: 32px !important
   }
 
   .attendanceSurvey >>> .wh_content_item {
