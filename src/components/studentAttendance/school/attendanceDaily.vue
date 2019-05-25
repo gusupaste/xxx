@@ -12,7 +12,7 @@
         :clearable="clearable"
         placeholder="选择日期">
       </el-date-picker>
-      <span class="ml10">班级：</span>
+      <span class="padding-left-30">班级：</span>
       <el-select v-model="class_id" placeholder="请选择">
         <el-option
           v-for="item in classList"
@@ -119,6 +119,10 @@
   </div>
 </template>
 <style scoped>
+  .attendanceDaily {
+    color: rgba(160, 160, 160, 1);
+    text-align: left;
+  }
   /*表格内容居中*/
   .attendanceDaily >>> .el-table td, .attendanceDaily >>> .el-table th {
     text-align: center;

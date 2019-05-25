@@ -5,6 +5,7 @@
       </div>
       <div class="content">
         <div class="select-header">
+          <span>搜索：</span>
           <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
           <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
         </div>
@@ -28,7 +29,9 @@
             </div>
             <div class="card-footer clearfix">
               <span>执行操作</span>
-              <el-select v-model="nameSelect" @change="operationSelect(nameSelect,item.id,item.academic_year_id,item.center_id)" placeholder="--请选择--" style="width: 60%;">
+              <el-select v-model="nameSelect"
+                         @click="operationSelect(nameSelect,item.id,item.academic_year_id,item.center_id,item.leaving_status,item.preferred_academic_year)"
+                         placeholder="--请选择--" style="width: 60%;">
                 <el-option
                   v-for="item in operations"
                   :key="item.value"
@@ -69,7 +72,7 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">性别:</span>
-                  <span>{{ studentInfo.gender }} </span>
+                  <span>{{ studentInfo.gender }}&nbsp;</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">预计入学日期:</span>
@@ -288,7 +291,7 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">性别:</span>
-                  <span>{{ studentInfo.gender }} </span>
+                  <span>{{ studentInfo.gender }}&nbsp;</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">预计入学日期:</span>
@@ -328,11 +331,11 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">所在学年:</span>
-                  <span>迪小贝</span>
+                  <span>{{ preferred_academic_year }}</span>
                 </p>
               </el-col>
             </el-row>
-            <el-form-item label="离园日期">
+            <el-form-item label="离园日期" prop="leave_date">
               <el-date-picker
                 v-model="leveForm.leave_date"
                 type="date"
@@ -340,7 +343,7 @@
                 placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="离园原因">
+            <el-form-item label="离园原因" prop="leave_reason">
                 <el-radio v-model="leveForm.leave_reason" label="居所搬迁/父母工作调动"></el-radio><br>
                 <el-radio v-model="leveForm.leave_reason" label="家庭变故"></el-radio><br>
                 <el-radio v-model="leveForm.leave_reason" label="生病"></el-radio><br>
@@ -357,18 +360,18 @@
             </el-form-item>
           </div><hr>
           <p style="font-size: 10px;color: red;line-height: 20px;">*1.请确认该学生所有缺勤转备用金都已完成,否则不可提交离园登记</p>
-          <p style="font-size: 10px;color: red;line-height: 20px;">&nbsp;2.一旦离园登记结束,该学生自动转为离园生状态</p>
+          <p style="font-size: 10px;color: red;line-height: 20px;">&nbsp;&nbsp;2.一旦离园登记结束,该学生自动转为离园生状态</p>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="leaveVisible = false">取 消</el-button>
-          <el-button @click="leaveShowVisible = true;leaveVisible = false">缺勤转备用金</el-button>
+          <el-button @click="leaveShowVisible = true;leaveVisible = false" disabled="true">缺勤转备用金</el-button>
           <el-button type="success" @click="saveLeave('leveForm')">保 存</el-button>
         </span>
       </el-dialog>
       <el-dialog title="预备生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
         <span class="dialog-body">该学生存在未完成的缺勤转备用金,请先完成再进行离园登记</span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="leaveShowVisible = false">缺勤转备用金</el-button>
+          <el-button @click="leaveShowVisible = false" disabled="true">缺勤转备用金</el-button>
           <el-button @click="leaveShowVisible = false" type="success">知道了</el-button>
         </span>
       </el-dialog>
@@ -380,7 +383,6 @@
     data() {
       return {
         radio2:'',
-        studentRemark:'',
         early_title:'提前入学申请',
         earlyVisible:false,
         leaveVisible:false,
@@ -394,6 +396,7 @@
           class_obj:'',
           remarks:''
         },
+        studentRemark:'',
         otherText:'',
         class_url:'/api/center/select/center_class_year_list/?center_id=',
         in_class_list:[],
@@ -411,6 +414,7 @@
             name:'预分班'
           },
         ],
+        preferred_academic_year:'',
         rules:{
           class_obj: [
             { required: true, message: '请选择', trigger: 'change' }
@@ -422,6 +426,12 @@
             { required: true, message: '请选择日期', trigger: 'change' }
           ],
           in_class_date: [
+            { required: true, message: '请选择日期', trigger: 'change' }
+          ],
+          leave_reason: [
+            { required: true, message: '请选择离园原因', trigger: 'change' }
+          ],
+          leave_date: [
             { required: true, message: '请选择日期', trigger: 'change' }
           ],
         },
@@ -607,7 +617,7 @@
       editSchool:function (param,index) {
           this.$router.push('/financemanagement/billDetail');
       },
-      operationSelect:function(val,id,academic_year_id,center_id){
+      operationSelect:function(val,id,academic_year_id,center_id,leaving_status,preferred_academic_year){
         if(val === 1){
           this.operationVisible = true;
           this.getStudentInfo(id,academic_year_id,center_id);
@@ -619,6 +629,8 @@
           this.earlyVisible = true;
         }else{
           this.leaveVisible = true;
+          this.studentRemark = leaving_status;
+          this.preferred_academic_year = preferred_academic_year;
           this.getStudentInfo(id,academic_year_id,center_id);
           /*this.studentRemark = */
         }
@@ -690,6 +702,7 @@
     width: 60px;
     float: left;
     text-align: right;
+    margin-right: 10px;
   }
   .admissionRegistrationlist .lable-p{
     line-height: 40px;

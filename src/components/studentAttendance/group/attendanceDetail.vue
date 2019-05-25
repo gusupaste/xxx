@@ -58,6 +58,10 @@
   </div>
 </template>
 <style scoped>
+  .attendanceDetail {
+    color: rgba(160, 160, 160, 1);
+    text-align: left;
+  }
   .attendanceDetail .el-form {
     border-bottom: 1px solid #ccc;
   }

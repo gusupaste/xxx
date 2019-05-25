@@ -2,7 +2,7 @@
   <div class='discountbudget wrap'>
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园折扣预算</span></p>
-      <p class="mt10" style="line-height:45px">
+      <p class="mt10">
         <span>城际：</span>
         <el-select v-model="form.intercity_id" placeholder="请选择">
           <el-option value="" label="所有"></el-option>

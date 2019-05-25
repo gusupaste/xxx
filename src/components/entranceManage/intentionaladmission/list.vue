@@ -5,6 +5,7 @@
     </div>
     <div class="content">
       <div class="select-header">
+        <span>搜索：</span>
         <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
       </div>
@@ -51,9 +52,30 @@
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                <router-link :to="'/financemanagement/createDiscount?student='+scope.row.id" >
+                  <router-link  :to="'/financemanagement/createDiscount/?id='+scope.row.bill_id" v-if="scope.row.bill_id && scope.row.bill_show">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
+                    </span>
+                  </router-link>
+                <router-link  to="" v-if="scope.row.bill_id && !scope.row.bill_show">
+                    <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 grey"></i>
+                    </span>
+                </router-link>
+                  <router-link to="/financemanagement/createDiscount" v-if="!scope.row.bill_id">
+                    <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 orange"></i>
+                    </span>
+                  </router-link>
+
+                <router-link :to="'/financemanagement/dollar/'+scope.row.bill_id" v-if=" scope.row.bill_show">
+                    <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 green"></i>
+                    </span>
+                </router-link>
+                <router-link to="" v-if=" !scope.row.bill_show">
+                    <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 grey"></i>
                     </span>
                 </router-link>
               </template>

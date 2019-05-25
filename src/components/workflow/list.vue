@@ -7,8 +7,8 @@
       <el-tabs v-model="activeName" @tab-click="handleClick(activeName)">
         <el-tab-pane label="我的审批任务" name="first">
           <div class="select-header">
-            <span>审批状态</span>
-            <el-select v-model="approve_status" placeholder="--请选择--" style="width: 20%;" @change="getApproveList(1)">
+            <span>审批状态：</span>
+            <el-select v-model="approve_status" placeholder="--请选择--" @change="getApproveList(1)">
               <el-option
                 v-for="item in approveStatusList"
                 :key="item.id"
@@ -16,8 +16,8 @@
                 :value="item.id">
               </el-option>
             </el-select>
-            <span>搜索</span>
-            <el-input v-model="name" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
+            <span class="padding-left-30">搜索：</span>
+            <el-input v-model="name" placeholder="输入科目编码或名称" class="search_input"></el-input>
             <span class="padding-left-30"><el-button type="primary" @click="getApproveList(1)">搜索</el-button></span>
           </div>
           <el-table
@@ -69,8 +69,8 @@
         </el-tab-pane>
         <el-tab-pane label="我发起的工作流" name="second">
           <div class="select-header">
-            <span>审批状态</span>
-            <el-select v-model="approve_status" placeholder="--请选择--" style="width: 20%;" @change="getApplyList">
+            <span>审批状态：</span>
+            <el-select v-model="approve_status" placeholder="--请选择--" @change="getApplyList">
               <el-option
                 v-for="item in approveStatusList"
                 :key="item.id"
@@ -78,8 +78,8 @@
                 :value="item.id">
               </el-option>
             </el-select>
-            <span>搜索</span>
-            <el-input v-model="name" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
+            <span class="padding-left-30">搜索：</span>
+            <el-input v-model="name" placeholder="输入科目编码或名称" class="search_input"></el-input>
             <span class="padding-left-30"><el-button type="primary" @click="getApplyList">搜索</el-button></span>
           </div>
           <el-table

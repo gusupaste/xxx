@@ -14,7 +14,7 @@
           </el-option>
         </el-select>
         <span class="padding-left-30">搜索：</span>
-        <el-input type="text" v-model="display_name" placeholder="请输入用户名"></el-input>
+        <el-input type="text" v-model="display_name" class="search_input" placeholder="请输入用户名"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getUserList(1)">搜索</el-button></span>
         <span class="right">
           <el-button class="orange" type="text" @click="addUser(0)">
@@ -270,15 +270,6 @@
 
   .usermanagement >>> .el-dialog__footer {
     text-align: center;
-  }
-
-  .usermanagement >>> .el-input {
-    width: 145px;
-    height: 36px;
-  }
-
-  .usermanagement >>> .el-select {
-    margin-bottom: 10px;
   }
 
   .usermanagement .line-solid {

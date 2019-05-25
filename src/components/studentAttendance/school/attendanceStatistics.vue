@@ -14,7 +14,7 @@
           :value="item.id">
         </el-option>
       </el-select>
-      <span>月份：</span>
+      <span class="padding-left-30">月份：</span>
       <el-select v-model="months" placeholder="请选择">
         <el-option
           v-for="(item,index) in months_list"
@@ -23,7 +23,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <span>班级：</span>
+      <span class="padding-left-30">班级：</span>
       <el-select v-model="class_id" placeholder="请选择">
         <el-option
           v-for="item in classes"
@@ -338,6 +338,10 @@
   }
 </script>
 <style scoped>
+  .attendanceStatistics {
+    color: rgba(160, 160, 160, 1);
+    text-align: left;
+  }
   /*表格内容居中*/
   .attendanceStatistics >>> .el-table td, .attendanceStatistics >>> .el-table th {
     text-align: center;
