@@ -3,7 +3,7 @@
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 财务处理 > 财务设置 > <span class="font-cl-blue">配置退费规则</span></p>
       </div>
-        <p class="title" v-if="$route.params.type === 'edit'">合肥用龙湾幼儿园</p>
+        <p class="title" v-if="$route.params.type === 'edit'">{{ $route.params.school }}</p>
         <div class="select-header select-length" style="line-height:45px;margin-top: 10px;">
           <div v-if="$route.params.type === 'edit'">
             <span>学年：</span>
@@ -250,7 +250,8 @@
                   时，转备用金
                   <el-input type="text" v-model="con.reserve_fund_per"></el-input> %，
                   剩余月转备用金
-                  <el-input type="text" v-model="con.other_month_reserve_fund_per"></el-input> %，
+                  <el-input type="text" v-model="con.other_month_reserve_fund_per"></el-input> %
+                  &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-minus-circle red cur" @click="delete_attend(indexs)"></i>
                   <!--<el-select>
                     <el-option value="连续"></el-option>
                     <el-option value="累计"></el-option>
@@ -675,6 +676,9 @@ export default {
         }
     },
     methods:{
+      delete_attend:function(index){
+        this.month
+      },
       cancel:function () {
         console.log('as.dkklghjkshdjkg');
         this.$router.push('/financemanagement/setting');
@@ -984,8 +988,8 @@ export default {
       },
       submit_fun1:function (type) {
         var data1 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           goods_fee:this.saveForm.goods_fee,
           foreign_employees_per:this.saveForm.foreign_employees_per,
           on_schedule_per:this.saveForm.on_schedule_per,
@@ -1042,8 +1046,8 @@ export default {
           list.push(obj);
         }*/
         var data2 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           handling_fee:this.saveForm.handling_fee,
           not_on_schedule_per:this.saveForm.not_on_schedule_per1,
           /*month_pay_list:list,*/
@@ -1081,8 +1085,8 @@ export default {
       },
       submit_fun3:function (type) {
         var data3 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           compare_type:2,
           number_of_month: parseInt(this.saveForm.number_of_month),
           price_type: 1
@@ -1120,8 +1124,8 @@ export default {
       },
       submit_fun4:function (type) {
         var data4 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           compare_type:2,
           number_of_month: parseInt(this.saveForm.number_of_month2),
           price_type: 1
@@ -1159,8 +1163,8 @@ export default {
       },
       submit_fun5:function (type) {
         var data5 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           other_on_schedule_per:this.saveForm.other_on_schedule_per,
           on_schedule_per: this.saveForm.on_schedule_per,
         };
@@ -1211,8 +1215,8 @@ export default {
           list.push(obj);
         }
         var data6 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           month_pay_list:list,
         };
         if(type === 'add'){
@@ -1260,8 +1264,8 @@ export default {
           fee = this.saveForm.fee_refund_money_per;
         }
         var data7 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           meal_refund_money_per:meal,
           fee_refund_money_per:fee,
         };
@@ -1298,8 +1302,8 @@ export default {
       },
       submit_fun8:function (type) {
         var obj = {};
-        obj.center = this.saveForm.center || 1;
-        obj.academic_year = this.saveForm.academic_year || 1;
+        obj.center = this.saveForm.center || this.$route.params.center_id;
+        obj.academic_year = this.saveForm.academic_year || this.$route.params.year;
         if(this.saveForm.radio9 === '退费'){
           obj.return_type = 1;
         }else{
@@ -1352,8 +1356,8 @@ export default {
       },
       submit_fun9:function (type) {
         var data9 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           current_term_per:this.saveForm.current_term_per,
           last_term_per:this.saveForm.last_term_per,
         };
@@ -1390,8 +1394,8 @@ export default {
       },
       submit_fun10:function (type) {
         var data10 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           current_month_per:this.saveForm.current_month_per,
           last_month_per:this.saveForm.last_month_per,
         };
@@ -1428,8 +1432,8 @@ export default {
       },
       submit_fun11:function (type) {
         var data11 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           refund_money_per:this.saveForm.refund_money_per2,
         };
         if(type === 'add'){
@@ -1465,8 +1469,8 @@ export default {
       },
       submit_fun12:function (type) {
         var data12 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           refund_money_per:this.saveForm.refund_money_per4,
         };
         if(type === 'add'){
@@ -1502,8 +1506,8 @@ export default {
       },
       submit_fun13:function (type) {
         var obj = {};
-        obj.center = this.saveForm.center || 1;
-        obj.academic_year = this.saveForm.academic_year || 1;
+        obj.center = this.saveForm.center || this.$route.params.center_id;
+        obj.academic_year = this.saveForm.academic_year || this.$route.params.year;
         if(this.saveForm.radio10 === '退费'){
           obj.return_type = 1;
         }else{
@@ -1544,8 +1548,8 @@ export default {
       },
       submit_fun14:function (type) {
         var obj = {};
-        obj.center = this.saveForm.center || 1;
-        obj.academic_year = this.saveForm.academic_year || 1;
+        obj.center = this.saveForm.center || this.$route.params.center_id;
+        obj.academic_year = this.saveForm.academic_year || this.$route.params.year;
         if(this.saveForm.radio6 === '退费'){
           obj.return_type = 1;
         }else{
@@ -1586,8 +1590,8 @@ export default {
       },
       submit_fun15:function (type) {
         var obj = {};
-        obj.center = this.saveForm.center || 1;
-        obj.academic_year = this.saveForm.academic_year || 1;
+        obj.center = this.saveForm.center || this.$route.params.center_id;
+        obj.academic_year = this.saveForm.academic_year || this.$route.params.year;
         if(this.saveForm.radio7 === '退费'){
           obj.return_type = 1;
         }else{

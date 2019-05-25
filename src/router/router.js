@@ -460,7 +460,7 @@ export default new Router({
           component: Setting
         },
         {
-          path: '/financemanagement/refund-config/:type/:center_id/:year/',
+          path: '/financemanagement/refund-config/:type/:center_id/:year/:school',
           name: 'RefundConfig',
           component: RefundConfig
         },
