@@ -92,7 +92,7 @@
       <el-pagination
         background
         @current-change="changePage"
-        layout="pager, next, jumper"
+        layout="prev,pager, next, jumper"
         prev-text="上一页"
         next-text="下一页"
         :page-size="10"

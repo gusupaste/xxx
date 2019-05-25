@@ -62,7 +62,7 @@
           </el-option>
         </el-select>
         <span class="padding-left-30"><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
-        <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/refund-config/add/0/0/')">
+        <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/refund-config/add/0/0/0/0')">
             <i class="icon-font fa fa-calendar-plus-o"></i>
             <span class="font-cl-blue font-size-14">新增退费政策</span>
         </span>
@@ -110,7 +110,7 @@
         @current-change="changePage"
         :page-size="10"
         :current-page="searchform.page"
-        layout="prev, pager, next"
+        layout="prev,pager, next, jumper"
         :total="count">
       </el-pagination>
     </div>
@@ -153,13 +153,14 @@ export default {
     },
     methods: {
       configure:function (obj) {
-        this.$router.push('/financemanagement/refund-config/edit/'+obj.center_id+'/'+obj.year_id+'/');
+        this.$router.push('/financemanagement/refund-config/edit/'+obj.center_id+'/'+obj.year_id+'/'+obj.year_name+'/'+obj.center_name+'/');
       },
       getRefund:function () {
         this.loading = true
         this.$axios.get(this.getRefund_url).then(res => {
           this.loading = false
           this.chargeTable = res.data;
+          console.log(res.data);
           for(var x in res.data){
             this.chargeTable[x].c_name = res.data[x].center_name + res.data[x].year_name + '退费政策';
           }

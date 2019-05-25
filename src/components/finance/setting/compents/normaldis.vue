@@ -40,7 +40,7 @@
     </el-table>
     <el-pagination
       background
-      layout="pager, next, jumper"
+      layout="prev,pager, next, jumper"
       next-text="下一页"
       :page-size="pagesize"
       :current-page="currentPage"

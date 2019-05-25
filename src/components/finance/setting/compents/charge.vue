@@ -113,7 +113,7 @@
           @current-change="changePage"
           :page-size="10"
           :current-page="searchform.page"
-          layout="prev, pager, next"
+          layout="prev,pager, next, jumper"
           :total="count">
       </el-pagination>
       <!-- 复制政策 -->

@@ -521,6 +521,8 @@
             this.editbrandVisible = false;
             this.deleteBrandInfoVisible = false;
             this.getBrandList();
+          }else if(res.status == 200){
+            this.$message.warning('该品牌已经被使用不能被删除');
           }
         }).catch(err=>{
           console.log(err)

@@ -1,7 +1,7 @@
 <template>
   <div class="student_inschool">
       <div class="formwrap">
-        <el-form label-width="100px" inline>
+        <el-form label-width="60px" inline>
           <el-form-item label="班级：">
             <el-select v-model="class_val">
               <el-option value="" label="全部"></el-option>
@@ -584,8 +584,8 @@
   </div>
 </template>
 <style scoped>
-  .student_inschool .formwrap {
-    margin-top: 20px;
+  .student_inschool >>> .el-form-item__label{
+    padding: 0;
   }
   .student_inschool .studentFileList {
     margin-top: 20px;
