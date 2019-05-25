@@ -363,7 +363,12 @@ export default {
       getRefund_amount(){
         this.addForm.refund_amount = 0;
         this.addForm.refund_items.forEach(item=>{
-          this.addForm.refund_amount += Number(item.amount)
+          if(item.refund_direct === '扣款') {
+            this.addForm.refund_amount -= Number(item.amount)
+          } else {
+            this.addForm.refund_amount += Number(item.amount)
+          }
+          
         })
       },
       searchInfo(){
