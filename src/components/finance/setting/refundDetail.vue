@@ -6,7 +6,7 @@
         <p class="title" v-if="$route.params.type === 'edit'">{{ $route.params.school }}</p>
         <div class="select-header select-length" style="line-height:45px;margin-top: 10px;">
           <div v-if="$route.params.type === 'edit'">
-            <span>学年：</span>
+            <span>学年：{{ $route.params.year_name }}</span>
           </div>
           <div v-if="$route.params.type === 'add'">
             <span>学校：</span>
@@ -60,7 +60,7 @@
                 <td rowspan="2" width="100">总部非外籍子女</td>
                 <td colspan="2">
                   按时提交申请，退
-                  <el-input type="text" v-model="saveForm.on_schedule_per"></el-input> %
+                  <el-input type="text" v-model="saveForm.on_schedule_per5"></el-input> %
                 </td>
               </tr>
               <tr>
@@ -506,6 +506,7 @@ export default {
   components: {ElInput},
   data(){
         return {
+          save_flag:true,
           method_type:[{
             value: 1,
             label: '累计'
@@ -575,6 +576,7 @@ export default {
               no_invoice: '',
               handling_fee:'',
               not_on_schedule_per1: '',
+              on_schedule_per5: '',
               month_pay: [
                 {
                   specific_month: '',
@@ -993,7 +995,7 @@ export default {
           academic_year:this.saveForm.academic_year || this.$route.params.year,
           goods_fee:this.saveForm.goods_fee,
           foreign_employees_per:this.saveForm.foreign_employees_per,
-          on_schedule_per:this.saveForm.on_schedule_per,
+          on_schedule_per:this.saveForm.on_schedule_per5,
           not_on_schedule_per:this.saveForm.not_on_schedule_per,
           specific_month:this.saveForm.specific_month,
           specific_month_per:this.saveForm.specific_month_per,
@@ -1004,29 +1006,19 @@ export default {
           this.$axios.post(this.add_01_url,data1).then(res=>{
             if(res.status == 200){
               this.success_flag.push('01');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_01_url+'1/',data1).then(res=>{
             if(res.status == 200){
               this.success_flag.push('01');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
             }else{
               this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1057,29 +1049,17 @@ export default {
           this.$axios.post(this.add_02_url,data2).then(res=>{
             if(res.status == 200){
               this.success_flag.push('02');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_02_url+'1/',data2).then(res=>{
             if(res.status == 200){
               this.success_flag.push('02');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1096,29 +1076,17 @@ export default {
           this.$axios.post(this.add_03_url,data3).then(res=>{
             if(res.status == 200){
               this.success_flag.push('03');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_03_url+'1/',data3).then(res=>{
             if(res.status == 200){
               this.success_flag.push('03');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1135,29 +1103,17 @@ export default {
           this.$axios.post(this.add_04_url,data4).then(res=>{
             if(res.status == 200){
               this.success_flag.push('04');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_04_url+'1/',data4).then(res=>{
             if(res.status == 200){
               this.success_flag.push('04');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1173,29 +1129,18 @@ export default {
           this.$axios.post(this.add_05_url,data5).then(res=>{
             if(res.status == 200){
               this.success_flag.push('05');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.save_flag = false;
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_05_url+'1/',data5).then(res=>{
             if(res.status == 200){
               this.success_flag.push('05');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1224,29 +1169,17 @@ export default {
           this.$axios.post(this.add_06_url,data6).then(res=>{
             if(res.status == 200){
               this.success_flag.push('06');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_06_url+'1/',data6).then(res=>{
             if(res.status == 200){
               this.success_flag.push('06');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1274,29 +1207,17 @@ export default {
           this.$axios.post(this.add_07_url,data7).then(res=>{
             if(res.status == 200){
               this.success_flag.push('07');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_07_url+'1/',data7).then(res=>{
             if(res.status == 200){
               this.success_flag.push('07');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1328,29 +1249,17 @@ export default {
           this.$axios.post(this.add_08_url,obj).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_08_url+'1/',obj).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1366,29 +1275,17 @@ export default {
           this.$axios.post(this.add_09_url,data9).then(res=>{
             if(res.status == 200){
               this.success_flag.push('09');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_09_url+'1/',data9).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1404,29 +1301,17 @@ export default {
           this.$axios.post(this.add_10_url,data10).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_10_url+'1/',data10).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1441,29 +1326,17 @@ export default {
           this.$axios.post(this.add_11_url,data11).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_11_url+'1/',data11).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1478,29 +1351,17 @@ export default {
           this.$axios.post(this.add_12_url,data12).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_12_url+'1/',data12).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1520,29 +1381,17 @@ export default {
           this.$axios.post(this.add_13_url,obj).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_13_url+'1/',obj).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1562,29 +1411,17 @@ export default {
           this.$axios.post(this.add_14_url,obj).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_14_url+'1/',obj).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
@@ -1610,40 +1447,38 @@ export default {
           this.$axios.post(this.add_15_url,obj).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }else{
           this.$axios.put(this.add_15_url+'1/',obj).then(res=>{
             if(res.status == 200){
               this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = false;
           })
         }
 
       },
     },
     watch: {
-      success_flag: {
+      save_flag: {
         handler(newValue, oldValue) {
-          console.log(newValue.length);
-          if(newValue.length == 15){
-            this.getLists();
+          if(newValue.length == true){
+            if(this.$route.params.type === 'add'){
+              this.$message.success('保存成功')
+            }else{
+              this.$message.success('编辑成功')
+            }
+            this.$router.push('/financemanagement/setting');
+          }else{
+            if(this.$route.params.type === 'add'){
+              this.$message.error('保存失败')
+            }else{
+              this.$message.error('编辑失败')
+            }
           }
         },
         deep: true
