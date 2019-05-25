@@ -192,7 +192,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button class="bg-grey bd-grey white" @click="innerVisible = false">取 消</el-button>
-          <el-button type="success" @click="sureCopy">保 存</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureCopy">保 存</el-button>
         </span>
       </el-dialog>
       <!-- 政策详情 -->

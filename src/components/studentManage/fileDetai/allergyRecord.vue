@@ -62,8 +62,8 @@
       <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
         <p class="mt26 text-align-center">确认删除该条记录？</p>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="deleteVisible = false">取 消</el-button>
-          <el-button type="success" @click="deleteAll">确 定</el-button>
+          <el-button class="bg-grey bd-grey white" @click="deleteVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="deleteAll">确 定</el-button>
         </span>
       </el-dialog>
     </div>

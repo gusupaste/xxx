@@ -158,8 +158,8 @@
       </table>
     </el-form>
     <div class="text-align-center mt26">
-      <el-button>取 消</el-button>
-      <el-button type="success" @click="saveApplication('application_detail')">保 存</el-button>
+      <el-button class="bg-grey bd-grey white">取 消</el-button>
+      <el-button class="bg-green bd-green white" type="success" @click="saveApplication('application_detail')">保 存</el-button>
     </div>
   </div>
 </template>

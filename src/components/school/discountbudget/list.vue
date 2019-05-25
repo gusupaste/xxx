@@ -124,7 +124,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer text-align-center">
           <el-button class="bg-grey white bd-grey" @click="editDiscount = false">取 消</el-button>
-          <el-button type="success" @click="saveInfo('editForm')">保 存</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveInfo('editForm')">保 存</el-button>
         </span>
     </el-dialog>
   </div>

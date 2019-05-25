@@ -3,7 +3,7 @@
     <div class="select-header" style="min-height: 35px;line-height: 35px;margin-bottom: 10px;">
                 <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
                   <i class="icon-font fa fa-calendar-plus-o"></i>
-                  <span class="orange font-size-14">新增折扣类型</span>
+                  <span class="font-cl-blue font-size-14">新增折扣类型</span>
               </span>
     </div>
     <el-table
@@ -223,8 +223,8 @@
 
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="addDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveRecruitdis">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="addDiscountVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveRecruitdis">保 存</el-button>
         </span>
     </el-dialog>
   </div>

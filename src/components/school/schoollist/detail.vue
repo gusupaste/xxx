@@ -424,8 +424,8 @@
         :total="count">
       </el-pagination>
       <span slot="footer" class="dialog-footer">
-            <el-button @click="addinnerVisible = false" class="bg-grey white">取 消</el-button>
-            <el-button type="success" @click="sureAddTeacher">确 定</el-button>
+            <el-button class="bg-grey bd-grey white" @click="addinnerVisible = false" >取 消</el-button>
+            <el-button class="bg-green bd-green white" type="success" @click="sureAddTeacher">确 定</el-button>
         </span>
     </el-dialog>
   </div>

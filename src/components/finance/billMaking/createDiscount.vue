@@ -228,7 +228,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button class="bg-grey bd-grey white" @click="innerVisible = false">取 消</el-button>
-          <el-button type="success" @click="sureAddStudent">确 定</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureAddStudent">确 定</el-button>
         </span>
       </el-dialog>
       <!-- 添加费用科目 -->
@@ -266,7 +266,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button class="bg-grey bd-grey white" @click="subjectVisible = false">取 消</el-button>
-          <el-button type="success" @click="sureAddSubject">确 定</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureAddSubject">确 定</el-button>
         </span>
       </el-dialog>
     </div>

@@ -106,8 +106,8 @@
     <!--添加 弹框-->
     <el-dialog title="添加组织" :visible.sync="addorganization" width="50%" style="padding: 30px 60px;">
       <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="addorganization = false">取 消</el-button>
-          <el-button type="success" @click="addorganization = false">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="addorganization = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="addorganization = false">保 存</el-button>
         </span>
     </el-dialog>
     <!--角色权限分配 弹框-->
