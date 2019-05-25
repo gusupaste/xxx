@@ -156,7 +156,7 @@
             </el-table>
             <el-pagination
               background
-              layout="prev, pager, next"
+              layout="prev,pager, next, jumper"
               :current-page="searchform.page"
               :page-size="10"
               @current-change="changePage"
@@ -215,7 +215,7 @@
             </el-table>
             <el-pagination
               background
-              layout="prev, pager, next"
+              layout="prev,pager, next, jumper"
               :current-page="searchform.page2"
               :page-size="10"
               @current-change="changePage2"

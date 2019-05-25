@@ -75,7 +75,7 @@
                                     :page-size="2"
                                     @size-change="handleSizeChange"
                                     @current-change="handleCurrentChange"
-                                    layout="prev, pager, next"
+                                    layout="prev,pager, next, jumper"
                                     :total="30000">
                                 </el-pagination>
                             </div>
@@ -160,7 +160,7 @@
                                             :page-size="2"
                                             @size-change="handleSizeChangeThings"
                                             @current-change="handleCurrentChangeThings"
-                                            layout="prev, pager, next"
+                                            layout="prev,pager, next, jumper"
                                             :total="thingsList.length">
                                         </el-pagination>
                                       </div>
@@ -236,7 +236,7 @@
                                     :page-size="2"
                                     @size-change="handleSizeChangeParents"
                                     @current-change="handleCurrentChangeParents"
-                                    layout="prev, pager, next"
+                                    layout="prev,pager, next, jumper"
                                     :total="ParentsList.length">
                                 </el-pagination>
                             </div>

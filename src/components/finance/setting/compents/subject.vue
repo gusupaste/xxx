@@ -61,7 +61,7 @@
                 @current-change="changePage"
                 :page-size="10"
                 :current-page="searchForm.page"
-                layout="prev, pager, next"
+                layout="prev,pager, next, jumper"
                 :total="count">
             </el-pagination>
             <!-- 新增费用科目 -->

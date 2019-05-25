@@ -392,7 +392,7 @@
             _this.checkedItem = res.data.detail;
             _this.checkedItem.dept_code = res.data.detail.dept_code -0;
             _this.UNSelectSchool = res.data.detail.center_list;
-            _this.checkedItem.manager_id = res.data.detail.manager;
+            _this.checkedItem.manager_id = res.data.detail.manager_id;
             _this.editintercityVisible = true;
             console.log(_this.checkedItem)
           }).catch(err=>{

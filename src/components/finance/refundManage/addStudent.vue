@@ -40,7 +40,7 @@
         <el-pagination
           background
           @current-change="changepage"
-          layout="prev, pager, next"
+          layout="prev,pager, next, jumper"
           :total="count">
         </el-pagination>
       </div>
