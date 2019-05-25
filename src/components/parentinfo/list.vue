@@ -4,7 +4,7 @@
       <p class="local_path_style">YOU ARE HERE :<span class="font-cl-blue">家长信息</span></p>
     </div>
     <div class="content">
-      <p>
+      <p style="line-height: 45px">
         <span>城际：</span>
         <el-select v-model="intercity" @change="interChangeFun">
           <el-option value="" label="全部" aria-selected="true"></el-option>
