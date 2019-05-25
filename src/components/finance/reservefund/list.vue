@@ -1,5 +1,5 @@
 <template>
-  <div class="discountlist wrap">
+  <div class="reservefund wrap">
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">备用金管理</span></p>
     </div>
@@ -57,7 +57,7 @@
             </el-option>
           </el-select>
         </template>
-        <p>
+        <p class="mt10">
           <span>学年：</span>
           <el-select v-model="academic_year_id" placeholder="请选择">
             <el-option value="" label="全部"></el-option>
@@ -371,32 +371,31 @@
 </script>
 
 <style scoped>
-  .discountlist {
+  .reservefund {
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
 
-  .discountlist .bold {
+  .reservefund .bold {
     font-weight: bold;
     color: black;
   }
 
-  .discountlist .select-header, .discountlist .list-content {
+  .reservefund .select-header, .reservefund .list-content {
     width: 100%;
-    min-height: 50px;
     margin-top: 10px;
-    line-height: 50px;
+    margin-bottom: 10px;
   }
 
-  .discountlist .el-select {
+  .reservefund .el-select {
     width: 10%;
   }
 
-  .discountlist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
+  .reservefund >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
     text-align: center !important;
   }
 
-  .discountlist >>> .el-input__inner {
+  .reservefund >>> .el-input__inner {
     width: -webkit-fill-available;
     height: 32px !important;
   }
