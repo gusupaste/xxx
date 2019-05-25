@@ -1,31 +1,56 @@
 <template>
   <div class="billDetailSc wrap">
-    <p class="local_path_style">You Are Here  ：财务处理 > 备用金管理 > <span class="font-cl-blue">缺勤请假转备用金</span></p>
+    <p class="local_path_style">You Are Here ：财务处理 > 备用金管理 > <span class="font-cl-blue">缺勤请假转备用金</span></p>
     <div class="content-top">缺勤请假转备用金</div>
     <div class="clearfix">
       <el-col :span="24" class="card-type">
         <el-card shadow="always">
           <p style="line-height: 40px;">
             <el-row :gutter="20">
-              <el-col :span="8"><div class="grid-content bg-purple">申请学校：{{userInfo.center.name}}</div></el-col>
-              <el-col :span="12"><div class="grid-content bg-purple">申请人：{{userInfo.fullname}}</div></el-col>
-            </el-row></p>
+              <el-col :span="8">
+                <div class="grid-content bg-purple">申请学校：{{userInfo.center.name}}</div>
+              </el-col>
+              <el-col :span="12">
+                <div class="grid-content bg-purple">申请人：{{userInfo.fullname}}</div>
+              </el-col>
+            </el-row>
+          </p>
           <p style="line-height: 40px;">
             <el-row :gutter="24">
-              <el-col :span="8"><div class="grid-content bg-purple">申请班级：
-                <el-select v-model="searchForm.center_class_id">
-                  <el-option v-for="item in class_li" :key="item.id" :label="item.class_name" :value="item.id"></el-option>
-                </el-select>
-              </div></el-col>
-              <el-col :span="8"><div class="grid-content bg-purple">申请月份：
-                <el-date-picker
-                  value-format="M"
-                  @change="change"
-                  v-model="searchForm.month"
-                  type="month"
-                  start-placeholder="开始月份">
-                </el-date-picker>
-              </div></el-col>
+              <template v-if="single">
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">申请日期：
+                    <el-date-picker
+                      value-format="yyyy-MM-dd"
+                      v-model="date"
+                      type="date"
+                      placeholder="申请日期">
+                    </el-date-picker>
+                  </div>
+                </el-col>
+              </template>
+              <template v-else>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">申请班级：
+                    <el-select v-model="searchForm.center_class_id">
+                      <el-option v-for="item in class_li" :key="item.id" :label="item.class_name"
+                                 :value="item.id"></el-option>
+                    </el-select>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">申请月份：
+                    <el-date-picker
+                      value-format="M"
+                      @change="change"
+                      v-model="searchForm.month"
+                      type="month"
+                      start-placeholder="开始月份">
+                    </el-date-picker>
+                  </div>
+                </el-col>
+
+              </template>
             </el-row>
           </p>
         </el-card>
@@ -102,8 +127,98 @@
     </div>
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        tableData: [],
+        class_li: [],
+        searchForm: {
+          month: '',
+          center_class_id: ''
+        },
+        mutitable: [],
+        userInfo: this.$cookies.get('userInfo'),
+        single: true,
+        date: new Date(),
+      }
+    },
+    created() {
+      // this.getInfo();
+      this.searchInfo();
+    },
+    methods: {
+      getInfo() {
+        var _this = this;
+        this.$axios.get('/api/finance/reserve_fund_for_attendance/student_list/', {
+          params: this.searchForm
+        })
+          .then(res => {
+            if (res.data.status == 1) {
+              _this.tableData = res.data.data;
+            } else {
+              _this.$message({
+                type: 'error',
+                message: res.data.msg
+              })
+            }
+          })
+      },
+      change(val) {
+        console.log(val)
+      },
+      handleSelectionChange(val) {
+        this.mutitable = val;
+      },
+      submit() {
+        var _this = this;
+        if (this.mutitable.length === 0) {
+          this.$message({
+            type: 'error',
+            message: '请选择学生！'
+          })
+          return
+        }
+        this.mutitable.forEach(item => {
+          item.center_class_year_id = this.searchForm.center_class_id;
+          item.month = this.searchForm.month;
+          item.amount = item.sub_total;
+        });
+        this.$axios.post('/api/finance/reserve_fund_for_attendance/add', {
+          bills: this.mutitable
+        })
+          .then(res => {
+            if (res.data.status === 1) {
+              _this.$router.push('/financemanagement/reservefund')
+            }
+          })
+      },
+      searchInfo() {
+        this.$axios.get('/api/finance/bill/search_info/', {
+          params: {
+            center_id: this.userInfo.center.id
+          }
+        })
+          .then(res => {
+            this.class_li = res.data.data.class_li;
+          })
+      },
+    },
+    watch: {
+      searchForm: {
+        handler() {
+          if (this.searchForm.month !== "" && this.searchForm.center_class_id !== "") this.getInfo();
+
+        },
+        deep: true
+      }
+    }
+  }
+</script>
+
 <style scoped>
-  .billDetailSc .content-top{
+  .billDetailSc .content-top {
     font-weight: 600;
     background-color: #DCECF3;
     width: fit-content;
@@ -115,99 +230,16 @@
     border-radius: 3px;
     color: #3E7193;
   }
+
   .billDetail .card-type {
     line-height: 30px;
   }
+
   .billDetail .el-card__body {
     padding: 30px 70px 10px 70px;
   }
+
   .billDetail .tableList {
-    color:#101010;
+    color: #101010;
   }
 </style>
-<script>
-  export default {
-    data(){
-      return {
-        tableData: [],
-        class_li:[],
-        searchForm:{
-          month:'',
-          center_class_id:''
-        },
-        mutitable:[],
-        userInfo:this.$cookies.get('userInfo')
-      }
-    },
-    created () {
-      // this.getInfo();
-      this.searchInfo();
-    },
-    methods: {
-      getInfo(){
-        var _this = this;
-        this.$axios.get('/api/finance/reserve_fund_for_attendance/student_list/',{
-          params:this.searchForm
-        })
-        .then(res=>{
-          if(res.data.status == 1){
-            _this.tableData = res.data.data;
-          } else {
-            _this.$message({
-              type:'error',
-              message:res.data.msg
-            })
-          }
-        })
-      },
-      change(val){
-        console.log(val)
-      },
-      handleSelectionChange(val){
-        this.mutitable = val;
-      },
-      submit(){
-        var _this = this;
-        if(this.mutitable.length === 0){
-          this.$message({
-            type:'error',
-            message:'请选择学生！'
-          })
-          return
-        }
-        this.mutitable.forEach(item=>{
-          item.center_class_year_id = this.searchForm.center_class_id;
-          item.month = this.searchForm.month;
-          item.amount = item.sub_total;
-        });
-        this.$axios.post('/api/finance/reserve_fund_for_attendance/add',{
-          bills:this.mutitable
-        })
-        .then(res=>{
-          if(res.data.status === 1){
-            _this.$router.push('/financemanagement/reservefund')
-          }
-        })
-      },
-      searchInfo(){
-            this.$axios.get('/api/finance/bill/search_info/',{
-                params:{
-                    center_id:this.userInfo.center.id
-                }
-            })
-            .then(res=>{
-                this.class_li = res.data.data.class_li;
-            })
-        },
-    },
-    watch: {
-      searchForm:{
-        handler(){
-          if(this.searchForm.month !== "" && this.searchForm.center_class_id !== "")this.getInfo();
-          
-        },
-        deep:true
-      }
-    }
-  }
-</script>
