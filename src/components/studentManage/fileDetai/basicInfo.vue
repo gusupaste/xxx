@@ -145,10 +145,10 @@
           </el-form-item>
           <el-form-item label="家庭住址：" prop="address" label-width="150px" class="enroll-info">
             <el-select class="select-region" v-model="p_city_id" placeholder="省" @change="proinit(1)">
-              <el-option v-for="pro in provinceList" :label="pro.city_name" :value="pro.id" :key="pro.id"></el-option>
+              <el-option v-for="pro in provinceList" :label="pro.city_name" :value="pro.city_id" :key="pro.city_id"></el-option>
             </el-select>
             <el-select class="select-region" v-model="c_city_id" placeholder="市" @change="proinit(2)">
-              <el-option v-for="city in cityList" :label="city.city_name" :value="city.id" :key="city.id"></el-option>
+              <el-option v-for="city in cityList" :label="city.city_name" :value="city.city_id" :key="city.id"></el-option>
             </el-select>
             <el-select class="select-region" v-model="studentInfo.town" placeholder="区">
               <el-option v-for="town in townList" :label="town.city_name" :value="town.id" :key="town.id"></el-option>

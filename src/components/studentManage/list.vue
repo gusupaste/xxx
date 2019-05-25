@@ -73,7 +73,7 @@ export default {
   data(){
     return {
          activeName: 'first',
-         klass_url:'/api/common/select/class_list/?center_id=3',/*班级*/
+         klass_url:'/api/common/select/class_list/',/*班级*/
          student_url:'/api/student/student/student_list/',/*学生*/
          year_url:'/api/common/select/academic_year_list/',/*学年*/
          class_list:[],
