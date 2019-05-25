@@ -130,7 +130,7 @@
                   label="操作">
                   <template slot-scope="scope">
                     <i class="fa fa-pencil green font-size-20 cur" @click="editClass(scope.row)"></i>
-                    <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteClass(scope.row)"></i>
+                    <!-- <i class="fa fa-trash red font-size-20 ml10 cur" @click="deleteClass(scope.row)"></i> -->
                   </template>
                 </el-table-column>
               </el-table>

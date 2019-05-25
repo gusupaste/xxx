@@ -13,7 +13,7 @@
               <el-input v-model="display_name"></el-input>
             </el-form-item>
             <el-form-item class="mt10" label="登陆名：">
-              <el-input v-model="username"></el-input>
+              <el-input v-model="user_name"></el-input>
             </el-form-item>
             <br>
             <el-form-item label="密码：">
@@ -172,11 +172,11 @@
       return {
         rulesForm:{
           display_name:'',
-          username:'',
+          user_name:'',
           password:''
         },
         display_name: '',
-        username: '',
+        user_name: '',
         password: '',
         respassword: '',
         first_name: '',
@@ -220,14 +220,13 @@
           if (res.data.status_code === 1) {
             var data = res.data.data;
             this.display_name = data.display_name;
-            this.username = data.username;
+            this.user_name = data.username;
             this.permission_chose = data.account_type;
             this.password = data.password;
             this.respassword = data.password;
             this.first_name = data.first_name;
             this.last_name = data.last_name;
             this.email = data.email;
-            this.display_name = data.display_name;
             this.schoolIds = data.centers;
             this.schoolid = data.centers[0];
             if(data.account_type === 3){
@@ -364,7 +363,7 @@
         }
         this.$axios.post(url, {
           display_name: this.display_name,
-          username: this.username,
+          username: this.user_name,
           password: this.password,
           first_name: this.first_name,
           last_name: this.last_name,
