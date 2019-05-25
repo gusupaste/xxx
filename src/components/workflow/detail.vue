@@ -29,7 +29,6 @@
       </el-col>
     </div>
     <div v-for="(item,index) in discount_form_item">
-      {{  }}
       <div class="content-top" v-if="detilCode === 'RB'">{{ item.discount_type__name }}</div>
       <div class="content-top" v-if="detilCode === 'PRB' || detilCode === 'LB'">{{ item.application.application_name }}</div>
       <div class="clearfix">
