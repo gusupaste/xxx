@@ -5,7 +5,7 @@
     </div>
     <div class="content">
       <div class="select-header">
-        <template v-if="permission['finance']['reserve-fund-management-hq']" class="select-header">
+        <template v-if="permission['finance']['reserve-fund-management-hq']">
           <span>城际：</span>
           <el-select v-model="intercity_id">
             <el-option value="" label="全部" aria-selected="true"></el-option>
@@ -381,10 +381,10 @@
     color: black;
   }
 
-  .discountlist .select-header, .refundlist .list-content {
+  .discountlist .select-header, .discountlist .list-content {
     width: 100%;
     min-height: 50px;
-    margin-top: 20px;
+    margin-top: 10px;
     line-height: 50px;
   }
 
