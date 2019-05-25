@@ -151,8 +151,8 @@
         </el-row>
         <el-row>
           <el-col :span="10">
-            <el-form-item label="缴费金额: ">
-              <el-input v-model="discountForm.discount_money" size="small" placeholder="缴费金额"></el-input>
+            <el-form-item label="折扣金额: ">
+              <el-input v-model="discountForm.discount_money" size="small" placeholder="折扣金额"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
