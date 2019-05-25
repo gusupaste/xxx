@@ -99,32 +99,15 @@
   export default {
     data() {
       return {
-        tableDate: [
-          {
-            bill_id: 1,
-            name: 'tet',
-            bill_show: true
-          },
-          {
-            bill_id: 2,
-            name: 'tds',
-            bill_show: false
-          },
-          {
-            bill_id: '',
-            name: 'fff',
-            bill_show: false
-          },
-        ],
+        tableDate: [],
         input: '',
         pagesize: 10,
         currentPage: 1,
         total: 1,
-        //permission : this.$cookies.get('userInfo').user_permissions,
       };
     },
     mounted: function () {
-      //this.getList(1);
+      this.getList(1);
     },
     watch: {
       currentPage () {
