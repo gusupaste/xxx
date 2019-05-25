@@ -1,7 +1,7 @@
 <template>
   <div class="student_inschool">
       <div class="formwrap">
-        <el-form label-width="100px" inline>
+        <el-form label-width="80px" inline>
           <el-form-item label="城际：">
             <el-select v-model="intercity" @change="allChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
@@ -132,8 +132,11 @@
   </div>
 </template>
 <style scoped>
-  .student_inschool .formwrap {
-    margin-top: 20px;
+  .student_inschool >>> .el-form-item__label{
+    padding: 0;
+  }
+  .student_inschool >>> .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner{
+    width: 383px;
   }
   .student_inschool .studentFileList {
     margin-top: 20px;
