@@ -64,7 +64,7 @@
             label="（折合）单价（元/月）">
           </el-table-column>
           <el-table-column
-            prop=""
+            prop="absence_total_days"
             label="本月请假/缺勤天数">
           </el-table-column>
           <el-table-column
