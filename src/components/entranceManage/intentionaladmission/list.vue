@@ -52,9 +52,24 @@
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                <router-link :to="'/financemanagement/createDiscount?student='+scope.row.id" >
+                <template v-if="scope.row.bill_id">
+                  <router-link :to="'/financemanagement/createDiscount/?id='+scope.row.bill_id" v-if="permission['finance']['bill-editor'] && scope.row.bill_status">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
+                    </span>
+                  </router-link>
+                </template>
+                <template v-else>
+                  <router-link to="/financemanagement/createDiscount" v-if="permission['finance']['Create-payment-bills']">
+                    <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 orange"></i>
+                    </span>
+                  </router-link>
+                </template>
+
+                <router-link :to="'/financemanagement/dollar/'+scope.row.bill_id" v-if="permission['finance']['bill-payment'] && scope.row.bill_status">
+                    <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
                 </router-link>
               </template>
@@ -83,6 +98,7 @@
         pagesize: 10,
         currentPage: 1,
         total: 1,
+        permission : this.$cookies.get('userInfo').user_permissions,
       };
     },
     mounted: function () {

@@ -2,13 +2,13 @@
     <div>
         <div class="select-header">
             <span>科目属性：</span>
-            <el-select v-model="searchForm.type" placeholder="--请选择--" style="width: 20%;">
+            <el-select v-model="searchForm.type" placeholder="--请选择--">
                 <el-option label="所有" value=""></el-option>
                 <el-option value="0" label="非普惠"></el-option>
                 <el-option value="1" label="普惠"></el-option>
             </el-select>
             <span class="ml20">搜索科目：</span>
-            <el-input v-model="searchForm.condition" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
+            <el-input v-model="searchForm.condition" placeholder="输入科目编码或名称" class="search_input"></el-input>
             <span class="padding-left-30">
                 <el-button type="primary" @click="searchList(1)">搜索</el-button>
             </span>
@@ -442,7 +442,7 @@ export default {
                     _this.toggleSelection(xxx);
                 })
             });
-            
+
         },
         addSubject(formName){
             console.log(this.editform)
