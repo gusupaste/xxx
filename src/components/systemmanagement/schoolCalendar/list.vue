@@ -42,11 +42,6 @@
                     </div>
                 </el-card>
             </div>
-            <!-- <el-pagination
-                background
-                layout="prev, pager, next,jumper"
-                :total="1000">
-            </el-pagination> -->
         </div>
         <!-- 新增日历模板 -->
         <el-dialog
@@ -124,8 +119,8 @@
                     </div>
                 </el-form>
                 <div slot="footer" class="dialog-footer" style="margin-top:20px">
-                    <el-button @click="dialogFormVisible=false" style="background-color:#bbb;color:#fff">取 消</el-button>
-                    <el-button type="primary" @click="copy_to_school" style="background-color:#8bc34a;color:#fff;border-color:#8bc34a">保 存</el-button>
+                    <el-button @click="dialogFormVisible=false" class="bg-grey bd-grey white">取 消</el-button>
+                    <el-button type="primary" @click="copy_to_school" class="bg-green bd-green white">保 存</el-button>
                 </div>
             </el-dialog>
          <!-- 添加成功 -->
@@ -332,10 +327,6 @@ export default {
                 center_list:this.multipleSelection
             }).then(res=>{
                 if(res.data.status_code === 1){
-                    // _this.$message({
-                    //     type:'success',
-                    //     message:'复制成功！'
-                    // });
                     _this.dialogFormVisible = false;
                     _this.copy_success = true;
                     _this.getTemplate();
