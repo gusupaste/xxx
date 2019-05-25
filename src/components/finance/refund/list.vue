@@ -4,19 +4,20 @@
       <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">退费账单</span></p>
     </div>
     <div class="content">
-      <p :model="searchform" class="mt10 mb10">
-        <span>城际：</span>
-        <el-select v-model="searchform.intercity_id" placeholder="请选择">
-          <el-option label="所有" value=""></el-option>
-          <el-option
-            v-for="item in intercityList"
-            :key="item.id"
-            :label="item.dept_name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-        <span class="padding-left-30">区域：</span>
-          <el-select v-model="searchform.area_id" placeholder="请选择">
+      <el-form inline :model="searchform" class="mt10 mb10">
+        <el-form-item label="城际：">
+            <el-select v-model="searchform.intercity_id" placeholder="请选择">
+              <el-option label="所有" value=""></el-option>
+              <el-option
+                v-for="item in intercityList"
+                :key="item.id"
+                :label="item.dept_name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="区域：">
+            <el-select v-model="searchform.area_id" placeholder="请选择">
             <el-option value="" label="所有"></el-option>
             <el-option
               v-for="item in areaList"
@@ -25,18 +26,20 @@
               :value="item.id">
             </el-option>
           </el-select>
-        <span class="padding-left-30">省市：</span>
-          <el-select v-model="searchform.province_id" placeholder="请选择">
-            <el-option value="" label="所有"></el-option>
-            <el-option
-              v-for="item in cityList"
-              :key="item.city_id"
-              :label="item.city_name"
-              :value="item.city_id">
-            </el-option>
-          </el-select>
-        <span class="padding-left-30">品牌：</span>
-          <el-select v-model="searchform.hq_id" placeholder="请选择">
+        </el-form-item>
+        <el-form-item label="省市：">
+            <el-select v-model="searchform.province_id" placeholder="请选择">
+              <el-option value="" label="所有"></el-option>
+              <el-option
+                v-for="item in cityList"
+                :key="item.city_id"
+                :label="item.city_name"
+                :value="item.city_id">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="品牌：">
+            <el-select v-model="searchform.hq_id" placeholder="请选择">
             <el-option value="" label="所有"></el-option>
             <el-option
               v-for="item in brandList"
@@ -45,8 +48,9 @@
               :value="item.id">
             </el-option>
           </el-select>
-        <span class="padding-left-30">校园：</span>
-          <el-select v-model="searchform.center_id" placeholder="请选择">
+        </el-form-item>
+        <el-form-item label="校园：">
+            <el-select v-model="searchform.center_id" placeholder="请选择">
             <el-option value="" label="所有"></el-option>
             <el-option
               v-for="item in schoolList"
@@ -55,18 +59,20 @@
               :value="item.id">
             </el-option>
           </el-select>
-        <span class="padding-left-30">学年：</span>
-          <el-select v-model="searchform.academic_year_id" placeholder="请选择">
-            <el-option value="" label="所有"></el-option>
-            <el-option
-              v-for="item in yearList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        <span class="padding-left-30">班级：</span>
-          <el-select v-model="searchform.class_id" placeholder="请选择">
+        </el-form-item>
+        <el-form-item label="学年：">
+            <el-select v-model="searchform.academic_year_id" placeholder="请选择">
+              <el-option value="" label="所有"></el-option>
+              <el-option
+                v-for="item in yearList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="班级：">
+            <el-select v-model="searchform.class_id" placeholder="请选择">
             <el-option value="" label="所有"></el-option>
             <el-option
               v-for="item in classList"
@@ -75,31 +81,35 @@
               :value="item.id">
             </el-option>
           </el-select>
-      </p>
-      <p class="mt10 mb10">
-        <span>账单类型：</span>
-          <el-select v-model="searchform.bill_type_id" placeholder="请选择">
-            <el-option value="" label="所有"></el-option>
-            <el-option
-              v-for="item in billType"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        <span class="padding-left-30">起止日期：</span>
-          <el-date-picker
-            v-model="searchform.date_from"
-            value-format="yyyy-MM-dd"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
-          </el-date-picker>
-        <span class="padding-left-30">搜索：</span>
-          <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
-          <span class="padding-left-30"><el-button type="primary" @click="searchList(1);">搜索</el-button></span>
-      </p>
+        </el-form-item>
+        <el-form-item label="账单类型：">
+            <el-select v-model="searchform.bill_type_id" placeholder="请选择">
+              <el-option value="" label="所有"></el-option>
+              <el-option
+                v-for="item in billType"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="起止日期：">
+            <el-date-picker
+              v-model="searchform.date_from"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+        </el-form-item>
+        <el-form-item label="搜索：">
+            <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+            <el-button type="primary" @click="searchList(1);">搜索</el-button>
+        </el-form-item>
+      </el-form>
       <div class="list-content mt20">
         <el-tabs v-model="status" @tab-click="handleClick">
           <el-tab-pane label="审核通过" name="1"></el-tab-pane>

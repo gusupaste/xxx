@@ -181,8 +181,8 @@
             </el-form-item>
           </div>
           <div class="mt26 text-align-center">
-            <el-button type="info" @click="$router.go(-1)">取消</el-button>
-            <el-button type="success" @click="submitForm('formInline')">保存</el-button>
+            <el-button class="bg-grey bd-grey white" type="info" @click="$router.go(-1)">取消</el-button>
+            <el-button class="bg-green bd-green white" type="success" @click="submitForm('formInline')">保存</el-button>
           </div>
       </div>
     </div>

@@ -270,7 +270,7 @@
               this.sureSave()
               this.successTip("提交成功")
             } else {
-              alert(res.data.message)
+              this.$message.warning(res.data.message)
             }
           }
         }).catch(err => {
@@ -300,7 +300,7 @@
               this.save = false
               this.is_confirmed = false
             } else {
-              alert(res.data.message)
+              this.$message.warning(res.data.message)
             }
           }
         }).catch(err => {

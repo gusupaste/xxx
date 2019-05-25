@@ -264,8 +264,8 @@
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="cancelParentInfo">取 消</el-button>
-          <el-button type="success" @click="saveEditParent">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="cancelParentInfo">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveEditParent">保 存</el-button>
         </span>
     </el-dialog>
   </div>

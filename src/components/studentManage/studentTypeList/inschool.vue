@@ -250,8 +250,8 @@
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="operationVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveInputSchool('reulsForm')">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="operationVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveInputSchool('reulsForm')">保 存</el-button>
         </span>
     </el-dialog>
     <!--<el-dialog title="预备生离园登记" :visible.sync="leaveVisible" width="750px">
@@ -577,8 +577,8 @@
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="earlyVisible = false">取 消</el-button>
-          <el-button type="success">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="earlyVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success">保 存</el-button>
         </span>
     </el-dialog>
   </div>

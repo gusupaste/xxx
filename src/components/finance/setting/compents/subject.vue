@@ -182,7 +182,7 @@
                 </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button class="bg-grey white bd-grey" @click="addFeeVisible = false">取 消</el-button>
-          <el-button type="success" @click="addSubject('editform')">保 存</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="addSubject('editform')">保 存</el-button>
         </span>
       </el-dialog>
         <!-- 编辑费用科目 -->

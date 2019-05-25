@@ -32,8 +32,8 @@
         <span>清空审批节点后,该审批节点后面的节点均会删除,确定清空吗? </span>
       </div>
       <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="cancelDelete">取 消</el-button>
-          <el-button type="success" @click="sureDelete">确 定</el-button>
+          <el-button class="bg-grey bd-grey white" @click="cancelDelete">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureDelete">确 定</el-button>
         </span>
     </el-dialog>
   </div>
