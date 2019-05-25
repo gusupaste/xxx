@@ -30,15 +30,15 @@
                 <br>
                 <el-form-item label="学业计划：" label-width="120px">
                     <el-select  v-model="selected_plan" @change="getShouldPrice">
-                      <el-option v-for="plan in plans" 
-                        :key="plan.id" 
-                        :label="plan.name" 
+                      <el-option v-for="plan in plans"
+                        :key="plan.id"
+                        :label="plan.name"
                         :value="plan.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="申请学年：" label-width="120px">
                     <el-select v-model="selected_year" @change="yearSelected">
-                      <el-option v-for="year in years" 
+                      <el-option v-for="year in years"
                         :key="year.id"
                         :label="year.name"
                         :value="year.id"></el-option>
@@ -46,7 +46,7 @@
                 </el-form-item>
                 <el-form-item label="申请学期：" label-width="120px">
                     <el-select v-model="terms[0].id">
-                      <el-option v-for="term in terms" 
+                      <el-option v-for="term in terms"
                         :key="term.id"
                         :label="term.name"
                         :value="term.id"></el-option>
@@ -58,7 +58,7 @@
                         v-model="from_date"
                         type="date"
                         format="yyyy-MM-dd"
-                        :picker-options="pickerOptions" 
+                        :picker-options="pickerOptions"
                         @change="getShouldPrice"
                         placeholder="选择日期">
                     </el-date-picker>
@@ -74,13 +74,13 @@
                 <br>
                 <el-form-item label="学费正价：" label-width="120px">
                     <el-select v-model="selected_policy" @change="getChargingWay">
-                      <el-option v-for="item in charging_policy" 
+                      <el-option v-for="item in charging_policy"
                         :key="item.id"
                         :label="item.name"
                         :value="item.id"></el-option>
                     </el-select>
                     <el-select v-model="selected_way" @change="getPriceMonth">
-                      <el-option v-for="item in charging_way" 
+                      <el-option v-for="item in charging_way"
                         :key="item.id"
                         :label="item.subject_name"
                         :value="item.id"></el-option>
@@ -107,14 +107,14 @@
                 <el-form inline style="padding:20px;">
                     <el-form-item label="选择折扣类型：" label-width="120px">
                         <el-select class="w250_input" v-model="selected_discount_type[itemindex]" @change="changeType(itemindex)">
-                          <el-option v-for="type in discount_type[itemindex]" 
+                          <el-option v-for="type in discount_type[itemindex]"
                             :key="type.id"
                             :label="type.name"
                             :value="type.id"></el-option>
                         </el-select>
                     </el-form-item>
                     <br>
-                    
+
                     <el-form-item label="申请折扣：" label-width="120px">
                         <el-input placeholder="请输入内容" v-model="discount_price[itemindex]" @change="amountPrice" oninput ="value=value.replace(/[^0-9.]/g,'')">
                             <template v-if="condition_status[itemindex] === 0" slot="append">%</template>
@@ -169,7 +169,7 @@
             </el-form-item>
         </el-form>
         <p class="mt26 font-cl-blue"></p>
-        
+
         <div class="mt26 text-align-center">
             <button class="btn bg-grey">取消</button>
             <button class="btn bg-green" @click="saveDiscount">提交</button>
@@ -318,7 +318,6 @@ export default {
             console.log(this.userInfo);
             this.loadData();
             this.getStudent("");
-            this.getDiscountType(0);
         })
     },
     methods: {
@@ -371,7 +370,7 @@ export default {
             {
                 params:{
                     search_name:name,
-                    student_status:"", 
+                    student_status:"",
                 }
             }).then(res=>{
                 console.log(res.data)
@@ -399,6 +398,7 @@ export default {
                 if(_this.selected_plan){
                     _this.getShouldPrice();
                 }
+                _this.getDiscountType(0);
             })
         },
         // 计算学费正价
@@ -466,7 +466,6 @@ export default {
             }else if(!_this.selected_plan){
                 return;
             }
-
             this.$axios.get('/api/discount/discount_management/get_pay_month_count/',
             {
                 params:{
@@ -487,18 +486,10 @@ export default {
                 }
             })
         },
-
-
-
-
-
-
-
-
         // 获取折扣类型
         getDiscountType(index){
             let _this = this;
-            this.$axios.post('/api/discount/discount_type_management/get_available_discount_type/',
+            this.$axios.post('/api/discount/discount_type_management/get_available_discount_type/?class_type_id=' + this.selected_student_info.class_type_id,
             {
                 availabled_list: _this.selected_discount_type,
             })
