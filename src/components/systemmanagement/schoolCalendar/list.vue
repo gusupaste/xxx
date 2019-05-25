@@ -94,7 +94,7 @@
                         tooltip-effect="dark"
                         style="width: 100%"
                         border
-                        @selection-change="handleSelectionChange">
+                        @select="handleSelectionChange">
                         <el-table-column
                         type="selection"
                         width="50">
