@@ -168,8 +168,9 @@
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">取消</button>
             <button class="btn bg-green" v-if="!is_edit" @click="saveInfo">保存</button>
+            <button class="btn bg-green" v-if="is_choose_student && !is_edit" @click="saveInfo">保存</button>
+            <button class="btn bg-green" v-if="is_edit" @click="saveInfo">保存</button>
             <button class="btn bg-orange" v-if="!is_edit" @click="saveInfo">缴费</button>
-            <button class="btn bg-green" v-if="is_edit" @click="editInfo">保存</button>
         </div>
         <!-- 添加学生 -->
       <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
@@ -363,7 +364,8 @@ export default {
             multipleTable1:[],
             id:'',
             reviewInfo:{},
-            is_edit:false
+            is_edit:false,
+            is_choose_student:false
         }
     },
     created () {
@@ -430,6 +432,11 @@ export default {
                         message:"保存成功！"
                     })
                     _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                } else {
+                    _this.$message({
+                        type:"error",
+                        message:res.data.error
+                    })
                 }
             })
         },
@@ -493,12 +500,18 @@ export default {
                         message:"保存成功！"
                     })
                     _this.$router.push('/financemanagement/dollar/'+res.data.bill_id);
+                } else {
+                    _this.$message({
+                        type:"error",
+                        message:res.data.error
+                    })
                 }
             })
         },
         getStudent(val){
             if(this.$route.query.student){
                 this.is_edit = true;
+                this.is_choose_student = true;
                 this.choosePerson.id = this.$route.query.student;
                 this.sureAddStudent();
             }
@@ -575,7 +588,6 @@ export default {
                         _this.multipleTable = [item];
                     }
                 });
-                // _this.getSubject();
                 _this.checkedSubject = res.data.data.billitem_li;
 
                 _this.checkedSubject1 = res.data.data.billitem_li;
@@ -746,6 +758,9 @@ export default {
                     row.total = row.pay_month*row.price;
                     _this.getDiscount(row)
                 })
+            } else {
+                row.pay_month = "";
+                row.total = ""
             }
 
         }
