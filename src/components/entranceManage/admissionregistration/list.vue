@@ -52,21 +52,21 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">姓名:</span>
-                  <span>{{ studentInfo.name }}</span>
+                  <span>{{ studentInfo.name }}&nbsp;</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels">学年计划:</span>
-                  <span>{{ studentInfo.academic_year_name }}</span>
+                  <span>{{ studentInfo.academic_year_name }}&nbsp;</span>
                 </p>
               </el-col>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">年龄:</span>
-                  <span>{{ studentInfo.age }}</span>
+                  <span>{{ studentInfo.age }}&nbsp;</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels">意向班级:</span>
-                  <span>{{ studentInfo.preferred_class }}</span>
+                  <span>{{ studentInfo.preferred_class }}&nbsp;</span>
                 </p>
               </el-col>
               <el-col :span="8">
@@ -77,7 +77,7 @@
                 </p>
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">预计入学日期:</span>
-                  <span>{{ studentInfo.preferred_admission_date }}</span>
+                  <span>{{ studentInfo.preferred_admission_date }}&nbsp;</span>
                 </p>
               </el-col>
               <el-col :span="8">
@@ -89,7 +89,7 @@
               <el-col :span="16">
                 <p class="lable-p">
                   <span class="labels">所属校园:</span>
-                  <span>{{ studentInfo.center_name }}</span>
+                  <span>{{ studentInfo.center_name }}&nbsp;</span>
                 </p>
               </el-col>
             </el-row>
@@ -272,21 +272,21 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">姓名:</span>
-                  <span>{{ studentInfo.name }}</span>
+                  <span>{{ studentInfo.name }}&nbsp;</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels">学年计划:</span>
-                  <span>{{ studentInfo.academic_year }}</span>
+                  <span>{{ studentInfo.academic_year }}&nbsp;</span>
                 </p>
               </el-col>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">年龄:</span>
-                  <span>{{ studentInfo.age }}</span>
+                  <span>{{ studentInfo.age }}&nbsp;</span>
                 </p>
                 <p class="lable-p">
                   <span class="labels">意向班级:</span>
-                  <span>{{ studentInfo.preferred_center_name }}</span>
+                  <span>{{ studentInfo.preferred_center_name }}&nbsp;</span>
                 </p>
               </el-col>
               <el-col :span="8">
@@ -296,19 +296,19 @@
                 </p>
                 <p class="lable-p">
                   <span class="labels" style="width: 90px;">预计入学日期:</span>
-                  <span>{{ studentInfo.preferred_admission_date }}</span>
+                  <span>{{ studentInfo.preferred_admission_date }}&nbsp;</span>
                 </p>
               </el-col>
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">缴费区间:</span>
-                  <span>{{ studentInfo.age }}</span>
+                  <span>{{ studentInfo.age }}&nbsp;</span>
                 </p>
               </el-col>
               <el-col :span="16">
                 <p class="lable-p">
                   <span class="labels">所属校园:</span>
-                  <span>{{ studentInfo.center_name }}</span>
+                  <span>{{ studentInfo.center_name }}&nbsp;</span>
                 </p>
               </el-col>
             </el-row>
@@ -320,7 +320,7 @@
               <el-col :span="8">
                 <p class="lable-p">
                   <span class="labels">离园申请:</span>
-                  <span>{{ studentRemark }}</span>
+                  <span>{{ studentRemark }}&nbsp;</span>
                 </p>
               </el-col>
               <!--<el-col :span="8">

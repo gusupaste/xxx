@@ -30,7 +30,7 @@ Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 axios.interceptors.request.use(
   config => {
-    config.baseURL = 'http://192.168.1.197:8000'; //陈帅taidiinet
+    //config.baseURL = 'http://192.168.1.197:8000'; //陈帅taidiinet
     // config.baseURL = 'http://192.168.199.157:8000'; //陈帅taidiinet
     // config.baseURL = 'http://192.168.1.203:8000'; //郭醒taidiinet
     // config.baseURL = 'http://192.168.1.187:8000'; //徐文琪taidiinet
