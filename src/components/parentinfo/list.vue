@@ -506,22 +506,22 @@
           params.intercity_id = this.intercity;
         }
         if (this.area !== '') {
-          params.province_id = this.area;
+          params.area_id = this.area;
         }
         if (this.city !== '') {
-          params.intercity_id = this.city;
+          params.province_id = this.city;
         }
         if (this.brand !== '') {
-          params.intercity_id = this.brand;
+          params.hq_id = this.brand;
         }
         if (this.school !== '') {
-          params.intercity_id = this.school;
+          params.center_id = this.school;
         }
         if (this.level !== '') {
-          params.intercity_id = this.level;
+          params.emergency_contact_grade_id = this.level;
         }
         if (this.searchText !== '') {
-          params.searchText = this.searchText;
+          params.center_name = this.searchText;
         }
         _this.$axios.get(url, {
           params: params

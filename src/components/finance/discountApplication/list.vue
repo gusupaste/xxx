@@ -61,18 +61,21 @@
         label="折扣类型">
       </el-table-column>
       <el-table-column
-        prop="amount"
         label="正价">
-      </el-table-column>
-      <el-table-column
-        label="折扣">
         <template slot-scope="scope">
-          {{ scope.row.amount - scope.row.actual_amount }}
+          {{ scope.row.amount + scope.row.actual_amount }}
         </template>
       </el-table-column>
       <el-table-column
+        prop="amount"
+        label="折扣">
+      </el-table-column>
+      <el-table-column
         prop="actual_amount"
-        label="优惠金额合计">
+        label="折后金额">
+        <!--<template slot-scope="scope">
+          {{ scope.row.actual_amount - scope.row.amount }}
+        </template>-->
       </el-table-column>
       <el-table-column
         prop="apply_date"
