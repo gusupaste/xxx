@@ -122,6 +122,15 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          next-text="下一页"
+          :page-size="pagesize"
+          :current-page="currentPage"
+          @current-change="handleCurrentChange"
+          :total="total" class="page">
+        </el-pagination>
       </div>
     </div>
     <el-dialog title="修改家长资料" :visible.sync="editbrandVisible" width="780px" class="editParent">
@@ -302,6 +311,9 @@
   export default {
     data() {
       return {
+        currentPage:1,
+        pagesize:10,
+        total:1,
         int_url: '/api/common/select/intercity_list/', /*城际*/
         area_url: '/api/common/select/area_list/', /*区域*/
         city_url: '/api/common/select/city_list/', /*省市*/
@@ -352,6 +364,12 @@
         tel_phone: '',
       }
     },
+    watch: {
+      currentPage(){
+        //this.getSchoolList(this.currentPage)
+        this.getParentList();
+      }
+    },
     mounted: function () {
       this.getIntercityList();
       this.getAreaList();
@@ -363,6 +381,9 @@
       this.getParentList();
     },
     methods: {
+      handleCurrentChange:function(currentPage){
+        this.currentPage=currentPage;
+      },
       editParentInfo: function (obj) {
         this.editbrandVisible = true;
         this.tel_phone = obj.telephone;
@@ -523,11 +544,14 @@
         if (this.searchText !== '') {
           params.center_name = this.searchText;
         }
+        params.page = this.currentPage;
+        params.size = 10;
         _this.$axios.get(url, {
           params: params
         }).then(res => {
           if (res.status == 200 && res.data.status_code == 1) {
             this.parent_list = res.data.paginated_dict.results;
+            this.total = res.data.paginated_dict.count;
           }
         }).catch(err => {
           console.log(err)
