@@ -102,7 +102,7 @@
                 width="400"
                 label="缴费区间">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.payment_method_name !== '一次性缴费'">
+                    <span v-if="scope.row.payment_methode !== '一次性缴费'">
                         <el-date-picker
                             style="width:145px;display:inline-block"
                                 v-model="saveForm.billitem_list[scope.$index].begin_date"
@@ -127,7 +127,7 @@
                 prop="address"
                 label="缴费时长">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.payment_method_name !== '一次性缴费'">{{scope.row.pay_month}}月</span>
+                    <span v-if="scope.row.payment_method !== '一次性缴费'">{{scope.row.pay_month}}月</span>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -137,7 +137,7 @@
                     <span v-if="scope.row.pay_month">
                         {{scope.row.act_total}}
                     </span>
-                    <span v-if="scope.row.payment_method_name === '一次性缴费'">
+                    <span v-if="scope.row.payment_method === '一次性缴费'">
                         {{scope.row.price}}
                     </span>
                 </template>
@@ -156,7 +156,7 @@
                     <span v-if="scope.row.pay_month">
                         {{scope.row.total}}
                     </span>
-                    <span v-if="scope.row.payment_method_name === '一次性缴费'">
+                    <span v-if="scope.row.payment_method === '一次性缴费'">
                         {{scope.row.price}}
                     </span>
                 </template>
