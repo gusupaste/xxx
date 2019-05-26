@@ -536,7 +536,7 @@ export default {
                 _this.studentList = res.data.data.student_li;
                 _this.schoolName = res.data.data.center_name;
                 if(val === 1){
-                    if(_this.$route.query.id){
+                    if(_this.$route.query.id && !_this.$route.query.student){
                         _this.is_edit = true;
                         _this.$nextTick(()=>{
                             _this.getDiscountInfo();
@@ -566,8 +566,9 @@ export default {
                 if(res.data.status_code === 1){
                     res.data.student_profile.name = res.data.student_profile.student_name;
                     res.data.student_profile.student_no = this.choosePerson.student_no;
-                    this.multipleTable = [res.data.student_profile];
-                    this.innerVisible = false;
+                    _this.multipleTable = [res.data.student_profile];
+                    console.log(_this.multipleTable)
+                    _this.innerVisible = false;
                 }
             }).catch(error=>{
                 if(error.response.status === 400){
