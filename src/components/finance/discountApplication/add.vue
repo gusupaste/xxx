@@ -113,7 +113,7 @@
                          :label="type.name"
                          :value="type.id"></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item>{{left_amount}}
           <br>
 
           <el-form-item label="申请折扣：" label-width="120px">
@@ -341,7 +341,7 @@
         pagesize: 10,
         currentPage: 1,
         total: 1,
-        left_amount: 0,
+        left_amount: '',
       }
     },
     mounted: function () {
