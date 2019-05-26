@@ -141,7 +141,7 @@
                 prop="rate"
                 label="折扣">
                 <template slot-scope="scope">
-                    {{scope.row.rate}}%
+                    {{scope.row.rate}}
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -551,8 +551,9 @@ export default {
             this.totalprice = 0;
             this.totalamount = 0;
             this.checkedSubject.forEach(item=>{
-               this.totalprice += (item.price-0) * item.rate /100;
-               this.totalamount += (item.price-0);
+                if(item.total){
+                    this.totalprice += (item.total-0)
+                }
             });
             this.subjectVisible=false;
         },
@@ -589,9 +590,11 @@ export default {
                 _this.multipleTable.push(res.data.data.bill_info);
                 _this.$set(_this.addform,'start_date',res.data.data.bill_info.planned_payment_date)
                 _this.$set(_this.addform,'end_date',res.data.data.bill_info.enter_date)
-                _this.$set(_this.saveForm,'policy_id',res.data.data.bill_info.policy_id)
                 _this.$set(_this.addform,'pay_method',res.data.data.bill_info.pay_method_id)
                 _this.$set(_this.addform,'date',res.data.data.bill_info.billing_date)
+                _this.$set(_this.addform,'academic_year_id',res.data.data.bill_info.academic_year_id)
+                _this.getPolicy();
+                _this.$set(_this.saveForm,'policy_id',res.data.data.bill_info.policy_id)
                 _this.studentList.forEach(item=>{
                     if(item.id == _this.addform.student_id){
                         _this.choosePerson = item;
@@ -661,7 +664,6 @@ export default {
                         _this.addform.academic_year_id = item.id;
                     }
                 })
-                
                 _this.getStudent(1);
                 _this.getPolicy();
             })
