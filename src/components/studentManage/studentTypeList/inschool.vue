@@ -912,7 +912,7 @@ export default {
                 type: 'success',
                 message: '保存成功！'
               })
-              this.getYearHistory(this.reulsForm.id);
+              this.getYearHistory(this.reulsForm.student);
               this.operationVisible = false;
             } else {
               this.$message.error('保存失败');
