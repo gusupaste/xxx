@@ -150,10 +150,12 @@
                 </template>
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop=""
                 label="折后应收">
                 <template slot-scope="scope">
-                    {{scope.row.price*scope.row.rate/100}}
+                    <span v-if="scope.row.pay_month">
+                        {{scope.row.total}}
+                    </span>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -168,8 +170,9 @@
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">取消</button>
             <button class="btn bg-green" v-if="!is_edit" @click="saveInfo">保存</button>
+            <button class="btn bg-green" v-if="is_choose_student && !is_edit" @click="saveInfo">保存</button>
+            <button class="btn bg-green" v-if="is_edit" @click="saveInfo">保存</button>
             <button class="btn bg-orange" v-if="!is_edit" @click="saveInfo">缴费</button>
-            <button class="btn bg-green" v-if="is_edit" @click="editInfo">保存</button>
         </div>
         <!-- 添加学生 -->
       <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
@@ -363,7 +366,8 @@ export default {
             multipleTable1:[],
             id:'',
             reviewInfo:{},
-            is_edit:false
+            is_edit:false,
+            is_choose_student:false
         }
     },
     created () {
@@ -430,6 +434,11 @@ export default {
                         message:"保存成功！"
                     })
                     _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                } else {
+                    _this.$message({
+                        type:"error",
+                        message:res.data.error
+                    })
                 }
             })
         },
@@ -493,12 +502,18 @@ export default {
                         message:"保存成功！"
                     })
                     _this.$router.push('/financemanagement/dollar/'+res.data.bill_id);
+                } else {
+                    _this.$message({
+                        type:"error",
+                        message:res.data.error
+                    })
                 }
             })
         },
         getStudent(val){
             if(this.$route.query.student){
                 this.is_edit = true;
+                this.is_choose_student = true;
                 this.choosePerson.id = this.$route.query.student;
                 this.sureAddStudent();
             }
@@ -575,7 +590,6 @@ export default {
                         _this.multipleTable = [item];
                     }
                 });
-                // _this.getSubject();
                 _this.checkedSubject = res.data.data.billitem_li;
 
                 _this.checkedSubject1 = res.data.data.billitem_li;
@@ -610,19 +624,19 @@ export default {
                 }
             }).then(res=>{
                 var index = this.checkedSubject.indexOf(row);
-
-                console.log(index)
                 if(res.data.data.is_have_enroll_discount){
                     this.checkedSubject[index].total = this.checkedSubject[index].total - res.data.data.discount_money;
                     if(res.data.datais_have_ordinary_discount){
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 1) {
                                 this.checkedSubject[index].total -= item.rate_or_price
+                                this.checkedSubject[index].rate = item.rate_or_price;
                             }
                         })
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 0) {
-                                this.checkedSubject[index].total *= item.rate_or_price
+                                this.checkedSubject[index].total *= item.rate_or_price;
+                                this.checkedSubject[index].rate = item.rate_or_price*100+'%';
                             }
                         })
                 }
@@ -685,13 +699,18 @@ export default {
                 params:{
                     student_id:this.multipleTable[0].id,
                     payment_method_id:this.addform.pay_method,
-                    academic_year_id:this.addform.academic_year_id,
+                    class_type_id:this.multipleTable[0].class_type_id,
                     payment_date:this.addform.start_date,
                     enter_date:this.addform.end_date,
                 }
             })
             .then(res=>{
-                res.data.available_items.forEach(item=>{
+                if(res.data.status_code === 1){
+                    _this.$message({
+                        type:'success',
+                        message:'费用科目搜索成功'
+                    })
+                    res.data.available_items.forEach(item=>{
                     item.subject_id = item.subject;
                     item.subject = item.subject_name;
                     item.subject_category = item.subject_category_name;
@@ -699,6 +718,8 @@ export default {
                 })
                 _this.subjectList = res.data.available_items;
                 _this.checkedSubject = [];
+                }
+                
             })
         },
         handleSelectionChange(val){
@@ -746,6 +767,9 @@ export default {
                     row.total = row.pay_month*row.price;
                     _this.getDiscount(row)
                 })
+            } else {
+                row.pay_month = "";
+                row.total = ""
             }
 
         }
