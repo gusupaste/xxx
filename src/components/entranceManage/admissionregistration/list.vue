@@ -30,16 +30,28 @@
           </div>
           <div class="card-footer clearfix">
             <span>执行操作</span>
-            <el-select v-model="item.selectType"
+            <el-dropdown trigger="click" @command="handleCommand($event,item.id,index,item.academic_year_id,item.center_id,item.leaving_status,item.preferred_academic_year)">
+              <span class="el-dropdown-link">
+                <el-input :value="item.selectType" class="cur"></el-input>
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="1">入园管理</el-dropdown-item>
+                <el-dropdown-item command="2">提前入学申请</el-dropdown-item>
+                <el-dropdown-item command="3">推迟入学申请</el-dropdown-item>
+                <el-dropdown-item command="3">离园登记</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <!--<el-select v-model="item.selectType"
                        @change="operationSelect(item.selectType,item.id,item.academic_year_id,item.center_id,item.leaving_status,item.preferred_academic_year)"
-                       placeholder="--请选择--" style="width: 60%;">
+                       placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 60%;">
               <el-option
                 v-for="item in operations"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
-            </el-select>
+            </el-select>-->
           </div>
         </div>
       </div>
@@ -646,17 +658,22 @@
       editSchool: function (param, index) {
         this.$router.push('/financemanagement/billDetail');
       },
-      operationSelect: function (val, id, academic_year_id, center_id, leaving_status, preferred_academic_year) {
-        if (val === 1) {
+      handleCommand: function (val, id, index ,academic_year_id, center_id, leaving_status, preferred_academic_year) {
+        if (val === '1') {
+          console.log(this.studentList)
+          this.studentList[index].selectType = '入园管理';
           this.operationVisible = true;
           this.getStudentInfo(id, academic_year_id, center_id);
-        } else if (val === 2) {
+        } else if (val === '2') {
+          this.studentList[index].selectType = '提前入学申请';
           this.early_title = '预备生提前入学申请';
           this.earlyVisible = true;
-        } else if (val === 3) {
+        } else if (val === '3') {
+          this.studentList[index].selectType = '推迟入学申请';
           this.early_title = '预备生推迟入学申请';
           this.earlyVisible = true;
         } else {
+          this.studentList[index].selectType = '离园登记';
           this.leaveVisible = true;
           this.studentRemark = leaving_status;
           this.preferred_academic_year = preferred_academic_year;
@@ -701,6 +718,9 @@
 
   .admissionRegistrationlist >>> .el-input__inner {
     width: -webkit-fill-available;
+  }
+  .admissionRegistrationlist >>>.el-dropdown .el-input__inner {
+    width: auto;
   }
   .admissionRegistrationlist .studentFileCard {
     cursor: pointer;
