@@ -382,7 +382,7 @@
     <el-dialog title="预备生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
       <span class="dialog-body">该学生存在未完成的缺勤转备用金,请先完成再进行离园登记</span>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="leaveShowVisible = false">缺勤转备用金</el-button>
+          <el-button @click="leaveShowVisible = false" disabled>缺勤转备用金</el-button>
           <el-button @click="leaveShowVisible = false" type="success">知道了</el-button>
         </span>
     </el-dialog>
