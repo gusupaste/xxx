@@ -151,7 +151,7 @@
                         <el-option v-for="city in cityList" :label="city.city_name" :value="city.city_id" :key="city.id"></el-option>
                       </el-select>
                       <el-select class="select-region" v-model="studentInfo.town" placeholder="区">
-                        <el-option v-for="town in townList" :label="town.city_name" :value="town.id" :key="town.id"></el-option>
+                        <el-option v-for="town in townList" :label="town.city_name" :value="town.city_id" :key="town.id"></el-option>
                       </el-select>
                       <el-input v-model="studentInfo.address" style="width: auto;" placeholder="请输入详细地址" maxlength="100"></el-input>
                     </el-form-item>
@@ -406,7 +406,7 @@ export default {
           this.studentInfo.primary_language = res.data.detail.primary_language;
           this.studentInfo.other_language = res.data.detail.other_language;
           this.studentInfo.remark = res.data.detail.remark;
-          this.studentInfo.town = res.data.detail.town;
+          this.studentInfo.town = res.data.detail.province_city.t_city_id;
           this.studentInfo.address = res.data.detail.address;
           this.studentInfo.zip_code = res.data.detail.zip_code;
           this.studentInfo.preferred_class = res.data.detail.preferred_class;
@@ -430,9 +430,9 @@ export default {
           if(falsg === false){
             this.newType.push('is_employee_child');
           }
-          this.p_city_id = res.data.detail.province_city.province;
+          this.p_city_id = res.data.detail.province_city.p_city_id;
           /*this.getcity_list();*/
-          this.c_city_id = res.data.detail.province_city.city;
+          this.c_city_id = res.data.detail.province_city.c_city_id;
           /*this.gettown_list();*/
         }
       }).catch(err=>{

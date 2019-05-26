@@ -910,7 +910,7 @@ export default {
                 type: 'success',
                 message: '保存成功！'
               })
-              this.getYearHistory();
+              this.getYearHistory(this.reulsFor.id);
             } else {
               this.$message.error('保存失败');
             }
