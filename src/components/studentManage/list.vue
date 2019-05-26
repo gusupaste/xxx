@@ -148,6 +148,9 @@ export default {
       }).then(res=>{
         if(res.status == 200 && res.data.status == 1) {
           this.student_list = res.data.results.results;
+          for(var x in this.student_list){
+            this.student_list[x].selectType = '';
+          }
         }
       }).catch(err=>{
         console.log(err)
