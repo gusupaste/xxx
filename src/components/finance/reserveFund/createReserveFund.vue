@@ -24,6 +24,7 @@
                       value-format="yyyy-MM-dd"
                       v-model="date"
                       type="date"
+                      @change="getSingleStudent"
                       placeholder="申请日期">
                     </el-date-picker>
                   </div>
@@ -130,7 +131,7 @@
 
 <script>
   export default {
-    data() {
+    data () {
       return {
         tableData: [],
         class_li: [],
@@ -145,20 +146,24 @@
         student_id: this.$route.query.id
       }
     },
-    created() {
+    mounted () {
       // this.getInfo();
-      if (single_status === 0) {
-        this.searchInfo();
+      if (this.single_status === 0) {
+        this.searchInfo()
       } else {
         this.getSingleStudent()
       }
     },
     methods: {
-      getSingleStudent: function () {
-        this.$axios.get('/api/finance/reserve_fund_for_attendance/student_list/', {
+      getSingleStudent: function (val) {
+        var new_date = this.date
+        if (val === undefined) {
+          new_date = this.$options.filters['formatDate'](new Date())
+        }
+        this.$axios.get('/api/finance/reserve_fund_for_attendance/leave_reserve_fund/', {
           params: {
-            date : this.date,
-            student_id : this.student_id
+            leave_date: new_date,
+            student_id: this.student_id
           }
         })
           .then(res => {
@@ -171,14 +176,14 @@
 
         })
       },
-      getInfo() {
-        var _this = this;
+      getInfo () {
+        var _this = this
         this.$axios.get('/api/finance/reserve_fund_for_attendance/student_list/', {
           params: this.searchForm
         })
           .then(res => {
             if (res.data.status == 1) {
-              _this.tableData = res.data.data;
+              _this.tableData = res.data.data
             } else {
               _this.$message({
                 type: 'error',
@@ -187,14 +192,14 @@
             }
           })
       },
-      change(val) {
+      change (val) {
         console.log(val)
       },
-      handleSelectionChange(val) {
-        this.mutitable = val;
+      handleSelectionChange (val) {
+        this.mutitable = val
       },
-      submit() {
-        var _this = this;
+      submit () {
+        var _this = this
         if (this.mutitable.length === 0) {
           this.$message({
             type: 'error',
@@ -203,10 +208,10 @@
           return
         }
         this.mutitable.forEach(item => {
-          item.center_class_year_id = this.searchForm.center_class_id;
-          item.month = this.searchForm.month;
-          item.amount = item.sub_total;
-        });
+          item.center_class_year_id = this.searchForm.center_class_id
+          item.month = this.searchForm.month
+          item.amount = item.sub_total
+        })
         this.$axios.post('/api/finance/reserve_fund_for_attendance/add', {
           bills: this.mutitable
         })
@@ -216,21 +221,21 @@
             }
           })
       },
-      searchInfo() {
+      searchInfo () {
         this.$axios.get('/api/finance/bill/search_info/', {
           params: {
             center_id: this.userInfo.center.id
           }
         })
           .then(res => {
-            this.class_li = res.data.data.class_li;
+            this.class_li = res.data.data.class_li
           })
       },
     },
     watch: {
       searchForm: {
-        handler() {
-          if (this.searchForm.month !== "" && this.searchForm.center_class_id !== "") this.getInfo();
+        handler () {
+          if (this.searchForm.month !== '' && this.searchForm.center_class_id !== '') this.getInfo()
 
         },
         deep: true
