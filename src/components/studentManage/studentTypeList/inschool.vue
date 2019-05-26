@@ -64,9 +64,10 @@
           </div>
           <div class="card-footer clearfix">
             <span>执行操作</span>
-            <el-dropdown @command="handleCommand($event,item.id)">
+            <el-dropdown @command="handleCommand($event,item.id,index)">
               <span class="el-dropdown-link">
-                下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                <el-input :value="item.selectType"></el-input>
+                <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="1">入园登记</el-dropdown-item>
@@ -687,6 +688,7 @@ export default {
   },
   data(){
     return {
+      command_type:'',
       leveForm:{
         name:'',
         leave_reason: '',
@@ -891,9 +893,9 @@ export default {
       }
       this.$emit('getStudentList',data);
     },
-    handleCommand:function(val,id){
-
+    handleCommand:function(val,id,index){
       if(val === '1'){
+        this.student_list[index].selectType = '入园管理';
         this.getYearHistory(id);
         this.getStudentInfo(id);
         this.operationVisible = true;
@@ -906,9 +908,11 @@ export default {
         this.reulsForm.out_class_date = '';
         this.reulsForm.remarks = '';
       }else if(val === '2'){
+        this.student_list[index].selectType = '毕业、离园登记';
         this.leaveVisible = true;
         this.getStudentInfo(id);
       }else if(val === '3'){
+        this.student_list[index].selectType = '终止服务';
         this.earlyVisible = true;
       }
       this.studentId = id;

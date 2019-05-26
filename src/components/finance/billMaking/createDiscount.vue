@@ -102,22 +102,24 @@
                 width="400"
                 label="缴费区间">
                 <template slot-scope="scope">
-                    <el-date-picker
-                    style="width:145px;display:inline-block"
-                        v-model="saveForm.billitem_list[scope.$index].begin_date"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        @change="changePayDate($event,scope.row)">
-                    </el-date-picker>
-                    —
-                    <el-date-picker
-                    style="width:145px;display:inline-block"
-                        v-model="saveForm.billitem_list[scope.$index].end_date"
-                        type="date"
-                        disabledDate="2019-05-16"
-                        value-format="yyyy-MM-dd"
-                        @change="changePayDate($event,scope.row)">
-                    </el-date-picker>
+                    <span v-if="scope.row.payment_method_name !== '一次性缴费'">
+                        <el-date-picker
+                            style="width:145px;display:inline-block"
+                                v-model="saveForm.billitem_list[scope.$index].begin_date"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                @change="changePayDate($event,scope.row)">
+                            </el-date-picker>
+                            —
+                            <el-date-picker
+                            style="width:145px;display:inline-block"
+                                v-model="saveForm.billitem_list[scope.$index].end_date"
+                                type="date"
+                                disabledDate="2019-05-16"
+                                value-format="yyyy-MM-dd"
+                                @change="changePayDate($event,scope.row)">
+                            </el-date-picker>
+                    </span>
                 </template>
                 </el-table-column>
 
@@ -125,7 +127,7 @@
                 prop="address"
                 label="缴费时长">
                 <template slot-scope="scope">
-                    <span>{{scope.row.pay_month}}</span>月
+                    <span v-if="scope.row.payment_method_name !== '一次性缴费'">{{scope.row.pay_month}}月</span>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -133,7 +135,10 @@
                 label="应收">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
-                        {{scope.row.total}}
+                        {{scope.row.act_total}}
+                    </span>
+                    <span v-if="scope.row.payment_method_name === '一次性缴费'">
+                        {{scope.row.price}}
                     </span>
                 </template>
                 </el-table-column>
@@ -150,6 +155,9 @@
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
                         {{scope.row.total}}
+                    </span>
+                    <span v-if="scope.row.payment_method_name === '一次性缴费'">
+                        {{scope.row.price}}
                     </span>
                 </template>
                 </el-table-column>
@@ -657,7 +665,7 @@ export default {
                         })
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 0) {
-                                this.checkedSubject[index].total *= item.rate_or_price;
+                                this.checkedSubject[index].total *= (item.rate_or_price/100);
                                 this.checkedSubject[index].discount_name.push(item.discount_type_name);
                             }
                         })
@@ -774,7 +782,6 @@ export default {
         },
         changePayDate(val,row){
             var _this = this;
-            console.log(row)
             if(row.begin_date  && row.end_date ) {
                 if(row.end_date<row.begin_date) {
                     this.$message({
@@ -786,18 +793,19 @@ export default {
                 this.$axios.get('/api/finance/select/total_month_count/',{
                     params:{
                         center_id:this.saveForm.center_id,
-                        class_type_id:this.multipleTable[0].class_id,
+                        class_type_id:this.multipleTable[0].class_type_id,
                         from_date:row.begin_date,
                         to_date:row.end_date
                     }
                 }).then(res=>{
                     _this.$set(row,'pay_month',res.data.data);
-                    _this.$set(row,'total',row.pay_month*row.price);
+                    _this.$set(row,'act_total',row.pay_month*Number(row.price));
                     _this.getDiscount(row);
                 })
             } else {
-                row.pay_month = "";
-                row.total = ""
+                row.pay_month = 0;
+                row.act_total = 0;
+                row.discount_name = [];
             }
 
         }

@@ -189,13 +189,18 @@
         <div class="mt26 tableList">
           <p>相关附件：
             <el-upload
-              style="display: initial;"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              multiple
-              :limit="3"
-              :file-list="fileList">
+              class="upload-demo"
+              ref="upload"
+              :data="bill_id"
+              name="file"
+              :headers="header"
+              :on-success="successUpload"
+              action="http://etonkids.taidii.cn/api/finance/refund/upload/"
+              :file-list="fileList"
+              :auto-upload="false">
               <el-button size="small" type="primary"><span class="el-icon-upload2" style="font-weight: bold"></span>上传</el-button>
-            </el-upload></p>
+            </el-upload>
+          </p>
         </div>
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
@@ -263,7 +268,13 @@ export default {
         return {
           center_id:this.$cookies.get('userInfo').center.id,
           radio2:'',
+          bill_id:{
+            bill_id:''
+          },
           fileList:[],
+          header:{
+              "Authorization":"jwt "+this.$cookies.get('token')
+            },
           academic_year_li:[],
           addForm:{
             application_id:'',
@@ -280,7 +291,6 @@ export default {
           },
           student_id:'',
           studentInfo:{},
-          count_id:'',
           is_thing:true,
           status:'Prepare',
           addProjectVisible:false,
@@ -291,6 +301,13 @@ export default {
         this.searchInfo()
     },
     methods: {
+      successUpload(){
+        this.$message({
+          type:'success',
+          message:'保存成功！'
+        });
+        this.$router.push('/financemanagement/refund-manage')
+      },
       getStudentInfo(val){
         var _this = this;
         this.$axios.get('/api/finance/refund/student_info',{
@@ -329,6 +346,7 @@ export default {
               _this.refundList.push(ele2);
             })
           });
+          _this.getRefund_amount()
           console.log(_this.subjectList)
         })
       },
@@ -357,18 +375,11 @@ export default {
         this.$axios.post('/api/finance/refund/add_refund_bill/',{
           bill:this.addForm
         }).then(res=>{
-          if(res.data.data.status === 1){
-            _this.count_id = res.data.data.id;
-            // _this.$router.push('/financemanagement/refund-manage')
+          if(res.data.status === 1){
+            _this.bill_id.bill_id = res.data.data.id;
+            _this.$refs.upload.submit();
           }
         })
-      },
-      uploadFile(){
-        this.$axios.post('/api/finance/refund/upload/',{
-            bill_id:this.count_id,
-            file
-        })
-      
       },
       deleteRefund(val){
         var index = this.addForm.refund_items.indexOf(val);
@@ -376,14 +387,16 @@ export default {
         this.getRefund_amount();
       },
       getRefund_amount(){
-        this.addForm.refund_amount = 0;
+        this.addForm.refund_amount = this.otherInfo.reserved_fund_amount;
+        this.subjectList.forEach(item=>{
+            this.addForm.refund_amount+=item.sub_total;
+        })
         this.addForm.refund_items.forEach(item=>{
           if(item.refund_direct === '扣款') {
             this.addForm.refund_amount -= Number(item.amount)
           } else {
             this.addForm.refund_amount += Number(item.amount)
           }
-          
         })
       },
       searchInfo(){
