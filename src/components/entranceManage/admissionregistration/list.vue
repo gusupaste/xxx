@@ -663,7 +663,7 @@
       handleCommand: function (val, id, index ,academic_year_id, center_id, leaving_status, preferred_academic_year) {
         if (val === '1') {
           console.log(this.studentList)
-          this.studentList[index].selectType = '入园管理';
+          this.studentList[index].selectType = '入园登记';
           this.operationVisible = true;
           this.class_year = academic_year_id;
           this.getStudentInfo(id, academic_year_id, center_id);

@@ -895,7 +895,7 @@ export default {
     },
     handleCommand:function(val,id,index){
       if(val === '1'){
-        this.student_list[index].selectType = '入园管理';
+        this.student_list[index].selectType = '入园登记';
         this.getYearHistory(id);
         this.getStudentInfo(id);
         this.operationVisible = true;
