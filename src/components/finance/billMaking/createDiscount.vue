@@ -782,7 +782,6 @@ export default {
         },
         changePayDate(val,row){
             var _this = this;
-            console.log(row)
             if(row.begin_date  && row.end_date ) {
                 if(row.end_date<row.begin_date) {
                     this.$message({
@@ -794,7 +793,7 @@ export default {
                 this.$axios.get('/api/finance/select/total_month_count/',{
                     params:{
                         center_id:this.saveForm.center_id,
-                        class_type_id:this.multipleTable[0].class_id,
+                        class_type_id:this.multipleTable[0].class_type_id,
                         from_date:row.begin_date,
                         to_date:row.end_date
                     }
@@ -804,8 +803,9 @@ export default {
                     _this.getDiscount(row);
                 })
             } else {
-                row.pay_month = "";
-                row.act_total = ""
+                row.pay_month = 0;
+                row.act_total = 0;
+                row.discount_name = [];
             }
 
         }
