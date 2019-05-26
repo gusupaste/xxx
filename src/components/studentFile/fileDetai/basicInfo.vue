@@ -394,10 +394,10 @@ export default {
           this.studentInfo.nick_name = res.data.detail.nick_name;
           this.studentInfo.enter_date = res.data.detail.enter_date;
           this.studentInfo.first_pay_date = res.data.detail.first_pay_date;
-          this.studentInfo.certificate_type = parseInt(res.data.detail.certificate_type) || '';
+          this.studentInfo.certificate_type = res.data.detail.certificate_type || '';
           this.studentInfo.certificate_no = res.data.detail.certificate_no;
-          this.studentInfo.nationality = parseInt(res.data.detail.nationality) || '';
-          this.studentInfo.religion = parseInt(res.data.detail.religion) || '';
+          this.studentInfo.nationality = res.data.detail.nationality || '';
+          this.studentInfo.religion = res.data.detail.religion || '';
           this.studentInfo.date_of_birth = res.data.detail.date_of_birth;
           this.studentInfo.gender = res.data.detail.gender;
           this.studentInfo.is_employee_child = res.data.detail.is_employee_child;
