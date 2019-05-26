@@ -332,7 +332,7 @@
       return {
         detilCode:this.$route.query.formKindCode,
         status: Number(this.$route.query.status),
-        formId: Number(this.$route.query.formId),
+        formId: this.$route.query.formId,
         formKindId: Number(this.$route.query.formKindId),
         approveLevel: Number(this.$route.query.approveLevel),
         form_status: 0,

@@ -148,12 +148,42 @@ export default {
             ],
         }
     },
+    props: ['brandList','intercityList','areaList','yearList'],
     mounted: function () {
-      this.getRefund()
+      this.getRefund();
+      this.getcity_list();
+      this.getSchool();
+      /*this.searchList(1);*/
     },
     methods: {
       configure:function (obj) {
         this.$router.push('/financemanagement/refund-config/edit/'+obj.center_id+'/'+obj.year_id+'/'+obj.year_name+'/'+obj.center_name+'/');
+      },
+      getSchool(){
+        var _this = this;
+        this.$axios.get('/api/common/select/center_list/',{
+          params:{
+            area_id:this.searchform.area_id,
+            hq_id:_this.searchform.hq_id,
+            intercity_id:_this.searchform.intercity_id,
+            province_id:_this.searchform.province_id,
+          }
+        })
+          .then(res=>{
+            _this.schoolList = res.data.results;
+          });
+      },
+      getcity_list(){
+        var _this = this;
+        this.$axios.get('/api/common/select/city_list/',{
+          params:{
+            area_id:_this.searchform.area_id
+          }
+        }).then(res=>{
+          _this.cityList = res.data.results;
+        }).catch(err=>{
+          console.log(err)
+        })
       },
       getRefund:function () {
         this.loading = true
