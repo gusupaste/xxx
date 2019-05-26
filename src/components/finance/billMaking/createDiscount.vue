@@ -35,7 +35,7 @@
                 </el-form-item>
                 <el-form-item label="缴费账期：">
                     <el-select v-model="addform.academic_year_id" @change="getPolicy">
-                        <el-option v-for="item in yearList" :label="item.academic_year" :value="item.id" :key="item.id"></el-option>
+                        <el-option v-for="item in yearList" :label="item.name" :value="item.id" :key="item.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="实际缴费日期：">
@@ -548,10 +548,12 @@ export default {
                     this.innerVisible = false;
                 }
             }).catch(error=>{
-                _this.$message({
+                if(error.response.status === 400){
+                     _this.$message({
                     type:'error',
                     message:error.response.data.message
                 });
+                }
             })
 
         },
@@ -630,14 +632,15 @@ export default {
         },
         getYear(){
             var _this = this;
-            this.$axios.get('/api/finance/bill/show_academic_year/',{
-                params:{
-                    center_id:this.saveForm.center_id
-                }
-            })
+            this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
-                _this.yearList = res.data.data.academic_year_li;
-                _this.addform.academic_year_id = _this.yearList[0].id;
+                _this.yearList = res.data.results;
+                _this.yearList.forEach(item=>{
+                    if(item.is_selected === 1){
+                        _this.addform.academic_year_id = item.id;
+                    }
+                })
+                
                 _this.getStudent(1);
                 _this.getPolicy();
             })
