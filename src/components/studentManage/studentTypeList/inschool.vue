@@ -64,7 +64,7 @@
           </div>
           <div class="card-footer clearfix">
             <span>执行操作</span>
-            <el-select v-model="nameSelect" @change="operationSelect(nameSelect,item.id)" placeholder="--请选择--">
+            <el-select v-model="item.selectType" @change="operationSelect(item.selectType,item.id)" placeholder="--请选择--">
               <el-option
                 v-for="item in operations"
                 :key="item.value"
