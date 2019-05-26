@@ -729,7 +729,7 @@
     cursor: pointer;
     margin-right: 2%;
     margin-bottom: 40px;
-    border: 1px solid #ECECEC;
+    border: 1px solid #bbb;
     width: 31%;
     font-size: 12px;
     -webkit-box-shadow: rgba(11, 98, 137, .2) 0px 0px 4px;
@@ -751,7 +751,7 @@
   }
 
   .admissionRegistrationlist .studentFileCard .card-footer {
-    background-color: #ECECEC;
+    background-color: #999;
     padding: 10px;
     font-size: 12px;
     color: #fff;
@@ -787,7 +787,7 @@
   .admissionRegistrationlist hr {
     margin: 10px 0px;
     border: 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #bbb;
   }
 
   .admissionRegistrationlist >>> .el-dialog__body {
