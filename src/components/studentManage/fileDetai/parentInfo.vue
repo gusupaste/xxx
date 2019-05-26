@@ -240,6 +240,15 @@ export default {
       }
     },
     watch:{
+      'ruleForm.telephone':function () {
+        this.ruleForm.telephone = this.ruleForm.telephone.replace(/[^\d]/g, '');
+      },
+      'ruleForm.home_phone':function () {
+        this.ruleForm.home_phone = this.ruleForm.home_phone.replace(/[^\d]/g, '');
+      },
+      'ruleForm.office_phone':function () {
+        this.ruleForm.office_phone = this.ruleForm.office_phone.replace(/[^\d]/g, '');
+      },
       activeName: {
         handler(newValue, oldValue) {
           if(newValue === 'second'){
