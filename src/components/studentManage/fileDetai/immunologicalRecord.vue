@@ -45,7 +45,7 @@
             </el-table-column>
         </el-table>
         <p style="line-height: 35px;">
-          <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
+          <el-button type="text" class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
             <i class="el-icon-circle-plus font-size-14 cur">添加疫苗接种记录</i>
           </el-button>
         </p>

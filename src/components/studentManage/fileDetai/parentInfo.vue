@@ -47,10 +47,10 @@
             prop="address"
             label="操作">
               <template slot-scope="scope">
-                <el-button type="text"class="red" @click="editParentInfo(scope.row)">
+                <el-button type="text" class="red" @click="editParentInfo(scope.row)">
                   <i class="fa fa-pencil green cur"></i>
                 </el-button>
-                <el-button type="text"class="red" @click="deleteVisible = true;deleteId = scope.row.id">
+                <el-button type="text" class="red" @click="deleteVisible = true;deleteId = scope.row.id">
                   <i class="fa fa-trash red cur"></i>
                 </el-button>
                 <!--<i class="fa fa-pencil green font-size-20 cur" @click="editParentInfo(scope.row)" ></i>-->
@@ -59,7 +59,7 @@
             </el-table-column>
         </el-table>
         <p style="line-height: 35px;">
-          <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
+          <el-button type="text" class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
             <i class="el-icon-circle-plus font-size-14 cur">添加家长</i>
           </el-button>
         </p>

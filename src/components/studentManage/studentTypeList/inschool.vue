@@ -462,7 +462,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
           <el-button @click="leaveVisible = false">取 消</el-button>
-          <el-button @click="leaveShowVisible = true;leaveVisible = false" disabled="true">缺勤转备用金</el-button>
+          <el-button @click="leaveShowVisible = true;leaveVisible = false" :disabled="true">缺勤转备用金</el-button>
           <el-button type="success" @click="saveLeave('leveForm')">保 存</el-button>
         </span>
     </el-dialog>
@@ -798,6 +798,7 @@ export default {
       input_school:'/api/student/student_management/create_enrollment_registration/',
       in_class_list:[],
       yearlist: [],
+      otherText:'',
       studentInfo:{},
       studentRemark:'',
       preferred_academic_year:'',

@@ -20,7 +20,7 @@
           </el-form-item>
           <br>
           <el-form-item label="姓名：" prop="name" label-width="150px" >
-            <el-input v-model="studentInfo.name" disabled="disabled" placeholder="请填写姓名" class="w250_input"></el-input>
+            <el-input v-model="studentInfo.name" disabled="true" placeholder="请填写姓名" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item label="昵称：" label-width="150px">
             <el-input v-model="studentInfo.nick_name" placeholder="请填写昵称" class="w250_input">
@@ -92,8 +92,8 @@
           </el-form-item>-->
           <br>
           <el-form-item label="所在班级：" label-width="150px" class="enroll-info">
-            <el-select v-model="preferred_grade_type_name" disabled="disabled"></el-select>
-            <el-select v-model="preferred_class_type_name" disabled="disabled"></el-select>
+            <el-select v-model="preferred_grade_type_name" disabled="true"></el-select>
+            <el-select v-model="preferred_class_type_name" disabled="true"></el-select>
             <el-select v-model="studentInfo.preferred_class" placeholder="">
               <el-option
                 v-for="item in class_list"
