@@ -324,7 +324,7 @@ export default {
             addform:{
                 pay_method:2,
                 date:'',
-                academic_year_id:1,
+                academic_year_id:"",
                 start_date:'',
                 end_date:''
             },
@@ -638,6 +638,7 @@ export default {
             })
             .then(res=>{
                 _this.yearList = res.data.data.academic_year_li;
+                _this.addform.academic_year_id = _this.yearList[0].id;
                 _this.getPolicy();
             })
         },
