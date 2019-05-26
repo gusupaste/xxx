@@ -506,7 +506,7 @@ export default {
   components: {ElInput},
   data(){
         return {
-          save_flag:true,
+          save_flag:'true',
           method_type:[{
             value: 1,
             label: '累计'
@@ -666,7 +666,7 @@ export default {
             add_13_url:'/api/refund_policy/cheap_absence/',
             add_14_url:'/api/refund_policy/cheap_quit/',
             add_15_url:'/api/refund_policy/cheap_meal_fee/',
-            success_flag:[],
+            success_flag:'true',
         }
     },
     mounted:function(){
@@ -990,35 +990,63 @@ export default {
         this.submit_fun15(type);
       },
       submit_fun1:function (type) {
-        var data1 = {
+        var data1 = {}
+        data1.center = this.saveForm.center || this.$route.params.center_id;
+        data1.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        /*var data1 = {
           center:this.saveForm.center || this.$route.params.center_id,
           academic_year:this.saveForm.academic_year || this.$route.params.year,
           goods_fee:this.saveForm.goods_fee,
           foreign_employees_per:this.saveForm.foreign_employees_per,
           on_schedule_per:this.saveForm.on_schedule_per5,
+
           not_on_schedule_per:this.saveForm.not_on_schedule_per,
           specific_month:this.saveForm.specific_month,
           specific_month_per:this.saveForm.specific_month_per,
           other_month_per:this.saveForm.other_month_per,
           no_invoice:this.saveForm.no_invoice,
-        };
+        };*/
+        if(this.saveForm.goods_fee !== ''){
+          data1.goods_fee = this.saveForm.goods_fee;
+        }
+        if(this.saveForm.foreign_employees_per !== ''){
+          data1.foreign_employees_per = this.saveForm.foreign_employees_per;
+        }
+        if(this.saveForm.on_schedule_per5 !== ''){
+          data1.on_schedule_per = this.saveForm.on_schedule_per5;
+        }
+        if(this.saveForm.not_on_schedule_per !== ''){
+          data1.not_on_schedule_per = this.saveForm.not_on_schedule_per;
+        }
+        if(this.saveForm.specific_month !== ''){
+          data1.specific_month = this.saveForm.specific_month;
+        }
+        if(this.saveForm.specific_month_per !== ''){
+          data1.specific_month_per = this.saveForm.specific_month_per;
+        }
+        if(this.saveForm.other_month_per !== ''){
+          data1.other_month_per = this.saveForm.other_month_per;
+        }
+        if(this.saveForm.no_invoice !== ''){
+          data1.no_invoice = this.saveForm.no_invoice;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_01_url,data1).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('01');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_01_url+'1/',data1).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('01');
+              this.success_flag = 'false';
             }else{
               this.$message.error('保存失败');
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1038,28 +1066,37 @@ export default {
           obj.other_month_refund_per = this.saveForm.month_pay[y].other_month_refund_per;
           list.push(obj);
         }*/
-        var data2 = {
+        /*var data2 = {
           center:this.saveForm.center || this.$route.params.center_id,
           academic_year:this.saveForm.academic_year || this.$route.params.year,
           handling_fee:this.saveForm.handling_fee,
           not_on_schedule_per:this.saveForm.not_on_schedule_per1,
-          /*month_pay_list:list,*/
-        };
+          /!*month_pay_list:list,*!/
+        };*/
+        var data2 = {}
+        data2.center = this.saveForm.center || this.$route.params.center_id;
+        data2.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.handling_fee !== ''){
+          data2.handling_fee = this.saveForm.handling_fee;
+        }
+        if(this.saveForm.not_on_schedule_per1 !== ''){
+          data2.not_on_schedule_per = this.saveForm.not_on_schedule_per1;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_02_url,data2).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('02');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_02_url+'1/',data2).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('02');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1075,18 +1112,18 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_03_url,data3).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('03');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_03_url+'1/',data3).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('03');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1102,45 +1139,54 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_04_url,data4).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('04');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_04_url+'1/',data4).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('04');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun5:function (type) {
-        var data5 = {
+        /*var data5 = {
           center:this.saveForm.center || this.$route.params.center_id,
           academic_year:this.saveForm.academic_year || this.$route.params.year,
           other_on_schedule_per:this.saveForm.other_on_schedule_per,
           on_schedule_per: this.saveForm.on_schedule_per,
-        };
+        };*/
+        var data5 = {};
+        data5.center = this.saveForm.center || this.$route.params.center_id;
+        data5.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.other_on_schedule_per !== ''){
+          data5.other_on_schedule_per = this.saveForm.other_on_schedule_per;
+        }
+        if(this.saveForm.on_schedule_per !== ''){
+          data5.on_schedule_pe = this.saveForm.on_schedule_per;
+        }
+
         if(type === 'add'){
           this.$axios.post(this.add_05_url,data5).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('05');
-              this.save_flag = false;
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_05_url+'1/',data5).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('05');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1168,18 +1214,18 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_06_url,data6).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('06');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_06_url+'1/',data6).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('06');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1206,18 +1252,18 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_07_url,data7).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('07');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_07_url+'1/',data7).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('07');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1248,120 +1294,151 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_08_url,obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_08_url+'1/',obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun9:function (type) {
-        var data9 = {
+        /*var data9 = {
           center:this.saveForm.center || this.$route.params.center_id,
           academic_year:this.saveForm.academic_year || this.$route.params.year,
           current_term_per:this.saveForm.current_term_per,
           last_term_per:this.saveForm.last_term_per,
-        };
+        };*/
+        var data9 = {};
+        data9.center = this.saveForm.center || this.$route.params.center_id;
+        data9.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.current_term_per !== ''){
+          data9.current_term_per = this.saveForm.current_term_per;
+        }
+        if(this.saveForm.last_term_per !== ''){
+          data9.last_term_per = this.saveForm.last_term_per;
+        }
+
         if(type === 'add'){
           this.$axios.post(this.add_09_url,data9).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('09');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_09_url+'1/',data9).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun10:function (type) {
-        var data10 = {
+        /*var data10 = {
           center:this.saveForm.center || this.$route.params.center_id,
           academic_year:this.saveForm.academic_year || this.$route.params.year,
           current_month_per:this.saveForm.current_month_per,
           last_month_per:this.saveForm.last_month_per,
-        };
+        };*/
+        var data10 = {};
+        data10.center = this.saveForm.center || this.$route.params.center_id;
+        data10.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.current_month_per !== ''){
+          data10.current_month_per = this.saveForm.current_month_per
+        }
+        if(this.saveForm.last_month_per !== ''){
+          data10.last_month_per = this.saveForm.last_month_per
+        }
         if(type === 'add'){
           this.$axios.post(this.add_10_url,data10).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_10_url+'1/',data10).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun11:function (type) {
-        var data11 = {
+        /*var data11 = {
           center:this.saveForm.center || this.$route.params.center_id,
           academic_year:this.saveForm.academic_year || this.$route.params.year,
           refund_money_per:this.saveForm.refund_money_per2,
-        };
+        };*/
+        var data11 = {};
+        data11.center = this.saveForm.center || this.$route.params.center_id;
+        data11.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.refund_money_per2 !== ''){
+          data11.refund_money_per = this.saveForm.refund_money_per2
+        }
         if(type === 'add'){
           this.$axios.post(this.add_11_url,data11).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_11_url+'1/',data11).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun12:function (type) {
-        var data12 = {
+        /*var data12 = {
           center:this.saveForm.center || this.$route.params.center_id,
           academic_year:this.saveForm.academic_year || this.$route.params.year,
           refund_money_per:this.saveForm.refund_money_per4,
-        };
+        };*/
+        var data12 = {};
+        data12.center = this.saveForm.center || this.$route.params.center_id;
+        data12.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.refund_money_per4 !== ''){
+          data12.refund_money_per = this.saveForm.refund_money_per4
+        }
         if(type === 'add'){
           this.$axios.post(this.add_12_url,data12).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_12_url+'1/',data12).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1375,23 +1452,27 @@ export default {
         }else{
           obj.return_type = 2;
         }
-        obj.current_month_per = this.saveForm.current_month_per2;
-        obj.last_month_per = this.saveForm.last_month_per2;
+        if(this.saveForm.current_month_per2 !== ''){
+          obj.current_month_per = this.saveForm.current_month_per2;
+        }
+        if(this.saveForm.last_month_per2 !== ''){
+          obj.last_month_per = this.saveForm.last_month_per2;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_13_url,obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_13_url+'1/',obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1405,23 +1486,27 @@ export default {
         }else{
           obj.return_type = 2;
         }
-        obj.current_month_per = this.saveForm.current_month_per3;
-        obj.last_month_per = this.saveForm.last_month_per3;
+        if(this.saveForm.current_month_per3 !== ''){
+          obj.current_month_per = this.saveForm.current_month_per3;
+        }
+        if(this.saveForm.last_month_per3 !== ''){
+          obj.last_month_per = this.saveForm.last_month_per3;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_14_url,obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_14_url+'1/',obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1435,29 +1520,36 @@ export default {
         }else{
           obj.return_type = 2;
         }
-        /*if(){
-
-        }*/
-        obj.full_month_per = this.saveForm.full_month_per2;
-        obj.method_type = this.saveForm.method_type5;
-        obj.compare_type = this.saveForm.compare_type5;
-        obj.days = this.saveForm.days5;
-        obj.days_fee = this.saveForm.days_fee5;
+        if(this.saveForm.full_month_per2 !== ''){
+          obj.full_month_per = this.saveForm.full_month_per2;
+        }
+        if(this.saveForm.method_type5 !== ''){
+          obj.method_type = this.saveForm.method_type5;
+        }
+        if(this.saveForm.compare_type5 !== ''){
+          obj.compare_type = this.saveForm.compare_type5;
+        }
+        if(this.saveForm.days5 !== ''){
+          obj.days = this.saveForm.days5;
+        }
+        if(this.saveForm.days_fee5 !== ''){
+          obj.days_fee = this.saveForm.days_fee5;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_15_url,obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_15_url+'1/',obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            this.save_flag = false;
+            this.save_flag = 'false';
           })
         }
 
@@ -1466,14 +1558,7 @@ export default {
     watch: {
       save_flag: {
         handler(newValue, oldValue) {
-          if(newValue.length == true){
-            if(this.$route.params.type === 'add'){
-              this.$message.success('保存成功')
-            }else{
-              this.$message.success('编辑成功')
-            }
-            this.$router.push('/financemanagement/setting');
-          }else{
+          if(newValue == 'false'){
             if(this.$route.params.type === 'add'){
               this.$message.error('保存失败')
             }else{
@@ -1482,7 +1567,20 @@ export default {
           }
         },
         deep: true
-      }
+      },
+      success_flag: {
+        handler(newValue, oldValue) {
+          if(newValue == 'false'){
+            if(this.$route.params.type === 'add'){
+              this.$message.success('保存成功')
+            }else{
+              this.$message.success('编辑成功')
+            }
+            this.$router.push('/financemanagement/setting');
+          }
+        },
+        deep: true
+      },
   }
 
 
