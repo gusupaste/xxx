@@ -142,7 +142,7 @@
         mutitable: [],
         userInfo: this.$cookies.get('userInfo'),
         single_status: Number(this.$route.params.status),
-        date: new Date(),
+        date: '',
         student_id: this.$route.query.id
       }
     },
@@ -156,13 +156,13 @@
     },
     methods: {
       getSingleStudent: function (val) {
-        var new_date = this.date
-        if (val === undefined) {
-          new_date = this.$options.filters['formatDate'](new Date())
-        }
+        // var new_date = this.date
+        // if (val === undefined) {
+        //   new_date = this.$options.filters['formatDate'](new Date())
+        // }
         this.$axios.get('/api/finance/reserve_fund_for_attendance/leave_reserve_fund/', {
           params: {
-            leave_date: new_date,
+            leave_date: this.date,
             student_id: this.student_id
           }
         })
@@ -211,6 +211,7 @@
           item.center_class_year_id = this.searchForm.center_class_id
           item.month = this.searchForm.month
           item.amount = item.sub_total
+          item.leave_date = this.date
         })
         this.$axios.post('/api/finance/reserve_fund_for_attendance/add', {
           bills: this.mutitable
