@@ -7,11 +7,11 @@
       <div class="select-header">
         <span>搜索：</span>
         <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getStudentList(1)">搜索</el-button></span>
       </div>
-      <div class="list-content">
+      <div class="list-content clearfix">
         <div class="studentFileCard left" v-for="(item , index) in studentList " :key="index">
-          <div style="padding:20px" @click="$router.push('/studentFile/studentFileDetail/9')">
+          <div style="padding:20px" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
             <div class="avatar inline-block">
               <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o"
                  aria-hidden="true"></i>
@@ -44,6 +44,15 @@
         </div>
       </div>
     </div>
+    <el-pagination
+      background
+      layout="prev,pager, next, jumper"
+      next-text="下一页"
+      :page-size="pagesize"
+      :current-page="currentPage"
+      @current-change="handleCurrentChange"
+      :total="total" class="page">
+    </el-pagination>
     <el-dialog title="预备生入园登记" :visible.sync="operationVisible" width="750px">
       <el-form ref="reulsForm" :model="reulsForm" :rules="rules" label-width="80px">
         <div class="oper-div">
@@ -520,11 +529,19 @@
           leave_reason: '',
           leave_date: '',
         },
-        studentInfo: {}
+        studentInfo: {},
+        pagesize: 10,
+        currentPage: 1,
+        total: 1,
       };
     },
     mounted: function () {
-      this.getStudentList();
+      this.getStudentList(1);
+    },
+    watch: {
+      currentPage () {
+        this.getStudentList(this.currentPage)
+      }
     },
     methods: {
       getClassList: function (center_id, academic_year_id) {
@@ -535,13 +552,15 @@
           console.log(err)
         })
       },
-      getStudentList: function () {
-        var url = '/api/student/prepare_list_student/';
+      getStudentList: function (val) {
+        this.currentPage = val
+        var url = '/api/student/prepare_list_student/?search=' + this.input + '&size=' + this.pagesize + '&page=' + this.currentPage;
         this.loading = true
         this.$axios.get(url).then(res => {
           this.loading = false
           if (res.status == 200) {
             this.studentList = res.data.results;
+            this.total = res.data.count
             for(var x in this.studentList){
               this.studentList[x].selectType = '';
             }
@@ -621,11 +640,8 @@
           }
         })
       },
-      handleClose() {
-
-      },
-      searchList: function () {
-
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage
       },
       editSchool: function (param, index) {
         this.$router.push('/financemanagement/billDetail');
@@ -686,7 +702,6 @@
   .admissionRegistrationlist >>> .el-input__inner {
     width: -webkit-fill-available;
   }
-
   .admissionRegistrationlist .studentFileCard {
     cursor: pointer;
     margin-right: 2%;
