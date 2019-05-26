@@ -360,8 +360,7 @@
         }
 
         this.searchform.page = val;
-        this.$axios.get('/api/finance/refund/', {
-          params: {
+        this.$axios.post('/api/finance/refund/refund_list/', {
             academic_year_id: this.searchform.academic_year_id,
             bill_type_id: this.searchform.bill_type_id,
             search_str: this.searchform.search_str,
@@ -371,7 +370,6 @@
             page: this.searchform.page,
             status: this.searchform.status,
             size: 10,
-          }
         }).then(res => {
           _this.countList = res.data.bill_li;
           _this.count = res.data.count;

@@ -138,10 +138,10 @@
                 </template>
                 </el-table-column>
                 <el-table-column
-                prop="rate"
+                prop="discount_name"
                 label="折扣">
                 <template slot-scope="scope">
-                    {{scope.row.rate}}
+                    <span v-for="item in scope.row.discount_name" :key="item">{{item}}</span>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -642,24 +642,27 @@ export default {
                 }
             }).then(res=>{
                 var index = this.checkedSubject.indexOf(row);
+                this.checkedSubject[index].discount_name = [];
                 if(res.data.data.is_have_enroll_discount){
                     this.checkedSubject[index].total = this.checkedSubject[index].total - res.data.data.discount_money;
-                    if(res.data.datais_have_ordinary_discount){
+                    this.checkedSubject[index].discount_name.push(res.data.data.enroll_discount_name);
+                };
+                if(res.data.data.is_have_ordinary_discount) {
+                    if(res.data.data.is_have_ordinary_discount){
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 1) {
-                                this.checkedSubject[index].total -= item.rate_or_price
-                                this.checkedSubject[index].rate = item.rate_or_price;
+                                this.checkedSubject[index].total -= item.rate_or_price;
+                                this.checkedSubject[index].discount_name.push(item.discount_type_name);
                             }
                         })
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 0) {
                                 this.checkedSubject[index].total *= item.rate_or_price;
-                                this.checkedSubject[index].rate = item.rate_or_price*100+'%';
+                                this.checkedSubject[index].discount_name.push(item.discount_type_name);
                             }
                         })
                 }
-                
-                };
+                }
                 this.gettotalPrice()
             })
         },
@@ -788,9 +791,9 @@ export default {
                         to_date:row.end_date
                     }
                 }).then(res=>{
-                    row.pay_month = res.data.data;
-                    row.total = row.pay_month*row.price;
-                    _this.getDiscount(row)
+                    _this.$set(row,'pay_month',res.data.data);
+                    _this.$set(row,'total',row.pay_month*row.price);
+                    _this.getDiscount(row);
                 })
             } else {
                 row.pay_month = "";
