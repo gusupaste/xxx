@@ -30,11 +30,11 @@
                         </template>
                         </el-table-column>
                         <el-table-column
-                        v-for="item in method_lsit"
+                        v-for="(item,index) in method_lsit"
                         :key="item.id"
                         :label="item.name">
                         <template slot-scope="scope" >
-                            <el-input v-model="addform.pay_method_list[scope.$index].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                            <el-input v-model="addform.pay_method_list[index].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
                         
@@ -188,9 +188,7 @@ export default {
                 pay_method_list: [],
                 reserve_fund_used: 0,
                 remarks: "",
-                bill_item_list:[{
-
-                }],
+                bill_item_list:[],
                 is_invoice:0,
                 invoice_title:'',
                 invoice_amount:'',
@@ -270,19 +268,17 @@ export default {
             var _this = this;
             this.$axios.get('/api/finance/bill/show_billpaymethod/')
             .then(res=>{
-                // _this.addform.pay_method_list = 
                 _this.method_lsit = res.data.billpaymethod_list;
-                _this.addform.pay_method_list = res.data.billpaymethod_list;
-                _this.addform.pay_method_list.forEach(item=>{
-                    item.amount = 0;
-                })
+                _this.$set(_this.addform,'pay_method_list',res.data.billpaymethod_list);
                 console.log(_this.addform.pay_method_list)
             })
         },
         gettotal(){
             this.addform.pay_amount = 0;
             this.addform.pay_method_list.forEach(item=>{
-                this.addform.pay_amount += item.amount-0;
+                if(item.amount){
+                    this.addform.pay_amount += item.amount-0;
+                }
             });
             this.act_amount = this.addform.pay_amount;
             this.addform.pay_amount = this.addform.pay_amount + (this.use_fund-0);
