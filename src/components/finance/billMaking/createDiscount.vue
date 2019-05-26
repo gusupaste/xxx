@@ -564,10 +564,9 @@ export default {
             this.totalprice = 0;
             this.totalamount = 0;
             this.checkedSubject.forEach(item=>{
-                console.log(item)
                 if(item.total){
-                    this.totalprice += (item.total-0)
-                    this.totalamount += (item.total-0)
+                    this.totalprice += (Number(item.total))
+                    this.totalamount += (Number(item.total))
                 }
             });
             console.log(this.totalprice)
@@ -650,7 +649,9 @@ export default {
                 }
             }).then(res=>{
                 var index = this.checkedSubject.indexOf(row);
+                console.log(this.checkedSubject[index])
                 this.checkedSubject[index].discount_name = [];
+                this.checkedSubject[index].total =  this.checkedSubject[index].act_total;
                 if(res.data.data.is_have_enroll_discount){
                     this.checkedSubject[index].total = this.checkedSubject[index].total - res.data.data.discount_money;
                     this.checkedSubject[index].discount_name.push(res.data.data.enroll_discount_name);
@@ -659,13 +660,13 @@ export default {
                     if(res.data.data.is_have_ordinary_discount){
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 1) {
-                                this.checkedSubject[index].total -= item.rate_or_price;
+                                this.checkedSubject[index].total -= Number(item.rate_or_price);
                                 this.checkedSubject[index].discount_name.push(item.discount_type_name);
                             }
                         })
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 0) {
-                                this.checkedSubject[index].total *= (item.rate_or_price/100);
+                                this.checkedSubject[index].total *= Number(item.rate_or_price/100);
                                 this.checkedSubject[index].discount_name.push(item.discount_type_name);
                             }
                         })
@@ -799,7 +800,7 @@ export default {
                     }
                 }).then(res=>{
                     _this.$set(row,'pay_month',res.data.data);
-                    _this.$set(row,'act_total',row.pay_month*Number(row.price));
+                    _this.$set(row,'act_total',Number(row.pay_month)*Number(row.price));
                     _this.getDiscount(row);
                 })
             } else {
