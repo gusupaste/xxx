@@ -14,48 +14,39 @@
             </span>
           </p>
           <p class="bold">
-            校园名称：{{schoolInfo.name}}(英文全称:{{schoolInfo.other_name}};中文简称:{{schoolInfo.short_name}};英文简称:{{schoolInfo.other_short_name}})</p>
-          <p>
-            <el-row :gutter="20">
-              <el-col :span="4">
-                <div class="grid-content bg-purple"><span>所属区域：</span><span>{{schoolInfo.area_name}}</span></div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple"><span>所属城市：</span><span>{{schoolInfo.city_name}}</span></div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple"><span class="content-margin">园长：</span><span>{{schoolInfo.principal_name}}</span>
-                </div>
-              </el-col>
-            </el-row>
+            校园名称：{{schoolInfo.name}}(英文全称:{{schoolInfo.other_name}};中文简称:{{schoolInfo.short_name}};英文简称:{{schoolInfo.other_short_name}})
           </p>
-          <p>
-            <el-row :gutter="20">
-              <el-col :span="4" style="word-break:break-word">
-                <div class="grid-content bg-purple"><span>通讯地址：</span><span>{{schoolInfo.province_name}}{{schoolInfo.city_name}}{{schoolInfo.town_name}}{{schoolInfo.address}}</span>
-                </div>
-              </el-col>
-              <el-col :span="3">
-                <div class="grid-content bg-purple"><span
-                  class="content-margin">邮编：</span><span>{{schoolInfo.zip_code}}</span></div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple"><span class="content-margin">电话：</span><span>{{schoolInfo.telephone}}</span>
-                </div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple"><span
-                  class="content-margin">传真：</span><span>{{schoolInfo.fax}}</span></div>
-              </el-col>
-              <el-col :span="5">
-                <div class="grid-content bg-purple"><span>电子邮箱：</span><span>{{schoolInfo.email}}</span></div>
-              </el-col>
-              <el-col :span="4">
-                <div class="grid-content bg-purple"><span
-                  class="content-margin">网址：</span><span>{{schoolInfo.website}}</span></div>
-              </el-col>
-            </el-row>
-          </p>
+          <el-form label-width="72px" inline style="height: 30px" size="small">
+            <el-form-item label="所属区域：">
+              {{schoolInfo.area_name}}
+            </el-form-item>
+            <el-form-item label="所属城市：">
+              {{schoolInfo.city_name}}
+            </el-form-item>
+            <el-form-item label="邮编：">
+              {{schoolInfo.zip_code}}
+            </el-form-item>
+            <el-form-item label="园长：">
+              {{schoolInfo.principal_name}}
+            </el-form-item>
+          </el-form>
+          <el-form label-width="72px" inline size="small">
+            <el-form-item label="通讯地址：">
+              {{schoolInfo.province_name}}{{schoolInfo.city_name}}{{schoolInfo.town_name}}{{schoolInfo.address}}
+            </el-form-item>
+            <el-form-item label="电话：">
+              {{schoolInfo.telephone}}
+            </el-form-item>
+            <el-form-item label="传真：">
+              {{schoolInfo.fax}}
+            </el-form-item>
+            <el-form-item label="电子邮箱：">
+              {{schoolInfo.email}}
+            </el-form-item>
+            <el-form-item label="网址：">
+              {{schoolInfo.website}}
+            </el-form-item>
+          </el-form>
         </el-card>
       </el-col>
     </div>
@@ -140,32 +131,32 @@
         <el-tab-pane label="基础设施" name="second">
           <el-card class="box-card">
             <div class="text">
-            <el-form label-position="right" label-width="120px">
-              <el-form-item label="名称：">
-                <span class="orange bold">{{schoolInfo.built_up_area}}</span>平方米
-              </el-form-item>
-              <el-form-item label="使用面积：">
-                <span class="orange bold">{{schoolInfo.usage_area}}</span>平方米
-              </el-form-item>
-              <el-form-item label="产权：">
-                {{schoolInfo.owner_type_name}}
-              </el-form-item>
-              <el-form-item label="是否自建：">
-                {{schoolInfo.built_up_type_name}}
-              </el-form-item>
-              <el-form-item label="经度：">
-                {{schoolInfo.longitude}}
-              </el-form-item>
-              <el-form-item label="纬度：">
-                {{schoolInfo.latitude}}
-              </el-form-item>
-              <el-form-item label="最大开班数：">
-                <span class="orange bold">{{schoolInfo.max_class_no}}</span>
-              </el-form-item>
-              <el-form-item label="当前开班数：">
-                <span class="orange bold">{{schoolInfo.current_class_no}}</span>
-              </el-form-item>
-            </el-form>
+              <el-form label-position="right" label-width="120px">
+                <el-form-item label="名称：">
+                  <span class="orange bold">{{schoolInfo.built_up_area}}</span>平方米
+                </el-form-item>
+                <el-form-item label="使用面积：">
+                  <span class="orange bold">{{schoolInfo.usage_area}}</span>平方米
+                </el-form-item>
+                <el-form-item label="产权：">
+                  {{schoolInfo.owner_type_name}}
+                </el-form-item>
+                <el-form-item label="是否自建：">
+                  {{schoolInfo.built_up_type_name}}
+                </el-form-item>
+                <el-form-item label="经度：">
+                  {{schoolInfo.longitude}}
+                </el-form-item>
+                <el-form-item label="纬度：">
+                  {{schoolInfo.latitude}}
+                </el-form-item>
+                <el-form-item label="最大开班数：">
+                  <span class="orange bold">{{schoolInfo.max_class_no}}</span>
+                </el-form-item>
+                <el-form-item label="当前开班数：">
+                  <span class="orange bold">{{schoolInfo.current_class_no}}</span>
+                </el-form-item>
+              </el-form>
             </div>
           </el-card>
         </el-tab-pane>
@@ -424,7 +415,7 @@
         :total="count">
       </el-pagination>
       <span slot="footer" class="dialog-footer">
-            <el-button class="bg-grey bd-grey white" @click="addinnerVisible = false" >取 消</el-button>
+            <el-button class="bg-grey bd-grey white" @click="addinnerVisible = false">取 消</el-button>
             <el-button class="bg-green bd-green white" type="success" @click="sureAddTeacher">确 定</el-button>
         </span>
     </el-dialog>
@@ -544,8 +535,14 @@
     padding: 0;
     margin: 5px 5px 0 0;
   }
+
+  .schooldetail >>> .el-form--inline .el-form-item__content{
+    min-width: 200px;
+    max-width: 200px;
+  }
+
   /*基础设计,开班情况*/
-  .schooldetail .text p{
+  .schooldetail .text p {
     padding: 10px 50px;
   }
 </style>
