@@ -100,12 +100,12 @@
             <el-input  v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" >搜索</el-button>
+            <el-button type="primary" @click="currentPage=1;getStudentList">搜索</el-button>
           </el-form-item>
         </el-form>
 
       </div>
-      <div class="studentFileList">
+      <div class="studentFileList clearfix">
           <div class="studentFileCard left" v-for="(item , index) in student_list" :key="index" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
             <div style="padding:20px">
               <div class="avatar inline-block">
@@ -133,6 +133,14 @@
             </div>
           </div>
       </div>
+      <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          :current-page="currentPage"
+          :page-size="10"
+          @current-change="changePage"
+          :total="total">
+        </el-pagination>
   </div>
 </template>
 <style scoped>
@@ -225,6 +233,10 @@ export default {
     activeTabs:{
       type:String,
       request:true,
+    },
+    total:{
+      type:Number,
+      request:true,
     }
   },
   data(){
@@ -241,9 +253,13 @@ export default {
       selectDisable:'',
       searchText:'',
       year:'',
+      currentPage:1,
     }
   },
   methods:{
+    changePage(val){
+      this.currentPage = val;
+    },
     areaChangeFun:function () {
       this.$emit('getCityList',this.area);
       this.$emit('getSchoolList',this.intercity,this.city,0,this.brand);
@@ -271,6 +287,7 @@ export default {
         date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
+        page:this.currentPage
       }
       this.$emit('getStudentList',data);
     }
@@ -283,6 +300,9 @@ export default {
         }
       },
       deep: true
+    },
+    currentPage(){
+      this.getStudentList()
     }
   }
 

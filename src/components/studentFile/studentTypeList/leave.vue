@@ -112,7 +112,7 @@
         </el-form>
 
       </div>
-      <div class="studentFileList">
+      <div class="studentFileList clearfix">
           <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
             <div style="padding:20px">
               <div class="avatar inline-block">
@@ -140,6 +140,14 @@
             </div>
           </div>
       </div>
+      <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          :current-page="currentPage"
+          :page-size="10"
+          @current-change="changePage"
+          :total="total">
+        </el-pagination>
   </div>
 </template>
 <style scoped>
@@ -232,6 +240,10 @@ export default {
     activeTabs:{
       type:String,
       request:true,
+    },
+    total:{
+      type:Number,
+      request:true,
     }
   },
   data(){
@@ -249,9 +261,13 @@ export default {
       searchText:'',
       year:'',
       in_type:'',
+      currentPage:1,
     }
   },
   methods:{
+    changePage(val){
+      this.currentPage = val;
+    },
     areaChangeFun:function () {
       this.$emit('getCityList',this.area);
       this.$emit('getSchoolList',this.intercity,this.city,0,this.brand);
@@ -279,6 +295,7 @@ export default {
         date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
+        page:this.currentPage
       }
       this.$emit('getStudentList',data);
     }
@@ -291,6 +308,9 @@ export default {
         }
       },
       deep: true
+    },
+    currentPage(){
+      this.getStudentList()
     }
   }
 }

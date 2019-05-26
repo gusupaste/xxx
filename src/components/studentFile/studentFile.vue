@@ -6,6 +6,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="预备生" name="first">
           <preparatory :intercity_list="intercity_list"
+                       :total="total"
                        :area_list="area_list"
                        :city_list="city_list"
                        :brand_list="brand_list"
@@ -22,6 +23,7 @@
         <in-school :intercity_list="intercity_list"
                    :area_list="area_list"
                    :city_list="city_list"
+                   :total="total"
                    :brand_list="brand_list"
                    :school_list="school_list"
                    :class_list="class_list"
@@ -39,6 +41,7 @@
                   :brand_list="brand_list"
                   :school_list="school_list"
                   :class_list="class_list"
+                  :total="total"
                   :student_list="student_list"
                   :year_list="year_list"
                   :activeTabs="activeName"
@@ -54,6 +57,7 @@
                :brand_list="brand_list"
                :school_list="school_list"
                :class_list="class_list"
+               :total="total"
                :student_list="student_list"
                :year_list="year_list"
                :activeTabs="activeName"
@@ -69,11 +73,13 @@
                           :brand_list="brand_list"
                           :school_list="school_list"
                           :class_list="class_list"
+                          :total="total"
                           :student_list="student_list"
                           :activeTabs="activeName"
                           @getCityList="getCityList"
                           @getSchoolList="getSchoolList"
                           @getClassList="getClassList"
+                          @getPage="getPage"
                           @getStudentList="getStudentList"></graduating-class>
       </el-tab-pane>
     </el-tabs>
@@ -132,6 +138,8 @@ export default {
       class_list:[],
       year_list:[],
       student_list:[],
+      total:0,
+      page:1
     }
   },
   components:{
@@ -249,8 +257,12 @@ export default {
         console.log(err)
       })
     },
+    getPage(val){
+      console.log(val)
+    },
     /*获取学生*/
     getStudentList:function (data) {
+      console.log(data)
       var _this = this;
       var url = this.student_url;
       _this.$axios.get(url,{
@@ -262,10 +274,12 @@ export default {
           date_to:data.date_to,
           gender:data.gender,
           condition:data.condition,
+          page:data.page
         }
       }).then(res=>{
         if(res.status == 200 && res.data.status == 1) {
           this.student_list = res.data.results.results;
+          this.total = res.data.results.count;
         }
       }).catch(err=>{
         console.log(err)
