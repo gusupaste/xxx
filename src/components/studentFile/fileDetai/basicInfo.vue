@@ -92,15 +92,15 @@
                     </el-form-item>-->
                     <br>
                     <el-form-item label="所在班级：" label-width="150px" class="enroll-info">
-                        <el-select v-model="preferred_grade_type_name" disabled="disabled"></el-select>
-                        <el-select v-model="preferred_class_type_name" disabled="disabled"></el-select>
-                        <el-select v-model="studentInfo.preferred_class" placeholder="">
-                          <el-option
+                        <el-select v-model="class_type_name" disabled="disabled"></el-select>
+                        <el-select v-model="grade_type_name" disabled="disabled"></el-select>
+                        <el-select v-model="studentInfo.center_class_name"disabled="disabled">
+                          <!--<el-option
                             v-for="item in class_list"
                             :key="item.id"
                             :label="item.name"
                             :value="item.id">
-                          </el-option>
+                          </el-option>-->
                         </el-select>
                     </el-form-item>
                     <br>
@@ -240,6 +240,8 @@ export default {
       newType:['is_employee_child'],
       preferred_grade_type_name:'',
       preferred_class_type_name:'',
+      class_type_name:'',
+      grade_type_name:'',
       studentInfo:{
         name: '',
         nick_name: '',
@@ -260,7 +262,7 @@ export default {
         town: '',
         address: '',
         zip_code: '',
-        preferred_class: 1,
+        center_class_name: 1,
       },
       city_list:[],
       class_list:[],
@@ -409,9 +411,9 @@ export default {
           this.studentInfo.town = res.data.detail.province_city.t_city_id;
           this.studentInfo.address = res.data.detail.address;
           this.studentInfo.zip_code = res.data.detail.zip_code;
-          this.studentInfo.preferred_class = res.data.detail.preferred_class;
-          this.preferred_grade_type_name = res.data.detail.preferred_grade_type_name;
-          this.preferred_class_type_name = res.data.detail.preferred_class_type_name;
+          this.studentInfo.center_class_name = res.data.detail.center_class_name;
+          this.grade_type_name = res.data.detail.grade_type_name;
+          this.class_type_name = res.data.detail.class_type_name;
           this.newType = [];
           this.town_id = '';
           var falsg = false;

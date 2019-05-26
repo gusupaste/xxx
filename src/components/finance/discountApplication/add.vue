@@ -182,7 +182,7 @@
                     <el-input class="w250_input" v-model="search_name" placeholder="输入学号、学生姓名或家长姓名"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="getStudent(search_name)">搜索</el-button>
+                    <el-button type="primary" @click="getStudent(1)">搜索</el-button>
                 </el-form-item>
             </el-form>
             <el-table :data="tableData"
@@ -193,6 +193,15 @@
                 <el-table-column property="student_no" label="学号" width="200"></el-table-column>
                 <el-table-column property="guardians_str" label="联系人"></el-table-column>
             </el-table>
+          <el-pagination
+            background
+            layout="prev,pager, next, jumper"
+            next-text="下一页"
+            :page-size="pagesize"
+            :current-page="currentPage"
+            @current-change="handleCurrent"
+            :total="total" class="page">
+          </el-pagination>
             <p class="mt10 ml20">
                 <ul>
                     <li class="red">学生不可多选，折扣不支持批量创建</li>
@@ -310,17 +319,28 @@ export default {
                     value: '',
                 }],
                 email: ''
-            }
+            },
+          pagesize: 10,
+          currentPage: 1,
+          total: 1,
         }
     },
     mounted: function () {
         this.$nextTick(function () {
             console.log(this.userInfo);
             this.loadData();
-            this.getStudent("");
+            this.getStudent(1);
         })
     },
+  watch: {
+    currentPage () {
+      this.getStudent(this.currentPage)
+    }
+  },
     methods: {
+      handleCurrent: function (currentPage) {
+        this.currentPage = currentPage
+      },
         changeRange(start,end){
             this.pickerOptions = Object.assign({},this.pickerOptions,{
               disabledDate: (time) => {
@@ -363,18 +383,14 @@ export default {
             _this.getShouldPrice();
         },
         // 获取添加学生列表
-        getStudent(name){
+      getStudent(val){
+          this.currentPage = val
             //注：student_status='Prepare'预备生，student_status='Formal'在校生，不传表示所有
             let _this = this;
-            this.$axios.get('/api/finance/select/students/',
-            {
-                params:{
-                    search_name:name,
-                    student_status:"",
-                }
-            }).then(res=>{
+            this.$axios.get('/api/finance/select/students/?search_name=' + this.search_name + '&student_status=""&size=' + this.pagesize + '&page=' + this.currentPage).then(res=>{
                 console.log(res.data)
                 _this.tableData = res.data.results;
+                _this.total = res.data.count;
             })
         },
         // 选中学生
