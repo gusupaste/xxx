@@ -145,9 +145,8 @@
       },
       searchList(id){
         this.searchForm.page = id;
-        this.$axios.get('/api/finance/refund/',{
-          params:this.searchForm
-        }).then(res=>{
+        this.$axios.post('/api/finance/refund/refund_list/',this.searchForm)
+        .then(res=>{
           this.chargeTableDate = res.data.results;
           this.count = res.data.count;
         })

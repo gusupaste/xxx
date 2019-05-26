@@ -92,7 +92,6 @@ export default {
                         _this.year = item.id;
                     }
                 });
-                _this.getCalendar();
             })
         },
         getClass(){
@@ -112,6 +111,7 @@ export default {
                     academic_year_id:this.year
                 }
             }).then(res=>{
+                console.log(res.data)
                 res.data.results.forEach(item=>{
                     var son = new Object;
                     son.time = item.year+'/'+item.month;
