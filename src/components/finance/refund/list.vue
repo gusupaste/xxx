@@ -112,9 +112,9 @@
       </el-form>
       <div class="list-content mt20">
         <el-tabs v-model="status" @tab-click="handleClick">
-          <el-tab-pane label="审核通过" name="1"></el-tab-pane>
-          <el-tab-pane label="审批中" name="2"></el-tab-pane>
-          <el-tab-pane label="被驳回" name="3"></el-tab-pane>
+          <el-tab-pane label="已批准" name="1"></el-tab-pane>
+          <el-tab-pane label="待审批" name="2"></el-tab-pane>
+          <el-tab-pane label="已拒绝" name="3"></el-tab-pane>
         </el-tabs>
         <el-table
           :data="countList"
@@ -123,44 +123,45 @@
           show-header
           style="width: 100%;margin-top: 10px;">
           <el-table-column
-            prop="code"
+            prop="bill_no"
             label="账单号"
             width="150">
           </el-table-column>
           <el-table-column
-            prop="name"
-            label="学生姓名"
-            width="130">
+            prop="billing_date"
+            label="日期">
           </el-table-column>
           <el-table-column
-            prop="intercity_name"
-            label="所在班级"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="hq_name"
+            prop="bill_type_str"
             label="账单类型"
             width="130">
           </el-table-column>
           <el-table-column
-            prop="opening_date"
-            label="实际应收"
+            prop="student_name"
+            label="学生姓名"
             width="130">
           </el-table-column>
           <el-table-column
-            prop="leader"
-            label="实际实收"
+            prop="student_no"
+            label="学号"
             width="130">
           </el-table-column>
           <el-table-column
-            prop="telephone"
+            prop="klass"
+            label="所在班级"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="refund_amount"
+            label="实退金额"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="creator_name"
             label="制单人"
             width="130">
           </el-table-column>
-          <el-table-column
-            prop="status_name"
-            label="制单日期">
-          </el-table-column>
+          
         </el-table>
         <el-pagination
           background
@@ -193,7 +194,7 @@
           search_str: '',
           page: 1,
           size: 10,
-          status: '审核通过'
+          status: '已批准'
         },
         status: '1',
         count: 1,
@@ -371,7 +372,7 @@
             status: this.searchform.status,
             size: 10,
         }).then(res => {
-          _this.countList = res.data.bill_li;
+          _this.countList = res.data.results;
           _this.count = res.data.count;
         })
       },
