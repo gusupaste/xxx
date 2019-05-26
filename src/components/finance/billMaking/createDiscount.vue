@@ -180,7 +180,7 @@
           <p class="mt20">
               <span class="mr10">搜索：</span>
               <el-input v-model="searchStr" class="w250_input" style="width:250px" placeholder="输入学号、学生姓名或家长姓名"></el-input>
-              <el-button type="primary" @click="getStudent(2)">搜索</el-button>
+              <el-button type="primary" @click="getStudent(1)">搜索</el-button>
           </p>
 
           <el-row class="mt20">
@@ -367,9 +367,7 @@ export default {
         }
     },
     created () {
-        this.getStudent(1);
         this.getYear();
-
     },
     methods: {
         saveInfo(){
@@ -500,7 +498,8 @@ export default {
         },
         getStudent(val){
             if(this.$route.query.student){
-                this.choosePerson.id = Number(this.$route.query.student);
+                this.is_edit = true;
+                this.choosePerson.id = this.$route.query.student;
                 this.sureAddStudent()
             }
             var _this = this;
@@ -639,6 +638,7 @@ export default {
             .then(res=>{
                 _this.yearList = res.data.data.academic_year_li;
                 _this.addform.academic_year_id = _this.yearList[0].id;
+                _this.getStudent(1);
                 _this.getPolicy();
             })
         },
