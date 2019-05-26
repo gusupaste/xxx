@@ -227,7 +227,7 @@
             label="所在班级">
           </el-table-column>
           <el-table-column
-            prop="form_status"
+            prop="discount_type_name"
             label="折扣类型">
           </el-table-column>
           <el-table-column
