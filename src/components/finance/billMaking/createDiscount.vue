@@ -25,12 +25,7 @@
                 <br>
                 <el-form-item label="学业计划：">
                     <el-select v-model="addform.pay_method">
-                        <!-- <el-option label="日缴" value="1"></el-option> -->
-                        <el-option label="月缴" :value="2"></el-option>
-                        <!-- <el-option label="一次性缴费" value="3"></el-option> -->
-                        <el-option label="学期缴费" :value="4"></el-option>
-                        <el-option label="寒暑假" :value="5"></el-option>
-                        <el-option label="年缴" :value="6"></el-option>
+                        <el-option v-for="item in methods_list" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="缴费账期：">
@@ -325,7 +320,7 @@ export default {
     data(){
         return {
             addform:{
-                pay_method:2,
+                pay_method:"",
                 date:'',
                 academic_year_id:"",
                 start_date:'',
@@ -367,11 +362,13 @@ export default {
             id:'',
             reviewInfo:{},
             is_edit:false,
+            methods_list:[],
             is_choose_student:false
         }
     },
     created () {
         this.getYear();
+        this.getMethods();
     },
     methods: {
         saveInfo(){
@@ -669,6 +666,13 @@ export default {
             })
             .then(res=>{
                 _this.policyList = res.data.policy_list;
+            })
+        },
+        getMethods(){
+            var _this = this;
+            this.$axios.get('/api/finance/bill/show_paymethod/').then(res=>{
+                _this.methods_list = res.data.paymethod_list;
+                _this.addform.pay_method = res.data.paymethod_list[0].id;
             })
         },
         getSubject(){
