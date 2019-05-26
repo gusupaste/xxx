@@ -147,6 +147,7 @@
       }
     },
     mounted () {
+      this.date = this.$options.filters['formatDate'](new Date())
       // this.getInfo();
       if (this.single_status === 0) {
         this.searchInfo()
@@ -155,11 +156,7 @@
       }
     },
     methods: {
-      getSingleStudent: function (val) {
-        // var new_date = this.date
-        // if (val === undefined) {
-        //   new_date = this.$options.filters['formatDate'](new Date())
-        // }
+      getSingleStudent: function () {
         this.$axios.get('/api/finance/reserve_fund_for_attendance/leave_reserve_fund/', {
           params: {
             leave_date: this.date,

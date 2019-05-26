@@ -162,7 +162,7 @@
       </div>
     </div>
     <div class="mt26 text-align-center">
-      <button class="btn bg-grey mr26">取消</button>
+      <button class="btn bg-grey mr26" @click="$router.push('/studentManage/student-list');">取消</button>
       <button class="btn bg-green" @click="submitForm('studentInfo')">保存</button>
     </div>
   </div>
@@ -458,6 +458,7 @@
                   type:'success',
                   message:'编辑成功！'
                 })
+                this.$router.push('/studentManage/student-list');
                 /*this.getOptions();
                 this.getCountryOptions();
                 this.getIntercity_list();
