@@ -64,14 +64,24 @@
           </div>
           <div class="card-footer clearfix">
             <span>执行操作</span>
-            <el-select v-model="item.selectType" @change="operationSelect(item.selectType,item.id)" placeholder="--请选择--">
+            <el-dropdown @command="handleCommand($event,item.id)">
+              <span class="el-dropdown-link">
+                下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="1">入园登记</el-dropdown-item>
+                <el-dropdown-item command="2">毕业、离园登记</el-dropdown-item>
+                <el-dropdown-item command="3">终止服务</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <!--<el-select v-model="item.selectType" @change="operationSelect(item.selectType,item.id)" placeholder="&#45;&#45;请选择&#45;&#45;">
               <el-option
                 v-for="item in operations"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
-            </el-select>
+            </el-select>-->
           </div>
         </div>
       </div>
@@ -881,8 +891,9 @@ export default {
       }
       this.$emit('getStudentList',data);
     },
-    operationSelect:function(val,id){
-      if(val === 1){
+    handleCommand:function(val,id){
+
+      if(val === '1'){
         this.getYearHistory(id);
         this.getStudentInfo(id);
         this.operationVisible = true;
@@ -894,10 +905,10 @@ export default {
         this.reulsForm.in_class_date = '';
         this.reulsForm.out_class_date = '';
         this.reulsForm.remarks = '';
-      }else if(val === 2){
+      }else if(val === '2'){
         this.leaveVisible = true;
         this.getStudentInfo(id);
-      }else if(val === 3){
+      }else if(val === '3'){
         this.earlyVisible = true;
       }
       this.studentId = id;
