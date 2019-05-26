@@ -150,10 +150,12 @@
                 </template>
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop=""
                 label="折后应收">
                 <template slot-scope="scope">
-                    {{scope.row.price*scope.row.rate/100}}
+                    <span v-if="scope.row.pay_month">
+                        {{scope.row.total}}
+                    </span>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -622,19 +624,19 @@ export default {
                 }
             }).then(res=>{
                 var index = this.checkedSubject.indexOf(row);
-
-                console.log(index)
                 if(res.data.data.is_have_enroll_discount){
                     this.checkedSubject[index].total = this.checkedSubject[index].total - res.data.data.discount_money;
                     if(res.data.datais_have_ordinary_discount){
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 1) {
                                 this.checkedSubject[index].total -= item.rate_or_price
+                                this.checkedSubject[index].rate = item.rate_or_price;
                             }
                         })
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 0) {
-                                this.checkedSubject[index].total *= item.rate_or_price
+                                this.checkedSubject[index].total *= item.rate_or_price;
+                                this.checkedSubject[index].rate = item.rate_or_price*100+'%';
                             }
                         })
                 }
@@ -697,7 +699,7 @@ export default {
                 params:{
                     student_id:this.multipleTable[0].id,
                     payment_method_id:this.addform.pay_method,
-                    academic_year_id:this.addform.academic_year_id,
+                    class_type_id:this.multipleTable[0].class_type_id,
                     payment_date:this.addform.start_date,
                     enter_date:this.addform.end_date,
                 }
