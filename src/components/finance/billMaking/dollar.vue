@@ -50,7 +50,7 @@
                      <span class="bold font-size-20 red "> ¥{{addform.pay_amount}}</span>
                 </el-form-item>
                 <el-form-item label="" label-width="120px">
-                     <span>合计缴费金额大于应收金额，多余{{left_money}}元将自动结转进备用金</span>
+                     <span v-if="left_money>0">合计缴费金额大于应收金额，多余{{left_money}}元将自动结转进备用金</span>
                 </el-form-item>
             </el-form>
         </div>
@@ -182,6 +182,7 @@ export default {
             tableData: [],
             use_fund:'',
             method_lsit:[],
+            showmoney:false,
             addform:{
                 status: 1,
                 pay_amount: 0,
@@ -248,6 +249,11 @@ export default {
                 })
                 return
             }
+            this.addform.pay_method_list.forEach(item=>{
+                if(!item.amount){
+                    item.amount = ""
+                }
+            })
             this.$axios.post('/api/finance/bill/'+this.$route.params.id+'/pay_bill/',this.addform)
             .then(res=>{
                 if(res.data.status === 1){
@@ -302,6 +308,6 @@ export default {
         left_money(){
             return this.addform.pay_amount-this.info.amount
         }
-    }
+    },
 }
 </script>
