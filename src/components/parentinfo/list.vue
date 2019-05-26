@@ -241,7 +241,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="家长第二语言" label-width="110">
-              <el-select v-model="ruleForm.other_language" placeholder="请选择学生第二语言">
+              <el-select v-model="ruleForm.other_language" placeholder="请选择家长第二语言">
                 <el-option
                   v-for="item in Language_options"
                   :key="item.id"
