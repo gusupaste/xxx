@@ -30,8 +30,8 @@
           </div>
           <div class="card-footer clearfix">
             <span>执行操作</span>
-            <el-select v-model="nameSelect"
-                       @change="operationSelect(nameSelect,item.id,item.academic_year_id,item.center_id,item.leaving_status,item.preferred_academic_year)"
+            <el-select v-model="item.selectType"
+                       @change="operationSelect(item.selectType,item.id,item.academic_year_id,item.center_id,item.leaving_status,item.preferred_academic_year)"
                        placeholder="--请选择--" style="width: 60%;">
               <el-option
                 v-for="item in operations"
