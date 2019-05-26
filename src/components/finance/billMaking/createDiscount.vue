@@ -638,7 +638,7 @@ export default {
             })
             .then(res=>{
                 _this.yearList = res.data.data.academic_year_li;
-                _this.getInfo();
+                _this.getPolicy();
             })
         },
         getPolicy(){
@@ -652,22 +652,6 @@ export default {
             .then(res=>{
                 _this.policyList = res.data.policy_list;
             })
-        },
-        getInfo(){
-            this.getPolicy();
-            // var _this = this;
-            // this.$axios.get('/api/finance/bill/show_policy_item/',{
-            //     params:{
-            //         academic_year_id:this.addform.academic_year_id,
-            //         payment_method:this.addform.pay_method,
-            //         center_id:this.saveForm.center_id
-            //     }
-            // })
-            // .then(res=>{
-            //     _this.info = res.data.data.policy_info;
-            //     // _this.subjectList = res.data.data.policy_item_li;
-            //     _this.getPolicy();
-            // })
         },
         getSubject(){
             if(this.multipleTable.length == 0){
