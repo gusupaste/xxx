@@ -344,7 +344,8 @@
           _this.loading = false;
           if (res.status == 200 && res.data.status_code == 1) {
             this.school_list = res.data.results;
-            this.school = this.school_list[0].id
+            this.school = this.school_list[0].id;
+            /*this.getAttendanceList();*/
           }
         }).catch(err => {
           console.log(err)
@@ -358,6 +359,7 @@
           if (res.status == 200 && res.data.status_code == 1) {
             this.class_type_list = res.data.results;
             this.class_type = this.class_type_list[0].id
+            this.getAttendanceList();
           }
         }).catch(err => {
           console.log(err)
