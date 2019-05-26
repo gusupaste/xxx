@@ -11,7 +11,7 @@
       </div>
       <div class="list-content clearfix">
         <div class="studentFileCard left" v-for="(item , index) in studentList " :key="index">
-          <div style="padding:20px" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
+          <div style="padding:20px" @click="$router.push('/studentFile/studentFileDetail/'+item.id+'?status=0')">
             <div class="avatar inline-block">
               <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o"
                  aria-hidden="true"></i>
