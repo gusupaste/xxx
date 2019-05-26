@@ -232,6 +232,9 @@
   .adddiscountApplication .tableList {
       color:#101010;
   }
+  .adddiscountApplication >>>.el-date-editor.el-input, .el-date-editor.el-input__inner{
+    
+  }
   .adddiscountApplication >>> .el-form-item {
      margin-bottom: 10px;
   }
@@ -451,11 +454,13 @@ export default {
         // 具体收费方式
         getChargingWay() {
             let _this = this;
+            console.log(this.selected_student_info.id);
             this.$axios.get('/api/finance/charging_policy/'+_this.selected_policy+'/get_available_items_for_student/',
             {
                 params:{
                     student_id: _this.selected_student_info.id,
-                    academic_year_id: _this.selected_year,
+                    class_type_id: _this.selected_student_info.class_type_id,
+                    is_tuition:1,
                     payment_method_id: _this.selected_plan
                 }
             })
@@ -700,6 +705,12 @@ export default {
                 day = ""+(now.getDate());
             }
             return year+"-"+month+"-"+day;
+        },
+        handlePreview(){
+
+        },
+        handleRemove(){
+
         }
     }
 }
