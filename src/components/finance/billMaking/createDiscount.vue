@@ -705,7 +705,12 @@ export default {
                 }
             })
             .then(res=>{
-                res.data.available_items.forEach(item=>{
+                if(res.data.status_code === 1){
+                    _this.$message({
+                        type:'success',
+                        message:'费用科目搜索成功'
+                    })
+                    res.data.available_items.forEach(item=>{
                     item.subject_id = item.subject;
                     item.subject = item.subject_name;
                     item.subject_category = item.subject_category_name;
@@ -713,6 +718,8 @@ export default {
                 })
                 _this.subjectList = res.data.available_items;
                 _this.checkedSubject = [];
+                }
+                
             })
         },
         handleSelectionChange(val){
