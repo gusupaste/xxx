@@ -500,7 +500,7 @@ export default {
             if(this.$route.query.student){
                 this.is_edit = true;
                 this.choosePerson.id = this.$route.query.student;
-                this.sureAddStudent()
+                this.sureAddStudent();
             }
             var _this = this;
             this.addform.date = this.$options.filters['formatDate'](new Date());
