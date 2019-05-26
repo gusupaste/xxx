@@ -650,6 +650,7 @@ export default {
                             }
                         })
                 }
+                this.sureAddSubject()
                 };
 
             })
