@@ -548,14 +548,22 @@ export default {
         sureAddSubject(){
             this.checkedSubject = this.checkedSubject1;
             this.saveForm.billitem_list = this.checkedSubject1;
+            
+            this.gettotalPrice()
+            this.subjectVisible=false;
+        },
+        gettotalPrice(){
             this.totalprice = 0;
             this.totalamount = 0;
             this.checkedSubject.forEach(item=>{
+                console.log(item)
                 if(item.total){
                     this.totalprice += (item.total-0)
+                    this.totalamount += (item.total-0)
                 }
             });
-            this.subjectVisible=false;
+            console.log(this.totalprice)
+            console.log(this.totalamount)
         },
         sureAddStudent(){
             var _this = this;
@@ -650,9 +658,9 @@ export default {
                             }
                         })
                 }
-                this.sureAddSubject()
+                
                 };
-
+                this.gettotalPrice()
             })
         },
         getYear(){
