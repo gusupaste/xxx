@@ -280,6 +280,7 @@ export default {
           },
           student_id:'',
           studentInfo:{},
+          count_id:'',
           is_thing:true,
           status:'Prepare',
           addProjectVisible:false,
@@ -345,15 +346,29 @@ export default {
         this.subjectList.forEach(item=>{
           item.balance_amount = item.deduction_amount
         })
+        if(this.addForm.application_id === ""){
+          this.$message({
+            type:'error',
+            message:'请选择单据申请信息'
+          })
+          return
+        }
         this.addForm.items = this.subjectList;
-        console.log(this.addForm)
         this.$axios.post('/api/finance/refund/add_refund_bill/',{
           bill:this.addForm
         }).then(res=>{
           if(res.data.data.status === 1){
-            _this.$router.push('/financemanagement/refund-manage')
+            _this.count_id = res.data.data.id;
+            // _this.$router.push('/financemanagement/refund-manage')
           }
         })
+      },
+      uploadFile(){
+        this.$axios.post('/api/finance/refund/upload/',{
+            bill_id:this.count_id,
+            file
+        })
+      
       },
       deleteRefund(val){
         var index = this.addForm.refund_items.indexOf(val);

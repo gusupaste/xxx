@@ -165,9 +165,11 @@
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">取消</button>
             <button class="btn bg-green" v-if="!is_edit" @click="saveInfo">保存</button>
-            <button class="btn bg-green" v-if="is_choose_student && !is_edit" @click="saveInfo">保存</button>
-            <button class="btn bg-green" v-if="is_edit" @click="saveInfo">保存</button>
-            <button class="btn bg-orange" v-if="!is_edit" @click="saveInfo">缴费</button>
+            <button class="btn bg-green" v-if="is_choose_student && is_edit" @click="saveInfo">保存</button>
+            <button class="btn bg-green" v-if="is_edit && !is_choose_student" @click="editInfo">保存</button>
+            <button class="btn bg-orange" v-if="!is_edit" @click="saveInfo(1)">缴费</button>
+            <button class="btn bg-orange" v-if="is_choose_student && is_edit" @click="saveInfo(1)">缴费</button>
+            <button class="btn bg-orange" v-if="is_edit && !is_choose_student" @click="editInfo(1)">缴费</button>
         </div>
         <!-- 添加学生 -->
       <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
@@ -371,7 +373,7 @@ export default {
         this.getMethods();
     },
     methods: {
-        saveInfo(){
+        saveInfo(val){
             var _this = this;
             if(this.multipleTable.length == 0){
                 this.$message({
@@ -430,7 +432,11 @@ export default {
                         type:"success",
                         message:"保存成功！"
                     })
-                    _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                    if(val == 1){
+                        _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                    } else {
+                        _this.$router.push('/financemanagement/billMaking')
+                    }
                 } else {
                     _this.$message({
                         type:"error",
@@ -439,7 +445,7 @@ export default {
                 }
             })
         },
-        editInfo(){
+        editInfo(val){
             var _this = this;
             if(this.multipleTable.length == 0){
                 this.$message({
@@ -498,7 +504,11 @@ export default {
                         type:"success",
                         message:"保存成功！"
                     })
-                    _this.$router.push('/financemanagement/dollar/'+res.data.bill_id);
+                    if(val == 1){
+                        _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                    } else {
+                        _this.$router.push('/financemanagement/billMaking')
+                    }
                 } else {
                     _this.$message({
                         type:"error",
@@ -610,7 +620,6 @@ export default {
                     class_type_id:this.multipleTable[0].class_type_id,
                     student_id:this.multipleTable[0].id,
                     center_class_id:this.multipleTable[0].center_class_id,
-                    center_class_year_id:this.multipleTable[0].center_class_year_id,
                     payment_method_id:this.addform.pay_method,
                     subject_id:row.subject_id,
                     policy_id:this.saveForm.policy_id,

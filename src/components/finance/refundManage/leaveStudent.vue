@@ -346,7 +346,13 @@ export default {
           item.balance_amount = item.deduction_amount
         })
         this.addForm.items = this.subjectList;
-        console.log(this.addForm)
+        if(this.addForm.application_id === ""){
+          this.$message({
+            type:'error',
+            message:'请选择单据申请信息'
+          })
+          return
+        }
         this.$axios.post('/api/finance/refund/add_refund_bill/',{
           bill:this.addForm
         }).then(res=>{

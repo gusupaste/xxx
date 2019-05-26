@@ -52,32 +52,39 @@
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                  <router-link  :to="'/financemanagement/createDiscount/?id='+scope.row.bill_id+'&student='+scope.row.id" v-if="scope.row.bill_id && scope.row.bill_show">
+                <!--创建-->
+                <template v-if="!scope.row.bill_id">
+                  <router-link  :to="'/financemanagement/createDiscount/?student='+scope.row.id">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
                   </router-link>
-                <router-link  to="" v-if="scope.row.bill_id && !scope.row.bill_show">
-                    <span style="padding:0 20px;border-right:1px solid #e3e3e3">
-                        <i class="fa fa-pencil font-size-20 grey"></i>
+                  <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 grey"></i>
                     </span>
-                </router-link>
-                  <router-link :to="'/financemanagement/createDiscount/?id='+scope.row.bill_id+'&student='+scope.row.id" v-if="!scope.row.bill_id">
+                </template>
+                <!--编辑-->
+                <template  v-if="scope.row.bill_id && scope.row.show_dollar">
+                  <router-link  :to="'/financemanagement/createDiscount/?id='+scope.row.bill_id+'&student='+scope.row.id">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
                   </router-link>
-
-                <router-link :to="'/financemanagement/dollar/'+scope.row.bill_id" v-if=" scope.row.bill_show">
+                  <router-link :to="'/financemanagement/dollar/'+scope.row.bill_id">
                     <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
-                </router-link>
-                <router-link to="" v-if=" !scope.row.bill_show">
-                    <span style="padding:0 20px;">
+                  </router-link>
+                </template>
+                <!-- 完成 -->
+                <template v-if="scope.row.bill_id && !scope.row.show_dollar">
+                  <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 grey"></i>
+                    </span>
+                  <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 grey"></i>
                     </span>
-                </router-link>
+                </template>
               </template>
           </el-table-column>
         </el-table>
