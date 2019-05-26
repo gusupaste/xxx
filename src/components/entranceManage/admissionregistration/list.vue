@@ -647,6 +647,7 @@
                 this.$message.error('保存失败');
               }
             }).catch(err => {
+              console.log(err);
               this.$message.error('未缴纳备用金');
             })
           } else {
