@@ -929,7 +929,7 @@ export default {
         this.leaveVisible = false;
         this.leaveShowVisible = true;
       } else {
-        this.$router.push('/financemanagement/create-reserve/1?id=' + this.studentInfo.id)
+        this.$router.push('/financemanagement/create-reserve/1?id=' + this.studentId)
       }
     }
   },
