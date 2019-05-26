@@ -34,7 +34,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="缴费账期：">
-                    <el-select v-model="addform.academic_year_id">
+                    <el-select v-model="addform.academic_year_id" @change="getPolicy">
                         <el-option v-for="item in yearList" :label="item.academic_year" :value="item.id" :key="item.id"></el-option>
                     </el-select>
                 </el-form-item>
