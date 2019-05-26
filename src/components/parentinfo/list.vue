@@ -369,18 +369,18 @@
         this.edit_id = obj.id;
         this.ruleForm.student = obj.student;
         this.ruleForm.name = obj.name;
-        this.ruleForm.relationship = parseInt(obj.relationship);
-        this.ruleForm.nationality = parseInt(obj.nationality);
+        this.ruleForm.relationship = obj.relationship;
+        this.ruleForm.nationality = obj.nationality;
         this.ruleForm.employer = obj.employer;
         this.ruleForm.position = obj.position;
         this.ruleForm.email = obj.email;
         this.ruleForm.office_phone = obj.office_phone;
         this.ruleForm.telephone = obj.telephone;
         this.ruleForm.home_phone = obj.home_phone;
-        this.ruleForm.emergency_contact_grade = parseInt(obj.emergency_contact_grade);
-        this.ruleForm.primary_contact_way = parseInt(obj.primary_contact_way);
-        this.ruleForm.primary_language = parseInt(obj.primary_language);
-        this.ruleForm.other_language = parseInt(obj.other_language);
+        this.ruleForm.emergency_contact_grade = obj.emergency_contact_grade;
+        this.ruleForm.primary_contact_way = obj.primary_contact_way;
+        this.ruleForm.primary_language = obj.primary_language;
+        this.ruleForm.other_language = obj.other_language;
       },
       cancelParentInfo: function () {
         this.editbrandVisible = false;

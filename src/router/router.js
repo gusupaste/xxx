@@ -416,7 +416,7 @@ export default new Router({
           component: Reservefund
         },
         {
-          path: '/financemanagement/create-reserve',
+          path: '/financemanagement/create-reserve/:status',
           name: 'createReservefund',
           component: createReservefund
         },

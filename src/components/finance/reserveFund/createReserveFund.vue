@@ -17,7 +17,7 @@
           </p>
           <p style="line-height: 40px;">
             <el-row :gutter="24">
-              <template v-if="single">
+              <template v-if="single_status === 1">
                 <el-col :span="8">
                   <div class="grid-content bg-purple">申请日期：
                     <el-date-picker
@@ -140,15 +140,37 @@
         },
         mutitable: [],
         userInfo: this.$cookies.get('userInfo'),
-        single: true,
+        single_status: Number(this.$route.params.status),
         date: new Date(),
+        student_id: this.$route.query.id
       }
     },
     created() {
       // this.getInfo();
-      this.searchInfo();
+      if (single_status === 0) {
+        this.searchInfo();
+      } else {
+        this.getSingleStudent()
+      }
     },
     methods: {
+      getSingleStudent: function () {
+        this.$axios.get('/api/finance/reserve_fund_for_attendance/student_list/', {
+          params: {
+            date : this.date,
+            student_id : this.student_id
+          }
+        })
+          .then(res => {
+            if (res.data.status === 1) {
+              this.tableData = res.data.data
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          }).catch(err => {
+
+        })
+      },
       getInfo() {
         var _this = this;
         this.$axios.get('/api/finance/reserve_fund_for_attendance/student_list/', {

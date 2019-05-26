@@ -85,7 +85,7 @@
               <i class="icon-font fa fa-calendar-plus-o"></i>
               <span class="font-cl-blue font-size-14">推迟入园转备用金</span>
           </span>-->
-            <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reserve')">
+            <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reserve/0')">
             <i class="icon-font fa fa-calendar-plus-o"></i>
             <span class="font-cl-blue font-size-14">缺勤请假转备用金</span>
         </span>

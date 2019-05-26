@@ -324,7 +324,7 @@ export default {
             addform:{
                 pay_method:2,
                 date:'',
-                academic_year_id:1,
+                academic_year_id:"",
                 start_date:'',
                 end_date:''
             },
@@ -542,10 +542,17 @@ export default {
                     academic_year_id:this.addform.academic_year_id,
                 }
             }).then(res=>{
-                res.data.student_profile.name = res.data.student_profile.student_name;
-                res.data.student_profile.student_no = this.choosePerson.student_no;
-                this.multipleTable = [res.data.student_profile];
-                this.innerVisible = false;
+                if(res.data.status_code === 1){
+                    res.data.student_profile.name = res.data.student_profile.student_name;
+                    res.data.student_profile.student_no = this.choosePerson.student_no;
+                    this.multipleTable = [res.data.student_profile];
+                    this.innerVisible = false;
+                }
+            }).catch(error=>{
+                _this.$message({
+                    type:'error',
+                    message:error.response.data.message
+                });
             })
 
         },
@@ -631,7 +638,8 @@ export default {
             })
             .then(res=>{
                 _this.yearList = res.data.data.academic_year_li;
-                _this.getInfo();
+                _this.addform.academic_year_id = _this.yearList[0].id;
+                _this.getPolicy();
             })
         },
         getPolicy(){
@@ -644,21 +652,6 @@ export default {
             })
             .then(res=>{
                 _this.policyList = res.data.policy_list;
-            })
-        },
-        getInfo(){
-            var _this = this;
-            this.$axios.get('/api/finance/bill/show_policy_item/',{
-                params:{
-                    academic_year_id:this.addform.academic_year_id,
-                    payment_method:this.addform.pay_method,
-                    center_id:this.saveForm.center_id
-                }
-            })
-            .then(res=>{
-                _this.info = res.data.data.policy_info;
-                // _this.subjectList = res.data.data.policy_item_li;
-                _this.getPolicy();
             })
         },
         getSubject(){
