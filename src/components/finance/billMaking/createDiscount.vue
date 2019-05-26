@@ -168,6 +168,7 @@
             <button class="btn bg-green" v-if="is_choose_student && !is_edit" @click="saveInfo">保存</button>
             <button class="btn bg-green" v-if="is_edit" @click="saveInfo">保存</button>
             <button class="btn bg-orange" v-if="!is_edit" @click="saveInfo">缴费</button>
+            <button class="btn bg-orange" v-if="is_choose_student" @click="saveInfo">缴费</button>
         </div>
         <!-- 添加学生 -->
       <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">

@@ -121,7 +121,7 @@
             </el-form-item>
         </el-form>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
+            <button class="btn bg-grey" @click="$router.push('/financemanagement/billMaking')">返回</button>
             <button class="btn bg-green" @click="saveInfo">提交</button>
 
         </div>
