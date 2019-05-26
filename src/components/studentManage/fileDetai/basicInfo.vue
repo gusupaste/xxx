@@ -151,7 +151,7 @@
             <el-select class="select-region" v-model="c_city_id" placeholder="市" @change="proinit(2)">
               <el-option v-for="city in cityList" :label="city.city_name" :value="city.city_id" :key="city.id"></el-option>
             </el-select>
-            <el-select class="select-region" v-model="studentInfo.town" placeholder="区">
+            <el-select class="select-region" v-model="town" placeholder="区">
               <el-option v-for="town in townList" :label="town.city_name" :value="town.city_id" :key="town.id"></el-option>
             </el-select>
             <el-input v-model="studentInfo.address" style="width: auto;" placeholder="请输入详细地址" maxlength="100"></el-input>
@@ -258,11 +258,11 @@
           primary_language: '',
           other_language: '',
           remark: '',
-          town: '',
           address: '',
           zip_code: '',
           center_class_name: 1,
         },
+        town: '',
         city_list:[],
         class_list:[],
         Language_options:[],/*语言*/
@@ -343,9 +343,9 @@
       proinit(type){
         if(type === 1){
           this.c_city_id = "";
-          this.studentInfo.town = "";
+          this.town = "";
         } else {
-          this.studentInfo.town = "";
+          this.town = "";
         }
       },
       getOptions:function(){
@@ -407,7 +407,7 @@
             this.studentInfo.primary_language = res.data.detail.primary_language;
             this.studentInfo.other_language = res.data.detail.other_language;
             this.studentInfo.remark = res.data.detail.remark;
-            this.studentInfo.town = res.data.detail.province_city.t_city_id;
+            this.town = res.data.detail.province_city.t_city_id;
             this.studentInfo.address = res.data.detail.address;
             this.studentInfo.zip_code = res.data.detail.zip_code;
             this.studentInfo.center_class_name = res.data.detail.center_class_name;
@@ -452,7 +452,8 @@
                 this.studentInfo.has_siblings_in_eton = 1;
               }
             }
-            console.log(this.studentInfo);
+            var index = this.townList.findIndex(item => item.city_id === this.town);
+            this.studentInfo.town = this.townList[index].id;
             this.$axios.put(this.saveStudent,this.studentInfo).then(res=>{
               if(res.status == 200){
                 this.$message({
