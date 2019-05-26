@@ -19,7 +19,7 @@
                 <charge :brandList="brandList" :intercityList="intercityList" :areaList="areaList" :yearList="yearList"></charge>
             </el-tab-pane>
             <el-tab-pane label="退费政策" name="five">
-                <refund></refund>
+                <refund :brandList="brandList" :intercityList="intercityList" :areaList="areaList" :yearList="yearList"></refund>
             </el-tab-pane>
           </el-tabs>
         </div>
