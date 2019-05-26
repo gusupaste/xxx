@@ -233,7 +233,7 @@
       color:#101010;
   }
   .adddiscountApplication >>>.el-date-editor.el-input, .el-date-editor.el-input__inner{
-    
+
   }
   .adddiscountApplication >>> .el-form-item {
      margin-bottom: 10px;
