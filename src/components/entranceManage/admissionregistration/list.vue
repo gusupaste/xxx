@@ -32,11 +32,11 @@
             <span>执行操作</span>
             <el-dropdown trigger="click" @command="handleCommand($event,item.id,index,item.academic_year_id,item.center_id,item.leaving_status,item.preferred_academic_year)">
               <span class="el-dropdown-link">
-                <el-input :value="item.selectType" class="cur"></el-input>
+                <el-input :value="item.selectType" class="cur" placeholder="--请选择--"></el-input>
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="1">入园管理</el-dropdown-item>
+                <el-dropdown-item command="1">入园登记</el-dropdown-item>
                 <el-dropdown-item command="2">提前入学申请</el-dropdown-item>
                 <el-dropdown-item command="3">推迟入学申请</el-dropdown-item>
                 <el-dropdown-item command="3">离园登记</el-dropdown-item>
@@ -545,6 +545,7 @@
         pagesize: 10,
         currentPage: 1,
         total: 1,
+        class_year:'',
       };
     },
     mounted: function () {
@@ -605,6 +606,7 @@
             obj.student = this.studentInfo.id;
             obj.class_obj = this.reulsForm.class_obj;
             obj.remarks = this.reulsForm.remarks;
+            obj.academic_year = this.class_year;
             this.$axios.post('/api/student/preparing_admission/', obj).then(res => {
               if (res.status == 201) {
                 this.$message({
@@ -663,6 +665,7 @@
           console.log(this.studentList)
           this.studentList[index].selectType = '入园管理';
           this.operationVisible = true;
+          this.class_year = academic_year_id;
           this.getStudentInfo(id, academic_year_id, center_id);
         } else if (val === '2') {
           this.studentList[index].selectType = '提前入学申请';
