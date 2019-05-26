@@ -28,10 +28,10 @@
                     </el-form-item>
                     <br>
                     <el-form-item label="入园日期：" prop="enter_date" label-width="150px" style="text-align:left">
-                            <el-date-picker type="date" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.enter_date" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.enter_date" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="首次缴费日期：" label-width="150px" style="text-align:left">
-                            <el-date-picker type="date" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.first_pay_date" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.first_pay_date" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <br>
                     <el-form-item label="证件类型：" prop="certificate_type" label-width="150px">
@@ -78,7 +78,7 @@
                     </el-form-item>
                     <br>
                     <el-form-item label="出生日期：" prop="date_of_birth" label-width="150px" class="w250_input">
-                            <el-date-picker type="date" placeholder="请选择出生日期" v-model="studentInfo.date_of_birth" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="请选择出生日期" v-model="studentInfo.date_of_birth" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="性别：" prop="gender" label-width="150px">
                         <el-select v-model="studentInfo.gender" placeholder="请选择性别" class="w250_input">
@@ -162,7 +162,7 @@
             </div>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey mr26">取消</button>
+            <button class="btn bg-grey mr26" @click="$router.push('/studentFile/studentFileList')">取消</button>
             <button class="btn bg-green" @click="submitForm('studentInfo')">保存</button>
         </div>
     </div>
@@ -453,13 +453,13 @@ export default {
               this.studentInfo.has_siblings_in_eton = 1;
             }
           }
-          console.log(this.studentInfo);
           this.$axios.put(this.saveStudent,this.studentInfo).then(res=>{
             if(res.status == 200){
               this.$message({
                 type:'success',
                 message:'编辑成功！'
               })
+              this.$router.push('/studentFile/studentFileList');
               /*this.getOptions();
               this.getCountryOptions();
               this.getIntercity_list();
