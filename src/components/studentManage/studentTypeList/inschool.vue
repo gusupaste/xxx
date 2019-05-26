@@ -802,6 +802,7 @@ export default {
       studentInfo:{},
       studentRemark:'',
       preferred_academic_year:'',
+      studentId:'',
     }
   },
   mounted:function(){
@@ -820,7 +821,7 @@ export default {
             leave_reason: x,
             leave_date: this.leveForm.leave_date,
           };
-          this.$axios.put('/api/student/prepare_list_student/'+this.reulsForm.student + '/',obj).then(res => {
+          this.$axios.put('/api/student/prepare_list_student/'+this.studentId + '/',obj).then(res => {
             if (res.status == 201) {
               this.$message({
                 type: 'success',
@@ -899,6 +900,7 @@ export default {
       }else if(val === 3){
         this.earlyVisible = true;
       }
+      this.studentId = id;
     },
     /*保存入学登记*/
     saveInputSchool:function (formName) {
