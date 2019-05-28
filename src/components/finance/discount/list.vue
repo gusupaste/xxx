@@ -263,6 +263,15 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          next-text="下一页"
+          :page-size="pagesize"
+          :current-page="currentPage"
+          @current-change="handleCurrentChange"
+          :total="total" class="page">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -272,6 +281,9 @@
   export default {
     data() {
       return {
+        pagesize:10,
+        currentPage:1,
+        total:1,
         int_url:'/api/common/select/intercity_list/',/*城际*/
         area_url:'/api/common/select/area_list/',/*区域*/
         school_url:'/api/common/select/center_list/',/*校园*/
@@ -307,6 +319,9 @@
       this.getStudentInfo(1);
     },
     methods: {
+      handleCurrentChange:function(currentPage){
+        this.currentPage=currentPage;
+      },
       routerPush:function (obj) {
         var status = 0;
         if(this.activeName === 'second'){
@@ -423,11 +438,12 @@
           d_type = this.dis_type;
         }
         var url = this.getList_url+ d_type +'&type='+type+'&center_id='+this.school+
-          '&province_id='+this.city+'&area_id='+this.area+'&intercity_id='+this.intercity+'&hq_id='+this.brand;
+          '&province_id='+this.city+'&area_id='+this.area+'&intercity_id='+this.intercity+'&hq_id='+this.brand+'&page='+this.currentPage;
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200 && res.data.status_code == 1) {
             this.tableData1 = res.data.data.results;
+            _this.total = res.data.data.count;
           }
         }).catch(err=>{
           console.log(err)
@@ -442,7 +458,12 @@
       searchList: function() {
 
       }
-    }
+    },
+    watch: {
+      currentPage(){
+        this.getStudentInfo()
+      }
+    },
   }
 </script>
 
