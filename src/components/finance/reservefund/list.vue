@@ -384,7 +384,7 @@
           }
         }
         this.$axios.post('/api/finance/reserved_fund/list/', {
-          academic_year: this.academic_year_id,
+          academic_year_id: this.academic_year_id,
           class_id: class_ids,
           search_str: this.search_name
           /* params: {
