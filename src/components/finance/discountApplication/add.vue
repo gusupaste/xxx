@@ -113,7 +113,8 @@
                          :label="type.name"
                          :value="type.id"></el-option>
             </el-select>
-          </el-form-item>{{left_amount}}
+          </el-form-item>
+          <span v-show="left_amount[itemindex]" style="color: red">( 园长折扣预算剩余额度: {{ left_amount[itemindex] }} )</span>
           <br>
 
           <el-form-item label="申请折扣：" label-width="120px">
@@ -341,7 +342,7 @@
         pagesize: 10,
         currentPage: 1,
         total: 1,
-        left_amount: '',
+        left_amount: [],
       }
     },
     mounted: function () {
@@ -539,18 +540,20 @@
       changeType($event, index) {
         var name = ''
         for (var i = 0; i < this.discount_type[index].length; i++) {
-          if($event === this.discount_type[index][i].id){
+          if ($event === this.discount_type[index][i].id) {
             name = this.discount_type[index][i].name;
             break
           }
         }
-        if(name === '园长折扣'){
+        if (name === '园长折扣') {
           this.$axios.get('/api/discount/discount_management/get_discount_budget/?academic_year_id=' + this.selected_year)
             .then(res => {
-                  this.left_amount = res.data.left_amount
+              this.$set(this.left_amount, index, res.data.left_amount)
             }).catch(err => {
 
           })
+        }else{
+          this.$set(this.left_amount, index, '')
         }
 
         for (let key in this.discount_type[index]) {
@@ -604,6 +607,10 @@
               _this.discount_type[index][key]['rate_or_price'] = parseFloat(_this.discount_price[index]);
               _this.discount_type[index][key]['remark'] = _this.discount_remark[index];
               list.push(_this.discount_type[index][key]);
+              if(this.discount_type[index][key]['rate_or_price'] > this.left_amount[index]){
+                this.$message.error('园长折扣不足,请重新输入')
+                return
+              }
             }
           }
         }
