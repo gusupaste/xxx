@@ -426,8 +426,8 @@
         }
 
         this.searchform.page = val;
-        this.$axios.get('/api/finance/bill/hq_bill/', {
-          params: {
+        this.$axios.post('/api/finance/bill/hq_bill/', 
+        {
             academic_year_id: this.searchform.academic_year_id,
             bill_type_id: this.searchform.bill_type_id,
             search_str: this.searchform.search_str,
@@ -436,7 +436,6 @@
             class_li: JSON.stringify(class_list),
             page: this.searchform.page,
             size: 10,
-          }
         }).then(res => {
           _this.countList = res.data.bill_li;
           _this.count = res.data.count;
@@ -454,8 +453,8 @@
         }
 
         this.searchform.page2 = val;
-        this.$axios.get('/api/finance/bill/hq_bill_pd/', {
-          params: {
+        this.$axios.post('/api/finance/bill/hq_bill_pd/',
+        {
             academic_year_id: this.searchform.academic_year_id,
             bill_type_id: this.searchform.bill_type_id,
             search_str: this.searchform.search_str,
@@ -464,7 +463,6 @@
             class_li: JSON.stringify(class_list),
             page: this.searchform.page2,
             size: 10,
-          }
         }).then(res => {
           _this.pendingcountList = res.data.bill_li;
           _this.count2 = res.data.count;

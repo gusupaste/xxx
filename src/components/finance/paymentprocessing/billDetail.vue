@@ -164,31 +164,31 @@
                 label="折扣">
                 </el-table-column>
                 <el-table-column
-                prop="paid_amount"
+                prop="actual_pay"
                 label="折后应收">
                 </el-table-column>
-                <el-table-column
+                <!-- <el-table-column
                 prop="address"
                 label="欠费">
                 <template slot-scope="scope">
                   0
                 </template>
-                </el-table-column>
+                </el-table-column> -->
                 <el-table-column
                 prop="reserved_fund_used"
                 label="备用金">
                 </el-table-column>
               <el-table-column
-                prop="actual_pay"
+                prop="paid_amount"
                 label="实收">
               </el-table-column>
-              <el-table-column
+              <!-- <el-table-column
                 prop="address"
                 label="本期余额">
                 <template slot-scope="scope">
                   0
                 </template>
-              </el-table-column>
+              </el-table-column> -->
             </el-table>
         </div>
         <div class="mt26 tableList" style="line-height:30px">
@@ -322,6 +322,7 @@ export default {
       getInfo(){
         this.$axios.get('/api/finance/bill/'+this.id+'/pay_all/')
         .then(res=>{
+          console.log(res.data)
           this.bill_info = res.data.bill_info;
           this.bill_history = res.data.bill_history;
           this.billitem_li = res.data.billitem_li;
