@@ -26,11 +26,21 @@
     <div class="local-month">
       在校学生总数：<span class="orange">{{total}}</span>人 ； 学生出勤人数 <span class="red">{{present}} </span> 人 ； 学生缺勤人数 <span
       class="green">{{absent}}  </span> 人
-      <el-button v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 0" @click="attendanceSure" type="warning">确 定</el-button>
-      <el-button v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 1" @click="cancelSure" type="info">取消确认</el-button>
-      <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2" @click="attendanceCheck" type="warning">核 对</el-button>
-      <span v-else-if="permission['student-attendance-campus']['attendance_verify']"></span>
-      <el-button v-else type="success" @click="attendanceSure">保 存</el-button>
+      <el-button v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 0"
+                 @click="attendanceSure(0)" type="warning">确 定
+      </el-button>
+      <el-button v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 1"
+                 @click="cancelSure" type="info">取消确定
+      </el-button>
+      <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 1"
+                 @click="attendanceSure(1)" type="warning">核 对
+      </el-button>
+      <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2"
+                  type="warning">已 核 对
+      </el-button>
+      <el-button v-else-if="permission['student-attendance-campus']['student-attendance-revision']"
+                 type="success" @click="attendanceSave">保 存
+      </el-button>
     </div>
     <template>
       <el-table
@@ -63,48 +73,33 @@
             <span>{{scope.row.class_name}}</span>
           </template>
         </el-table-column>
-        <!--<el-table-column
-          prop="arrivalDate"
-          label="到校日期">
-          <template slot-scope="scope">
-            <span>&#45;&#45;</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="temperature_school"
-          label="体温">
-          <template slot-scope="scope">
-            <span>&#45;&#45;</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="departureDate"
-          label="离开时间">
-          <template slot-scope="scope">
-            <span>&#45;&#45;</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="temperature_family"
-          label="体温">
-          <template slot-scope="scope">
-            <span>&#45;&#45;</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="surrogate"
-          label="接送人">
-          <template slot-scope="scope">
-            <span>&#45;&#45;</span>
-          </template>
-        </el-table-column>-->
         <el-table-column
           prop="status"
           label="状态">
           <template slot-scope="scope">
-            <span name="select_present" hidden>{{scope.row.status}}</span>
-            <span v-if="is_confirmed">{{scope.row.status}}</span>
-            <el-select v-else v-model="scope.row.status" placeholder="请选择">
+            <el-select v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 0" v-model="scope.row.status" placeholder="请选择">
+              <el-option
+                v-for="item in status_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+            <span v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 1 && scope.row.status === 0">出勤</span>
+            <span v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 1 && scope.row.status === 2">病假</span>
+            <span v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 1 && scope.row.status === 3">事假</span>
+            <el-select v-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 1" v-model="scope.row.status" placeholder="请选择">
+              <el-option
+                v-for="item in status_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+            <span v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 0">出勤</span>
+            <span v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 2">病假</span>
+            <span v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 3">事假</span>
+            <el-select v-if="permission['student-attendance-campus']['student-attendance-revision']" v-model="scope.row.status" placeholder="请选择">
               <el-option
                 v-for="item in status_list"
                 :key="item.id"
@@ -123,6 +118,7 @@
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
+
   /*表格内容居中*/
   .attendanceDaily >>> .el-table td, .attendanceDaily >>> .el-table th {
     text-align: center;
@@ -143,8 +139,9 @@
     height: 0;
     float: right;
   }
-  .attendanceDaily >>> .el-input__inner{
-    width:inherit;
+
+  .attendanceDaily >>> .el-input__inner {
+    width: inherit;
   }
 </style>
 <script>
@@ -153,7 +150,7 @@
   export default {
     data() {
       return {
-        attendance_date: new Date(),
+        attendance_date: '',
         clearable: false,
         class_id: '',
         classList: [],
@@ -162,11 +159,10 @@
         absent: 0,
         verify_status: 0,
         attendanceList: [],
-        attendance_date_name: '',
         is_confirmed: false,
         status_list: [
           {
-            id:0,
+            id: 0,
             name: '出勤'
           },
           /*{
@@ -174,11 +170,11 @@
             name: '休学'
           },*/
           {
-            id:2,
+            id: 2,
             name: '病假'
           },
           {
-            id:3,
+            id: 3,
             name: '事假'
           }
         ],
@@ -196,9 +192,10 @@
     },
     mounted: function () {
       this.getClass()
+      this.attendance_date = this.$options.filters['formatDate'](new Date())
     },
     methods: {
-      successTip (message) {
+      successTip(message) {
         this.$message({
           message: message,
           type: 'success',
@@ -226,50 +223,29 @@
           this.total = res.data.data.total
           this.present = res.data.data.present
           this.absent = res.data.data.absent
-          /*this.attendance_date_name = res.data.data.attendance_date*/
           this.attendanceList = res.data.data.students
           this.verify_status = res.data.data.verify_status
-          /*if(res.data.data.is_verified == true && res.data.data.is_confirmed == true){
-
-          }*/
-          /*for (var i = 0; i < this.attendanceList.length; i++) {
-            this.student_ids_temp.push(this.attendanceList[i].id)
-          }
-          this.is_confirmed = res.data.data.is_confirmed
-          if (this.is_confirmed) {
-            this.sureSave()
-          }*/
         }).catch(err => {
           console.log(err)
         })
       },
-      onSubmit() {
-        console.log('submit!')
-      },
       attendanceDetail: function () {
         this.detail = true
       },
-      attendanceSure: function () {
-        var temp = []
-        var selectPresent = document.getElementsByName('select_present')
-        for (var i = 0; i < selectPresent.length; i++) {
-          temp.push(selectPresent[i].innerHTML)
-        }
+      attendanceSure: function (num) {
         this.loading = true
-        this.$axios.post('/api/attendance/students_attendance/', {
-          student_ids: this.student_ids_temp,
-          student_status_list: temp,
-          record_date: this.attendance_date_name,
+        this.$axios.post('api/attendance/students_attendance/confirm_or_verify/', {
+          student_list: this.attendanceList,
+          record_date: this.attendance_date,
           class_id: this.class_id,
-          is_confirmed: true,
-          is_verified: false
+          action_type: num
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
             console.log(res.data)
             if (res.data.status === 1) {
-              this.sureSave()
               this.successTip("提交成功")
+              this.getAttendanceList()
             } else {
               this.$message.warning(res.data.message)
             }
@@ -278,28 +254,17 @@
           console.log(err)
         })
       },
-      sureSave: function () {
-        this.sure = false
-        this.pendingCheck = true
-        this.check = false
-        this.save = false
-        this.is_confirmed = true
-      },
       cancelSure: function () {
         this.loading = true
         this.$axios.post('/api/attendance/students_attendance/cancel_confirm/', {
-          record_date: this.attendance_date_name,
+          record_date: this.attendance_date,
           class_id: this.class_id
         }).then(res => {
           this.loading = false
           if (res.status === 200) {
             console.log(res.data)
             if (res.data.status === 1) {
-              this.sure = true
-              this.pendingCheck = false
-              this.check = false
-              this.save = false
-              this.is_confirmed = false
+              this.getAttendanceList()
             } else {
               this.$message.warning(res.data.message)
             }
@@ -307,13 +272,27 @@
         }).catch(err => {
           console.log(err)
         })
-
       },
-      attendanceCheck: function () {
-        this.sure = false
-        this.pendingCheck = false
-        this.check = false
-        this.save = false
+      attendanceSave: function () {
+        this.loading = true
+        this.$axios.post('api/attendance/students_attendance/update_attendance/', {
+          student_list: this.attendanceList,
+          record_date: this.attendance_date,
+          class_id: this.class_id,
+        }).then(res => {
+          this.loading = false
+          if (res.status === 200) {
+            console.log(res.data)
+            if (res.data.status === 1) {
+              this.successTip("提交成功")
+              this.getAttendanceList()
+            } else {
+              this.$message.warning(res.data.message)
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       }
     }
   }
