@@ -165,7 +165,7 @@
           <p class="font-size-14 bold">缴费信息：</p>
           <div v-for="item in billpayment_method_li" :key="item.id">
               <p>缴费明细：{{item.payment_method}}：￥{{item.amount}}
-              <p>备用金抵扣：￥23000</p>
+              <p>备用金抵扣：￥{{bill_info.reserved_fund_use}}</p>
               <p>缴费回单单号：{{item.payment_no}}</p>
           </div>
         </div>
@@ -329,6 +329,7 @@ export default {
       getInfo(){
         this.$axios.get('/api/finance/bill/'+this.id+'/pay_all/')
         .then(res=>{
+          console.log(res.data)
           this.bill_info = res.data.bill_info;
           this.bill_history = res.data.bill_history;
           this.approve_history = res.data.approve_history;
