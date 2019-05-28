@@ -61,7 +61,7 @@
             :value="item.id">
           </el-option>
         </el-select>
-        <span class="padding-left-30"><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getRefund">搜索</el-button></span>
         <span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/refund-config/add/0/0/0/0')">
             <i class="icon-font fa fa-calendar-plus-o"></i>
             <span class="font-cl-blue font-size-14">新增退费政策</span>
@@ -107,11 +107,12 @@
       </el-table>
       <el-pagination
         background
-        @current-change="changePage"
-        :page-size="10"
-        :current-page="searchform.page"
         layout="prev,pager, next, jumper"
-        :total="count">
+        next-text="下一页"
+        :page-size="pagesize"
+        :current-page="currentPage"
+        @current-change="handleCurrentChange"
+        :total="total" class="page">
       </el-pagination>
     </div>
 </template>
@@ -119,6 +120,9 @@
 export default {
     data () {
         return {
+          pagesize:10,
+          currentPage:1,
+          total:1,
             intercityList:[],
             cityList:[],
             areaList:[],
@@ -150,7 +154,6 @@ export default {
     },
     props: ['brandList','intercityList','areaList','yearList'],
     mounted: function () {
-      this.getRefund();
       this.getcity_list();
       this.getSchool();
       /*this.searchList(1);*/
@@ -158,6 +161,8 @@ export default {
     methods: {
       configure:function (obj) {
         this.$router.push('/financemanagement/refund-config/edit/'+obj.center_id+'/'+obj.year_id+'/'+obj.year_name+'/'+obj.center_name+'/');
+      },handleCurrentChange:function(currentPage){
+        this.currentPage=currentPage;
       },
       getSchool(){
         var _this = this;
@@ -171,6 +176,7 @@ export default {
         })
           .then(res=>{
             _this.schoolList = res.data.results;
+            this.getRefund();
           });
       },
       getcity_list(){
@@ -186,22 +192,74 @@ export default {
         })
       },
       getRefund:function () {
-        this.loading = true
-        this.$axios.get(this.getRefund_url).then(res => {
+        this.loading = true;
+        var slist = [];
+        if(this.searchform.center_id !== ''){
+          slist.push(this.searchform.center_id);
+        }else{
+          for(var x in this.schoolList){
+            slist.push(this.schoolList[x].id);
+          }
+        }
+        var ylist = [];
+        if(this.searchform.academic_year_id  !== ''){
+          ylist.push(this.searchform.academic_year_id);
+        }else{
+          for(var y in this.yearList){
+            ylist.push(this.yearList[y].id);
+          }
+        }
+        var data={
+          center_list:slist,
+          academic_year:ylist,
+          page:this.currentPage
+        }
+        this.$axios.post(this.getRefund_url,data).then(res => {
           this.loading = false
-          this.chargeTable = res.data;
-          console.log(res.data);
-          for(var x in res.data){
-            this.chargeTable[x].c_name = res.data[x].center_name + res.data[x].year_name + '退费政策';
+          this.chargeTable = res.data.record_list;
+          this.total = res.data.count;
+          for(var x in res.data.record_list){
+            this.chargeTable[x].c_name = res.data.record_list[x].center_name + res.data.record_list[x].year_name + '退费政策';
           }
         }).catch(err => {
           console.log(err)
         })
       },
-      changePage(){
-
-      },
+    },
+  watch: {
+    'searchform.area_id'(){
+      this.getcity_list();
+      this.searchform.center_id = "";
+      this.searchform.province_id = "";
+    },
+    'searchform.intercity_id'(){
+      this.getSchool();
+      this.searchform.center_id = "";
+    },
+    'searchform.hq_id'(){
+      this.getSchool();
+      this.searchform.center_id = "";
+    },
+    'searchform.area_id'(){
+      this.getcity_list();
+      this.getSchool();
+      this.searchform.province_id = "";
+      this.searchform.center_id = "";
+    },
+    'searchform.province_id'(){
+      this.getSchool();
+      this.searchform.center_id = "";
+    },
+    'searchSchoolForm.intercity_id'(){
+      this.getSchool2();
+    },
+    'searchSchoolForm.area_id'(){
+      this.getSchool2();
+    },
+    currentPage(){
+      this.getRefund()
     }
+  }
 }
 </script>
 
