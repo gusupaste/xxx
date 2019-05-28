@@ -461,7 +461,13 @@
     },
     watch: {
       currentPage(){
-        this.getStudentInfo()
+        if(this.activeName === 'first'){
+          this.getStudentInfo(1);
+        }else if(this.activeName === 'second'){
+          this.getStudentInfo(0);
+        }else{
+          this.getStudentInfo(2);
+        }
       }
     },
   }
