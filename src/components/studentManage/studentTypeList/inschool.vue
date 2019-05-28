@@ -371,7 +371,7 @@
           <el-button type="success">保 存</el-button>
        </span>
     </el-dialog>-->
-    <el-dialog title="预备生离园登记" :visible.sync="leaveVisible" width="750px">
+    <el-dialog title="在校生离园登记" :visible.sync="leaveVisible" width="750px">
       <el-form ref="leveForm" :model="leveForm" :rules="rules" label-width="80px">
         <div class="oper-div">
           <span class="title-span">学生基本信息</span>
@@ -393,7 +393,7 @@
                 <span>{{ studentInfo.age }}&nbsp;</span>
               </p>
               <p class="lable-p">
-                <span class="labels">意向班级:</span>
+                <span class="labels">所在班级:</span>
                 <span>{{ studentInfo.preferred_center_name }}</span>
               </p>
             </el-col>
@@ -402,16 +402,16 @@
                 <span class="labels" style="width: 90px;">性别:</span>
                 <span>{{ studentInfo.gender }}&nbsp;</span>
               </p>
-              <p class="lable-p">
+              <!--<p class="lable-p">
                 <span class="labels" style="width: 90px;">预计入学日期:</span>
                 <span>{{ studentInfo.enter_date }}</span>
-              </p>
+              </p>-->
             </el-col>
             <el-col :span="8">
-              <p class="lable-p">
+              <!--<p class="lable-p">
                 <span class="labels">缴费区间:</span>
                 <span>{{ studentInfo.date_range }}</span>
-              </p>
+              </p>-->
             </el-col>
             <el-col :span="16">
               <p class="lable-p">
@@ -477,7 +477,7 @@
           <el-button type="success" @click="saveLeave('leveForm')">保 存</el-button>
         </span>
     </el-dialog>
-    <el-dialog title="预备生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
+    <el-dialog title="在校生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
       <span class="dialog-body">该学生存在未完成的缺勤转备用金,请先完成再进行离园登记</span>
       <span slot="footer" class="dialog-footer">
           <el-button @click="leaveShowVisible = false" :disabled="true">缺勤转备用金</el-button>
@@ -895,7 +895,7 @@ export default {
     },
     handleCommand:function(val,id,index){
       if(val === '1'){
-        this.student_list[index].selectType = '入园管理';
+        this.student_list[index].selectType = '入园登记';
         this.getYearHistory(id);
         this.getStudentInfo(id);
         this.operationVisible = true;

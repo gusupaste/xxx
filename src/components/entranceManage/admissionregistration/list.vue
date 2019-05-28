@@ -647,6 +647,7 @@
                 this.$message.error('保存失败');
               }
             }).catch(err => {
+              console.log(err);
               this.$message.error('未缴纳备用金');
             })
           } else {
@@ -663,7 +664,7 @@
       handleCommand: function (val, id, index ,academic_year_id, center_id, leaving_status, preferred_academic_year) {
         if (val === '1') {
           console.log(this.studentList)
-          this.studentList[index].selectType = '入园管理';
+          this.studentList[index].selectType = '入园登记';
           this.operationVisible = true;
           this.class_year = academic_year_id;
           this.getStudentInfo(id, academic_year_id, center_id);
@@ -729,7 +730,7 @@
     cursor: pointer;
     margin-right: 2%;
     margin-bottom: 40px;
-    border: 1px solid #ECECEC;
+    border: 1px solid #bbb;
     width: 31%;
     font-size: 12px;
     -webkit-box-shadow: rgba(11, 98, 137, .2) 0px 0px 4px;
@@ -751,7 +752,7 @@
   }
 
   .admissionRegistrationlist .studentFileCard .card-footer {
-    background-color: #ECECEC;
+    background-color: #999;
     padding: 10px;
     font-size: 12px;
     color: #fff;
@@ -787,7 +788,7 @@
   .admissionRegistrationlist hr {
     margin: 10px 0px;
     border: 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #bbb;
   }
 
   .admissionRegistrationlist >>> .el-dialog__body {
