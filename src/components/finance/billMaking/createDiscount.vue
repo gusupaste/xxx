@@ -135,7 +135,7 @@
                 label="应收">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
-                        {{scope.row.act_total}}
+                        {{scope.row.total}}
                     </span>
                     <span v-if="scope.row.payment_method === '一次性缴费'">
                         {{scope.row.price}}
@@ -154,7 +154,7 @@
                 label="折后应收">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
-                        {{scope.row.total}}
+                        {{scope.row.act_total}}
                     </span>
                     <span v-if="scope.row.payment_method === '一次性缴费'">
                         {{scope.row.price}}

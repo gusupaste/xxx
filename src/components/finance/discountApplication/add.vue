@@ -133,7 +133,7 @@
             </el-input>
           </el-form-item>
           <br>
-          <el-form-item label="相关附件：" label-width="120px">
+          <!-- <el-form-item label="相关附件：" label-width="120px">
             <el-upload
               class="upload-demo"
               action="https://jsonplaceholder.typicode.com/posts/"
@@ -148,7 +148,7 @@
                          style="background-color:#fff;border:1px solid #f17218"><i class="fa fa-upload"></i> 上传
               </el-button>
             </el-upload>
-          </el-form-item>
+          </el-form-item> -->
           <br>
           <el-form-item label=" " label-width="120px">
             <el-button @click.prevent="removeDomain(itemindex-1)">删除</el-button>
@@ -157,13 +157,13 @@
       </el-form-item>
       <el-form inline style="padding:10px 20px;">
         <el-form-item label="应缴总额：" label-width="120px">
-          {{ amount_price }}
+          {{ amount_price?amount_price:"--" }}
         </el-form-item>
         <el-form-item label="折扣总额：" label-width="120px">
-          {{ discount_count }}
+          {{ discount_count?discount_count:"--" }}
         </el-form-item>
         <el-form-item label="折后金额：" label-width="120px">
-          {{ total_price }}
+          {{ total_price?total_price:"--" }}
         </el-form-item>
       </el-form>
       <el-form-item>
@@ -176,7 +176,7 @@
     <p class="mt26 font-cl-blue"></p>
 
     <div class="mt26 text-align-center">
-      <button class="btn bg-grey">取消</button>
+      <button class="btn bg-grey" @click="backList">取消</button>
       <button class="btn bg-green" @click="saveDiscount">提交</button>
     </div>
 
@@ -313,9 +313,9 @@
         discount_price: [],
         discount_remark: [],
 
-        amount_price: "--",
-        discount_count: "--",
-        total_price: "--",
+        amount_price: null,
+        discount_count: null,
+        total_price: null,
         terms: [
           {
             id: 0,
@@ -430,11 +430,18 @@
           })
           .then(res => {
             console.log(res.data)
-            _this.selected_student_info = res.data.student_profile;
-            if (_this.selected_plan) {
-              _this.getShouldPrice();
+            if (res.data.status_code == 1) {
+              _this.selected_student_info = res.data.student_profile;
+              if (_this.selected_plan) {
+                _this.getShouldPrice();
+              }
+              _this.getDiscountType(0);
+            }else{
+              _this.$message({
+                type: 'error',
+                message: res.data.message
+              })
             }
-            _this.getDiscountType(0);
           })
       },
       // 计算学费正价
@@ -471,7 +478,6 @@
       // 具体收费方式
       getChargingWay() {
         let _this = this;
-        console.log(this.selected_student_info.id);
         this.$axios.get('/api/finance/charging_policy/' + _this.selected_policy + '/get_available_items_for_student/',
           {
             params: {
@@ -551,7 +557,7 @@
               this.$set(this.left_amount, index, res.data.left_amount)
             }).catch(err => {
 
-          })
+            })
         }else{
           this.$set(this.left_amount, index, '')
         }
@@ -604,26 +610,24 @@
         for (let index in _this.dynamicValidateForm.domains) {
           for (let key in _this.discount_type[index]) {
             if (_this.discount_type[index][key].id == _this.selected_discount_type[index]) {
+              if (!_this.discount_price[index]) {
+                _this.$message({
+                  type: 'error',
+                  message: '请将所缺内容填写完整！'
+                });
+                return
+              }
               _this.discount_type[index][key]['rate_or_price'] = parseFloat(_this.discount_price[index]);
               _this.discount_type[index][key]['remark'] = _this.discount_remark[index];
               list.push(_this.discount_type[index][key]);
-              if(this.discount_type[index][key]['rate_or_price'] > this.left_amount[index]){
-                this.$message.error('园长折扣不足,请重新输入')
-                return
+              if (_this.discount_type[index][key]['name'] == "园长折扣" && _this.discount_type[index][key]['rate_or_price'] > _this.left_amount[index]) {
+                  _this.$message.error('园长折扣不足,请重新输入')
+                  return
               }
             }
           }
         }
-        console.log(_this.sholud_price)
-        console.log(_this.selected_student_info.id)
-        console.log(_this.selected_student_info.class_type_id)
-        console.log(_this.selected_student_info.center_class_id)
-        console.log(_this.selected_student_info.center_class_year_id)
-        console.log(_this.selected_plan)
-        console.log(_this.selected_year)
-        console.log(selected_subject)
-        console.log(_this.selected_policy)
-        console.log(_this.selected_way)
+
         if (!(_this.sholud_price || _this.selected_student_info.id || _this.selected_student_info.class_type_id || _this.selected_student_info.center_class_id || _this.selected_student_info.center_class_year_id || _this.selected_plan || _this.selected_year || selected_subject || _this.selected_policy || _this.selected_way || _this.pay_date || _this.from_date)) {
           _this.$message({
             type: 'error',
@@ -690,8 +694,6 @@
             }
           }
         }
-        console.log(status);
-        console.log(count);
         for (let index in status) {
           if (status[index] == 1) {
             price = price - count[index];
@@ -704,10 +706,11 @@
         }
         _this.discount_count = _this.sholud_price - price;
         _this.total_price = price;
-        console.log("*******折后金额********" + price)
       },
 
-
+      backList(){
+        this.$router.go(-1);
+      },
       // 获取当前时间
       getNowFormatDate() {
         var date = new Date();

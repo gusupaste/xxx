@@ -70,7 +70,7 @@
                 label="费用科目">
                 </el-table-column>
                 <el-table-column
-                prop="price"
+                prop="amount"
                 label="正价">
                 </el-table-column>
                 <el-table-column
@@ -78,7 +78,7 @@
                 label="折扣">
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="actual_amount"
                 label="折后应收">
                 </el-table-column>
                 <el-table-column
@@ -238,6 +238,13 @@ export default {
             var _this = this;
             if(this.is_invoice_if){
                 this.addform.is_invoice = 1;
+                if (!(this.addform.invoice_title || this.addform.invoice_amount || this.addform.invoice_remark)) {
+                    this.$message({
+                        type:'error',
+                        message:'开票需求需补充完整'
+                    })
+                    return
+                }
             } else {
                 this.addform.is_invoice = 0;
             }
