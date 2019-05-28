@@ -102,7 +102,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column
-                prop="total"
+                prop="act_total"
                 label="正价应收">
                 </el-table-column>
                 <el-table-column
@@ -110,7 +110,7 @@
                 label="折扣">
                 </el-table-column>
                 <el-table-column
-                prop="act_total"
+                prop="total"
                 label="折后应收">
                 </el-table-column>
             </el-table>
