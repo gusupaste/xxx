@@ -56,18 +56,6 @@
               :value="item.id">
             </el-option>
           </el-select>
-        </template>
-        <p class="mt10">
-          <span>学年：</span>
-          <el-select v-model="academic_year_id" placeholder="请选择">
-            <el-option value="" label="全部"></el-option>
-            <el-option
-              v-for="item in year_list"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
           <span class="padding-left-30">班级：</span>
           <el-select v-model="class_year_id" placeholder="请选择" :disabled="selectDisable">
             <el-option value="" label="全部" aria-selected="true"></el-option>
@@ -78,6 +66,29 @@
               :value="item.id">
             </el-option>
           </el-select>
+        </template>
+        <p class="mt10">
+          <span>学年：</span>
+          <el-select v-model="academic_year_id" placeholder="请选择">
+            <el-option
+              v-for="item in year_list"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+          <template v-if="permission['finance']['reserve-fund-management-campus']">
+            <span class="padding-left-30">班级：</span>
+            <el-select v-model="class_year_id" placeholder="请选择" :disabled="selectDisable">
+              <el-option value="" label="全部" aria-selected="true"></el-option>
+              <el-option
+                v-for="item in class_year_list"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </template>
           <span class="padding-left-30">学生姓名：</span>
           <el-input v-model="search_name" placeholder="请输入学生姓名" class="search_input"></el-input>
           <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
@@ -255,6 +266,7 @@
       school_id: {
         handler(newValue, oldValue) {
           if (newValue === '') {
+            this.class_year_id = ''
             this.selectDisable = true;
           } else {
             this.selectDisable = false;
@@ -262,6 +274,9 @@
             this.getYearClassList(this.school_id)
           }
         }
+      },
+      academic_year_id() {
+        this.getList()
       },
       class_year_id() {
         this.getList()
@@ -328,7 +343,6 @@
                 this.academic_year_id = this.year_list[x].id
               }
             }
-            this.getYearClassList()
           }).catch(err => {
           console.log(err)
         })
@@ -338,27 +352,37 @@
         this.$axios.get('/api/common/select/class_list/?center_id=' + school)
           .then(res => {
             this.class_year_list = res.data.results
-            //this.class_year_id = this.class_year_list[0].id
             this.getList()
           }).catch(err => {
           console.log(err)
         })
       },
       getList: function () {
+        var class_ids = []
+        if (!this.selectDisable) {
+          if (this.class_year_id === '') {
+            for (let i = 0; i < this.class_year_list.length; i++) {
+              class_ids.push(this.class_year_list[i].id)
+            }
+          } else {
+            class_ids.push(this.class_year_id)
+          }
+        }
+
         this.$axios.post('/api/finance/reserved_fund/list/', {
           academic_year: this.academic_year_id,
-          class_id: this.class_year_id,
+          class_id: class_ids,
           search_str: this.search_name
-         /* params: {
-            academic_year_id: this.academic_year_id,
-            class_year_id: this.class_year_id,
-            search_name: this.search_name,
-            intercity_id: this.intercity_id,
-            area_id: this.area_id,
-            city_id: this.city_id,
-            brand_id: this.brand_id,
-            center_id: this.school_id
-          }*/
+          /* params: {
+             academic_year_id: this.academic_year_id,
+             class_year_id: this.class_year_id,
+             search_name: this.search_name,
+             intercity_id: this.intercity_id,
+             area_id: this.area_id,
+             city_id: this.city_id,
+             brand_id: this.brand_id,
+             center_id: this.school_id
+           }*/
         })
           .then(res => {
             this.tableDate = res.data.results
