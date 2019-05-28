@@ -12,7 +12,7 @@
         :clearable="clearable"
         placeholder="选择日期">
       </el-date-picker>
-      <span class="ml10">班级：</span>
+      <span class="padding-left-30">班级：</span>
       <el-select v-model="class_id" placeholder="请选择">
         <el-option
           v-for="item in classList"
@@ -30,7 +30,7 @@
       <el-button v-else-if="permission['student-attendance-campus']['attendance_confirm'] && status === 1" @click="cancelSure" type="info">取消确认</el-button>
       <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && status === 2" @click="attendanceCheck" type="warning">核 对</el-button>
       <span v-else-if="permission['student-attendance-campus']['attendance_verify']"></span>
-      <el-button v-else type="success">保 存</el-button>
+      <el-button v-else type="success" @click="attendanceSure">保 存</el-button>
     </div>
     <template>
       <el-table
@@ -119,6 +119,10 @@
   </div>
 </template>
 <style scoped>
+  .attendanceDaily {
+    color: rgba(160, 160, 160, 1);
+    text-align: left;
+  }
   /*表格内容居中*/
   .attendanceDaily >>> .el-table td, .attendanceDaily >>> .el-table th {
     text-align: center;
@@ -266,7 +270,7 @@
               this.sureSave()
               this.successTip("提交成功")
             } else {
-              alert(res.data.message)
+              this.$message.warning(res.data.message)
             }
           }
         }).catch(err => {
@@ -296,7 +300,7 @@
               this.save = false
               this.is_confirmed = false
             } else {
-              alert(res.data.message)
+              this.$message.warning(res.data.message)
             }
           }
         }).catch(err => {

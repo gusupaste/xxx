@@ -91,7 +91,7 @@
         </el-table>
         <el-pagination
           background
-          layout="pager, next, jumper"
+          layout="prev,pager, next, jumper"
           next-text="下一页"
           :page-size="pagesize"
           :current-page="currentPage"
@@ -100,8 +100,8 @@
         </el-pagination>
       </template>
       <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="adduser = false">取 消</el-button>
-          <el-button type="success" @click="checkedUser">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="adduser = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="checkedUser">保 存</el-button>
         </span>
     </el-dialog>
   </div>

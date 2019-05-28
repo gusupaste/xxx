@@ -28,10 +28,10 @@
           </el-form-item>
           <br>
           <el-form-item label="入园日期：" prop="enter_date" label-width="150px" style="text-align:left">
-            <el-date-picker type="date" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.enter_date" style="width: 100%;"></el-date-picker>
+            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.enter_date" style="width: 100%;"></el-date-picker>
           </el-form-item>
           <el-form-item label="首次缴费日期：" label-width="150px" style="text-align:left">
-            <el-date-picker type="date" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.first_pay_date" style="width: 100%;"></el-date-picker>
+            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.first_pay_date" style="width: 100%;"></el-date-picker>
           </el-form-item>
           <br>
           <el-form-item label="证件类型：" prop="certificate_type" label-width="150px">
@@ -78,7 +78,7 @@
           </el-form-item>
           <br>
           <el-form-item label="出生日期：" prop="date_of_birth" label-width="150px" class="w250_input">
-            <el-date-picker type="date" placeholder="请选择出生日期" v-model="studentInfo.date_of_birth" style="width: 100%;"></el-date-picker>
+            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="请选择出生日期" v-model="studentInfo.date_of_birth" style="width: 100%;"></el-date-picker>
           </el-form-item>
           <el-form-item label="性别：" prop="gender" label-width="150px">
             <el-select v-model="studentInfo.gender" placeholder="请选择性别" class="w250_input">
@@ -92,15 +92,16 @@
           </el-form-item>-->
           <br>
           <el-form-item label="所在班级：" label-width="150px" class="enroll-info">
-            <el-select v-model="preferred_grade_type_name" disabled="disabled"></el-select>
-            <el-select v-model="preferred_class_type_name" disabled="disabled"></el-select>
-            <el-select v-model="studentInfo.preferred_class" placeholder="">
-              <el-option
+            <el-select v-model="class_type_name" disabled="disabled"></el-select>
+            <el-select v-model="grade_type_name" disabled="disabled"></el-select>
+            <el-select v-model="studentInfo.center_class_name"disabled="disabled">
+              <!--<el-option
                 v-for="item in class_list"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id">
               </el-option>
+            -->
             </el-select>
           </el-form-item>
           <br>
@@ -145,13 +146,13 @@
           </el-form-item>
           <el-form-item label="家庭住址：" prop="address" label-width="150px" class="enroll-info">
             <el-select class="select-region" v-model="p_city_id" placeholder="省" @change="proinit(1)">
-              <el-option v-for="pro in provinceList" :label="pro.city_name" :value="pro.id" :key="pro.id"></el-option>
+              <el-option v-for="pro in provinceList" :label="pro.city_name" :value="pro.city_id" :key="pro.city_id"></el-option>
             </el-select>
             <el-select class="select-region" v-model="c_city_id" placeholder="市" @change="proinit(2)">
-              <el-option v-for="city in cityList" :label="city.city_name" :value="city.id" :key="city.id"></el-option>
+              <el-option v-for="city in cityList" :label="city.city_name" :value="city.city_id" :key="city.city_id"></el-option>
             </el-select>
-            <el-select class="select-region" v-model="studentInfo.town" placeholder="区">
-              <el-option v-for="town in townList" :label="town.city_name" :value="town.id" :key="town.id"></el-option>
+            <el-select class="select-region" v-model="town" placeholder="区">
+              <el-option v-for="town in townList" :label="town.city_name" :value="town.city_id" :key="town.city_id"></el-option>
             </el-select>
             <el-input v-model="studentInfo.address" style="width: auto;" placeholder="请输入详细地址" maxlength="100"></el-input>
           </el-form-item>
@@ -162,7 +163,7 @@
       </div>
     </div>
     <div class="mt26 text-align-center">
-      <button class="btn bg-grey mr26">取消</button>
+      <button class="btn bg-grey mr26" @click="$router.push('/studentManage/student-list');">取消</button>
       <button class="btn bg-green" @click="submitForm('studentInfo')">保存</button>
     </div>
   </div>
@@ -240,6 +241,8 @@
         newType:['is_employee_child'],
         preferred_grade_type_name:'',
         preferred_class_type_name:'',
+        grade_type_name:'',
+        class_type_name:'',
         studentInfo:{
           name: '',
           nick_name: '',
@@ -257,11 +260,11 @@
           primary_language: '',
           other_language: '',
           remark: '',
-          town: '',
           address: '',
           zip_code: '',
-          preferred_class: 1,
+          center_class_name: 1,
         },
+        town: '',
         city_list:[],
         class_list:[],
         Language_options:[],/*语言*/
@@ -342,9 +345,9 @@
       proinit(type){
         if(type === 1){
           this.c_city_id = "";
-          this.studentInfo.town = "";
+          this.town = "";
         } else {
-          this.studentInfo.town = "";
+          this.town = "";
         }
       },
       getOptions:function(){
@@ -394,10 +397,10 @@
             this.studentInfo.nick_name = res.data.detail.nick_name;
             this.studentInfo.enter_date = res.data.detail.enter_date;
             this.studentInfo.first_pay_date = res.data.detail.first_pay_date;
-            this.studentInfo.certificate_type = parseInt(res.data.detail.certificate_type);
+            this.studentInfo.certificate_type = res.data.detail.certificate_type || '';
             this.studentInfo.certificate_no = res.data.detail.certificate_no;
-            this.studentInfo.nationality = parseInt(res.data.detail.nationality);
-            this.studentInfo.religion = parseInt(res.data.detail.religion);
+            this.studentInfo.nationality = res.data.detail.nationality || '';
+            this.studentInfo.religion = res.data.detail.religion || '';
             this.studentInfo.date_of_birth = res.data.detail.date_of_birth;
             this.studentInfo.gender = res.data.detail.gender;
             this.studentInfo.is_employee_child = res.data.detail.is_employee_child;
@@ -406,12 +409,12 @@
             this.studentInfo.primary_language = res.data.detail.primary_language;
             this.studentInfo.other_language = res.data.detail.other_language;
             this.studentInfo.remark = res.data.detail.remark;
-            this.studentInfo.town = res.data.detail.town;
+            this.town = res.data.detail.province_city.t_city_id;
             this.studentInfo.address = res.data.detail.address;
             this.studentInfo.zip_code = res.data.detail.zip_code;
-            this.studentInfo.preferred_class = res.data.detail.preferred_class;
-            this.preferred_grade_type_name = res.data.detail.preferred_grade_type_name;
-            this.preferred_class_type_name = res.data.detail.preferred_class_type_name;
+            this.studentInfo.center_class_name = res.data.detail.center_class_name;
+            this.grade_type_name = res.data.detail.grade_type_name;
+            this.class_type_name = res.data.detail.class_type_name;
             this.newType = [];
             this.town_id = '';
             var falsg = false;
@@ -430,8 +433,8 @@
             if(falsg === false){
               this.newType.push('is_employee_child');
             }
-            this.p_city_id = res.data.detail.province_city.province;
-            this.c_city_id = res.data.detail.province_city.city;
+            this.p_city_id = res.data.detail.province_city.p_city_id;
+            this.c_city_id = res.data.detail.province_city.c_city_id;
           }
         }).catch(err=>{
           console.log(err)
@@ -451,13 +454,15 @@
                 this.studentInfo.has_siblings_in_eton = 1;
               }
             }
-            console.log(this.studentInfo);
+            var index = this.townList.findIndex(item => item.city_id === this.town);
+            this.studentInfo.town = this.townList[index].id;
             this.$axios.put(this.saveStudent,this.studentInfo).then(res=>{
               if(res.status == 200){
                 this.$message({
                   type:'success',
                   message:'编辑成功！'
                 })
+                this.$router.push('/studentManage/student-list');
                 /*this.getOptions();
                 this.getCountryOptions();
                 this.getIntercity_list();

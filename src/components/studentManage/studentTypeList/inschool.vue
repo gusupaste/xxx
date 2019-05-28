@@ -1,7 +1,7 @@
 <template>
   <div class="student_inschool">
       <div class="formwrap">
-        <el-form label-width="100px" inline>
+        <el-form label-width="60px" inline>
           <el-form-item label="班级：">
             <el-select v-model="class_val">
               <el-option value="" label="全部"></el-option>
@@ -64,14 +64,25 @@
           </div>
           <div class="card-footer clearfix">
             <span>执行操作</span>
-            <el-select v-model="nameSelect" @change="operationSelect(nameSelect,item.id)" placeholder="--请选择--">
+            <el-dropdown trigger="click" @command="handleCommand($event,item.id,index)">
+              <span class="el-dropdown-link">
+                <el-input :value="item.selectType" class="cur" placeholder="--请选择--"></el-input>
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="1">入园登记</el-dropdown-item>
+                <el-dropdown-item command="2">毕业、离园登记</el-dropdown-item>
+                <el-dropdown-item command="3">终止服务</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+            <!--<el-select v-model="item.selectType" @change="operationSelect(item.selectType,item.id)" placeholder="&#45;&#45;请选择&#45;&#45;">
               <el-option
                 v-for="item in operations"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
-            </el-select>
+            </el-select>-->
           </div>
         </div>
       </div>
@@ -250,11 +261,11 @@
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="operationVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveInputSchool('reulsForm')">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="operationVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveInputSchool('reulsForm')">保 存</el-button>
         </span>
     </el-dialog>
-    <el-dialog title="预备生离园登记" :visible.sync="leaveVisible" width="750px">
+    <!--<el-dialog title="预备生离园登记" :visible.sync="leaveVisible" width="750px">
       <el-form ref="reulsForm2" :model="reulsForm2" :rules="rules" label-width="80px">
         <div class="oper-div">
           <span class="title-span">学生基本信息</span><hr>
@@ -340,7 +351,7 @@
               <el-radio :label="9">生病</el-radio><br>
               <el-radio :label="12">其他</el-radio>
             </el-radio-group>
-            <el-select v-model="reulsForm2.class_obj" @change="operationSelect(reulsForm2.class_obj)" placeholder="--请选择--" style="width: 180px;">
+            <el-select v-model="reulsForm2.class_obj" @change="operationSelect(reulsForm2.class_obj)" placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 180px;">
               <el-option
                 v-for="item in operations"
                 :key="item.value"
@@ -358,12 +369,118 @@
           <el-button @click="leaveVisible = false">取 消</el-button>
           <el-button @click="leaveShowVisible = true;leaveVisible = false">缺勤转备用金</el-button>
           <el-button type="success">保 存</el-button>
+       </span>
+    </el-dialog>-->
+    <el-dialog title="在校生离园登记" :visible.sync="leaveVisible" width="750px">
+      <el-form ref="leveForm" :model="leveForm" :rules="rules" label-width="80px">
+        <div class="oper-div">
+          <span class="title-span">学生基本信息</span>
+          <hr>
+          <el-row>
+            <el-col :span="8">
+              <p class="lable-p">
+                <span class="labels">姓名:</span>
+                <span>{{ studentInfo.name }}</span>
+              </p>
+              <p class="lable-p">
+                <span class="labels">学年计划:</span>
+                <span>{{ studentInfo.academic_year }}</span>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="lable-p">
+                <span class="labels">年龄:</span>
+                <span>{{ studentInfo.age }}&nbsp;</span>
+              </p>
+              <p class="lable-p">
+                <span class="labels">所在班级:</span>
+                <span>{{ studentInfo.preferred_center_name }}</span>
+              </p>
+            </el-col>
+            <el-col :span="8">
+              <p class="lable-p">
+                <span class="labels" style="width: 90px;">性别:</span>
+                <span>{{ studentInfo.gender }}&nbsp;</span>
+              </p>
+              <!--<p class="lable-p">
+                <span class="labels" style="width: 90px;">预计入学日期:</span>
+                <span>{{ studentInfo.enter_date }}</span>
+              </p>-->
+            </el-col>
+            <el-col :span="8">
+              <!--<p class="lable-p">
+                <span class="labels">缴费区间:</span>
+                <span>{{ studentInfo.date_range }}</span>
+              </p>-->
+            </el-col>
+            <el-col :span="16">
+              <p class="lable-p">
+                <span class="labels">所属校园:</span>
+                <span>{{ studentInfo.center }}</span>
+              </p>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="oper-div">
+          <span class="title-span">离园登记</span>
+          <hr>
+          <el-row>
+            <el-col :span="8">
+              <p class="lable-p">
+                <span class="labels">离园申请:</span>
+                <span>{{ studentRemark }}</span>
+              </p>
+            </el-col>
+            <!--<el-col :span="8">
+              <p class="lable-p">
+                <span class="labels">离园访谈:</span>
+                <span>迪小贝</span>
+              </p>
+            </el-col>-->
+            <el-col :span="8">
+              <p class="lable-p">
+                <span class="labels">所在学年:</span>
+                <span>{{ studentInfo.academic_year }}</span>
+              </p>
+            </el-col>
+          </el-row>
+          <el-form-item label="离园日期" prop="leave_date">
+            <el-date-picker
+              v-model="leveForm.leave_date"
+              type="date"
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="离园原因" prop="leave_reason">
+            <el-radio v-model="leveForm.leave_reason" label="居所搬迁/父母工作调动"></el-radio><br>
+            <el-radio v-model="leveForm.leave_reason" label="家庭变故"></el-radio><br>
+            <el-radio v-model="leveForm.leave_reason" label="生病"></el-radio><br>
+            <el-radio v-model="leveForm.leave_reason" label="其他"></el-radio>
+            <!--<el-select v-model="leveForm.leave_reason" placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 180px;">
+              <el-option
+                v-for="item in operations"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>-->
+            <el-input style="width: 180px;" v-model="otherText"></el-input>
+          </el-form-item>
+        </div><hr>
+        <p style="font-size: 10px;color: red;line-height: 20px;">*1.请确认该学生所有缺勤转备用金都已完成,否则不可提交离园登记</p>
+        <p style="font-size: 10px;color: red;line-height: 20px;">&nbsp;&nbsp;2.一旦离园登记结束,该学生自动转为离园生状态</p>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="leaveVisible = false">取 消</el-button>
+          <el-button @click="transferReserveForAbsenteeism">缺勤转备用金</el-button>
+          <el-button type="success" @click="saveLeave('leveForm')">保 存</el-button>
         </span>
     </el-dialog>
-    <el-dialog title="预备生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
+    <el-dialog title="在校生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
       <span class="dialog-body">该学生存在未完成的缺勤转备用金,请先完成再进行离园登记</span>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="leaveShowVisible = false">缺勤转备用金</el-button>
+          <el-button @click="leaveShowVisible = false" :disabled="true">缺勤转备用金</el-button>
           <el-button @click="leaveShowVisible = false" type="success">知道了</el-button>
         </span>
     </el-dialog>
@@ -471,15 +588,15 @@
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="earlyVisible = false">取 消</el-button>
-          <el-button type="success">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="earlyVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success">保 存</el-button>
         </span>
     </el-dialog>
   </div>
 </template>
 <style scoped>
-  .student_inschool .formwrap {
-    margin-top: 20px;
+  .student_inschool >>> .el-form-item__label{
+    padding: 0;
   }
   .student_inschool .studentFileList {
     margin-top: 20px;
@@ -531,9 +648,10 @@
     border-bottom: 1px solid #ddd;
   }
   .student_inschool .labels{
-    width: 90px;
+    width: 60px;
     float: left;
     text-align: right;
+    margin-right: 10px;
   }
   .student_inschool .lable-p{
     line-height: 40px;
@@ -570,6 +688,12 @@ export default {
   },
   data(){
     return {
+      command_type:'',
+      leveForm:{
+        name:'',
+        leave_reason: '',
+        leave_date: '',
+      },
       class_val:'',
       gender:'',
       in_type:'',
@@ -602,6 +726,12 @@ export default {
           { required: true, message: '请选择日期', trigger: 'change' }
         ],
         out_class_date: [
+          { required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        leave_reason: [
+          { required: true, message: '请选择离园原因', trigger: 'change' }
+        ],
+        leave_date: [
           { required: true, message: '请选择日期', trigger: 'change' }
         ],
       },
@@ -675,32 +805,65 @@ export default {
           status_name:'12312313',
         }
       ],
-      year_url:'/api/student/student/1/academic_year_history/',
-      class_url:'/api/center/select/center_class_year_list/?center_id=',
+      year_url:'',
+      class_url:'/api/center/select/center_class_year_list/',
       input_school:'/api/student/student_management/create_enrollment_registration/',
       in_class_list:[],
       yearlist: [],
+      otherText:'',
       studentInfo:{},
+      studentRemark:'',
+      preferred_academic_year:'',
+      studentId:'',
     }
   },
   mounted:function(){
     this.getStudentList();
   },
   methods:{
+    saveLeave:function (formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          var x = this.leveForm.leave_reason;
+          if(this.leveForm.leave_reason === '其他'){
+            x = this.otherText;
+          }
+          var obj = {
+            name:this.studentInfo.name,
+            leave_reason: x,
+            leave_date: this.leveForm.leave_date,
+          };
+          this.$axios.put('/api/student/prepare_list_student/'+this.studentId + '/',obj).then(res => {
+            if (res.status == 201) {
+              this.$message({
+                type: 'success',
+                message: '保存成功！'
+              })
+            } else {
+              this.$message.error('保存失败');
+            }
+          }).catch(err => {
+            this.$message.error('未缴纳备用金');
+          })
+        }else{
+          return false;
+        }
+      })
+    },
     changeAcadYear:function(id){
       this.reulsForm.class_obj = '';
       this.getClassList(id);
     },
-    getYearHistory:function () {
+    getYearHistory:function (id) {
       var _this = this;
-      this.$axios.get(this.year_url).then(res=>{
+      this.$axios.get('/api/student/student/'+id+'/academic_year_history/').then(res=>{
         _this.yearlist = res.data.results;
       }).catch(err=>{
         console.log(err)
       })
     },
     getClassList:function(id){
-      var url = this.class_url + '3' + '&academic_year_id=' + id;
+      var url = this.class_url + '?academic_year_id=' + id;
       this.$axios.get(url).then(res=>{
         this.in_class_list = res.data.results;
       }).catch(err=>{
@@ -730,9 +893,10 @@ export default {
       }
       this.$emit('getStudentList',data);
     },
-    operationSelect:function(val,id){
-      if(val === 1){
-        this.getYearHistory();
+    handleCommand:function(val,id,index){
+      if(val === '1'){
+        this.student_list[index].selectType = '入园登记';
+        this.getYearHistory(id);
         this.getStudentInfo(id);
         this.operationVisible = true;
         this.reulsForm.academic_year = '';
@@ -743,11 +907,15 @@ export default {
         this.reulsForm.in_class_date = '';
         this.reulsForm.out_class_date = '';
         this.reulsForm.remarks = '';
-      }else if(val === 2){
+      }else if(val === '2'){
+        this.student_list[index].selectType = '毕业、离园登记';
         this.leaveVisible = true;
-      }else if(val === 3){
+        this.getStudentInfo(id);
+      }else if(val === '3'){
+        this.student_list[index].selectType = '终止服务';
         this.earlyVisible = true;
       }
+      this.studentId = id;
     },
     /*保存入学登记*/
     saveInputSchool:function (formName) {
@@ -759,6 +927,8 @@ export default {
                 type: 'success',
                 message: '保存成功！'
               })
+              this.getYearHistory(this.reulsForm.student);
+              this.operationVisible = false;
             } else {
               this.$message.error('保存失败');
             }
@@ -770,6 +940,14 @@ export default {
         }
       })
     },
+    transferReserveForAbsenteeism: function () {
+      if (this.studentInfo.pay_bill) {
+        this.leaveVisible = false;
+        this.leaveShowVisible = true;
+      } else {
+        this.$router.push('/financemanagement/create-reserve/1?id=' + this.studentId)
+      }
+    }
   },
   watch: {
     activeTabs: {

@@ -5,8 +5,9 @@
     </div>
     <div class="content">
       <div class="select-header">
+        <span>搜索：</span>
         <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
       </div>
         <div class="list-content">
           <el-table
@@ -16,23 +17,23 @@
             show-header
             style="width: 100%;margin-top: 10px;">
             <el-table-column
-              prop="student_name"
+              prop="name"
               label="学生姓名">
             </el-table-column>
             <el-table-column
-              prop="sex"
+              prop="gender"
               label="性别">
             </el-table-column>
             <el-table-column
-              prop="birthday"
+              prop="date_of_birth"
               label="出生日期">
             </el-table-column>
             <el-table-column
-              prop="intent_class_id"
+              prop="preferred_class"
               label="申请就读班级">
             </el-table-column>
             <el-table-column
-              prop="intent_school_date"
+              prop="preferred_date"
               label="计划入学时间">
             </el-table-column>
             <el-table-column
@@ -40,30 +41,62 @@
               label="联系人">
             </el-table-column>
             <el-table-column
-              prop="phone"
+              prop="customer_phone"
               label="联系电话">
             </el-table-column>
             <el-table-column
-              prop="creation_date"
+              prop="start_trial_date"
               label="创建日期">
             </el-table-column>
             <el-table-column
               fixed="right"
               label="操作">
               <template slot-scope="scope">
-                  <router-link to="/financemanagement/edit/9">
+                <!--创建-->
+                <template v-if="!scope.row.bill_id">
+                  <router-link  :to="'/financemanagement/createDiscount/?student='+scope.row.id">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
-              </router-link>
-              <router-link to="/financemanagement/dollar/9">
+                  </router-link>
+                  <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 grey"></i>
+                    </span>
+                </template>
+                <!--编辑-->
+                <template  v-if="scope.row.bill_id && scope.row.show_dollar">
+                  <router-link  :to="'/financemanagement/createDiscount/?id='+scope.row.bill_id+'&student='+scope.row.id">
+                    <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 orange"></i>
+                    </span>
+                  </router-link>
+                  <router-link :to="'/financemanagement/dollar/'+scope.row.bill_id">
                     <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
-              </router-link>
-            </template>
+                  </router-link>
+                </template>
+                <!-- 完成 -->
+                <template v-if="scope.row.bill_id && !scope.row.show_dollar">
+                  <span style="padding:0 20px;border-right:1px solid #e3e3e3">
+                        <i class="fa fa-pencil font-size-20 grey"></i>
+                    </span>
+                  <span style="padding:0 20px;">
+                        <i class="fa fa-dollar font-size-20 grey"></i>
+                    </span>
+                </template>
+              </template>
           </el-table-column>
         </el-table>
+          <el-pagination
+            background
+            layout="prev,pager, next, jumper"
+            next-text="下一页"
+            :page-size="pagesize"
+            :current-page="currentPage"
+            @current-change="handleCurrentChange"
+            :total="total" class="page">
+          </el-pagination>
       </div>
     </div>
   </div>
@@ -74,15 +107,24 @@
     data() {
       return {
         tableDate: [],
-        input: ''
+        input: '',
+        pagesize: 10,
+        currentPage: 1,
+        total: 1,
       };
     },
     mounted: function () {
-      this.getList();
+      this.getList(1);
+    },
+    watch: {
+      currentPage () {
+        this.getList(this.currentPage)
+      }
     },
     methods: {
-      getList: function () {
-        this.$axios.get('/api/student/student/student_list/', {
+      getList: function (val) {
+        this.currentPage = val
+        this.$axios.get('/api/student/student/student_list/?size=' + this.pagesize + '&page=' + this.currentPage, {
           params: {
             student_type: 'Potential',
             condition: this.input
@@ -90,6 +132,7 @@
         }).then(res => {
           if (res.status === 200 && res.data.status === 1) {
             this.tableDate = res.data.results.results
+            this.total = res.data.results.count
           }
         }).catch(err => {
           console.log(err)
@@ -97,7 +140,10 @@
       },
       editSchool: function (param, index) {
         this.$router.push('/financemanagement/billDetail');
-      }
+      },
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage
+      },
     }
   }
 </script>

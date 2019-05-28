@@ -85,8 +85,8 @@
           <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton(0)" style="padding: 15px;">&nbsp;&nbsp;新增班级类型</i>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="classManageVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveClassManage(0)">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="classManageVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveClassManage(0)">保 存</el-button>
         </span>
       </el-dialog>
 
@@ -124,8 +124,8 @@
           <i class="fa fa-plus-square" aria-hidden="true" @click="addClassButton(1)" style="padding: 15px;">&nbsp;&nbsp;新增年级类型</i>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="yearManageVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveClassManage(1)">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="yearManageVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveClassManage(1)">保 存</el-button>
         </span>
       </el-dialog>
 
@@ -146,17 +146,25 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="editbrandVisible = false">取 消</el-button>
-          <el-button class="bg-red white" v-if="editForm.id !== ''" @click="deleteBrandInfo(editForm.id)">删 除</el-button>
-          <el-button type="success" @click="saveBrand('editForm')">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="editbrandVisible = false">取 消</el-button>
+          <el-button class="bg-red white" v-if="editForm.id !== ''"
+                     @click="deleteBrandInfoVisible = true">删 除</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveBrand('editForm')">保 存</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog title="确认删除" :visible.sync="deleteBrandInfoVisible" width="400px">
+        <p class="mt26 text-align-center">确认删除？</p>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="bg-grey bd-grey white" @click="deleteBrandInfoVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="deleteBrandInfo">确 定</el-button>
         </span>
       </el-dialog>
 
       <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
         <p class="mt26 text-align-center">确认删除？</p>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="deleteVisible = false">取 消</el-button>
-          <el-button type="success" @click="sureDelete">确 定</el-button>
+          <el-button class="bg-grey bd-grey white" @click="deleteVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureDelete">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -305,6 +313,7 @@
     },
     data() {
       return {
+        deleteBrandInfoVisible:false,
         class_type:[],
         grade_type:[],
         brandName:'添加品牌',
@@ -501,15 +510,21 @@
           console.log(err)
         })
       },
-      deleteBrandInfo:function (brandId) {
+      deleteBrandInfo:function () {
         var _this = this;
         _this.loading = true;
-        var url = '/api/hq/hq/'+brandId+'/';
+        var url = '/api/hq/hq/'+this.editForm.id+'/';
         _this.$axios.delete(url).then(res=>{
           _this.loading = false;
           if(res.status == 204) {
             this.$message.success('删除成功');
             this.editbrandVisible = false;
+            this.deleteBrandInfoVisible = false;
+            this.getBrandList();
+          }else if(res.status == 200){
+            this.$message.warning('该品牌已经被使用不能被删除');
+            this.editbrandVisible = false;
+            this.deleteBrandInfoVisible = false;
             this.getBrandList();
           }
         }).catch(err=>{

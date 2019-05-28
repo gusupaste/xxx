@@ -9,18 +9,11 @@
           <img src="../../../assets/img/add.png" class="cur" @click="addDialog(0)">
           <p class="add_text cur">新增学年</p>
         </el-card>
-        <!--<el-card shadow="always">
-          <img src="../../../assets/img/add.png" class="cur" style="width: 70px" @click="addDialog(0)">
-          <p class="add_text cur">新增学年</p>
-          &lt;!&ndash;<div class="div-add-button" @click="addDialog(0)">
-            <br><span class="el-icon-circle-plus-outline"></span><p>新增学年</p>
-            </div>&ndash;&gt;
-        </el-card>-->
       </el-col>
       <el-col class="box-margin" :span="7" v-for="(item,index) in acad_yearlist" :key="index">
         <el-card shadow="always">
           <div class="div-box-term">
-            <p class="font-cl-blue">{{ item.start_year }} -- {{ item.end_year }}学年<i class="fa fa-pencil-square-o orange right" @click="addDialog(1,item)"></i></p>
+            <p class="font-cl-blue">{{ item.start_year }} -- {{ item.end_year }}学年<i class="fa fa-pencil-square-o orange right font-size-16" @click="addDialog(1,item)"></i></p>
             <p class="font-size-12">{{ item.total_year_range }}</p>
             <hr class="line-solid"/>
             <ul class="ul-color">
@@ -102,8 +95,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="canael">取 消</el-button>
-          <el-button type="success" @click="saveAcadYear('rulesForm')">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="canael">取 消</el-button>
+          <el-button type="success" class="bg-green bd-green white" @click="saveAcadYear('rulesForm')">保 存</el-button>
         </span>
     </el-dialog>
   </div>

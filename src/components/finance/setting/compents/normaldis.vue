@@ -3,7 +3,7 @@
     <div class="select-header" style="min-height: 35px;">
             <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
                 <i class="icon-font fa fa-calendar-plus-o"></i>
-                <span class="orange font-size-14">新增折扣类型</span>
+                <span class="font-cl-blue font-size-14">新增折扣类型</span>
             </span>
     </div>
     <el-table
@@ -40,7 +40,7 @@
     </el-table>
     <el-pagination
       background
-      layout="pager, next, jumper"
+      layout="prev,pager, next, jumper"
       next-text="下一页"
       :page-size="pagesize"
       :current-page="currentPage"
@@ -258,8 +258,8 @@
 
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="addDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveNormaldis">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="addDiscountVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveNormaldis">保 存</el-button>
         </span>
     </el-dialog>
   </div>
@@ -302,12 +302,7 @@
         exist_discount_type: [],
         name: '',
         tableForm: [],
-        roleList: [
-          {
-            id: 0,
-            name: '-请选择-'
-          }
-        ]
+        roleList: []
       }
     },
     mounted: function () {
@@ -316,14 +311,20 @@
     watch: {
       currentPage() {
         this.getUsualDiscountList(this.currentPage)
+      },
+      'searchSchool.intercity_id'() {
+          this.searchSchoolList()
+      },
+      'searchSchool.area_id'() {
+        this.searchSchoolList()
       }
     },
     methods: {
       /* 下拉框 城际列表 */
       getIntercity: function () {
-        this.$axios.get('/api/common/intercity/')
+        this.$axios.get('/api/common/select/intercity_list/')
           .then(res => {
-            this.intercityList = res.data.intercity_list
+            this.intercityList = res.data.results
           }).catch(err => {
 
         })
@@ -416,6 +417,8 @@
       },
       /* 弹框 新增.编辑 */
       addNewDiscount: function (flag) {
+        this.getIntercity()
+        this.getArea()
         this.getRoleList()
         this.exist_discount_type_value = []
         if (flag === 0) {
@@ -456,6 +459,12 @@
       getRoleList: function () {
         this.$axios.get('/api/user/get_roles/')
           .then(res => {
+            this.roleList = [
+              {
+                id: 0,
+                name: '-请选择-'
+              }
+            ]
             this.roleList = this.roleList.concat(res.data.data)
           }).catch(err => {
 

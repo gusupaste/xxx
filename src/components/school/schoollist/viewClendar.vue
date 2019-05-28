@@ -61,10 +61,9 @@ import Calendar from 'vue-calendar-component';
 export default {
     data(){
         return {
-            list:[1,2,3,4,5,6,7,8,9,10,11,12],
             name:this.$route.query.name,
             id:this.$route.query.id,
-            type:JSON.parse(this.$route.params.id),
+            type:this.$route.params.id,
             yearList:[],
             textTop:['Su','Mo','Tu','We','Th','Fr','Sa'],
             classTypeList:[],
@@ -75,34 +74,36 @@ export default {
     created () {
         this.getYear();
         this.getClass();  
+        // 改写插件方法
+        Calendar.methods.clickDay = function(item,index){
+            if (item.otherMonth === "nowMonth" && !item.dayHide) {
+                this.getList(this.myDate, item.date);
+            }
+        }
     },
     methods: {
         getYear(){
             var _this = this;
             this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
-                console.log(res.data)
                 _this.yearList = res.data.results;
                 _this.yearList.forEach(item => {
                     if(item.is_selected === 1){
                         _this.year = item.id;
                     }
                 });
-                _this.getCalendar();
             })
         },
         getClass(){
             var _this = this;
             this.$axios.get('/api/center/class/?center_id='+this.id)
             .then(res=>{
-                console.log(res.data)
                 _this.classTypeList = res.data.class_type_list;
             })
         },
         getCalendar(){
             var _this = this;
             _this.monthList = [];
-            console.log(this.year)
             this.$axios.get('/api/school_calendar/calendar/show_calendar_days/',{
                 params:{
                     center_id:this.id,
@@ -110,6 +111,7 @@ export default {
                     academic_year_id:this.year
                 }
             }).then(res=>{
+                console.log(res.data)
                 res.data.results.forEach(item=>{
                     var son = new Object;
                     son.time = item.year+'/'+item.month;
@@ -122,7 +124,6 @@ export default {
             })
         },
         initCalendar(){
-            console.log(this.monthList)
             this.monthList.forEach((item,index)=>{
                 this.$refs.Calendar[index].ChoseMonth(item.time,false)
             })

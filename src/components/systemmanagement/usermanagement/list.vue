@@ -4,7 +4,7 @@
       <p class="local_path_style">YOU ARE HERE : 系统管理 > <span class="font-cl-blue">用户管理</span></p>
     </div>
     <div class="header-top">
-      <p><span>角色：</span>
+      <p class="mb10"><span>角色：</span>
         <el-select v-model="value" @change="roleType" placeholder="请选择">
           <el-option
             v-for="item in options"
@@ -14,7 +14,7 @@
           </el-option>
         </el-select>
         <span class="padding-left-30">搜索：</span>
-        <el-input type="text" v-model="display_name" placeholder="请输入用户名"></el-input>
+        <el-input type="text" v-model="display_name" class="search_input" placeholder="请输入用户名"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getUserList(1)">搜索</el-button></span>
         <span class="right">
           <el-button class="orange" type="text" @click="addUser(0)">
@@ -62,7 +62,7 @@
       </el-table>
       <el-pagination
         background
-        layout="pager, next, jumper"
+        layout="prev,pager, next, jumper"
         next-text="下一页"
         :page-size="pagesize"
         :current-page="currentPage"
@@ -270,15 +270,6 @@
 
   .usermanagement >>> .el-dialog__footer {
     text-align: center;
-  }
-
-  .usermanagement >>> .el-input {
-    width: 145px;
-    height: 36px;
-  }
-
-  .usermanagement >>> .el-select {
-    margin-bottom: 10px;
   }
 
   .usermanagement .line-solid {

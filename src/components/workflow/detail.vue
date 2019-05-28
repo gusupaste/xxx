@@ -3,8 +3,8 @@
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 工作流 > <span class="font-cl-blue">审批详情</span></p>
     </div>
-    <p class="black mt26 clearfix" style="padding-bottom:15px;border-bottom:1px solid #bbb">
-      <span class="left"><span v-if="detilCode === 'RB'">折扣</span>申请学生：{{ student_name }}</span>
+    <p class="black mt26 clearfix" style="padding-bottom:15px;border-bottom:1px solid #bbb" v-if="detilCode === 'RB'">
+      <span class="left"><span>折扣</span>申请学生：{{ student_name }}</span>
       <span class="right ">
               <span>状态：</span>
               <span v-if="form_status === 0" class="orange">审批中</span>
@@ -29,14 +29,16 @@
       </el-col>
     </div>
     <div v-for="(item,index) in discount_form_item">
-      <div class="content-top">员工子女折扣</div>
+      <div class="content-top" v-if="detilCode === 'CPF'"><!--{{ item.discount_type__name }}-->制单信息（预制订单）</div>
+      <div class="content-top" v-if="detilCode === 'RB'">{{ item.discount_type__name }}</div>
+      <div class="content-top" v-if="detilCode === 'PRB' || detilCode === 'LB'">{{ item.application.application_name }}</div>
       <div class="clearfix">
         <el-col :span="24" class="card-type">
           <el-card shadow="always" class="clearfix">
             <p class="baseInfo">&nbsp;</p>
             <div style="width:90%" class="left">
-              <p class="" style="border-bottom:1px solid #bbb">
-                <!--<el-row :gutter="20">
+              <p style="border-bottom:1px solid #bbb" v-if="detilCode === 'RB'">
+                <!--<el-row :gutter="20" v-if="detilCode === 'PRB' || detilCode === 'LB'">
                   <el-col :span="5">
                     <div class="grid-content bg-purple">拟入学日期：{{ entry_date }}</div>
                   </el-col>
@@ -53,24 +55,103 @@
                       <span v-if="item.discount_type__condition_status === 1">元</span>
                       <span v-if="item.discount_type__condition_status === 0">%</span></div>
                   </el-col>
-                  <!--<el-col :span="5">
-                    <div class="grid-content bg-purple">应缴总额：{{ amount }}元</div>
-                  </el-col>
-                  <el-col :span="5">
-                    <div class="grid-content bg-purple">优惠金额：{{ amount - actual_amount }}元</div>
-                  </el-col>
-                  <el-col :span="5">
-                    <div class="grid-content bg-purple">折后总额：{{ actual_amount }}元</div>
-                  </el-col>-->
                 </el-row>
-                <el-row :gutter="20">
+                <el-row :gutter="20" v-if="detilCode === 'RB'">
                   <el-col :span="5">
                     <div class="grid-content bg-purple">备注：— —/03/01</div>
                   </el-col>
                 </el-row>
               </p>
-              <p>
+              <p style="border-bottom:1px solid #bbb;font-weight: bold;" v-if="detilCode === 'CPF'">
+                <el-row :gutter="24">
+                  <el-col :span="3">
+                    <div class="grid-content bg-purple">制单人：{{ item.creator }}</div></el-col>
+                  <el-col :span="3">
+                    <div class="grid-content bg-purple">制单日期：{{ item.billing_date }}</div>
+                  </el-col>
+                  <el-col :span="3">
+                    <div class="grid-content bg-purple">状态：{{ item.status }}</div>
+                  </el-col>
+                </el-row>
+              </p>
+              <p style="border-bottom:1px solid #bbb" v-if="detilCode === 'CPF'">
                 <el-row :gutter="20">
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">账单编号：{{ item.bill_no }}</div></el-col>
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">应缴金额：{{ item.amount }}</div>
+                  </el-col>
+                  <!--<el-col :span="8">
+                    <div class="grid-content bg-purple">账单余额：{{ item.student.student_class }}</div>
+                  </el-col>-->
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">学生姓名：{{ item.student_name }}</div></el-col>
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">所在校园：{{ item.center_name }}</div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="grid-content bg-purple">所在班级：{{ item.klass_name }}</div>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">入学日期：{{ item.enter_date }}</div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">缴费账单：{{ item.klass_year }}</div>
+                  </el-col>
+                  <el-col :span="8">
+                    <div class="grid-content bg-purple">费用缴费日期：{{ item.planned_payment_date }}</div></el-col>
+                </el-row>
+              </p>
+              <p style="border-bottom:1px solid #bbb;font-weight: bold;" v-if="detilCode === 'PRB' || detilCode === 'LB'">
+                <el-row :gutter="24" v-if="detilCode === 'PRB' || detilCode === 'LB'">
+                  <el-col :span="3">
+                    <div class="grid-content bg-purple">制单人：{{ item.bill.creator_name }}</div></el-col>
+                  <el-col :span="3">
+                    <div class="grid-content bg-purple">制单日期：{{ item.application.create_date }}</div>
+                  </el-col>
+                  <el-col :span="3">
+                    <div class="grid-content bg-purple">状态：{{ item.bill.status }}</div>
+                  </el-col>
+                </el-row>
+              </p>
+              <p style="border-bottom:1px solid #bbb" v-if="detilCode === 'PRB' || detilCode === 'LB'">
+                <el-row :gutter="20">
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">学生姓名：{{ item.student.name }}</div></el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">学号：{{ item.student.student_no }}</div>
+                  </el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">所在班级：{{ item.student.student_class }}</div>
+                  </el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">学生当前状态：{{ item.student.status_str }}</div>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">最后出勤日期：{{ item.application.effective_date }}</div></el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">申请退费日期：{{ item.application.create_date }}</div>
+                  </el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">学年：{{ item.application.academic_year }}</div>
+                  </el-col>
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">单据申请信息：{{ item.application.application_name }}</div>
+                  </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="5">
+                    <div class="grid-content bg-purple">离园原因：{{ item.bill.leave_reason }}</div></el-col>
+                </el-row>
+              </p>
+              <p>
+                <el-row :gutter="20" v-if="detilCode === 'RB'">
                   <el-col :span="5">
                     <div class="grid-content bg-purple">相关附件：</div>
                   </el-col>
@@ -92,8 +173,8 @@
           <div style="width:90%" class="left">
             <p class="" style="border-bottom:1px solid #bbb">
               <el-row :gutter="20">
-                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：{{ amount }}元</div></el-col>
-                <el-col :span="5"><div class="grid-content bg-purple">优惠金额：{{ amount - actual_amount }}元</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">应缴总额：{{ price }}元</div></el-col>
+                <el-col :span="5"><div class="grid-content bg-purple">优惠金额：{{ amount }}元</div></el-col>
                 <el-col :span="5"><div class="grid-content bg-purple">折后总额：{{ actual_amount }}元</div></el-col>
               </el-row>
             </p>
@@ -251,7 +332,7 @@
       return {
         detilCode:this.$route.query.formKindCode,
         status: Number(this.$route.query.status),
-        formId: Number(this.$route.query.formId),
+        formId: this.$route.query.formId,
         formKindId: Number(this.$route.query.formKindId),
         approveLevel: Number(this.$route.query.approveLevel),
         form_status: 0,
@@ -277,15 +358,46 @@
         policy:'',
         subject:'',
         price:'',
+        amount:'',
       }
     },
     mounted: function () {
       this.getDetail();
-      if(this.detilCode === 'RB'){
+      if(this.detilCode === 'RB'){//RB 折扣
         this.getDiscount();
+      }else if(this.detilCode === 'PRB'){//PRB 预备生离园退费
+        this.getPRBDiscount();
+      }else if(this.detilCode === 'LB'){//LB 在校生离园退费
+        this.getPRBDiscount();
+      }
+      else if(this.detilCode === 'CPF'){//CPF 账单制作
+        this.getCPFDiscount();
       }
     },
     methods: {
+      /*账单*/
+      getCPFDiscount:function () {
+        var _this = this;
+        this.loading = true
+        var url = '/api/finance/bill/'+this.formId+'/pay_all/';
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200) {
+            this.discount_form_item = [];
+            this.discount_form_item.push(res.data.bill_info);
+            /*this.student_name = res.data.data.student_name;
+            this.amount = res.data.data.amount;
+            this.actual_amount = res.data.data.actual_amount;
+            this.prepare_pay_date = res.data.data.prepare_pay_date;
+            this.entry_date = res.data.data.entry_date;
+            this.policy = res.data.data.policy;
+            this.subject = res.data.data.subject;
+            this.price = res.data.data.price;*/
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
       /*折扣*/
       getDiscount:function () {
         var _this = this;
@@ -294,21 +406,21 @@
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200 && res.data.status_code == 1) {
+            this.discount_form_item = res.data.data.discount_form_item;
             this.student_name = res.data.data.student_name;
             this.amount = res.data.data.amount;
             this.actual_amount = res.data.data.actual_amount;
             this.prepare_pay_date = res.data.data.prepare_pay_date;
             this.entry_date = res.data.data.entry_date;
-            this.discount_form_item = res.data.data.discount_form_item;
             this.policy = res.data.data.policy;
             this.subject = res.data.data.subject;
             this.price = res.data.data.price;
-            /*this.tableData = res.data.data.form_approve_data;*/
           }
         }).catch(err => {
           console.log(err)
         })
       },
+
       getDetail: function () {
         var url = ''
         if (this.status === 0) {
@@ -351,7 +463,22 @@
       },
       back: function () {
         this.$router.push({name: 'workflowList'})
-      }
+      },
+      /*在校生、预备生离园退费*/
+      getPRBDiscount:function () {
+        var _this = this;
+        this.loading = true
+        var url = '/api/finance/refund/'+this.formId+'/';
+        _this.$axios.get(url).then(res=>{
+          _this.loading = false;
+          if(res.status == 200 && res.data.status == 1) {
+            this.discount_form_item = [];
+            this.discount_form_item.push(res.data.data);
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
     }
   }
 </script>

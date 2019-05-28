@@ -113,8 +113,8 @@
             <div style="width:90%" class="left">
               <p class="" style="border-bottom:1px solid #bbb">
                 <el-row :gutter="20">
-                  <el-col :span="5"><div class="grid-content bg-purple">应缴总额：{{ amount }}元</div></el-col>
-                  <el-col :span="5"><div class="grid-content bg-purple">优惠金额：{{ amount - actual_amount }}元</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">应缴总额：{{ price }}元</div></el-col>
+                  <el-col :span="5"><div class="grid-content bg-purple">优惠金额：{{ amount }}元</div></el-col>
                   <el-col :span="5"><div class="grid-content bg-purple">折后总额：{{ actual_amount }}元</div></el-col>
                 </el-row>
               </p>

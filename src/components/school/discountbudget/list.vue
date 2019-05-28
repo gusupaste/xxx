@@ -2,7 +2,7 @@
   <div class='discountbudget wrap'>
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : 校园 > <span class="font-cl-blue">校园折扣预算</span></p>
-      <p class="mt10" style="line-height:45px">
+      <p class="mt10">
         <span>城际：</span>
         <el-select v-model="form.intercity_id" placeholder="请选择">
           <el-option value="" label="所有"></el-option>
@@ -92,7 +92,7 @@
       <el-pagination
         background
         @current-change="changePage"
-        layout="pager, next, jumper"
+        layout="prev,pager, next, jumper"
         prev-text="上一页"
         next-text="下一页"
         :page-size="10"
@@ -124,7 +124,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer text-align-center">
           <el-button class="bg-grey white bd-grey" @click="editDiscount = false">取 消</el-button>
-          <el-button type="success" @click="saveInfo('editForm')">保 存</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveInfo('editForm')">保 存</el-button>
         </span>
     </el-dialog>
   </div>

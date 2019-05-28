@@ -181,8 +181,8 @@
             </el-form-item>
           </div>
           <div class="mt26 text-align-center">
-            <el-button type="info" @click="$router.go(-1)">取消</el-button>
-            <el-button type="success" @click="submitForm('formInline')">保存</el-button>
+            <el-button class="bg-grey bd-grey white" type="info" @click="$router.go(-1)">取消</el-button>
+            <el-button class="bg-green bd-green white" type="success" @click="submitForm('formInline')">保存</el-button>
           </div>
       </div>
     </div>
@@ -379,9 +379,9 @@
         this.$axios.get('/api/center/center/'+this.school_id+'/view_detail/',{
         }).then(res=>{
           _this.formInline = res.data.detail;
-          _this.formInline.town_id = _this.formInline.town_id-0;
-          _this.formInline.owner_type = _this.formInline.owner_type-0;
-          _this.formInline.built_up_type = _this.formInline.built_up_type-0;
+          _this.formInline.town_id = _this.formInline.town_id;
+          _this.formInline.owner_type = _this.formInline.owner_type;
+          _this.formInline.built_up_type = _this.formInline.built_up_type;
           _this.formInline.telephone = _this.formInline.telephone-0;
           console.log(_this.formInline)
         }).catch(err=>{

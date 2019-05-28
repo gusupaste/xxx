@@ -41,7 +41,7 @@
             </el-table-column>
         </el-table>
         <p style="line-height: 35px;">
-          <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
+          <el-button type="text" class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
             <i class="el-icon-circle-plus font-size-14 cur">添加/编辑医疗病史</i>
           </el-button>
         </p>
@@ -74,8 +74,8 @@
       <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
         <p class="mt26 text-align-center">确认删除该条记录？</p>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="deleteVisible = false">取 消</el-button>
-          <el-button type="success" @click="deleteMed">确 定</el-button>
+          <el-button class="bg-grey bd-grey white" @click="deleteVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="deleteMed">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -144,6 +144,9 @@ export default {
       }
     },
     watch:{
+      'ruleForm.doctor_phone':function(){
+        this.ruleForm.doctor_phone = this.ruleForm.doctor_phone.replace(/[^\d]/g, '');
+      },
       activeName: {
         handler(newValue, oldValue) {
           if(newValue === 'fourth'){

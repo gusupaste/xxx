@@ -73,7 +73,7 @@ export default {
   data(){
     return {
          activeName: 'first',
-         klass_url:'/api/common/select/class_list/?center_id=3',/*班级*/
+         klass_url:'/api/common/select/class_list/',/*班级*/
          student_url:'/api/student/student/student_list/',/*学生*/
          year_url:'/api/common/select/academic_year_list/',/*学年*/
          class_list:[],
@@ -148,6 +148,9 @@ export default {
       }).then(res=>{
         if(res.status == 200 && res.data.status == 1) {
           this.student_list = res.data.results.results;
+          for(var x in this.student_list){
+            this.student_list[x].selectType = '';
+          }
         }
       }).catch(err=>{
         console.log(err)

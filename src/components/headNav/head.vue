@@ -53,8 +53,7 @@
               <el-menu-item v-if="permission['finance']['payment-processing-campus']" index="/financemanagement/paymentprocessing" route="/financemanagement/paymentprocessing">缴费处理</el-menu-item>
               <el-menu-item v-if="permission['finance']['refund-account']" index="/financemanagement/refund" route="/financemanagement/refund">退费账单</el-menu-item>
               <el-menu-item v-if="permission['finance']['discount-application']" index="/financemanagement/discountApplication" route="/financemanagement/discountApplication">折扣申请</el-menu-item>
-              <el-menu-item v-if="permission['finance']['reserve-fund-management-hq']" index="/financemanagement/reservefund" route="/financemanagement/reservefund">备用金管理</el-menu-item>
-              <el-menu-item v-if="permission['finance']['reserve-fund-management-campus']" index="/financemanagement/reservefund-school" route="/financemanagement/reservefund-school">备用金管理</el-menu-item>
+              <el-menu-item index="/financemanagement/reservefund" route="/financemanagement/reservefund">备用金管理</el-menu-item>
               <el-menu-item v-if="permission['finance']['student-discount']" index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
               <el-menu-item v-if="permission['finance']['parent-business-application-inquiry']" index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
               <el-menu-item v-if="permission['finance']['financial-setup']" index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
@@ -99,7 +98,19 @@ export default {
     return {
       active:"",
       name:'',
-      permission:{}
+      permission:{
+        'campus':{},
+        'enrollment-management':{},
+        'student-management':{},
+        'finance':{},
+        'student-attendance-campus':{},
+        'parent-information':{},
+        'school-calendar':{},
+        'student-archives':{},
+        'student-attendance-hq':{},
+        'system-management':{},
+        'workflow':{},
+      }
     }
   },
   created(){

@@ -266,8 +266,8 @@
         <span>是否确定要<span>{{title}}</span>此业务申请？</span>
       </div>
       <span slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="canceldialog = false">取 消</el-button>
-          <el-button type="success" @click="sureChangeStatus">确 定</el-button>
+          <el-button class="bg-grey bd-grey white" @click="canceldialog = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureChangeStatus">确 定</el-button>
         </span>
     </el-dialog>
   </div>
@@ -437,6 +437,7 @@
 
 <style scoped>
   .parentbusinessapplication {
+    color: rgba(160, 160, 160, 1);
     text-align: left;
   }
 

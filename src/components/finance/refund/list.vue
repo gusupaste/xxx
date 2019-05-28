@@ -4,131 +4,173 @@
       <p class="local_path_style">YOU ARE HERE : 财务处理 > <span class="font-cl-blue">退费账单</span></p>
     </div>
     <div class="content">
-      <div class="select-header">
-        <span>城际：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <span style="margin-left: 10px">区域：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <span style="margin-left: 10px">校园：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <span style="margin-left: 10px">学年：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <span style="margin-left: 10px">班级：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <span style="margin-left: 10px">账单类型：</span>
-        <el-select v-model="nameSelect" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </div>
-      <div class="select-header">
-        <span>开始日期</span>
-        <el-date-picker
-          v-model="value1"
-          type="date"
-          placeholder="选择日期">
-        </el-date-picker>
-        <span style="margin-left: 20px">结束日期</span>
-        <el-date-picker
-          v-model="value2"
-          type="date"
-          placeholder="选择日期">
-        </el-date-picker>
-        <span style="margin-left: 20px">学生信息</span>
-        <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" style="width: 25%;"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="searchList">搜索</el-button></span>
-      </div>
-      <div class="list-content">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-          <el-menu-item index="1" style="margin-left: -250px;">审核通过</el-menu-item>
-          <el-menu-item index="2">审核中</el-menu-item>
-          <el-menu-item index="3">被驳回</el-menu-item>
-        </el-menu>
+      <el-form inline :model="searchform" class="mt10 mb10">
+        <el-form-item label="城际：">
+            <el-select v-model="searchform.intercity_id" placeholder="请选择">
+              <el-option label="所有" value=""></el-option>
+              <el-option
+                v-for="item in intercityList"
+                :key="item.id"
+                :label="item.dept_name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="区域：">
+            <el-select v-model="searchform.area_id" placeholder="请选择">
+            <el-option value="" label="所有"></el-option>
+            <el-option
+              v-for="item in areaList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="省市：">
+            <el-select v-model="searchform.province_id" placeholder="请选择">
+              <el-option value="" label="所有"></el-option>
+              <el-option
+                v-for="item in cityList"
+                :key="item.city_id"
+                :label="item.city_name"
+                :value="item.city_id">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="品牌：">
+            <el-select v-model="searchform.hq_id" placeholder="请选择">
+            <el-option value="" label="所有"></el-option>
+            <el-option
+              v-for="item in brandList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="校园：">
+            <el-select v-model="searchform.center_id" placeholder="请选择">
+            <el-option value="" label="所有"></el-option>
+            <el-option
+              v-for="item in schoolList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="学年：">
+            <el-select v-model="searchform.academic_year_id" placeholder="请选择">
+              <el-option value="" label="所有"></el-option>
+              <el-option
+                v-for="item in yearList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="班级：">
+            <el-select v-model="searchform.class_id" placeholder="请选择">
+            <el-option value="" label="所有"></el-option>
+            <el-option
+              v-for="item in classList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="账单类型：">
+            <el-select v-model="searchform.bill_type_id" placeholder="请选择">
+              <el-option value="" label="所有"></el-option>
+              <el-option
+                v-for="item in billType"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="起止日期：">
+            <el-date-picker
+              v-model="searchform.date_from"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+        </el-form-item>
+        <el-form-item label="搜索：">
+            <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+            <el-button type="primary" @click="searchList(1);">搜索</el-button>
+        </el-form-item>
+      </el-form>
+      <div class="list-content mt20">
+        <el-tabs v-model="status" @tab-click="handleClick">
+          <el-tab-pane label="已批准" name="1"></el-tab-pane>
+          <el-tab-pane label="待审批" name="2"></el-tab-pane>
+          <el-tab-pane label="已拒绝" name="3"></el-tab-pane>
+        </el-tabs>
         <el-table
-          :data="chargeTableDate"
+          :data="countList"
           border
           stripe
           show-header
           style="width: 100%;margin-top: 10px;">
           <el-table-column
-            prop="code"
+            prop="bill_no"
             label="账单号"
             width="150">
           </el-table-column>
           <el-table-column
-            prop="name"
-            label="学生姓名"
-            width="130">
+            prop="billing_date"
+            label="日期">
           </el-table-column>
           <el-table-column
-            prop="intercity_name"
-            label="所在班级"
-            width="130">
-          </el-table-column>
-          <el-table-column
-            prop="hq_name"
+            prop="bill_type_str"
             label="账单类型"
             width="130">
           </el-table-column>
           <el-table-column
-            prop="opening_date"
-            label="实际应收"
+            prop="student_name"
+            label="学生姓名"
             width="130">
           </el-table-column>
           <el-table-column
-            prop="leader"
-            label="实际实收"
+            prop="student_no"
+            label="学号"
             width="130">
           </el-table-column>
           <el-table-column
-            prop="telephone"
+            prop="klass"
+            label="所在班级"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="refund_amount"
+            label="实退金额"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="creator_name"
             label="制单人"
             width="130">
           </el-table-column>
-          <el-table-column
-            prop="status_name"
-            label="制单日期">
-          </el-table-column>
+          
         </el-table>
+        <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          :current-page="searchform.page"
+          :page-size="10"
+          @current-change="changePage"
+          :total="count">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -138,96 +180,298 @@
   export default {
     data() {
       return {
-        nameSelect:[],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        value1:'',
-        value2:'',
-        input:'',
-        activeIndex:'1',
-        chargeTableDate:[
+        searchform: {
+          intercity_id: '',
+          area_id: '',
+          province_id: '',
+          hq_id: '',
+          center_id: '',
+          academic_year_id: '',
+          date_from: '',
+          date_to: '',
+          class_id: '',
+          bill_type_id: '',
+          search_str: '',
+          page: 1,
+          size: 10,
+          status: '已批准'
+        },
+        status: '1',
+        count: 1,
+        count2: 1,
+        billType: [
           {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
+            id: 0,
+            name: "入园账单"
           },
           {
-            code:'xxxxxxxxxxxx',
-            name:'31231231',
-            intercity_name:'312313',
-            hq_name:'31231',
-            opening_date:'31231',
-            leader:'31231',
-            telephone:'312312',
-            status_name:'12312313',
-          }
-        ]
+            id: 1,
+            name: "系统备用金结转账单"
+          },
+          {
+            id: 2,
+            name: "转班补交账单"
+          },
+          {
+            id: 3,
+            name: "离园账单"
+          },
+          {
+            id: 4,
+            name: "预备生离园账单"
+          },
+          {
+            id: 5,
+            name: "终止服务账单"
+          },
+          {
+            id: 6,
+            name: "推迟入园账单"
+          },
+          {
+            id: 7,
+            name: "应该是提前入园账单"
+          },
+          {
+            id: 8,
+            name: "否决账单"
+          },
+
+        ],
+        activeName: 'first',
+        chargeTableDate: [],
+        areaList: [],
+        yearList: [],
+        intercityList: [],
+        brandList: [],
+        cityList: [],
+        schoolList: [],
+        classList: [],
+        countList: [],
+        pendingcountList: [],
       };
     },
+    created() {
+      this.getArea();
+      this.getYear();
+      this.getIntercity();
+      this.getBrand();
+      this.getcity_list();
+      this.getSchool();
+
+    },
     methods: {
-      handleClose (){
+      handleClose() {
 
       },
-      searchList: function() {
+      handleClick(tab, event) {
+        this.searchform.status = tab.label;
+        this.searchList(1);
+      },
+      getSchool() {
+        var _this = this;
+        this.$axios.get('/api/common/select/center_list/', {
+          params: {
+            area_id: _this.searchform.area_id,
+            hq_id: _this.searchform.hq_id,
+            intercity_id: _this.searchform.intercity_id,
+            province_id: _this.searchform.province_id,
+          }
+        })
+          .then(res => {
+            _this.schoolList = res.data.results;
+            _this.getClass();
+          });
+      },
+      getcity_list() {
+        var _this = this;
+        this.$axios.get('/api/common/select/city_list/', {
+          params: {
+            area_id: _this.searchform.area_id
+          }
+        }).then(res => {
+          _this.cityList = res.data.results;
+        }).catch(err => {
+        })
+      },
+      getBrand() {
+        var _this = this;
+        _this.$axios.get('/api/common/select/hq_list/',)
+          .then(res => {
+            _this.brandList = res.data.results;
+          }).catch(err => {
+        })
+      },
+      changePage(val) {
+        this.searchList(val);
+      },
+      getIntercity() {
+        var _this = this;
+        this.$axios.get('/api/common/intercity/',).then(res => {
+          _this.intercityList = res.data.intercity_list;
+          // _this.form.intercity_id = res.data.intercity_list[0].id;
+        }).catch(err => {
+        })
+      },
+      getArea() {
+        var _this = this;
+        _this.$axios.get('/api/common/select/area_list/',)
+          .then(res => {
+            _this.areaList = res.data.results;
+          }).catch(err => {
+        })
+      },
+      getYear() {
+        var _this = this;
+        this.$axios.get('/api/common/select/academic_year_list/')
+          .then(res => {
+            _this.yearList = res.data.results;
+            _this.yearList.forEach(item => {
+              if (item.is_selected === 1) {
+                _this.academic_year_id = item.id;
+              }
+            });
+          })
+      },
+      getClass() {
+        var _this = this;
+        var class_list = [];
+        this.schoolList.forEach(item => {
+          class_list.push(item.id)
+        })
+        this.$axios.get('/api/common/select/all_class_list/', {
+          params: {
+            center_li: JSON.stringify(class_list)
+          }
+        })
+          .then(res => {
+            _this.classList = res.data.results;
+            _this.searchList(1);
+          })
+      },
+      searchList(val) {
+        var _this = this;
+        var class_list = [];
+        if (this.searchform.class_id == "") {
+          this.classList.forEach(item => {
+            class_list.push(item.id)
+          })
+        } else {
+          class_list.push(this.searchform.class_id)
+        }
 
+        this.searchform.page = val;
+        this.$axios.post('/api/finance/refund/refund_list/', {
+            academic_year_id: this.searchform.academic_year_id,
+            bill_type_id: this.searchform.bill_type_id,
+            search_str: this.searchform.search_str,
+            start_date: this.searchform.date_from[0],
+            end_date: this.searchform.date_from[1],
+            class_li: JSON.stringify(class_list),
+            page: this.searchform.page,
+            status: this.searchform.status,
+            size: 10,
+        }).then(res => {
+          _this.countList = res.data.results;
+          _this.count = res.data.count;
+        })
+      },
+      editSchool(param, index) {
+        this.$router.push('/financemanagement/billDetail');
       }
+    },
+    watch: {
+      'searchform.area_id'() {
+        this.getcity_list();
+        this.searchform.center_id = "";
+        this.searchform.province_id = "";
+      },
+      'searchform.intercity_id'() {
+        this.getSchool();
+        this.searchform.center_id = "";
+      },
+      'searchform.hq_id'() {
+        this.getSchool();
+        this.searchform.center_id = "";
+      },
+      'searchform.area_id'() {
+        this.getcity_list();
+        this.getSchool();
+        this.searchform.province_id = "";
+        this.searchform.center_id = "";
+      },
+      'searchform.province_id'() {
+        this.getSchool();
+        this.searchform.center_id = "";
+      },
+      'searchform.center_id'() {
+        this.getClass();
+        this.searchform.class_id = "";
+      },
     }
   }
 </script>
 
 <style scoped>
-  .refundlist{
+  .refundlist {
     color: rgba(160, 160, 160, 1);
     text-align: left;
   }
-  .refundlist .bold{
+
+  .refundlist .bold {
     font-weight: bold;
     color: black;
   }
-  .refundlist .select-header,.refundlist .list-content{
+
+  .refundlist .select-header, .refundlist .list-content {
     width: 100%;
     min-height: 50px;
-    margin-top: 20px;
   }
-  .refundlist >>> .el-select{
-    width: 10%;
-  }
-  .refundlist >>> .list-content .el-menu--horizontal>.el-menu-item{
-    float: none;
+
+  .refundlist >>> .el-tabs__item {
     width: 150px;
-    display: inline-block;
     text-align: center;
   }
-  .refundlist >>> .el-menu--horizontal>.el-menu-item.is-active{
+
+  .refundlist >>> .el-tabs__item.is-active {
+    color: #ED6C2E;
     border-bottom: 2px solid #ED6C2E !important;
+  }
+
+  .refundlist >>> .el-table td, .el-table th {
+    text-align: center;
+  }
+
+  .refundlist >>> .el-tabs__active-bar {
+    background-color: #ED6C2E;
+    width: 0px !important;
+  }
+
+  .refundlist >>> .el-tabs__item:hover {
     color: #ED6C2E;
   }
-  .refundlist >>> .el-menu.el-menu--horizontal{
-    padding-left: 50%;
+
+  .refundlist >>> .el-tabs__item {
+    padding: 0 0 !important;
   }
-  .refundlist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell{
+
+  .refundlist >>> .el-tabs__nav-scroll {
+    padding-left: 33%;
+  }
+
+  .refundlist >>> #tab-first {
+    margin-left: -150px;
+  }
+
+  .refundlist .el-tabs__active-bar is-top {
+    width: 0px !important;
+  }
+
+  .refundlist >>> .el-tabs__nav-wrap {
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .refundlist >>> .el-table .cell, .el-table th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
     text-align: center !important;
-  }
-  .refundlist >>> .el-input__inner {
-    width: -webkit-fill-available;
   }
 </style>

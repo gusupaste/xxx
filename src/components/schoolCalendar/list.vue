@@ -96,7 +96,9 @@ export default {
             this.$axios.get('/api/center/class/?center_id='+this.center.id)
             .then(res=>{
                 _this.classTypeList = res.data.class_type_list;
-                _this.type = res.data.class_type_list[0].id;
+                if(res.data.class_type_list.length > 0){
+                    _this.type = res.data.class_type_list[0].id;
+                }
                 _this.getYear();
             })
         },

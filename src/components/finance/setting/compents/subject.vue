@@ -2,13 +2,13 @@
     <div>
         <div class="select-header">
             <span>科目属性：</span>
-            <el-select v-model="searchForm.type" placeholder="--请选择--" style="width: 20%;">
+            <el-select v-model="searchForm.type" placeholder="--请选择--">
                 <el-option label="所有" value=""></el-option>
                 <el-option value="0" label="非普惠"></el-option>
                 <el-option value="1" label="普惠"></el-option>
             </el-select>
             <span class="ml20">搜索科目：</span>
-            <el-input v-model="searchForm.condition" placeholder="输入科目编码或名称" style="width: 25%;"></el-input>
+            <el-input v-model="searchForm.condition" placeholder="输入科目编码或名称" class="search_input"></el-input>
             <span class="padding-left-30">
                 <el-button type="primary" @click="searchList(1)">搜索</el-button>
             </span>
@@ -61,7 +61,7 @@
                 @current-change="changePage"
                 :page-size="10"
                 :current-page="searchForm.page"
-                layout="prev, pager, next"
+                layout="prev,pager, next, jumper"
                 :total="count">
             </el-pagination>
             <!-- 新增费用科目 -->
@@ -182,7 +182,7 @@
                 </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button class="bg-grey white bd-grey" @click="addFeeVisible = false">取 消</el-button>
-          <el-button type="success" @click="addSubject('editform')">保 存</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="addSubject('editform')">保 存</el-button>
         </span>
       </el-dialog>
         <!-- 编辑费用科目 -->
@@ -442,7 +442,7 @@ export default {
                     _this.toggleSelection(xxx);
                 })
             });
-            
+
         },
         addSubject(formName){
             console.log(this.editform)

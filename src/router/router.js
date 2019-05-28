@@ -68,9 +68,7 @@ import DiscountPass from '@/components/finance/discount/pass'
 import DiscountApproval from '@/components/finance/discount/approval'
 import DiscountDismissed from '@/components/finance/discount/dismissed'
 import Reservefund from '@/components/finance/reservefund/list'
-import ReservefundSchool from '@/components/finance/reserveFundSchool/list'
-import CreateReserveSchoolFund from '@/components/finance/reserveFundSchool/createReserve'
-import CreateReserveSchool from '@/components/finance/reserveFundSchool/createReserveFund'
+import createReservefund from '@/components/finance/reserveFund/createReserveFund'
 import Parentbusinessapplication from '@/components/finance/parentbusinessapplication/list'
 import DiscountApplication from '@/components/finance/discountApplication/list'
 import AdddiscountApplication from '@/components/finance/discountApplication/add'
@@ -418,19 +416,9 @@ export default new Router({
           component: Reservefund
         },
         {
-          path: '/financemanagement/reservefund-school',
-          name: 'ReservefundSchool',
-          component: ReservefundSchool
-        },
-        {
-          path: '/financemanagement/create-reserve',
-          name: 'CreateReserveSchool',
-          component: CreateReserveSchool
-        },
-        {
-          path: '/financemanagement/create-reservefund',
-          name: 'CreateReserveSchoolFund',
-          component: CreateReserveSchoolFund
+          path: '/financemanagement/create-reserve/:status',
+          name: 'createReservefund',
+          component: createReservefund
         },
         {
           path: '/financemanagement/parentbusinessapplication',
@@ -478,7 +466,7 @@ export default new Router({
           component: Setting
         },
         {
-          path: '/financemanagement/refund-config/:type/:center_id/:year/',
+          path: '/financemanagement/refund-config/:type/:center_id/:year/:year_name/:school',
           name: 'RefundConfig',
           component: RefundConfig
         },

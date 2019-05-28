@@ -126,7 +126,7 @@
             :current-page="searchform.page"
             @current-change="handleCurrentChange"
             :page-size="10"
-            layout="prev, pager, next,jumper"
+            layout="prev,pager, next, jumper"
             :total="count">
         </el-pagination>
     </div>

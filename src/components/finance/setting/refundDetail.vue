@@ -3,10 +3,10 @@
       <div class="header">
         <p class="local_path_style">YOU ARE HERE : 财务处理 > 财务设置 > <span class="font-cl-blue">配置退费规则</span></p>
       </div>
-        <p class="title" v-if="$route.params.type === 'edit'">合肥用龙湾幼儿园</p>
+        <p class="title" v-if="$route.params.type === 'edit'">{{ $route.params.school }}</p>
         <div class="select-header select-length" style="line-height:45px;margin-top: 10px;">
           <div v-if="$route.params.type === 'edit'">
-            <span>学年：</span>
+            <span>学年：{{ $route.params.year_name }}</span>
           </div>
           <div v-if="$route.params.type === 'add'">
             <span>学校：</span>
@@ -45,7 +45,9 @@
                 <td rowspan="4" colspan="2" style="width:60px">退费</td>
                 <td colspan="3" style="">
                   已领物品，是否减物品费用&nbsp;&nbsp;&nbsp;
-                  <el-input type="text" v-model="saveForm.goods_fee"></el-input>&nbsp;&nbsp;元
+                  <!--<el-input type="text" v-model="saveForm.goods_fee"></el-input>&nbsp;&nbsp;元-->
+                  <el-radio v-model="saveForm.goods_fee" :label="false">否</el-radio>
+                  <el-radio v-model="saveForm.goods_fee" :label="true">是</el-radio>
                 </td>
               </tr>
               <tr>
@@ -58,7 +60,7 @@
                 <td rowspan="2" width="100">总部非外籍子女</td>
                 <td colspan="2">
                   按时提交申请，退
-                  <el-input type="text" v-model="saveForm.on_schedule_per"></el-input> %
+                  <el-input type="text" v-model="saveForm.on_schedule_per5"></el-input> %
                 </td>
               </tr>
               <tr>
@@ -89,20 +91,22 @@
                 </td>
               </tr>
               <tr>
-                <td :rowspan="16 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">在校生</td>
-                <td :rowspan="9 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">学费</td>
+                <td :rowspan="15 + saveForm.month_pay2.length" width="90">在校生</td>
+                <td :rowspan="8 + saveForm.month_pay2.length" width="90">学费</td>
+                <!--<td :rowspan="16 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">在校生</td>
+                <td :rowspan="9 + saveForm.month_pay.length + saveForm.month_pay2.length" width="90">学费</td>-->
                 <td width="90">转班</td>
                 <td colspan="3">多退少补</td>
               </tr>
               <tr>
-                <td :rowspan="saveForm.month_pay.length + 5" width="90">退学</td>
-                <td :rowspan="saveForm.month_pay.length + 2" width="100">月缴</td>
+                <td :rowspan="4" width="90">退学</td>
+                <!--<td :rowspan="saveForm.month_pay.length + 2" width="100">月缴</td>-->
                 <td colspan="2">
                   行政手续费
                   <el-input type="text" v-model="saveForm.handling_fee"></el-input> 元
                 </td>
               </tr>
-              <tr v-for="(oth,ind) in saveForm.month_pay">
+              <!--<tr v-for="(oth,ind) in saveForm.month_pay">
                 <td colspan="2">
                   <el-select v-model="oth.specific_month" placeholder="请选择">
                     <el-option key="0" label="当月" value="0"></el-option>
@@ -135,12 +139,12 @@
                   剩余月退
                   <el-input type="text" v-model="oth.other_month_refund_per"></el-input> %，
                 </td>
-              </tr>
-              <tr>
+              </tr>-->
+              <!--<tr>
                 <td colspan="2">
                   <i class="el-icon-circle-plus orange cur" @click="addTr(1)">添加判定条件</i>
                 </td>
-              </tr>
+              </tr>-->
               <tr>
                 <td rowspan="" width="100">学期缴</td>
                 <td colspan="2">
@@ -152,7 +156,7 @@
                     <el-option value="大于等于"></el-option>
                   </el-select>-->大于等于
                   <span>{{ saveForm.number_of_month }}</span>
-                  个月时，学期优惠价格转月缴
+                  个月时，学期优惠价格转缺勤
                 </td>
               </tr>
               <!--<tr>
@@ -177,7 +181,7 @@
                     <el-option value="大于等于"></el-option>
                   </el-select>-->大于等于
                   <span>{{ saveForm.number_of_month2 }}</span>
-                  个月时，学期优惠价格转月缴
+                  个月时，学期优惠价格转缺勤
                 </td>
               </tr>
               <!--<tr>
@@ -246,7 +250,8 @@
                   时，转备用金
                   <el-input type="text" v-model="con.reserve_fund_per"></el-input> %，
                   剩余月转备用金
-                  <el-input type="text" v-model="con.other_month_reserve_fund_per"></el-input> %，
+                  <el-input type="text" v-model="con.other_month_reserve_fund_per"></el-input> %
+                  &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-minus-circle red cur" @click="delete_attend(indexs)"></i>
                   <!--<el-select>
                     <el-option value="连续"></el-option>
                     <el-option value="累计"></el-option>
@@ -501,6 +506,7 @@ export default {
   components: {ElInput},
   data(){
         return {
+          save_flag:'true',
           method_type:[{
             value: 1,
             label: '累计'
@@ -560,7 +566,7 @@ export default {
             saveForm:{
               center:'',
               academic_year:'',
-              goods_fee:'',
+              goods_fee:false,
               foreign_employees_per: '',
               on_schedule_per: '',
               not_on_schedule_per: '',
@@ -570,6 +576,7 @@ export default {
               no_invoice: '',
               handling_fee:'',
               not_on_schedule_per1: '',
+              on_schedule_per5: '',
               month_pay: [
                 {
                   specific_month: '',
@@ -659,7 +666,7 @@ export default {
             add_13_url:'/api/refund_policy/cheap_absence/',
             add_14_url:'/api/refund_policy/cheap_quit/',
             add_15_url:'/api/refund_policy/cheap_meal_fee/',
-            success_flag:[],
+            success_flag:'true',
         }
     },
     mounted:function(){
@@ -671,8 +678,12 @@ export default {
         }
     },
     methods:{
+      delete_attend:function(index){
+        if(this.saveForm.month_pay2.length > 1){
+          this.saveForm.month_pay2.splice(index,1);
+        }
+      },
       cancel:function () {
-        console.log('as.dkklghjkshdjkg');
         this.$router.push('/financemanagement/setting');
       },
       getLists:function () {
@@ -705,7 +716,7 @@ export default {
           };
           this.saveForm.month_pay2.push(obj);
         }else{
-          var obj = {
+          /*var obj = {
             specific_month:'',
             method_type: '',
             compare_type: '',
@@ -714,7 +725,7 @@ export default {
             refund_per: '',
             other_month_refund_per: '',
           };
-          this.saveForm.month_pay.push(obj);
+          this.saveForm.month_pay.push(obj);*/
         }
       },
       getSchoolList:function () {
@@ -760,7 +771,7 @@ export default {
         this.$axios.get(this.get_02_url).then(res=>{
           this.saveForm.handling_fee = res.data.handling_fee;
           this.saveForm.not_on_schedule_per1 = res.data.not_on_schedule_per;
-          this.saveForm.month_pay = [];
+          /*this.saveForm.month_pay = [];
           for(var x in res.data.month_pay){
             var obj = {};
             if(res.data.month_pay[x].specific_month){
@@ -775,7 +786,7 @@ export default {
             obj.refund_per = res.data.month_pay[x].refund_per;
             obj.other_month_refund_per = res.data.month_pay[x].other_month_refund_per;
             this.saveForm.month_pay.push(obj);
-          }
+          }*/
         }).catch(err=>{
           console.log(err)
         })
@@ -863,10 +874,12 @@ export default {
             if(res.data.charges_days){
               this.saveForm.radio3 = '1';
               this.saveForm.days = '';
+              this.saveForm.days_fee = '';
               this.saveForm.charges_days = res.data.charges_days;
             }else{
               this.saveForm.radio3 = '0';
               this.saveForm.days = res.data.days;
+              this.saveForm.days_fee = res.data.days_fee;
               this.saveForm.charges_days = '';
             }
             this.saveForm.compare_type = res.data.compare_type;
@@ -979,52 +992,70 @@ export default {
         this.submit_fun15(type);
       },
       submit_fun1:function (type) {
-        var data1 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+        var data1 = {}
+        data1.center = this.saveForm.center || this.$route.params.center_id;
+        data1.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        /*var data1 = {
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           goods_fee:this.saveForm.goods_fee,
           foreign_employees_per:this.saveForm.foreign_employees_per,
-          on_schedule_per:this.saveForm.on_schedule_per,
+          on_schedule_per:this.saveForm.on_schedule_per5,
+
           not_on_schedule_per:this.saveForm.not_on_schedule_per,
           specific_month:this.saveForm.specific_month,
           specific_month_per:this.saveForm.specific_month_per,
           other_month_per:this.saveForm.other_month_per,
           no_invoice:this.saveForm.no_invoice,
-        };
+        };*/
+        if(this.saveForm.goods_fee !== ''){
+          data1.goods_fee = this.saveForm.goods_fee;
+        }
+        if(this.saveForm.foreign_employees_per !== ''){
+          data1.foreign_employees_per = this.saveForm.foreign_employees_per;
+        }
+        if(this.saveForm.on_schedule_per5 !== ''){
+          data1.on_schedule_per = this.saveForm.on_schedule_per5;
+        }
+        if(this.saveForm.not_on_schedule_per !== ''){
+          data1.not_on_schedule_per = this.saveForm.not_on_schedule_per;
+        }
+        if(this.saveForm.specific_month !== ''){
+          data1.specific_month = this.saveForm.specific_month;
+        }
+        if(this.saveForm.specific_month_per !== ''){
+          data1.specific_month_per = this.saveForm.specific_month_per;
+        }
+        if(this.saveForm.other_month_per !== ''){
+          data1.other_month_per = this.saveForm.other_month_per;
+        }
+        if(this.saveForm.no_invoice !== ''){
+          data1.no_invoice = this.saveForm.no_invoice;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_01_url,data1).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('01');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_01_url+'1/',data1).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('01');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
+              this.success_flag = 'false';
             }else{
               this.$message.error('保存失败');
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun2:function (type) {
         var list = [];
-        for(var y in this.saveForm.month_pay){
+        /*for(var y in this.saveForm.month_pay){
           var obj = {};
           if(this.saveForm.month_pay[y].specific_month !== '0'){
             obj.specific_month = this.saveForm.month_pay[y].specific_month;
@@ -1036,49 +1067,46 @@ export default {
           obj.refund_per = this.saveForm.month_pay[y].refund_per;
           obj.other_month_refund_per = this.saveForm.month_pay[y].other_month_refund_per;
           list.push(obj);
-        }
-        var data2 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+        }*/
+        /*var data2 = {
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           handling_fee:this.saveForm.handling_fee,
           not_on_schedule_per:this.saveForm.not_on_schedule_per1,
-          month_pay_list:list,
-        };
+          /!*month_pay_list:list,*!/
+        };*/
+        var data2 = {}
+        data2.center = this.saveForm.center || this.$route.params.center_id;
+        data2.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.handling_fee !== ''){
+          data2.handling_fee = this.saveForm.handling_fee;
+        }
+        if(this.saveForm.not_on_schedule_per1 !== ''){
+          data2.not_on_schedule_per = this.saveForm.not_on_schedule_per1;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_02_url,data2).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('02');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_02_url+'1/',data2).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('02');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun3:function (type) {
         var data3 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           compare_type:2,
           number_of_month: parseInt(this.saveForm.number_of_month),
           price_type: 1
@@ -1086,38 +1114,26 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_03_url,data3).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('03');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_03_url+'1/',data3).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('03');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun4:function (type) {
         var data4 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           compare_type:2,
           number_of_month: parseInt(this.saveForm.number_of_month2),
           price_type: 1
@@ -1125,68 +1141,54 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_04_url,data4).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('04');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_04_url+'1/',data4).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('04');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun5:function (type) {
-        var data5 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+        /*var data5 = {
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           other_on_schedule_per:this.saveForm.other_on_schedule_per,
           on_schedule_per: this.saveForm.on_schedule_per,
-        };
+        };*/
+        var data5 = {};
+        data5.center = this.saveForm.center || this.$route.params.center_id;
+        data5.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.other_on_schedule_per !== ''){
+          data5.other_on_schedule_per = this.saveForm.other_on_schedule_per;
+        }
+        if(this.saveForm.on_schedule_per !== ''){
+          data5.on_schedule_pe = this.saveForm.on_schedule_per;
+        }
+
         if(type === 'add'){
           this.$axios.post(this.add_05_url,data5).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('05');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_05_url+'1/',data5).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('05');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
@@ -1207,37 +1209,25 @@ export default {
           list.push(obj);
         }
         var data6 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           month_pay_list:list,
         };
         if(type === 'add'){
           this.$axios.post(this.add_06_url,data6).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('06');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_06_url+'1/',data6).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('06');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
@@ -1256,46 +1246,34 @@ export default {
           fee = this.saveForm.fee_refund_money_per;
         }
         var data7 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           meal_refund_money_per:meal,
           fee_refund_money_per:fee,
         };
         if(type === 'add'){
           this.$axios.post(this.add_07_url,data7).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('07');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_07_url+'1/',data7).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('07');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun8:function (type) {
         var obj = {};
-        obj.center = this.saveForm.center || 1;
-        obj.academic_year = this.saveForm.academic_year || 1;
+        obj.center = this.saveForm.center || this.$route.params.center_id;
+        obj.academic_year = this.saveForm.academic_year || this.$route.params.year;
         if(this.saveForm.radio9 === '退费'){
           obj.return_type = 1;
         }else{
@@ -1318,327 +1296,293 @@ export default {
         if(type === 'add'){
           this.$axios.post(this.add_08_url,obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_08_url+'1/',obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun9:function (type) {
-        var data9 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+        /*var data9 = {
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           current_term_per:this.saveForm.current_term_per,
           last_term_per:this.saveForm.last_term_per,
-        };
+        };*/
+        var data9 = {};
+        data9.center = this.saveForm.center || this.$route.params.center_id;
+        data9.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.current_term_per !== ''){
+          data9.current_term_per = this.saveForm.current_term_per;
+        }
+        if(this.saveForm.last_term_per !== ''){
+          data9.last_term_per = this.saveForm.last_term_per;
+        }
+
         if(type === 'add'){
           this.$axios.post(this.add_09_url,data9).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('09');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_09_url+'1/',data9).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun10:function (type) {
-        var data10 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+        /*var data10 = {
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           current_month_per:this.saveForm.current_month_per,
           last_month_per:this.saveForm.last_month_per,
-        };
+        };*/
+        var data10 = {};
+        data10.center = this.saveForm.center || this.$route.params.center_id;
+        data10.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.current_month_per !== ''){
+          data10.current_month_per = this.saveForm.current_month_per
+        }
+        if(this.saveForm.last_month_per !== ''){
+          data10.last_month_per = this.saveForm.last_month_per
+        }
         if(type === 'add'){
           this.$axios.post(this.add_10_url,data10).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_10_url+'1/',data10).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun11:function (type) {
-        var data11 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+        /*var data11 = {
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           refund_money_per:this.saveForm.refund_money_per2,
-        };
+        };*/
+        var data11 = {};
+        data11.center = this.saveForm.center || this.$route.params.center_id;
+        data11.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.refund_money_per2 !== ''){
+          data11.refund_money_per = this.saveForm.refund_money_per2
+        }
         if(type === 'add'){
           this.$axios.post(this.add_11_url,data11).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_11_url+'1/',data11).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun12:function (type) {
-        var data12 = {
-          center:this.saveForm.center || 1,
-          academic_year:this.saveForm.academic_year || 1,
+        /*var data12 = {
+          center:this.saveForm.center || this.$route.params.center_id,
+          academic_year:this.saveForm.academic_year || this.$route.params.year,
           refund_money_per:this.saveForm.refund_money_per4,
-        };
+        };*/
+        var data12 = {};
+        data12.center = this.saveForm.center || this.$route.params.center_id;
+        data12.academic_year = this.saveForm.academic_year || this.$route.params.year;
+        if(this.saveForm.refund_money_per4 !== ''){
+          data12.refund_money_per = this.saveForm.refund_money_per4
+        }
         if(type === 'add'){
           this.$axios.post(this.add_12_url,data12).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_12_url+'1/',data12).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun13:function (type) {
         var obj = {};
-        obj.center = this.saveForm.center || 1;
-        obj.academic_year = this.saveForm.academic_year || 1;
+        obj.center = this.saveForm.center || this.$route.params.center_id;
+        obj.academic_year = this.saveForm.academic_year || this.$route.params.year;
         if(this.saveForm.radio10 === '退费'){
           obj.return_type = 1;
         }else{
           obj.return_type = 2;
         }
-        obj.current_month_per = this.saveForm.current_month_per2;
-        obj.last_month_per = this.saveForm.last_month_per2;
+        if(this.saveForm.current_month_per2 !== ''){
+          obj.current_month_per = this.saveForm.current_month_per2;
+        }
+        if(this.saveForm.last_month_per2 !== ''){
+          obj.last_month_per = this.saveForm.last_month_per2;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_13_url,obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_13_url+'1/',obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun14:function (type) {
         var obj = {};
-        obj.center = this.saveForm.center || 1;
-        obj.academic_year = this.saveForm.academic_year || 1;
+        obj.center = this.saveForm.center || this.$route.params.center_id;
+        obj.academic_year = this.saveForm.academic_year || this.$route.params.year;
         if(this.saveForm.radio6 === '退费'){
           obj.return_type = 1;
         }else{
           obj.return_type = 2;
         }
-        obj.current_month_per = this.saveForm.current_month_per3;
-        obj.last_month_per = this.saveForm.last_month_per3;
+        if(this.saveForm.current_month_per3 !== ''){
+          obj.current_month_per = this.saveForm.current_month_per3;
+        }
+        if(this.saveForm.last_month_per3 !== ''){
+          obj.last_month_per = this.saveForm.last_month_per3;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_14_url,obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_14_url+'1/',obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
       submit_fun15:function (type) {
         var obj = {};
-        obj.center = this.saveForm.center || 1;
-        obj.academic_year = this.saveForm.academic_year || 1;
+        obj.center = this.saveForm.center || this.$route.params.center_id;
+        obj.academic_year = this.saveForm.academic_year || this.$route.params.year;
         if(this.saveForm.radio7 === '退费'){
           obj.return_type = 1;
         }else{
           obj.return_type = 2;
         }
-        /*if(){
-
-        }*/
-        obj.full_month_per = this.saveForm.full_month_per2;
-        obj.method_type = this.saveForm.method_type5;
-        obj.compare_type = this.saveForm.compare_type5;
-        obj.days = this.saveForm.days5;
-        obj.days_fee = this.saveForm.days_fee5;
+        if(this.saveForm.full_month_per2 !== ''){
+          obj.full_month_per = this.saveForm.full_month_per2;
+        }
+        if(this.saveForm.method_type5 !== ''){
+          obj.method_type = this.saveForm.method_type5;
+        }
+        if(this.saveForm.compare_type5 !== ''){
+          obj.compare_type = this.saveForm.compare_type5;
+        }
+        if(this.saveForm.days5 !== ''){
+          obj.days = this.saveForm.days5;
+        }
+        if(this.saveForm.days_fee5 !== ''){
+          obj.days_fee = this.saveForm.days_fee5;
+        }
         if(type === 'add'){
           this.$axios.post(this.add_15_url,obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'保存成功！'
-              })
-            }else{
-              this.$message.error('保存失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }else{
           this.$axios.put(this.add_15_url+'1/',obj).then(res=>{
             if(res.status == 200){
-              this.success_flag.push('08');
-              this.$message({
-                type:'success',
-                message:'编辑成功！'
-              })
-            }else{
-              this.$message.error('编辑失败');
+              this.success_flag = 'false';
             }
           }).catch(err=>{
-            console.log(err)
+            this.save_flag = 'false';
           })
         }
 
       },
     },
     watch: {
-      success_flag: {
+      save_flag: {
         handler(newValue, oldValue) {
-          console.log(newValue.length);
-          if(newValue.length == 15){
-            this.getLists();
+          if(newValue == 'false'){
+            if(this.$route.params.type === 'add'){
+              this.$message.error('保存失败')
+            }else{
+              this.$message.error('编辑失败')
+            }
           }
         },
         deep: true
-      }
+      },
+      success_flag: {
+        handler(newValue, oldValue) {
+          if(newValue == 'false'){
+            if(this.$route.params.type === 'add'){
+              this.$message.success('保存成功')
+            }else{
+              this.$message.success('编辑成功')
+            }
+            this.$router.push('/financemanagement/setting');
+          }
+        },
+        deep: true
+      },
   }
 
 

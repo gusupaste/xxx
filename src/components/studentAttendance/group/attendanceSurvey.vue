@@ -3,80 +3,74 @@
     <div class="header">
       <p class="local_path_style">YOU ARE HERE : <span class="font-cl-blue">学生考勤</span></p>
     </div>
-    <el-form class="mt10" label-width="80px" inline="">
-      <el-form-item label="城际：">
-        <el-select v-model="intercity">
-          <el-option value="" label="全部" aria-selected="true"></el-option>
-          <el-option
-            v-for="item in intercity_list"
-            :key="item.id"
-            :label="item.dept_name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="区域：">
-        <el-select v-model="area">
-          <el-option value="" label="全部"></el-option>
-          <el-option
-            v-for="item in area_list"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="省市：">
-        <el-select v-model="city">
-          <el-option value="" label="全部"></el-option>
-          <el-option
-            v-for="item in city_list"
-            :key="item.city_id"
-            :label="item.city_name"
-            :value="item.city_id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="品牌：">
-        <el-select v-model="brand">
-          <el-option value="" label="全部"></el-option>
-          <el-option
-            v-for="item in brand_list"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="校园：">
-        <el-select v-model="school" :disabled="selectDisable">
-          <el-option
-            v-for="item in school_list"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="班型：">
-        <el-select v-model="class_type" :disabled="selectDisable">
-          <el-option
-            v-for="item in class_type_list"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" :disabled="selectDisable" @click="getAttendanceListType">搜索</el-button>
-      </el-form-item>
-    </el-form>
+    <p class="mb10 mt10" style="line-height: 45px">
+      <span>城际：</span>
+      <el-select v-model="intercity">
+        <el-option value="" label="全部" aria-selected="true"></el-option>
+        <el-option
+          v-for="item in intercity_list"
+          :key="item.id"
+          :label="item.dept_name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <span class="padding-left-30">区域：</span>
+      <el-select v-model="area">
+        <el-option value="" label="全部"></el-option>
+        <el-option
+          v-for="item in area_list"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <span class="padding-left-30">省市：</span>
+      <el-select v-model="city">
+        <el-option value="" label="全部"></el-option>
+        <el-option
+          v-for="item in city_list"
+          :key="item.city_id"
+          :label="item.city_name"
+          :value="item.city_id">
+        </el-option>
+      </el-select>
+      <span class="padding-left-30">品牌：</span>
+      <el-select v-model="brand">
+        <el-option value="" label="全部"></el-option>
+        <el-option
+          v-for="item in brand_list"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <span class="padding-left-30">校园：</span>
+      <el-select v-model="school" :disabled="selectDisable">
+        <el-option
+          v-for="item in school_list"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <span class="padding-left-30">班型：</span>
+      <el-select v-model="class_type" :disabled="selectDisable">
+        <el-option
+          v-for="item in class_type_list"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <span class="padding-left-30"><el-button class="" type="primary" :disabled="selectDisable"
+                                               @click="getAttendanceListType">搜索</el-button></span>
+    </p>
     <el-container class="school-attendance mt10">
       <el-aside width="70%">
         <p>考勤详细概况：</p>
         <div class="local-month mt10">
-          当月出勤率：<span class="font-size-20 red">{{rate}}%   </span> ； 当月已过 <span class="font-size-20 red">{{present}} </span> 个工作日 ； 当月有 <span
+          当月出勤率：<span class="font-size-20 red">{{rate}}%   </span> ； 当月已过 <span
+          class="font-size-20 red">{{present}} </span> 个工作日 ； 当月有 <span
           class="font-size-20 red">{{total}}  </span> 个工作日
         </div>
         <el-table
@@ -105,7 +99,8 @@
           <el-table-column
             label="操作">
             <template slot-scope="scope">
-              <router-link :to="{path:'/studentattendance/detail/'+scope.row.id, query: { class_name: scope.row.class_name }}">
+              <router-link
+                :to="{path:'/studentattendance/detail/'+scope.row.id, query: { class_name: scope.row.class_name }}">
                 <i class="fa fa-search green font-size-20 cur"></i>
               </router-link>
             </template>
@@ -122,6 +117,11 @@
   </div>
 </template>
 <style scoped>
+  .attendanceSurvey {
+    color: rgba(160, 160, 160, 1);
+    text-align: left;
+  }
+
   .attendanceSurvey .el-form {
     border-bottom: 1px solid #ccc;
   }
@@ -132,6 +132,7 @@
     color: #101010;
     border: 1px solid #e3e3e3;
   }
+
   .attendanceSurvey .new-calendar-modal >>> .school-calendar {
     padding: 10px 10px 10px 100px;
   }
@@ -155,6 +156,10 @@
   .attendanceSurvey >>> .wh_item_date {
     color: #101010;
     font-size: 12px;
+  }
+
+  .attendanceSurvey >>> .el-input__inner {
+    height: 32px !important
   }
 
   .attendanceSurvey >>> .wh_content_item {
@@ -212,25 +217,25 @@
       this.getSchoolList('', '', '', '')
     },
     watch: {
-      intercity () {
+      intercity() {
         this.school = ''
         this.getSchoolList(this.intercity, this.city, this.area, this.brand)
       },
-      area () {
+      area() {
         this.school = ''
         this.getCityList(this.area)
         this.getSchoolList(this.intercity, this.city, this.area, this.brand)
       },
-      city () {
+      city() {
         this.school = ''
         this.getSchoolList(this.intercity, this.city, this.area, this.brand)
       },
-      brand () {
+      brand() {
         this.school = ''
         this.getSchoolList(this.intercity, this.city, this.area, this.brand)
       },
       school: {
-        handler (newValue, oldValue) {
+        handler(newValue, oldValue) {
           if (newValue === '') {
             this.selectDisable = true;
           } else {
@@ -242,14 +247,14 @@
       }
     },
     methods: {
-      getAttendanceListType:function () {
-        if(this.class_type !== ''){
-          this.getAttendanceList ();
-        }else{
+      getAttendanceListType: function () {
+        if (this.class_type !== '') {
+          this.getAttendanceList();
+        } else {
           this.$message.warning('请选择班型');
         }
       },
-      getAttendanceList () {
+      getAttendanceList() {
         this.$axios.get('/api/hq/hq_attendance/?center_id=' + this.school + '&class_type_id=' + this.class_type).then(res => {
           this.loading = false
           if (res.status == 200) {
@@ -260,16 +265,16 @@
           } else {
 
           }
-        /*this.$axios.get('/api/hq/hq_attendance/?center_id=' + this.school + '&class_type_id=' + this.class_type).then(res => {
-          this.loading = false
-          if (res.status == 200 && res.data.status == 1) {
-            this.attendanceList = res.data.data.attendance_list
-            this.rate = res.data.data.rate
-            this.present = res.data.data.present
-            this.total = res.data.data.total
-          } else {
+          /*this.$axios.get('/api/hq/hq_attendance/?center_id=' + this.school + '&class_type_id=' + this.class_type).then(res => {
+            this.loading = false
+            if (res.status == 200 && res.data.status == 1) {
+              this.attendanceList = res.data.data.attendance_list
+              this.rate = res.data.data.rate
+              this.present = res.data.data.present
+              this.total = res.data.data.total
+            } else {
 
-          }*/
+            }*/
         }).catch(err => {
           console.log(err)
         })
@@ -339,7 +344,8 @@
           _this.loading = false;
           if (res.status == 200 && res.data.status_code == 1) {
             this.school_list = res.data.results;
-            this.school = this.school_list[0].id
+            this.school = this.school_list[0].id;
+            /*this.getAttendanceList();*/
           }
         }).catch(err => {
           console.log(err)
@@ -353,6 +359,7 @@
           if (res.status == 200 && res.data.status_code == 1) {
             this.class_type_list = res.data.results;
             this.class_type = this.class_type_list[0].id
+            this.getAttendanceList();
           }
         }).catch(err => {
           console.log(err)

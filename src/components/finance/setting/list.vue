@@ -19,7 +19,7 @@
                 <charge :brandList="brandList" :intercityList="intercityList" :areaList="areaList" :yearList="yearList"></charge>
             </el-tab-pane>
             <el-tab-pane label="退费政策" name="five">
-                <refund></refund>
+                <refund :brandList="brandList" :intercityList="intercityList" :areaList="areaList" :yearList="yearList"></refund>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -28,8 +28,8 @@
       <el-dialog title="删除费用科目" :visible.sync="deleteFeeVisible" width="450" class="deleteFee">
         <span>是否确认删除费用科目<span style="color:#006287">【学费】</span>？</span>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="deleteFeeVisible = false">取 消</el-button>
-          <el-button type="success" @click="deleteFeeVisible = false">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="deleteFeeVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="deleteFeeVisible = false">保 存</el-button>
         </span>
       </el-dialog>
       <el-dialog :title="discountName" :visible.sync="addDiscountVisible" width="780px" class="discountDialog">
@@ -296,8 +296,8 @@
           </el-row>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="addDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="addDiscountVisible = false">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="addDiscountVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="addDiscountVisible = false">保 存</el-button>
         </span>
       </el-dialog>
       <el-dialog title="折扣详情预览" :visible.sync="showDiscountVisible" width="600px" class="discountShow">
@@ -357,8 +357,8 @@
           </el-row>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="showDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="showDiscountVisible = false">修 改</el-button>
+          <el-button class="bg-grey bd-grey white" @click="showDiscountVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="showDiscountVisible = false">修 改</el-button>
         </span>
       </el-dialog>
 
@@ -444,8 +444,8 @@
           </el-row>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="addFeeVisible = false">取 消</el-button>
-          <el-button type="success" @click="addFeeVisible = false">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="addFeeVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="addFeeVisible = false">保 存</el-button>
         </span>
       </el-dialog>
     </div>

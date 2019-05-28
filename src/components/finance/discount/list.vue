@@ -227,22 +227,25 @@
             label="所在班级">
           </el-table-column>
           <el-table-column
-            prop="form_status"
+            prop="discount_type_name"
             label="折扣类型">
           </el-table-column>
           <el-table-column
-            prop="amount"
             label="正价">
-          </el-table-column>
-          <el-table-column
-            label="折扣">
             <template slot-scope="scope">
-              {{ scope.row.amount - scope.row.actual_amount }}
+              {{ scope.row.amount + scope.row.actual_amount }}
             </template>
           </el-table-column>
           <el-table-column
+            prop="amount"
+            label="折扣">
+            <!--<template slot-scope="scope">
+              {{ scope.row.amount}}
+            </template>-->
+          </el-table-column>
+          <el-table-column
             prop="actual_amount"
-            label="优惠金额合计">
+            label="折后金额">
           </el-table-column>
           <el-table-column
             prop="apply_date"
@@ -260,6 +263,15 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          next-text="下一页"
+          :page-size="pagesize"
+          :current-page="currentPage"
+          @current-change="handleCurrentChange"
+          :total="total" class="page">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -269,6 +281,9 @@
   export default {
     data() {
       return {
+        pagesize:10,
+        currentPage:1,
+        total:1,
         int_url:'/api/common/select/intercity_list/',/*城际*/
         area_url:'/api/common/select/area_list/',/*区域*/
         school_url:'/api/common/select/center_list/',/*校园*/
@@ -304,6 +319,9 @@
       this.getStudentInfo(1);
     },
     methods: {
+      handleCurrentChange:function(currentPage){
+        this.currentPage=currentPage;
+      },
       routerPush:function (obj) {
         var status = 0;
         if(this.activeName === 'second'){
@@ -420,11 +438,12 @@
           d_type = this.dis_type;
         }
         var url = this.getList_url+ d_type +'&type='+type+'&center_id='+this.school+
-          '&province_id='+this.city+'&area_id='+this.area+'&intercity_id='+this.intercity+'&hq_id='+this.brand;
+          '&province_id='+this.city+'&area_id='+this.area+'&intercity_id='+this.intercity+'&hq_id='+this.brand+'&page='+this.currentPage;
         _this.$axios.get(url).then(res=>{
           _this.loading = false;
           if(res.status == 200 && res.data.status_code == 1) {
             this.tableData1 = res.data.data.results;
+            _this.total = res.data.data.count;
           }
         }).catch(err=>{
           console.log(err)
@@ -439,7 +458,18 @@
       searchList: function() {
 
       }
-    }
+    },
+    watch: {
+      currentPage(){
+        if(this.activeName === 'first'){
+          this.getStudentInfo(1);
+        }else if(this.activeName === 'second'){
+          this.getStudentInfo(0);
+        }else{
+          this.getStudentInfo(2);
+        }
+      }
+    },
   }
 </script>
 

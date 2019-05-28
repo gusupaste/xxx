@@ -1,7 +1,7 @@
 <template>
   <div class="studentFile">
       <div class="formwrap">
-        <el-form label-width="100px" inline>
+        <el-form label-width="80px" inline>
           <el-form-item label="城际：">
               <el-select v-model="intercity" @change="interChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
@@ -89,11 +89,11 @@
               <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item label="">
-              <el-button type="primary" @click="getStudentList">搜索</el-button>
+              <el-button type="primary" @click="currentPage=1;getStudentList">搜索</el-button>
           </el-form-item>
         </el-form>
       </div>
-      <div class="studentFileList">
+      <div class="studentFileList clearfix">
           <div class="studentFileCard left" v-for="(item,index) in student_list " :key="index"
                @click="$router.push({name:'studentFileDetail',params:{id:item.id}})">
             <div style="padding:30px 20px">
@@ -114,11 +114,22 @@
             </div>
           </div>
       </div>
+      <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          :current-page="currentPage"
+          :page-size="10"
+          @current-change="changePage"
+          :total="total">
+        </el-pagination>
   </div>
 </template>
 <style scoped>
-  .studentFile .formwrap {
-    margin-top: 20px;
+  .studentFile >>> .el-form-item__label{
+    padding: 0;
+  }
+  .studentFile >>> .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner{
+    width: 383px;
   }
   .studentFile .studentFileList {
     margin-top: 20px;
@@ -210,6 +221,10 @@ export default {
     activeTabs:{
       type:String,
       request:true,
+    },
+    total:{
+      type:Number,
+      request:true,
     }
   },
   data(){
@@ -226,12 +241,16 @@ export default {
       selectDisable:'',
       searchText:'',
       centresId:[],
+      currentPage:1,
     }
   },
   mounted:function(){
-    this.getStudentList()
+    this.getStudentList();
   },
   methods:{
+    changePage(val){
+      this.currentPage = val;
+    },
     areaChangeFun:function () {
       this.city = '';
       this.school = '';
@@ -263,8 +282,8 @@ export default {
         date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
+        page:this.currentPage
       }
-      console.log();
       this.$emit('getStudentList',data);
     }
   },
@@ -289,6 +308,9 @@ export default {
       },
       deep: true
     },
+    currentPage(){
+      this.getStudentList()
+    }
   }
 }
 </script>

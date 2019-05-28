@@ -1,7 +1,7 @@
 <template>
   <div class="student_leave">
       <div class="formwrap">
-        <el-form label-width="100px" inline>
+        <el-form label-width="80px" inline>
           <el-form-item label="城际：">
             <el-select v-model="intercity" @change="allChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
@@ -112,43 +112,50 @@
         </el-form>
 
       </div>
-      <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
+      <div class="studentFileList clearfix">
+          <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
             <div style="padding:20px">
               <div class="avatar inline-block">
                 <img src="../../../assets/img/logo.png" alt="">
               </div>
               <div class="card-content inline-block">
-                  <p>
-                    <span style="font-size:15px;font-weight:600">学生A</span>
-                    <i style="font-size:15px;color:#ff7f7f" class="fa fa-times-circle"></i>
-                  </p>
-                  <p>出生日期：1020/11/09</p>
-                  <p>学号：00000</p>
-                  <p>所在校园：北京校园</p>
+                <p>
+                  <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
+                  <i style="font-size:15px;color:#ff7f7f" class="fa fa-times-circle"></i>
+                </p>
+                <p>出生日期：{{ item.date_of_birth }}</p>
+                <p>学号：{{ item.student_no }}</p>
+                <p>所在校园：{{ item.center_name }}</p>
               </div>
             </div>
             <div class="card-footer clearfix">
                 <span class="left" style="border-right: 1px solid #fff;">
                     <p>入学日期</p>
-                    <p>2017/09/09</p>
+                    <p>{{ item.enter_date }}</p>
                 </span>
-                <span class="left" style="border-right: 1px solid #fff;">
-                    <p>入学日期</p>
-                    <p>1027</p>
-                </span>
-                <span class="left">
-                    <p>入学日期</p>
-                    <p>1027</p>
+              <span class="left">
+                    <p>离园日期</p>
+                    <p>{{ item.leave_date || '---' }}</p>
                 </span>
             </div>
           </div>
       </div>
+      <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          :current-page="currentPage"
+          :page-size="10"
+          @current-change="changePage"
+          :total="total">
+        </el-pagination>
   </div>
 </template>
 <style scoped>
-  .student_leave .formwrap {
-    margin-top: 20px;
+  .student_leave >>> .el-form-item__label{
+    padding: 0;
+  }
+  .student_leave >>> .el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner{
+    width: 383px;
   }
   .student_leave .studentFileList {
     margin-top: 20px;
@@ -187,7 +194,7 @@
   .student_leave .studentFileCard .card-footer span {
     display: inline-block;
     text-align: center;
-    width: 33%;
+    width: 49%;
     line-height: 17px;
   }
   .student_leave .studentFileCard  img{
@@ -233,6 +240,10 @@ export default {
     activeTabs:{
       type:String,
       request:true,
+    },
+    total:{
+      type:Number,
+      request:true,
     }
   },
   data(){
@@ -250,9 +261,13 @@ export default {
       searchText:'',
       year:'',
       in_type:'',
+      currentPage:1,
     }
   },
   methods:{
+    changePage(val){
+      this.currentPage = val;
+    },
     areaChangeFun:function () {
       this.$emit('getCityList',this.area);
       this.$emit('getSchoolList',this.intercity,this.city,0,this.brand);
@@ -280,6 +295,7 @@ export default {
         date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
+        page:this.currentPage
       }
       this.$emit('getStudentList',data);
     }
@@ -292,6 +308,9 @@ export default {
         }
       },
       deep: true
+    },
+    currentPage(){
+      this.getStudentList()
     }
   }
 }

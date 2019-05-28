@@ -1,9 +1,10 @@
 <template>
     <div class="createDiscount wrap">
       <div class="header">
-        <p class="local_path_style">YOU ARE HERE : 财务处理 > 账单制作 > <span class="font-cl-blue">创建缴费账单</span></p>
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > 账单制作 > <span class="font-cl-blue" v-if="!is_edit" >创建缴费账单</span>
+          <span class="font-cl-blue" v-if="is_edit" >编辑缴费账单</span></p>
       </div>
-        <div class="content-top mt26">创建缴费账单</div>
+        <div class="content-top mt26"><span class="font-cl-blue" v-if="!is_edit" >创建缴费账单</span><span class="font-cl-blue" v-if="is_edit" >编辑缴费账单</span></div>
         <div class="clearfix mt10">
             <el-form inline>
                 <el-form-item label="学生：">
@@ -24,17 +25,12 @@
                 <br>
                 <el-form-item label="学业计划：">
                     <el-select v-model="addform.pay_method">
-                        <!-- <el-option label="日缴" value="1"></el-option> -->
-                        <el-option label="月缴" :value="2"></el-option>
-                        <!-- <el-option label="一次性缴费" value="3"></el-option> -->
-                        <el-option label="学期缴费" :value="4"></el-option>
-                        <el-option label="寒暑假" :value="5"></el-option>
-                        <el-option label="年缴" :value="6"></el-option>
+                        <el-option v-for="item in methods_list" :key="item.id" :label="item.name" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="缴费账期：">
-                    <el-select v-model="addform.academic_year_id">
-                        <el-option v-for="item in yearList" :label="item.academic_year" :value="item.id" :key="item.id"></el-option>
+                    <el-select v-model="addform.academic_year_id" @change="getPolicy">
+                        <el-option v-for="item in yearList" :label="item.name" :value="item.id" :key="item.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="实际缴费日期：">
@@ -53,7 +49,7 @@
                         placeholder="选择日期">
                     </el-date-picker>
                 </el-form-item>
-                
+
                 <br>
                 <el-form-item label="收费政策：" class="w300_input">
                     <el-select v-model="saveForm.policy_id">
@@ -106,51 +102,63 @@
                 width="400"
                 label="缴费区间">
                 <template slot-scope="scope">
-                    <el-date-picker
-                    style="width:145px;display:inline-block"
-                        v-model="saveForm.billitem_list[scope.$index].begin_date"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        @change="changePayDate($event,scope.row)">
-                    </el-date-picker>
-                    —
-                    <el-date-picker
-                    style="width:145px;display:inline-block"
-                        v-model="saveForm.billitem_list[scope.$index].end_date"
-                        type="date"
-                        disabledDate="2019-05-16"
-                        value-format="yyyy-MM-dd"
-                        @change="changePayDate($event,scope.row)">
-                    </el-date-picker>
+                    <span v-if="scope.row.payment_methode !== '一次性缴费'">
+                        <el-date-picker
+                            style="width:145px;display:inline-block"
+                                v-model="saveForm.billitem_list[scope.$index].begin_date"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                @change="changePayDate($event,scope.row)">
+                            </el-date-picker>
+                            —
+                            <el-date-picker
+                            style="width:145px;display:inline-block"
+                                v-model="saveForm.billitem_list[scope.$index].end_date"
+                                type="date"
+                                disabledDate="2019-05-16"
+                                value-format="yyyy-MM-dd"
+                                @change="changePayDate($event,scope.row)">
+                            </el-date-picker>
+                    </span>
                 </template>
                 </el-table-column>
-                
+
                 <el-table-column
                 prop="address"
                 label="缴费时长">
                 <template slot-scope="scope">
-                    <span>{{scope.row.pay_month}}</span>月
-                    <!-- <span v-if="(new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30) > 0">
-                        {{(Math.round((new Date(saveForm.billitem_list[scope.$index].end_date) - new Date(saveForm.billitem_list[scope.$index].begin_date)) / (24 * 60 * 60 * 1000 * 30)*2+0.49)/2)}}月
-                    </span> -->
+                    <span v-if="scope.row.payment_method !== '一次性缴费'">{{scope.row.pay_month}}月</span>
                 </template>
                 </el-table-column>
                 <el-table-column
                 prop="price"
                 label="应收">
-                </el-table-column>
-                <el-table-column
-                prop="rate"
-                label="折扣">
                 <template slot-scope="scope">
-                    {{scope.row.rate}}%
+                    <span v-if="scope.row.pay_month">
+                        {{scope.row.act_total}}
+                    </span>
+                    <span v-if="scope.row.payment_method === '一次性缴费'">
+                        {{scope.row.price}}
+                    </span>
                 </template>
                 </el-table-column>
                 <el-table-column
-                prop="address"
+                prop="discount_name"
+                label="折扣">
+                <template slot-scope="scope">
+                    <span v-for="item in scope.row.discount_name" :key="item">{{item}}</span>
+                </template>
+                </el-table-column>
+                <el-table-column
+                prop=""
                 label="折后应收">
                 <template slot-scope="scope">
-                    {{scope.row.price*scope.row.rate/100}}
+                    <span v-if="scope.row.pay_month">
+                        {{scope.row.total}}
+                    </span>
+                    <span v-if="scope.row.payment_method === '一次性缴费'">
+                        {{scope.row.price}}
+                    </span>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -165,7 +173,11 @@
         <div class="mt26 text-align-center">
             <button class="btn bg-grey" @click="$router.go(-1)">取消</button>
             <button class="btn bg-green" v-if="!is_edit" @click="saveInfo">保存</button>
-            <button class="btn bg-green" v-if="is_edit" @click="editInfo">保存</button>
+            <button class="btn bg-green" v-if="is_choose_student && is_edit" @click="saveInfo">保存</button>
+            <button class="btn bg-green" v-if="is_edit && !is_choose_student" @click="editInfo">保存</button>
+            <button class="btn bg-orange" v-if="!is_edit" @click="saveInfo(1)">缴费</button>
+            <button class="btn bg-orange" v-if="is_choose_student && is_edit" @click="saveInfo(1)">缴费</button>
+            <button class="btn bg-orange" v-if="is_edit && !is_choose_student" @click="editInfo(1)">缴费</button>
         </div>
         <!-- 添加学生 -->
       <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
@@ -176,9 +188,9 @@
           <p class="mt20">
               <span class="mr10">搜索：</span>
               <el-input v-model="searchStr" class="w250_input" style="width:250px" placeholder="输入学号、学生姓名或家长姓名"></el-input>
-              <el-button type="primary" @click="getStudent(2)">搜索</el-button>
+              <el-button type="primary" @click="getStudent(1)">搜索</el-button>
           </p>
-          
+
           <el-row class="mt20">
             <el-col :span="24">
               <el-form-item label="" label-width="40">
@@ -215,6 +227,15 @@
                     </template>
                   </el-table-column>
                 </el-table>
+                <el-pagination
+                  background
+                  layout="prev,pager, next, jumper"
+                  next-text="下一页"
+                  :page-size="pagesize"
+                  :current-page="currentPage"
+                  @current-change="handleCurrentChange"
+                  :total="total" class="page">
+                </el-pagination>
                 <div class="red">
                     <!-- *学生可多选，账单支持批量创建 -->
                 </div>
@@ -224,7 +245,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button class="bg-grey bd-grey white" @click="innerVisible = false">取 消</el-button>
-          <el-button type="success" @click="sureAddStudent">确 定</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureAddStudent">确 定</el-button>
         </span>
       </el-dialog>
       <!-- 添加费用科目 -->
@@ -262,7 +283,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button class="bg-grey bd-grey white" @click="subjectVisible = false">取 消</el-button>
-          <el-button type="success" @click="sureAddSubject">确 定</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureAddSubject">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -317,14 +338,17 @@
 export default {
     data(){
         return {
+            pagesize:10,
+            currentPage:1,
+            total:1,
             addform:{
-                pay_method:2,
+                pay_method:"",
                 date:'',
-                academic_year_id:1,
+                academic_year_id:"",
                 start_date:'',
                 end_date:''
             },
-            choosePerson:'',
+            choosePerson:{},
             saveForm:{
                 status: 1,
                 student_id: "",
@@ -359,15 +383,20 @@ export default {
             multipleTable1:[],
             id:'',
             reviewInfo:{},
-            is_edit:false
+            is_edit:false,
+            methods_list:[],
+            is_choose_student:false
         }
     },
-    mounted () {
-        this.getStudent(1);
-        this.getYear();  
+    created () {
+        this.getYear();
+        this.getMethods();
     },
     methods: {
-        saveInfo(){
+      handleCurrentChange:function(currentPage){
+        this.currentPage=currentPage;
+      },
+        saveInfo(val){
             var _this = this;
             if(this.multipleTable.length == 0){
                 this.$message({
@@ -419,20 +448,27 @@ export default {
             this.saveForm.actual_amount = this.totalprice;
             this.saveForm.amount = this.totalamount;
             this.saveForm.pay_method = this.addform.pay_method;
-            console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/',this.saveForm)
             .then(res=>{
-                console.log(res.data)
                 if(res.data.status === 1){
                     _this.$message({
                         type:"success",
                         message:"保存成功！"
                     })
-                    _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                    if(val == 1){
+                        _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                    } else {
+                        _this.$router.push('/financemanagement/billMaking')
+                    }
+                } else {
+                    _this.$message({
+                        type:"error",
+                        message:res.data.error
+                    })
                 }
             })
         },
-        editInfo(){
+        editInfo(val){
             var _this = this;
             if(this.multipleTable.length == 0){
                 this.$message({
@@ -484,7 +520,6 @@ export default {
             this.saveForm.actual_amount = this.totalprice;
             this.saveForm.amount = this.totalamount;
             this.saveForm.pay_method = this.addform.pay_method;
-            console.log(this.saveForm);
             this.$axios.post('/api/finance/bill/'+this.id+'/set_bill_info/',this.saveForm)
             .then(res=>{
                 if(res.data.status === 1){
@@ -492,24 +527,41 @@ export default {
                         type:"success",
                         message:"保存成功！"
                     })
-                    _this.$router.push('/financemanagement/dollar/'+res.data.bill_id);
+                    if(val == 1){
+                        _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                    } else {
+                        _this.$router.push('/financemanagement/billMaking')
+                    }
+                } else {
+                    _this.$message({
+                        type:"error",
+                        message:res.data.error
+                    })
                 }
             })
         },
         getStudent(val){
+            if(this.$route.query.student){
+                this.is_edit = true;
+                this.is_choose_student = true;
+                this.choosePerson.id = this.$route.query.student;
+                this.sureAddStudent();
+            }
             var _this = this;
-            this.addform.date = this.$options.filters['formatDate2'](new Date());
+            this.addform.date = this.$options.filters['formatDate'](new Date());
             this.$axios.get('/api/finance/bill/show_bill_student/',{
                 params:{
                     search_str:this.searchStr,
-                    center_id:this.saveForm.center_id
+                    center_id:this.saveForm.center_id,
+                    page:this.currentPage,
                 }
             })
             .then(res=>{
                 _this.studentList = res.data.data.student_li;
-                _this.schoolName = res.data.data.center_name;    
+                _this.schoolName = res.data.data.center_name;
+                _this.total=res.data.data.student_total;
                 if(val === 1){
-                    if(_this.$route.query.id){
+                    if(_this.$route.query.id && !_this.$route.query.student){
                         _this.is_edit = true;
                         _this.$nextTick(()=>{
                             _this.getDiscountInfo();
@@ -521,53 +573,142 @@ export default {
         sureAddSubject(){
             this.checkedSubject = this.checkedSubject1;
             this.saveForm.billitem_list = this.checkedSubject1;
+
+            this.gettotalPrice()
+            this.subjectVisible=false;
+        },
+        gettotalPrice(){
             this.totalprice = 0;
             this.totalamount = 0;
             this.checkedSubject.forEach(item=>{
-               this.totalprice += (item.price-0) * item.rate /100;
-               this.totalamount += (item.price-0);
+                if(item.total){
+                    this.totalprice += (Number(item.total))
+                    this.totalamount += (Number(item.total))
+                }
             });
-            this.subjectVisible=false;
+            console.log(this.totalprice)
+            console.log(this.totalamount)
         },
         sureAddStudent(){
-            this.multipleTable = [this.choosePerson];
-            this.innerVisible = false;
+            var _this = this;
+            this.$axios.get('/api/student/student/'+this.choosePerson.id+'/student_profile/',{
+                params:{
+                    academic_year_id:this.addform.academic_year_id,
+                }
+            }).then(res=>{
+                if(res.data.status_code === 1){
+                    res.data.student_profile.name = res.data.student_profile.student_name;
+                    res.data.student_profile.student_no = this.choosePerson.student_no;
+                    _this.multipleTable = [res.data.student_profile];
+                    console.log(_this.multipleTable)
+                    _this.innerVisible = false;
+                }else if(res.data.status_code === 0){
+                  _this.$message({
+                    type:'warning',
+                    message:res.data.message
+                  });
+                }
+            }).catch(error=>{
+                if(error.response.status === 400){
+                     _this.$message({
+                    type:'error',
+                    message:error.response.data.message
+                });
+                }
+            })
+
         },
         getDiscountInfo(){
             var _this = this;
             this.id = this.$route.query.id;
             this.$axios.get('/api/finance/bill/'+this.id+'/info_single_bill/')
-            .then(res=>{        
+            .then(res=>{
                 _this.addform = Object.assign({},res.data.data.bill_info);
                 _this.multipleTable.push(res.data.data.bill_info);
                 _this.$set(_this.addform,'start_date',res.data.data.bill_info.planned_payment_date)
                 _this.$set(_this.addform,'end_date',res.data.data.bill_info.enter_date)
-                _this.$set(_this.saveForm,'policy_id',res.data.data.bill_info.policy_id)
                 _this.$set(_this.addform,'pay_method',res.data.data.bill_info.pay_method_id)
                 _this.$set(_this.addform,'date',res.data.data.bill_info.billing_date)
+                _this.$set(_this.addform,'academic_year_id',res.data.data.bill_info.academic_year_id)
+                _this.getPolicy();
+                _this.$set(_this.saveForm,'policy_id',res.data.data.bill_info.policy_id)
                 _this.studentList.forEach(item=>{
                     if(item.id == _this.addform.student_id){
                         _this.choosePerson = item;
                         _this.multipleTable = [item];
                     }
                 });
-                // _this.getSubject();
-                _this.checkedSubject = res.data.data.billitem_li; 
-                _this.checkedSubject1 = res.data.data.billitem_li; 
+                _this.checkedSubject = res.data.data.billitem_li;
+
+                _this.checkedSubject1 = res.data.data.billitem_li;
                 _this.saveForm.billitem_list = res.data.data.billitem_li;
                 _this.sureAddSubject();
             })
         },
+        getDiscount(row){
+            var _this = this;
+            if(this.addform.start_date == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择实际缴费日期获取折后应收"
+                });
+                return
+            }
+            this.$axios.get('/api/discount/discount_management/get_matching_discount/',{
+                params:{
+                    autoal_pay_date:this.addform.start_date,
+                    form_created_date:this.addform.date,
+                    class_type_id:this.multipleTable[0].class_type_id,
+                    student_id:this.multipleTable[0].id,
+                    center_class_id:this.multipleTable[0].center_class_id,
+                    payment_method_id:this.addform.pay_method,
+                    subject_id:row.subject_id,
+                    policy_id:this.saveForm.policy_id,
+                    policy_item_id:row.id,
+                    academic_year_id:this.addform.academic_year_id,
+                    month:row.pay_month,
+                    price:row.price
+                }
+            }).then(res=>{
+                var index = this.checkedSubject.indexOf(row);
+                console.log(this.checkedSubject[index])
+                this.checkedSubject[index].discount_name = [];
+                this.checkedSubject[index].total =  this.checkedSubject[index].act_total;
+                if(res.data.data.is_have_enroll_discount){
+                    this.checkedSubject[index].total = this.checkedSubject[index].total - res.data.data.discount_money;
+                    this.checkedSubject[index].discount_name.push(res.data.data.enroll_discount_name);
+                };
+                if(res.data.data.is_have_ordinary_discount) {
+                    if(res.data.data.is_have_ordinary_discount){
+                        res.data.data.ordinary_discount_date.forEach(item=>{
+                            if(item.discount_condition_status == 1) {
+                                this.checkedSubject[index].total -= Number(item.rate_or_price);
+                                this.checkedSubject[index].discount_name.push(item.discount_type_name);
+                            }
+                        })
+                        res.data.data.ordinary_discount_date.forEach(item=>{
+                            if(item.discount_condition_status == 0) {
+                                this.checkedSubject[index].total *= Number(item.rate_or_price/100);
+                                this.checkedSubject[index].discount_name.push(item.discount_type_name);
+                            }
+                        })
+                }
+                }
+                this.gettotalPrice()
+            })
+        },
         getYear(){
             var _this = this;
-            this.$axios.get('/api/finance/bill/show_academic_year/',{
-                params:{
-                    center_id:this.saveForm.center_id
-                }
-            })
+            this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
-                _this.yearList = res.data.data.academic_year_li;
-                _this.getInfo();
+                _this.yearList = res.data.results;
+                _this.yearList.forEach(item=>{
+                    if(item.is_selected === 1){
+                        _this.addform.academic_year_id = item.id;
+                    }
+                })
+                _this.getStudent(1);
+                _this.getPolicy();
             })
         },
         getPolicy(){
@@ -579,27 +720,17 @@ export default {
                 }
             })
             .then(res=>{
-                console.log(res.data)
                 _this.policyList = res.data.policy_list;
             })
         },
-        getInfo(){
+        getMethods(){
             var _this = this;
-            this.$axios.get('/api/finance/bill/show_policy_item/',{
-                params:{
-                    academic_year_id:this.addform.academic_year_id,
-                    payment_method:this.addform.pay_method,
-                    center_id:this.saveForm.center_id
-                }
-            })
-            .then(res=>{
-                _this.info = res.data.data.policy_info;
-                // _this.subjectList = res.data.data.policy_item_li;
-                _this.getPolicy();
+            this.$axios.get('/api/finance/bill/show_paymethod/').then(res=>{
+                _this.methods_list = res.data.paymethod_list;
+                _this.addform.pay_method = res.data.paymethod_list[0].id;
             })
         },
         getSubject(){
-            console.log(this.multipleTable)
             if(this.multipleTable.length == 0){
                 this.$message({
                     type:"error",
@@ -614,25 +745,40 @@ export default {
                 });
                 return
             }
+            if(this.addform.start_date == ''){
+                this.$message({
+                    type:"error",
+                    message:"请选择实际缴费日期"
+                });
+                return
+            }
             var _this = this;
             this.getPolicy();
             this.$axios.get('/api/finance/charging_policy/'+this.saveForm.policy_id+'/get_available_items_for_student/',{
                 params:{
                     student_id:this.multipleTable[0].id,
                     payment_method_id:this.addform.pay_method,
-                    academic_year_id:this.addform.academic_year_id,
+                    class_type_id:this.multipleTable[0].class_type_id,
                     payment_date:this.addform.start_date,
                     enter_date:this.addform.end_date,
                 }
             })
             .then(res=>{
-                res.data.available_items.forEach(item=>{
+                if(res.data.status_code === 1){
+                    _this.$message({
+                        type:'success',
+                        message:'费用科目搜索成功'
+                    })
+                    res.data.available_items.forEach(item=>{
+                    item.subject_id = item.subject;
                     item.subject = item.subject_name;
                     item.subject_category = item.subject_category_name;
                     item.payment_method = item.payment_method_name;
                 })
                 _this.subjectList = res.data.available_items;
                 _this.checkedSubject = [];
+                }
+
             })
         },
         handleSelectionChange(val){
@@ -655,11 +801,10 @@ export default {
                     this.$refs.multipleTable2.toggleRowSelection(row,false);
                 }
             });
-            } 
+            }
         },
         changePayDate(val,row){
             var _this = this;
-            console.log(this.multipleTable)
             if(row.begin_date  && row.end_date ) {
                 if(row.end_date<row.begin_date) {
                     this.$message({
@@ -671,17 +816,32 @@ export default {
                 this.$axios.get('/api/finance/select/total_month_count/',{
                     params:{
                         center_id:this.saveForm.center_id,
-                        class_type_id:this.multipleTable[0].class_id,
+                        class_type_id:this.multipleTable[0].class_type_id,
                         from_date:row.begin_date,
                         to_date:row.end_date
                     }
                 }).then(res=>{
-                    console.log(res)
-                    row.pay_month = res.data.data;
+                    _this.$set(row,'pay_month',res.data.data);
+                    _this.$set(row,'act_total',Number(row.pay_month)*Number(row.price));
+                    _this.getDiscount(row);
                 })
+            } else {
+                row.pay_month = 0;
+                row.act_total = 0;
+                row.discount_name = [];
             }
-            
+
         }
+    },
+    watch: {
+      currentPage(){
+        this.getStudent(1)
+      }
+        // 'addform.start_date'(){
+        //     if(this.multipleTable.length !== 0) {
+        //         this.getDiscount()
+        //     }
+        // }
     }
 }
 </script>

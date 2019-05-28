@@ -42,7 +42,7 @@
           @current-change="changePage"
           :page-size="10"
           :current-page="searchform.page"
-          layout="prev, pager, next"
+          layout="prev,pager, next, jumper"
           :total="count">
       </el-pagination>
         <!-- 政策详情 -->
@@ -68,7 +68,6 @@
             <el-table
               :data="detailForm.items"
               border
-              stripe
               show-header
               :span-method="objectSpanMethod"
               style="width: 100%;">
@@ -93,7 +92,7 @@
                 >
               </el-table-column>
               <el-table-column
-                prop="ranges"
+                prop="range_desc"
                 label="适用范围">
               </el-table-column>
               <el-table-column
@@ -183,7 +182,7 @@ export default {
                     this.pos = 0
               } else {
                 // 判断当前元素与上一个元素是否相同
-          if (this.detailForm.items[i].subject_category === this.detailForm.items[i-1].subject_category) {
+          if (this.detailForm.items[i].subject_category_name === this.detailForm.items[i-1].subject_category_name) {
                       this.spanArr[this.pos] += 1;
                       this.spanArr.push(0);
                     } else {

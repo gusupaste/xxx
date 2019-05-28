@@ -52,8 +52,8 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer text-align-center">
-          <el-button @click="addintercityVisible = false" class="bg-grey white">取 消</el-button>
-          <el-button type="success" @click="addIntercity('form')">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="addintercityVisible = false" >取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="addIntercity('form')">保 存</el-button>
         </div>
       </el-dialog>
       <!-- 编辑城际 -->
@@ -96,8 +96,8 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="editintercityVisible = false" class="bg-grey white">取 消</el-button>
-          <el-button type="success" @click="sureEditIntercity('checkedItem')">保 存</el-button>
+          <el-button @click="editintercityVisible = false" class="bg-grey bd-grey white">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureEditIntercity('checkedItem')">保 存</el-button>
         </span>
       </el-dialog>
       <!-- 删除城际 -->
@@ -157,8 +157,8 @@
             :total="count">
           </el-pagination>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="addinnerVisible = false" class="bg-grey white">取 消</el-button>
-            <el-button type="success" @click="checkedPerson">确 定</el-button>
+            <el-button @click="addinnerVisible = false" class="bg-grey bd-grey white">取 消</el-button>
+            <el-button class="bg-green bd-green white" type="success" @click="checkedPerson">确 定</el-button>
         </span>
         </el-dialog>
     </div>
@@ -392,7 +392,7 @@
             _this.checkedItem = res.data.detail;
             _this.checkedItem.dept_code = res.data.detail.dept_code -0;
             _this.UNSelectSchool = res.data.detail.center_list;
-            _this.checkedItem.manager_id = res.data.detail.manager;
+            _this.checkedItem.manager_id = res.data.detail.manager_id;
             _this.editintercityVisible = true;
             console.log(_this.checkedItem)
           }).catch(err=>{

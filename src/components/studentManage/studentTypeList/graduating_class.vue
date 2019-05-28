@@ -1,7 +1,7 @@
 <template>
   <div class="student_class">
       <div class="formwrap">
-        <el-form ref="form" :model="form" label-width="100px" inline>
+        <el-form ref="form" :model="form" label-width="60px" inline>
           <el-form-item label="班级：">
             <el-select v-model="class_val">
               <el-option value="" label="全部"></el-option>
@@ -40,7 +40,7 @@
 
       </div>
       <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/9')">
+          <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
             <div style="padding:20px">
               <div class="avatar inline-block">
                 <img src="../../../assets/img/logo.png" alt="">
@@ -70,8 +70,8 @@
   </div>
 </template>
 <style scoped>
-  .student_class .formwrap {
-    margin-top: 20px;
+  .student_class >>> .el-form-item__label{
+    padding: 0;
   }
   .student_class .studentFileList {
     margin-top: 20px;

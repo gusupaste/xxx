@@ -3,7 +3,7 @@
     <div class="select-header" style="min-height: 35px;line-height: 35px;margin-bottom: 10px;">
                 <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
                   <i class="icon-font fa fa-calendar-plus-o"></i>
-                  <span class="orange font-size-14">新增折扣类型</span>
+                  <span class="font-cl-blue font-size-14">新增折扣类型</span>
               </span>
     </div>
     <el-table
@@ -65,7 +65,7 @@
     </el-table>
     <el-pagination
       background
-      layout="pager, next, jumper"
+      layout="prev,pager, next, jumper"
       next-text="下一页"
       :page-size="pagesize"
       :current-page="currentPage"
@@ -151,8 +151,8 @@
         </el-row>
         <el-row>
           <el-col :span="10">
-            <el-form-item label="缴费金额: ">
-              <el-input v-model="discountForm.discount_money" size="small" placeholder="缴费金额"></el-input>
+            <el-form-item label="折扣金额: ">
+              <el-input v-model="discountForm.discount_money" size="small" placeholder="折扣金额"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -223,8 +223,8 @@
 
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="addDiscountVisible = false">取 消</el-button>
-          <el-button type="success" @click="saveRecruitdis">保 存</el-button>
+          <el-button class="bg-grey bd-grey white" @click="addDiscountVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="saveRecruitdis">保 存</el-button>
         </span>
     </el-dialog>
   </div>
@@ -266,6 +266,12 @@
     watch: {
       currentPage () {
         this.getEnrollmentDiscountList(this.currentPage)
+      },
+      'searchSchool.intercity_id'() {
+        this.searchSchoolList()
+      },
+      'searchSchool.area_id'() {
+        this.searchSchoolList()
       }
     },
     methods: {
@@ -306,6 +312,8 @@
         })
       },
       addNewDiscount: function (flag) {
+        this.getIntercity()
+        this.getArea()
         this.exist_discount_type_value = []
         if (flag === 0) {
           this.discountName = '新增折扣类型'
@@ -371,9 +379,9 @@
       },
       /* 下拉框 城际列表 */
       getIntercity: function () {
-        this.$axios.get('/api/common/intercity/')
+        this.$axios.get('/api/common/select/intercity_list/')
           .then(res => {
-            this.intercityList = res.data.intercity_list
+            this.intercityList = res.data.results
           }).catch(err => {
 
         })

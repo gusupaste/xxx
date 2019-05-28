@@ -18,9 +18,9 @@
           <span style="margin-left: 10px">账单状态：</span>
           <el-select v-model="searchForm.bill_status" placeholder="--请选择--" >
               <el-option label="所有" value=""></el-option>
-              <el-option label="已确认" value="1"></el-option>
-              <el-option label="待批" value="2"></el-option>
-              <el-option label="被驳回" value="4"></el-option>
+              <el-option label="待审批" value="待审批"></el-option>
+              <el-option label="已批准" value="已批准"></el-option>
+              <el-option label="已拒绝" value="已拒绝"></el-option>
           </el-select>
           <span style="margin-left: 20px">搜索：</span>
           <el-input v-model="searchForm.search_name" placeholder="输入学号、学生姓名或家长姓名" style="width: auto"></el-input>
@@ -145,9 +145,8 @@
       },
       searchList(id){
         this.searchForm.page = id;
-        this.$axios.get('/api/finance/refund/',{
-          params:this.searchForm
-        }).then(res=>{
+        this.$axios.post('/api/finance/refund/refund_list/',this.searchForm)
+        .then(res=>{
           this.chargeTableDate = res.data.results;
           this.count = res.data.count;
         })

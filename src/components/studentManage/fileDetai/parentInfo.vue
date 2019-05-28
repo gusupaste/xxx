@@ -47,10 +47,10 @@
             prop="address"
             label="操作">
               <template slot-scope="scope">
-                <el-button type="text"class="red" @click="editParentInfo(scope.row)">
+                <el-button type="text" class="red" @click="editParentInfo(scope.row)">
                   <i class="fa fa-pencil green cur"></i>
                 </el-button>
-                <el-button type="text"class="red" @click="deleteVisible = true;deleteId = scope.row.id">
+                <el-button type="text" class="red" @click="deleteVisible = true;deleteId = scope.row.id">
                   <i class="fa fa-trash red cur"></i>
                 </el-button>
                 <!--<i class="fa fa-pencil green font-size-20 cur" @click="editParentInfo(scope.row)" ></i>-->
@@ -59,7 +59,7 @@
             </el-table-column>
         </el-table>
         <p style="line-height: 35px;">
-          <el-button type="text"class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
+          <el-button type="text" class="red" @click="ruleFormShow = true" v-bind:disabled="ruleFormShow === true">
             <i class="el-icon-circle-plus font-size-14 cur">添加家长</i>
           </el-button>
         </p>
@@ -157,8 +157,8 @@
       <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
         <p class="mt26 text-align-center">确认删除该条记录？</p>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="deleteVisible = false">取 消</el-button>
-          <el-button type="success" @click="deleteParentInfo">确 定</el-button>
+          <el-button class="bg-grey bd-grey white" @click="deleteVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="deleteParentInfo">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -240,6 +240,15 @@ export default {
       }
     },
     watch:{
+      'ruleForm.telephone':function () {
+        this.ruleForm.telephone = this.ruleForm.telephone.replace(/[^\d]/g, '');
+      },
+      'ruleForm.home_phone':function () {
+        this.ruleForm.home_phone = this.ruleForm.home_phone.replace(/[^\d]/g, '');
+      },
+      'ruleForm.office_phone':function () {
+        this.ruleForm.office_phone = this.ruleForm.office_phone.replace(/[^\d]/g, '');
+      },
       activeName: {
         handler(newValue, oldValue) {
           if(newValue === 'second'){
@@ -300,8 +309,8 @@ export default {
           this.edit_id = obj.id;
           this.ruleForm.student = this.$route.params.id;
           this.ruleForm.name = obj.name;
-          this.ruleForm.relationship = parseInt(obj.relationship);
-          this.ruleForm.nationality = parseInt(obj.nationality);
+          this.ruleForm.relationship = obj.relationship;
+          this.ruleForm.nationality = obj.nationality;
           this.ruleForm.employer = obj.employer;
           this.ruleForm.position = obj.position;
           this.ruleForm.email = obj.email;
@@ -309,22 +318,22 @@ export default {
           this.ruleForm.telephone = obj.telephone;
           this.ruleForm.home_phone = obj.home_phone;
           if(obj.emergency_contact_grade !== null && obj.emergency_contact_grade !== ''){
-            this.ruleForm.emergency_contact_grade = parseInt(obj.emergency_contact_grade);
+            this.ruleForm.emergency_contact_grade = obj.emergency_contact_grade;
           }else{
             this.ruleForm.emergency_contact_grade = '';
           }
           if(obj.primary_contact_way !== null && obj.primary_contact_way !== ''){
-            this.ruleForm.primary_contact_way = parseInt(obj.primary_contact_way);
+            this.ruleForm.primary_contact_way = obj.primary_contact_way;
           }else{
             this.ruleForm.primary_contact_way = '';
           }
           if(obj.primary_language !== null && obj.primary_language !== ''){
-            this.ruleForm.primary_language = parseInt(obj.primary_language);
+            this.ruleForm.primary_language = obj.primary_language;
           }else{
             this.ruleForm.primary_language = '';
           }
           if(obj.other_language !== null && obj.other_language !== ''){
-            this.ruleForm.other_language = parseInt(obj.other_language);
+            this.ruleForm.other_language = obj.other_language;
           }else{
             this.ruleForm.other_language = '';
           }

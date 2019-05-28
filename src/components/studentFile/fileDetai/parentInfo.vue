@@ -157,8 +157,8 @@
       <el-dialog title="确认删除" :visible.sync="deleteVisible" width="400px">
         <p class="mt26 text-align-center">确认删除该条记录？</p>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="deleteVisible = false">取 消</el-button>
-          <el-button type="success" @click="deleteParentInfo">确 定</el-button>
+          <el-button class="bg-grey bd-grey white" @click="deleteVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="deleteParentInfo">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -309,8 +309,9 @@ export default {
           this.edit_id = obj.id;
           this.ruleForm.student = this.$route.params.id;
           this.ruleForm.name = obj.name;
-          this.ruleForm.relationship = parseInt(obj.relationship);
-          this.ruleForm.nationality = parseInt(obj.nationality);
+          this.ruleForm.relationship = obj.relationship;
+          this.ruleForm.nationality = obj.nationality
+          ;
           this.ruleForm.employer = obj.employer;
           this.ruleForm.position = obj.position;
           this.ruleForm.email = obj.email;
@@ -318,22 +319,22 @@ export default {
           this.ruleForm.telephone = obj.telephone;
           this.ruleForm.home_phone = obj.home_phone;
           if(obj.emergency_contact_grade !== null && obj.emergency_contact_grade !== ''){
-            this.ruleForm.emergency_contact_grade = parseInt(obj.emergency_contact_grade);
+            this.ruleForm.emergency_contact_grade = obj.emergency_contact_grade;
           }else{
             this.ruleForm.emergency_contact_grade = '';
           }
           if(obj.primary_contact_way !== null && obj.primary_contact_way !== ''){
-            this.ruleForm.primary_contact_way = parseInt(obj.primary_contact_way);
+            this.ruleForm.primary_contact_way = obj.primary_contact_way;
           }else{
             this.ruleForm.primary_contact_way = '';
           }
           if(obj.primary_language !== null && obj.primary_language !== ''){
-            this.ruleForm.primary_language = parseInt(obj.primary_language);
+            this.ruleForm.primary_language = obj.primary_language;
           }else{
             this.ruleForm.primary_language = '';
           }
           if(obj.other_language !== null && obj.other_language !== ''){
-            this.ruleForm.other_language = parseInt(obj.other_language);
+            this.ruleForm.other_language = obj.other_language;
           }else{
             this.ruleForm.other_language = '';
           }
