@@ -440,11 +440,11 @@ export default {
                         type:"success",
                         message:"保存成功！"
                     })
-                    // if(val == 1){
-                    //     _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
-                    // } else {
-                    //     _this.$router.push('/financemanagement/billMaking')
-                    // }
+                    if(val == 1){
+                        _this.$router.push('/financemanagement/dollar/'+res.data.bill_id)
+                    } else {
+                        _this.$router.push('/financemanagement/billMaking')
+                    }
                 } else {
                     _this.$message({
                         type:"error",
