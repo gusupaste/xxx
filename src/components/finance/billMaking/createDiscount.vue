@@ -102,7 +102,7 @@
                 width="400"
                 label="缴费区间">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.payment_methode !== '一次性缴费'">
+                    <span v-if="scope.row.payment_method !== '一次性缴费'">
                         <el-date-picker
                             style="width:145px;display:inline-block"
                                 v-model="saveForm.billitem_list[scope.$index].begin_date"
@@ -227,6 +227,15 @@
                     </template>
                   </el-table-column>
                 </el-table>
+                <el-pagination
+                  background
+                  layout="prev,pager, next, jumper"
+                  next-text="下一页"
+                  :page-size="pagesize"
+                  :current-page="currentPage"
+                  @current-change="handleCurrentChange"
+                  :total="total" class="page">
+                </el-pagination>
                 <div class="red">
                     <!-- *学生可多选，账单支持批量创建 -->
                 </div>
@@ -329,6 +338,9 @@
 export default {
     data(){
         return {
+            pagesize:10,
+            currentPage:1,
+            total:1,
             addform:{
                 pay_method:"",
                 date:'',
@@ -381,6 +393,9 @@ export default {
         this.getMethods();
     },
     methods: {
+         handleCurrentChange:function(currentPage){
+            this.currentPage=currentPage;
+        },
         saveInfo(val){
             var _this = this;
             var no_totalList = [];
@@ -574,12 +589,14 @@ export default {
             this.$axios.get('/api/finance/bill/show_bill_student/',{
                 params:{
                     search_str:this.searchStr,
-                    center_id:this.saveForm.center_id
+                    center_id:this.saveForm.center_id,
+                    page:this.currentPage,
                 }
             })
             .then(res=>{
                 _this.studentList = res.data.data.student_li;
                 _this.schoolName = res.data.data.center_name;
+                _this.total=res.data.data.student_total;
                 if(val === 1){
                     if(_this.$route.query.id && !_this.$route.query.student){
                         _this.is_edit = true;
@@ -625,6 +642,11 @@ export default {
                     _this.multipleTable = [res.data.student_profile];
                     console.log(_this.multipleTable)
                     _this.innerVisible = false;
+                }else if(res.data.status_code === 0){
+                  _this.$message({
+                    type:'warning',
+                    message:res.data.message
+                  });
                 }
             }).catch(error=>{
                 if(error.response.status === 400){
@@ -858,6 +880,9 @@ export default {
         }
     },
     watch: {
+        currentPage(){
+            this.getStudent(1)
+        }
         // 'addform.start_date'(){
         //     if(this.multipleTable.length !== 0) {
         //         this.getDiscount()
