@@ -266,6 +266,12 @@
     watch: {
       currentPage () {
         this.getEnrollmentDiscountList(this.currentPage)
+      },
+      'searchSchool.intercity_id'() {
+        this.searchSchoolList()
+      },
+      'searchSchool.area_id'() {
+        this.searchSchoolList()
       }
     },
     methods: {
@@ -306,6 +312,8 @@
         })
       },
       addNewDiscount: function (flag) {
+        this.getIntercity()
+        this.getArea()
         this.exist_discount_type_value = []
         if (flag === 0) {
           this.discountName = '新增折扣类型'
@@ -371,9 +379,9 @@
       },
       /* 下拉框 城际列表 */
       getIntercity: function () {
-        this.$axios.get('/api/common/intercity/')
+        this.$axios.get('/api/common/select/intercity_list/')
           .then(res => {
-            this.intercityList = res.data.intercity_list
+            this.intercityList = res.data.results
           }).catch(err => {
 
         })
