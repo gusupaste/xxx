@@ -100,7 +100,7 @@
               <div class="avatar inline-block">
                 <img src="../../../assets/img/logo.png" alt="">
               </div>
-              <div class="card-content inline-block">
+              <div class="card-content inline-block" style="width: 180px">
                   <p>
                     <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
                     <i style="font-size:15px;color:#ff7f7f" class="fa fa-times-circle"></i>
@@ -152,6 +152,12 @@
     margin-left: 20px;
     vertical-align: top;
     line-height: 25px;
+  }
+  .card-content>p{
+    width: 180px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .studentFile .studentFileCard .card-content .studentType{
     background-color: #ED6C2E;
