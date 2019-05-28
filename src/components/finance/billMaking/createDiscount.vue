@@ -398,6 +398,22 @@ export default {
       },
         saveInfo(val){
             var _this = this;
+            var no_totalList = [];
+            this.saveForm.billitem_list.forEach(item=>{
+                if(item.payment_method_name != '一次性缴费'){
+                    console.log(item.total)
+                    if(!item.total){
+                        no_totalList.push(item);
+                    }
+                }
+            });
+            if(no_totalList.length > 0) {
+                this.$message({
+                    type:'error',
+                    message:'请选择缴费区间'
+                })
+                return;   
+            }
             if(this.multipleTable.length == 0){
                 this.$message({
                     type:"error",
@@ -470,6 +486,22 @@ export default {
         },
         editInfo(val){
             var _this = this;
+            var no_totalList = [];
+            this.saveForm.billitem_list.forEach(item=>{
+                if(item.payment_method_name != '一次性缴费'){
+                    console.log(item.total)
+                    if(!item.total){
+                        no_totalList.push(item);
+                    }
+                }
+            });
+            if(no_totalList.length > 0) {
+                this.$message({
+                    type:'error',
+                    message:'请选择缴费区间'
+                })
+                return;   
+            }
             if(this.multipleTable.length == 0){
                 this.$message({
                     type:"error",
@@ -497,7 +529,12 @@ export default {
                     message:"请选择费用分摊明细"
                 });
                 return
-            }
+            };
+            this.saveForm.billitem_list.forEach(item=>{
+                if(item.payment_method_name != '一次性缴费'){
+                    console.log(item.total)
+                }
+            })
             if(this.saveForm.policy_id == ''){
                 this.$message({
                     type:"error",
@@ -774,6 +811,10 @@ export default {
                     item.subject = item.subject_name;
                     item.subject_category = item.subject_category_name;
                     item.payment_method = item.payment_method_name;
+                    if(item.payment_method_name == '一次性缴费'){
+                        item.total = Number(item.price);
+                        item.act_total = Number(item.price)
+                    }
                 })
                 _this.subjectList = res.data.available_items;
                 _this.checkedSubject = [];
@@ -827,7 +868,8 @@ export default {
                 })
             } else {
                 row.pay_month = 0;
-                row.act_total = 0;
+                delete row.act_total;
+                delete row.total;
                 row.discount_name = [];
             }
 
