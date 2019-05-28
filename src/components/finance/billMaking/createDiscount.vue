@@ -102,7 +102,7 @@
                 width="400"
                 label="缴费区间">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.payment_methode !== '一次性缴费'">
+                    <span v-if="scope.row.payment_method !== '一次性缴费'">
                         <el-date-picker
                             style="width:145px;display:inline-block"
                                 v-model="saveForm.billitem_list[scope.$index].begin_date"
