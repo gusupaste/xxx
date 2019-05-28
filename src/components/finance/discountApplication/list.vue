@@ -37,7 +37,7 @@
         </el-select>
         <span class="padding-left-30">搜索：</span>
         <el-input v-model="searchText" placeholder="请输入折扣名称" class="search_input"></el-input>
-        <span class="padding-left-30"><el-button type="primary">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
       </div>
       <div class="right mt10 cur mb10" @click="$router.push('/financemanagement/adddiscountApplication')">
         <i class="orange fa fa-plus font-size-20"></i>
@@ -93,6 +93,15 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      background
+      layout="prev,pager, next, jumper"
+      next-text="下一页"
+      :page-size="pagesize"
+      :current-page="currentPage"
+      @current-change="handleCurrentChange"
+      :total="total" class="page">
+    </el-pagination>
   </div>
 </template>
 <style scoped>
@@ -105,6 +114,9 @@
   export default {
     data() {
       return {
+        pagesize:10,
+        currentPage:1,
+        total:1,
         value: "",
         tableData: [],
         year_url: '/api/common/select/academic_year_list/', /*学年*/
@@ -138,6 +150,9 @@
       this.getList();
     },
     methods: {
+      handleCurrentChange:function(currentPage){
+        this.currentPage=currentPage;
+      },
       routerPush: function (obj) {
         var status = 0;
         if (obj.form_status === '待审批') {
@@ -157,11 +172,11 @@
           _this.loading = false;
           if (res.status == 200 && res.data.status_code == 1) {
             this.year_list = res.data.results;
-            for (var x in this.year_list) {
+            /*for (var x in this.year_list) {
               if (this.year_list[x].is_selected == 1) {
                 this.year = this.year_list[x].id;
               }
-            }
+            }*/
           }
         }).catch(err => {
           console.log(err)
@@ -195,11 +210,12 @@
           index3 = -1;
         }
         var url = '/api/discount/discount_management/?is_hq=0&academic_year_id=' + index1
-          + '&center_class_id=' + index2 + '&type=' + index3 + '&student_name=' + this.searchText;
+          + '&center_class_id=' + index2 + '&type=' + index3 + '&student_name=' + this.searchText + '&page=' + this.currentPage;
         _this.$axios.get(url).then(res => {
           _this.loading = false;
           if (res.status == 200 && res.data.status_code == 1) {
             this.tableData = res.data.data.results;
+            this.total=res.data.data.count;
           }
         }).catch(err => {
           console.log(err)
@@ -213,7 +229,12 @@
               this.tableData = res.data.data.bill_li
           })*!/
       }*/
-    }
+    },
+    watch: {
+      currentPage(){
+        this.getList(this.currentPage)
+      }
+    },
   }
 </script>
 

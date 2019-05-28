@@ -20,7 +20,7 @@
           </el-form-item>
           <br>
           <el-form-item label="姓名：" prop="name" label-width="150px" >
-            <el-input v-model="studentInfo.name" disabled="true" placeholder="请填写姓名" class="w250_input"></el-input>
+            <el-input v-model="studentInfo.name" disabled="disabled" placeholder="请填写姓名" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item label="昵称：" label-width="150px">
             <el-input v-model="studentInfo.nick_name" placeholder="请填写昵称" class="w250_input">
@@ -149,10 +149,10 @@
               <el-option v-for="pro in provinceList" :label="pro.city_name" :value="pro.city_id" :key="pro.city_id"></el-option>
             </el-select>
             <el-select class="select-region" v-model="c_city_id" placeholder="市" @change="proinit(2)">
-              <el-option v-for="city in cityList" :label="city.city_name" :value="city.city_id" :key="city.id"></el-option>
+              <el-option v-for="city in cityList" :label="city.city_name" :value="city.city_id" :key="city.city_id"></el-option>
             </el-select>
             <el-select class="select-region" v-model="town" placeholder="区">
-              <el-option v-for="town in townList" :label="town.city_name" :value="town.city_id" :key="town.id"></el-option>
+              <el-option v-for="town in townList" :label="town.city_name" :value="town.city_id" :key="town.city_id"></el-option>
             </el-select>
             <el-input v-model="studentInfo.address" style="width: auto;" placeholder="请输入详细地址" maxlength="100"></el-input>
           </el-form-item>
@@ -241,6 +241,8 @@
         newType:['is_employee_child'],
         preferred_grade_type_name:'',
         preferred_class_type_name:'',
+        grade_type_name:'',
+        class_type_name:'',
         studentInfo:{
           name: '',
           nick_name: '',
