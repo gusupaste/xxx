@@ -70,7 +70,7 @@
         <el-tab-pane label="我发起的工作流" name="second">
           <div class="select-header">
             <span>审批状态：</span>
-            <el-select v-model="approve_status" placeholder="--请选择--" @change="getApplyList">
+            <el-select v-model="approve_status" placeholder="--请选择--" @change="getApplyList(1)">
               <el-option
                 v-for="item in approveStatusList"
                 :key="item.id"
@@ -80,7 +80,7 @@
             </el-select>
             <span class="padding-left-30">搜索：</span>
             <el-input v-model="name" placeholder="输入科目编码或名称" class="search_input"></el-input>
-            <span class="padding-left-30"><el-button type="primary" @click="getApplyList">搜索</el-button></span>
+            <span class="padding-left-30"><el-button type="primary" @click="getApplyList(1)">搜索</el-button></span>
           </div>
           <el-table
             :data="applyList"
