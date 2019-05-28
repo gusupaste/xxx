@@ -79,7 +79,7 @@
           </el-select>
           <template v-if="permission['finance']['reserve-fund-management-campus']">
             <span class="padding-left-30">班级：</span>
-            <el-select v-model="class_year_id" placeholder="请选择" :disabled="selectDisable">
+            <el-select v-model="class_year_id" placeholder="请选择">
               <el-option value="" label="全部" aria-selected="true"></el-option>
               <el-option
                 v-for="item in class_year_list"
@@ -234,16 +234,21 @@
         city_id: '',
         brand_id: '',
         school_id: '',
-        selectDisable: true
+        selectDisable: true,
+        center_id: this.$cookies.get('userInfo').center['id']
       }
     },
     mounted: function () {
-      this.getIntercityList()
-      this.getAreaList()
-      this.getCityList(0)
-      this.getBrandList()
-      this.getSchoolList('', '', '', '')
       this.getYearList()
+      if (this.center_id === undefined) {
+        this.getIntercityList()
+        this.getAreaList()
+        this.getCityList(0)
+        this.getBrandList()
+        this.getSchoolList('', '', '', '')
+      } else {
+        this.getYearClassList(this.center_id)
+      }
     },
     watch: {
       intercity_id() {
@@ -359,7 +364,17 @@
       },
       getList: function () {
         var class_ids = []
-        if (!this.selectDisable) {
+        if (this.center_id === undefined) {
+          if (!this.selectDisable) {
+            if (this.class_year_id === '') {
+              for (let i = 0; i < this.class_year_list.length; i++) {
+                class_ids.push(this.class_year_list[i].id)
+              }
+            } else {
+              class_ids.push(this.class_year_id)
+            }
+          }
+        } else {
           if (this.class_year_id === '') {
             for (let i = 0; i < this.class_year_list.length; i++) {
               class_ids.push(this.class_year_list[i].id)
@@ -368,7 +383,6 @@
             class_ids.push(this.class_year_id)
           }
         }
-
         this.$axios.post('/api/finance/reserved_fund/list/', {
           academic_year: this.academic_year_id,
           class_id: class_ids,
