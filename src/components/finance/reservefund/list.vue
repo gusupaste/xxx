@@ -69,11 +69,12 @@
             </el-option>
           </el-select>
           <span class="padding-left-30">班级：</span>
-          <el-select v-model="class_year_id" placeholder="请选择">
+          <el-select v-model="class_year_id" placeholder="请选择" :disabled="selectDisable">
+            <el-option value="" label="全部" aria-selected="true"></el-option>
             <el-option
               v-for="item in class_year_list"
               :key="item.id"
-              :label="item.center_class__name"
+              :label="item.name"
               :value="item.id">
             </el-option>
           </el-select>
@@ -222,16 +223,16 @@
         city_id: '',
         brand_id: '',
         school_id: '',
+        selectDisable: true
       }
     },
     mounted: function () {
-      this.getYearList()
       this.getIntercityList()
       this.getAreaList()
       this.getCityList(0)
       this.getBrandList()
       this.getSchoolList('', '', '', '')
-      this.getList()
+      this.getYearList()
     },
     watch: {
       intercity_id() {
@@ -251,13 +252,16 @@
         this.school_id = ''
         this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
       },
-      school_id() {
-          this.class_year_id = ''
-          this.getYearClassList()
-      },
-      academic_year_id() {
-        this.class_year_id = ''
-        this.getYearClassList()
+      school_id: {
+        handler(newValue, oldValue) {
+          if (newValue === '') {
+            this.selectDisable = true;
+          } else {
+            this.selectDisable = false;
+            this.class_year_id = ''
+            this.getYearClassList(this.school_id)
+          }
+        }
       },
       class_year_id() {
         this.getList()
@@ -330,19 +334,22 @@
         })
       },
       /*学年下的班级*/
-      getYearClassList: function () {
-        this.$axios.get('/api/center/select/center_year_class_list/?academic_year_id=' + this.academic_year_id + '&center_id=' + this.school_id)
+      getYearClassList: function (school) {
+        this.$axios.get('/api/common/select/class_list/?center_id=' + school)
           .then(res => {
             this.class_year_list = res.data.results
-            this.class_year_id = this.class_year_list[0].id
+            //this.class_year_id = this.class_year_list[0].id
             this.getList()
           }).catch(err => {
           console.log(err)
         })
       },
       getList: function () {
-        this.$axios.get('/api/finance/reserved_fund/', {
-          params: {
+        this.$axios.post('/api/finance/reserved_fund/list/', {
+          academic_year: this.academic_year_id,
+          class_id: this.class_year_id,
+          search_str: this.search_name
+         /* params: {
             academic_year_id: this.academic_year_id,
             class_year_id: this.class_year_id,
             search_name: this.search_name,
@@ -351,7 +358,7 @@
             city_id: this.city_id,
             brand_id: this.brand_id,
             center_id: this.school_id
-          }
+          }*/
         })
           .then(res => {
             this.tableDate = res.data.results
