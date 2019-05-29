@@ -120,7 +120,7 @@
         value: "",
         tableData: [],
         year_url: '/api/common/select/academic_year_list/', /*学年*/
-        klass_url: '/api/common/select/class_list/?center_id=3', /*班级*/
+        klass_url: '/api/common/select/class_list/', /*班级*/
         status_list: [
           {
             id: 0,
