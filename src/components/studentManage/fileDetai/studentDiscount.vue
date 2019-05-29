@@ -102,7 +102,7 @@
                                :value="item.id"></el-option>
                   </el-select>
                     <div class="mt26">
-                        <p class="recordHead">预制账单</p>
+                      <p class="recordHead">预制账单</p>
                       <el-table
                         class="mt26"
                         :data="pre_bills"
@@ -152,6 +152,57 @@
                         </el-table-column>
                       </el-table>
                     </div>
+                  <div class="mt26">
+                    <p class="recordHead">已出账单</p>
+                    <el-table
+                      class="mt26"
+                      :data="audit_bills"
+                      border
+                      style="width: 100%">
+                      <el-table-column
+                        prop="bill_no"
+                        label="单号">
+                      </el-table-column>
+                      <el-table-column
+                        prop="create_date"
+                        label="日期">
+                      </el-table-column>
+                      <el-table-column
+                        prop="bill_type_str"
+                        label="账单类型">
+                      </el-table-column>
+                      <el-table-column
+                        label="学号">
+                        <template slot-scope="scope">
+                          {{ scope.row.student.student_no }}
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        label="姓名">
+                        <template slot-scope="scope">
+                          {{ scope.row.student.name }}
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        label="所在班级">
+                        <template slot-scope="scope">
+                          {{ scope.row.student.student_class }}
+                        </template>
+                      </el-table-column>
+                      <el-table-column
+                        prop="amount"
+                        label="实退金额">
+                      </el-table-column>
+                      <el-table-column
+                        prop="status"
+                        label="审核状态">
+                      </el-table-column>
+                      <el-table-column
+                        prop="audit_node"
+                        label="审核节点">
+                      </el-table-column>
+                    </el-table>
+                  </div>
                 </div>
             </el-tab-pane>
         </el-tabs>
@@ -209,6 +260,7 @@ export default {
           dis_value:3,
           dis_option:[],
           pre_bills:[],
+          audit_bills:[],
         }
     },
     mounted:function(){
@@ -240,6 +292,7 @@ export default {
         this.$axios.get('/api/finance/student_refund/refund_bills/?student_id='+this.$route.params.id+'&bill_type='+this.dis_value)
           .then(res=>{
             this.pre_bills = res.data.data.pre_bills;
+            this.audit_bills = res.data.data.audit_bills;
           })
       }
     },
