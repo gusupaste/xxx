@@ -553,6 +553,7 @@ export default {
               radio4:'0',
               radio5:'0',
               radio_type5:'0',
+              meal_refund_money_per:''
             },
             get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
             get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
