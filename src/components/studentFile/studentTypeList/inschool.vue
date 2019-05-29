@@ -110,7 +110,8 @@
               <div class="card-content inline-block">
                   <p>
                     <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
-                    <i style="font-size:15px;color:#ff7f7f" class="fa fa-times-circle"></i>
+                    <i v-if="item.gender ==='男生'" style="font-size:15px;color:#51a5ff;" class="fa fa-mars" aria-hidden="true"></i>
+                    <i v-if="item.gender ==='女生'" style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
                   </p>
                   <p>出生日期：{{ item.date_of_birth }}</p>
                   <p>学号：{{ item.student_no }}</p>

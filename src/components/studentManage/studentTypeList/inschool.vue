@@ -38,15 +38,16 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="搜索：">
-            <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
+            <el-input v-model="searchText" placeholder="输入学号、学生姓名" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="getStudentList">搜索</el-button>
+            <el-button type="primary" @click="getStudentList()">搜索</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="studentFileList">
-        <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index">
+        <div class="studentFileCard" v-for="(item , index) in student_list "
+             :key="index">
           <div style="padding:15px" @click="$router.push('/studentManage/student-detail/' + item.id)">
             <div class="avatar inline-block">
               <i style="font-size:80px;color:#ddd;line-height: 120px" class="fa fa-user-circle-o" aria-hidden="true"></i>
@@ -54,7 +55,8 @@
             <div class="card-content inline-block">
               <p>
                 <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
-                <i style="font-size:14px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
+                <i v-if="item.gender ==='男生'" style="font-size:15px;color:#51a5ff;" class="fa fa-mars" aria-hidden="true"></i>
+                <i v-if="item.gender ==='女生'" style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
               </p>
               <p>出生日期：{{ item.name }}</p>
               <p>学号：{{ item.student_no }}</p>
@@ -86,6 +88,16 @@
           </div>
         </div>
       </div>
+    <div>
+      <el-pagination
+        background
+        layout="prev,pager, next, jumper"
+        :current-page="currentPage"
+        :page-size="10"
+        @current-change="changePage"
+        :total="total">
+      </el-pagination>
+    </div>
     <el-dialog title="入园登记" :visible.sync="operationVisible" width="750px">
       <el-form ref="reulsForm" :model="reulsForm" :rules="rules" label-width="80px">
         <div class="oper-div">
@@ -265,112 +277,6 @@
           <el-button class="bg-green bd-green white" type="success" @click="saveInputSchool('reulsForm')">保 存</el-button>
         </span>
     </el-dialog>
-    <!--<el-dialog title="预备生离园登记" :visible.sync="leaveVisible" width="750px">
-      <el-form ref="reulsForm2" :model="reulsForm2" :rules="rules" label-width="80px">
-        <div class="oper-div">
-          <span class="title-span">学生基本信息</span><hr>
-          <el-row>
-            <el-col :span="8">
-              <p class="lable-p">
-                <span class="labels">姓名：</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">所属校园：</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">学年计划：</span>
-                <span>迪小贝</span>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="lable-p">
-                <span class="labels">年龄：</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">意向班级：</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">缴费区间：</span>
-                <span>迪小贝</span>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="lable-p">
-                <span class="labels">性别：</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">主教老师：</span>
-                <span>迪小贝</span>
-              </p>
-              <p class="lable-p">
-                <span class="labels">预计入学日期：</span>
-                <span>迪小贝</span>
-              </p>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="oper-div">
-          <span class="title-span">离园登记</span>
-          <hr>
-          <el-row>
-            <el-col :span="8">
-              <p class="lable-p">
-                <span class="labels">离园申请:</span>
-                <span>迪小贝</span>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="lable-p">
-                <span class="labels">离园访谈:</span>
-                <span>迪小贝</span>
-              </p>
-            </el-col>
-            <el-col :span="8">
-              <p class="lable-p">
-                <span class="labels">所在学年:</span>
-                <span>迪小贝</span>
-              </p>
-            </el-col>
-          </el-row>
-          <el-form-item label="离园日期">
-            <el-date-picker
-              v-model="reulsForm2.class_obj"
-              type="date"
-              placeholder="选择日期">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="离园原因">
-            <el-radio-group v-model="reulsForm2.radio2">
-              <el-radio :label="3">居所搬迁/父母工作调动</el-radio><br>
-              <el-radio :label="6">家庭变故</el-radio><br>
-              <el-radio :label="9">生病</el-radio><br>
-              <el-radio :label="12">其他</el-radio>
-            </el-radio-group>
-            <el-select v-model="reulsForm2.class_obj" @change="operationSelect(reulsForm2.class_obj)" placeholder="&#45;&#45;请选择&#45;&#45;" style="width: 180px;">
-              <el-option
-                v-for="item in operations"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-            <el-input style="width: 180px;" v-model="reulsForm2.class_obj"></el-input>
-          </el-form-item>
-        </div><hr>
-        <p style="font-size: 10px;color: red;line-height: 20px;">*1.请确认该学生所有缺勤转备用金都已完成,否则不可提交离园登记</p>
-        <p style="font-size: 10px;color: red;line-height: 20px;">&nbsp;2.一旦离园登记结束,该学生自动转为离园生状态</p>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-          <el-button @click="leaveVisible = false">取 消</el-button>
-          <el-button @click="leaveShowVisible = true;leaveVisible = false">缺勤转备用金</el-button>
-          <el-button type="success">保 存</el-button>
-       </span>
-    </el-dialog>-->
     <el-dialog title="在校生离园登记" :visible.sync="leaveVisible" width="750px">
       <el-form ref="leveForm" :model="leveForm" :rules="rules" label-width="80px">
         <div class="oper-div">
@@ -598,6 +504,9 @@
   .student_inschool >>> .el-form-item__label{
     padding: 0;
   }
+  .student_inschool >>> .el-pagination{
+    white-space: pre-line;
+  }
   .student_inschool .studentFileList {
     margin-top: 20px;
   }
@@ -614,6 +523,7 @@
     -webkit-box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
     -moz-box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
     box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
+    display: inline-block;
   }
   .student_inschool .studentFileCard .card-content{
     margin-left: 20px;
@@ -683,6 +593,10 @@ export default {
     },
     year_list:{
       type:Array,
+      request:true,
+    },
+    total:{
+      type:Number,
       request:true,
     }
   },
@@ -815,12 +729,16 @@ export default {
       studentRemark:'',
       preferred_academic_year:'',
       studentId:'',
+      currentPage:1,
     }
   },
   mounted:function(){
     this.getStudentList();
   },
   methods:{
+    changePage(val){
+      this.currentPage = val;
+    },
     saveLeave:function (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -890,6 +808,7 @@ export default {
         date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
+        page:this.currentPage
       }
       this.$emit('getStudentList',data);
     },
@@ -957,6 +876,9 @@ export default {
         }
       },
       deep: true
+    },
+    currentPage(){
+      this.getStudentList()
     }
   }
 }

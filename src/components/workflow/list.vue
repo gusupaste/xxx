@@ -17,7 +17,7 @@
               </el-option>
             </el-select>
             <span class="padding-left-30">搜索：</span>
-            <el-input v-model="name" placeholder="输入科目编码或名称" class="search_input"></el-input>
+            <el-input v-model="name" placeholder="输入流程名称" class="search_input"></el-input>
             <span class="padding-left-30"><el-button type="primary" @click="getApproveList(1)">搜索</el-button></span>
           </div>
           <el-table
@@ -79,7 +79,7 @@
               </el-option>
             </el-select>
             <span class="padding-left-30">搜索：</span>
-            <el-input v-model="name" placeholder="输入科目编码或名称" class="search_input"></el-input>
+            <el-input v-model="name" placeholder="输入流程名称" class="search_input"></el-input>
             <span class="padding-left-30"><el-button type="primary" @click="getApplyList(1)">搜索</el-button></span>
           </div>
           <el-table

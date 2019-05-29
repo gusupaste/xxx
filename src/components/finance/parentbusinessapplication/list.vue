@@ -49,7 +49,6 @@
         <el-date-picker
           v-model="application_date"
           :editable="false"
-          :clearable="false"
           type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
@@ -67,7 +66,7 @@
           <el-option label="已同意" value="1"></el-option>
         </el-select>
         <span class="ml20">学生信息：</span>
-        <el-input type="text" placeholder="请输入" v-model="form.student_name" class="search_input"
+        <el-input type="text" placeholder="请输入学生姓名" v-model="form.student_name" class="search_input"
                   style="width:220px"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
       </p>
@@ -370,8 +369,13 @@
         })
       },
       dateChange: function (val) {
-        this.form.start_date = val[0]
-        this.form.end_date = val[1]
+        if (val === null) {
+          this.form.start_date = ""
+          this.form.end_date = ""
+        } else {
+          this.form.start_date = val[0]
+          this.form.end_date = val[1]
+        }
         this.getList()
       },
       getList: function () {

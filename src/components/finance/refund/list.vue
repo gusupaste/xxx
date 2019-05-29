@@ -123,10 +123,16 @@
           show-header
           style="width: 100%;margin-top: 10px;">
           <el-table-column
+              label="账单号">
+              <template slot-scope="scope">
+                <el-button type="text" size="small" @click="showRefundInfo(scope.row)">{{scope.row.bill_no}}</el-button>
+              </template>
+          </el-table-column>
+          <!-- <el-table-column
             prop="bill_no"
             label="账单号"
             width="150">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="billing_date"
             label="日期">
@@ -261,6 +267,9 @@
 
     },
     methods: {
+      showRefundInfo(param) {
+        this.$router.push('/financemanagement/refund-detail/'+param.id);
+      },
       handleClose() {
 
       },

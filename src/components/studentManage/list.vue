@@ -9,6 +9,7 @@
                    :student_list="student_list"
                    :activeTabs="activeName"
                    :year_list="year_list"
+                   :total="total"
                     @getStudentList="getStudentList"></in-school>
       </el-tab-pane>
       <el-tab-pane label="毕业生" name="second">
@@ -16,24 +17,28 @@
                   :student_list="student_list"
                   :activeTabs="activeName"
                   :year_list="year_list"
+                  :total="total"
                   @getStudentList="getStudentList"></graduate>
       </el-tab-pane>
       <el-tab-pane label="离园生" name="third">
         <leave :class_list="class_list"
                :student_list="student_list"
                :activeTabs="activeName"
+               :total="total"
                @getStudentList="getStudentList"></leave>
       </el-tab-pane>
       <el-tab-pane label="毕业班学生" name="fourth">
         <graduating-class :class_list="class_list"
                           :student_list="student_list"
                           :activeTabs="activeName"
+                          :total="total"
                           @getStudentList="getStudentList"></graduating-class>
       </el-tab-pane>
       <el-tab-pane label="学生统计" name="fifth">
         <statistics-class :class_list="class_list"
                           :student_list="student_list"
                           :activeTabs="activeName"
+                          :total="total"
                           @getStudentList="getStudentList"></statistics-class>
       </el-tab-pane>
     </el-tabs>
@@ -88,7 +93,8 @@ export default {
           delivery: false,
           type: [],
           resource: '',
-          desc: ''
+          desc: '',
+          total:1,
         }
     }
   },
@@ -144,10 +150,12 @@ export default {
           date_to:data.date_to,
           gender:data.gender,
           condition:data.condition,
+          page:data.currentPage
         }
       }).then(res=>{
         if(res.status == 200 && res.data.status == 1) {
           this.student_list = res.data.results.results;
+          this.total = res.data.results.count;
           for(var x in this.student_list){
             this.student_list[x].selectType = '';
           }

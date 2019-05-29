@@ -187,7 +187,7 @@
           </div>
           <p class="mt20">
               <span class="mr10">搜索：</span>
-              <el-input v-model="searchStr" class="w250_input" style="width:250px" placeholder="输入学号、学生姓名或家长姓名"></el-input>
+              <el-input v-model="searchStr" class="w250_input" style="width:250px" placeholder="输入学号、学生姓名"></el-input>
               <el-button type="primary" @click="getStudent(1)">搜索</el-button>
           </p>
 
@@ -622,7 +622,7 @@ export default {
             this.checkedSubject.forEach(item=>{
                 if(item.total){
                     this.totalprice += (Number(item.total))
-                    this.totalamount += (Number(item.total))
+                    this.totalamount += (Number(item.act_total))
                 }else if(item.price){
                     this.totalprice += (Number(item.price))
                     this.totalamount += (Number(item.price))

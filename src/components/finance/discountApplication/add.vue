@@ -181,10 +181,10 @@
     </div>
 
     <el-dialog title="添加学生" :visible.sync="dialogTableVisible">
-      <p>合肥御龙湾幼儿园</p>
+      <p>{{userInfo.center.name}}</p>
       <el-form inline style="border:none" class="mt10">
         <el-form-item label="搜索：">
-          <el-input class="w250_input" v-model="search_name" placeholder="输入学号、学生姓名或家长姓名"></el-input>
+          <el-input class="w250_input" v-model="search_name" placeholder="输入学号、学生姓名"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="getStudent(1)">搜索</el-button>
