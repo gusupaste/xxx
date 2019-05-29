@@ -23,7 +23,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="学生信息：">
-                <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
+                <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名" class="w250_input"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="getList(1)">搜索</el-button>

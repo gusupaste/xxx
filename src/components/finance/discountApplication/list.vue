@@ -36,7 +36,7 @@
           </el-option>
         </el-select>
         <span class="padding-left-30">搜索：</span>
-        <el-input v-model="searchText" placeholder="请输入折扣名称" class="search_input"></el-input>
+        <el-input v-model="searchText" placeholder="请输入学生姓名" class="search_input"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
       </div>
       <div class="right mt10 cur mb10" @click="$router.push('/financemanagement/adddiscountApplication')">
