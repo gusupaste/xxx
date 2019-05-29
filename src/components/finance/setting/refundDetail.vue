@@ -1015,7 +1015,7 @@ export default {
           data1.foreign_employees_per = this.saveForm.foreign_employees_per;
         }
         if(this.saveForm.on_schedule_per5 !== ''){
-          data1.on_schedule_per = this.saveForm.on_schedule_per5;
+          data1.on_schedule_per = parseInt(this.saveForm.on_schedule_per5);
         }
         if(this.saveForm.not_on_schedule_per !== ''){
           data1.not_on_schedule_per = this.saveForm.not_on_schedule_per;
