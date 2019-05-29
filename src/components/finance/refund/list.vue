@@ -265,7 +265,7 @@
       this.getBrand();
       this.getcity_list();
       this.getSchool();
-
+      this.searchList(1);
     },
     methods: {
       showRefundInfo(param) {
@@ -359,7 +359,6 @@
         })
           .then(res => {
             _this.classList = res.data.results;
-            _this.searchList(1);
           })
       },
       searchList(val) {
@@ -373,7 +372,7 @@
           class_list.push(this.searchform.class_id)
         }
         this.searchform.page = val;
-        this.$axios.get('/api/finance/refund/refund_list/', {
+        this.$axios.get('/api/finance/refund/', {
           params:{
             academic_year_id: this.searchform.academic_year_id,
             class_id: this.searchform.class_id,
@@ -387,6 +386,7 @@
             intercity_id:this.searchform.intercity_id,
             hq_id:this.searchform.hq_id,
             province_id:this.searchform.province_id,
+            area_id:this.searchform.area_id,
             page: this.searchform.page,
             size: 10,
           }
