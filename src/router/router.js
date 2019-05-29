@@ -366,7 +366,7 @@ export default new Router({
           component: Charge
         },
         {/*收费账单*/
-          path: '/financemanagement/billDetail',
+          path: '/financemanagement/billDetail/:id',
           name: 'billDetail',
           component: BillDetail
         },

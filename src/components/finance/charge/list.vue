@@ -124,7 +124,7 @@
             label="账单号"
             width="150">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="editSchool(scope.row,1)">{{scope.row.bill_no}}</el-button>
+              <el-button type="text" size="small" @click="editSchool(scope.row)">{{scope.row.bill_no}}</el-button>
             </template>
           </el-table-column>
           <el-table-column
@@ -483,7 +483,7 @@
         }
 
         this.searchform.page = val;
-        this.$axios.post('/api/finance/bill/hq_bill/', 
+        this.$axios.post('/api/finance/bill/hq_bill/?page='+this.searchform.page, 
         {
             academic_year_id: this.searchform.academic_year_id,
             bill_type_id: this.searchform.bill_type_id,
@@ -491,7 +491,6 @@
             start_date: this.searchform.date_from[0],
             end_date: this.searchform.date_from[1],
             class_li: JSON.stringify(class_list),
-            page: this.searchform.page,
             size: 10,
         }).then(res => {
           console.log(res.data)
@@ -526,8 +525,9 @@
           _this.count2 = res.data.count;
         })
       },
-      editSchool: function (param, index) {
-        this.$router.push('/financemanagement/billDetail');
+      editSchool: function (param) {
+        // console.log(param);
+        this.$router.push('/financemanagement/billDetail/'+param.id);
       }
     },
     watch: {

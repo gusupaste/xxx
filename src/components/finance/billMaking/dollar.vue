@@ -6,7 +6,7 @@
         <div class="clearfix mt10">
             <el-form>
                 <el-form-item label="应收金额：" label-width="120px">
-                     ¥{{info.amount}}
+                     ¥{{info.actual_amount}}
                 </el-form-item>
                 <el-form-item label="备用金金额：" label-width="120px">
                      ¥{{reserved_fund}}
