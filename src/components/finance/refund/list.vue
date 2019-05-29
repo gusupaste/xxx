@@ -372,18 +372,24 @@
         } else {
           class_list.push(this.searchform.class_id)
         }
-
         this.searchform.page = val;
-        this.$axios.post('/api/finance/refund/refund_list/', {
+        this.$axios.get('/api/finance/refund/refund_list/', {
+          params:{
             academic_year_id: this.searchform.academic_year_id,
-            bill_type_id: this.searchform.bill_type_id,
+            class_id: this.searchform.class_id,
             search_str: this.searchform.search_str,
-            start_date: this.searchform.date_from[0],
-            end_date: this.searchform.date_from[1],
-            class_li: class_list,
-            page: this.searchform.page,
             status: this.searchform.status,
+            bill_type: this.searchform.bill_type_id,
+            date_from: this.searchform.date_from[0],
+            date_to: this.searchform.date_from[1],
+            center_id:this.searchform.center_id,
+            center_name:'',
+            intercity_id:this.searchform.intercity_id,
+            hq_id:this.searchform.hq_id,
+            province_id:this.searchform.province_id,
+            page: this.searchform.page,
             size: 10,
+          }
         }).then(res => {
           _this.countList = res.data.results;
           _this.count = res.data.count;

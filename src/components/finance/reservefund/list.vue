@@ -379,32 +379,20 @@
       },
       getList: function (val) {
         this.currentPage = val
-        var class_ids = []
-        if (this.center_id === undefined) {
-          if (!this.selectDisable) {
-            if (this.class_year_id === '') {
-              for (let i = 0; i < this.class_year_list.length; i++) {
-                class_ids.push(this.class_year_list[i].id)
-              }
-            } else {
-              class_ids.push(this.class_year_id)
-            }
+        this.$axios.get('/api/finance/reserved_fund/', {
+          params:{
+            center_id: this.school_id,
+            center_name: '',
+            intercity_id: this.intercity_id,
+            hq_id: this.brand_id,
+            province_id: this.city_id,
+            academic_year_id: this.academic_year_id,
+            class_id: this.class_year_id,
+            search_str: this.search_name,
+            page: this.currentPage,
+            size: this.pagesize
+
           }
-        } else {
-          if (this.class_year_id === '') {
-            for (let i = 0; i < this.class_year_list.length; i++) {
-              class_ids.push(this.class_year_list[i].id)
-            }
-          } else {
-            class_ids.push(this.class_year_id)
-          }
-        }
-        this.$axios.post('/api/finance/reserved_fund/list/', {
-          academic_year_id: this.academic_year_id,
-          class_id: class_ids,
-          search_str: this.search_name,
-          page: this.currentPage,
-          size: this.pagesize
         })
           .then(res => {
             this.tableDate = res.data.results
