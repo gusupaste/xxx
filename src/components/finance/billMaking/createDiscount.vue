@@ -131,14 +131,14 @@
                 </template>
                 </el-table-column>
                 <el-table-column
-                prop="act_total"
+                prop="total"
                 label="应收">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
-                        {{scope.row.act_total}}
+                        {{scope.row.total}}
                     </span>
                     <span v-if="scope.row.payment_method === '一次性缴费'">
-                        {{scope.row.act_total}}
+                        {{scope.row.total}}
                     </span>
                 </template>
                 </el-table-column>
@@ -146,19 +146,23 @@
                 prop="discount_name"
                 label="折扣">
                 <template slot-scope="scope">
-                    <span v-if="$route.query.id !== ''" v-for="item in scope.row.discount_name" :key="item">{{item}}</span>
-                    <span v-else v-for="item in scope.row.rate" :key="item">{{item}}</span>
+                  <span v-if="$route.params.type === 'add'">
+                    <span v-for="item in scope.row.discount_name" :key="item">{{ item }}</span>
+                  </span>
+                  <span v-if="$route.params.type === 'edit'">
+                    <span v-for="item in scope.row.rate" :key="item">{{ item }}</span>
+                  </span>
                 </template>
                 </el-table-column>
                 <el-table-column
-                prop="total"
+                prop="act_total"
                 label="折后应收">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
-                        {{scope.row.total}}
+                        {{scope.row.act_total}}
                     </span>
                     <span v-if="scope.row.payment_method === '一次性缴费'">
-                        {{scope.row.total}}
+                        {{scope.row.act_total}}
                     </span>
                 </template>
                 </el-table-column>

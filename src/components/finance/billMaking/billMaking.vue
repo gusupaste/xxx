@@ -37,7 +37,7 @@
             </el-button>
             <span class="udline font-cl-blue ml10">下载模板</span>
             <span class="ml10" v-if="permission['finance']['Create-payment-bills']">
-                <router-link to="/financemanagement/createDiscount">
+                <router-link to="/financemanagement/createDiscount/add">
                     <i class="fa fa-plus-square icon-font"></i>
                     <span class="font-size-14 orange">创建缴费账单</span>
                 </router-link>
@@ -107,7 +107,7 @@
             label="操作"
             >
             <template slot-scope="scope">
-                <router-link :to="'/financemanagement/createDiscount/?id='+scope.row.id" v-if="permission['finance']['bill-editor'] && scope.row.bill_status === 0">
+                <router-link :to="'/financemanagement/createDiscount/edit/?id='+scope.row.id" v-if="permission['finance']['bill-editor'] && scope.row.bill_status === 0">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>

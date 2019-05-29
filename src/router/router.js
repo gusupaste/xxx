@@ -486,7 +486,7 @@ export default new Router({
           component: Costpremium
         },
         {
-          path: '/financemanagement/createDiscount',
+          path: '/financemanagement/createDiscount/:type/',
           name: 'createDiscount',
           component: CreateDiscount
         },
