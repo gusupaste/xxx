@@ -217,7 +217,7 @@
       },
       handleCancel(row){
         row.edit = false;
-        // this.getList();
+        this.getList();
       },
        getSummaries(param) {
          console.log(param)
