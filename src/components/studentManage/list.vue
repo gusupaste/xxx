@@ -38,7 +38,6 @@
         <statistics-class :class_list="class_list"
                           :student_list="student_list"
                           :activeTabs="activeName"
-                          :total="total"
                           @getStudentList="getStudentList"></statistics-class>
       </el-tab-pane>
     </el-tabs>

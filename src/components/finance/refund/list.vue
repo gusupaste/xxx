@@ -72,7 +72,7 @@
             </el-select>
         </el-form-item>
         <el-form-item label="班级：">
-            <el-select v-model="searchform.class_id" placeholder="请选择">
+            <el-select v-model="searchform.class_id" placeholder="请选择" v-bind:disabled="selectDisable">
             <el-option value="" label="所有"></el-option>
             <el-option
               v-for="item in classList"
@@ -167,7 +167,7 @@
             label="制单人"
             width="130">
           </el-table-column>
-          
+
         </el-table>
         <el-pagination
           background
@@ -186,6 +186,7 @@
   export default {
     data() {
       return {
+        selectDisable:'',
         searchform: {
           intercity_id: '',
           area_id: '',
@@ -289,7 +290,9 @@
         })
           .then(res => {
             _this.schoolList = res.data.results;
-            _this.getClass();
+            if(this.searchform.center_id !== ''){
+              _this.getClass();
+            }
           });
       },
       getcity_list() {
@@ -345,12 +348,13 @@
       getClass() {
         var _this = this;
         var class_list = [];
-        this.schoolList.forEach(item => {
+        /*this.schoolList.forEach(item => {
           class_list.push(item.id)
-        })
-        this.$axios.get('/api/common/select/all_class_list/', {
+        })*/
+
+        this.$axios.get('/api/common/select/class_list/', {
           params: {
-            center_li: JSON.stringify(class_list)
+            center_id: this.searchform.center_id
           }
         })
           .then(res => {
@@ -376,7 +380,7 @@
             search_str: this.searchform.search_str,
             start_date: this.searchform.date_from[0],
             end_date: this.searchform.date_from[1],
-            class_li: JSON.stringify(class_list),
+            class_li: class_list,
             page: this.searchform.page,
             status: this.searchform.status,
             size: 10,
@@ -413,9 +417,18 @@
         this.getSchool();
         this.searchform.center_id = "";
       },
-      'searchform.center_id'() {
-        this.getClass();
-        this.searchform.class_id = "";
+      'searchform.center_id': {
+        handler(newValue, oldValue) {
+          if(newValue === ''){
+            this.selectDisable = true;
+            this.searchform.class_id = "";
+          }else{
+            this.selectDisable = false;
+            this.getClass();
+            this.searchform.class_id = "";
+          }
+        },
+        deep: true
       },
     }
   }
