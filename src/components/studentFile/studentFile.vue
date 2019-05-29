@@ -265,6 +265,18 @@ export default {
       var _this = this;
       var url = this.student_url;
       var obj = {};
+      if(data.intercity_id !== ''){
+        obj.intercity_id = data.intercity_id;
+      }
+      if(data.province_id !== ''){
+        obj.province_id = data.province_id;
+      }
+      if(data.area_id !== ''){
+        obj.area_id = data.area_id
+      }
+      if(data.hq_id !== ''){
+        obj.hq_id = data.hq_id
+      }
       if(data.center_id !== ''){
         obj.center_id = data.center_id
       }

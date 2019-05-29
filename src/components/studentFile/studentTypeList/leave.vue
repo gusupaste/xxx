@@ -298,6 +298,10 @@ export default {
       /*var centresId = []
       centresId.push(this.school);*/
       var data={
+        intercity_id:this.intercity,
+        area_id:this.area,
+        province_id:this.city,
+        hq_id:this.brand,
         student_type:'Graduation',/*离园*/
         center_id:this.school,
         class_id:this.class_val,

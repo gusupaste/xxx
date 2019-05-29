@@ -58,7 +58,7 @@
                 <i v-if="item.gender ==='男生'" style="font-size:15px;color:#51a5ff;" class="fa fa-mars" aria-hidden="true"></i>
                 <i v-if="item.gender ==='女生'" style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
               </p>
-              <p>出生日期：{{ item.name }}</p>
+              <p>出生日期：{{ item.date_of_birth }}</p>
               <p>学号：{{ item.student_no }}</p>
               <p>所在校园：{{ item.center_name }}</p>
               <p>入园时间：{{ item.enter_date }}</p>
