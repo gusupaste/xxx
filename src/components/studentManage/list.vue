@@ -162,7 +162,10 @@ export default {
       }
       obj.student_type = data.student_type;
       obj.page = data.page;
-      _this.$axios.get(url,obj
+      console.log(obj);
+      _this.$axios.get(url,{
+        params:obj
+      }
       /*{
         params:{
           academic_year:data.academic_year,
