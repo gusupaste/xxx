@@ -146,7 +146,7 @@
                 prop="discount_name"
                 label="折扣">
                 <template slot-scope="scope">
-                    <span v-for="item in scope.row.discount_name" :key="item">{{item}}</span>
+                    <span v-for="item in scope.row.rate" :key="item">{{item}}</span>
                 </template>
                 </el-table-column>
                 <el-table-column
