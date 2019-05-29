@@ -87,7 +87,7 @@
           label="操作"
           min-width="100">
           <template slot-scope="scope">
-            <i v-if="!scope.row.edit" class="fa fa-pencil-square-o orange font-size-20 cur" @click="scope.row.edit = true"></i>
+            <i v-if="!scope.row.edit" class="fa fa-pencil-square-o orange font-size-20 cur" @click="edit_row(scope.row)"></i>
             <i v-if="scope.row.edit" class="fa fa-check-circle green font-size-20 cur" @click="handleUpdate(scope.row)"></i>&nbsp;
             <i v-if="scope.row.edit" class="fa fa-times-circle red font-size-20 cur" @click="handleCancel(scope.row)"></i>
           </template>
@@ -113,6 +113,7 @@
           center_id:'',
           area_id:''
         },
+        new_row:{},
         value: '-所有-',
         tableData: []
       }
@@ -214,9 +215,15 @@
             }
         })
       },
+      edit_row:function (row) {
+        /*this.new_row = JSON.stringify(row)*/
+        row.edit = true;
+      },
       handleCancel(row){
-        row.edit = false;
-        // this.getList();
+       /* row.edit = false;*/
+        /*row = JSON.parse(this.new_row);*/
+       /* this.$set(this.info,row.$index,JSON.parse(this.new_row));*/
+         this.getList();
       },
        getSummaries(param) {
         const { columns, data } = param;
