@@ -757,7 +757,7 @@ export default {
         this.$axios.get(this.get_01_url).then(res=>{
             this.saveForm.goods_fee = res.data.goods_fee;
             this.saveForm.foreign_employees_per = res.data.foreign_employees_per;
-            this.saveForm.on_schedule_per = res.data.on_schedule_per;
+            this.saveForm.on_schedule_per5 = res.data.on_schedule_per;
             this.saveForm.not_on_schedule_per = res.data.not_on_schedule_per;
             this.saveForm.specific_month = res.data.specific_month;
             this.saveForm.specific_month_per = res.data.specific_month_per;
@@ -1015,7 +1015,7 @@ export default {
           data1.foreign_employees_per = this.saveForm.foreign_employees_per;
         }
         if(this.saveForm.on_schedule_per5 !== ''){
-          data1.on_schedule_per = this.saveForm.on_schedule_per5;
+          data1.on_schedule_per = parseInt(this.saveForm.on_schedule_per5);
         }
         if(this.saveForm.not_on_schedule_per !== ''){
           data1.not_on_schedule_per = this.saveForm.not_on_schedule_per;

@@ -48,13 +48,13 @@
             <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="getStudentList">搜索</el-button>
+            <el-button type="primary" @click="getStudentList()">搜索</el-button>
           </el-form-item>
         </el-form>
 
       </div>
       <div class="studentFileList">
-          <div class="studentFileCard left" v-for="(item , index) in student_list "
+          <div class="studentFileCard" v-for="(item , index) in student_list "
                :key="index" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
             <div style="padding:20px">
               <div class="avatar inline-block">
@@ -82,11 +82,22 @@
             </div>
           </div>
       </div>
+    <el-pagination
+      background
+      layout="prev,pager, next, jumper"
+      :current-page="currentPage"
+      :page-size="10"
+      @current-change="changePage"
+      :total="total">
+    </el-pagination>
   </div>
 </template>
 <style scoped>
   .student_leave >>> .el-form-item__label{
     padding: 0;
+  }
+  .student_leave >>> .el-pagination{
+    white-space: pre-line;
   }
   .student_leave .studentFileList {
     margin-top: 20px;
@@ -104,6 +115,7 @@
     -webkit-box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
     -moz-box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
     box-shadow: rgba(11,98,137,.2) 0px 0px 4px;
+    display: inline-block;
   }
   .student_leave .studentFileCard .card-content{
     margin-left: 20px;
@@ -151,6 +163,10 @@ export default {
     activeTabs:{
       type:String,
       request:true,
+    },
+    total:{
+      type:Number,
+      request:true,
     }
   },
   data(){
@@ -161,12 +177,16 @@ export default {
       searchText:'',
       year:'',
       in_type:'',
+      currentPage:1,
       form:{
 
       }
     }
   },
   methods:{
+    changePage(val){
+      this.currentPage = val;
+    },
     getStudentList:function () {
       var data={
         student_type:'Graduation',
@@ -175,6 +195,7 @@ export default {
         date_to:this.dateValue[1],
         gender:this.gender,
         condition:this.searchText,
+        page:this.currentPage
       }
       this.$emit('getStudentList',data);
     },
@@ -187,6 +208,9 @@ export default {
         }
       },
       deep: true
+    },
+    currentPage(){
+      this.getStudentList()
     }
   }
 }

@@ -3,7 +3,7 @@
       <div class="formwrap">
         <el-form label-width="80px" inline>
           <el-form-item label="城际：">
-            <el-select v-model="intercity" @change="allChangeFun">
+            <el-select v-model="intercity" @change="interChangeFun">
               <el-option value="" label="全部" aria-selected="true"></el-option>
               <el-option
                 v-for="item in intercity_list"
@@ -25,13 +25,13 @@
             </el-select>
           </el-form-item>
           <el-form-item label="省市：">
-            <el-select v-model="city" @change="allChangeFun">
+            <el-select v-model="city" @change="interChangeFun">
               <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in city_list"
-                :key="item.id"
+                :key="item.city_id"
                 :label="item.city_name"
-                :value="item.id">
+                :value="item.city_id">
               </el-option>
             </el-select>
           </el-form-item>
@@ -107,7 +107,7 @@
             <el-input  v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary"  @click="getStudentList">搜索</el-button>
+            <el-button type="primary"  @click="search_Fun">搜索</el-button>
           </el-form-item>
         </el-form>
 
@@ -265,31 +265,40 @@ export default {
     }
   },
   methods:{
+    search_Fun:function () {
+      this.currentPage=1;
+      this.getStudentList();
+    },
     changePage(val){
       this.currentPage = val;
     },
     areaChangeFun:function () {
+      this.city = '';
+      this.school = '';
       this.$emit('getCityList',this.area);
-      this.$emit('getSchoolList',this.intercity,this.city,0,this.brand);
+      this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
+    },
+    interChangeFun:function(){
+      this.school = '';
+      this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
     /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
     allChangeFun:function () {
+      /*this.schoolChangeFun();*/
+      this.school = '';
       this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
     schoolChangeFun:function () {
-      if(this.school === ''){
-        this.selectDisable = true;
-      }else{
+      if(this.school !== ''){
         this.$emit('getClassList',this.school);
-        this.selectDisable = false;
       }
     },
     getStudentList:function () {
-      var centresId = []
-      centresId.push(this.school);
+      /*var centresId = []
+      centresId.push(this.school);*/
       var data={
         student_type:'Graduation',/*离园*/
-        center_ids:centresId,
+        center_id:this.school,
         class_id:this.class_val,
         date_from:this.dateValue[0],
         date_to:this.dateValue[1],
@@ -305,6 +314,18 @@ export default {
       handler(newValue, oldValue) {
         if(newValue === 'fourth'){
           this.getStudentList();
+        }
+      },
+      deep: true
+    },
+    school:{
+      handler(newValue, oldValue) {
+        if(newValue === ''){
+          this.selectDisable = true;
+          this.class_val = '';
+        }else{
+          this.selectDisable = false;
+          this.class_val = '';
         }
       },
       deep: true

@@ -91,7 +91,7 @@
           </template>
           <span class="padding-left-30">学生姓名：</span>
           <el-input v-model="search_name" placeholder="请输入学生姓名" class="search_input"></el-input>
-          <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
+          <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
           <template v-if="permission['finance']['reserve-fund-management-campus']">
             <!--<span class="right" style="cursor:pointer" @click="$router.push('/financemanagement/create-reservefund')">
               <i class="icon-font fa fa-calendar-plus-o"></i>
@@ -208,6 +208,15 @@
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          next-text="下一页"
+          :page-size="pagesize"
+          :current-page="currentPage"
+          @current-change="handleCurrentChange"
+          :total="total" class="page">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -235,7 +244,10 @@
         brand_id: '',
         school_id: '',
         selectDisable: true,
-        center_id: this.$cookies.get('userInfo').center['id']
+        center_id: this.$cookies.get('userInfo').center['id'],
+        pagesize: 10,
+        currentPage: 1,
+        total: 1,
       }
     },
     mounted: function () {
@@ -251,6 +263,9 @@
       }
     },
     watch: {
+      currentPage() {
+        this.getList(this.currentPage)
+      },
       intercity_id() {
         this.school_id = ''
         this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
@@ -281,10 +296,10 @@
         }
       },
       academic_year_id() {
-        this.getList()
+        this.getList(1)
       },
       class_year_id() {
-        this.getList()
+        this.getList(1)
       }
     },
     methods: {
@@ -357,12 +372,13 @@
         this.$axios.get('/api/common/select/class_list/?center_id=' + school)
           .then(res => {
             this.class_year_list = res.data.results
-            this.getList()
+            this.getList(1)
           }).catch(err => {
           console.log(err)
         })
       },
-      getList: function () {
+      getList: function (val) {
+        this.currentPage = val
         var class_ids = []
         if (this.center_id === undefined) {
           if (!this.selectDisable) {
@@ -386,20 +402,13 @@
         this.$axios.post('/api/finance/reserved_fund/list/', {
           academic_year_id: this.academic_year_id,
           class_id: class_ids,
-          search_str: this.search_name
-          /* params: {
-             academic_year_id: this.academic_year_id,
-             class_year_id: this.class_year_id,
-             search_name: this.search_name,
-             intercity_id: this.intercity_id,
-             area_id: this.area_id,
-             city_id: this.city_id,
-             brand_id: this.brand_id,
-             center_id: this.school_id
-           }*/
+          search_str: this.search_name,
+          page: this.currentPage,
+          size: this.pagesize
         })
           .then(res => {
             this.tableDate = res.data.results
+            this.total = res.data.count
           }).catch(err => {
 
         })
@@ -410,7 +419,10 @@
         } else {
           this.$router.push('/financemanagement/usageRecord');
         }
-      }
+      },
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage
+      },
     }
   }
 </script>

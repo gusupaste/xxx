@@ -94,53 +94,60 @@
             </el-tab-pane>
             <el-tab-pane label="退费账单" name="second">
                 <div class="">
-                    <el-select v-model="value">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
+                  <span>账单类型：</span>
+                    <el-select v-model="dis_value">
+                      <el-option v-for="item in dis_option"
+                                 :key="item.id"
+                                 :label="item.label"
+                                 :value="item.id"></el-option>
                     </el-select>
                     <div class="mt26">
-                        <p class="recordHead">预制账单</p>
+                        <!--<p class="recordHead">预制账单</p>-->
                         <el-table
                             class="mt26"
-                            :data="tableData"
+                            :data="pre_bills"
                             border
                             style="width: 100%">
                             <el-table-column
-                            prop="date"
-                            label="单号"
-                            width="180">
+                            prop="bill_no"
+                            label="单号">
                             </el-table-column>
                             <el-table-column
-                            prop="name"
-                            label="日期"
-                            width="180">
+                            prop="create_date"
+                            label="日期">
                             </el-table-column>
                             <el-table-column
-                            prop="address"
+                            prop="bill_type_str"
                             label="账单类型">
                             </el-table-column>
                             <el-table-column
-                            prop="address"
                             label="学号">
+                              <template slot-scope="scope">
+                                {{ scope.row.student.student_no }}
+                              </template>
                             </el-table-column>
                             <el-table-column
-                            prop="address"
                             label="姓名">
+                              <template slot-scope="scope">
+                                {{ scope.row.student.name }}
+                              </template>
                             </el-table-column>
                             <el-table-column
-                            prop="address"
                             label="所在班级">
+                              <template slot-scope="scope">
+                                {{ scope.row.student.student_class }}
+                              </template>
                             </el-table-column>
                             <el-table-column
-                            prop="address"
+                            prop="amount"
                             label="实退金额">
                             </el-table-column>
                             <el-table-column
-                            prop="address"
+                            prop="status"
                             label="审核状态">
                             </el-table-column>
                             <el-table-column
-                            prop="address"
+                            prop="audit_node"
                             label="审核节点">
                             </el-table-column>
                         </el-table>
@@ -189,6 +196,7 @@ export default {
     },
     data(){
         return {
+            dis_value:3,
             id:this.$route.params.id,
             value:'入学缴费单',
             activeNames:'first',
@@ -200,10 +208,13 @@ export default {
             bill_ok_li:[],
             bill_rd_li:[],
             tableData: [],
+            dis_option:[],
+          pre_bills:[],
         }
     },
     mounted:function(){
-        this.getList()
+        this.getList();
+        this.getDisList();
     },
     methods:{
         handleClick(){
@@ -217,9 +228,24 @@ export default {
                 _this.bill_ok_li = res.data.bill_ok_li;
                 _this.bill_rd_li = res.data.bill_rd_li;
             })
-        }
+        },
+        getDisList(){
+          var _this = this;
+          this.$axios.get('/api/finance/student_refund/select_type/')
+            .then(res=>{
+              this.dis_option = res.data.data;
+              this.getDiscountList();
+            })
+        },
+      getDiscountList(){
+        var _this = this;
+        this.$axios.get('/api/finance/student_refund/refund_bills/?student_id='+this.$route.params.id+'&bill_type='+this.dis_value)
+          .then(res=>{
+            this.pre_bills = res.data.data.pre_bills;
+          })
+      }
     },
-    
+
     watch:{
       activeName: {
         handler(newValue, oldValue) {
@@ -228,6 +254,22 @@ export default {
         },
         deep: true
       },
+      activeNames:{
+        handler(newValue, oldValue) {
+          if(newValue === 'first'){
+            this.getList();
+          }else{
+            this.getDisList();
+          }
+        },
+        deep: true
+      },
+      dis_value:{
+        handler(newValue, oldValue) {
+          this.getDiscountList();
+        },
+        deep: true
+      }
     },
 }
 </script>

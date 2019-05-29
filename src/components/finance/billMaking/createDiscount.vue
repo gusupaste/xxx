@@ -412,7 +412,7 @@ export default {
                     type:'error',
                     message:'请选择缴费区间'
                 })
-                return;   
+                return;
             }
             if(this.multipleTable.length == 0){
                 this.$message({
@@ -500,7 +500,7 @@ export default {
                     type:'error',
                     message:'请选择缴费区间'
                 })
-                return;   
+                return;
             }
             if(this.multipleTable.length == 0){
                 this.$message({
@@ -579,10 +579,12 @@ export default {
         },
         getStudent(val){
             if(this.$route.query.student){
+              if(!this.$route.query.id){
                 this.is_edit = true;
                 this.is_choose_student = true;
                 this.choosePerson.id = this.$route.query.student;
                 this.sureAddStudent();
+              }
             }
             var _this = this;
             this.addform.date = this.$options.filters['formatDate'](new Date());
@@ -597,20 +599,20 @@ export default {
                 _this.studentList = res.data.data.student_li;
                 _this.schoolName = res.data.data.center_name;
                 _this.total=res.data.data.student_total;
-                if(val === 1){
-                    if(_this.$route.query.id && !_this.$route.query.student){
-                        _this.is_edit = true;
-                        _this.$nextTick(()=>{
-                            _this.getDiscountInfo();
-                        })
-                }
+                if(val === 1) {
+                  if (_this.$route.query.id) {
+                    _this.is_edit = true;
+                    _this.$nextTick(() => {
+                      _this.getDiscountInfo();
+                    })
+                  }
                 }
             })
         },
         sureAddSubject(){
             this.checkedSubject = this.checkedSubject1;
             this.saveForm.billitem_list = this.checkedSubject1;
-            
+
             this.gettotalPrice()
             this.subjectVisible=false;
         },
@@ -682,7 +684,7 @@ export default {
 
                 _this.checkedSubject1 = res.data.data.billitem_li;
                 _this.saveForm.billitem_list = res.data.data.billitem_li;
-                
+
                 _this.sureAddSubject();
             })
         },
@@ -823,7 +825,7 @@ export default {
                 _this.subjectList = res.data.available_items;
                 _this.checkedSubject = [];
                 }
-                
+
             })
         },
         handleSelectionChange(val){
