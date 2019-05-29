@@ -3,7 +3,7 @@
       <p class="font-size-14">{{info.name}}</p>
       <div class="mt10">
         <span>搜索：</span>
-        <el-input v-model="searchForm.search_name" class="search_input" placeholder="输入学号、学生姓名或家长姓名" type="text"></el-input>
+        <el-input v-model="searchForm.search_name" class="search_input" placeholder="输入学号、学生姓名" type="text"></el-input>
         <el-button class="bg-blue white" @click="getStudent(1)">搜索</el-button>
       </div>
       <div class="mt10">
@@ -93,7 +93,7 @@ export default{
         })
       },
       handleCurrentChange(){
-        
+
       },
       sureChose(){
         this.$parent.addStudentVisible = false;
