@@ -210,7 +210,7 @@
           item.amount = item.sub_total
           item.leave_date = this.date
         })
-        this.$axios.post('/api/finance/reserve_fund_for_attendance/add', {
+        this.$axios.post('/api/finance/reserve_fund_for_attendance/add/', {
           bills: this.mutitable
         })
           .then(res => {

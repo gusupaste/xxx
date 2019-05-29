@@ -626,8 +626,8 @@ export default {
             this.totalamount = 0;
             this.checkedSubject.forEach(item=>{
                 if(item.total){
-                    this.totalprice += (Number(item.total))
-                    this.totalamount += (Number(item.act_total))
+                    this.totalprice += (Number(item.act_total))
+                    this.totalamount += (Number(item.total))
                 }else if(item.price){
                     this.totalprice += (Number(item.price))
                     this.totalamount += (Number(item.price))
@@ -724,20 +724,20 @@ export default {
                 this.checkedSubject[index].discount_name = [];
                 this.checkedSubject[index].total =  this.checkedSubject[index].act_total;
                 if(res.data.data.is_have_enroll_discount){
-                    this.checkedSubject[index].total = this.checkedSubject[index].total - res.data.data.discount_money;
+                    this.checkedSubject[index].act_total = this.checkedSubject[index].act_total - res.data.data.discount_money;
                     this.checkedSubject[index].discount_name.push(res.data.data.enroll_discount_name);
                 };
                 if(res.data.data.is_have_ordinary_discount) {
                     if(res.data.data.is_have_ordinary_discount){
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 1) {
-                                this.checkedSubject[index].total -= Number(item.rate_or_price);
+                                this.checkedSubject[index].act_total -= Number(item.rate_or_price);
                                 this.checkedSubject[index].discount_name.push(item.discount_type_name);
                             }
                         })
                         res.data.data.ordinary_discount_date.forEach(item=>{
                             if(item.discount_condition_status == 0) {
-                                this.checkedSubject[index].total *= Number(item.rate_or_price/100);
+                                this.checkedSubject[index].act_total *= Number(item.rate_or_price/100);
                                 this.checkedSubject[index].discount_name.push(item.discount_type_name);
                             }
                         })
