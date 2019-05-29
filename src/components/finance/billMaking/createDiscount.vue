@@ -131,14 +131,14 @@
                 </template>
                 </el-table-column>
                 <el-table-column
-                prop="price"
+                prop="act_total"
                 label="应收">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
                         {{scope.row.act_total}}
                     </span>
                     <span v-if="scope.row.payment_method === '一次性缴费'">
-                        {{scope.row.price}}
+                        {{scope.row.act_total}}
                     </span>
                 </template>
                 </el-table-column>
@@ -150,14 +150,14 @@
                 </template>
                 </el-table-column>
                 <el-table-column
-                prop=""
+                prop="total"
                 label="折后应收">
                 <template slot-scope="scope">
                     <span v-if="scope.row.pay_month">
                         {{scope.row.total}}
                     </span>
                     <span v-if="scope.row.payment_method === '一次性缴费'">
-                        {{scope.row.price}}
+                        {{scope.row.total}}
                     </span>
                 </template>
                 </el-table-column>
@@ -400,12 +400,12 @@ export default {
             var _this = this;
             var no_totalList = [];
             this.saveForm.billitem_list.forEach(item=>{
-                if(item.payment_method_name != '一次性缴费'){
+                // if(item.payment_method_name != '一次性缴费'){
                     console.log(item.total)
                     if(!item.total){
                         no_totalList.push(item);
                     }
-                }
+                // }
             });
             if(no_totalList.length > 0) {
                 this.$message({
@@ -488,12 +488,12 @@ export default {
             var _this = this;
             var no_totalList = [];
             this.saveForm.billitem_list.forEach(item=>{
-                if(item.payment_method_name != '一次性缴费'){
+                // if(item.payment_method_name != '一次性缴费'){
                     console.log(item.total)
                     if(!item.total){
                         no_totalList.push(item);
                     }
-                }
+                // }
             });
             if(no_totalList.length > 0) {
                 this.$message({
@@ -531,9 +531,9 @@ export default {
                 return
             };
             this.saveForm.billitem_list.forEach(item=>{
-                if(item.payment_method_name != '一次性缴费'){
+                // if(item.payment_method_name != '一次性缴费'){
                     console.log(item.total)
-                }
+                // }
             })
             if(this.saveForm.policy_id == ''){
                 this.$message({
@@ -665,6 +665,7 @@ export default {
             this.id = this.$route.query.id;
             this.$axios.get('/api/finance/bill/'+this.id+'/info_single_bill/')
             .then(res=>{
+              console.log(res.data)
                 _this.addform = Object.assign({},res.data.data.bill_info);
                 _this.multipleTable.push(res.data.data.bill_info);
                 _this.$set(_this.addform,'start_date',res.data.data.bill_info.planned_payment_date)

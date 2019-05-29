@@ -249,10 +249,12 @@ export default {
                 this.addform.is_invoice = 0;
             }
             this.addform.reserve_fund_used = this.use_fund;
-            if(this.addform.pay_amount < this.info.amount){
+            console.log(this.addform.pay_amount)
+            console.log(this.info.amount)
+            if(this.addform.pay_amount < this.info.actual_amount){
                 this.$message({
                     type:'error',
-                    message:'实收金额应大于应收金额'
+                    message:'实收金额应大于等于应收金额'
                 })
                 return
             }
