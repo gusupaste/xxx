@@ -89,7 +89,7 @@
               <el-input v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item label="">
-              <el-button type="primary" @click="currentPage=1;getStudentList">搜索</el-button>
+              <el-button type="primary" @click="search_Fun">搜索</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -254,6 +254,10 @@ export default {
     this.getStudentList();
   },
   methods:{
+    search_Fun:function () {
+      this.currentPage=1;
+      this.getStudentList();
+    },
     changePage(val){
       this.currentPage = val;
     },
