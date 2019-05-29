@@ -106,45 +106,6 @@
                   <el-input type="text" v-model="saveForm.handling_fee"></el-input> 元
                 </td>
               </tr>
-              <!--<tr v-for="(oth,ind) in saveForm.month_pay">
-                <td colspan="2">
-                  <el-select v-model="oth.specific_month" placeholder="请选择">
-                    <el-option key="0" label="当月" value="0"></el-option>
-                    <el-option v-for="item in monthOptions"
-                               :key="item.value"
-                               :label="item.label"
-                               :value="item.value"></el-option>
-                  </el-select>
-                  <el-select v-model="oth.method_type">
-                    <el-option v-for="item in method_type"
-                               :key="item.value"
-                               :label="item.label"
-                               :value="item.value"></el-option>
-                  </el-select>
-                  <el-select v-model="oth.compare_type" placeholder="请选择">
-                    <el-option v-for="item in compare_type"
-                               :key="item.value"
-                               :label="item.label"
-                               :value="item.value"></el-option>
-                  </el-select>
-                  <el-input type="text" v-model="oth.number_of_days"></el-input>个
-                  <el-select v-model="oth.calendar_type">
-                    <el-option v-for="item in calendar_type"
-                               :key="item.value"
-                               :label="item.label"
-                               :value="item.value"></el-option>
-                  </el-select>
-                  时，退
-                  <el-input type="text" v-model="oth.refund_per"></el-input> %，
-                  剩余月退
-                  <el-input type="text" v-model="oth.other_month_refund_per"></el-input> %，
-                </td>
-              </tr>-->
-              <!--<tr>
-                <td colspan="2">
-                  <i class="el-icon-circle-plus orange cur" @click="addTr(1)">添加判定条件</i>
-                </td>
-              </tr>-->
               <tr>
                 <td rowspan="" width="100">学期缴</td>
                 <td colspan="2">
@@ -176,26 +137,11 @@
                   不满
                   <el-input type="text" v-model="saveForm.number_of_month2"></el-input>
                   个月时，无法享受学期优惠价格；
-                  <!--<el-select>
-                    <el-option value="小于"></el-option>
-                    <el-option value="大于等于"></el-option>
-                  </el-select>-->大于等于
+                  大于等于
                   <span>{{ saveForm.number_of_month2 }}</span>
                   个月时，学期优惠价格转缺勤
                 </td>
               </tr>
-              <!--<tr>
-                <td colspan="2">
-                  &lt;!&ndash;中途退学，
-                  <el-select>
-                    <el-option value="小于"></el-option>
-                    <el-option value="大于等于"></el-option>
-                  </el-select>&ndash;&gt;
-                  不满
-                  <el-input type="text" v-model="saveForm.yuefen1"></el-input>
-                  个月时，无法享受学期优惠价格
-                </td>
-              </tr>-->
               <tr>
                 <td colspan="3">
                   未按时提申请，扣月
@@ -206,18 +152,11 @@
                 <td width="90">休学</td>
                 <td colspan="3">
                   首月
-                  <el-input type="text" v-model="saveForm.on_schedule_per"></el-input>
+                  <el-input type="text" v-model="saveForm.on_schedule_per30"></el-input>
                    % 转备用金，剩余月
-                  <el-input type="text" v-model="saveForm.other_on_schedule_per"></el-input>
+                  <el-input type="text" v-model="saveForm.other_on_schedule_per30"></el-input>
                    % 转备用金</td>
               </tr>
-              <!--<tr>
-                <td width="90">离园</td>
-                <td colspan="3">
-                  未提前申请,需扣除月缴
-                  <el-input type="text" v-model="saveForm.liyuan"></el-input>%
-                </td>
-              </tr>-->
               <tr v-for="(con,indexs) in saveForm.month_pay2">
                 <td v-if="indexs === 0" :rowspan="saveForm.month_pay2.length + 1" width="90">缺勤</td>
                 <td colspan="3">
@@ -252,23 +191,6 @@
                   剩余月转备用金
                   <el-input type="text" v-model="con.other_month_reserve_fund_per"></el-input> %
                   &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-minus-circle red cur" @click="delete_attend(indexs)"></i>
-                  <!--<el-select>
-                    <el-option value="连续"></el-option>
-                    <el-option value="累计"></el-option>
-                  </el-select>
-                  <el-select>
-                    <el-option value="大于"></el-option>
-                    <el-option value="等于"></el-option>
-                  </el-select>
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input>个
-                  <el-select>
-                    <el-option value="校日历"></el-option>
-                    <el-option value="日历"></el-option>
-                  </el-select>
-                  时，转备用金
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> % ，
-                  剩余月转备用金
-                  <el-input type="text" v-model="saveForm.xingzheng"></el-input> % ，-->
                 </td>
               </tr>
               <tr>
@@ -298,18 +220,11 @@
                 </td>
               </tr>
               <tr>
-                <!--<td rowspan="2" width="100">非整月</td>-->
-                <!--<td width="60">
-                  <el-radio v-model="saveForm.radio2"></el-radio>
-                </td>-->
                 <td colspan=""><el-radio v-model="saveForm.radio2" label="1">非整月,缺勤天数 x 收费标准，
                   {{ saveForm.radio9 }}
                  </el-radio></td>
               </tr>
               <tr>
-                <!--<td width="60">
-                  <el-radio v-model="saveForm.radio2"></el-radio>
-                </td>-->
                 <td colspan="">
                   <el-radio v-model="saveForm.radio2" label="2">
                     <el-select v-model="saveForm.method_type">
@@ -426,6 +341,7 @@
                 <el-radio v-model="saveForm.radio7" label="转备用金"></el-radio>
               </td>
               <td>
+                <el-radio v-model="saveForm.radio_type5" label="0">
                 <el-select v-model="saveForm.method_type5">
                   <el-option v-for="item in method_type"
                              :key="item.value"
@@ -440,17 +356,14 @@
                 </el-select>
                 <el-input type="text" v-model="saveForm.days5"></el-input>
                 天，{{ saveForm.radio7 }}，缺勤天数 x
-                <el-input type="text" v-model="saveForm.days_fee5"></el-input> 元
+                <el-input type="text" v-model="saveForm.days_fee5"></el-input> 元</el-radio>
               </td>
             </tr>
             <tr>
-              <!--<td>
-                <el-radio v-model="saveForm.radio8" label="退费"></el-radio>
-                <el-radio v-model="saveForm.radio8" label="转备用金"></el-radio>
-              </td>-->
               <td>
+                <el-radio v-model="saveForm.radio_type5" label="1">
                 整月{{ saveForm.radio7 }}
-                <el-input type="text" v-model="saveForm.full_month_per2"></el-input> %
+                <el-input type="text" v-model="saveForm.full_month_per2"></el-input> %</el-radio>
               </td>
             </tr>
         </tbody>
@@ -501,9 +414,12 @@
 </style>
 <script>
 import ElInput from '../../../../node_modules/element-ui/packages/input/src/input.vue'
+import ElRadio from '../../../../node_modules/element-ui/packages/radio/src/radio.vue'
 
 export default {
-  components: {ElInput},
+  components: {
+    ElRadio,
+    ElInput},
   data(){
         return {
           save_flag:'true',
@@ -590,8 +506,8 @@ export default {
               ],
               number_of_month:'',
               number_of_month2:'',
-              other_on_schedule_per:'',
-              on_schedule_per: '',
+              other_on_schedule_per30:'',
+              on_schedule_per30: '',
               month_pay2:[
                 {
                   specific_month: '',
@@ -616,6 +532,7 @@ export default {
               refund_money_per:'',
               refund_money_per2:'',
               refund_money_per4:'',
+              fee_refund_money_per:'',
               current_month_per2:'',
               last_month_per2:'',
               current_month_per3:'',
@@ -635,6 +552,8 @@ export default {
               radio3:'0',
               radio4:'0',
               radio5:'0',
+              radio_type5:'0',
+              meal_refund_money_per:''
             },
             get_01_url:'/api/refund_policy/prepared_student_refund/prepared_student_refund_info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
             get_02_url:'/api/refund_policy/student_quit_month/student_quit_month_info/?center='+this.$route.params.center_id+'&academic_year='+this.$route.params.year,
@@ -807,8 +726,8 @@ export default {
       },
       getStudentSuspend:function () {
         this.$axios.get(this.get_05_url).then(res=>{
-          this.saveForm.other_on_schedule_per = res.data.other_on_schedule_per;
-          this.saveForm.on_schedule_per = res.data.on_schedule_per;
+          this.saveForm.other_on_schedule_per30 = res.data.other_on_schedule_per;
+          this.saveForm.on_schedule_per30 = res.data.on_schedule_per;
         }).catch(err=>{
           console.log(err)
         })
@@ -962,6 +881,11 @@ export default {
             this.saveForm.radio7 = '转备用金'
           }else{
             this.saveForm.radio7 = '退费'
+          }
+          if(res.data.full_month_per){
+            this.saveForm.radio_type5 = '1';
+          }else{
+            this.saveForm.radio_type5 = '0';
           }
           this.saveForm.full_month_per2 = res.data.full_month_per;
           this.saveForm.method_type5 = res.data.method_type;
@@ -1167,11 +1091,11 @@ export default {
         var data5 = {};
         data5.center = this.saveForm.center || this.$route.params.center_id;
         data5.academic_year = this.saveForm.academic_year || this.$route.params.year;
-        if(this.saveForm.other_on_schedule_per !== ''){
-          data5.other_on_schedule_per = this.saveForm.other_on_schedule_per;
+        if(this.saveForm.other_on_schedule_per30 !== ''){
+          data5.other_on_schedule_per = this.saveForm.other_on_schedule_per30;
         }
-        if(this.saveForm.on_schedule_per !== ''){
-          data5.on_schedule_pe = this.saveForm.on_schedule_per;
+        if(this.saveForm.on_schedule_per30 !== ''){
+          data5.on_schedule_per = this.saveForm.on_schedule_per30;
         }
 
         if(type === 'add'){
@@ -1522,20 +1446,23 @@ export default {
         }else{
           obj.return_type = 2;
         }
-        if(this.saveForm.full_month_per2 !== ''){
-          obj.full_month_per = this.saveForm.full_month_per2;
-        }
-        if(this.saveForm.method_type5 !== ''){
-          obj.method_type = this.saveForm.method_type5;
-        }
-        if(this.saveForm.compare_type5 !== ''){
-          obj.compare_type = this.saveForm.compare_type5;
-        }
-        if(this.saveForm.days5 !== ''){
-          obj.days = this.saveForm.days5;
-        }
-        if(this.saveForm.days_fee5 !== ''){
-          obj.days_fee = this.saveForm.days_fee5;
+        if(this.saveForm.radio_type5 === '0'){
+          if(this.saveForm.method_type5 !== ''){
+            obj.method_type = this.saveForm.method_type5;
+          }
+          if(this.saveForm.compare_type5 !== ''){
+            obj.compare_type = this.saveForm.compare_type5;
+          }
+          if(this.saveForm.days5 !== ''){
+            obj.days = this.saveForm.days5;
+          }
+          if(this.saveForm.days_fee5 !== ''){
+            obj.days_fee = this.saveForm.days_fee5;
+          }
+        }else{
+          if(this.saveForm.full_month_per2 !== ''){
+            obj.full_month_per = this.saveForm.full_month_per2;
+          }
         }
         if(type === 'add'){
           this.$axios.post(this.add_15_url,obj).then(res=>{
