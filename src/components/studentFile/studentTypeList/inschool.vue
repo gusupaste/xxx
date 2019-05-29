@@ -281,8 +281,25 @@ export default {
     getStudentList:function () {
       /*var centresId = []
       centresId.push(this.school);*/
+      /*
+      * if(data.intercity_id !== ''){
+        obj.intercity_id = data.intercity_id;
+      }
+      if(data.province_id !== ''){
+        obj.province_id = data.province_id;
+      }
+      if(data.area_id !== ''){
+        obj.area_id = data.area_id
+      }
+      if(data.hq_id !== ''){
+        obj.hq_id = data.hq_id
+      }*/
       var data={
         student_type:'Formal',/*在校生*/
+        intercity_id:'',
+        intercity_id:'',
+        intercity_id:'',
+        intercity_id:'',
         center_id:this.school,
         class_id:this.class_val,
         date_from:this.dateValue[0],
