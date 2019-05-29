@@ -84,6 +84,7 @@ export default {
          year_list:[],
          student_list:[],
          list:[1,2,3,4,5,6,7,81,],
+          total:1,
          form: {
           name: '',
           region: '',
@@ -93,7 +94,6 @@ export default {
           type: [],
           resource: '',
           desc: '',
-          total:1,
         }
     }
   },
@@ -141,17 +141,40 @@ export default {
     getStudentList:function (data) {
       var _this = this;
       var url = this.student_url;
-      _this.$axios.get(url,{
+      var obj = {};
+      if(data.academic_year !== ''){
+        obj.academic_year = data.academic_year
+      }
+      if(data.class_id !== ''){
+        obj.class_id = data.class_id
+      }
+      if(data.date_from !== ''){
+        obj.date_from = data.date_from;
+      }
+      if(data.date_to !== ''){
+        obj.date_to = data.date_to;
+      }
+      if(data.gender !== ''){
+        obj.gender = data.gender
+      }
+      if(data.condition !== ''){
+        obj.condition = data.condition
+      }
+      obj.student_type = data.student_type;
+      obj.page = data.page;
+      _this.$axios.get(url,obj
+      /*{
         params:{
+          academic_year:data.academic_year,
           student_type:data.student_type,
           class_id:data.class_id,
           date_from:data.date_from,
           date_to:data.date_to,
           gender:data.gender,
           condition:data.condition,
-          page:data.currentPage
+          page:data.page
         }
-      }).then(res=>{
+      }*/).then(res=>{
         if(res.status == 200 && res.data.status == 1) {
           this.student_list = res.data.results.results;
           this.total = res.data.results.count;
