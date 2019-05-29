@@ -68,7 +68,7 @@
         <span class="ml20">学生信息：</span>
         <el-input type="text" placeholder="请输入学生姓名" v-model="form.student_name" class="search_input"
                   style="width:220px"></el-input>
-        <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
+        <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
       </p>
       <el-table
         class="mt26"
@@ -143,6 +143,15 @@
         </el-table-column>
       </el-table>
     </div>
+    <el-pagination
+      background
+      layout="prev,pager, next, jumper"
+      next-text="下一页"
+      :page-size="pagesize"
+      :current-page="currentPage"
+      @current-change="handleCurrentChange"
+      :total="total" class="page">
+    </el-pagination>
     <!--编辑 弹框-->
     <el-dialog title="详情页面" class="el-dialog-table" :visible.sync="detaildialog" width="50%">
       <table class="table" :data="application_detail">
@@ -298,7 +307,10 @@
         application_detail: {},
         title: '作废',
         change_id: 0,
-        change_status: 0
+        change_status: 0,
+        pagesize: 10,
+        currentPage: 1,
+        total: 1,
       }
     },
     mounted: function () {
@@ -306,27 +318,30 @@
       this.getArea()
       this.getSchool()
       this.getApplicationType()
-      this.getList()
+      this.getList(1)
     },
     watch: {
       'form.intercity_id'() {
         this.form.center_id = "";
         this.getSchool();
-        this.getList()
+        this.getList(1)
       },
       'form.area_id'() {
         this.form.center_id = "";
         this.getSchool();
-        this.getList()
+        this.getList(1)
       },
       'form.center_id'() {
-        this.getList()
+        this.getList(1)
       },
       'form.application_type_id'() {
-        this.getList()
+        this.getList(1)
       },
       'form.status_id'() {
-        this.getList()
+        this.getList(1)
+      },
+      currentPage () {
+        this.getList(this.currentPage)
       }
     },
     methods: {
@@ -376,14 +391,16 @@
           this.form.start_date = val[0]
           this.form.end_date = val[1]
         }
-        this.getList()
+        this.getList(1)
       },
-      getList: function () {
-        this.$axios.get('/api/application/application/', {
+      getList: function (val) {
+        this.currentPage = val
+        this.$axios.get('/api/application/application/?size=' + this.pagesize + '&page=' + this.currentPage, {
           params: this.form
         })
           .then(res => {
-            this.tableList = res.data
+            this.tableList = res.data.data.results
+            this.total = res.data.data.count
           }).catch(err => {
         })
       },
@@ -430,11 +447,14 @@
             if (res.data.status === 1) {
               this.$message.success("成功")
               this.canceldialog = false
-              this.getList()
+              this.getList(1)
             }
           }).catch(err => {
         })
-      }
+      },
+      handleCurrentChange: function (currentPage) {
+        this.currentPage = currentPage
+      },
     }
   }
 </script>
