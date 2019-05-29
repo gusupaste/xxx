@@ -6,7 +6,7 @@
     <div class="content">
       <div class="select-header">
         <span>搜索：</span>
-        <el-input v-model="input" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
+        <el-input v-model="input" placeholder="输入学号、学生姓名" class="search_input"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getStudentList(1)">搜索</el-button></span>
       </div>
       <div class="list-content clearfix">
@@ -19,12 +19,12 @@
             <div class="card-content inline-block">
               <p>
                 <span style="font-size:15px;font-weight:600">{{ item.name }}</span>
-                <!--<i style="font-size:15px;color:#ff7f7f;" class="fa fa-mars" aria-hidden="true"></i>-->
-                <i style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
+                <i v-if="item.gender ==='M'" style="font-size:15px;color:#51a5ff;" class="fa fa-mars" aria-hidden="true"></i>
+                <i v-if="item.gender ==='F'" style="font-size:15px;color:#ff7f7f;" class="fa fa-venus" aria-hidden="true"></i>
               </p>
               <p>出生日期：{{ item.date_of_birth }}</p>
               <p>意向学年：{{ item.preferred_academic_year }}</p>
-              <p>意向信息：{{ item.date_of_birth }}</p>
+              <p>意向信息：{{ item.preferred_class }}</p>
               <p>拟入学日期：{{ item.preferred_admission_date }}</p>
             </div>
           </div>

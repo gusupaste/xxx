@@ -23,7 +23,7 @@
               <el-option label="已拒绝" value="已拒绝"></el-option>
           </el-select>
           <span style="margin-left: 20px">搜索：</span>
-          <el-input v-model="searchForm.search_name" placeholder="输入学号、学生姓名或家长姓名" style="width: auto"></el-input>
+          <el-input v-model="searchForm.search_name" placeholder="输入学号、学生姓名" style="width: auto"></el-input>
           <span><el-button type="primary" @click="searchList(1)">搜索</el-button></span>
           <span class="right" style="cursor:pointer" @click="addNewDiscount(0)">
               <i class="icon-font fa fa-calendar-plus-o"></i>
@@ -117,7 +117,7 @@
           size:10,
           center_id:this.$cookies.get('userInfo').center.id,
         },
-        chargeTableDate:[] 
+        chargeTableDate:[]
       };
     },
     created () {
@@ -152,7 +152,7 @@
         })
       },
       addNewDiscount(val){;
-        val == 1 ? this.$router.push('/financemanagement/preparatory-student') : this.$router.push('/financemanagement/leave-student') 
+        val == 1 ? this.$router.push('/financemanagement/preparatory-student') : this.$router.push('/financemanagement/leave-student')
       }
     },
   }

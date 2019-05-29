@@ -67,7 +67,7 @@
           <el-option label="已同意" value="1"></el-option>
         </el-select>
         <span class="ml20">学生信息：</span>
-        <el-input type="text" placeholder="请输入" v-model="form.student_name" class="search_input"
+        <el-input type="text" placeholder="请输入学生姓名" v-model="form.student_name" class="search_input"
                   style="width:220px"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getList">搜索</el-button></span>
       </p>
