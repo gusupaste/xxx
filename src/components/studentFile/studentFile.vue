@@ -262,11 +262,32 @@ export default {
     },
     /*获取学生*/
     getStudentList:function (data) {
-      console.log(data)
       var _this = this;
       var url = this.student_url;
+      var obj = {};
+      if(data.center_id !== ''){
+        obj.center_id = data.center_id
+      }
+      if(data.class_id !== ''){
+        obj.class_id = data.class_id
+      }
+      if(data.date_from !== ''){
+        obj.date_from = data.date_from;
+      }
+      if(data.date_to !== ''){
+        obj.date_to = data.date_to;
+      }
+      if(data.gender !== ''){
+        obj.gender = data.gender
+      }
+      if(data.condition !== ''){
+        obj.condition = data.condition
+      }
+      obj.student_type = data.student_type;
+      obj.page = data.page
       _this.$axios.get(url,{
-        params:{
+        params:obj
+          /*{
           student_type:data.student_type,
           center_ids:data.center_ids,
           class_id:data.class_id,
@@ -275,7 +296,7 @@ export default {
           gender:data.gender,
           condition:data.condition,
           page:data.page
-        }
+        }*/
       }).then(res=>{
         if(res.status == 200 && res.data.status == 1) {
           this.student_list = res.data.results.results;

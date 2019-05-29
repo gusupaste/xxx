@@ -273,7 +273,8 @@ export default {
     },
     /*intercity_id 城际，province_id 省份，area_code 区域code,hq_id 品牌*/
     allChangeFun:function () {
-      this.schoolChangeFun();
+      /*this.schoolChangeFun();*/
+      this.school = '';
       this.$emit('getSchoolList',this.intercity,this.city,this.area,this.brand);
     },
     schoolChangeFun:function () {
@@ -282,11 +283,11 @@ export default {
       }
     },
     getStudentList:function () {
-      var centresId = []
-      centresId.push(this.school);
+      /*var centresId = []
+      centresId.push(this.school);*/
       var data={
         student_type:'Prepare',
-        center_ids:centresId,
+        center_id:this.school,
         class_id:this.class_val,
         date_from:this.dateValue[0],
         date_to:this.dateValue[1],
