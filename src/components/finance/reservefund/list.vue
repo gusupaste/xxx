@@ -372,7 +372,7 @@
         this.$axios.get('/api/common/select/class_list/?center_id=' + school)
           .then(res => {
             this.class_year_list = res.data.results
-            this.getList()
+            this.getList(1)
           }).catch(err => {
           console.log(err)
         })
