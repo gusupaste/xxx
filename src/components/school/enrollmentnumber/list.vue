@@ -210,7 +210,7 @@
                 message:'编辑成功！'
               })
             row.edit = false;
-            // _this.getList();
+             _this.getList();
             }
         })
       },
