@@ -579,10 +579,12 @@ export default {
         },
         getStudent(val){
             if(this.$route.query.student){
+              if(!this.$route.query.id){
                 this.is_edit = true;
                 this.is_choose_student = true;
                 this.choosePerson.id = this.$route.query.student;
                 this.sureAddStudent();
+              }
             }
             var _this = this;
             this.addform.date = this.$options.filters['formatDate'](new Date());
@@ -597,15 +599,13 @@ export default {
                 _this.studentList = res.data.data.student_li;
                 _this.schoolName = res.data.data.center_name;
                 _this.total=res.data.data.student_total;
-                if(val === 1){
-                    if(_this.$route.query.id && _this.$route.query.student){
-                        _this.is_edit = true;
-                        _this.$nextTick(()=>{
-                            _this.getDiscountInfo();
-                        })
-                }else{
-                      _this.is_edit = false;
-                    }
+                if(val === 1) {
+                  if (_this.$route.query.id) {
+                    _this.is_edit = true;
+                    _this.$nextTick(() => {
+                      _this.getDiscountInfo();
+                    })
+                  }
                 }
             })
         },
