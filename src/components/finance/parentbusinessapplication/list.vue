@@ -49,7 +49,6 @@
         <el-date-picker
           v-model="application_date"
           :editable="false"
-          :clearable="false"
           type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
@@ -370,8 +369,13 @@
         })
       },
       dateChange: function (val) {
-        this.form.start_date = val[0]
-        this.form.end_date = val[1]
+        if (val === null) {
+          this.form.start_date = ""
+          this.form.end_date = ""
+        } else {
+          this.form.start_date = val[0]
+          this.form.end_date = val[1]
+        }
         this.getList()
       },
       getList: function () {
