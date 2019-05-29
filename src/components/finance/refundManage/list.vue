@@ -145,7 +145,16 @@
       },
       searchList(id){
         this.searchForm.page = id;
-        this.$axios.post('/api/finance/refund/refund_list/',this.searchForm)
+        this.$axios.get('/api/finance/refund/', {
+          params:{
+            academic_year_id: this.searchForm.academic_year_id,
+            class_id: this.searchForm.class_id,
+            search_str: this.searchForm.search_name,
+            status: this.searchForm.bill_status,
+            page: this.searchForm.page,
+            size: 10,
+          }
+        })
         .then(res=>{
           this.chargeTableDate = res.data.results;
           this.count = res.data.count;
