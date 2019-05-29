@@ -113,7 +113,64 @@
         </el-form>
       </div>
       <div class="list-content" style="margin-top:20px">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-table
+          :data="countList"
+          border
+          stripe
+          show-header
+          style="width: 100%;margin-top: 10px;">
+          <el-table-column
+            prop="bill_no"
+            label="账单号"
+            width="150">
+            <template slot-scope="scope">
+              <el-button type="text" size="small" @click="editSchool(scope.row,1)">{{scope.row.bill_no}}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="student_name"
+            label="学生姓名"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="class"
+            label="所在班级"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="bill_type"
+            label="账单类型"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="actual_amount"
+            label="实际应收"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="actual_pay"
+            label="实际实收"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="creator"
+            label="制单人"
+            width="130">
+          </el-table-column>
+          <el-table-column
+            prop="billing_date"
+            label="制单日期">
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          :current-page="searchform.page"
+          :page-size="10"
+          @current-change="changePage"
+          :total="count">
+        </el-pagination>
+        <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="确认账单" name="first">
             <el-table
               :data="countList"
@@ -232,7 +289,7 @@
               :total="count2">
             </el-pagination>
           </el-tab-pane>
-        </el-tabs>
+        </el-tabs> -->
       </div>
     </div>
   </div>
@@ -437,6 +494,7 @@
             page: this.searchform.page,
             size: 10,
         }).then(res => {
+          console.log(res.data)
           _this.countList = res.data.bill_li;
           _this.count = res.data.count;
         })
