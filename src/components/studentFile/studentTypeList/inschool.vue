@@ -279,10 +279,12 @@ export default {
       }
     },
     getStudentList:function () {
-      /*var centresId = []
-      centresId.push(this.school);*/
       var data={
         student_type:'Formal',/*在校生*/
+        intercity_id:this.intercity,
+        area_id:this.area,
+        province_id:this.city,
+        hq_id:this.brand,
         center_id:this.school,
         class_id:this.class_val,
         date_from:this.dateValue[0],

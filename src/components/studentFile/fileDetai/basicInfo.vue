@@ -170,7 +170,7 @@
       </div>
     </div>
     <div class="mt26 text-align-center">
-      <button class="btn bg-grey mr26" @click="$router.push('/studentFile/studentFileList')">取消</button>
+      <button class="btn bg-grey mr26" @click="cancel_Fun">取消</button>
       <button class="btn bg-green" @click="submitForm('studentInfo')">保存</button>
     </div>
   </div>
@@ -452,6 +452,14 @@
         }).catch(err => {
           console.log(err)
         })
+      },
+      cancel_Fun:function () {
+        if(Number(this.$route.query.status) === 0) {
+          //转回预备生
+          this.$router.push('/entranceManage/admission-registration');
+        }else{
+          this.$router.push('/studentFile/studentFileList');
+        }
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {

@@ -62,6 +62,10 @@
               label="折前金额">
             </el-table-column>
             <el-table-column
+              prop="actual_amount"
+              label="折后金额">
+            </el-table-column>
+            <el-table-column
               prop="pay_amount"
               label="缴费金额">
             </el-table-column>
@@ -145,6 +149,7 @@
         this.$axios.get('/api/finance/bill/payed_bill/',{
           params:this.searchForm
         }).then(res=>{
+          console.log(res.data)
           this.chargeTableDate = res.data.bill_li;
           this.count = res.data.count;
         })
