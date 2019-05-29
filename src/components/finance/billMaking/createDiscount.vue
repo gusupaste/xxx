@@ -620,7 +620,7 @@ export default {
             this.checkedSubject.forEach(item=>{
                 if(item.total){
                     this.totalprice += (Number(item.total))
-                    this.totalamount += (Number(item.total))
+                    this.totalamount += (Number(item.act_total))
                 }else if(item.price){
                     this.totalprice += (Number(item.price))
                     this.totalamount += (Number(item.price))
