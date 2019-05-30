@@ -339,6 +339,7 @@ export default {
               _this.refundList.push(ele2);
             })
           });
+          this.getRefund_amount();
           console.log(_this.subjectList)
         })
       },
