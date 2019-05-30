@@ -162,7 +162,7 @@ export default {
       }
       obj.student_type = data.student_type;
       obj.page = data.page;
-      console.log(obj);
+      obj.size = 9;
       _this.$axios.get(url,{
         params:obj
       }

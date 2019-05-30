@@ -296,7 +296,8 @@ export default {
         obj.condition = data.condition
       }
       obj.student_type = data.student_type;
-      obj.page = data.page
+      obj.page = data.page;
+      obj.size = 9
       _this.$axios.get(url,{
         params:obj
           /*{

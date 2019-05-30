@@ -309,12 +309,10 @@
                 data.className = 'mark0';
               }else if(dates[x].className === 0){
                 data.className = 'mark1';
-              }else if(dates[x].className === 1){
-                data.className = 'mark2';
               }else if(dates[x].className === 2){
-                data.className = 'mark3';
+                data.className = 'mark2';
               }else if(dates[x].className === 3){
-                data.className = 'mark4';
+                data.className = 'mark3';
               }
               this.attendance.push(data);
             }

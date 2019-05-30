@@ -542,7 +542,7 @@
           leave_date: '',
         },
         studentInfo: {},
-        pagesize: 10,
+        pagesize: 9,
         currentPage: 1,
         total: 1,
         class_year:'',
