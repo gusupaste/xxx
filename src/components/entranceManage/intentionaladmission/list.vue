@@ -54,7 +54,7 @@
               <template slot-scope="scope">
                 <!--创建-->
                 <template v-if="!scope.row.bill_id">
-                  <router-link  :to="'/financemanagement/createDiscount/?student='+scope.row.id">
+                  <router-link  :to="'/financemanagement/createDiscount/add/?student='+scope.row.id">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
@@ -65,7 +65,7 @@
                 </template>
                 <!--编辑-->
                 <template  v-if="scope.row.bill_id && scope.row.show_dollar">
-                  <router-link  :to="'/financemanagement/createDiscount/?id='+scope.row.bill_id+'&student='+scope.row.id">
+                  <router-link  :to="'/financemanagement/createDiscount/edit/?id='+scope.row.bill_id+'&student='+scope.row.id">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
