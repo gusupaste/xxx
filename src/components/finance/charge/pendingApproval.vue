@@ -18,7 +18,7 @@
                     <el-row :gutter="20">
                         <el-col :span="4"><div class="grid-content bg-purple">账单编号：HNCJDJDDD09-12</div></el-col>
                         <el-col :span="4"><div class="grid-content bg-purple">应缴金额：¥12700.00</div></el-col>
-                        <el-col :span="4"><div class="grid-content bg-purple">账单余额：¥0.00</div></el-col>
+                        <!--<el-col :span="4"><div class="grid-content bg-purple">账单余额：¥0.00</div></el-col>-->
                     </el-row></p>
                 <p>
                     <el-row :gutter="20">

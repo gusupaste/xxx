@@ -22,7 +22,7 @@
                     <el-row :gutter="20">
                         <el-col :span="5"><div class="grid-content bg-purple">账单编号：{{bill_info.bill_no}}</div></el-col>
                         <el-col :span="5"><div class="grid-content bg-purple">应缴金额：¥{{bill_info.amount}}</div></el-col>
-                        <el-col :span="5"><div class="grid-content bg-purple">账单余额：¥0</div></el-col>
+                        <!--<el-col :span="5"><div class="grid-content bg-purple">账单余额：¥0</div></el-col>-->
                     </el-row></p>
                 <p>
                     <el-row :gutter="20">
