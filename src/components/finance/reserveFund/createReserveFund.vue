@@ -98,8 +98,10 @@
             label="可退转计数">
           </el-table-column>
           <el-table-column
-            prop="refund_money"
             label="学费应退金额">
+            <template slot-scope="scope">
+                <span>{{scope.row.refund_money.current_month}}</span>
+            </template>
           </el-table-column>
         </el-table-column>
         <el-table-column
