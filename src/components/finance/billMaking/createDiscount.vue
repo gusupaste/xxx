@@ -462,7 +462,7 @@ export default {
                 return
             }
             this.saveForm.student_id = this.multipleTable[0].id;
-            this.saveForm.class_id = this.multipleTable[0].class_id;
+            this.saveForm.class_id = this.multipleTable[0].center_class_id;
             this.saveForm.academic_year_id = this.addform.academic_year_id;
             this.saveForm.planned_payment_date = this.addform.start_date;
             this.saveForm.enter_date = this.addform.end_date;
