@@ -201,7 +201,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="紧急联系级别" label-width="110">
               <el-select v-model="ruleForm.emergency_contact_grade" placeholder="紧急联系人级别">
                 <el-option
@@ -213,7 +213,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="首选联系方式" label-width="110">
               <el-select v-model="ruleForm.primary_contact_way" placeholder="请选择首选联系方式">
                 <el-option
@@ -227,7 +227,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="家长第一语言" label-width="110">
               <el-select v-model="ruleForm.primary_language" placeholder="请选择学生第一语言">
                 <el-option
@@ -239,7 +239,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="家长第二语言" label-width="110">
               <el-select v-model="ruleForm.other_language" placeholder="请选择家长第二语言">
                 <el-option
