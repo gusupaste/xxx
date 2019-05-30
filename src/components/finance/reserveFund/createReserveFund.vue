@@ -46,6 +46,7 @@
                       @change="change"
                       v-model="searchForm.month"
                       type="month"
+                      :picker-options="pickerOptions"
                       start-placeholder="开始月份">
                     </el-date-picker>
                   </div>
@@ -98,8 +99,10 @@
             label="可退转计数">
           </el-table-column>
           <el-table-column
-            prop="refund_money"
             label="学费应退金额">
+            <template slot-scope="scope">
+              <span>{{scope.row.refund_money.current_month}}</span>
+            </template>
           </el-table-column>
         </el-table-column>
         <el-table-column
@@ -131,7 +134,7 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         tableData: [],
         class_li: [],
@@ -143,10 +146,15 @@
         userInfo: this.$cookies.get('userInfo'),
         single_status: Number(this.$route.params.status),
         date: '',
-        student_id: this.$route.query.id
+        student_id: this.$route.query.id,
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > new Date().setMonth(new Date().getMonth() - 1)
+          }
+        }
       }
     },
-    mounted () {
+    mounted() {
       this.date = this.$options.filters['formatDate'](new Date())
       // this.getInfo();
       if (this.single_status === 0) {
@@ -173,7 +181,7 @@
 
         })
       },
-      getInfo () {
+      getInfo() {
         var _this = this
         this.$axios.get('/api/finance/reserve_fund_for_attendance/student_list/', {
           params: this.searchForm
@@ -189,13 +197,13 @@
             }
           })
       },
-      change (val) {
+      change(val) {
         console.log(val)
       },
-      handleSelectionChange (val) {
+      handleSelectionChange(val) {
         this.mutitable = val
       },
-      submit () {
+      submit() {
         var _this = this
         if (this.mutitable.length === 0) {
           this.$message({
@@ -219,7 +227,7 @@
             }
           })
       },
-      searchInfo () {
+      searchInfo() {
         this.$axios.get('/api/finance/bill/search_info/', {
           params: {
             center_id: this.userInfo.center.id
@@ -232,7 +240,7 @@
     },
     watch: {
       searchForm: {
-        handler () {
+        handler() {
           if (this.searchForm.month !== '' && this.searchForm.center_class_id !== '') this.getInfo()
 
         },
@@ -256,15 +264,19 @@
     color: #3E7193;
   }
 
-  .billDetail .card-type {
+  .billDetailSc .card-type {
     line-height: 30px;
   }
 
-  .billDetail .el-card__body {
+  .billDetailSc .el-card__body {
     padding: 30px 70px 10px 70px;
   }
 
-  .billDetail .tableList {
+  .billDetailSc .tableList {
     color: #101010;
+  }
+
+  .billDetailSc >>> .el-date-editor.el-input, .billDetailSc >>> .el-date-editor.el-input__inner {
+    width: 145px;
   }
 </style>

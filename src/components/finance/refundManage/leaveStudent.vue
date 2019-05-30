@@ -1,9 +1,9 @@
 <template>
     <div class="preparatoryStudent wrap">
       <div class="header">
-        <p class="local_path_style">YOU ARE HERE : 财务处理 > 退费管理 > <span class="font-cl-blue">毕业/离园退费账单</span></p>
+        <p class="local_path_style">YOU ARE HERE : 财务处理 > 退费管理 > <span class="font-cl-blue">新增毕业/离园退费账单</span></p>
       </div>
-        <div class="content-top">新增预备生退费账单</div>
+        <div class="content-top">新增毕业/离园退费账单</div>
         <div class="clearfix">
             <el-col :span="24" class="card-type">
                 <el-card shadow="always">
