@@ -254,7 +254,7 @@
         </el-row>
         <hr>
         <br>
-        <el-row>
+        <el-row v-if="is_has_user === 0">
           <el-col :span="24">
             <el-checkbox v-model="checked">设置账号</el-checkbox>
           </el-col>
@@ -262,11 +262,11 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="账号" label-width="40">
-              <span>{{ tel_phone }}(默认手机号)</span>
+              <span>{{ tel_phone }}<span v-if="is_has_user === 0">(默认手机号)</span></span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="密码">
+            <el-form-item label="密码" v-if="is_has_user === 0">
               <span>123456</span>
             </el-form-item>
           </el-col>
@@ -360,6 +360,7 @@
           primary_language: '',
           other_language: '',
         },
+        is_has_user:'',
         edit_id: '',
         tel_phone: '',
       }
@@ -368,6 +369,11 @@
       currentPage(){
         //this.getSchoolList(this.currentPage)
         this.getParentList();
+      },
+      'ruleForm.telephone'(){
+        if(this.is_has_user === 0){
+          this.tel_phone = this.ruleForm.telephone;
+        }
       }
     },
     mounted: function () {
@@ -402,6 +408,12 @@
         this.ruleForm.primary_contact_way = obj.primary_contact_way;
         this.ruleForm.primary_language = obj.primary_language;
         this.ruleForm.other_language = obj.other_language;
+        this.is_has_user = obj.is_has_user;
+        if(obj.is_has_user === 1){
+          this.checked = true;
+        }else{
+          this.checked = false;
+        }
       },
       cancelParentInfo: function () {
         this.editbrandVisible = false;

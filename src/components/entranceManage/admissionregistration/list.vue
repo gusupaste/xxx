@@ -615,6 +615,7 @@
                   message: '保存成功！'
                 })
                 this.operationVisible = false;
+                this.getStudentList(1);
               } else {
                 this.$message.error('保存失败');
               }

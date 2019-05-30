@@ -147,17 +147,18 @@
         single_status: Number(this.$route.params.status),
         date: '',
         student_id: this.$route.query.id,
-        pickerOptions: {
+        pickerOptions: {}
+      }
+    },
+    mounted() {
+      this.tableData = []
+      this.date = this.$options.filters['formatDate'](new Date())
+      if (this.single_status === 0) {
+        this.pickerOptions = {
           disabledDate(time) {
             return time.getTime() > new Date().setMonth(new Date().getMonth() - 1)
           }
         }
-      }
-    },
-    mounted() {
-      this.date = this.$options.filters['formatDate'](new Date())
-      // this.getInfo();
-      if (this.single_status === 0) {
         this.searchInfo()
       } else {
         this.getSingleStudent()
@@ -173,9 +174,10 @@
         })
           .then(res => {
             if (res.data.status === 1) {
-              this.tableData = res.data.data
+              this.tableData.push(res.data.data)
+              console.log(this.tableData)
             } else {
-              this.$message.error(res.data.msg)
+
             }
           }).catch(err => {
 
@@ -196,9 +198,6 @@
               })
             }
           })
-      },
-      change(val) {
-        console.log(val)
       },
       handleSelectionChange(val) {
         this.mutitable = val
