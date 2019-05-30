@@ -259,11 +259,22 @@ export default {
           _this.student = res.data.data.student;
           _this.application = res.data.data.application;
           _this.approve_history = res.data.data.approve_history;
-          _this.bill.refund_items.forEach(item=>{
-            _this.total += Number(item.amount)
-          });
+          this.getRefund_amount()
         })
-      }
+      },
+      getRefund_amount(){
+        this.bill.items.forEach(item =>{
+          this.total += Number(item.amount)
+        })
+        this.total += this.bill.reserved_fund_amount;
+        this.bill.refund_items.forEach(item=>{
+          if(item.refund_direct === '扣款') {
+            this.total -= Number(item.amount)
+          } else {
+            this.total += Number(item.amount)
+          }
+        })
+      },
     },
     computed: {
     }
