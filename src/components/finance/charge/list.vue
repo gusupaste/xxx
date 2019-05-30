@@ -73,7 +73,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="班级：">
-            <el-select v-model="searchform.class_id" placeholder="请选择">
+            <el-select v-model="searchform.class_id" placeholder="请选择" :disabled="class_disable">
               <el-option value="" label="所有"></el-option>
               <el-option
                 v-for="item in classList"
@@ -299,6 +299,7 @@
   export default {
     data() {
       return {
+        class_disable:'',
         searchform: {
           intercity_id: '',
           area_id: '',
@@ -555,8 +556,14 @@
         this.searchform.center_id = "";
       },
       'searchform.center_id'() {
-        this.getClass();
-        this.searchform.class_id = "";
+        if(this.searchform.center_id === ''){
+          this.class_disable = true;
+          this.searchform.class_id = "";
+        }else{
+          this.getClass();
+          this.searchform.class_id = "";
+          this.class_disable = false;
+        }
       },
     }
   }
