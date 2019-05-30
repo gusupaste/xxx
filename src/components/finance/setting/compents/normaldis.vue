@@ -176,7 +176,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="判定条件: ">
-              <el-select v-model="condition_name" placeholder="--请选择--" style="width: 100%;">
+              <el-select v-model="condition_name" placeholder="请选择" style="width: 100%;">
                 <el-option
                   v-for="item in conditionList"
                   :key="item.id"
@@ -210,7 +210,7 @@
                         </el-input>
                         <el-select style="width: 90px;" v-model="con.select_select"
                                    @change="addContion($event,con_index,index)">
-                          <el-option :value="Number(0)" label="-请选择-"></el-option>
+                          <el-option :value="Number(0)" label="请选择"></el-option>
                           <el-option :value="Number(1)" label="且"></el-option>
                           <el-option :value="Number(2)" label="或"></el-option>
                         </el-select>
@@ -462,7 +462,7 @@
             this.roleList = [
               {
                 id: 0,
-                name: '-请选择-'
+                name: '请选择'
               }
             ]
             this.roleList = this.roleList.concat(res.data.data)

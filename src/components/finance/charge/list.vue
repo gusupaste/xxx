@@ -8,7 +8,7 @@
         <el-form class="mb10" :model="searchform" inline>
           <el-form-item label="城际：">
             <el-select v-model="searchform.intercity_id" placeholder="请选择">
-              <el-option label="所有" value=""></el-option>
+              <el-option label="全部" value=""></el-option>
               <el-option
                 v-for="item in intercityList"
                 :key="item.id"
@@ -19,7 +19,7 @@
           </el-form-item>
           <el-form-item label="区域：">
             <el-select v-model="searchform.area_id" placeholder="请选择">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in areaList"
                 :key="item.id"
@@ -30,7 +30,7 @@
           </el-form-item>
           <el-form-item label="省市：">
             <el-select v-model="searchform.province_id" placeholder="请选择">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in cityList"
                 :key="item.city_id"
@@ -41,7 +41,7 @@
           </el-form-item>
           <el-form-item label="品牌：">
             <el-select v-model="searchform.hq_id" placeholder="请选择">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in brandList"
                 :key="item.id"
@@ -52,7 +52,7 @@
           </el-form-item>
           <el-form-item label="校园：">
             <el-select v-model="searchform.center_id" placeholder="请选择">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in schoolList"
                 :key="item.id"
@@ -63,7 +63,7 @@
           </el-form-item>
           <el-form-item label="学年：">
             <el-select v-model="searchform.academic_year_id" placeholder="请选择">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in yearList"
                 :key="item.id"
@@ -74,7 +74,7 @@
           </el-form-item>
           <el-form-item label="班级：">
             <el-select v-model="searchform.class_id" placeholder="请选择" :disabled="class_disable">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in classList"
                 :key="item.id"
@@ -85,7 +85,7 @@
           </el-form-item>
           <el-form-item label="账单类型：">
             <el-select v-model="searchform.bill_type_id" placeholder="请选择">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in billType"
                 :key="item.id"

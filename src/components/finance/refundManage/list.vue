@@ -6,18 +6,18 @@
       <div class="content" style="margin-top: 15px">
         <div class="select-header">
           <span>学年：</span>
-          <el-select v-model="searchForm.academic_year_id" placeholder="--请选择--" >
-              <el-option label="所有" value=""></el-option>
+          <el-select v-model="searchForm.academic_year_id" placeholder="请选择" >
+              <el-option label="全部" value=""></el-option>
               <el-option v-for="item in academic_year_li" :value="item.id" :key="item.id" :label="item.year"></el-option>
           </el-select>
           <span style="margin-left: 10px">班级：</span>
           <el-select v-model="searchForm.class_id" placeholder="请选择">
-            <el-option label="所有" value=""></el-option>
+            <el-option label="全部" value=""></el-option>
               <el-option v-for="item in class_li" :value="item.id" :key="item.id" :label="item.class_name"></el-option>
           </el-select>
           <span style="margin-left: 10px">账单状态：</span>
-          <el-select v-model="searchForm.bill_status" placeholder="--请选择--" >
-              <el-option label="所有" value=""></el-option>
+          <el-select v-model="searchForm.bill_status" placeholder="请选择" >
+              <el-option label="全部" value=""></el-option>
               <el-option label="待审批" value="待审批"></el-option>
               <el-option label="已批准" value="已批准"></el-option>
               <el-option label="已拒绝" value="已拒绝"></el-option>

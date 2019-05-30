@@ -6,7 +6,7 @@
     <div class="header-top">
       <p><span>城际：</span>
         <el-select v-model="form.intercity_id" placeholder="请选择">
-          <el-option value="" label="所有"></el-option>
+          <el-option value="" label="全部"></el-option>
           <el-option
             v-for="item in intercityList"
             :key="item.id"
@@ -16,7 +16,7 @@
         </el-select>
         <span class="ml20">区域：</span>
         <el-select v-model="form.area_id" placeholder="请选择">
-          <el-option value="" label="所有"></el-option>
+          <el-option value="" label="全部"></el-option>
           <el-option
             v-for="item in arealist"
             :key="item.id"
@@ -26,7 +26,7 @@
         </el-select>
         <span class="ml20">校园：</span>
         <el-select v-model="form.center_id" placeholder="请选择">
-          <el-option value="" label="所有"></el-option>
+          <el-option value="" label="全部"></el-option>
           <el-option
             v-for="item in schoolList"
             :key="item.id"
@@ -37,7 +37,7 @@
 
         <span class="ml20">申请类型：</span>
         <el-select class="select_lip" v-model="form.application_type_id" placeholder="请选择">
-          <el-option value="" label="所有"></el-option>
+          <el-option value="" label="全部"></el-option>
           <el-option
             v-for="item in application_type"
             :key="item.id"
@@ -60,7 +60,7 @@
       <p>
         <span>状态：</span>
         <el-select class="select_lip" v-model="form.status_id" placeholder="请选择">
-          <el-option label="所有" value="2"></el-option>
+          <el-option label="全部" value="2"></el-option>
           <el-option label="未处理" value="0"></el-option>
           <el-option label="已作废" value="-1"></el-option>
           <el-option label="已同意" value="1"></el-option>

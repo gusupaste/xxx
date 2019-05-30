@@ -132,7 +132,7 @@
         value: '',
         options: [
           {
-            type: '-所有-',
+            type: '全部',
             value: -1
           },
           {

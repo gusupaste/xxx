@@ -85,7 +85,7 @@
             <el-col :span="24">
               <el-form-item label="适用校园">
                 <span>城际：</span>
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;">
+                <el-select v-model="nameSelect" placeholder="请选择" style="width: 35%;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -94,7 +94,7 @@
                   </el-option>
                 </el-select>
                 <span>区域：</span>
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 35%;">
+                <el-select v-model="nameSelect" placeholder="请选择" style="width: 35%;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -133,7 +133,7 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="判定条件">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 100%;">
+                <el-select v-model="nameSelect" placeholder="请选择" style="width: 100%;">
                   <el-option
                     v-for="item in options1"
                     :key="item.value"
@@ -368,7 +368,7 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="城际" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                <el-select v-model="nameSelect" placeholder="请选择" style="width: 170px;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -382,7 +382,7 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="区域" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                <el-select v-model="nameSelect" placeholder="请选择" style="width: 170px;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -394,7 +394,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="省份" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                <el-select v-model="nameSelect" placeholder="请选择" style="width: 170px;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -406,7 +406,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="城市" label-width="40">
-                <el-select v-model="nameSelect" placeholder="--请选择--" style="width: 170px;">
+                <el-select v-model="nameSelect" placeholder="请选择" style="width: 170px;">
                   <el-option
                     v-for="item in options"
                     :key="item.value"

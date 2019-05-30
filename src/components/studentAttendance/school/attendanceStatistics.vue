@@ -144,7 +144,7 @@
   export default {
     data() {
       return {
-        value: '-所有-',
+        value: '全部',
         year: '',
         months: '',
         class_id: '',

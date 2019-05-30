@@ -6,19 +6,19 @@
         <el-form inline class="mt26">
             <el-form-item label="学年：">
                 <el-select v-model="searchform.academic_year_id">
-                    <el-option value="" label="所有"></el-option>
+                    <el-option value="" label=""></el-option>
                     <el-option v-for="item in academic_year_li" :value="item.id" :key="item.id" :label="item.year"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="班型：">
                 <el-select v-model="searchform.class_type_id">
-                    <el-option value="" label="所有"></el-option>
+                    <el-option value="" label="全部"></el-option>
                     <el-option v-for="item in class_type_li" :value="item.id" :key="item.id" :label="item.class_type"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="班级：">
                 <el-select v-model="searchform.class_id">
-                    <el-option value="" label="所有"></el-option>
+                    <el-option value="" label="全部"></el-option>
                     <el-option v-for="item in class_li" :value="item.id" :key="item.id" :label="item.class_name"></el-option>
                 </el-select>
             </el-form-item>

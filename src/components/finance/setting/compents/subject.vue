@@ -2,8 +2,8 @@
     <div>
         <div class="select-header">
             <span>科目属性：</span>
-            <el-select v-model="searchForm.type" placeholder="--请选择--">
-                <el-option label="所有" value=""></el-option>
+            <el-select v-model="searchForm.type" placeholder="请选择">
+                <el-option label="全部" value=""></el-option>
                 <el-option value="0" label="非普惠"></el-option>
                 <el-option value="1" label="普惠"></el-option>
             </el-select>
@@ -75,7 +75,7 @@
                     </el-col>
                     <el-col :span="12">
                     <el-form-item label="科目属性：" prop="type">
-                        <el-select v-model="editform.type" placeholder="--请选择--" style="width: 100%;">
+                        <el-select v-model="editform.type" placeholder="请选择" style="width: 100%;">
                             <el-option value="0" label="非普惠"></el-option>
                             <el-option value="1" label="普惠"></el-option>
                         </el-select>
@@ -85,7 +85,7 @@
                 <el-row>
                     <el-col :span="12">
                     <el-form-item label="科目类型：" prop="t_code">
-                        <el-select value-key="id" v-model="editform.t_code" @change="gettype" placeholder="--请选择--" style="width: 100%;">
+                        <el-select value-key="id" v-model="editform.t_code" @change="gettype" placeholder="请选择" style="width: 100%;">
                             <el-option
                             v-for="item in category_list"
                             :key="item.id"
@@ -122,8 +122,8 @@
                     <el-col :span="16" v-if="editform.limit_range == 1">
                         <el-form-item style="margin-left:-80px;padding-top: 40px;">
                             <span>品牌：</span>
-                            <el-select v-model="editform.hq_id" @change="getSchool" placeholder="--请选择--" style="width: 35%;" >
-                                <el-option value="" label="所有"></el-option>
+                            <el-select v-model="editform.hq_id" @change="getSchool" placeholder="请选择" style="width: 35%;" >
+                                <el-option value="" label="全部"></el-option>
                                 <el-option
                                     v-for="item in brandList"
                                     :key="item.id"
@@ -132,8 +132,8 @@
                                 </el-option>
                             </el-select>
                             <span>城际：</span>
-                            <el-select v-model="editform.intercity_id" @change="getSchool" placeholder="--请选择--" style="width: 35%;">
-                                <el-option value="" label="所有"></el-option>
+                            <el-select v-model="editform.intercity_id" @change="getSchool" placeholder="请选择" style="width: 35%;">
+                                <el-option value="" label="全部"></el-option>
                                 <el-option
                                     v-for="item in intercityList"
                                     :key="item.id"
@@ -196,7 +196,7 @@
                 </el-col>
                 <el-col :span="12">
                 <el-form-item label="科目属性：" prop="type">
-                    <el-select disabled v-model="editform2.type" placeholder="--请选择--" style="width: 100%;">
+                    <el-select disabled v-model="editform2.type" placeholder="请选择" style="width: 100%;">
                         <el-option :value="0" label="非普惠"></el-option>
                         <el-option :value="1" label="普惠"></el-option>
                     </el-select>
@@ -206,7 +206,7 @@
             <el-row>
                 <el-col :span="12">
                 <el-form-item label="科目类型：" prop="t_code">
-                    <el-select value-key="id" disabled v-model="editform2.code" @change="gettype" placeholder="--请选择--" style="width: 100%;">
+                    <el-select value-key="id" disabled v-model="editform2.code" @change="gettype" placeholder="请选择" style="width: 100%;">
                         <el-option
                         v-for="item in category_list"
                         :key="item.id"
@@ -243,8 +243,8 @@
                 <el-col :span="16" v-if="editform2.limit_range == 1">
                     <el-form-item style="margin-left:-80px;padding-top: 40px;">
                         <span>品牌：</span>
-                        <el-select v-model="editform2.hq_id" @change="getSchool2" placeholder="--请选择--" style="width: 35%;" >
-                            <el-option value="" label="所有"></el-option>
+                        <el-select v-model="editform2.hq_id" @change="getSchool2" placeholder="请选择" style="width: 35%;" >
+                            <el-option value="" label="全部"></el-option>
                             <el-option
                                 v-for="item in brandList"
                                 :key="item.id"
@@ -253,8 +253,8 @@
                             </el-option>
                         </el-select>
                         <span>城际：</span>
-                        <el-select v-model="editform2.intercity_id" @change="getSchool2" placeholder="--请选择--" style="width: 35%;">
-                            <el-option value="" label="所有"></el-option>
+                        <el-select v-model="editform2.intercity_id" @change="getSchool2" placeholder="请选择" style="width: 35%;">
+                            <el-option value="" label="全部"></el-option>
                             <el-option
                                 v-for="item in intercityList"
                                 :key="item.id"
