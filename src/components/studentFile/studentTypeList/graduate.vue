@@ -294,7 +294,7 @@ export default {
         area_id:this.area,
         province_id:this.city,
         hq_id:this.brand,
-        student_type:'Abort',/*毕业生*/
+        student_type:'Graduation',/*毕业生*/
         center_id:this.school,
         class_id:this.class_val,
         date_from:this.dateValue[0],

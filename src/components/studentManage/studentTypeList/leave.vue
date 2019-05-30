@@ -191,7 +191,7 @@ export default {
     getStudentList:function () {
       var data={
         academic_year:this.year,
-        student_type:'Graduation',
+        student_type:'Abort',
         class_id:this.class_val,
         date_from:this.dateValue[0],
         date_to:this.dateValue[1],

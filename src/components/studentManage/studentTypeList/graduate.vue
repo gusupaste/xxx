@@ -195,7 +195,7 @@ export default {
     getStudentList:function () {
       var data={
         academic_year:this.year,
-        student_type:'Abort',/*在校生*/
+        student_type:'Graduation',/*在校生*/
         class_id:this.class_val,
         date_from:this.dateValue[0],
         date_to:this.dateValue[1],
