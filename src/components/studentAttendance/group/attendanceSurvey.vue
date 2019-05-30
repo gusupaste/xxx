@@ -110,7 +110,19 @@
       <el-main width="20%">
         <p>当月校日历：</p>
         <div class="mt10">
-          <calendar></calendar>
+          <calendar ref="calendar"
+                    :markDateMore='attendance'></calendar>
+        </div>
+        <div class="calendar-datail">
+          <p>校日历日期说明</p>
+          <div>
+            <span style="background-color:#f28e91" class="calendar-suqre"></span>
+            <span class="mr26">休息日</span>
+            <span style="background-color:#ff9800" class="calendar-suqre"></span>
+            <span class="mr26">职业发展日</span>
+            <span style="background-color:#8BC34A" class="calendar-suqre"></span>
+            <span class="mr26">寒暑假</span>
+          </div>
         </div>
       </el-main>
     </el-container>
@@ -138,8 +150,9 @@
   }
 
   .attendanceSurvey >>> .wh_container {
-    width: 100%;
+    width: 99%;
     display: inline-block;
+    max-width: inherit;
     margin: 0 auto;
     border: 1px solid #d9d9d9;
   }
@@ -174,6 +187,31 @@
   .attendanceSurvey >>> .wh_top_changge li {
     color: #101010;
   }
+
+  .attendanceSurvey >>> .mark0 {
+    background-color: white;
+  }
+
+  .attendanceSurvey >>> .mark1 {
+    background-color: #c5e1a5;
+  }
+
+  .attendanceSurvey >>> .mark2 {
+    background-color: #ffcc80;
+  }
+
+  .attendanceSurvey >>> .mark3 {
+    background-color: #f28e91;
+  }
+
+  .attendanceSurvey >>> .mark4 {
+    background-color: #9fa8da;
+  }
+  .attendanceSurvey >>> .calendar-datail{
+    border: 1px solid #bbb;
+    margin-top: 20px;
+    padding: 10px;
+  }
 </style>
 <script>
   import Calendar from 'vue-calendar-component';
@@ -203,7 +241,8 @@
         rate: '',
         present: '',
         total: '',
-        selectDisable: ''
+        selectDisable: '',
+        attendance:[],
       }
     },
     components: {
@@ -265,16 +304,6 @@
           } else {
 
           }
-          /*this.$axios.get('/api/hq/hq_attendance/?center_id=' + this.school + '&class_type_id=' + this.class_type).then(res => {
-            this.loading = false
-            if (res.status == 200 && res.data.status == 1) {
-              this.attendanceList = res.data.data.attendance_list
-              this.rate = res.data.data.rate
-              this.present = res.data.data.present
-              this.total = res.data.data.total
-            } else {
-
-            }*/
         }).catch(err => {
           console.log(err)
         })
@@ -360,6 +389,37 @@
             this.class_type_list = res.data.results;
             this.class_type = this.class_type_list[0].id
             this.getAttendanceList();
+            this.getSchoolDate();
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      getSchoolDate: function () {
+        var _this = this;
+        var url = '/api/school_calendar/calendar/show_single_month_calendar_days/?center_id='+this.school+'&class_type_id='+this.class_type;
+        _this.$axios.get(url).then(res => {
+          _this.loading = false;
+          if (res.status == 200) {
+            var dates = res.data.results;
+            for(var x in dates){
+              var data = {};
+              data.date = dates[x].date;
+              if(dates[x].className === 'N'){
+                data.className = 'mark0';
+              }else if(dates[x].className === 'S'){
+                data.className = 'mark3';
+              }else if(dates[x].className === 'P'){
+                data.className = 'mark2';
+              }else if(dates[x].className === 'V'){
+                data.className = 'mark1';
+              }
+              this.attendance.push(data);
+            }
+            /*this.$nextTick(() => {
+              this.$refs.calendar.ChoseMonth(this.months)
+            });*/
+
           }
         }).catch(err => {
           console.log(err)

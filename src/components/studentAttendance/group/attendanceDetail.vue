@@ -202,7 +202,6 @@
               this.should_att = res.data.report_data.passed_workday;
               this.att_num = res.data.report_data.present;
               this.attendance_rate = res.data.report_data.present_rate;
-
               var dates = res.data.day_list;
               for(var x in dates){
                 var data = {};
