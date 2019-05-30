@@ -136,6 +136,7 @@
               <p>缴费明细：{{item.payment_method}}：￥{{item.amount}}
               <!--<p>备用金抵扣：￥23000</p>-->
               <p>缴费回单单号：{{item.payment_no}}</p>
+              <hr>
           </div>
           <p>备用金抵扣：{{ bill_info.reserved_fund_use }}</p>
         </div>
