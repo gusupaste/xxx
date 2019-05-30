@@ -200,13 +200,13 @@
                 prop="paid_amount"
                 label="折后应收">
                 </el-table-column>
-                <el-table-column
+                <!--<el-table-column
                 prop="address"
                 label="欠费">
                 <template slot-scope="scope">
                   0
                 </template>
-                </el-table-column>
+                </el-table-column>-->
                 <el-table-column
                 prop="reserved_fund_used"
                 label="备用金">
@@ -215,13 +215,13 @@
                 prop="actual_pay"
                 label="实收">
               </el-table-column>
-              <el-table-column
+              <!--<el-table-column
                 prop="address"
                 label="本期余额">
                 <template slot-scope="scope">
                   0
                 </template>
-              </el-table-column>
+              </el-table-column>-->
             </el-table>
         </div>
         <div class="mt26 tableList" style="line-height:30px">
