@@ -39,7 +39,7 @@
                 <el-dropdown-item command="1">入园登记</el-dropdown-item>
                 <el-dropdown-item command="2">提前入学申请</el-dropdown-item>
                 <el-dropdown-item command="3">推迟入学申请</el-dropdown-item>
-                <el-dropdown-item command="3">离园登记</el-dropdown-item>
+                <el-dropdown-item command="4">离园登记</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <!--<el-select v-model="item.selectType"
@@ -319,7 +319,8 @@
             <el-col :span="8">
               <p class="lable-p">
                 <span class="labels" style="width: 90px;">性别:</span>
-                <span>{{ studentInfo.gender }}&nbsp;</span>
+                <span v-if="studentInfo.gender === 'F'">女&nbsp;</span>
+                <span v-if="studentInfo.gender === 'M'">男&nbsp;</span>
               </p>
               <p class="lable-p">
                 <span class="labels" style="width: 90px;">预计入学日期:</span>
