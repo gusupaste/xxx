@@ -5,7 +5,7 @@
       <p class="mt10">
         <span>城际：</span>
         <el-select v-model="form.intercity_id" placeholder="请选择">
-          <el-option value="" label="所有"></el-option>
+          <el-option value="" label="全部"></el-option>
           <el-option
             v-for="item in intercityList"
             :key="item.id"
@@ -15,7 +15,7 @@
         </el-select>
         <span class="ml20">区域：</span>
         <el-select v-model="form.area_id" placeholder="请选择">
-          <el-option value="" label="所有"></el-option>
+          <el-option value="" label="全部"></el-option>
           <el-option
             v-for="item in arealist"
             :key="item.id"
@@ -25,7 +25,7 @@
         </el-select>
         <span class="ml20">品牌：</span>
         <el-select v-model="form.hq_id" placeholder="请选择">
-          <el-option value="" label="所有"></el-option>
+          <el-option value="" label="全部"></el-option>
           <el-option
             v-for="item in brandList"
             :key="item.id"

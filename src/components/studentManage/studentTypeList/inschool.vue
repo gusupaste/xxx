@@ -68,7 +68,7 @@
             <span>执行操作</span>
             <el-dropdown trigger="click" @command="handleCommand($event,item.id,index)">
               <span class="el-dropdown-link">
-                <el-input :value="item.selectType" class="cur" placeholder="--请选择--"></el-input>
+                <el-input :value="item.selectType" class="cur" placeholder="请选择"></el-input>
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">

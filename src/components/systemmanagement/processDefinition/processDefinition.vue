@@ -70,7 +70,7 @@
         Roles: [
           {
             id: 0,
-            name: '-请选择-'
+            name: '请选择'
           }
         ],
         canceldialog: false,

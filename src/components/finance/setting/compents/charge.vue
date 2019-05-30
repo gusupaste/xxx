@@ -3,7 +3,7 @@
         <div class="select-header select-length" style="line-height:45px">
             <span>城际：</span>
             <el-select v-model="searchform.intercity_id" placeholder="请选择" style="width:150px">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in intercityList"
                 :key="item.id"
@@ -13,7 +13,7 @@
             </el-select>
             <span style="margin-left: 10px">区域：</span>
             <el-select v-model="searchform.area_id" placeholder="请选择" style="width:150px">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in areaList"
                 :key="item.id"
@@ -23,7 +23,7 @@
             </el-select>
             <span style="margin-left: 10px">省市：</span>
             <el-select v-model="searchform.province_id" placeholder="请选择" style="width:150px">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in cityList"
                 :key="item.id"
@@ -33,7 +33,7 @@
             </el-select>
             <span style="margin-left: 10px">品牌：</span>
             <el-select v-model="searchform.hq_id" placeholder="请选择" style="width:150px">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in brandList"
                 :key="item.id"
@@ -43,7 +43,7 @@
             </el-select>
             <span style="margin-left: 10px">校园：</span>
             <el-select v-model="searchform.center_id" placeholder="请选择" style="width:150px">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in schoolList"
                 :key="item.id"
@@ -53,7 +53,7 @@
             </el-select>
             <span style="margin-left: 10px">学年：</span>
             <el-select v-model="searchform.academic_year_id" placeholder="请选择" style="width:150px">
-              <el-option value="" label="所有"></el-option>
+              <el-option value="" label="全部"></el-option>
               <el-option
                 v-for="item in yearList"
                 :key="item.id"
@@ -126,7 +126,7 @@
           <el-row class="mt10">
             <el-col :span="8">
               <el-form-item label="学年：" label-width="40">
-                <el-select v-model="searchSchoolForm.academic_year_id" placeholder="--请选择--" style="width:150px">
+                <el-select v-model="searchSchoolForm.academic_year_id" placeholder="请选择" style="width:150px">
                   <el-option
                     v-for="item in yearList"
                     :key="item.id"
@@ -138,8 +138,8 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="城际：" label-width="40">
-                <el-select v-model="searchSchoolForm.intercity_id" placeholder="--请选择--" style="width:150px">
-                  <el-option value="" label="所有"></el-option>
+                <el-select v-model="searchSchoolForm.intercity_id" placeholder="请选择" style="width:150px">
+                  <el-option value="" label="全部"></el-option>
                   <el-option
                     v-for="item in intercityList"
                     :key="item.id"
@@ -151,8 +151,8 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="区域：" label-width="40">
-                <el-select v-model="searchSchoolForm.area_id" placeholder="--请选择--" style="width:150px">
-                  <el-option value="" label="所有"></el-option>
+                <el-select v-model="searchSchoolForm.area_id" placeholder="请选择" style="width:150px">
+                  <el-option value="" label="全部"></el-option>
                   <el-option
                     v-for="item in areaList"
                     :key="item.id"

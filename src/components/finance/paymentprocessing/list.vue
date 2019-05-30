@@ -7,13 +7,13 @@
         <div class="list-content">
           <div class="select-header">
             <span>学年：</span>
-            <el-select v-model="searchForm.academic_year_id" placeholder="--请选择--" >
-              <el-option label="所有" value=""></el-option>
+            <el-select v-model="searchForm.academic_year_id" placeholder="请选择" >
+              <el-option label="全部" value=""></el-option>
               <el-option v-for="item in academic_year_li" :value="item.id" :key="item.id" :label="item.year"></el-option>
             </el-select>
             <span class="ml20">账单类型：</span>
-            <el-select v-model="searchForm.bill_type" placeholder="--请选择--" >
-              <el-option label="所有" value=""></el-option>
+            <el-select v-model="searchForm.bill_type" placeholder="请选择" >
+              <el-option label="全部" value=""></el-option>
               <el-option label="入园账单" value="0"></el-option>
               <el-option label="系统备用金结转账单" value="1"></el-option>
               <el-option label="转班补交账单" value="2"></el-option>
@@ -25,8 +25,8 @@
               <el-option label="否决账单" value="8"></el-option>
             </el-select>
             <span class="ml20">账单状态：</span>
-            <el-select v-model="searchForm.bill_status" placeholder="--请选择--" >
-              <el-option label="所有" value=""></el-option>
+            <el-select v-model="searchForm.bill_status" placeholder="请选择" >
+              <el-option label="全部" value=""></el-option>
               <el-option label="待审批" value="待审批"></el-option>
               <el-option label="已确认" value="已确认"></el-option>
               <el-option label="已批准" value="已批准"></el-option>
@@ -139,7 +139,7 @@
         this.searchList(val)
       },
       editSchool(val){
-        this.$router.push('/financemanagement/payBillDetail/'+val.id) 
+        this.$router.push('/financemanagement/payBillDetail/'+val.id)
       },
       showInfo(val){
         this.$router.push('/financemanagement/billInfo/'+val.id)
@@ -164,7 +164,7 @@
                 this.academic_year_li = res.data.data.academic_year_li;
             })
         },
-      
+
     },
     watch:{
     },
