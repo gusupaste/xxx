@@ -630,13 +630,12 @@
               leave_date: this.leveForm.leave_date,
             };
             this.$axios.put('/api/student/prepare_list_student/' + this.studentInfo.id + '/', obj).then(res => {
-              if (res.status == 201) {
+              if (res.status == 200) {
                 this.$message({
                   type: 'success',
                   message: '保存成功！'
                 })
-              } else {
-                this.$message.error('保存失败');
+                this.leaveVisible = false;
               }
             }).catch(err => {
               console.log(err);
