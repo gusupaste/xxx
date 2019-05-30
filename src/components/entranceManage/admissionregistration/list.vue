@@ -39,7 +39,7 @@
                 <el-dropdown-item command="1">入园登记</el-dropdown-item>
                 <el-dropdown-item command="2">提前入学申请</el-dropdown-item>
                 <el-dropdown-item command="3">推迟入学申请</el-dropdown-item>
-                <el-dropdown-item command="3">离园登记</el-dropdown-item>
+                <el-dropdown-item command="4">离园登记</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <!--<el-select v-model="item.selectType"
@@ -303,7 +303,7 @@
               </p>
               <p class="lable-p">
                 <span class="labels">学年计划:</span>
-                <span>{{ studentInfo.academic_year }}</span>
+                <span>{{ studentInfo.academic_year_name }}</span>
               </p>
             </el-col>
             <el-col :span="8">
@@ -313,13 +313,14 @@
               </p>
               <p class="lable-p">
                 <span class="labels">意向班级:</span>
-                <span>{{ studentInfo.preferred_center_name }}</span>
+                <span>{{ studentInfo.preferred_class }}</span>
               </p>
             </el-col>
             <el-col :span="8">
               <p class="lable-p">
                 <span class="labels" style="width: 90px;">性别:</span>
-                <span>{{ studentInfo.gender }}&nbsp;</span>
+                <span v-if="studentInfo.gender === 'F'">女&nbsp;</span>
+                <span v-if="studentInfo.gender === 'M'">男&nbsp;</span>
               </p>
               <p class="lable-p">
                 <span class="labels" style="width: 90px;">预计入学日期:</span>
@@ -347,7 +348,7 @@
             <el-col :span="8">
               <p class="lable-p">
                 <span class="labels">离园申请:</span>
-                <span>{{ studentRemark }}</span>
+                <span>{{ studentInfo.leaving_status }}</span>
               </p>
             </el-col>
             <!--<el-col :span="8">
