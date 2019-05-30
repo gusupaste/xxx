@@ -451,13 +451,9 @@
       },
       getClass() {
         var _this = this;
-        var class_list = [];
-        this.schoolList.forEach(item => {
-          class_list.push(item.id)
-        })
-        this.$axios.get('/api/common/select/all_class_list/', {
+        this.$axios.get('/api/common/select/class_list/', {
           params: {
-            center_li: JSON.stringify(class_list)
+            center_id: this.searchform.center_id
           }
         })
           .then(res => {
