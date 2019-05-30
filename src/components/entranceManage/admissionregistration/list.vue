@@ -636,6 +636,7 @@
                   message: '保存成功！'
                 })
                 this.leaveVisible = false;
+                this.getStudentList(1);
               }
             }).catch(err => {
               console.log(err);
