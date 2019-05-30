@@ -235,7 +235,7 @@ a {
 }
 .el-input__inner {
   width: 145px;
-  height: 32px;
+  height: 32px !important;
   font-size: 12px;
 }
 .el-input__icon {
