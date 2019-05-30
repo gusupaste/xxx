@@ -330,7 +330,7 @@
             <el-col :span="8">
               <p class="lable-p">
                 <span class="labels">缴费区间:</span>
-                <span>{{ studentInfo.age }}</span>
+                <span>{{ studentInfo.date_range }}</span>
               </p>
             </el-col>
             <el-col :span="16">
