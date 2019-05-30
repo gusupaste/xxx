@@ -41,37 +41,6 @@
                 </el-card>
             </el-col>
         </div>
-        <div class="mt26 tableList" style="display:none">
-            <p class="title-style">审批记录：</p>
-            <el-table
-                class="mt10"
-                :data="tableData"
-                border
-                style="width: 100%">
-                <el-table-column
-                prop="date"
-                label="审批节点"
-                width="180">
-                </el-table-column>
-                <el-table-column
-                prop="name"
-                label="审批角色"
-                width="180">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="审批结果">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="审批意见">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="审批日期">
-                </el-table-column>
-            </el-table>
-        </div>
         <div class="mt26 tableList">
             <p class="title-style">费用分摊明细：</p>
             <el-table
@@ -134,6 +103,35 @@
                 <span class="red bold">27280 .00</span>
             </span>
         </div>
+      <div class="mt26 tableList">
+        <p class="title-style">审批记录：</p>
+        <el-table
+          class="mt10"
+          :data="tableData2"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="approve_level"
+            label="审批节点">
+          </el-table-column>
+          <el-table-column
+            prop="approve_user_role_name"
+            label="审批角色">
+          </el-table-column>
+          <el-table-column
+            prop="status_name"
+            label="审批结果">
+          </el-table-column>
+          <el-table-column
+            prop="remark"
+            label="审批意见">
+          </el-table-column>
+          <el-table-column
+            prop="date_created"
+            label="审批日期">
+          </el-table-column>
+        </el-table>
+      </div>
         <div class="mt26 tableList" style="display:none">
             <p class="title-style">缴费记录：</p>
             <el-table
@@ -233,6 +231,8 @@ export default {
                 console.log(res.data)
                 _this.bill_info = res.data.data.bill_info;
                 _this.tableData = res.data.data.billitem_li;
+                _this.tableData2 = res.data.data.approve_history;
+
             })
         }
     }

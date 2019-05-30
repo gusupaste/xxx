@@ -129,33 +129,27 @@
           </el-table-column>
           <el-table-column
             prop="student_name"
-            label="学生姓名"
-            width="130">
+            label="学生姓名">
           </el-table-column>
           <el-table-column
             prop="class"
-            label="所在班级"
-            width="130">
+            label="所在班级">
           </el-table-column>
           <el-table-column
             prop="bill_type"
-            label="账单类型"
-            width="130">
+            label="账单类型">
           </el-table-column>
           <el-table-column
             prop="actual_amount"
-            label="实际应收"
-            width="130">
+            label="实际应收">
           </el-table-column>
           <el-table-column
             prop="actual_pay"
-            label="实际实收"
-            width="130">
+            label="实际实收">
           </el-table-column>
           <el-table-column
             prop="creator"
-            label="制单人"
-            width="130">
+            label="制单人">
           </el-table-column>
           <el-table-column
             prop="billing_date"
