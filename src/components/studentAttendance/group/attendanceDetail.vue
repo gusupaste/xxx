@@ -154,7 +154,7 @@
     data() {
       return {
         date: new Date(),
-        class_id: Number(this.$route.params.id),
+        class_id: this.$route.params.id,
         class_name: this.$route.query.class_name,
         student_id: 0,
         student_name: '',
@@ -197,7 +197,7 @@
         if (this.student_id === 0) {
           this.student_id = ''
         }
-          var url = this.getStudentAtt_url+ 'class_id='+ this.class_id +'&student_id=1';
+          var url = this.getStudentAtt_url+ 'class_id='+ this.class_id +'&student_id='+this.student_id;
           this.$axios.get(url, {}).then(res => {
             this.loading = false
             if (res.status === 200) {
