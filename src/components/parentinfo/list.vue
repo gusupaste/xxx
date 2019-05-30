@@ -262,7 +262,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="账号" label-width="40">
-              <span>{{ tel_phone }}(默认手机号)</span>
+              <span>{{ tel_phone }}<span v-if="is_has_user === 0">(默认手机号)</span></span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
