@@ -108,7 +108,7 @@
             <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
           </el-form-item>
           <el-form-item label="">
-            <el-button type="primary" @click="searchList(1);searchList2(1)">搜索</el-button>
+            <el-button type="primary" @click="searchList(1);">搜索</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -321,7 +321,7 @@
             id: 0,
             name: "入园账单"
           },
-          {
+          /*{
             id: 1,
             name: "系统备用金结转账单"
           },
@@ -340,19 +340,19 @@
           {
             id: 5,
             name: "终止服务账单"
-          },
+          }
           {
             id: 6,
             name: "推迟入园账单"
-          },
+          },,*/
           {
             id: 7,
-            name: "应该是提前入园账单"
+            name: "提前入园账单"
           },
-          {
+          /*{
             id: 8,
             name: "否决账单"
-          },
+          },*/
 
         ],
         activeName: 'first',
@@ -422,7 +422,7 @@
         this.searchList(val);
       },
       changePage2(val) {
-        this.searchList2(val);
+        /*this.searchList2(val);*/
       },
       getIntercity() {
         var _this = this;
@@ -468,7 +468,7 @@
           .then(res => {
             _this.classList = res.data.results;
             _this.searchList(1);
-            _this.searchList2(1);
+            /*_this.searchList2(1);*/
           })
       },
       searchList(val) {
@@ -483,7 +483,7 @@
         }
 
         this.searchform.page = val;
-        this.$axios.post('/api/finance/bill/hq_bill/?page='+this.searchform.page, 
+        this.$axios.post('/api/finance/bill/hq_bill/?page='+this.searchform.page,
         {
             academic_year_id: this.searchform.academic_year_id,
             bill_type_id: this.searchform.bill_type_id,
