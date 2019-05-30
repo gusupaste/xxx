@@ -134,9 +134,10 @@
           <p class="font-size-14 bold">缴费信息：</p>
           <div v-for="item in billpayment_method_li" :key="item.id">
               <p>缴费明细：{{item.payment_method}}：￥{{item.amount}}
-              <p>备用金抵扣：￥23000</p>
+              <!--<p>备用金抵扣：￥23000</p>-->
               <p>缴费回单单号：{{item.payment_no}}</p>
           </div>
+          <p>备用金抵扣：{{ bill_info.reserved_fund_use }}</p>
         </div>
         <div class="mt26 tableList">
             <p class="font-size-14 bold">费用分摊明细：</p>
