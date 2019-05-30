@@ -25,10 +25,10 @@
       <el-aside width="100%">
         <p>考勤详细概况：</p>
         <div class="local-month mt10">
-          <span class="font-size-20 bold">{{student_name}} </span><span style="margin: 10px">|</span>
+          <!--<span class="font-size-20 bold">{{student_name}} </span><span style="margin: 10px">|</span>-->
           应出勤天数：<span class="font-size-20 orange">{{should_att}}</span> 个工作日 ；
           实际出勤天数：<span class="font-size-20 orange">{{att_num}}</span> 个工作日 ；
-          出勤率：<span class="font-size-20 orange">{{attendance_rate}}%</span>
+          出勤率：<span class="font-size-20 orange">{{attendance_rate}}</span>
         </div>
         <div style="width:80%;margin:0 auto">
           <div class="mt10 text-align-center">
@@ -195,27 +195,26 @@
         })
     },
       getDetailInfo: function () {
-        if (this.student_id === 0) {
-          this.student_id = ''
-        }
           var url = this.getStudentAtt_url+ 'class_id='+ this.class_id +'&student_id='+this.student_id;
           this.$axios.get(url, {}).then(res => {
             this.loading = false
             if (res.status === 200) {
+              this.should_att = res.data.report_data.passed_workday;
+              this.att_num = res.data.report_data.present;
+              this.attendance_rate = res.data.report_data.present_rate;
+
               var dates = res.data.day_list;
               for(var x in dates){
                 var data = {};
                 data.date = dates[x].date;
                 if(dates[x].className === -1){
                   data.className = 'mark0';
-                }else if(dates[x].className === 0){
+                }else if(dates[x].className === 0){//出勤绿色
                   data.className = 'mark1';
-                }else if(dates[x].className === 1){
+                }else if(dates[x].className === 2){//病假黄色
                   data.className = 'mark2';
-                }else if(dates[x].className === 2){
+                }else if(dates[x].className === 3){//事假红色
                   data.className = 'mark3';
-                }else if(dates[x].className === 3){
-                  data.className = 'mark4';
                 }
                 this.attendance.push(data);
               }
