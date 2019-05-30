@@ -18,12 +18,12 @@
                 </el-form-item>
                 <br>
                 <el-form-item label="收费情况：" label-width="120px">
-                    <el-table
+                    <!--<el-table
                         :data="payData"
                         border
                         style="width: 100%">
                         <el-table-column
-                        prop="date"
+                        prop="data"
                         label="支付方式">
                         <template slot-scope="scope">
                             支付金额
@@ -37,8 +37,25 @@
                             <el-input v-model="addform.pay_method_list[index].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                         </template>
                         </el-table-column>
-                        
-                    </el-table>
+                    </el-table>-->
+                  <table style="width: 100%;text-align: center">
+                    <tr>
+                      <td>支付方式</td>
+                      <td v-for="(item,index) in method_lsit">{{ item.name }}</td>
+                    </tr>
+                    <tr>
+                      <td>支付金额</td>
+                      <td v-for="(item,index) in method_lsit">
+                        <el-input v-model="addform.pay_method_list[index].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>银行回执单号</td>
+                      <td v-for="(item,index) in method_lsit">
+                        <el-input v-model="addform.pay_method_list[index].payment_no" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
+                      </td>
+                    </tr>
+                  </table>
                 </el-form-item>
                 <el-form-item label="实收金额：" label-width="120px">
                      ¥{{act_amount}}
@@ -88,7 +105,7 @@
                     <span v-if="scope.row.can_reserved_fund === 1">
                         <el-input v-model="addform.bill_item_list[scope.$index].reserve_fund_used" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                     </span>
-                    
+
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -171,6 +188,9 @@
   .dollar .pay_input>>> .el-input__inner {
      width: 90px;
   }
+  /*.dollar tr td{
+    border: 1px solid #ddd;
+  }*/
 </style>
 <script>
 export default {
@@ -200,7 +220,14 @@ export default {
             priceData:[],
             info:{},
             reserved_fund:'',
-            payData:[{}]
+            payData:[/*{
+              data: '支付金额',
+              method_lsit:[],
+            },
+              {
+                data: '银行回执单号',
+                zero_lsit:[],
+              }*/]
         }
     },
     created () {
