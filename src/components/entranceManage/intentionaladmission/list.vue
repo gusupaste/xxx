@@ -9,94 +9,102 @@
         <el-input v-model="input" placeholder="输入学生姓名" class="search_input"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
       </div>
-        <div class="list-content">
-          <el-table
-            :data="tableDate"
-            border
-            stripe
-            show-header
-            style="width: 100%;margin-top: 10px;">
-            <el-table-column
-              prop="name"
-              label="学生姓名">
-            </el-table-column>
-            <el-table-column
-              prop="gender"
-              label="性别">
-            </el-table-column>
-            <el-table-column
-              prop="date_of_birth"
-              label="出生日期">
-            </el-table-column>
-            <el-table-column
-              prop="preferred_class"
-              label="申请就读班级">
-            </el-table-column>
-            <el-table-column
-              prop="preferred_date"
-              label="计划入学时间">
-            </el-table-column>
-            <el-table-column
-              prop="customer_name"
-              label="联系人">
-            </el-table-column>
-            <el-table-column
-              prop="customer_phone"
-              label="联系电话">
-            </el-table-column>
-            <el-table-column
-              prop="start_trial_date"
-              label="创建日期">
-            </el-table-column>
-            <el-table-column
-              fixed="right"
-              label="操作">
-              <template slot-scope="scope">
-                <!--创建-->
-                <template v-if="!scope.row.bill_id">
-                  <router-link  :to="'/financemanagement/createDiscount/add/?student='+scope.row.id">
+      <div class="list-content">
+        <el-table
+          :data="tableDate"
+          border
+          stripe
+          show-header
+          style="width: 100%;margin-top: 10px;">
+          <el-table-column
+            prop="name"
+            label="学生姓名">
+          </el-table-column>
+          <el-table-column
+            prop="gender"
+            label="性别">
+          </el-table-column>
+          <el-table-column
+            prop="date_of_birth"
+            label="出生日期">
+          </el-table-column>
+          <el-table-column
+            prop="preferred_class"
+            label="申请就读班级">
+          </el-table-column>
+          <el-table-column
+            prop="preferred_date"
+            label="计划入学时间">
+          </el-table-column>
+          <el-table-column
+            prop="customer_name"
+            label="联系人">
+          </el-table-column>
+          <el-table-column
+            prop="customer_phone"
+            label="联系电话">
+          </el-table-column>
+          <el-table-column
+            prop="start_trial_date"
+            label="创建日期">
+          </el-table-column>
+          <el-table-column
+            fixed="right"
+            label="操作"
+          width="180">
+            <template slot-scope="scope">
+              <!--创建-->
+              <template v-if="!scope.row.bill_id">
+                <router-link :to="'/financemanagement/createDiscount/add/?student='+scope.row.id">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
-                  </router-link>
+                </router-link>
+                <router-link to="">
                   <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 grey"></i>
                     </span>
-                </template>
-                <!--编辑-->
-                <template  v-if="scope.row.bill_id && scope.row.show_dollar">
-                  <router-link  :to="'/financemanagement/createDiscount/edit/?id='+scope.row.bill_id+'&student='+scope.row.id">
+                </router-link>
+              </template>
+              <!--编辑-->
+              <template v-if="scope.row.bill_id && scope.row.show_dollar">
+                <router-link
+                  :to="'/financemanagement/createDiscount/edit/?id='+scope.row.bill_id+'&student='+scope.row.id">
                     <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 orange"></i>
                     </span>
-                  </router-link>
-                  <router-link :to="'/financemanagement/dollar/'+scope.row.bill_id">
+                </router-link>
+                <router-link :to="'/financemanagement/dollar/'+scope.row.bill_id">
                     <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 green"></i>
                     </span>
-                  </router-link>
-                </template>
-                <!-- 完成 -->
-                <template v-if="scope.row.bill_id && !scope.row.show_dollar">
+                </router-link>
+              </template>
+              <!-- 完成 -->
+              <template v-if="scope.row.bill_id && !scope.row.show_dollar">
+                <router-link to="">
                   <span style="padding:0 20px;border-right:1px solid #e3e3e3">
                         <i class="fa fa-pencil font-size-20 grey"></i>
                     </span>
+                </router-link>
+                <router-link to="">
                   <span style="padding:0 20px;">
                         <i class="fa fa-dollar font-size-20 grey"></i>
                     </span>
-                </template>
+                </router-link>
               </template>
+            </template>
           </el-table-column>
         </el-table>
-          <el-pagination
-            background
-            layout="prev,pager, next, jumper"
-            next-text="下一页"
-            :page-size="pagesize"
-            :current-page="currentPage"
-            @current-change="handleCurrentChange"
-            :total="total" class="page">
-          </el-pagination>
+        <el-pagination
+          background
+          layout="prev,pager, next, jumper"
+          next-text="下一页"
+          :page-size="pagesize"
+          :current-page="currentPage"
+          @current-change="handleCurrentChange"
+          :total="total" class="page">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -117,7 +125,7 @@
       this.getList(1);
     },
     watch: {
-      currentPage () {
+      currentPage() {
         this.getList(this.currentPage)
       }
     },
