@@ -303,7 +303,7 @@
               </p>
               <p class="lable-p">
                 <span class="labels">学年计划:</span>
-                <span>{{ studentInfo.academic_year }}</span>
+                <span>{{ studentInfo.academic_year_name }}</span>
               </p>
             </el-col>
             <el-col :span="8">
@@ -313,7 +313,7 @@
               </p>
               <p class="lable-p">
                 <span class="labels">意向班级:</span>
-                <span>{{ studentInfo.preferred_center_name }}</span>
+                <span>{{ studentInfo.preferred_class }}</span>
               </p>
             </el-col>
             <el-col :span="8">
@@ -348,7 +348,7 @@
             <el-col :span="8">
               <p class="lable-p">
                 <span class="labels">离园申请:</span>
-                <span>{{ studentRemark }}</span>
+                <span>{{ studentInfo.leaving_status }}</span>
               </p>
             </el-col>
             <!--<el-col :span="8">
