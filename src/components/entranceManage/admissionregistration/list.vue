@@ -392,20 +392,11 @@
           </el-form-item>
         </div>
         <hr>
-        <p style="font-size: 10px;color: red;line-height: 20px;">*1.请确认该学生所有缺勤转备用金都已完成,否则不可提交离园登记</p>
-        <p style="font-size: 10px;color: red;line-height: 20px;">&nbsp;&nbsp;2.一旦离园登记结束,该学生自动转为离园生状态</p>
+        <p style="font-size: 10px;color: red;line-height: 20px;">* &nbsp;一旦离园登记结束,该学生自动转为离园生状态</p>
       </el-form>
       <span slot="footer" class="dialog-footer">
           <el-button @click="leaveVisible = false">取 消</el-button>
-          <el-button @click="transferReserveForAbsenteeism">缺勤转备用金</el-button>
           <el-button type="success" @click="saveLeave('leveForm')">保 存</el-button>
-        </span>
-    </el-dialog>
-    <el-dialog title="预备生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
-      <span class="dialog-body">该学生存在未完成的缺勤转备用金,请先完成再进行离园登记</span>
-      <span slot="footer" class="dialog-footer">
-          <el-button @click="leaveShowVisible = false" disabled>缺勤转备用金</el-button>
-          <el-button @click="leaveShowVisible = false" type="success">知道了</el-button>
         </span>
     </el-dialog>
   </div>
@@ -419,7 +410,6 @@
         early_title: '提前入学申请',
         earlyVisible: false,
         leaveVisible: false,
-        leaveShowVisible: false,
         nameSelect: [],
         studentList: [],
         rules: {},
@@ -685,14 +675,6 @@
           this.preferred_academic_year = preferred_academic_year;
           this.getStudentInfo(id, academic_year_id, center_id);
           /*this.studentRemark = */
-        }
-      },
-      transferReserveForAbsenteeism: function () {
-        if (this.studentInfo.pay_bill) {
-          this.leaveVisible = false;
-          this.leaveShowVisible = true;
-        } else {
-          this.$router.push('/financemanagement/create-reserve/1?id=' + this.studentInfo.id)
         }
       }
     }

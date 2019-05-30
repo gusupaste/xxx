@@ -184,7 +184,7 @@
     </div>
 </template>
 <style scoped>
-  .billMakingDetail .content-top{
+  .billDetail .content-top{
     font-weight: 600;
     background-color: #DCECF3;
     width: 15%;
@@ -195,16 +195,16 @@
     border-radius: 3px;
     color: #3E7193;
   }
-  .billMakingDetail .card-type {
+  .billDetail .card-type {
       line-height: 30px;
   }
-  .billMakingDetail .el-card__body {
+  .billDetail .el-card__body {
       padding: 30px 70px 10px 70px;
   }
-  .billMakingDetail .tableList {
+  .billDetail .tableList {
       color:#101010;
   }
-  .billMakingDetail .count_total {
+  .billDetail .count_total {
       background-color: rgba(255,152,0,.14);
       height: 35px;
       padding: 10px;
