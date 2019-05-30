@@ -111,6 +111,8 @@
         <p>当月校日历：</p>
         <div class="mt10">
           <calendar ref="calendar"
+                    :textTop="textTop"
+                    :sundayStart="true"
                     :markDateMore='attendance'></calendar>
         </div>
         <div class="calendar-datail">
@@ -243,6 +245,8 @@
         total: '',
         selectDisable: '',
         attendance:[],
+        textTop:['Su','Mo','Tu','We','Th','Fr','Sa'],
+
       }
     },
     components: {
