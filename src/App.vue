@@ -2,11 +2,11 @@
 <template>
   <div id="app">
     <!-- 其他页 -->
-    <div v-if="this.$route.name !== 'login' && this.$route.name !== 'parent'">
-      <header-nav></header-nav>
+    <div v-if="this.$route.name == 'login' || this.$route.name == 'parent' || this.$route.name == 'billInfo-print'">
       <router-view></router-view>
     </div>
-    <div v-if="this.$route.name == 'login' || this.$route.name == 'parent'">
+    <div v-if="this.$route.name !== 'login' && this.$route.name !== 'parent' && this.$route.name !== 'billInfo-print'">
+      <header-nav></header-nav>
       <router-view></router-view>
     </div>
     
@@ -19,7 +19,11 @@ import headerNav from './components/headNav/head'
 export default{
     components: {
         headerNav: headerNav,
-      }
+    },
+    created () {
+      console.log("****************");
+      console.log(this.$route.name);
+    },
 }
  
 </script>
