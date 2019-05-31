@@ -139,41 +139,37 @@
           </el-table-column>
           <el-table-column
             prop="bill_type_str"
-            label="账单类型"
-            width="130">
+            label="账单类型">
           </el-table-column>
           <el-table-column
             prop="student_name"
-            label="学生姓名"
-            width="130">
+            label="学生姓名">
           </el-table-column>
           <el-table-column
             prop="student_no"
-            label="学号"
-            width="130">
+            label="学号">
           </el-table-column>
           <el-table-column
             prop="klass"
-            label="所在班级"
-            width="130">
+            label="所在班级">
           </el-table-column>
           <el-table-column
             prop="refund_amount"
-            label="实退金额"
-            width="130">
+            label="实退金额">
           </el-table-column>
           <el-table-column
             prop="creator_name"
-            label="制单人"
-            width="130">
+            label="制单人">
           </el-table-column>
           <el-table-column
+            fixed="right"
             label="操作">
             <template slot-scope="scope">
+              <router-link target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
                 <span class="fa fa-print" style="font-size: 20px;color: #ED6C2E;"></span>
+              </router-link>
             </template>
           </el-table-column>
-
         </el-table>
         <el-pagination
           background
