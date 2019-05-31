@@ -370,7 +370,7 @@
       this.getBrand();
       this.getcity_list();
       this.getSchool();
-      this.searchList(1);
+      this.searchList(1)
     },
     methods: {
       getSchool() {
@@ -477,7 +477,8 @@
             search_str: this.searchform.search_str,
             start_date: this.searchform.date_from[0],
             end_date: this.searchform.date_from[1],
-            class_li: JSON.stringify(class_list),
+            class_id: this.searchform.class_id,
+            center_id:this.searchform.center_id,
             size: 10,
         }).then(res => {
           console.log(res.data)
