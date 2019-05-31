@@ -2,10 +2,10 @@
 <template>
   <div id="app">
     <!-- 其他页 -->
-    <div v-if="this.$route.name == 'login' || this.$route.name == 'parent' || this.$route.name == 'billInfo-print'">
+    <div v-if="this.$route.name == 'login' || this.$route.name == 'parent' || this.$route.name == 'billInfo-print' || this.$route.name == 'refund-detail-print'">
       <router-view></router-view>
     </div>
-    <div v-if="this.$route.name !== 'login' && this.$route.name !== 'parent' && this.$route.name !== 'billInfo-print'">
+    <div v-if="this.$route.name !== 'login' && this.$route.name !== 'parent' && this.$route.name !== 'billInfo-print' && this.$route.name !== 'refund-detail-print'">
       <header-nav></header-nav>
       <router-view></router-view>
     </div>

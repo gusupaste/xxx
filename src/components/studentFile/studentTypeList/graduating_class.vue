@@ -91,8 +91,13 @@
           <el-form-item>
             <el-button type="primary" @click="search_Fun">搜索</el-button>
           </el-form-item>
+          <el-form-item>
+            <!--<span class="ml10">
+              <i class="fa fa-plus-square icon-font"></i>
+              <span class="font-size-14 orange">维护计划毕业生</span>
+            </span>-->
+          </el-form-item>
         </el-form>
-
       </div>
       <div class="studentFileList clearfix">
           <div class="studentFileCard left" v-for="(item , index) in student_list " :key="index" @click="$router.push('/studentFile/studentFileDetail/'+item.id)">
