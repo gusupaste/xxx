@@ -97,7 +97,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="搜索：">
-            <el-input  v-model="searchText" placeholder="输入学号、学生姓名或者学生卡号" class="w250_input"></el-input>
+            <el-input  v-model="searchText" placeholder="输入学号、学生姓名" class="w250_input"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="search_Fun">搜索</el-button>

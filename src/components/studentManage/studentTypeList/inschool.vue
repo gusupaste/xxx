@@ -386,7 +386,7 @@
     <el-dialog title="在校生离园登记" :visible.sync="leaveShowVisible" width="450px" class="leaveShow">
       <span class="dialog-body">该学生存在未完成的缺勤转备用金,请先完成再进行离园登记</span>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="leaveShowVisible = false" :disabled="true">缺勤转备用金</el-button>
+          <el-button @click="transferReserveForAbsenteeism">缺勤转备用金</el-button>
           <el-button @click="leaveShowVisible = false" type="success">知道了</el-button>
         </span>
     </el-dialog>
@@ -761,7 +761,9 @@ export default {
               this.$message.error('保存失败');
             }
           }).catch(err => {
-            this.$message.error('未缴纳备用金');
+            //this.$message.error('未缴纳备用金');
+            this.leaveVisible = false;
+            this.leaveShowVisible = true
           })
         }else{
           return false;

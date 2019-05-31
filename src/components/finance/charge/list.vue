@@ -105,7 +105,7 @@
             </el-date-picker>
           </el-form-item>
           <el-form-item label="搜索：">
-            <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名或者学生卡号" class="search_input"></el-input>
+            <el-input v-model="searchform.search_str" placeholder="输入学号、学生姓名" class="search_input"></el-input>
           </el-form-item>
           <el-form-item label="">
             <el-button type="primary" @click="searchList(1);">搜索</el-button>
@@ -370,7 +370,7 @@
       this.getBrand();
       this.getcity_list();
       this.getSchool();
-
+      this.searchList(1);
     },
     methods: {
       getSchool() {
