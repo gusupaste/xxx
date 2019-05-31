@@ -43,7 +43,6 @@
                   <div class="grid-content bg-purple">申请月份：
                     <el-date-picker
                       value-format="M"
-                      @change="change"
                       v-model="searchForm.month"
                       type="month"
                       :picker-options="pickerOptions"
@@ -101,7 +100,8 @@
           <el-table-column
             label="学费应退金额">
             <template slot-scope="scope">
-              <span>{{scope.row.refund_money.current_month}}</span>
+              <span v-if="single_status === 0">{{scope.row.refund_money.current_month}}</span>
+              <span v-if="single_status === 1">{{scope.row.refund_money}}</span>
             </template>
           </el-table-column>
         </el-table-column>
@@ -151,12 +151,12 @@
       }
     },
     mounted() {
-      this.tableData = []
       this.date = this.$options.filters['formatDate'](new Date())
+      var firstdate = new Date(new Date().getFullYear(), new Date().getMonth()-1, 1); //获取这个月的第一天
       if (this.single_status === 0) {
         this.pickerOptions = {
           disabledDate(time) {
-            return time.getTime() > new Date().setMonth(new Date().getMonth() - 1)
+            return time.getTime() > firstdate
           }
         }
         this.searchInfo()
@@ -174,6 +174,7 @@
         })
           .then(res => {
             if (res.data.status === 1) {
+              this.tableData = []
               this.tableData.push(res.data.data)
               console.log(this.tableData)
             } else {

@@ -93,9 +93,9 @@
                   <span class="el-icon-search" style="font-size: 20px;color: #ED6C2E;"></span>
                 </el-button>
                 <span style="color: #999999">|</span>
-                <el-button class="red" type="text" size="small" @click="showInfoPrint(scope.row)">
+                <router-link target="_blank" :to="{name:'billInfo-print',params:{id:scope.row.id}}">
                   <span class="fa fa-print" style="font-size: 20px;color: #ED6C2E;"></span>
-                </el-button>
+                </router-link>
               </template>
             </el-table-column>
           </el-table>
@@ -147,9 +147,6 @@
       },
       showInfo(val){
         this.$router.push('/financemanagement/billInfo/'+val.id)
-      },
-      showInfoPrint(val){
-        this.$router.push('/financemanagement/billInfoPrint/'+val.id)
       },
       searchList(id){
         this.searchForm.page = id;
