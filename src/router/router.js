@@ -76,6 +76,7 @@ import DiscountApplicationDetail from '@/components/finance/discountApplication/
 import Paymentprocessing from '@/components/finance/paymentprocessing/list'
 import PayBillDetail from '@/components/finance/paymentprocessing/billDetail'
 import BillInfo from '@/components/finance/paymentprocessing/billInfo'
+import BillInfoPrint from '@/components/finance/paymentprocessing/billInfoPrint'
 import RevenueList from '@/components/finance/revenue/list'
 import RevenueDetail from '@/components/finance/revenue/detail'
 import RefundManage from '@/components/finance/refundManage/list'
@@ -439,6 +440,11 @@ export default new Router({
           path: '/financemanagement/billInfo/:id',
           name: 'billInfo',
           component: BillInfo
+        },
+        {
+          path: '/financemanagement/billInfoPrint/:id',/*财务缴费详情打印*/
+          name: 'billInfo-print',
+          component: BillInfoPrint,
         },
         {
           path: '/financemanagement/refund-manage',

@@ -300,7 +300,7 @@
               </p>
               <p class="lable-p">
                 <span class="labels">所在班级:</span>
-                <span>{{ studentInfo.preferred_center_name }}</span>
+                <span>{{ studentInfo.preferred_class }}</span>
               </p>
             </el-col>
             <el-col :span="8">
