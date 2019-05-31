@@ -373,12 +373,6 @@
 
     },
     methods: {
-      handleClose() {
-
-      },
-      handleClick() {
-
-      },
       getSchool() {
         var _this = this;
         this.$axios.get('/api/common/select/center_list/', {
@@ -391,7 +385,9 @@
         })
           .then(res => {
             _this.schoolList = res.data.results;
-            _this.getClass();
+            if(this.searchform.center_id !== ''){
+              _this.getClass();
+            }
           });
       },
       getcity_list() {
@@ -545,16 +541,19 @@
         this.getSchool();
         this.searchform.center_id = "";
       },
-      'searchform.center_id'() {
-        if(this.searchform.center_id === ''){
-          this.class_disable = true;
-          this.searchform.class_id = "";
-        }else{
-          this.getClass();
-          this.searchform.class_id = "";
-          this.class_disable = false;
-        }
-      },
+      'searchform.center_id': {
+        handler(newValue, oldValue) {
+          if(newValue === ''){
+            this.class_disable = true;
+            this.searchform.class_id = "";
+          }else{
+            this.class_disable = false;
+            this.getClass();
+            this.searchform.class_id = "";
+          }
+        },
+        deep: true
+      }
     }
   }
 </script>
