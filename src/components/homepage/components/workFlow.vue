@@ -177,8 +177,7 @@ export default {
                 code_list.push(this.type_2)
             }
             this.$axios.post('/api/workflow/workflow_management/approve_list/?page='+this.currentPage+"&size=10",{
-                
-                    name:this.name,
+                name:this.name,
                 approve_status:0,
                 center_id:this.center_id,
                 code_list:code_list,
