@@ -177,15 +177,17 @@ export default {
                 code_list.push(this.type_2)
             }
             this.$axios.post('/api/workflow/workflow_management/approve_list/?page='+this.currentPage+"&size=10",{
+                params:{
                     name:this.name,
-                    approve_status:0,
-                    center_id:this.center_id,
-                    code_list:code_list,
+                approve_status:0,
+                center_id:this.center_id,
+                code_list:code_list,
+                }
             }).then(res => {
             this.loading = false
             if (res.data.status_code === 1) {
-                this.thingsList = res.data.paginated_dict.results
-                this.total = res.data.paginated_dict.count
+                this.thingsList = res.data.data.results
+                this.total = res.data.data.count
             }
             }).catch(err => {
             console.log(err)
