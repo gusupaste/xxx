@@ -370,7 +370,7 @@
       this.getBrand();
       this.getcity_list();
       this.getSchool();
-
+      this.searchList(1);
     },
     methods: {
       getSchool() {
