@@ -43,7 +43,6 @@
                   <div class="grid-content bg-purple">申请月份：
                     <el-date-picker
                       value-format="M"
-                      @change="change"
                       v-model="searchForm.month"
                       type="month"
                       :picker-options="pickerOptions"
@@ -153,10 +152,11 @@
     },
     mounted() {
       this.date = this.$options.filters['formatDate'](new Date())
+      var firstdate = new Date(new Date().getFullYear(), new Date().getMonth()-1, 1); //获取这个月的第一天
       if (this.single_status === 0) {
         this.pickerOptions = {
           disabledDate(time) {
-            return time.getTime() > new Date().setMonth(new Date().getMonth() - 1)
+            return time.getTime() > firstdate
           }
         }
         this.searchInfo()
