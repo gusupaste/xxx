@@ -26,11 +26,11 @@
             </el-select>
             <span class="ml20">账单状态：</span>
             <el-select v-model="searchForm.bill_status" placeholder="请选择" >
-              <el-option label="全部" value=""></el-option>
-              <el-option label="待审批" value="待审批"></el-option>
-              <el-option label="已确认" value="已确认"></el-option>
-              <el-option label="已批准" value="已批准"></el-option>
-              <el-option label="已拒绝" value="已拒绝"></el-option>
+              <el-option label="全部" value="-1"></el-option>
+              <el-option label="待审批" value="2"></el-option>
+              <el-option label="已确认" value="1"></el-option>
+              <el-option label="已批准" value="3"></el-option>
+              <el-option label="已拒绝" value="4"></el-option>
             </el-select>
             <span class="ml20">学生：</span>
             <el-input v-model="searchForm.search_str" class="search_input" placeholder="输入学生名称" style="width: 220px;"></el-input>
