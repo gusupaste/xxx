@@ -81,91 +81,8 @@
                             </div>
                         </div>
                         <div class="to_do-list">
-                                <p style="font-size:14px;font-weight:600">待办事项</p>
-                                <div style="margin-top:20px">
-                                    <div>
-                                        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                                            <el-form-item label="城际：">
-                                                <el-select v-model="formInline.region" placeholder="活动区域">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
-                                                </el-select>
-                                            </el-form-item>
-                                            <el-form-item label="区域：">
-                                                <el-select v-model="formInline.region" placeholder="活动区域">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
-                                                </el-select>
-                                            </el-form-item>
-                                            <el-form-item label="校园：">
-                                                <el-select v-model="formInline.region" placeholder="活动区域">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
-                                                </el-select>
-                                            </el-form-item>
-                                            <el-form-item label="类型：">
-                                                <el-select v-model="formInline.region" placeholder="活动区域">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
-                                                </el-select>
-                                                <el-select v-model="formInline.region" placeholder="活动区域">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
-                                                </el-select>
-                                            </el-form-item>
-                                            <el-form-item label="搜索：">
-                                                <el-input class="w250_input" v-model="formInline.user" placeholder="审批人"></el-input>
-                                            </el-form-item>
-                                            <el-form-item>
-                                                <el-button type="primary" @click="onSubmit">搜索</el-button>
-                                            </el-form-item>
-                                        </el-form>
-                                    </div>
-                                    <div>
-                                        <el-table
-                                            :data="thingsList.slice((ThingscurrentPage-1)*Thingspagesize,ThingscurrentPage*Thingspagesize)"
-                                            border
-                                            empty-text='暂无查询！'
-                                            style="width: 100%;margin-top:20px">
-                                            <el-table-column
-                                            prop="avatar"
-                                            label="流程名称"
-                                            width="180">
-                                            </el-table-column>
-                                            <el-table-column
-                                            prop="name"
-                                            label="发起人"
-                                            width="180">
-                                            </el-table-column>
-                                            <el-table-column
-                                            prop="gender"
-                                            label="流程创建时间">
-                                            </el-table-column>
-                                            <el-table-column
-                                            prop="both"
-                                            label="当前节点">
-                                            </el-table-column>
-                                            <el-table-column
-                                            prop="class"
-                                            label="任务分配时间">
-                                            </el-table-column>
-                                            <el-table-column
-                                            prop="contacts"
-                                            label="操作">
-                                            </el-table-column>
-                                        </el-table>
-                                        <el-pagination
-                                        v-if="thingsList.length>0"
-                                            background
-                                            :page-size="2"
-                                            @size-change="handleSizeChangeThings"
-                                            @current-change="handleCurrentChangeThings"
-                                            layout="prev,pager, next, jumper"
-                                            :total="thingsList.length">
-                                        </el-pagination>
-                                      </div>
-                                    </div>
-                            </div>
+                            <work-flow></work-flow>    
+                        </div>
                     </el-tab-pane>
                     <el-tab-pane label="家长查询" name="second">
                         <parent></parent>
@@ -287,6 +204,7 @@
 <script>
 import { mapGetters,mapActions } from "vuex";
 import parent from "./components/parentList";
+import workFlow from "./components/workFlow";
 export default {
     data() {
         return {
@@ -347,7 +265,8 @@ export default {
       }
     },
     components:{
-        parent
+        parent,
+        workFlow
     },
     computed: {
         // ...mapGetters(['getArea']),
