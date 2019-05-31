@@ -57,7 +57,7 @@
               <el-menu-item v-if="permission['finance']['student-discount']" index="/financemanagement/discount" route="/financemanagement/discount">学生折扣</el-menu-item>
               <el-menu-item v-if="permission['finance']['parent-business-application-inquiry']" index="/financemanagement/parentbusinessapplication" route="/financemanagement/parentbusinessapplication">家长业务申请查询</el-menu-item>
               <el-menu-item v-if="permission['finance']['financial-setup']" index="/financemanagement/setting" route="/financemanagement/setting">财务设置</el-menu-item>
-              <el-menu-item v-if="permission['finance']['revenue-recognition']" index="/financemanagement/revenueList" route="/financemanagement/revenueList">收入确认</el-menu-item>
+              <!-- <el-menu-item v-if="permission['finance']['revenue-recognition']" index="/financemanagement/revenueList" route="/financemanagement/revenueList">收入确认</el-menu-item> -->
               <el-menu-item v-if="permission['finance']['refund-management-campus']" index="/financemanagement/refund-manage" route="/financemanagement/refund-manage">退费管理</el-menu-item>
             </el-submenu>
             <!-- 工作流 -->
