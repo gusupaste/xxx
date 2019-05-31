@@ -41,17 +41,17 @@
                   <table style="width: 100%;text-align: center">
                     <tr>
                       <td>支付方式</td>
-                      <td v-for="(item,index) in method_lsit">{{ item.name }}</td>
+                      <td v-for="(item,index) in method_lsit" :key="index">{{ item.name }}</td>
                     </tr>
                     <tr>
                       <td>支付金额</td>
-                      <td v-for="(item,index) in method_lsit">
+                      <td v-for="(item,index) in method_lsit" :key="index">
                         <el-input v-model="addform.pay_method_list[index].amount" maxlength="10" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                       </td>
                     </tr>
                     <tr>
                       <td>银行回执单号</td>
-                      <td v-for="(item,index) in method_lsit">
+                      <td v-for="(item,index) in method_lsit" :key="index">
                         <el-input v-model="addform.pay_method_list[index].payment_no" oninput ="value=value.replace(/[^0-9.]/g,'')" class="pay_input"></el-input>
                       </td>
                     </tr>
@@ -196,8 +196,6 @@
 export default {
     data(){
         return {
-            list:[1,2,3,4,5,6,7,7,7,],
-            value1:'2000-09-09',
             value:false,
             tableData: [],
             use_fund:'',
@@ -240,7 +238,6 @@ export default {
             this.$axios.get('/api/finance/bill/'+this.$route.params.id+'/pay_info/')
             .then(res=>{
                 if(res.data.status !=0){
-                    console.log(res.data);
                 _this.info = res.data.bill_info;
                 _this.reserved_fund = res.data.reserved_fund;
                 res.data.billitem_li.forEach(item=>{
@@ -276,8 +273,6 @@ export default {
                 this.addform.is_invoice = 0;
             }
             this.addform.reserve_fund_used = this.use_fund;
-            console.log(this.addform.pay_amount)
-            console.log(this.info.amount)
             if(this.addform.pay_amount < this.info.actual_amount){
                 this.$message({
                     type:'error',
@@ -289,7 +284,34 @@ export default {
                 if(!item.amount){
                     item.amount = ""
                 }
-            })
+            });
+            var act_total = 0;
+            var reserve_fund_total = 0;
+            var filter_list = [];
+            this.addform.bill_item_list.forEach(item=>{
+                if(!item.reserve_fund_used){
+                    this.$set(item,'reserve_fund_used','');
+                }
+                reserve_fund_total += Number(item.reserve_fund_used)
+                if(Number(item.reserve_fund_used)+Number(item.pay_amount) != item.actual_amount){
+                    console.log(item)
+                    filter_list.push(item);    
+                }
+            });
+            if(filter_list.length>0){
+                this.$message({
+                    type:'error',
+                    message:'实收加备用金必须等于折后应收'
+                })
+                return 
+            }
+            if(reserve_fund_total != this.use_fund){
+                this.$message({
+                    type:'error',
+                    message:'备用金相加应等于已使用备用金'
+                })
+                return
+            }
             this.$axios.post('/api/finance/bill/'+this.$route.params.id+'/pay_bill/',this.addform)
             .then(res=>{
                 if(res.data.status === 1){
@@ -312,7 +334,6 @@ export default {
             .then(res=>{
                 _this.method_lsit = res.data.billpaymethod_list;
                 _this.$set(_this.addform,'pay_method_list',res.data.billpaymethod_list);
-                console.log(_this.addform.pay_method_list)
             })
         },
         gettotal(){

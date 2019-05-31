@@ -168,79 +168,7 @@
                             </div>
                     </el-tab-pane>
                     <el-tab-pane label="家长查询" name="second">
-                        <div >
-                            <div>
-                                <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                                    <el-form-item label="城际：">
-                                        <el-select v-model="formInline.region" placeholder="活动区域">
-                                            <el-option label="区域一" value="shanghai"></el-option>
-                                            <el-option label="区域二" value="beijing"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item label="区域：">
-                                        <el-select v-model="formInline.region" placeholder="活动区域">
-                                            <el-option label="区域一" value="shanghai"></el-option>
-                                            <el-option label="区域二" value="beijing"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item label="校园：">
-                                        <el-select v-model="formInline.region" placeholder="活动区域">
-                                            <el-option label="区域一" value="shanghai"></el-option>
-                                            <el-option label="区域二" value="beijing"></el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item label="搜索：">
-                                        <el-input class="w250_input" v-model="formInline.user" placeholder="审批人"></el-input>
-                                    </el-form-item>
-                                    <el-form-item>
-                                        <el-button type="primary" @click="onSubmit">搜索</el-button>
-                                    </el-form-item>
-                                </el-form>
-                            </div>
-                            <div>
-                                <el-table
-                                    :data="ParentsList.slice((ParentscurrentPage-1)*Parentspagesize,ParentscurrentPage*Parentspagesize)"
-                                    border
-                                    empty-text='暂无查询！'
-                                    style="width: 100%;margin-top:20px">
-                                    <el-table-column
-                                    prop="avatar"
-                                    label="头像"
-                                    width="180">
-                                    </el-table-column>
-                                    <el-table-column
-                                    prop="name"
-                                    label="姓名"
-                                    width="180">
-                                    </el-table-column>
-                                    <el-table-column
-                                    prop="gender"
-                                    label="性别">
-                                    </el-table-column>
-                                    <el-table-column
-                                    prop="both"
-                                    label="出生日期">
-                                    </el-table-column>
-                                    <el-table-column
-                                    prop="class"
-                                    label="所在班级">
-                                    </el-table-column>
-                                    <el-table-column
-                                    prop="contacts"
-                                    label="联系人">
-                                    </el-table-column>
-                                </el-table>
-                                <el-pagination
-                                v-if="ParentsList.length>0"
-                                    background
-                                    :page-size="2"
-                                    @size-change="handleSizeChangeParents"
-                                    @current-change="handleCurrentChangeParents"
-                                    layout="prev,pager, next, jumper"
-                                    :total="ParentsList.length">
-                                </el-pagination>
-                            </div>
-                        </div>
+                        <parent></parent>
                     </el-tab-pane>
                 </el-tabs>
             </div>
@@ -358,6 +286,7 @@
 </style>
 <script>
 import { mapGetters,mapActions } from "vuex";
+import parent from "./components/parentList";
 export default {
     data() {
         return {
@@ -380,142 +309,9 @@ export default {
             search:'',
             year:'2019',
             month:'April',
-            studentList:[{
-                avatar:'1',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },{
-                avatar:'2',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },{
-                avatar:'3',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },{
-                avatar:'4',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },{
-                avatar:'5',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },
-            {
-                avatar:'6',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            }],
-            thingsList:[{
-                avatar:'5',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },
-            {
-                avatar:'6',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            }],
-            ParentsList:[{
-                avatar:'1',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },
-            {
-                avatar:'2',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },{
-                avatar:'3',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },
-            {
-                avatar:'4',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },{
-                avatar:'5',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },
-            {
-                avatar:'6',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },{
-                avatar:'7',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },
-            {
-                avatar:'8',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            },{
-                avatar:'9',
-                both:'2019-09-05',
-                name:'随便起一个',
-                gender:'男',
-                class:'一(1)班',
-                contacts:'102020202030'
-            }],
-            demoEvents: [{
-                date: '2016/12/15',
-                title: 'eat',
-                desc: 'longlonglong description'
-            },{
-                date: '2016/11/12',
-                title: 'this is a title'
-            }],
+            studentList:[],
+            thingsList:[],
+            demoEvents: [],
         }
     },
     created () {
@@ -551,7 +347,7 @@ export default {
       }
     },
     components:{
-
+        parent
     },
     computed: {
         // ...mapGetters(['getArea']),
