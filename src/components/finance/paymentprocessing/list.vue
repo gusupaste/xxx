@@ -122,7 +122,7 @@
         searchForm:{
           academic_year_id:'',
           bill_type:'',
-          bill_status:'',
+          bill_status:'-1',
           search_str:'',
           page:1,
           size:10,
