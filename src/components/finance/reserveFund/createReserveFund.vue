@@ -101,7 +101,8 @@
           <el-table-column
             label="学费应退金额">
             <template slot-scope="scope">
-              <span>{{scope.row.refund_money.current_month}}</span>
+              <span v-if="single_status === 0">{{scope.row.refund_money.current_month}}</span>
+              <span v-if="single_status === 1">{{scope.row.refund_money}}</span>
             </template>
           </el-table-column>
         </el-table-column>
