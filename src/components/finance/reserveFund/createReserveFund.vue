@@ -151,7 +151,7 @@
     },
     mounted() {
       this.date = this.$options.filters['formatDate'](new Date())
-      var firstdate = new Date(new Date().getFullYear(), new Date().getMonth()-1, 1); //获取这个月的第一天
+      var firstdate = new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1); //获取这个月的第一天
       if (this.single_status === 0) {
         this.pickerOptions = {
           disabledDate(time) {
@@ -217,14 +217,30 @@
           item.amount = item.sub_total
           item.leave_date = this.date
         })
-        this.$axios.post('/api/finance/reserve_fund_for_attendance/add/', {
-          bills: this.mutitable
-        })
-          .then(res => {
-            if (res.data.status === 1) {
-              _this.$router.push('/financemanagement/reservefund')
-            }
+        if (this.single_status === 0) {
+          this.$axios.post('/api/finance/reserve_fund_for_attendance/add/', {
+            bills: this.mutitable
           })
+            .then(res => {
+              if (res.data.status === 1) {
+                _this.$router.push('/financemanagement/reservefund')
+              }
+            })
+        } else {
+          var mutitableTemp = {}
+          mutitableTemp = this.mutitable[0]
+          this.$axios.post('/api/finance/reserve_fund_for_attendance/leave_reserve_fund/', {
+            bill: mutitableTemp
+          })
+            .then(res => {
+              if (res.data.status === 1) {
+                _this.$router.push('/financemanagement/reservefund')
+              }else{
+                _this.$message.error(res.data.msg)
+              }
+            })
+        }
+
       },
       searchInfo() {
         this.$axios.get('/api/finance/bill/search_info/', {
