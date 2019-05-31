@@ -1,5 +1,5 @@
 <template>
-    <div class="payBillDetail wrap" style="padding: 10px">
+    <div class="payBillDetail wrap" style="padding: 10px;min-width: 1000px;width: 75%;margin-left:20px;">
       <!-- <div class="header">
         <p class="local_path_style">YOU ARE HERE : 财务处理 > 缴费处理 > <span class="font-cl-blue">账单信息</span></p>
       </div> -->
@@ -337,37 +337,6 @@ export default {
           this.billpayment_method_li = res.data.billpayment_method_li;
         })
       },
-      editSchool(){
-
-      },
-      handleChange(file, fileList) {
-        this.fileList = fileList.slice(-3);
-        console.log(file)
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      successUpload(response, file, fileList){
-        this.$message({
-          type:'success',
-          message:'上传成功！'
-        })
-        this.getInfo();
-      },
-      deleteFile(val){
-        this.$axios.post('/api/finance/bill/del_billpay_attach/',{
-          del_ids:[val]
-        }).then(res=>{
-            this.$message({
-            type:'success',
-            message:'删除成功！'
-          })
-          this.getInfo();
-        })
-      }
     }
 }
 </script>
