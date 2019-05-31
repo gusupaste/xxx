@@ -101,7 +101,8 @@
           <el-table-column
             label="学费应退金额">
             <template slot-scope="scope">
-              <span>{{scope.row.refund_money.current_month}}</span>
+              <span v-if="single_status === 0">{{scope.row.refund_money.current_month}}</span>
+              <span v-if="single_status === 1">{{scope.row.refund_money}}</span>
             </template>
           </el-table-column>
         </el-table-column>
@@ -151,7 +152,6 @@
       }
     },
     mounted() {
-      this.tableData = []
       this.date = this.$options.filters['formatDate'](new Date())
       if (this.single_status === 0) {
         this.pickerOptions = {
@@ -174,6 +174,7 @@
         })
           .then(res => {
             if (res.data.status === 1) {
+              this.tableData = []
               this.tableData.push(res.data.data)
               console.log(this.tableData)
             } else {
