@@ -474,6 +474,12 @@ export default {
           }, {
             value: 10,
             label: '10月'
+          }, {
+            value: 11,
+            label: '11月'
+          }, {
+            value: 12,
+            label: '12月'
           }],
           school_url:'/api/common/select/center_list/',/*校园*/
           year_url:'/api/common/select/academic_year_list/',/*学年*/
