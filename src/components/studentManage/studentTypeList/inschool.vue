@@ -752,18 +752,20 @@ export default {
             leave_date: this.leveForm.leave_date,
           };
           this.$axios.put('/api/student/prepare_list_student/'+this.studentId + '/',obj).then(res => {
-            if (res.status == 201) {
+            if (res.data.status == 0) {
+              this.leaveVisible = false;
+              this.leaveShowVisible = true;
+            } else {
               this.$message({
                 type: 'success',
                 message: '保存成功！'
               })
-            } else {
-              this.$message.error('保存失败');
+              this.leaveVisible = false;
+              // this.$message.error('保存失败');
             }
           }).catch(err => {
             //this.$message.error('未缴纳备用金');
-            this.leaveVisible = false;
-            this.leaveShowVisible = true
+            
           })
         }else{
           return false;
