@@ -91,12 +91,12 @@
           <el-form-item>
             <el-button type="primary" @click="search_Fun">搜索</el-button>
           </el-form-item>
-          <el-form-item>
+          <!--<el-form-item>
             <span class="ml10" @click="studentVisiable = true">
               <i class="fa fa-plus-square icon-font"></i>
               <span class="font-size-14 orange">维护计划毕业生</span>
             </span>
-          </el-form-item>
+          </el-form-item>-->
         </el-form>
       </div>
       <div class="studentFileList clearfix">
