@@ -28,7 +28,7 @@
                         </el-form-item>
                         <el-form-item label="校园：">
                             <el-select v-model="school">
-                                <el-option value="" label="全部"></el-option>
+                                <el-option value="-1" label="全部"></el-option>
                                 <el-option
                                 v-for="item in school_list"
                                 :key="item.id"
@@ -38,20 +38,23 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="类型：">
-                            <el-select v-model="formInline.region" placeholder="活动区域">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
+                            <el-select v-model="type_1" placeholder="账单类型" @change="changeType">
+                                <el-option value="" label="全部"></el-option>
+                                <el-option label="收费" value="收费"></el-option>
+                                <el-option label="备用金" value="备用金"></el-option>
+                                <el-option label="退费" value="退费"></el-option>
+                                <el-option label="折扣" value="折扣"></el-option>
                             </el-select>
-                            <el-select v-model="formInline.region" placeholder="活动区域">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
+                            <el-select v-model="type_2" placeholder="账单类型">
+                                <el-option value="" label="全部"></el-option>
+                                <el-option v-for="item in type_list" :key="item.id" :label="item.name" :value="item.id"></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="搜索：">
-                            <el-input class="w250_input" v-model="formInline.user" placeholder="审批人"></el-input>
+                            <el-input class="w250_input" v-model="name" placeholder=""></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="onSubmit">搜索</el-button>
+                            <el-button type="primary" @click="getApproveList(1)">搜索</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -62,38 +65,43 @@
                         empty-text='暂无查询！'
                         style="width: 100%;margin-top:20px">
                         <el-table-column
-                        prop="avatar"
-                        label="流程名称"
-                        width="180">
+                        prop="form_title"
+                        label="流程名称">
                         </el-table-column>
                         <el-table-column
                         prop="name"
-                        label="发起人"
-                        width="180">
+                        label="发起人">
                         </el-table-column>
                         <el-table-column
-                        prop="gender"
+                        prop="date_created"
                         label="流程创建时间">
                         </el-table-column>
                         <el-table-column
-                        prop="both"
+                        prop="approve_user_role_name"
                         label="当前节点">
                         </el-table-column>
                         <el-table-column
-                        prop="class"
+                        prop="date_updated"
                         label="任务分配时间">
                         </el-table-column>
                         <el-table-column
                         prop="contacts"
                         label="操作">
+                        <template slot-scope="scope">
+                                <el-button type="text" size="small"
+                                        @click="approveDetail(1,scope.row.form_id,scope.row.form_kind_id,scope.row.approve_level,scope.row.form_kind__code)">
+                                查看
+                                </el-button>
+                        </template>
                         </el-table-column>
                     </el-table>
                     <el-pagination
                         background
-                        :page-size="2"
-                        :current-change="changePage"
+                        :page-size="10"
+                        :current-page="currentPage"
+                        @current-change="changePage"
                         layout="prev,pager, next, jumper"
-                        :total="thingsList.length">
+                        :total="total">
                     </el-pagination>
                     </div>
                 </div>
@@ -108,7 +116,7 @@ export default {
             city_url: '/api/common/select/city_list/', /*省市*/
             brand_url: '/api/common/select/hq_list/', /*品牌*/
             school_url: '/api/common/select/center_list/', /*校园*/
-            currentPage:'',
+            currentPage:1,
             approve_status:'',
             name:'',
             formInline: {
@@ -126,20 +134,27 @@ export default {
             city:'',
             area:'',
             brand:'',
-            school:''
+            school:'-1',
+            type_list:[],
+            type_1:'',
+            type_2:'',
+            total:0,
         }
     },
     created () {
         this.getIntercityList();
         this.getAreaList();
         this.getSchoolList();
+        this.changeType();
+        this.getApproveList(1);
     },
     methods: {
         onSubmit(){
 
         },
         changePage(val){
-
+            this.currentPage = val;
+            this.getApproveList(val)
         },
         interChangeFun() {
             this.school = '';
@@ -148,26 +163,47 @@ export default {
         areaChangeFun() {
             this.city = '';
             this.school = '';
-            this.getCityList();
+            // this.getCityList();
             this.getSchoolList();
         },
         getApproveList(val){
-            this.currentPage = val
-            this.loading = true
+            this.loading = true;
+            var code_list = [];
+            if(this.type_2 == ""){
+                this.type_list.forEach(item=>{
+                    code_list.push(item.id)
+                })
+            } else {
+                code_list.push(this.type_2)
+            }
             this.$axios.post('/api/workflow/workflow_management/approve_list/',{
             name:this.name,
-            approve_status:this.approve_status,
+            approve_status:0,
             page:this.currentPage,
-            size:10
+            size:10,
+            center_id:this.center_id,
+            code_list:code_list,
             }).then(res => {
             this.loading = false
             if (res.data.status_code === 1) {
-                this.approveList = res.data.data.results
+                this.thingsList = res.data.data.results
                 this.total = res.data.data.count
             }
             }).catch(err => {
             console.log(err)
             })
+      },
+       approveDetail(status, formId, formKindId, approveLevel, formKindCode) {
+        this.$router.push({
+          name: 'workflowDetail',
+          query: {
+            status: status,
+            formId: formId,
+            formKindId: formKindId,
+            approveLevel: approveLevel,
+            formKindCode: formKindCode
+          }
+        })
       },
       /*城际*/
       getIntercityList() {
@@ -221,6 +257,102 @@ export default {
           console.log(err)
         })
       },
+      changeType(){
+          if(this.type_1 == "退费"){
+              this.type_list = [
+                  {
+                    name:'预备生离园账单',
+                    id:'PRB'
+                  },
+                  {
+                    name:'在校生离园账单',
+                    id:'LBO'
+                  },
+                  {
+                    name:'推迟入园账单',
+                    id:'IDEB'
+                  },
+                  {
+                    name:'入学时间变更申请',
+                    id:'CBA'
+                  },
+              ]
+          } else if(this.type_1 == "收费"){
+              this.type_list = [
+                  {
+                    name:'缴费单',
+                    id:'CPF'
+                  },
+                  {
+                    name:'入学账单',
+                    id:'EB'
+                  },
+                  {
+                    name:'调班申请单',
+                    id:'CCB'
+                  },
+                  {
+                    name:'提前入学账单',
+                    id:'ATB'
+                  },
+              ]
+          } else if(this.type_1 == "备用金"){
+              this.type_list = [{
+                    name:'缺勤请假转备用金账单',
+                    id:'ARB'
+                  },]
+          } else if(this.type_1 == "折扣"){
+              this.type_list = [
+                  {
+                    name:'折扣申请单',
+                    id:'RB'
+                  }
+              ]
+          } else if(this.type_1 == ""){
+              this.type_list = [
+                  {
+                    name:'预备生离园账单',
+                    id:'PRB'
+                  },
+                  {
+                    name:'在校生离园账单',
+                    id:'LBO'
+                  },
+                  {
+                    name:'推迟入园账单',
+                    id:'IDEB'
+                  },
+                  {
+                    name:'入学时间变更申请',
+                    id:'CBA'
+                  },
+                  {
+                    name:'缴费单',
+                    id:'CPF'
+                  },
+                  {
+                    name:'入学账单',
+                    id:'EB'
+                  },
+                  {
+                    name:'调班申请单',
+                    id:'CCB'
+                  },
+                  {
+                    name:'提前入学账单',
+                    id:'ATB'
+                  },
+                  {
+                    name:'缺勤请假转备用金账单',
+                    id:'ARB'
+                  },
+                  {
+                    name:'折扣申请单',
+                    id:'RB'
+                  }
+              ]
+          }
+      }
     }
 }
 </script>
