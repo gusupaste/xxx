@@ -281,7 +281,7 @@
       </el-table>
     </div>
     <div class="mt26 text-align-center">
-      <button class="btn bg-grey" @click="back">返回</button>
+      <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
       <button v-show="status === 0 && form_status === 0" class="btn bg-green" @click="save">提交</button>
     </div>
   </div>

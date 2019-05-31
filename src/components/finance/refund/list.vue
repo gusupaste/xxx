@@ -167,6 +167,12 @@
             label="制单人"
             width="130">
           </el-table-column>
+          <el-table-column
+            label="操作">
+            <template slot-scope="scope">
+                <span class="fa fa-print" style="font-size: 20px;color: #ED6C2E;"></span>
+            </template>
+          </el-table-column>
 
         </el-table>
         <el-pagination
@@ -237,7 +243,7 @@
           },
           {
             id: 7,
-            name: "应该是提前入园账单"
+            name: "提前入园账单"
           },
           {
             id: 8,
