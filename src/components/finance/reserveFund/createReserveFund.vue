@@ -212,7 +212,7 @@
           return
         }
         this.mutitable.forEach(item => {
-          item.center_class_year_id = this.searchForm.center_class_id
+          item.center_class_id = this.searchForm.center_class_id
           item.month = this.searchForm.month
           item.amount = item.sub_total
           item.leave_date = this.date
