@@ -151,7 +151,6 @@
       }
     },
     mounted() {
-      this.tableData = []
       this.date = this.$options.filters['formatDate'](new Date())
       if (this.single_status === 0) {
         this.pickerOptions = {
@@ -174,6 +173,7 @@
         })
           .then(res => {
             if (res.data.status === 1) {
+              this.tableData = []
               this.tableData.push(res.data.data)
               console.log(this.tableData)
             } else {
