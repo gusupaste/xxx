@@ -363,7 +363,7 @@ export default {
     },
     computed: {
         left_money(){
-            return this.addform.pay_amount-this.info.actual_amount
+            return (this.addform.pay_amount-this.info.actual_amount).toFixed(2)
         }
     },
 }

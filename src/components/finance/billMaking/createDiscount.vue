@@ -891,11 +891,6 @@ export default {
         currentPage(){
             this.getStudent(1)
         }
-        // 'addform.start_date'(){
-        //     if(this.multipleTable.length !== 0) {
-        //         this.getDiscount()
-        //     }
-        // }
     }
 }
 </script>

@@ -42,6 +42,7 @@
             show-header
             style="width: 100%;">
             <el-table-column
+            width="200"
               label="账单号">
               <template slot-scope="scope">
                 <el-button type="text" size="small" @click="showRefundInfo(scope.row)">{{scope.row.bill_no}}</el-button>
