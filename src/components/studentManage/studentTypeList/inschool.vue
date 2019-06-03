@@ -864,6 +864,7 @@ export default {
       })
     },
     transferReserveForAbsenteeism: function () {
+      console.log(this.studentInfo)
       if (this.studentInfo.pay_bill) {
         this.leaveVisible = false;
         this.leaveShowVisible = true;
