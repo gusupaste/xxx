@@ -10,10 +10,11 @@
         type="date"
         value-format="yyyy-MM-dd"
         :clearable="clearable"
-        placeholder="选择日期">
+        placeholder="选择日期"
+        @change="getAttendanceList">
       </el-date-picker>
       <span class="padding-left-30">班级：</span>
-      <el-select v-model="class_id" placeholder="请选择">
+      <el-select v-model="class_id" @change="getAttendanceList" placeholder="请选择">
         <el-option
           v-for="item in classList"
           :key="item.id"
@@ -26,16 +27,16 @@
     <div class="local-month">
       在校学生总数：<span class="orange">{{total}}</span>人 ； 学生出勤人数 <span class="red">{{present}} </span> 人 ； 学生缺勤人数 <span
       class="green">{{absent}}  </span> 人
-      <el-button v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 0"
+      <el-button v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 0 && date === attendance_date"
                  @click="attendanceSure(0)" type="warning">确 定
       </el-button>
-      <el-button v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 1"
+      <el-button v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 1 && date === attendance_date"
                  @click="cancelSure" type="info">取消确定
       </el-button>
-      <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status !== 2"
+      <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status !== 2 && date === attendance_date"
                  @click="attendanceSure(1)" type="warning">核 对
       </el-button>
-      <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2"
+      <el-button v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && date === attendance_date"
                   type="info">已 核 对
       </el-button>
       <el-button v-else-if="permission['student-attendance-campus']['student-attendance-revision']"
@@ -77,7 +78,7 @@
           prop="status"
           label="状态">
           <template slot-scope="scope">
-            <el-select v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 0" v-model="scope.row.status" placeholder="请选择">
+            <el-select v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status === 0  && date === attendance_date" v-model="scope.row.status" placeholder="请选择">
               <el-option
                 v-for="item in status_list"
                 :key="item.id"
@@ -85,10 +86,13 @@
                 :value="item.id">
               </el-option>
             </el-select>
-            <span v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status !== 0 && scope.row.status === 0">出勤</span>
-            <span v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status !== 0 && scope.row.status === 2">病假</span>
-            <span v-else-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status !== 0 && scope.row.status === 3">事假</span>
-            <el-select v-if="permission['student-attendance-campus']['attendance_verify'] && verify_status !== 2" v-model="scope.row.status" placeholder="请选择">
+            <span v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status !== 0 && scope.row.status === 0 && date === attendance_date">出勤</span>
+            <span v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status !== 0 && scope.row.status === 2 && date === attendance_date">病假</span>
+            <span v-if="permission['student-attendance-campus']['attendance_confirm'] && verify_status !== 0 && scope.row.status === 3 && date === attendance_date">事假</span>
+            <span v-if="permission['student-attendance-campus']['attendance_confirm'] && scope.row.status === 0 && date !== attendance_date">出勤</span>
+            <span v-if="permission['student-attendance-campus']['attendance_confirm'] && scope.row.status === 2 && date !== attendance_date">病假</span>
+            <span v-if="permission['student-attendance-campus']['attendance_confirm'] && scope.row.status === 3 && date !== attendance_date">事假</span>
+            <el-select v-if="permission['student-attendance-campus']['attendance_verify'] && verify_status !== 2  && date === attendance_date" v-model="scope.row.status" placeholder="请选择">
               <el-option
                 v-for="item in status_list"
                 :key="item.id"
@@ -96,9 +100,12 @@
                 :value="item.id">
               </el-option>
             </el-select>
-            <span v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 0">出勤</span>
-            <span v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 2">病假</span>
-            <span v-else-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 3">事假</span>
+            <span v-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 0 && date === attendance_date">出勤</span>
+            <span v-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 2 && date === attendance_date">病假</span>
+            <span v-if="permission['student-attendance-campus']['attendance_verify'] && verify_status === 2 && scope.row.status === 3 && date === attendance_date">事假</span>
+            <span v-if="permission['student-attendance-campus']['attendance_verify'] && scope.row.status === 0 && date !== attendance_date">出勤</span>
+            <span v-if="permission['student-attendance-campus']['attendance_verify'] && scope.row.status === 2 && date !== attendance_date">病假</span>
+            <span v-if="permission['student-attendance-campus']['attendance_verify'] && scope.row.status === 3 && date !== attendance_date">事假</span>
             <el-select v-if="permission['student-attendance-campus']['student-attendance-revision']" v-model="scope.row.status" placeholder="请选择">
               <el-option
                 v-for="item in status_list"
@@ -183,6 +190,7 @@
         pendingCheck: false,
         check: false,
         save: false,
+        date: '',
         student_ids_temp: [],
         permission: this.$cookies.get('userInfo').user_permissions
       }
@@ -191,6 +199,7 @@
       Calendar
     },
     mounted: function () {
+      this.date = this.$options.filters['formatDate'](new Date())
       this.getClass()
       this.attendance_date = this.$options.filters['formatDate'](new Date())
     },

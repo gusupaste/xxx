@@ -29,7 +29,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="缴费账期：">
-                    <el-select v-model="addform.academic_year_id" @change="getPolicy">
+                    <el-select v-model="addform.academic_year_id" @change="getPolicy()">
                         <el-option v-for="item in yearList" :label="item.name" :value="item.id" :key="item.id"></el-option>
                     </el-select>
                 </el-form-item>
@@ -108,6 +108,7 @@
                                 v-model="saveForm.billitem_list[scope.$index].begin_date"
                                 type="date"
                                 value-format="yyyy-MM-dd"
+                                :picker-options="pickerOptions0"
                                 @change="changePayDate($event,scope.row)">
                             </el-date-picker>
                             —
@@ -115,8 +116,8 @@
                             style="width:145px;display:inline-block"
                                 v-model="saveForm.billitem_list[scope.$index].end_date"
                                 type="date"
-                                disabledDate="2019-05-16"
                                 value-format="yyyy-MM-dd"
+                                :picker-options="pickerOptions0"
                                 @change="changePayDate($event,scope.row)">
                             </el-date-picker>
                     </span>
@@ -346,6 +347,7 @@ export default {
             pagesize:10,
             currentPage:1,
             total:1,
+            pickerOptions0: {}, 
             addform:{
                 pay_method:"",
                 date:'',
@@ -390,16 +392,25 @@ export default {
             reviewInfo:{},
             is_edit:false,
             methods_list:[],
+            start_date:'',
+            end_date:'',
             is_choose_student:false
         }
     },
     created () {
         this.getYear();
         this.getMethods();
+        this.setDateArea();
     },
     methods: {
          handleCurrentChange:function(currentPage){
             this.currentPage=currentPage;
+        },
+        setDateArea(){
+            var _this = this;
+            this.pickerOptions0.disabledDate = function(time){
+                return time.getTime() < new Date(_this.start_date) || time.getTime() > new Date(_this.end_date)
+            }
         },
         saveInfo(val){
             var _this = this;
@@ -751,9 +762,12 @@ export default {
             this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
                 _this.yearList = res.data.results;
+                
                 _this.yearList.forEach(item=>{
                     if(item.is_selected === 1){
                         _this.addform.academic_year_id = item.id;
+                        _this.start_date = item.start_date;
+                        _this.end_date = item.end_date;
                     }
                 })
                 _this.getStudent(1);
@@ -762,6 +776,13 @@ export default {
         },
         getPolicy(){
             var _this = this;
+            this.yearList.forEach(item=>{
+                if(item.id === this.addform.academic_year_id){
+                    this.start_date = item.start_date;
+                    this.end_date = item.end_date;
+                }
+            });
+            this.saveForm.policy_id = "";
             this.$axios.get('/api/finance/bill/charging_policy_list/',{
                 params:{
                     center_id:this.saveForm.center_id,
@@ -891,11 +912,6 @@ export default {
         currentPage(){
             this.getStudent(1)
         }
-        // 'addform.start_date'(){
-        //     if(this.multipleTable.length !== 0) {
-        //         this.getDiscount()
-        //     }
-        // }
     }
 }
 </script>

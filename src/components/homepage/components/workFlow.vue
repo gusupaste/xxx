@@ -51,7 +51,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="搜索：">
-                            <el-input class="w250_input" v-model="name" placeholder=""></el-input>
+                            <el-input class="w250_input" v-model="name" placeholder="请输入流程名称"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="getApproveList(1)">搜索</el-button>
@@ -69,7 +69,7 @@
                         label="流程名称">
                         </el-table-column>
                         <el-table-column
-                        prop="name"
+                        prop="apply_user__display_name"
                         label="发起人">
                         </el-table-column>
                         <el-table-column
@@ -130,6 +130,7 @@ export default {
             area_list: [],
             city_list: [],
             school_list:[],
+            center_id:'',
             intercity:'',
             city:'',
             area:'',
@@ -157,13 +158,12 @@ export default {
             this.getApproveList(val)
         },
         interChangeFun() {
-            this.school = '';
+            this.school = '-1';
             this.getSchoolList(this.intercity, this.city, this.area, this.brand);
         },
         areaChangeFun() {
             this.city = '';
-            this.school = '';
-            // this.getCityList();
+            this.school = '-1';
             this.getSchoolList();
         },
         getApproveList(val){
@@ -179,7 +179,7 @@ export default {
             this.$axios.post('/api/workflow/workflow_management/approve_list/?page='+this.currentPage+"&size=10",{
                 name:this.name,
                 approve_status:0,
-                center_id:this.center_id,
+                center_id:this.school,
                 code_list:code_list,
             }).then(res => {
             this.loading = false

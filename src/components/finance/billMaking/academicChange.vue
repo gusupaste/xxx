@@ -9,7 +9,7 @@
                 <el-form-item label="学校：">合肥御龙湾校园</el-form-item>
                 <br>
                 <el-form-item label="学生：">
-                    <el-button style="border-raius:20px">
+                    <el-button style="border-raius:20px" @click="innerVisible=true">
                         <i class="fa fa-search"></i>添加
                     </el-button>
                 </el-form-item>
@@ -29,61 +29,67 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div class="mt26 head-detail">
+        <!-- <div class="mt26 head-detail">
             已缴费情况描述
             补缴费用明细
-        </div>
+        </div> -->
         <div class=" tableList">
             <el-table
-                class=""
+                class="mt26"
                 :data="tableData"
                 border
                 style="width: 100%">
-                <el-table-column
-                prop="date"
-                label="费用类型"
-                width="180">
+                <el-table-column label="已缴费情况描述">
+                    <el-table-column
+                    prop="date"
+                    label="费用类型"
+                    width="180">
+                    </el-table-column>
+                    <el-table-column
+                    prop="name"
+                    label="费用科目"
+                    width="180">
+                    </el-table-column>
+                    <el-table-column
+                    prop="address"
+                    label="缴费方式">
+                    </el-table-column>
+                    <el-table-column
+                    prop="address"
+                    label="缴费区间">
+                    </el-table-column>
+                    <el-table-column
+                    prop="address"
+                    label="校历日总数">
+                    </el-table-column>
+                    <el-table-column
+                    prop="address"
+                    label="实际应缴金额">
+                    </el-table-column>
+                    <el-table-column
+                    prop="address"
+                    label="已缴金额">
+                    </el-table-column>
                 </el-table-column>
-                <el-table-column
-                prop="name"
-                label="费用科目"
-                width="180">
+                <el-table-column label="学费价格变化">
+                    <el-table-column
+                    prop="address"
+                    label="调整前价格 ">
+                    </el-table-column>
+                    <el-table-column
+                    prop="address"
+                    label="调整后价格">
+                    </el-table-column>
                 </el-table-column>
-                <el-table-column
-                prop="address"
-                label="缴费方式">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="缴费区间">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="校历日总数">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="实际应缴金额">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="已缴金额">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="调整前价格 ">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="调整后价格">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="当月费用补缴">
-                </el-table-column>
-                <el-table-column
-                prop="address"
-                label="应补缴金额">
+                <el-table-column label="差额">
+                    <el-table-column
+                    prop="address"
+                    label="当月费用补缴">
+                    </el-table-column>
+                    <el-table-column
+                    prop="address"
+                    label="应补缴金额">
+                    </el-table-column>
                 </el-table-column>
             </el-table>
         </div>
@@ -91,9 +97,78 @@
             补缴合计：<span class="red">— —</span>
         </div>
         <div class="mt26 text-align-center">
-            <button class="btn bg-grey">返回</button>
+            <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
             <button class="btn bg-green">保存</button>
         </div>
+        <!-- 添加学生 -->
+      <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
+        <el-form ref="policyForm" :model="copyForm" label-width="80px" style="border:none;padding:0">
+          <div class="policyClass mt10">
+            <p>{{schoolName}}</p>
+          </div>
+          <p class="mt20">
+              <span class="mr10">搜索：</span>
+              <el-input v-model="searchStr" class="w250_input" style="width:250px" placeholder="输入学号、学生姓名"></el-input>
+              <el-button type="primary" @click="getStudent(1)">搜索</el-button>
+          </p>
+
+          <el-row class="mt20">
+            <el-col :span="24">
+              <el-form-item label="" label-width="40">
+                <el-table
+                  :data="studentList"
+                  border
+                  stripe
+                  @selection-change="handleSelectionChange"
+                  max-height="300"
+                  ref="multipleTable">
+                  <el-table-column
+                    prop="选择"
+                    label="选择">
+                    <template slot-scope="scope">
+                        <el-radio v-model="choosePerson" :label="scope.row"> </el-radio>
+                    </template>
+                  </el-table-column>
+                  <el-table-column
+                    prop="name"
+                    label="学生姓名"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    prop="student_no"
+                    label="学号"
+                    >
+                  </el-table-column>
+                  <el-table-column
+                    prop="name"
+                    label="联系人"
+                    >
+                    <template slot-scope="scope">
+                        {{scope.row.guardian_info.name}} <span v-if="scope.row.guardian_info.relationship">（{{scope.row.guardian_info.relationship}}，{{scope.row.guardian_info.telephone}}）</span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+                <el-pagination
+                  background
+                  layout="prev,pager, next, jumper"
+                  next-text="下一页"
+                  :page-size="10"
+                  :current-page="currentPage"
+                  @current-change="handleCurrentChange"
+                  :total="total" class="page">
+                </el-pagination>
+                <div class="red">
+                    <!-- *学生可多选，账单支持批量创建 -->
+                </div>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button class="bg-grey bd-grey white" @click="innerVisible = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="sureAddStudent">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
 </template>
 <style scoped>
@@ -121,6 +196,13 @@
      padding:20px;
      border:1px solid #CCCCCC;
   }
+  .academicChange >>> .el-radio__label{
+    display: none !important;
+  }
+  .academicChange >>> .is-group tr:first-child th{
+     background-color: #bbb !important;
+     color:#101010;
+  }
   .academicChange .head-detail {
      background-color: #ccc;
      color: #101010;
@@ -135,24 +217,64 @@
 export default {
     data(){
         return {
-            value1:'2000-09-09',
-            tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-                }]
+            value1:'',
+            choosePerson:{},
+            saveForm:{
+                center_id:this.$cookies.get('userInfo').center.id
+            },
+            copyForm:{
+
+            },
+            schoolName:'',
+            currentPage:1,
+            tableData: [],
+            innerVisible:false,
+            studentList:[],
+            searchStr:'',
+            total:1,
+        }
+    },
+    created () {
+        this.getStudent(1)
+    },
+    methods:{
+        handleCurrentChange(currentPage){
+            this.currentPage=currentPage;
+        },
+        sureAddStudent(){
+
+        },
+        handleSelectionChange(val){
+            this.multipleTable1 = val;
+        },
+        getStudent(val){
+            var _this = this;
+            // this.addform.date = this.$options.filters['formatDate'](new Date());
+            this.$axios.get('/api/finance/bill/show_bill_student/',{
+                params:{
+                    search_str:this.searchStr,
+                    center_id:this.saveForm.center_id,
+                    page:this.currentPage,
+                }
+            })
+            .then(res=>{
+                _this.studentList = res.data.data.student_li;
+                // _this.schoolName = res.data.data.center_name;
+                _this.total=res.data.data.student_total;
+                if(val === 1) {
+                  if (_this.$route.query.id) {
+                    _this.is_edit = true;
+                    _this.$nextTick(() => {
+                      _this.getDiscountInfo();
+                    })
+                  }
+                }
+            })
+        },
+    },
+     watch: {
+        currentPage(){
+            this.getStudent(1)
         }
     }
 }

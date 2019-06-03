@@ -90,16 +90,8 @@
                 </el-tabs>
             </div>
             <div class="school_calendar left">
-                <p style="font-size:14px;font-weight:600">校日历</p>
-                <div class="calendar_border">
-                    <div style="padding: 20px 20px 0 20px;">
-                        <img src="../../assets/img/logo.png" alt="">
-                        <div class="calendarYear">{{year}}</div>
-                        <div class="calendarMonth">— &nbsp;&nbsp;{{month}}&nbsp;&nbsp; —</div>
-                        <vue-event-calendar :events="demoEvents"></vue-event-calendar>
-                    </div>
-                    <div class="viewAll" @click="viewAll">查看全部</div>
-                </div>
+                <school-calendar></school-calendar>
+                
             </div>
         </div>
     </div>
@@ -117,7 +109,7 @@
         letter-spacing: 5px;
     }
     .homeView .user_search_wrap {
-        width: 73%;
+        width: 70%;
         text-align: left;
     }
     .homeView .logo_name {
@@ -126,12 +118,16 @@
     .homeView >>>.w250_input .el-input__inner{
       width: 165px !important;
     }
-    .homeView .school_calendar {
+    .homeView >>> .school_calendar {
         text-align: left;
         margin-left: 2%;
-        width: 300px;
+        width: 315px;
     }
-    .homeView .viewAll{
+    .homeView >>> .wh_content_item {
+        width: 35px !important;
+        height: 30px;
+    }
+    .homeView >>>.viewAll{
         text-align: center;
         height: 36px;
         line-height: 36px;
@@ -139,7 +135,7 @@
         border-top: 1px solid #ccc;
         cursor: pointer;
     }
-    .homeView >>> .events-wrapper{
+    .homeView >>>.wh_other_dayhide{
         display: none;
     }
     .homeView >>> .calendar_border{
@@ -147,27 +143,37 @@
         -webkit-box-shadow: #ccc 0px 0px 3px;
         -moz-box-shadow: #ccc 0px 0px 3px;
         box-shadow: #ccc 0px 0px 3px;
-        margin-top: 20px;
+        margin-top: 10px;
         font-size: 12px !important;
     }
     .homeView >>> .cal-wrapper{
        width: 100%;
        padding: 0;
     }
+    .homeView >>> .wh_content:nth-child(2){
+       background-color: #fff !important;
+       border:none !important;
+    }
+    .homeView >>> .wh_content:nth-child(2) .wh_content_item{
+       color:#28779a !important;
+    }
+    .homeView >>> .wh_top_changge {
+       display: none !important;
+    }
     .homeView >>> .cal-body{
        padding: 0 30px;
     }
-    .homeView >>>.weeks .item{
-       color:#54a3e2;
-       font-size: 12px;
+    .homeView >>> .wh_container{
+       border:none !important;
+       min-width: 250px !important;
+       min-height: 250px !important;
     }
     .homeView >>>.dates  .date-num{
        font-size: 12px !important;
        line-height: 30px;
     }
-    .homeView .calendar_border  img{
-       width: 260px;
-       height: 150px;
+    .homeView >>>.calendar_border  img{
+       width: 100%;
        margin: 0 auto;
     }
     .homeView >>> .cal-header{
@@ -176,12 +182,13 @@
     .homeView >>> .el-form-item{
       margin-bottom: 10px;
     }
-    .homeView .calendarYear {
+    .homeView >>>.calendarYear {
         text-align: center;
         margin-top: 20px;
         font-weight: 600;
+        font-size: 16px;
     }
-    .homeView .calendarMonth {
+    .homeView >>>.calendarMonth {
         font-size: 30px;
         color:#f17128;
         text-align: center;
@@ -198,13 +205,13 @@
     .homeView >>> .to_do-list {
         border-top: 1px solid #ccc;
         padding-top: 20px;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 </style>
 <script>
-import { mapGetters,mapActions } from "vuex";
 import parent from "./components/parentList";
 import workFlow from "./components/workFlow";
+import schoolCalendar from "./components/schoolCalendar";
 export default {
     data() {
         return {
@@ -225,11 +232,8 @@ export default {
             area:'',
             campus:'',
             search:'',
-            year:'2019',
-            month:'April',
             studentList:[],
             thingsList:[],
-            demoEvents: [],
         }
     },
     created () {
@@ -245,28 +249,14 @@ export default {
         handleCurrentChange:function(currentPage){
             this.StudentcurrentPage=currentPage;
         },
-        handleSizeChangeParents:function(size){
-            this.Parentspagesize=size;
-        },
-        handleCurrentChangeParents:function(currentPage){
-            this.ParentscurrentPage=currentPage;
-        },
-        handleSizeChangeThings:function(size){
-            this.Thingspagesize=size;
-        },
-        handleCurrentChangeThings:function(currentPage){
-            this.ThingscurrentPage=currentPage;
-        },
-        viewAll:function(){
-            this.tableData = []
-        },
         onSubmit() {
         console.log('submit!');
       }
     },
     components:{
         parent,
-        workFlow
+        workFlow,
+        schoolCalendar
     },
     computed: {
         // ...mapGetters(['getArea']),
