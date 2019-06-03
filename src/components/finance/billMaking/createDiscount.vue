@@ -823,7 +823,7 @@ export default {
                 return
             }
             var _this = this;
-            this.getPolicy();
+            // this.getPolicy();
             this.$axios.get('/api/finance/charging_policy/'+this.saveForm.policy_id+'/get_available_items_for_student/',{
                 params:{
                     student_id:this.multipleTable[0].id,
