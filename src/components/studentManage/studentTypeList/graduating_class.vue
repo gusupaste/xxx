@@ -36,6 +36,12 @@
           <el-form-item>
             <el-button type="primary" @click="getStudentList()">搜索</el-button>
           </el-form-item>
+          <el-form-item>
+            <span class="ml10" @click="studentVisiable = true">
+              <i class="fa fa-plus-square icon-font"></i>
+              <span class="font-size-14 orange">维护计划毕业生</span>
+            </span>
+          </el-form-item>
         </el-form>
 
       </div>
@@ -76,11 +82,50 @@
       @current-change="changePage"
       :total="total">
     </el-pagination>
+    <el-dialog title="计划毕业生维护" :visible.sync="studentVisiable" width="650px">
+      <el-form ref="leveForm" :model="leveForm" :rules="rules" label-width="80px">
+        <p style="line-height: 30px;">您可以为每一个学年选择即将毕业的学生,作为毕业班学生的管理</p>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="学年：" label-width="auto">
+              <el-select>
+
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="班级：" label-width="auto">
+              <el-select>
+
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-transfer v-model="value"
+                       :data="data"
+                       :titles="['当前在校生', '计划毕业生']"></el-transfer>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="studentVisiable = false">取 消</el-button>
+          <el-button type="success" @click="saveLeave('leveForm')">保 存</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 <style scoped>
   .student_class >>> .el-form-item__label{
     padding: 0;
+  }
+  .student_class >>> .el-transfer-panel{
+    width:250px;
+  }
+  .student_class >>> .el-transfer-panel .el-transfer-panel__header .el-checkbox .el-checkbox__label {
+    font-size: 14px;
+  }
+  .student_class >>> .el-transfer__button{
+    height: 35px;
   }
   .student_class >>> .el-pagination{
     white-space: pre-line;
@@ -153,21 +198,34 @@ export default {
   },
   data(){
     return {
-      class_val:'',
-      gender:'',
+      class_val: '',
+      gender: '',
       dateValue: [],
-      currentPage:1,
-      searchText:'',
-         form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
+      currentPage: 1,
+      studentVisiable: false,
+      leveForm: {},
+      rules: {},
+      data: [
+        {
+          key: 1,
+          label: '学生1'
+        }, {
+          key: 2,
+          label: '学生2'
+        },
+      ],
+      value: [1, 4],
+      searchText: '',
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      }
     }
   },
   methods:{

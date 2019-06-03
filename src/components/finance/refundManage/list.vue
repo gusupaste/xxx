@@ -42,6 +42,7 @@
             show-header
             style="width: 100%;">
             <el-table-column
+            width="200"
               label="账单号">
               <template slot-scope="scope">
                 <el-button type="text" size="small" @click="showRefundInfo(scope.row)">{{scope.row.bill_no}}</el-button>
@@ -82,8 +83,10 @@
             <el-table-column
               prop="telephone"
               label="操作">
-              <template slot-scope="slote">
-                <i class="fa fa-print green font-size-20 ml10 cur"></i>
+              <template slot-scope="scope">
+                <router-link target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
+                  <span class="fa fa-print green" style="font-size: 20px;"></span>
+                </router-link>
               </template>
             </el-table-column>
           </el-table>
