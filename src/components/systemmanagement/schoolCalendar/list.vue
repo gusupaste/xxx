@@ -134,7 +134,7 @@
                     <p class="mt26">模版复制完成</p>
                 </span>
       <div slot="footer" class="dialog-footer" style="margin-top:20px">
-        <el-button @click="copy_success=false" style="background-color:#bbb;color:#fff">知道了</el-button>
+        <el-button @click="copy_success=false" class="white bg-grey bd-gery">知道了</el-button>
       </div>
     </el-dialog>
   </div>
@@ -327,7 +327,8 @@
         })
       },
       copy_to_school: function () {
-        var multipleSelection = []
+        var multipleSelection = [];
+        var _this = this;
         for (var i = 0; i < this.schoolList.length; i++) {
           if (this.checkSchoolList[this.schoolList[i].id].length > 0) {
             var obj = {
@@ -337,9 +338,6 @@
             multipleSelection.push(obj)
           }
         }
-        console.log("=================")
-        console.log(multipleSelection)
-        //var _this = this;
         if (multipleSelection.length == 0) {
           _this.$message({
             type: 'error',
@@ -350,6 +348,7 @@
         this.$axios.post('/api/school_calendar/calendar_template/' + this.template_id + '/copy_calendar_day_to_school/', {
           center_list: multipleSelection
         }).then(res => {
+          console.log(res.data)
           if (res.data.status_code === 1) {
             _this.dialogFormVisible = false;
             _this.copy_success = true;
