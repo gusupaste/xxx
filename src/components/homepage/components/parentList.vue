@@ -196,7 +196,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="家长第一语言" label-width="110">
-              <el-select v-model="ruleForm.primary_language" placeholder="请选择学生第一语言">
+              <el-select v-model="ruleForm.primary_language" placeholder="请选择家长第一语言">
                 <el-option
                   v-for="item in Language_options"
                   :key="item.id"
