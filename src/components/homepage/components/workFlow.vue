@@ -69,7 +69,7 @@
                         label="流程名称">
                         </el-table-column>
                         <el-table-column
-                        prop="name"
+                        prop="apply_user__display_name"
                         label="发起人">
                         </el-table-column>
                         <el-table-column
