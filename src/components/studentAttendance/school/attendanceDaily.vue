@@ -10,10 +10,11 @@
         type="date"
         value-format="yyyy-MM-dd"
         :clearable="clearable"
-        placeholder="选择日期">
+        placeholder="选择日期"
+        @change="getAttendanceList">
       </el-date-picker>
       <span class="padding-left-30">班级：</span>
-      <el-select v-model="class_id" placeholder="请选择">
+      <el-select v-model="class_id" @change="getAttendanceList" placeholder="请选择">
         <el-option
           v-for="item in classList"
           :key="item.id"
