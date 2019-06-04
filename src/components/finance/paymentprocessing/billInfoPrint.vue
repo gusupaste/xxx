@@ -12,7 +12,7 @@
                     <span class="mr26">制单日期：{{bill_info.billing_date}}</span>
                     <span class="mr26">状态：
                         <span v-if="bill_info.status_id == 0 || bill_info.status_id == 2" class="orange">{{bill_info.status}}</span>
-                        <span v-if="bill_info.status_id == 1" class="green">{{bill_info.status}}</span>
+                        <span v-if="bill_info.status_id == 1 || bill_info.status_id == 3" class="green">{{bill_info.status}}</span>
                         <span v-if="bill_info.status_id == 4" class="red">{{bill_info.status}}</span>
                     </span>
                 </p>
