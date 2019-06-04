@@ -114,7 +114,8 @@
         <el-row>
           <el-transfer v-model="value"
                        :data="data"
-                       :titles="['当前在校生', '计划毕业生']"></el-transfer>
+                       :titles="['当前在校生', '计划毕业生']"
+                       @change="handleChange"></el-transfer>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -235,6 +236,16 @@ export default {
     }
   },
   methods:{
+    handleChange(value, direction, movedKeys) {
+      if(direction === 'right'){
+        console.log('right');
+      }else{
+        console.log('left');
+      }
+      console.log(value);
+      console.log(direction);
+      /*console.log(movedKeys);*/
+    },
     changePage(val){
       this.currentPage = val;
     },
