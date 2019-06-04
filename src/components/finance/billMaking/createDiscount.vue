@@ -376,6 +376,7 @@ export default {
             subjectList:[],
             searchStr:'',
             studentList:[],
+            student_profile:{},
             yearList:[],
             innerVisible:false,
             subjectVisible:false,
@@ -603,6 +604,7 @@ export default {
               }
             }
             var _this = this;
+            this.currentPage = val;
             this.addform.date = this.$options.filters['formatDate'](new Date());
             this.$axios.get('/api/finance/bill/show_bill_student/',{
                 params:{
@@ -657,6 +659,7 @@ export default {
                 if(res.data.status_code === 1){
                     res.data.student_profile.name = res.data.student_profile.student_name;
                     res.data.student_profile.student_no = this.choosePerson.student_no;
+                    _this.student_profile = res.data.student_profile;
                     _this.multipleTable = [res.data.student_profile];
                     console.log(_this.multipleTable)
                     _this.innerVisible = false;
@@ -727,7 +730,8 @@ export default {
                     policy_item_id:row.id,
                     academic_year_id:this.addform.academic_year_id,
                     month:row.pay_month,
-                    price:row.price
+                    price:row.price,
+                    first_pay_date:this.student_profile.first_enter_date
                 }
             }).then(res=>{
                 var index = this.checkedSubject.indexOf(row);

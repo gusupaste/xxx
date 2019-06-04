@@ -403,8 +403,10 @@ export default {
       },
       getRefund_amount(){
         this.addForm.refund_amount = this.otherInfo.reserved_fund_amount;
+        console.log(this.subjectList)
+        console.log(this.addForm.refund_items)
         this.subjectList.forEach(item=>{
-            this.addForm.refund_amount+=item.sub_total;
+            this.addForm.refund_amount+=Number(item.subtotal);
         })
         this.addForm.refund_items.forEach(item=>{
           if(item.refund_direct === '扣款') {
