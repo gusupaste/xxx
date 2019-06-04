@@ -66,7 +66,7 @@
             </el-table-column>
             <el-table-column
               prop="refund_amount"
-              label="退费金额（不包含备用金）">
+              label="退费金额">
             </el-table-column>
             <el-table-column
               prop="billing_date"
