@@ -151,7 +151,7 @@
           </el-form-item> -->
           <br>
           <el-form-item label=" " label-width="120px">
-            <el-button @click.prevent="removeDomain(itemindex-1)">删除</el-button>
+            <el-button @click="deleteDomain(itemindex-1)">删除</el-button>
           </el-form-item>
         </el-form>
       </el-form-item>
@@ -216,6 +216,16 @@
                 <el-button @click="dialogTableVisible = false" class="bg-grey white bd-grey">取 消</el-button>
                 <el-button type="primary" @click="confirmStudent" class="bg-green white bd-green">确 定</el-button>
             </span>
+    </el-dialog>
+    <!-- 删除弹框 -->
+    <el-dialog title="删除" :visible.sync="canceldialog" width="20%">
+      <div class="text-align-center" style="padding: 80px">
+        <span>是否确定要删除？</span>
+      </div>
+      <span slot="footer" class="dialog-footer text-align-center">
+          <el-button class="bg-grey bd-grey white" @click="canceldialog = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="removeDomain">确 定</el-button>
+        </span>
     </el-dialog>
   </div>
 </template>
@@ -343,6 +353,8 @@
         currentPage: 1,
         total: 1,
         left_amount: [],
+        canceldialog: false,
+        index: ''
       }
     },
     mounted: function () {
@@ -567,7 +579,9 @@
             this.condition_status[index] = this.discount_type[index][key].condition_status;
           }
         }
-        this.removeDomain(index);
+        //this.deleteDomain(index)
+        this.index = index
+        this.removeDomain
       },
       addDomain() {
         let _this = this;
@@ -587,7 +601,8 @@
         })
         _this.getDiscountType(length);
       },
-      removeDomain(index) {
+      removeDomain() {
+        var index = this.index
         var length = this.dynamicValidateForm.domains.length;
         if (index !== -2) {
           this.dynamicValidateForm.domains.splice(index + 1, (length - index - 1))
@@ -595,6 +610,11 @@
           this.discount_type.splice(index + 1, (length - index - 1))
         }
         this.amountPrice();
+        this.canceldialog = false
+      },
+      deleteDomain(index){
+        this.canceldialog = true
+        this.index = index
       },
       // 保存折扣设置
       saveDiscount() {
