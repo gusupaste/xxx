@@ -52,7 +52,7 @@
             width="180">
             </el-table-column>
             <el-table-column
-            prop="approve_user_name"
+            prop="approve_user_role_name"
             label="审批角色"
             width="180">
             </el-table-column>

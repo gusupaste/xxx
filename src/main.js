@@ -51,7 +51,7 @@ axios.interceptors.response.use(function (response) {
 
   return response
 }, function (error) {
-  if (error.response.status == 401){
+  if (error.response.status == 400){
     Vue.prototype.$message({
       type: 'error',
       message: '登陆信息超时，请重新登陆'
