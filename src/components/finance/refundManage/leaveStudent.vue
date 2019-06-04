@@ -323,7 +323,7 @@ export default {
       },
       getOtherfo(){
         var _this = this;
-        this.$axios.get('/api/finance/refund/prepare_refund_info/',{
+        this.$axios.get('/api/finance/refund/student_refund_info/',{
           params:{
             application_id:this.addForm.application_id
           }

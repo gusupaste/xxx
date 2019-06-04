@@ -84,9 +84,12 @@
               prop="telephone"
               label="操作">
               <template slot-scope="scope">
-                <router-link target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
+                <router-link v-if="scope.row.bill_type_str != '系统备用金结转账单'" target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
                   <span class="fa fa-print green" style="font-size: 20px;"></span>
                 </router-link>
+                <!-- <router-link v-if="scope.row.bill_type_str == '系统备用金结转账单'" target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
+                  <span class="fa fa-print green" style="font-size: 20px;"></span>
+                </router-link> -->
               </template>
             </el-table-column>
           </el-table>
@@ -129,7 +132,12 @@
     },
     methods: {
       showRefundInfo(param) {
-        this.$router.push('/financemanagement/refund-detail/'+param.id);
+        if(param.bill_type_str == '系统备用金结转账单'){
+          this.$router.push('/financemanagement/refund-detail/'+param.id);
+        } else {
+          this.$router.push('/financemanagement/refund-detail/'+param.id);
+        }
+        
       },
       handleCurrentChange(val){
         this.searchList(val)

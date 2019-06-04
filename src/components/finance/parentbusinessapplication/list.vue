@@ -300,7 +300,7 @@
         schoolList: [],
         application_type: [],
         application_reason: [],
-        tableList: {},
+        tableList: [],
         application_date: [],
         detaildialog: false,
         canceldialog: false,
