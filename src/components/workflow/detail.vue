@@ -182,59 +182,198 @@
         </el-card>
       </el-col>
     </div>
-    <!--<div class="content-top">园长折扣</div>
-    <div class="clearfix">
-      <el-col :span="24" class="card-type">
-        <el-card shadow="always" class="clearfix">
-          <p class="baseInfo">&nbsp;</p>
-          <div style="width:90%" class="left">
-            <p class="" style="border-bottom:1px solid #bbb">
-              <el-row :gutter="20">
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">拟入学日期：-12</div>
-                </el-col>
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">拟入学日期：.00</div>
-                </el-col>
-                <el-col :span="10">
-                  <div class="grid-content bg-purple">学费正价：政策名称—学费科目—10000元.00</div>
-                </el-col>
-              </el-row>
-              <el-row :gutter="20">
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">申请折扣：20%</div>
-                </el-col>
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">应缴总额：10000元</div>
-                </el-col>
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">优惠金额：2000元</div>
-                </el-col>
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">折后总额：8000元</div>
-                </el-col>
-              </el-row>
-              <el-row :gutter="20">
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">备注：— —/03/01</div>
-                </el-col>
-              </el-row>
-            </p>
-            <p>
-              <el-row :gutter="20">
-                <el-col :span="5">
-                  <div class="grid-content bg-purple">相关附件：</div>
-                </el-col>
-              </el-row>
-              <el-row :gutter="20" v-for="(item,index) in tableData" :key="index">
-                <el-col :span="5"><a download="download" class="grid-content bg-purple"
-                                     href="../../../assets/img/logo.png">员工子女折扣申请表.pdf</a></el-col>
-              </el-row>
-            </p>
-          </div>
-        </el-card>
-      </el-col>
-    </div>-->
+    <div v-if="detilCode === 'CPF'">
+      <div class="mt26 tableList">
+        <p class="font-size-14 bold">账单明细信息：</p>
+        <el-table
+          class="mt10"
+          :data="billitem_li"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="subject_category"
+            label="费用类型">
+          </el-table-column>
+          <el-table-column
+            prop="subject_name"
+            label="费用科目">
+          </el-table-column>
+          <el-table-column
+            prop="payment_method"
+            label="缴费方式">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="缴费区间"
+            width="250">
+            <template slot-scope="scope">
+              {{scope.row.effective_begin_date}}——{{scope.row.effective_end_date}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="amount"
+            label="正价应收">
+          </el-table-column>
+          <el-table-column
+            prop="rate"
+            label="折扣">
+          </el-table-column>
+          <el-table-column
+            prop="actual_amount"
+            label="折后应收">
+          </el-table-column>
+          <el-table-column
+            prop="remarks"
+            label="备注说明">
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="price_wrap">
+          <span>
+            正价应收合计：<b class="red font-size-16">{{bill_info.amount}}</b>
+          </span>
+        <span>
+            折扣应收合计：<b class="red font-size-16">{{bill_info.actual_amount}}</b>
+          </span>
+        <span>
+            已收金额合计：<b class="red font-size-16">{{bill_info.pay_amount}}</b>
+          </span>
+      </div>
+      <div class="mt26 tableList">
+        <p class="font-size-14 bold">历史账单：</p>
+        <el-table
+          class="mt10"
+          :data="bill_history"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="billing_date"
+            label="缴费日期"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="actual_amount"
+            label="缴费金额"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="reserved_fund_use"
+            label="备用金抵扣">
+          </el-table-column>
+          <el-table-column
+            prop="creator"
+            label="收款人">
+          </el-table-column>
+          <el-table-column
+            prop="bill_status"
+            label="费用状态">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="操作">
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="mt26 tableList" style="line-height:30px" >
+        <p class="font-size-14 bold">缴费信息：</p>
+        <div v-for="item in billpayment_method_li" :key="item.id">
+          <p>缴费明细：{{item.payment_method}}：￥{{item.amount}}
+            <!--<p>备用金抵扣：￥23000</p>-->
+          <p>缴费回单单号：{{item.payment_no}}</p>
+          <hr>
+        </div>
+        <p>备用金抵扣：{{ bill_info.reserved_fund_use }}</p>
+      </div>
+      <div class="mt26 tableList">
+        <p class="font-size-14 bold">费用分摊明细：</p>
+        <el-table
+          class="mt10"
+          :data="billpay_item_li"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="subject_category"
+            label="费用类型"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="subject"
+            label="费用科目"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="price"
+            label="正价">
+          </el-table-column>
+          <el-table-column
+            prop="rate"
+            label="折扣">
+          </el-table-column>
+          <el-table-column
+            prop="paid_amount"
+            label="折后应收">
+          </el-table-column>
+          <!-- <el-table-column
+          prop="address"
+          label="欠费">
+          <template slot-scope="scope">
+            0
+          </template>
+          </el-table-column> -->
+          <el-table-column
+            prop="reserved_fund_used"
+            label="备用金">
+          </el-table-column>
+          <el-table-column
+            prop="actual_pay"
+            label="实收">
+          </el-table-column>
+          <!-- <el-table-column
+            prop="address"
+            label="本期余额">
+            <template slot-scope="scope">
+              0
+            </template>
+          </el-table-column> -->
+        </el-table>
+      </div>
+      <div class="mt26 tableList" style="line-height:30px">
+        <p class="font-size-14 bold">相关附件：</p>
+        <el-table
+          class="mt10"
+          :data="billpay_attach_li"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="id"
+            label="编号"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="附件"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="creator"
+            label="上传用户">
+          </el-table-column>
+          <el-table-column
+            prop="date_created"
+            label="上传日期">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="操作">
+            <template slot-scope="scope">
+              <el-button class="red" type="text" size="small" @click="deleteFile(scope.row.id)">
+                <span class="el-icon-delete" style="font-size: 20px;"></span>
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </div>
     <div class="mt26 tableList">
       <p>审批记录：</p>
       <el-table
@@ -315,6 +454,19 @@
     visibility: hidden
   }
 
+  .discountApplicationDetail .price_wrap {
+    height: 50px;
+    margin-top: 15px;
+    background-color: rgba(255, 152, 0, 0.14);
+    text-align: right;
+    line-height: 50px;
+    color: #101010;
+  }
+  .discountApplicationDetail .price_wrap span{
+    display: inline-block;
+    margin-right: 20px;
+  }
+
   .discountApplicationDetail .tableList {
     color: #101010;
   }
@@ -359,6 +511,13 @@
         subject:'',
         price:'',
         amount:'',
+        billitem_li:[],
+        billpay_attach_li: [],
+        billpay_item_li: [],
+        billpayment_method_li: [],
+        bill_info:{},
+        fileList:[],
+        bill_history:[],
       }
     },
     mounted: function () {
@@ -385,6 +544,11 @@
           if(res.status == 200) {
             this.discount_form_item = [];
             this.discount_form_item.push(res.data.bill_info);
+            this.bill_history = res.data.bill_history;
+            this.billitem_li = res.data.billitem_li;
+            this.billpay_item_li = res.data.billpay_item_li;
+            this.billpay_attach_li = res.data.billpay_attach_li;
+            this.billpayment_method_li = res.data.billpayment_method_li;
             /*this.student_name = res.data.data.student_name;
             this.amount = res.data.data.amount;
             this.actual_amount = res.data.data.actual_amount;
