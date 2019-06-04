@@ -6,8 +6,8 @@
       <el-col :span="24" class="card-type">
         <el-card shadow="always">
           <p class="bold" style="border-bottom:1px solid #bbb">
-              <span class="mr26">制单人：{{bill_info.student_name}}</span>
-              <span class="mr26">制单日期：{{bill_info.create_date}}</span>
+              <span class="mr26">制单人：{{bill_info.created_by}}</span>
+              <span class="mr26">制单日期：{{bill_info.date_created}}</span>
               <span class="mr26">状态：
                   <span>{{bill_info.bill_status}}</span>
               </span>
@@ -15,7 +15,7 @@
           <p style="line-height: 40px;">
             <el-row :gutter="20">
               <el-col :span="8">
-                <div class="grid-content bg-purple">申请学校：{{bill_info.center}}</div>
+                <div class="grid-content bg-purple">申请学校：{{bill_info.created_by}}</div>
               </el-col>
               <el-col :span="12">
                 <div class="grid-content bg-purple">申请人：{{bill_info.student_name}}</div>
@@ -26,11 +26,11 @@
             <el-row :gutter="24">
               <template>
                 <el-col :span="8">
-                  <div class="grid-content bg-purple">申请班级：
+                  <div class="grid-content bg-purple">申请班级：{{bill_info.student.student_class}}
                   </div>
                 </el-col>
                 <el-col :span="8">
-                  <div class="grid-content bg-purple">申请日期：
+                  <div class="grid-content bg-purple">申请日期：{{bill_info.leave_date}}
                   </div>
                 </el-col>
               </template>
