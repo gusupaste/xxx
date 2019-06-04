@@ -409,7 +409,7 @@ export default {
         setDateArea(){
             var _this = this;
             this.pickerOptions0.disabledDate = function(time){
-                return time.getTime() < new Date(_this.start_date) || time.getTime() > new Date(_this.end_date)
+                return time.getTime() < new Date(_this.start_date).getTime() - 8.64e7 || time.getTime() > new Date(_this.end_date).getTime()
             }
         },
         saveInfo(val){
