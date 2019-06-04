@@ -32,8 +32,8 @@
         <el-form-item label="申请学年：">
           <el-select v-model="academic_year_id" disabled="disabled"></el-select>
         </el-form-item>
-        <el-form-item label="申请变更班级："  @change="getList">
-          <el-select v-model="apply_class_id">
+        <el-form-item label="申请变更班级：">
+          <el-select v-model="apply_class_id" @change="getList">
             <el-option v-for="item in apply_class"
                        :value="item.id" :key="item.id" :label="item.center_class__name"
             ></el-option>
@@ -282,6 +282,7 @@
       getList: function () {
         if(new Date(this.apply_date).getTime() !== new Date(this.apply_date).setDate(1)){
           this.$message.error("请选择每月的第一天")
+          return
         }
         this.$axios.get('/api/finance/change_class/bill_info/', {
           params: {
