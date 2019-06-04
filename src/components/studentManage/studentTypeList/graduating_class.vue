@@ -88,15 +88,25 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="学年：" label-width="auto">
-              <el-select>
-
+              <el-select v-model="academic_year_id" placeholder="请选择">
+                <el-option
+                  v-for="item in year_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="班级：" label-width="auto">
-              <el-select>
-
+              <el-select v-model="class_year_id" placeholder="请选择">
+                <el-option
+                  v-for="item in class_year_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -198,6 +208,10 @@ export default {
   },
   data(){
     return {
+      academic_year_id:'',
+      year_list:[],
+      class_year_id:'',
+      class_year_list:[],
       class_val: '',
       gender: '',
       dateValue: [],
@@ -243,6 +257,31 @@ export default {
         page:this.currentPage
       }
       this.$emit('getStudentList',data);
+    },
+    /*学年*/
+    getYearList: function () {
+      this.$axios.get('/api/common/select/academic_year_list/')
+        .then(res => {
+          this.year_list = res.data.results
+          for (var x in this.year_list) {
+            if (this.year_list[x].is_selected === 1) {
+              this.academic_year_id = this.year_list[x].id
+            }
+          }
+          this.getYearClassList(this.academic_year_id);
+        }).catch(err => {
+        console.log(err)
+      })
+    },
+    /*学年下的班级*/
+    getYearClassList: function (school) {
+      this.$axios.get('/api/common/select/class_list/?center_id=' + school)
+        .then(res => {
+          this.class_year_list = res.data.results
+          /*this.getList(1)*/
+        }).catch(err => {
+        console.log(err)
+      })
     },
   },
   watch: {
