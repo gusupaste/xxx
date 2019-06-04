@@ -130,11 +130,23 @@
               </el-table-column>
               <el-table-column class="is_dark" label="需退费情况描述">
                 <el-table-column
-                  prop="deduction_amount"
-                  label="扣款">
+                  prop="remained_days"
+                  label="剩余校历日总数">
                 </el-table-column>
                 <el-table-column
-                  prop="sub_total"
+                  prop="refund_count"
+                  label="应退计数">
+                </el-table-column>
+                <el-table-column
+                  prop="deduction_price"
+                  label="扣费单价">
+                </el-table-column>
+                <el-table-column
+                  prop="debit_amount"
+                  label="不足通知期扣款">
+                </el-table-column>
+                <el-table-column
+                  prop="subtotal"
                   label="应退转金额小计">
                 </el-table-column>
               </el-table-column>
