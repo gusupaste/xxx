@@ -697,28 +697,7 @@ export default {
         },
       ],
       nameSelect:'',
-      chargeTableDate:[
-        {
-          code:'xxxxxxxxxxxx',
-          name:'31231231',
-          intercity_name:'312313',
-          hq_name:'31231',
-          opening_date:'31231',
-          leader:'31231',
-          telephone:'312312',
-          status_name:'12312313',
-        },
-        {
-          code:'xxxxxxxxxxxx',
-          name:'31231231',
-          intercity_name:'312313',
-          hq_name:'31231',
-          opening_date:'31231',
-          leader:'31231',
-          telephone:'312312',
-          status_name:'12312313',
-        }
-      ],
+      chargeTableDate:[],
       year_url:'',
       class_url:'/api/center/select/center_class_year_list/',
       input_school:'/api/student/student_management/create_enrollment_registration/',
@@ -766,7 +745,8 @@ export default {
             }
           }).catch(err => {
             //this.$message.error('未缴纳备用金');
-
+              // this.leaveVisible = false;
+              // this.leaveShowVisible = true;
           })
         }else{
           return false;
@@ -865,6 +845,7 @@ export default {
       })
     },
     transferReserveForAbsenteeism: function () {
+      console.log(this.studentInfo)
       if (this.studentInfo.pay_bill) {
         this.leaveVisible = false;
         this.leaveShowVisible = true;

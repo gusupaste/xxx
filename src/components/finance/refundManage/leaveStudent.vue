@@ -393,6 +393,7 @@ export default {
           if(res.data.status === 1){
             _this.bill_id.bill_id = res.data.data.id;
             _this.$refs.upload.submit();
+            this.$router.go(-1);
           }
         })
       },
