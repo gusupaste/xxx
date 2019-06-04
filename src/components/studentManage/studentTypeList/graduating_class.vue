@@ -78,7 +78,7 @@
       background
       layout="prev,pager, next, jumper"
       :current-page="currentPage"
-      :page-size="10"
+      :page-size="9"
       @current-change="changePage"
       :total="total">
     </el-pagination>
@@ -88,7 +88,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="学年：" label-width="auto">
-              <el-select v-model="academic_year_id" placeholder="请选择">
+              <el-select v-model="academic_year_id" placeholder="请选择" @change="getClassList(academic_year_id)">
                 <el-option
                   v-for="item in year_list"
                   :key="item.id"
@@ -100,11 +100,11 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="班级：" label-width="auto">
-              <el-select v-model="class_year_id" placeholder="请选择">
+              <el-select v-model="class_year_id" placeholder="请选择" @change="getDialogStudentList(class_year_id)">
                 <el-option
                   v-for="item in class_year_list"
                   :key="item.id"
-                  :label="item.name"
+                  :label="item.center_class__name"
                   :value="item.id">
                 </el-option>
               </el-select>
@@ -268,18 +268,28 @@ export default {
               this.academic_year_id = this.year_list[x].id
             }
           }
-          this.getYearClassList(this.academic_year_id);
+          this.getClassList(this.academic_year_id);
         }).catch(err => {
         console.log(err)
       })
     },
     /*学年下的班级*/
-    getYearClassList: function (school) {
-      this.$axios.get('/api/common/select/class_list/?center_id=' + school)
-        .then(res => {
-          this.class_year_list = res.data.results
-          /*this.getList(1)*/
-        }).catch(err => {
+    getClassList:function(id){
+      var url = '/api/center/select/center_class_year_list/?academic_year_id=' + id;
+      this.$axios.get(url).then(res=>{
+        this.class_year_list = res.data.results;
+        this.class_year_id = this.class_year_list[0].id;
+        this.getDialogStudentList(this.class_year_id);
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    /*/api/student/student/graduating_student_list/*/
+    getDialogStudentList:function(id){
+      var url = '/api/student/student/graduating_student_list/?class_id=' + id;
+      this.$axios.get(url).then(res=>{
+        this.data = res.data.results;
+      }).catch(err=>{
         console.log(err)
       })
     },
@@ -289,6 +299,7 @@ export default {
       handler(newValue, oldValue) {
         if(newValue === 'fourth'){
           this.getStudentList();
+          this.getYearList();
         }
       },
       deep: true
