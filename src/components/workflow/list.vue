@@ -190,11 +190,11 @@
       getApproveList: function (val) {
         this.currentPage = val
         this.loading = true
-        this.$axios.post('/api/workflow/workflow_management/approve_list/',{
+        this.$axios.post('/api/workflow/workflow_management/approve_list/?page='+this.currentPage+'&size=10',{
           name:this.name,
           approve_status:this.approve_status,
-          page:this.currentPage,
-          size:10
+          /*page:this.currentPage,
+          size:10*/
         }).then(res => {
           this.loading = false
           if (res.data.status_code === 1) {
