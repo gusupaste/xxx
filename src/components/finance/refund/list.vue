@@ -271,7 +271,12 @@
     },
     methods: {
       showRefundInfo(param) {
-        this.$router.push('/financemanagement/refund-detail/'+param.id);
+        /*this.$router.push('/financemanagement/refund-detail/'+param.id);*/
+        if(param.bill_type_str == '系统备用金结转账单'){
+          this.$router.push('/financemanagement/reserveFundDetail/'+param.id);
+        } else {
+          this.$router.push('/financemanagement/refund-detail/'+param.id);
+        }
       },
       handleClose() {
 
