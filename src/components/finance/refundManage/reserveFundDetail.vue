@@ -6,7 +6,7 @@
       <el-col :span="24" class="card-type">
         <el-card shadow="always">
           <p class="bold" style="border-bottom:1px solid #bbb">
-              <span class="mr26">制单人：{{bill_info.student_name}}</span>
+              <span class="mr26">制单人：{{bill_info.created_by}}</span>
               <span class="mr26">制单日期：{{bill_info.date_created}}</span>
               <span class="mr26">状态：
                   <span>{{bill_info.bill_status}}</span>

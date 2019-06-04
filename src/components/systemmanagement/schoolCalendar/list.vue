@@ -333,7 +333,7 @@
           if (this.checkSchoolList[this.schoolList[i].id].length > 0) {
             var obj = {
               id: this.checkSchoolList[this.schoolList[i].id][0],
-              class_types_ids: this.checkList[this.schoolList[i].id]
+              class_type_ids: this.checkList[this.schoolList[i].id]
             }
             multipleSelection.push(obj)
           }
