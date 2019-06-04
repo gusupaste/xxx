@@ -15,14 +15,16 @@
         </el-form-item>
         <el-form-item>
           <p v-for="item in multipleTable" :key="item.id">
-            <span style="width:200px;display:inline-block"><span class="ml20">学生姓名：</span><span>{{item.student_name}}</span></span>
-            <span style="width:200px;display:inline-block"><span class="ml20">所在班级：</span><span>{{item.class_name}}</span></span>
+            <span style="width:200px;display:inline-block"><span
+              class="ml20">学生姓名：</span><span>{{item.student_name}}</span></span>
+            <span style="width:200px;display:inline-block"><span
+              class="ml20">所在班级：</span><span>{{item.class_name}}</span></span>
           </p>
         </el-form-item>
         <el-form-item label="单据申请信息：">
-          <el-select v-model="apply_records_id">
+          <el-select v-model="apply_records_id" @change="changeApplyRecords">
             <el-option v-for="item in apply_records"
-                       :value="item.id" :key="item.id" :label="item.center_class__name"
+                       :value="item.id" :key="item.id" :label="item.application_name"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -33,7 +35,7 @@
         <el-form-item label="申请变更班级：">
           <el-select v-model="apply_class_id">
             <el-option v-for="item in apply_class"
-              :value="item.id" :key="item.id" :label="item.center_class__name"
+                       :value="item.id" :key="item.id" :label="item.center_class__name"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -234,25 +236,31 @@
           console.log(err)
         })
       },
-      getClasses : function () {
+      getClasses: function () {
         this.$axios.get('/api/finance/change_class/classes/?class_type_id=' + this.multipleTable[0].class_type_id)
           .then(res => {
             if (res.data.status === 1) {
               this.apply_class = res.data.data
-              this.apply_class_id = this.apply_class[0].id
+              if (this.apply_class.length > 0) {
+                this.apply_class_id = this.apply_class[0].id
+              }
             }
           }).catch(err => {
           console.log(err)
         })
       },
-      getApplicationRecords : function () {
+      getApplicationRecords: function () {
         this.$axios.get('/api/finance/change_class/application_records/?student_id=' + this.multipleTable[0].id)
-        .then(res => {
-          if (res.data.status === 1) {
-            console.log(res.data.data)
-            this.apply_records = res.data.data
-          }
-        }).catch(err => {
+          .then(res => {
+            if (res.data.status === 1) {
+              this.apply_records = res.data.data
+              if (this.apply_records.length > 0) {
+                this.apply_records_id = this.apply_records[0].id
+                this.apply_date = this.apply_records[0].effective_date
+                this.changeDisabled = false
+              }
+            }
+          }).catch(err => {
           console.log(err)
         })
 
@@ -271,6 +279,18 @@
             this.total = res.data.data.student_total;
           })
       },
+      getList: function () {
+        this.$axios.get('/api/finance/change_class/bill_info/', {
+          params: {
+            student_id: this.choosePerson.id,
+            class_type_id: this.multipleTable[0].class_type_id,
+            center_class_year_id: this.apply_class_id,
+            date: this.apply_date
+          }
+        }).then(res => {
+            console.log(res.data)
+          })
+      },
       sureAddStudent() {
         this.$axios.get('/api/student/student/' + this.choosePerson.id + '/student_profile/', {
           params: {
@@ -282,6 +302,7 @@
             this.innerVisible = false
             this.getClasses()
             this.getApplicationRecords()
+            this.getList()
           } else {
             this.$message.warning(res.data.message)
           }
@@ -290,11 +311,19 @@
       },
       handleSelectionChange: function () {
 
+      },
+      changeApplyRecords: function (val) {
+        console.log(val)
       }
     },
     watch: {
       currentPage() {
         this.getStudent(this.currentPage)
+      },
+      apply_date() {
+        if (new Date(this.apply_date).getTime() !== new Date(this.apply_date).setDate(1)) {
+          this.$message.error("请选择每月的第一天")
+        }
       }
     }
   }
