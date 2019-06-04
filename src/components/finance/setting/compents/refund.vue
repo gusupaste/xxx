@@ -123,13 +123,8 @@ export default {
           pagesize:10,
           currentPage:1,
           total:1,
-            intercityList:[],
             cityList:[],
-            areaList:[],
-            brandList:[],
             schoolList:[],
-            brandList:[],
-            yearList:[],
             count:1,
             searchform:{
               intercity_id:'',

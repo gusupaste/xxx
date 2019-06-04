@@ -83,7 +83,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="折扣生效日期: " label-width="100">
+            <el-form-item label="折扣生效日期: " label-width="100px">
               <el-date-picker
                 v-model="discountForm.start_date"
                 type="date"
@@ -109,6 +109,20 @@
                 :picker-options="pickerAfter"
                 @focus="After">
               </el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="首次入园日期：" label-width="100px">
+              <el-date-picker
+                  v-model="value1"
+                  type="daterange"
+                  range-separator="至"
+                  value-format="yyyy-MM-dd"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -235,6 +249,7 @@
       return {
         id: 0,
         type: 1,
+        value1:[],
         enrollmentDiscountList: [],
         pagesize: 10,
         currentPage: 1,
@@ -319,6 +334,7 @@
           this.discountName = '新增折扣类型'
           this.searchSchoolList() //学校.班级
           this.getExistDiscountType() //互斥折扣
+          this.value1 = [];
           this.discountForm = {
             name: '',
             start_date: '',
@@ -344,8 +360,13 @@
       getDetailById: function (id) {
         this.$axios.get('/api/discount/discount_type_management/' + id + '/discount_type_info/')
           .then(res => {
-            this.discountForm = res.data.data.discount_type
-            this.schoolList = res.data.data.center_list
+            this.discountForm = res.data.data.discount_type;
+            this.schoolList = res.data.data.center_list;
+            if(res.data.data.discount_type.first_pay_start_date!==""&&res.data.data.discount_type.first_pay_end_date!==""){
+              this.value1=[res.data.data.discount_type.first_pay_start_date,res.data.data.discount_type.first_pay_end_date];
+            } else {
+              this.value1 = []
+            }
             this.schoolList.map(v => {
               this.$set(this.checkList, v.id, [])
               this.$set(this.checkSchoolList, v.id, [])
@@ -459,6 +480,8 @@
             discount_money: this.discountForm.discount_money,
             type: 1,
             mutex_list: this.exist_discount_type_value,
+            first_pay_start_date:this.value1[0],
+            first_pay_end_date:this.value1[1]
           }).then(res => {
             this.$message.success("保存成功")
             this.addDiscountVisible = false
@@ -476,6 +499,8 @@
             academic_year_id: this.discountForm.academic_year_id,
             discount_money: this.discountForm.discount_money,
             mutex_list: this.exist_discount_type_value,
+            first_pay_start_date:this.value1[0],
+            first_pay_end_date:this.value1[1]
           }).then(res => {
             this.$message.success("保存成功")
             this.addDiscountVisible = false
