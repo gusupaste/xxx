@@ -196,7 +196,7 @@
         <div class="oper-div">
           <span class="title-span">入园登记</span>
           <br><hr><br>
-          <el-form-item label="学年" prop="academic_year">
+          <el-form-item label="学年：" prop="academic_year">
             <el-select v-model="reulsForm.academic_year" @change="changeAcadYear(reulsForm.academic_year)" placeholder="请选择学年">
               <el-option
                 v-for="item in year_list"
@@ -206,7 +206,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="安排入班" required>
+          <el-form-item label="安排入班：" required>
             <el-col :span="7">
               <el-form-item prop="status">
                 <el-select v-model="reulsForm.status" placeholder="请选择">
@@ -229,7 +229,7 @@
           </el-form-item>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="报名日期" prop="sign_up_date">
+              <el-form-item label="报名日期：" prop="sign_up_date">
                 <el-date-picker
                   v-model="reulsForm.sign_up_date"
                   type="date"
@@ -241,7 +241,7 @@
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="入学日期" prop="in_class_date">
+              <el-form-item label="入学日期：" prop="in_class_date">
                 <el-date-picker
                   v-model="reulsForm.in_class_date"
                   type="date"
@@ -253,7 +253,7 @@
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="截止日期" prop="out_class_date">
+              <el-form-item label="截止日期：" prop="out_class_date">
                 <el-date-picker
                   v-model="reulsForm.out_class_date"
                   type="date"
@@ -263,7 +263,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="备注">
+          <el-form-item label="备注：">
             <el-input type="textarea"
                       :rows="2"
                       placeholder="请输入内容"
@@ -350,7 +350,7 @@
               </p>
             </el-col>
           </el-row>
-          <el-form-item label="离园日期" prop="leave_date">
+          <el-form-item label="离园日期：" prop="leave_date">
             <el-date-picker
               v-model="leveForm.leave_date"
               type="date"
@@ -358,7 +358,7 @@
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="离园原因" prop="leave_reason">
+          <el-form-item label="离园原因：" prop="leave_reason">
             <el-radio v-model="leveForm.leave_reason" label="居所搬迁/父母工作调动"></el-radio><br>
             <el-radio v-model="leveForm.leave_reason" label="家庭变故"></el-radio><br>
             <el-radio v-model="leveForm.leave_reason" label="生病"></el-radio><br>
@@ -445,7 +445,7 @@
               </p>
             </el-col>
           </el-row>
-          <el-form-item label="申请原因说明" label-width="90">
+          <el-form-item label="申请原因说明：" label-width="90">
             <el-input type="textarea"
                       style="width: 88%;"
                       :rows="2"
