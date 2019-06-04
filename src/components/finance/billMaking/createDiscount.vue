@@ -347,7 +347,7 @@ export default {
             pagesize:10,
             currentPage:1,
             total:1,
-            pickerOptions0: {}, 
+            pickerOptions0: {},
             addform:{
                 pay_method:"",
                 date:'',
@@ -766,7 +766,7 @@ export default {
             this.$axios.get('/api/common/select/academic_year_list/')
             .then(res=>{
                 _this.yearList = res.data.results;
-                
+
                 _this.yearList.forEach(item=>{
                     if(item.is_selected === 1){
                         _this.addform.academic_year_id = item.id;
@@ -914,7 +914,7 @@ export default {
     },
     watch: {
         currentPage(){
-            this.getStudent(1)
+            this.getStudent(this.currentPage)
         }
     }
 }

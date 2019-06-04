@@ -182,6 +182,128 @@
         </el-card>
       </el-col>
     </div>
+
+    <div class="mt26 tableList" v-if="detilCode === 'LB'">
+      <p>退费明细（标准项目）：</p>
+      <el-table
+        class="mt10"
+        :data="bill.items"
+        border
+        style="width: 100%">
+        <el-table-column label="已缴费情况描述">
+          <el-table-column
+            prop="subject_name"
+            label="缴费项目">
+          </el-table-column>
+          <el-table-column
+            prop="payment_method_name"
+            label="缴费方式">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="起止日期">
+            <template slot-scope="scope">
+              {{scope.row.effective_begin_date}} — {{scope.row.effective_end_date}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="pay_month"
+            label="校日历总数">
+          </el-table-column>
+          <el-table-column
+            prop="amount"
+            label="折前价">
+          </el-table-column>
+          <el-table-column
+            prop="actual_amount"
+            label="折后价">
+          </el-table-column>
+          <el-table-column
+            prop="price"
+            label="单价">
+          </el-table-column>
+        </el-table-column>
+        <el-table-column label="需退费情况描述">
+          <el-table-column
+            prop="remained_days"
+            label="剩余校日历总数">
+          </el-table-column>
+          <el-table-column
+            prop="refund_count"
+            label="应退计数">
+          </el-table-column>
+          <el-table-column
+            prop="deduction_price"
+            label="折扣单价">
+          </el-table-column>
+          <el-table-column
+            prop="balance_amount"
+            label="扣款">
+          </el-table-column>
+          <el-table-column
+            prop="subtotal"
+            label="应退转金额小计">
+          </el-table-column>
+        </el-table-column>
+      </el-table>
+      <div class="price_wrap">
+              <span>
+                备用金：<b class="red font-size-16">{{bill.reserved_fund_amount}}</b>
+              </span>
+      </div>
+    </div>
+    <div class="mt26 tableList"  v-if="detilCode === 'LB'">
+      <p>制度外退费（其他扣款/退费项目明细）：</p>
+      <el-table
+        class="mt10"
+        :data="bill.refund_items"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="refund_direct"
+          label="扣款/退款">
+        </el-table-column>
+        <el-table-column
+          prop="item"
+          label="项目名称">
+        </el-table-column>
+        <el-table-column
+          prop="remarks"
+          label="情况说明">
+        </el-table-column>
+        <el-table-column
+          prop="amount"
+          label="金额小计">
+        </el-table-column>
+      </el-table>
+      <hr><p class="right">实际应退金额合计：<span class="red bold font-size-16">{{total}}</span></p>
+    </div>
+    <div class="mt26 tableList"  v-if="detilCode === 'LB'">
+      <p>相关附件：</p>
+      <el-table
+        class="mt10"
+        :data="tableData"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          label="编号">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="附件名称">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="上传用户">
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="上传日期">
+        </el-table-column>
+      </el-table>
+    </div>
+
     <div v-if="detilCode === 'CPF'">
       <div class="mt26 tableList">
         <p class="font-size-14 bold">账单明细信息：</p>
@@ -518,6 +640,7 @@
         bill_info:{},
         fileList:[],
         bill_history:[],
+        bill: {}
       }
     },
     mounted: function () {
@@ -638,6 +761,7 @@
           if(res.status == 200 && res.data.status == 1) {
             this.discount_form_item = [];
             this.discount_form_item.push(res.data.data);
+            this.bill = res.data.data.bill;
           }
         }).catch(err => {
           console.log(err)
