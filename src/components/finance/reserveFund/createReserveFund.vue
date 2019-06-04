@@ -177,7 +177,7 @@
               this.tableData.push(res.data.data)
               console.log(this.tableData)
             } else {
-
+              this.$message.error(res.data.msg)
             }
           }).catch(err => {
 

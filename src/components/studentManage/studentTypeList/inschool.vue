@@ -709,6 +709,7 @@ export default {
       preferred_academic_year:'',
       studentId:'',
       currentPage:1,
+      student_id:'',
     }
   },
   mounted:function(){
@@ -798,6 +799,7 @@ export default {
       this.$emit('getStudentList',data);
     },
     handleCommand:function(val,id,index){
+      this.student_id = id;
       if(val === '1'){
         this.student_list[index].selectType = '入园登记';
         this.getYearHistory(id);
@@ -845,13 +847,27 @@ export default {
       })
     },
     transferReserveForAbsenteeism: function () {
-      console.log(this.studentInfo)
-      if (this.studentInfo.pay_bill) {
-        this.leaveVisible = false;
-        this.leaveShowVisible = true;
-      } else {
-        this.$router.push('/financemanagement/create-reserve/1?id=' + this.studentId)
-      }
+       this.$axios.get('/api/finance/reserve_fund_for_attendance/leave_reserve_fund/', {
+          params: {
+            leave_date: this.date,
+            student_id: this.student_id
+          }
+        })
+          .then(res => {
+            if (res.data.status === 1) {
+              if (this.studentInfo.pay_bill) {
+                  this.leaveVisible = false;
+                  this.leaveShowVisible = true;
+                } else {
+                  this.$router.push('/financemanagement/create-reserve/1?id=' + this.studentId)
+                }
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          }).catch(err => {
+
+        })
+      
     }
   },
   watch: {
