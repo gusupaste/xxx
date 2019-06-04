@@ -56,8 +56,6 @@
           @change="dateChange"
           value-format="yyyy-MM-dd">
         </el-date-picker>
-      </p>
-      <p>
         <span>状态：</span>
         <el-select class="select_lip" v-model="form.status_id" placeholder="请选择">
           <el-option label="全部" value="2"></el-option>
@@ -69,6 +67,9 @@
         <el-input type="text" placeholder="请输入学生姓名" v-model="form.student_name" class="search_input"
                   style="width:220px"></el-input>
         <span class="padding-left-30"><el-button type="primary" @click="getList(1)">搜索</el-button></span>
+      </p>
+      <p>
+        
       </p>
       <el-table
         class="mt26"

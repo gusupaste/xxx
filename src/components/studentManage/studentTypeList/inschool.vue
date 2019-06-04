@@ -761,11 +761,12 @@ export default {
                 message: '保存成功！'
               })
               this.leaveVisible = false;
+              this.getStudentList();
               // this.$message.error('保存失败');
             }
           }).catch(err => {
             //this.$message.error('未缴纳备用金');
-            
+
           })
         }else{
           return false;

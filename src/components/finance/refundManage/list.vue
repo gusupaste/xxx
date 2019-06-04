@@ -87,9 +87,9 @@
                 <router-link v-if="scope.row.bill_type_str != '系统备用金结转账单'" target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
                   <span class="fa fa-print green" style="font-size: 20px;"></span>
                 </router-link>
-                <!-- <router-link v-if="scope.row.bill_type_str == '系统备用金结转账单'" target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
+                <router-link v-if="scope.row.bill_type_str == '系统备用金结转账单'" target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
                   <span class="fa fa-print green" style="font-size: 20px;"></span>
-                </router-link> -->
+                </router-link>
               </template>
             </el-table-column>
           </el-table>
@@ -133,7 +133,7 @@
     methods: {
       showRefundInfo(param) {
         if(param.bill_type_str == '系统备用金结转账单'){
-          this.$router.push('/financemanagement/refund-detail/'+param.id);
+          this.$router.push('/financemanagement/reserveFundDetail/'+param.id);
         } else {
           this.$router.push('/financemanagement/refund-detail/'+param.id);
         }

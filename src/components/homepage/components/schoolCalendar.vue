@@ -137,7 +137,6 @@ export default {
                     academic_year_id:this.searchForm.year
                 }
             }).then(res=>{
-                console.log(res.data.results);
                 var date = new Date();
                 var year = date.getFullYear(); 
                 var month = date.getMonth()+1; 
@@ -160,7 +159,6 @@ export default {
             })
         },
         initCalendar(){
-            console.log(this.monthList)
             this.monthList.forEach((item,index)=>{
                 this.$refs.Calendar[index].ChoseMonth(item.time,false)
             })

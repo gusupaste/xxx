@@ -13,18 +13,22 @@
                         <i class="fa fa-search"></i>添加
                     </el-button>
                 </el-form-item>
+                <el-form-item label="单据申请信息：">
+                  <el-select v-model="value1"></el-select>
+                </el-form-item>
                 <br>
                 <el-form-item label="申请学年：">
-                    <el-select v-model="value1"></el-select>
+                    <el-select v-model="acade_year" disabled="disabled"></el-select>
                 </el-form-item>
                 <el-form-item label="申请变更班级：">
                     <el-select v-model="value1"></el-select>
                 </el-form-item>
                 <el-form-item label="申请变更日期：">
                     <el-date-picker
-                        v-model="value1"
+                        v-model="change_date"
                         type="date"
-                        placeholder="选择日期">
+                        placeholder="选择日期"
+                        disabled="disabled">
                     </el-date-picker>
                 </el-form-item>
             </el-form>
@@ -212,11 +216,16 @@
      letter-spacing: 200;
      border:1px solid #e6e6e6;
   }
+  .academicChange .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width:auto;
+  }
 </style>
 <script>
 export default {
     data(){
         return {
+            change_date:'2019-06-31',
+            acade_year:'2019-2020学年',
             value1:'',
             choosePerson:{},
             saveForm:{
