@@ -15,7 +15,7 @@
           <p style="line-height: 40px;">
             <el-row :gutter="20">
               <el-col :span="8">
-                <div class="grid-content bg-purple">申请学校：{{bill_info.created_by}}</div>
+                <div class="grid-content bg-purple">申请学校：{{bill_info.center_name}}</div>
               </el-col>
               <el-col :span="12">
                 <div class="grid-content bg-purple">申请人：{{bill_info.student_name}}</div>
@@ -52,7 +52,7 @@
             width="180">
             </el-table-column>
             <el-table-column
-            prop="approve_user_name"
+            prop="approve_user_role_name"
             label="审批角色"
             width="180">
             </el-table-column>
@@ -146,7 +146,9 @@
       return {
         tableData: [],
         id:this.$route.params.id,
-        bill_info:{},
+        bill_info:{
+          student:{}
+        },
         approve_history:[]
       }
     },
