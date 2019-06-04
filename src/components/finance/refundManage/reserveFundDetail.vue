@@ -1,56 +1,38 @@
 <template>
   <div class="billDetailSc wrap">
     <p class="local_path_style">You Are Here ：财务处理 > <span class="font-cl-blue">退费管理</span></p>
-    <div class="content-top">缺勤请假转备用金</div>
+    <div class="content-top">系统备用金结转账单</div>
     <div class="clearfix">
       <el-col :span="24" class="card-type">
         <el-card shadow="always">
+          <p class="bold" style="border-bottom:1px solid #bbb">
+              <span class="mr26">制单人：{{bill_info.student_name}}</span>
+              <span class="mr26">制单日期：{{bill_info.create_date}}</span>
+              <span class="mr26">状态：
+                  <span>{{bill_info.bill_status}}</span>
+              </span>
+          </p>
           <p style="line-height: 40px;">
             <el-row :gutter="20">
               <el-col :span="8">
-                <div class="grid-content bg-purple">申请学校：{{userInfo.center.name}}</div>
+                <div class="grid-content bg-purple">申请学校：{{bill_info.center}}</div>
               </el-col>
               <el-col :span="12">
-                <div class="grid-content bg-purple">申请人：{{userInfo.fullname}}</div>
+                <div class="grid-content bg-purple">申请人：{{bill_info.student_name}}</div>
               </el-col>
             </el-row>
           </p>
           <p style="line-height: 40px;">
             <el-row :gutter="24">
-              <template v-if="single_status === 1">
-                <el-col :span="8">
-                  <div class="grid-content bg-purple">申请日期：
-                    <el-date-picker
-                      value-format="yyyy-MM-dd"
-                      v-model="date"
-                      type="date"
-                      @change="getSingleStudent"
-                      placeholder="申请日期">
-                    </el-date-picker>
-                  </div>
-                </el-col>
-              </template>
-              <template v-else>
+              <template>
                 <el-col :span="8">
                   <div class="grid-content bg-purple">申请班级：
-                    <el-select v-model="searchForm.center_class_id">
-                      <el-option v-for="item in class_li" :key="item.id" :label="item.class_name"
-                                 :value="item.id"></el-option>
-                    </el-select>
                   </div>
                 </el-col>
                 <el-col :span="8">
-                  <div class="grid-content bg-purple">申请月份：
-                    <el-date-picker
-                      value-format="M"
-                      v-model="searchForm.month"
-                      type="month"
-                      :picker-options="pickerOptions"
-                      start-placeholder="开始月份">
-                    </el-date-picker>
+                  <div class="grid-content bg-purple">申请日期：
                   </div>
                 </el-col>
-
               </template>
             </el-row>
           </p>
@@ -58,18 +40,46 @@
       </el-col>
     </div>
     <div class="mt26 tableList">
+        <p>审批记录：</p>
+        <el-table
+            class="mt10"
+            :data="approve_history"
+            border
+            style="width: 100%">
+            <el-table-column
+            prop="approve_level"
+            label="审批节点"
+            width="180">
+            </el-table-column>
+            <el-table-column
+            prop="approve_user_name"
+            label="审批角色"
+            width="180">
+            </el-table-column>
+            <el-table-column
+            prop="status_name"
+            label="审批结果">
+            </el-table-column>
+            <el-table-column
+            prop="remark"
+            label="审批意见">
+            </el-table-column>
+            <el-table-column
+            prop="date_created"
+            label="审批日期">
+            </el-table-column>
+        </el-table>
+    </div>
+    <div class="mt26 tableList">
+      <p>退费明细（标准项目）：</p>
       <el-table
         class="mt10"
         :data="tableData"
         border
-        @selection-change="handleSelectionChange"
         ref="mutitable"
         style="width: 100%">
         <el-table-column
           label="学生信息">
-          <el-table-column
-            type="selection">
-          </el-table-column>
           <el-table-column
             prop="student_no"
             label="学号">
@@ -135,130 +145,24 @@
     data() {
       return {
         tableData: [],
-        class_li: [],
-        searchForm: {
-          month: '',
-          center_class_id: ''
-        },
-        mutitable: [],
-        userInfo: this.$cookies.get('userInfo'),
-        single_status: Number(this.$route.params.status),
-        date: '',
-        student_id: this.$route.query.id,
-        pickerOptions: {}
+        id:this.$route.params.id,
+        bill_info:{},
+        approve_history:[]
       }
     },
     mounted() {
-      this.date = this.$options.filters['formatDate'](new Date())
-      var firstdate = new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1); //获取这个月的第一天
-      if (this.single_status === 0) {
-        this.pickerOptions = {
-          disabledDate(time) {
-            return time.getTime() > firstdate
-          }
-        }
-        this.searchInfo()
-      } else {
-        this.getSingleStudent()
-      }
+      this.getInfo()
     },
     methods: {
-      getSingleStudent: function () {
-        this.$axios.get('/api/finance/reserve_fund_for_attendance/leave_reserve_fund/', {
-          params: {
-            leave_date: this.date,
-            student_id: this.student_id
-          }
-        })
-          .then(res => {
-            if (res.data.status === 1) {
-              this.tableData = []
-              this.tableData.push(res.data.data)
-              console.log(this.tableData)
-            } else {
-
-            }
-          }).catch(err => {
-
-        })
-      },
       getInfo() {
         var _this = this
-        this.$axios.get('/api/finance/reserve_fund_for_attendance/student_list/', {
-          params: this.searchForm
-        })
+        this.$axios.get('/api/finance/reserve_fund_for_attendance/'+this.id+'/leave_reserve_fund_detail/')
           .then(res => {
-            if (res.data.status == 1) {
-              _this.tableData = res.data.data
-            } else {
-              _this.$message({
-                type: 'error',
-                message: res.data.msg
-              })
-            }
+            _this.bill_info = res.data.data;
+            _this.approve_history = res.data.data.approve_data;
+            _this.tableData = [res.data.data];
+            console.log(res.data)
           })
-      },
-      handleSelectionChange(val) {
-        this.mutitable = val
-      },
-      submit() {
-        var _this = this
-        if (this.mutitable.length === 0) {
-          this.$message({
-            type: 'error',
-            message: '请选择学生！'
-          })
-          return
-        }
-        this.mutitable.forEach(item => {
-          item.center_class_id = this.searchForm.center_class_id
-          item.month = this.searchForm.month
-          item.amount = item.sub_total
-          item.leave_date = this.date
-        })
-        if (this.single_status === 0) {
-          this.$axios.post('/api/finance/reserve_fund_for_attendance/add/', {
-            bills: this.mutitable
-          })
-            .then(res => {
-              if (res.data.status === 1) {
-                _this.$router.push('/financemanagement/reservefund')
-              }
-            })
-        } else {
-          var mutitableTemp = {}
-          mutitableTemp = this.mutitable[0]
-          this.$axios.post('/api/finance/reserve_fund_for_attendance/leave_reserve_fund/', {
-            bill: mutitableTemp
-          })
-            .then(res => {
-              if (res.data.status === 1) {
-                _this.$router.push('/financemanagement/reservefund')
-              }else{
-                _this.$message.error(res.data.msg)
-              }
-            })
-        }
-
-      },
-      searchInfo() {
-        this.$axios.get('/api/finance/bill/search_info/', {
-          params: {
-            center_id: this.userInfo.center.id
-          }
-        })
-          .then(res => {
-            this.class_li = res.data.data.class_li
-          })
-      },
-    },
-    watch: {
-      searchForm: {
-        handler() {
-          if (this.searchForm.month !== '' && this.searchForm.center_class_id !== '') this.getInfo()
-
-        },
-        deep: true
       }
     }
   }
@@ -268,12 +172,11 @@
   .billDetailSc .content-top {
     font-weight: 600;
     background-color: #DCECF3;
-    width: fit-content;
-    padding: 8px 20px 8px 20px;
-    margin: 20px 0px;
-    /*position: relative;*/
+    width: 15%;
+    padding: 10px 0px 10px 20px;
     top: 20px;
     left: -5px;
+    position: relative;
     border-radius: 3px;
     color: #3E7193;
   }
