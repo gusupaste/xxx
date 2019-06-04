@@ -145,7 +145,7 @@
           background
           layout="prev,pager, next, jumper"
           :current-page="currentPage"
-          :page-size="10"
+          :page-size="9"
           @current-change="changePage"
           :total="total">
         </el-pagination>
