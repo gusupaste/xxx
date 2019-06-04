@@ -114,7 +114,8 @@
         <el-row>
           <el-transfer v-model="value"
                        :data="data"
-                       :titles="['当前在校生', '计划毕业生']"></el-transfer>
+                       :titles="['当前在校生', '计划毕业生']"
+                       @change="handleChange"></el-transfer>
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -219,16 +220,8 @@ export default {
       studentVisiable: false,
       leveForm: {},
       rules: {},
-      data: [
-        {
-          key: 1,
-          label: '学生1'
-        }, {
-          key: 2,
-          label: '学生2'
-        },
-      ],
-      value: [1, 4],
+      data: [],
+      value: [],
       searchText: '',
       form: {
         name: '',
@@ -243,6 +236,16 @@ export default {
     }
   },
   methods:{
+    handleChange(value, direction, movedKeys) {
+      if(direction === 'right'){
+        console.log('right');
+      }else{
+        console.log('left');
+      }
+      console.log(value);
+      console.log(direction);
+      /*console.log(movedKeys);*/
+    },
     changePage(val){
       this.currentPage = val;
     },
@@ -288,7 +291,14 @@ export default {
     getDialogStudentList:function(id){
       var url = '/api/student/student/graduating_student_list/?class_id=' + id;
       this.$axios.get(url).then(res=>{
-        this.data = res.data.results;
+        var data = res.data.non_graduting;
+        this.data = [];
+        for(var x in data){
+          var obj = {};
+          obj.key = data[x].id;
+          obj.label = data[x].name;
+          this.data.push(obj);
+        }
       }).catch(err=>{
         console.log(err)
       })

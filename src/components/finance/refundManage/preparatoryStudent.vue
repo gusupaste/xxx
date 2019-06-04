@@ -134,7 +134,7 @@
                   label="扣款">
                 </el-table-column>
                 <el-table-column
-                  prop="sub_total"
+                  prop="subtotal"
                   label="应退转金额小计">
                 </el-table-column>
               </el-table-column>
@@ -391,7 +391,7 @@ export default {
       getRefund_amount(){
         this.addForm.refund_amount = this.otherInfo.reserved_fund_amount;
         this.subjectList.forEach(item=>{
-            this.addForm.refund_amount += Number(item.sub_total);
+            this.addForm.refund_amount += Number(item.subtotal);
         })
         this.addForm.refund_items.forEach(item=>{
           console.log(item.amount)

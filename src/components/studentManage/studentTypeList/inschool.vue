@@ -196,7 +196,7 @@
         <div class="oper-div">
           <span class="title-span">入园登记</span>
           <br><hr><br>
-          <el-form-item label="学年" prop="academic_year">
+          <el-form-item label="学年：" prop="academic_year">
             <el-select v-model="reulsForm.academic_year" @change="changeAcadYear(reulsForm.academic_year)" placeholder="请选择学年">
               <el-option
                 v-for="item in year_list"
@@ -206,7 +206,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="安排入班" required>
+          <el-form-item label="安排入班：" required>
             <el-col :span="7">
               <el-form-item prop="status">
                 <el-select v-model="reulsForm.status" placeholder="请选择">
@@ -229,7 +229,7 @@
           </el-form-item>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="报名日期" prop="sign_up_date">
+              <el-form-item label="报名日期：" prop="sign_up_date">
                 <el-date-picker
                   v-model="reulsForm.sign_up_date"
                   type="date"
@@ -241,7 +241,7 @@
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="入学日期" prop="in_class_date">
+              <el-form-item label="入学日期：" prop="in_class_date">
                 <el-date-picker
                   v-model="reulsForm.in_class_date"
                   type="date"
@@ -253,7 +253,7 @@
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="截止日期" prop="out_class_date">
+              <el-form-item label="截止日期：" prop="out_class_date">
                 <el-date-picker
                   v-model="reulsForm.out_class_date"
                   type="date"
@@ -263,7 +263,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="备注">
+          <el-form-item label="备注：">
             <el-input type="textarea"
                       :rows="2"
                       placeholder="请输入内容"
@@ -350,7 +350,7 @@
               </p>
             </el-col>
           </el-row>
-          <el-form-item label="离园日期" prop="leave_date">
+          <el-form-item label="离园日期：" prop="leave_date">
             <el-date-picker
               v-model="leveForm.leave_date"
               type="date"
@@ -358,7 +358,7 @@
               placeholder="选择日期">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="离园原因" prop="leave_reason">
+          <el-form-item label="离园原因：" prop="leave_reason">
             <el-radio v-model="leveForm.leave_reason" label="居所搬迁/父母工作调动"></el-radio><br>
             <el-radio v-model="leveForm.leave_reason" label="家庭变故"></el-radio><br>
             <el-radio v-model="leveForm.leave_reason" label="生病"></el-radio><br>
@@ -445,7 +445,7 @@
               </p>
             </el-col>
           </el-row>
-          <el-form-item label="申请原因说明" label-width="90">
+          <el-form-item label="申请原因说明：" label-width="90">
             <el-input type="textarea"
                       style="width: 88%;"
                       :rows="2"
@@ -697,28 +697,7 @@ export default {
         },
       ],
       nameSelect:'',
-      chargeTableDate:[
-        {
-          code:'xxxxxxxxxxxx',
-          name:'31231231',
-          intercity_name:'312313',
-          hq_name:'31231',
-          opening_date:'31231',
-          leader:'31231',
-          telephone:'312312',
-          status_name:'12312313',
-        },
-        {
-          code:'xxxxxxxxxxxx',
-          name:'31231231',
-          intercity_name:'312313',
-          hq_name:'31231',
-          opening_date:'31231',
-          leader:'31231',
-          telephone:'312312',
-          status_name:'12312313',
-        }
-      ],
+      chargeTableDate:[],
       year_url:'',
       class_url:'/api/center/select/center_class_year_list/',
       input_school:'/api/student/student_management/create_enrollment_registration/',
@@ -730,6 +709,7 @@ export default {
       preferred_academic_year:'',
       studentId:'',
       currentPage:1,
+      student_id:'',
     }
   },
   mounted:function(){
@@ -766,7 +746,8 @@ export default {
             }
           }).catch(err => {
             //this.$message.error('未缴纳备用金');
-
+              // this.leaveVisible = false;
+              // this.leaveShowVisible = true;
           })
         }else{
           return false;
@@ -818,6 +799,7 @@ export default {
       this.$emit('getStudentList',data);
     },
     handleCommand:function(val,id,index){
+      this.student_id = id;
       if(val === '1'){
         this.student_list[index].selectType = '入园登记';
         this.getYearHistory(id);
@@ -865,13 +847,27 @@ export default {
       })
     },
     transferReserveForAbsenteeism: function () {
-      console.log(this.studentInfo)
-      if (this.studentInfo.pay_bill) {
-        this.leaveVisible = false;
-        this.leaveShowVisible = true;
-      } else {
-        this.$router.push('/financemanagement/create-reserve/1?id=' + this.studentId)
-      }
+       this.$axios.get('/api/finance/reserve_fund_for_attendance/leave_reserve_fund/', {
+          params: {
+            leave_date: this.date,
+            student_id: this.student_id
+          }
+        })
+          .then(res => {
+            if (res.data.status === 1) {
+              if (this.studentInfo.pay_bill) {
+                  this.leaveVisible = false;
+                  this.leaveShowVisible = true;
+                } else {
+                  this.$router.push('/financemanagement/create-reserve/1?id=' + this.studentId)
+                }
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          }).catch(err => {
+
+        })
+      
     }
   },
   watch: {
