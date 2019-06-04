@@ -601,8 +601,8 @@
         })
         _this.getDiscountType(length);
       },
-      removeDomain(index) {
-        index = this.index
+      removeDomain() {
+        var index = this.index
         var length = this.dynamicValidateForm.domains.length;
         if (index !== -2) {
           this.dynamicValidateForm.domains.splice(index + 1, (length - index - 1))
