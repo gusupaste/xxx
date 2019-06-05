@@ -165,7 +165,10 @@
             fixed="right"
             label="操作">
             <template slot-scope="scope">
-              <router-link target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
+              <router-link v-if="scope.row.bill_type_str != '系统备用金结转账单'" target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
+                <span class="fa fa-print" style="font-size: 20px;color: #ED6C2E;"></span>
+              </router-link>
+              <router-link v-if="scope.row.bill_type_str == '系统备用金结转账单'" target="_blank" :to="{name:'reserveFundDetailPrint',params:{id:scope.row.id}}">
                 <span class="fa fa-print" style="font-size: 20px;color: #ED6C2E;"></span>
               </router-link>
             </template>
