@@ -83,7 +83,8 @@
                     <template v-else-if="con.select_name === '<'">小于</template>
                     <template v-else>小于等于</template>
                     {{con.select_value}}
-                    <template v-show="discountForm.condition_status === 0">%</template>
+                    <template v-if="discountForm.condition_status === 0">%</template>
+                    <template v-if="discountForm.condition_status === 1">元</template>
                     <template v-if="con.select_select === 1">且</template>
                     <template v-else-if="con.select_select === 2">或</template>
                   </template>
