@@ -69,11 +69,11 @@
       </div>
       <div class="list-content">
         <el-tabs v-model="activeName" @tab-click="tabClick(activeName)">
-          <el-tab-pane label="审核通过" name="first">
+          <el-tab-pane label="已批准" name="first">
           </el-tab-pane>
-          <el-tab-pane label="审核中" name="second">
+          <el-tab-pane label="待审核" name="second">
           </el-tab-pane>
-          <el-tab-pane label="被驳回" name="third">
+          <el-tab-pane label="已拒绝" name="third">
           </el-tab-pane>
         </el-tabs>
         <el-table
