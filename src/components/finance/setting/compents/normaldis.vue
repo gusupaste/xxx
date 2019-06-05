@@ -193,7 +193,7 @@
               <table id="id-add-table" style="width: 100%" v-for="(table,index) in tableForm" :key="index">
                 <table class="condition_table">
                   <tr>
-                    <td style="width: 5rem" class="text-align-center">条件1:</td>
+                    <td style="width: 5rem" class="text-align-center">条件{{index+1}}:</td>
                     <td class="select-pere">
                       <span v-for="(con,con_index) in table.condition" :key="index + con_index">
                         <el-select style="width: 100px;" v-model="con.select_name">
