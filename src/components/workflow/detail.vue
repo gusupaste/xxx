@@ -28,10 +28,11 @@
         </el-card>
       </el-col>
     </div>
-    <div v-for="(item,index) in discount_form_item">
+    <div v-for="(item,index) in discount_form_item" :key="index">
       <div class="content-top" v-if="detilCode === 'CPF'"><!--{{ item.discount_type__name }}-->制单信息（预制订单）</div>
       <div class="content-top" v-if="detilCode === 'RB'">{{ item.discount_type__name }}</div>
       <div class="content-top" v-if="detilCode === 'PRB' || detilCode === 'LB'">{{ item.application.application_name }}</div>
+      <div class="content-top" v-if="detilCode === 'ARB'">缺勤转备用金账单</div>
       <div class="clearfix">
         <el-col :span="24" class="card-type">
           <el-card shadow="always" class="clearfix">
@@ -150,6 +151,38 @@
                     <div class="grid-content bg-purple">离园原因：{{ item.bill.leave_reason }}</div></el-col>
                 </el-row>
               </p>
+              <p style="border-bottom:1px solid #bbb;font-weight: bold;" v-if="detilCode === 'ARB'">
+                <el-row :gutter="24">
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">制单人：{{ item.created_by }}</div></el-col>
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">制单日期：{{ item.date_created }}</div>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="grid-content bg-purple">状态：{{ item.bill_status }}</div>
+                  </el-col>
+                </el-row>
+              </p>
+              <p style="border-bottom:1px solid #bbb" v-if="detilCode === 'ARB'">
+                <el-row :gutter="20">
+                  <!--<el-col :span="8">
+                    <div class="grid-content bg-purple">账单余额：{{ item.student.student_class }}</div>
+                  </el-col>-->
+                </el-row>
+                <el-row :gutter="20">
+                  <el-col :span="8">
+                    <div class="grid-content bg-purple">申请学校：{{ item.center_name }}</div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div class="grid-content bg-purple">申请人：{{ item.student_name }}</div></el-col>
+                  <el-col :span="8">
+                    <div class="grid-content bg-purple">申请班级：{{ item.student.student_class }}</div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div class="grid-content bg-purple">申请日期：{{ item.leave_date }}</div>
+                  </el-col>
+                </el-row>
+              </p>
               <p>
                 <el-row :gutter="20" v-if="detilCode === 'RB'">
                   <el-col :span="5">
@@ -182,7 +215,70 @@
         </el-card>
       </el-col>
     </div>
-
+    <div class="mt26 tableList" v-if="detilCode === 'ARB'">
+      <p>退费明细（标准项目）：</p>
+      <el-table
+        class="mt10"
+        :data="refundData"
+        border
+        ref="mutitable"
+        style="width: 100%">
+        <el-table-column
+          label="学生信息">
+          <el-table-column
+            prop="student_no"
+            label="学号">
+          </el-table-column>
+          <el-table-column
+            prop="student_name"
+            label="姓名">
+          </el-table-column>
+        </el-table-column>
+        <el-table-column
+          label="学费退费">
+          <el-table-column
+            prop="pay_method"
+            label="缴费类型">
+          </el-table-column>
+          <el-table-column
+            prop="month_pay"
+            label="（折合）单价（元/月）">
+          </el-table-column>
+          <el-table-column
+            prop="absence_total_days"
+            label="本月请假/缺勤天数">
+          </el-table-column>
+          <el-table-column
+            prop="absence_days"
+            label="可退转计数">
+          </el-table-column>
+          <el-table-column
+            label="学费应退金额">
+            <template slot-scope="scope">
+              <span>{{scope.row.refund_money}}</span>
+            </template>
+          </el-table-column>
+        </el-table-column>
+        <el-table-column
+          label="餐费退费">
+          <el-table-column
+            prop="meal_month_pay"
+            label="餐费退转单价">
+          </el-table-column>
+          <el-table-column
+            prop="meal_refund_money"
+            label="餐费应退金额">
+          </el-table-column>
+        </el-table-column>
+        <el-table-column
+          label="合计">
+          <el-table-column
+            prop="sub_total"
+            label="应退转金额小计">
+          </el-table-column>
+        </el-table-column>
+      </el-table>
+    </div>
     <div class="mt26 tableList" v-if="detilCode === 'PRB' || detilCode === 'LB'">
       <p>退费明细（标准项目）：</p>
       <el-table
@@ -611,6 +707,7 @@
         approveLevel: Number(this.$route.query.approveLevel),
         form_status: 0,
         tableData: [],
+        refundData:[],
         select_status: 1,
         select_option: [
           {
@@ -651,9 +748,10 @@
         this.getPRBDiscount();
       }else if(this.detilCode === 'LB'){//LB 在校生离园退费
         this.getPRBDiscount();
-      }
-      else if(this.detilCode === 'CPF'){//CPF 账单制作
+      }else if(this.detilCode === 'CPF'){//CPF 账单制作
         this.getCPFDiscount();
+      }else if(this.detilCode === 'ARB'){//ARB缺勤转备用金
+        this.getInfo();
       }
     },
     methods: {
@@ -724,15 +822,10 @@
             this.form_status = res.data.form_status
           }
         }).catch(err => {
-          console.log(err)
+          
         })
       },
       save: function () {
-        console.log(this.select_status)
-        console.log(this.remark)
-        console.log(this.formId)
-        console.log(this.formKindId)
-        console.log(this.approveLevel)
         this.loading = true
         this.$axios.post('/api/workflow/workflow_management/', {
           status: this.select_status,
@@ -746,11 +839,25 @@
             this.getDetail()
           }
         }).catch(err => {
-          console.log(err)
+          
         })
       },
       back: function () {
         this.$router.push({name: 'workflowList'})
+      },
+      //缺勤转备用金
+      getInfo() {
+        var _this = this
+        this.$axios.get('/api/finance/reserve_fund_for_attendance/'+this.formId+'/leave_reserve_fund_detail/')
+          .then(res => {
+            _this.discount_form_item = [];
+            _this.discount_form_item.push(res.data.data);
+            _this.item = res.data.data;
+            _this.refundData = [res.data.data];
+            _this.tableData = res.data.data.approve_data;
+            // _this.tableData = [res.data.data];
+            console.log(res.data)
+          })
       },
       /*在校生、预备生离园退费*/
       getPRBDiscount:function () {
