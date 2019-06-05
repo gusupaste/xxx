@@ -152,7 +152,7 @@
         approve_history:[]
       }
     },
-    mounted() {
+    created() {
       this.getInfo()
     },
     methods: {

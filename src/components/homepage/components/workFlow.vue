@@ -176,10 +176,18 @@ export default {
             } else {
                 code_list.push(this.type_2)
             }
+            var school_li = [];
+            if(this.school == -1){
+                this.school_list.forEach(item=>{
+                    school_li.push(item.id)
+                })
+            } else {
+                school_li.push(this.school)
+            }
             this.$axios.post('/api/workflow/workflow_management/approve_list/?page='+this.currentPage+"&size=10",{
                 name:this.name,
                 approve_status:0,
-                center_id:this.school,
+                center_id:school_li,
                 code_list:code_list,
             }).then(res => {
             this.loading = false
