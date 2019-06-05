@@ -904,6 +904,12 @@ export default {
         })
       },
       submit:function (formName) {
+        if(this.$route.params.type === 'add'){
+          if(this.saveForm.center === '' || this.saveForm.academic_year === ''){
+            this.$message.warning('学校或者学年不能为空')
+            return false;
+          }
+        }
         this.success_flag = [];
         var type = this.$route.params.type;
         this.submit_fun1(type);
