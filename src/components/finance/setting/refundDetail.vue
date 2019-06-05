@@ -798,15 +798,16 @@ export default {
             this.saveForm.radio2 = '2';
             if(res.data.charges_days){
               this.saveForm.radio3 = '1';
-              this.saveForm.days = '';
+              /*this.saveForm.days = '';*/
               this.saveForm.days_fee = '';
               this.saveForm.charges_days = res.data.charges_days;
             }else{
               this.saveForm.radio3 = '0';
-              this.saveForm.days = res.data.days;
+             /* this.saveForm.days = res.data.days;*/
               this.saveForm.days_fee = res.data.days_fee;
               this.saveForm.charges_days = '';
             }
+            this.saveForm.days = res.data.days;
             this.saveForm.compare_type = res.data.compare_type;
             this.saveForm.method_type = res.data.method_type;
             this.saveForm.return_type = res.data.return_type;
