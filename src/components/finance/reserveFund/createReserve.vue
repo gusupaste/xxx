@@ -58,7 +58,7 @@
           </el-table-column>
           <el-table-column
             prop="name"
-            label="校历日总数">
+            label="校日历总数">
           </el-table-column>
           <el-table-column
             label="实际应缴费用">
