@@ -667,6 +667,7 @@
           if(res.status == 200) {
             this.discount_form_item = [];
             this.discount_form_item.push(res.data.bill_info);
+            this.bill_info = res.data.bill_info;
             this.bill_history = res.data.bill_history;
             this.billitem_li = res.data.billitem_li;
             this.billpay_item_li = res.data.billpay_item_li;
