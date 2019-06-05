@@ -191,7 +191,7 @@ export default {
               student:this.$route.params.id,
               name: '',
               relationship: '',
-              nationality: 74,
+              nationality: '',
               employer: '',
               position: '',
               email: '',

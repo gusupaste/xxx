@@ -28,7 +28,7 @@
           </el-form-item>
           <br>
           <el-form-item label="入园日期：" prop="enter_date" label-width="150px" style="text-align:left">
-            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.enter_date" style="width: 100%;"></el-date-picker>
+            <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择入园日期" class="w250_input" v-model="studentInfo.enter_date" style="width: 100%;"></el-date-picker>
           </el-form-item>
           <el-form-item label="首次缴费日期：" label-width="150px" style="text-align:left">
             <el-date-picker type="date" value-format="yyyy-MM-dd" placeholder="选择首次缴费日期" class="w250_input" v-model="studentInfo.first_pay_date" style="width: 100%;"></el-date-picker>

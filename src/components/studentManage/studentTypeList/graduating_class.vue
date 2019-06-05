@@ -37,7 +37,7 @@
             <el-button type="primary" @click="getStudentList()">搜索</el-button>
           </el-form-item>
           <el-form-item>
-            <span class="ml10" @click="studentVisiable = true">
+            <span class="ml10" @click="studentVisiable = true;getDialogStudentList(class_year_id)">
               <i class="fa fa-plus-square icon-font"></i>
               <span class="font-size-14 orange">维护计划毕业生</span>
             </span>
@@ -253,6 +253,7 @@ export default {
           if(flag === false){
             this.new_graduating.push(movedKeys[y]);
           }
+          this.non_graduating.remove(movedKeys[y]);
         }
       }else{//向左移动
         for(var y in movedKeys){
@@ -265,6 +266,7 @@ export default {
           if(flag === false){
             this.new_non_graduating.push(movedKeys[y]);
           }
+          this.graduating.remove(movedKeys[y]);
         }
       }
     },
@@ -323,6 +325,15 @@ export default {
           obj.label = data[x].name;
           this.data.push(obj);
         }
+        var values = res.data.graduating;
+        this.value = [];
+        for(var y in values){
+          this.value.push(values[y].id);
+          var obj = {};
+          obj.key = values[y].id;
+          obj.label = values[y].name;
+          this.data.push(obj);
+        }
       }).catch(err=>{
         console.log(err)
       })
@@ -331,18 +342,20 @@ export default {
       var data = {};
       data.non_graduating = this.new_non_graduating;
       data.graduating = this.new_graduating;
-      this.$axios.post('/api/student/student/save_graduating_students/',data).then(res => {
+      console.log(data);
+      /*this.$axios.post('/api/student/student/save_graduating_students/',data).then(res => {
         if (res.status == 200) {
           this.$message({
             type: 'success',
             message: '保存成功！'
           })
+          this.studentVisiable = false;
         } else {
           this.$message.error('保存失败');
         }
       }).catch(err => {
         console.log(err)
-      })
+      })*/
     },
   },
   watch: {
