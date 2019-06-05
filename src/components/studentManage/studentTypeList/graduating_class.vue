@@ -120,7 +120,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
           <el-button @click="studentVisiable = false">取 消</el-button>
-          <el-button type="success" @click="saveLeave('leveForm')">保 存</el-button>
+          <el-button type="success" @click="saveStudentD()">保 存</el-button>
         </span>
     </el-dialog>
   </div>
@@ -254,7 +254,6 @@ export default {
             this.new_graduating.push(movedKeys[y]);
           }
         }
-        console.log(this.new_graduating);
       }else{//向左移动
         for(var y in movedKeys){
           var flag = false;
@@ -267,7 +266,6 @@ export default {
             this.new_non_graduating.push(movedKeys[y]);
           }
         }
-        console.log(this.new_non_graduating);
       }
     },
     changePage(val){
@@ -331,6 +329,8 @@ export default {
     },
     saveStudentD:function () {
       var data = {};
+      data.non_graduating = this.new_non_graduating;
+      data.graduating = this.new_graduating;
       this.$axios.post('/api/student/student/save_graduating_students/',data).then(res => {
         if (res.status == 200) {
           this.$message({
