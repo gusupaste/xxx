@@ -142,12 +142,11 @@ export default {
             total:0,
         }
     },
-    created () {
+    mounted () {
         this.getIntercityList();
         this.getAreaList();
         this.getSchoolList();
         this.changeType();
-        this.getApproveList(1);
     },
     methods: {
         onSubmit(){
@@ -167,7 +166,6 @@ export default {
             this.getSchoolList();
         },
         getApproveList(val){
-            this.loading = true;
             var code_list = [];
             if(this.type_2 == ""){
                 this.type_list.forEach(item=>{
@@ -184,13 +182,13 @@ export default {
             } else {
                 school_li.push(this.school)
             }
+            console.log(this.school_list)
             this.$axios.post('/api/workflow/workflow_management/approve_list/?page='+this.currentPage+"&size=10",{
                 name:this.name,
                 approve_status:0,
                 center_id:school_li,
                 code_list:code_list,
             }).then(res => {
-            this.loading = false
             if (res.data.status_code === 1) {
                 this.thingsList = res.data.data.results
                 this.total = res.data.data.count
@@ -258,6 +256,7 @@ export default {
           _this.loading = false;
           if (res.status == 200 && res.data.status_code == 1) {
             this.school_list = res.data.results;
+            this.getApproveList(1);
           }
         }).catch(err => {
           console.log(err)

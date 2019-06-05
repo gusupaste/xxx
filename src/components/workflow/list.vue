@@ -171,12 +171,13 @@
         total: 1,
         pagesize2: 10,
         currentPage2: 1,
-        total2: 1
+        total2: 1,
+        school_list:[]
       }
     },
     mounted: function () {
-      this.approve_status = this.approveStatusList[0].id
-      this.getApproveList(1)
+      this.approve_status = this.approveStatusList[0].id;
+      this.getSchoolList()
     },
     watch: {
       currentPage () {
@@ -189,9 +190,14 @@
     methods: {
       getApproveList: function (val) {
         this.currentPage = val
-        this.loading = true
+        this.loading = true;
+        var school_li = [];
+        this.school_list.forEach(item=>{
+            school_li.push(item.id)
+        });
         this.$axios.post('/api/workflow/workflow_management/approve_list/?page='+this.currentPage+'&size=10',{
           name:this.name,
+          center_id:school_li,
           approve_status:this.approve_status,
           /*page:this.currentPage,
           size:10*/
@@ -238,6 +244,19 @@
         } else {
           this.getApproveList(1)
         }
+      },
+      getSchoolList(){
+        var _this = this;
+        var url = this.school_url;
+        _this.$axios.get('/api/common/select/center_list/').then(res => {
+          console.log(res.data)
+          if (res.status == 200 && res.data.status_code == 1) {
+            this.school_list = res.data.results;
+            this.getApproveList(1);
+          }
+        }).catch(err => {
+          console.log(err)
+        })
       },
       handleCurrentChange: function (currentPage) {
         this.currentPage = currentPage
