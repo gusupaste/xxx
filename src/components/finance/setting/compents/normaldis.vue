@@ -83,7 +83,7 @@
                     <template v-else-if="con.select_name === '<'">小于</template>
                     <template v-else>小于等于</template>
                     {{con.select_value}}
-                    <template v-if="discountForm.condition_status === 0">%</template>
+                    <template v-show="discountForm.condition_status === 0">%</template>
                     <template v-if="con.select_select === 1">且</template>
                     <template v-else-if="con.select_select === 2">或</template>
                   </template>
@@ -207,6 +207,10 @@
                           v-show="condition_name === 0"
                           slot="suffix"
                           class="fa fa-percent"></i>
+                          <span
+                            v-show="condition_name === 1"
+                            slot="suffix"
+                            >元</span>
                         </el-input>
                         <el-select style="width: 90px;" v-model="con.select_select"
                                    @change="addContion($event,con_index,index)">
