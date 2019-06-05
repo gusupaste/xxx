@@ -26,6 +26,16 @@
                     :markDateMore='i.list'
                     :sundayStart="true"
                     ></Calendar>
+            <div class="calendar-datail" style="width:100%;text-align:center">
+                <div>
+                    <span style="background-color:red" class="calendar-suqre"></span>
+                    <span class="mr10">休息日</span>
+                    <span style="background-color:#ffcc80" class="calendar-suqre"></span>
+                    <span class="mr10">职业发展日</span>
+                    <span style="background-color:#8BC34A" class="calendar-suqre"></span>
+                    <span class="mr10">寒暑假</span>
+                </div>
+            </div>
             </div>
             <div class="viewAll" @click="viewAll">查看全部</div>
         </div>
@@ -35,12 +45,32 @@
     .home_schoolCalendar >>> .S{
         color:#fff !important;
         border-radius:0;
-        color:#f17128 !important;
+        color:red !important;
         background-color: #fff !important;
     }
     .home_schoolCalendar >>> .S:hover{
         background-color: #fff !important;
-        color: #f17128 !important;
+        color: red !important;
+    }
+    .home_schoolCalendar >>> .P{
+        color:#fff !important;
+        border-radius:0;
+        color:#ffcc80 !important;
+        background-color: #fff !important;
+    }
+    .home_schoolCalendar >>> .P:hover{
+        background-color: #fff !important;
+        color: #ffcc80 !important;
+    }
+    .home_schoolCalendar >>> .V{
+        color:#fff !important;
+        border-radius:0;
+        color:#8BC34A !important;
+        background-color: #fff !important;
+    }
+    .home_schoolCalendar >>> .V:hover{
+        background-color: #fff !important;
+        color: #8BC34A !important;
     }
 </style>
 

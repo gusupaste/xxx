@@ -263,9 +263,9 @@
       }
     },
     watch: {
-      currentPage() {
-        this.getList(this.currentPage)
-      },
+      // currentPage() {
+      //   this.getList(this.currentPage)
+      // },
       intercity_id() {
         this.school_id = ''
         this.getSchoolList(this.intercity_id, this.city_id, this.area_id, this.brand_id)
@@ -409,7 +409,8 @@
         }
       },
       handleCurrentChange: function (currentPage) {
-        this.currentPage = currentPage
+        this.currentPage = currentPage;
+        this.getList(currentPage)
       },
     }
   }

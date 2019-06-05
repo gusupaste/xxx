@@ -73,8 +73,9 @@
       </div>
     </el-dialog>
     <!-- 添加学校 -->
-    <el-dialog title="选择学校" :visible.sync="dialogFormVisible">
-      <el-form :model="searchSchool">
+    <el-dialog title="选择学校" :visible.sync="dialogFormVisible" >
+      <div v-loading="loading">
+        <el-form :model="searchSchool">
         <div class="school-wrap_head">
           <span>城际：</span>
           <el-select v-model="searchSchool.intercity_id" placeholder="请选择">
@@ -125,6 +126,8 @@
         <el-button @click="dialogFormVisible=false" class="bg-grey bd-grey white">取 消</el-button>
         <el-button type="primary" @click="copy_to_school" class="bg-green bd-green white">保 存</el-button>
       </div>
+      </div>
+      
     </el-dialog>
     <!-- 添加成功 -->
     <el-dialog title="选择学校" :visible.sync="copy_success">
@@ -247,6 +250,7 @@
   export default {
     data() {
       return {
+        loading:false,
         intercityList: [],
         areaList: [],
         checkList: {},
@@ -329,6 +333,7 @@
       copy_to_school: function () {
         var multipleSelection = [];
         var _this = this;
+        this.loading = true;
         for (var i = 0; i < this.schoolList.length; i++) {
           if (this.checkSchoolList[this.schoolList[i].id].length > 0) {
             var obj = {
@@ -348,6 +353,7 @@
         this.$axios.post('/api/school_calendar/calendar_template/' + this.template_id + '/copy_calendar_day_to_school/', {
           center_list: multipleSelection
         }).then(res => {
+          _this.loading = false;
           console.log(res.data)
           if (res.data.status_code === 1) {
             _this.dialogFormVisible = false;
@@ -355,7 +361,7 @@
             _this.getTemplate();
           }
         }).catch(err => {
-
+          _this.loading = false;
         })
       },
       getArea() {

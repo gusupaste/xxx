@@ -131,7 +131,7 @@
               <el-table-column class="is_dark" label="需退费情况描述">
                 <el-table-column
                   prop="remained_days"
-                  label="剩余校历日总数">
+                  label="剩余校日历总数">
                 </el-table-column>
                 <el-table-column
                   prop="refund_count"
