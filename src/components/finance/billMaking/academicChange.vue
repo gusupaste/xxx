@@ -58,53 +58,48 @@
         style="width: 100%">
         <el-table-column label="已缴费情况描述">
           <el-table-column
-            prop="date"
-            label="费用类型"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="name"
+            prop="subject_name"
             label="费用科目"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="pay_method_name"
             label="缴费方式">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="pay_date_range"
             label="缴费区间">
           </el-table-column>
           <el-table-column
-            prop="address"
-            label="校日历总数">
+            prop="month_count"
+            label="校历日总数">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="amount"
             label="实际应缴金额">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="amount"
             label="已缴金额">
           </el-table-column>
         </el-table-column>
         <el-table-column label="学费价格变化">
           <el-table-column
-            prop="address"
-            label="调整前价格 ">
+            prop="price"
+            label="调整前价格">
           </el-table-column>
           <el-table-column
-            prop="address"
+            prop="new_price"
             label="调整后价格">
           </el-table-column>
         </el-table-column>
         <el-table-column label="差额">
-          <el-table-column
+          <!--<el-table-column
             prop="address"
             label="当月费用补缴">
-          </el-table-column>
+          </el-table-column>-->
           <el-table-column
-            prop="address"
+            prop="difference"
             label="应补缴金额">
           </el-table-column>
         </el-table-column>
@@ -280,7 +275,7 @@
           })
       },
       getList: function () {
-        if(new Date(this.apply_date).getTime() !== new Date(this.apply_date).setDate(1)){
+        if (new Date(this.apply_date).getTime() !== new Date(this.apply_date).setDate(1)) {
           this.$message.error("请选择每月的第一天")
           return
         }
@@ -292,8 +287,10 @@
             date: this.apply_date
           }
         }).then(res => {
-            console.log(res.data)
-          })
+          if (res.data.status === 1) {
+             this.tableData = res.data.data
+          }
+        })
       },
       sureAddStudent() {
         this.$axios.get('/api/student/student/' + this.choosePerson.id + '/student_profile/', {
@@ -306,7 +303,7 @@
             this.innerVisible = false
             this.getClasses()
             this.getApplicationRecords()
-            if(new Date(this.apply_date).getTime() === new Date(this.apply_date).setDate(1)){
+            if (new Date(this.apply_date).getTime() === new Date(this.apply_date).setDate(1)) {
               this.getList()
             }
           } else {
@@ -320,7 +317,7 @@
       },
       changeApplyRecords: function (val) {
         this.apply_records.forEach(i => {
-          if(i.id === val) {
+          if (i.id === val) {
             this.apply_date = i.effective_date
           }
         })
@@ -333,7 +330,7 @@
       apply_date() {
         if (new Date(this.apply_date).getTime() !== new Date(this.apply_date).setDate(1)) {
           this.$message.error("请选择每月的第一天")
-        }else{
+        } else {
           this.getList()
         }
       }
