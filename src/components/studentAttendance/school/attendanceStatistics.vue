@@ -276,7 +276,11 @@
         /*this.$axios.get('/api/attendance/students_attendance/annotate/?class_id=' + this.class_id + '&attendance_date='
           + this.months + '&page=' + this.currentPage, {}).then(res => {*/
         var url = this.getList_url+ this.months +'&class_id='+ this.class_id;
-        this.$axios.get(url, {}).then(res => {
+        this.$axios.get(url, {
+          params:{
+            page:this.currentPage
+          }
+        }).then(res => {
           this.loading = false
           if (res.status === 200) {
             if (res.data.status === 1) {
