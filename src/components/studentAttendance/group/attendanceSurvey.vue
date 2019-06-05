@@ -246,7 +246,7 @@
         selectDisable: '',
         attendance:[],
         textTop:['Su','Mo','Tu','We','Th','Fr','Sa'],
-
+        mount:1,
       }
     },
     components: {
@@ -258,6 +258,8 @@
       this.getCityList(0)
       this.getBrandList()
       this.getSchoolList('', '', '', '')
+      /*this.getAttendanceList();
+      this.getSchoolDate();*/
     },
     watch: {
       intercity() {
@@ -293,6 +295,7 @@
       getAttendanceListType: function () {
         if (this.class_type !== '') {
           this.getAttendanceList();
+          this.getSchoolDate();
         } else {
           this.$message.warning('请选择班型');
         }
@@ -392,8 +395,11 @@
           if (res.status == 200 && res.data.status_code == 1) {
             this.class_type_list = res.data.results;
             this.class_type = this.class_type_list[0].id
-            this.getAttendanceList();
-            this.getSchoolDate();
+            if(this.mount == 1){
+              this.getAttendanceList();
+              this.getSchoolDate();
+              this.mount++;
+            }
           }
         }).catch(err => {
           console.log(err)
