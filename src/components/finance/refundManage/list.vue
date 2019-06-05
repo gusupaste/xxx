@@ -87,7 +87,7 @@
                 <router-link v-if="scope.row.bill_type_str != '系统备用金结转账单'" target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
                   <span class="fa fa-print green" style="font-size: 20px;"></span>
                 </router-link>
-                <router-link v-if="scope.row.bill_type_str == '系统备用金结转账单'" target="_blank" :to="{name:'refund-detail-print',params:{id:scope.row.id}}">
+                <router-link v-if="scope.row.bill_type_str == '系统备用金结转账单'" target="_blank" :to="{name:'reserveFundDetailPrint',params:{id:scope.row.id}}">
                   <span class="fa fa-print green" style="font-size: 20px;"></span>
                 </router-link>
               </template>

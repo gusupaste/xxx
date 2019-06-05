@@ -82,6 +82,7 @@ import RevenueDetail from '@/components/finance/revenue/detail'
 import RefundManage from '@/components/finance/refundManage/list'
 import RefundDetail from '@/components/finance/refundManage/billDetail'
 import reserveFundDetail from '@/components/finance/refundManage/reserveFundDetail'
+import reserveFundDetailPrint from '@/components/finance/refundManage/reserveFundDetailPrint'
 import RefundDetailPrint from '@/components/finance/refundManage/billDetailPrint'
 import PreparatoryStudent from '@/components/finance/refundManage/preparatoryStudent'
 import LeaveStudent from '@/components/finance/refundManage/leaveStudent'
@@ -457,6 +458,11 @@ export default new Router({
           path: '/financemanagement/reserveFundDetail/:id',
           name: 'reserveFundDetail',
           component: reserveFundDetail
+        },
+        {
+          path: '/financemanagement/reserveFundDetailPrint/:id',
+          name: 'reserveFundDetailPrint',
+          component: reserveFundDetailPrint
         },
         {
           path: '/financemanagement/refund-detail/:id',
