@@ -592,8 +592,10 @@
         this.$refs[formName].validate(valid => {
           if (valid) {
             var obj = {};
+            var date = this.$options.filters['formatDate'](new Date());
             obj.status = this.reulsForm.status;
-            obj.sign_up_date = this.reulsForm.in_class_date;
+            obj.sign_up_date = date;
+            obj.in_class_date = this.reulsForm.in_class_date;
             obj.student = this.studentInfo.id;
             obj.class_obj = this.reulsForm.class_obj;
             obj.remarks = this.reulsForm.remarks;
