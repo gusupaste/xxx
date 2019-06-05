@@ -223,6 +223,10 @@ export default {
       data: [],
       value: [],
       searchText: '',
+      non_graduating:[],
+      graduating:[],
+      new_non_graduating:[],/*是从右边换到左边的人*/
+      new_graduating:[],/*是从左边换到右边的人*/
       form: {
         name: '',
         region: '',
@@ -237,14 +241,34 @@ export default {
   },
   methods:{
     handleChange(value, direction, movedKeys) {
-      if(direction === 'right'){
-        console.log('right');
-      }else{
-        console.log('left');
-      }
-      console.log(value);
       console.log(direction);
-      /*console.log(movedKeys);*/
+      if(direction === 'right'){//向右移动
+        for(var y in movedKeys){
+          var flag = false;
+          for(var x in this.graduating){
+            if(this.graduating[x].id === movedKeys[y]){
+              flag = true;
+            }
+          }
+          if(flag === false){
+            this.new_graduating.push(movedKeys[y]);
+          }
+        }
+        console.log(this.new_graduating);
+      }else{//向左移动
+        for(var y in movedKeys){
+          var flag = false;
+          for(var x in this.non_graduating){
+            if(this.non_graduating[x].id === movedKeys[y]){
+              flag = true;
+            }
+          }
+          if(flag === false){
+            this.new_non_graduating.push(movedKeys[y]);
+          }
+        }
+        console.log(this.new_non_graduating);
+      }
     },
     changePage(val){
       this.currentPage = val;
@@ -291,6 +315,8 @@ export default {
     getDialogStudentList:function(id){
       var url = '/api/student/student/graduating_student_list/?class_id=' + id;
       this.$axios.get(url).then(res=>{
+        this.non_graduating = res.data.non_graduting;
+        this.graduating = res.data.graduating;
         var data = res.data.non_graduting;
         this.data = [];
         for(var x in data){
@@ -300,6 +326,21 @@ export default {
           this.data.push(obj);
         }
       }).catch(err=>{
+        console.log(err)
+      })
+    },
+    saveStudentD:function () {
+      var data = {};
+      this.$axios.post('/api/student/student/save_graduating_students/',data).then(res => {
+        if (res.status == 200) {
+          this.$message({
+            type: 'success',
+            message: '保存成功！'
+          })
+        } else {
+          this.$message.error('保存失败');
+        }
+      }).catch(err => {
         console.log(err)
       })
     },
