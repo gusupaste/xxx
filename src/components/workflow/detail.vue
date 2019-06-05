@@ -183,7 +183,7 @@
       </el-col>
     </div>
 
-    <div class="mt26 tableList" v-if="detilCode === 'LB'">
+    <div class="mt26 tableList" v-if="detilCode === 'PRB' || detilCode === 'LB'">
       <p>退费明细（标准项目）：</p>
       <el-table
         class="mt10"
@@ -252,7 +252,7 @@
               </span>
       </div>
     </div>
-    <div class="mt26 tableList"  v-if="detilCode === 'LB'">
+    <div class="mt26 tableList"  v-if="detilCode === 'PRB' || detilCode === 'LB'">
       <p>制度外退费（其他扣款/退费项目明细）：</p>
       <el-table
         class="mt10"
@@ -278,7 +278,7 @@
       </el-table>
       <hr><p class="right">实际应退金额合计：<span class="red bold font-size-16">{{total}}</span></p>
     </div>
-    <div class="mt26 tableList"  v-if="detilCode === 'LB'">
+    <div class="mt26 tableList"  v-if="detilCode === 'PRB' || detilCode === 'LB'">
       <p>相关附件：</p>
       <el-table
         class="mt10"
