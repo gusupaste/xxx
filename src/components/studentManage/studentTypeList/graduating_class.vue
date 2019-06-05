@@ -241,7 +241,6 @@ export default {
   },
   methods:{
     handleChange(value, direction, movedKeys) {
-      console.log(direction);
       if(direction === 'right'){//向右移动
         for(var y in movedKeys){
           var flag = false;
@@ -253,7 +252,11 @@ export default {
           if(flag === false){
             this.new_graduating.push(movedKeys[y]);
           }
-          this.non_graduating.remove(movedKeys[y]);
+          for(var z in this.new_non_graduating){
+            if(this.new_non_graduating[z] === movedKeys[y]){
+              this.new_non_graduating.splice(z,1);
+            }
+          }
         }
       }else{//向左移动
         for(var y in movedKeys){
@@ -266,7 +269,11 @@ export default {
           if(flag === false){
             this.new_non_graduating.push(movedKeys[y]);
           }
-          this.graduating.remove(movedKeys[y]);
+          for(var k in this.new_graduating){
+            if(this.new_graduating[k] === movedKeys[y]){
+              this.new_graduating.splice(k,1);
+            }
+          }
         }
       }
     },
@@ -342,8 +349,7 @@ export default {
       var data = {};
       data.non_graduating = this.new_non_graduating;
       data.graduating = this.new_graduating;
-      console.log(data);
-      /*this.$axios.post('/api/student/student/save_graduating_students/',data).then(res => {
+      this.$axios.post('/api/student/student/save_graduating_students/',data).then(res => {
         if (res.status == 200) {
           this.$message({
             type: 'success',
@@ -355,7 +361,7 @@ export default {
         }
       }).catch(err => {
         console.log(err)
-      })*/
+      })
     },
   },
   watch: {
