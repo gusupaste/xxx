@@ -221,7 +221,7 @@
                         </el-select>
                       </span>
                     </td>
-                    <td style="width: 2rem" rowspan="2" class="text-align-center"><i @click="tr_delete(index)"
+                    <td style="width: 2rem" rowspan="2" class="text-align-center"><i @click="deleteCon(index)"
                                                                                      class="fa fa-trash-o red"></i></td>
                   </tr>
                   <tr>
@@ -260,11 +260,20 @@
             </el-form-item>
           </el-col>
         </el-row>
-
       </el-form>
       <span slot="footer" class="dialog-footer">
           <el-button class="bg-grey bd-grey white" @click="addDiscountVisible = false">取 消</el-button>
           <el-button class="bg-green bd-green white" type="success" @click="saveNormaldis">保 存</el-button>
+        </span>
+    </el-dialog>
+    <!-- 删除弹框 -->
+    <el-dialog title="删除" :visible.sync="canceldialog" width="20%">
+      <div class="text-align-center" style="padding: 80px">
+        <span>是否确定要删除？</span>
+      </div>
+      <span slot="footer" class="dialog-footer text-align-center">
+          <el-button class="bg-grey bd-grey white" @click="canceldialog = false">取 消</el-button>
+          <el-button class="bg-green bd-green white" type="success" @click="tr_delete">确 定</el-button>
         </span>
     </el-dialog>
   </div>
@@ -307,7 +316,9 @@
         exist_discount_type: [],
         name: '',
         tableForm: [],
-        roleList: []
+        roleList: [],
+        index: 0,
+        canceldialog: false
       }
     },
     mounted: function () {
@@ -540,9 +551,14 @@
         }
         console.log(this.tableForm);
       },
+      deleteCon: function (index) {
+        this.canceldialog = true
+        this.index = index
+      },
       /* 删除条件.审批流 */
-      tr_delete: function (index) {
-        this.tableForm.splice(index, 1)
+      tr_delete: function () {
+        this.tableForm.splice(this.index, 1)
+        this.canceldialog = false
       },
       /* 互斥折扣 */
       getExistDiscountType: function () {
