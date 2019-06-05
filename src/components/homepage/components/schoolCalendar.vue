@@ -3,8 +3,8 @@
         <p style="font-size:14px;font-weight:600">校日历</p>
         <el-form :model="searchForm" inline class="mt10 ">
             <el-form-item>
-                <el-select v-model="searchForm.school" @change="getClass">
-                    <el-option v-for="item in schoolList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+                <el-select v-model="searchForm.school" @change="getClass" value-key="id">
+                    <el-option v-for="item in schoolList" :key="item.id" :label="item.name" :value="item"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             </div>
-            <div class="viewAll" @click="viewAll">查看全部</div>
+            <div class="viewAll mt10" @click="viewAll">查看全部</div>
         </div>
     </div>
 </template>
@@ -112,8 +112,8 @@ export default {
                 {
                     path:'/school/SchoolViewClendar/'+this.searchForm.class,
                     query:{
-                        name:this.searchForm.name,
-                        id:this.searchForm.school
+                        name:this.searchForm.school.name,
+                        id:this.searchForm.school.id
                     }
                 }
                 
@@ -137,7 +137,7 @@ export default {
         this.$axios.get('/api/common/select/center_list/')
           .then(res => {
             _this.schoolList = res.data.results;
-            _this.searchForm.school = res.data.results[0].id;
+            _this.searchForm.school = res.data.results[0];
             _this.searchForm.name = res.data.results[0].name;
             // if(this.searchform.center_id !== ''){
               _this.getClass();
@@ -148,7 +148,7 @@ export default {
         var _this = this;
         this.$axios.get('/api/finance/bill/search_info/', {
           params: {
-            center_id: this.searchForm.school
+            center_id: this.searchForm.school.id
           }
         })
           .then(res => {
@@ -162,7 +162,7 @@ export default {
             _this.monthList = [];
             this.$axios.get('/api/school_calendar/calendar/show_calendar_days/',{
                 params:{
-                    center_id:this.searchForm.school,
+                    center_id:this.searchForm.school.id,
                     class_type_id:this.searchForm.class,
                     academic_year_id:this.searchForm.year
                 }
