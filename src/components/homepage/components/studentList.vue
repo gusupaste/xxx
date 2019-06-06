@@ -9,7 +9,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="区域：">
-                    <el-select v-model="formInline.area_id" placeholder="">
+                    <el-select v-model="formInline.area_id" placeholder="" @change="getSchoolList">
                         <el-option label="全部" value=""></el-option>
                         <el-option v-for="item in area_list" :label="item.name" :value="item.id" :key="item.id"></el-option>
                     </el-select>
@@ -155,6 +155,7 @@ export default {
         }).then(res => {
           _this.loading = false;
           if (res.status == 200 && res.data.status_code == 1) {
+              this.formInline.center_id = "";
             this.school_list = res.data.results;
             this.searchList(1);
           }
