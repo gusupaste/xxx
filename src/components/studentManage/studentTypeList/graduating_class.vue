@@ -348,7 +348,8 @@ export default {
       })
     },
     saveStudentD:function () {
-      if(this.new_non_graduating.length === 0 || this.new_graduating === 0){
+      if(this.new_non_graduating.length === 0 || this.new_graduating.length === 0){
+        this.studentVisiable = false;
         return false;
       }
       var data = {};
