@@ -273,18 +273,31 @@ export default {
                 this.addform.is_invoice = 0;
             }
             this.addform.reserve_fund_used = this.use_fund;
+            var payment_me_list = [];
+            this.addform.pay_method_list.forEach(item=>{
+                if(!item.amount){
+                    this.$set(item,'amount',"");
+                } else {
+                    if(!item.payment_no){
+                        payment_me_list.push(item)
+                    }
+                }
+                
+            });
+
+            if(payment_me_list.length >0){
+                this.$message.error('请填写银行回执单号');
+                return
+            };
+            
             if(this.addform.pay_amount < this.info.actual_amount){
                 this.$message({
                     type:'error',
                     message:'实收金额应大于等于应收金额'
                 })
                 return
-            }
-            this.addform.pay_method_list.forEach(item=>{
-                if(!item.amount){
-                    item.amount = ""
-                }
-            });
+            };
+            
             var act_total = 0;
             var reserve_fund_total = 0;
             var filter_list = [];
