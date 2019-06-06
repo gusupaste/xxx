@@ -65,12 +65,12 @@
               </p>
               <p style="border-bottom:1px solid #bbb;font-weight: bold;" v-if="detilCode === 'CPF'">
                 <el-row :gutter="24">
-                  <el-col :span="3">
+                  <el-col :span="6">
                     <div class="grid-content bg-purple">制单人：{{ item.creator }}</div></el-col>
-                  <el-col :span="3">
+                  <el-col :span="6">
                     <div class="grid-content bg-purple">制单日期：{{ item.billing_date }}</div>
                   </el-col>
-                  <el-col :span="3">
+                  <el-col :span="6">
                     <div class="grid-content bg-purple">状态：{{ item.status }}</div>
                   </el-col>
                 </el-row>
@@ -109,12 +109,12 @@
               </p>
               <p style="border-bottom:1px solid #bbb;font-weight: bold;" v-if="detilCode === 'PRB' || detilCode === 'LB'">
                 <el-row :gutter="24" v-if="detilCode === 'PRB' || detilCode === 'LB'">
-                  <el-col :span="3">
+                  <el-col :span="6">
                     <div class="grid-content bg-purple">制单人：{{ item.bill.creator_name }}</div></el-col>
-                  <el-col :span="3">
+                  <el-col :span="6">
                     <div class="grid-content bg-purple">制单日期：{{ item.application.create_date }}</div>
                   </el-col>
-                  <el-col :span="3">
+                  <el-col :span="6">
                     <div class="grid-content bg-purple">状态：{{ item.bill.status }}</div>
                   </el-col>
                 </el-row>
@@ -378,7 +378,7 @@
       <p>相关附件：</p>
       <el-table
         class="mt10"
-        :data="tableData"
+        :data="tableData11"
         border
         style="width: 100%">
         <el-table-column
@@ -700,6 +700,8 @@
   export default {
     data() {
       return {
+        total:0,
+        tableData11:[],
         detilCode:this.$route.query.formKindCode,
         status: Number(this.$route.query.status),
         formId: this.$route.query.formId,
@@ -822,7 +824,7 @@
             this.form_status = res.data.form_status
           }
         }).catch(err => {
-          
+
         })
       },
       save: function () {
@@ -839,7 +841,7 @@
             this.getDetail()
           }
         }).catch(err => {
-          
+
         })
       },
       back: function () {
@@ -870,9 +872,24 @@
             this.discount_form_item = [];
             this.discount_form_item.push(res.data.data);
             this.bill = res.data.data.bill;
+            this.getRefund_amount()
           }
         }).catch(err => {
           console.log(err)
+        })
+      },
+      getRefund_amount(){
+        console.log(this.bill);
+        this.bill.items.forEach(item =>{
+          this.total += Number(item.amount)
+        })
+        this.total += this.bill.reserved_fund_amount;
+        this.bill.refund_items.forEach(item=>{
+          if(item.refund_direct === '扣款') {
+            this.total -= Number(item.amount)
+          } else {
+            this.total += Number(item.amount)
+          }
         })
       },
     }
