@@ -109,8 +109,8 @@
       补缴合计：<span class="red">— —</span>
     </div>
     <div class="mt26 text-align-center">
-      <button class="btn bg-grey" @click="$router.go(-1)">返回</button>
-      <button class="btn bg-green">保存</button>
+      <el-button class="bg-grey bd-grey white" type="info" @click="$router.go(-1)">返回</el-button>
+      <el-button class="bg-green bd-green white" type="success" :disabled="save_disable" @click="saveItem()">保存</el-button>
     </div>
     <!-- 添加学生 -->
     <el-dialog title="添加学生" :visible.sync="innerVisible" width="820px" class="copyPolicyShow">
@@ -207,7 +207,9 @@
         pagesize: 10,
         currentPage: 1,
         total: 1,
-        changeDisabled: true
+        changeDisabled: true,
+        status_message:'',
+        save_disable:true,
       }
     },
     mounted: function () {
@@ -217,6 +219,43 @@
     methods: {
       handleCurrentChange(currentPage) {
         this.currentPage = currentPage;
+      },
+      saveItem:function () {
+        if (this.choosePerson.id === undefined) {
+          this.$message.error("请先选择学生")
+          return false;
+        }
+        if (new Date(this.apply_date).getTime() !== new Date(this.apply_date).setDate(1)) {
+          this.$message.error("请选择每月的第一天")
+          return false;
+        }
+        if(this.tableData[0].difference === undefined && this.status_message !== ''){
+          this.$message.error(this.status_message);
+          return false;
+        }
+        var data = {
+          policy_id:this.tableData[0].new_policy_id,
+          student_id:this.choosePerson.id,
+          center_class_year_id:this.apply_class_id,
+          amount:this.tableData[0].difference,
+          parent_bill_id:this.tableData[0].parent_bill_id,
+          parent_bill_item_id:this.tableData[0].parent_bill_item_id,
+          subject_id:this.tableData[0].subject_id,
+          policy_item_id:this.tableData[0].new_policy_item_id,
+          month_count:this.tableData[0].left_month_count,
+          begin_date:this.tableData[0].begin_date,
+          end_date:this.tableData[0].end_date,
+        };
+        this.$axios.post('/api/finance/change_class/submit_bill/',data)
+          .then(res=>{
+            if(res.data.status === 1){
+              this.$message({
+                type:'success',
+                message:'保存成功'
+              });
+              this.$router.go(-1);
+            }
+          })
       },
       getYearList: function () {
         this.$axios.get('/api/common/select/academic_year_list/')
@@ -289,6 +328,15 @@
         }).then(res => {
           if (res.data.status === 1) {
              this.tableData = res.data.data
+          }else if (res.data.status === 0) {
+            this.tableData = res.data.data;
+            this.status_message = res.data.message;
+            this.$message.error(res.data.message);
+          }
+          if(this.tableData.length > 0){
+            this.save_disable = false;
+          }else{
+            this.save_disable = true;
           }
         })
       },
