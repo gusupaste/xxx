@@ -142,6 +142,7 @@ export default {
           _this.$cookies.set('userInfo',res.data.data);
           _this.name =  _this.$cookies.get('userInfo').fullname;
           _this.permission =  _this.$cookies.get('userInfo').user_permissions;
+          console.log(_this.permission)
         })
       },
       success(res){
