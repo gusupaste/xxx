@@ -37,7 +37,9 @@
             <el-button type="primary" @click="getStudentList()">搜索</el-button>
           </el-form-item>
           <el-form-item>
-            <span class="ml10 cur" @click="studentVisiable = true;getDialogStudentList(class_year_id)">
+            <span class="ml10 cur" @click="studentVisiable = true;
+            getDialogStudentList(class_year_id);new_graduating = [];
+            new_non_graduating = [];">
               <i class="fa fa-plus-square icon-font"></i>
               <span class="font-size-14 orange">维护计划毕业生</span>
             </span>
@@ -276,8 +278,6 @@ export default {
           }
         }
       }
-      console.log(this.new_graduating);
-      console.log(this.new_non_graduating);
     },
     changePage(val){
       this.currentPage = val;
@@ -348,6 +348,9 @@ export default {
       })
     },
     saveStudentD:function () {
+      if(this.new_non_graduating.length === 0 || this.new_graduating === 0){
+        return false;
+      }
       var data = {};
       data.non_graduating = this.new_non_graduating;
       data.graduating = this.new_graduating;
